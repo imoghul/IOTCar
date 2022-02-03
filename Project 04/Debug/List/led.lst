@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          03/Feb/2022  10:51:56
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          03/Feb/2022  11:07:56
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ECE306\Project 04\led.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW77FA.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW1BA2.tmp
 #        ("C:\Users\saad\Documents\ECE306\Project 04\led.c" -lC
 #        "C:\Users\saad\Documents\ECE306\Project 04\Debug\List" -o
 #        "C:\Users\saad\Documents\ECE306\Project 04\Debug\Obj" --no_cse
@@ -224,40 +224,6 @@ C:\Users\saad\Documents\ECE306\Project 04\led.c
    \   000094   1001         RETA
    \   000096                REQUIRE _A_PCOUT_L
    \   000096                REQUIRE _A_PAOUT_L
-    113          
-
-   \                                 In  segment CODE, align 2
-    114          void RunMotors(void){
-   \                     RunMotors:
-    115              
-    116            if (stopwatch_seconds==6 && cycle_count==0){
-   \   000000   B2900600.... CMP.W   #0x6, &stopwatch_seconds
-   \   000006   0820         JNE     ??RunMotors_0
-   \   000008   8293....     CMP.W   #0x0, &cycle_count
-   \   00000C   0520         JNE     ??RunMotors_0
-    117              P6OUT &= ~R_FORWARD;
-   \   00000E   D2C34302     BIC.B   #0x1, &0x243
-    118              P6OUT &= ~L_FORWARD;
-   \   000012   E2C34302     BIC.B   #0x2, &0x243
-   \   000016   1001         RETA
-    119            }
-    120            else if (stopwatch_seconds==1 && cycle_count==0){
-   \                     ??RunMotors_0:
-   \   000018   9293....     CMP.W   #0x1, &stopwatch_seconds
-   \   00001C   0720         JNE     ??RunMotors_1
-   \   00001E   8293....     CMP.W   #0x0, &cycle_count
-   \   000022   0420         JNE     ??RunMotors_1
-    121              P6OUT |= R_FORWARD;
-   \   000024   D2D34302     BIS.B   #0x1, &0x243
-    122              P6OUT |= L_FORWARD;
-   \   000028   E2D34302     BIS.B   #0x2, &0x243
-    123            }
-    124              
-    125              
-    126          }
-   \                     ??RunMotors_1:
-   \   00002C   1001         RETA
-   \   00002E                REQUIRE _A_PCOUT_L
 
    Maximum stack usage in bytes:
 
@@ -269,7 +235,6 @@ C:\Users\saad\Documents\ECE306\Project 04\led.c
         4   -> lcd_BIG_mid
       4   Display_Process
         4   -> Display_Update
-      4   RunMotors
 
 
    Segment part sizes:
@@ -278,15 +243,14 @@ C:\Users\saad\Documents\ECE306\Project 04\led.c
    -----  --------------
      150  Carlson_StateMachine
       34  Display_Process
-      46  RunMotors
        2  _A_PAOUT_L
        2  _A_PCOUT_L
 
  
- 230 bytes in segment CODE
+ 184 bytes in segment CODE
    4 bytes in segment DATA16_AN
  
- 230 bytes of CODE memory
+ 184 bytes of CODE memory
    0 bytes of DATA memory (+ 4 bytes shared)
 
 Errors: none

@@ -98,11 +98,12 @@ void main(void){
     if(Last_Time_Sequence!=Time_Sequence){
       Last_Time_Sequence=Time_Sequence;
       cycle_count++;
-    }
-    if(cycle_count == 200){
+      if(cycle_count == 200){
       cycle_count = 0;
       stopwatch_seconds++;//stopwatch_milliseconds++;
+      }
     }
+    
     //if(stopwatch_milliseconds == 1000){
     //  stopwatch_milliseconds = 0;
     //  stopwatch_seconds++;

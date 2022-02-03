@@ -1,0 +1,153 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          03/Feb/2022  11:55:53
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  C:\Users\saad\Documents\ECE306\Project 04\wheels.c
+#    Command line  =  
+#        -f C:\Users\saad\AppData\Local\Temp\EW609.tmp
+#        ("C:\Users\saad\Documents\ECE306\Project 04\wheels.c" -lC
+#        "C:\Users\saad\Documents\ECE306\Project 04\Debug\List" -o
+#        "C:\Users\saad\Documents\ECE306\Project 04\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
+#        --core=430X --data_model=small -On --multiplier=32
+#        --hw_workaround=CPU40 --code_model=large)
+#    Locale        =  English_USA.1252
+#    List file     =  
+#        C:\Users\saad\Documents\ECE306\Project 04\Debug\List\wheels.lst
+#    Object file   =  
+#        C:\Users\saad\Documents\ECE306\Project 04\Debug\Obj\wheels.r43
+#
+###############################################################################
+
+C:\Users\saad\Documents\ECE306\Project 04\wheels.c
+      1          #include "msp430.h"
+
+   \                                 In  segment DATA16_AN, at 0x242
+   \   union <unnamed> _A_PCOUT_L
+   \                     _A_PCOUT_L:
+   \   000000                DS8 2
+      2          #include "ports.h"
+      3          extern volatile unsigned int cycle_count;
+      4          extern volatile unsigned int stopwatch_milliseconds;
+      5          extern volatile unsigned int stopwatch_seconds;
+      6          
+
+   \                                 In  segment CODE, align 2
+      7          void RunMotor(int pinForward, int val){
+   \                     RunMotor:
+      8            if (val>0){
+   \   000000   1D93         CMP.W   #0x1, R13
+   \   000002   0538         JL      ??RunMotor_0
+      9              //P6OUT &= ~pinReverse;
+     10              //P6OUT &= ~pinReverse;
+     11              P6OUT |= pinForward;
+   \   000004   C2DC4302     BIS.B   R12, &0x243
+     12              P6OUT |= pinForward;
+   \   000008   C2DC4302     BIS.B   R12, &0x243
+   \   00000C   1001         RETA
+     13            }
+     14            else if (val==0){
+   \                     ??RunMotor_0:
+   \   00000E   0D93         CMP.W   #0x0, R13
+   \   000010   0520         JNE     ??RunMotor_1
+     15              P6OUT &= ~pinForward;
+   \   000012   C2CC4302     BIC.B   R12, &0x243
+     16              P6OUT &= ~pinForward;
+   \   000016   C2CC4302     BIC.B   R12, &0x243
+   \   00001A   1001         RETA
+     17              //P6OUT &= ~pinReverse;
+     18              //P6OUT &= ~pinReverse;
+     19            }
+     20            else{
+     21              P6OUT &= ~pinForward;
+   \                     ??RunMotor_1:
+   \   00001C   C2CC4302     BIC.B   R12, &0x243
+     22              P6OUT &= ~pinForward;
+   \   000020   C2CC4302     BIC.B   R12, &0x243
+     23              //P6OUT |= pinReverse;
+     24              //P6OUT |= pinReverse;
+     25            }
+     26          }
+   \   000024   1001         RETA
+   \   000026                REQUIRE _A_PCOUT_L
+     27          
+     28          
+
+   \                                 In  segment CODE, align 2
+     29          void RunMotors(void){
+   \                     RunMotors:
+     30              
+     31            if (stopwatch_seconds==6 && cycle_count==0){
+   \   000000   B2900600.... CMP.W   #0x6, &stopwatch_seconds
+   \   000006   0C20         JNE     ??RunMotors_0
+   \   000008   8293....     CMP.W   #0x0, &cycle_count
+   \   00000C   0920         JNE     ??RunMotors_0
+     32              RunMotor(R_FORWARD,0);
+   \   00000E   0D43         MOV.W   #0x0, R13
+   \   000010   1C43         MOV.W   #0x1, R12
+   \   000012   ........     CALLA   #RunMotor
+     33              RunMotor(L_FORWARD,0);
+   \   000016   0D43         MOV.W   #0x0, R13
+   \   000018   2C43         MOV.W   #0x2, R12
+   \   00001A   ........     CALLA   #RunMotor
+   \   00001E   1001         RETA
+     34            }
+     35            else if (stopwatch_seconds==1 && cycle_count==0){
+   \                     ??RunMotors_0:
+   \   000020   9293....     CMP.W   #0x1, &stopwatch_seconds
+   \   000024   0B20         JNE     ??RunMotors_1
+   \   000026   8293....     CMP.W   #0x0, &cycle_count
+   \   00002A   0820         JNE     ??RunMotors_1
+     36              RunMotor(R_FORWARD,1);
+   \   00002C   1D43         MOV.W   #0x1, R13
+   \   00002E   1C43         MOV.W   #0x1, R12
+   \   000030   ........     CALLA   #RunMotor
+     37              RunMotor(L_FORWARD,1);
+   \   000034   1D43         MOV.W   #0x1, R13
+   \   000036   2C43         MOV.W   #0x2, R12
+   \   000038   ........     CALLA   #RunMotor
+     38            }
+     39              
+     40              
+     41          }
+   \                     ??RunMotors_1:
+   \   00003C   1001         RETA
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   RunMotor
+      4   RunMotors
+        4   -> RunMotor
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      38  RunMotor
+      62  RunMotors
+       2  _A_PCOUT_L
+
+ 
+ 100 bytes in segment CODE
+   2 bytes in segment DATA16_AN
+ 
+ 100 bytes of CODE memory
+   0 bytes of DATA memory (+ 2 bytes shared)
+
+Errors: none
+Warnings: none
