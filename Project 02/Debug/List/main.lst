@@ -1,0 +1,469 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          01/Feb/2022  12:05:09
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  C:\Users\saad\Documents\ECE306\Project 02\main.c
+#    Command line  =  
+#        -f C:\Users\saad\AppData\Local\Temp\EWA159.tmp
+#        ("C:\Users\saad\Documents\ECE306\Project 02\main.c" -lC
+#        "C:\Users\saad\Documents\ECE306\Project 02\Debug\List" -o
+#        "C:\Users\saad\Documents\ECE306\Project 02\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
+#        --core=430X --data_model=small -On --multiplier=32
+#        --hw_workaround=CPU40 --code_model=large)
+#    Locale        =  English_USA.1252
+#    List file     =  
+#        C:\Users\saad\Documents\ECE306\Project 02\Debug\List\main.lst
+#    Object file   =  
+#        C:\Users\saad\Documents\ECE306\Project 02\Debug\Obj\main.r43
+#
+###############################################################################
+
+C:\Users\saad\Documents\ECE306\Project 02\main.c
+      1          //------------------------------------------------------------------------------
+      2          //
+      3          //  Description: This file contains the Main Routine - "While" Operating System
+      4          //
+      5          //
+      6          //  Jim Carlson
+      7          //  Jan 2022
+      8          //  Built with IAR Embedded Workbench Version: (7.21.1)
+      9          //------------------------------------------------------------------------------
+     10          
+     11          //------------------------------------------------------------------------------
+     12          #include  "functions.h"
+     13          #include  "msp430.h"
+
+   \                                 In  segment DATA16_AN, at 0x202
+   \   union <unnamed> _A_PAOUT_L
+   \                     _A_PAOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x222
+   \   union <unnamed> _A_PBOUT_L
+   \                     _A_PBOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x242
+   \   union <unnamed> _A_PCOUT_L
+   \                     _A_PCOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x130
+   \   union <unnamed> _A_PM5CTL0_L
+   \                     _A_PM5CTL0_L:
+   \   000000                DS8 2
+     14          #include <string.h>
+     15          //#include  "LCD.h"
+     16          //#include  "ports.h"
+     17          
+     18          #define ALWAYS                  (1)
+     19          #define RESET_STATE             (0)
+     20          #define RED_LED              (0x01) // RED LED 0
+     21          #define GRN_LED              (0x40) // GREEN LED 1
+     22          #define TEST_PROBE           (0x01) // 0 TEST PROBE
+     23          #define TRUE                   (0x01) //
+     24          
+     25          // Function Prototypes
+     26          void main(void);
+     27          void Init_Conditions(void);
+     28          void Display_Process(void);
+     29          void Init_LEDs(void);
+     30          void Carlson_StateMachine(void);
+     31          
+     32            // Global Variables
+
+   \                                 In  segment DATA16_Z, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     33          volatile char slow_input_down;
+   \                     slow_input_down:
+   \   000000                DS8 1
+     34          extern char display_line[4][11];
+     35          extern char *display[4];
+
+   \                                 In  segment DATA16_Z, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     36          unsigned char display_mode;
+   \                     display_mode:
+   \   000000                DS8 1
+     37          extern volatile unsigned char display_changed;
+     38          extern volatile unsigned char update_display;
+     39          extern volatile unsigned int update_display_count;
+     40          extern volatile unsigned int Time_Sequence;
+     41          extern volatile char one_time;
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     42          unsigned int test_value;
+   \                     test_value:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     43          char chosen_direction;
+   \                     chosen_direction:
+   \   000000                DS8 1
+
+   \                                 In  segment DATA16_Z, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     44          char change;
+   \                     change:
+   \   000000                DS8 1
+     45          
+
+   \                                 In  segment CODE, align 2
+     46          void main(void){
+   \                     main:
+     47          //------------------------------------------------------------------------------
+     48          // Main Program
+     49          // This is the main routine for the program. Execution of code starts here.
+     50          // The operating system is Back Ground Fore Ground.
+     51          //
+     52          //------------------------------------------------------------------------------
+     53            PM5CTL0 &= ~LOCKLPM5;
+   \   000000   92C33001     BIC.W   #0x1, &0x130
+     54          // Disable the GPIO power-on default high-impedance mode to activate
+     55          // previously configured port settings
+     56          
+     57            Init_Ports();                        // Initialize Ports
+   \   000004   ........     CALLA   #Init_Ports
+     58            Init_Clocks();                       // Initialize Clock System
+   \   000008   ........     CALLA   #Init_Clocks
+     59            Init_Conditions();                   // Initialize Variables and Initial Conditions
+   \   00000C   ........     CALLA   #Init_Conditions
+     60            Init_Timers();                       // Initialize Timers
+   \   000010   ........     CALLA   #Init_Timers
+     61            Init_LCD();                          // Initialize LCD
+   \   000014   ........     CALLA   #Init_LCD
+     62          
+     63            // Place the contents of what you want on the display, in between the quotes
+     64          // Limited to 10 characters per line
+     65            strcpy(display_line[0], "   NCSU   ");
+   \   000018   3D40....     MOV.W   #`?<Constant "   NCSU   ">`, R13
+   \   00001C   3C40....     MOV.W   #display_line, R12
+   \   000020   ........     CALLA   #strcpy
+     66            strcpy(display_line[1], " WOLFPACK ");
+   \   000024   3D40....     MOV.W   #`?<Constant " WOLFPACK ">`, R13
+   \   000028   3C40....     MOV.W   #display_line + 11, R12
+   \   00002C   ........     CALLA   #strcpy
+     67            strcpy(display_line[2], "  ECE306  ");
+   \   000030   3D40....     MOV.W   #`?<Constant "  ECE306  ">`, R13
+   \   000034   3C40....     MOV.W   #display_line + 22, R12
+   \   000038   ........     CALLA   #strcpy
+     68            strcpy(display_line[3], "  GP I/O  ");
+   \   00003C   3D40....     MOV.W   #`?<Constant "  GP I/O  ">`, R13
+   \   000040   3C40....     MOV.W   #display_line + 33, R12
+   \   000044   ........     CALLA   #strcpy
+     69            display_changed = TRUE;
+   \   000048   D243....     MOV.B   #0x1, &display_changed
+     70          
+     71          //------------------------------------------------------------------------------
+     72          // Begining of the "While" Operating System
+     73          //------------------------------------------------------------------------------
+     74            while(ALWAYS) {                      // Can the Operating system run
+     75              Carlson_StateMachine();            // Run a Time Based State Machine
+   \                     ??main_0:
+   \   00004C   ........     CALLA   #Carlson_StateMachine
+     76              Switches_Process();                // Check for switch state change
+   \   000050   ........     CALLA   #Switches_Process
+     77              Display_Process();                 // Update Display
+   \   000054   ........     CALLA   #Display_Process
+     78              P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+   \   000058   D2E32202     XOR.B   #0x1, &0x222
+   \   00005C   F73F         JMP     ??main_0
+   \   00005E   0343         NOP
+   \   000060                REQUIRE _A_PM5CTL0_L
+   \   000060                REQUIRE _A_PBOUT_L
+     79          
+     80            }
+     81          //------------------------------------------------------------------------------
+     82          }
+     83          
+
+   \                                 In  segment CODE, align 2
+     84          void Init_Conditions(void){
+   \                     Init_Conditions:
+   \   000000   0A12         PUSH.W  R10
+     85          //------------------------------------------------------------------------------
+     86          
+     87            int i;
+     88            for(i=0;i<11;i++){
+   \   000002   0A43         MOV.W   #0x0, R10
+   \                     ??Init_Conditions_0:
+   \   000004   3A900B00     CMP.W   #0xb, R10
+   \   000008   0A34         JGE     ??Init_Conditions_1
+     89              display_line[0][i] = RESET_STATE;
+   \   00000A   CA43....     MOV.B   #0x0, display_line(R10)
+     90              display_line[1][i] = RESET_STATE;
+   \   00000E   CA43....     MOV.B   #0x0, display_line + 11(R10)
+     91              display_line[2][i] = RESET_STATE;
+   \   000012   CA43....     MOV.B   #0x0, display_line + 22(R10)
+     92              display_line[3][i] = RESET_STATE;
+   \   000016   CA43....     MOV.B   #0x0, display_line + 33(R10)
+     93            }
+   \   00001A   1A53         ADD.W   #0x1, R10
+   \   00001C   F33F         JMP     ??Init_Conditions_0
+     94            display_line[0][10] = 0;
+   \                     ??Init_Conditions_1:
+   \   00001E   C243....     MOV.B   #0x0, &display_line + 10
+     95            display_line[1][10] = 0;
+   \   000022   C243....     MOV.B   #0x0, &display_line + 21
+     96            display_line[2][10] = 0;
+   \   000026   C243....     MOV.B   #0x0, &display_line + 32
+     97            display_line[3][10] = 0;
+   \   00002A   C243....     MOV.B   #0x0, &display_line + 43
+     98          
+     99            display[0] = &display_line[0][0];
+   \   00002E   B240........ MOV.W   #display_line, &display
+    100            display[1] = &display_line[1][0];
+   \   000034   B240........ MOV.W   #display_line + 11, &display + 2
+    101            display[2] = &display_line[2][0];
+   \   00003A   B240........ MOV.W   #display_line + 22, &display + 4
+    102            display[3] = &display_line[3][0];
+   \   000040   B240........ MOV.W   #display_line + 33, &display + 6
+    103            update_display = 0;
+   \   000046   C243....     MOV.B   #0x0, &update_display
+    104          
+    105          
+    106          // Interrupts are disabled by default, enable them.
+    107            enable_interrupts();
+   \   00004A   ........     CALLA   #enable_interrupts
+    108          //------------------------------------------------------------------------------
+    109          }
+   \   00004E   3A41         POP.W   R10
+   \   000050   1001         RETA
+    110          
+
+   \                                 In  segment CODE, align 2
+    111          void Display_Process(void){
+   \                     Display_Process:
+    112            if(update_display){
+   \   000000   C293....     CMP.B   #0x0, &update_display
+   \   000004   0D24         JEQ     ??Display_Process_0
+    113              update_display = 0;
+   \   000006   C243....     MOV.B   #0x0, &update_display
+    114              if(display_changed){
+   \   00000A   C293....     CMP.B   #0x0, &display_changed
+   \   00000E   0824         JEQ     ??Display_Process_0
+    115                display_changed = 0;
+   \   000010   C243....     MOV.B   #0x0, &display_changed
+    116                Display_Update(0,0,0,0);
+   \   000014   4F43         MOV.B   #0x0, R15
+   \   000016   4E43         MOV.B   #0x0, R14
+   \   000018   4D43         MOV.B   #0x0, R13
+   \   00001A   4C43         MOV.B   #0x0, R12
+   \   00001C   ........     CALLA   #Display_Update
+    117              }
+    118            }
+    119          }
+   \                     ??Display_Process_0:
+   \   000020   1001         RETA
+    120          
+
+   \                                 In  segment CODE, align 2
+    121          void Init_LEDs(void){
+   \                     Init_LEDs:
+    122          //------------------------------------------------------------------------------
+    123          // LED Configurations
+    124          //------------------------------------------------------------------------------
+    125          // Turns on both LEDs
+    126            P1OUT &= ~RED_LED;
+   \   000000   D2C30202     BIC.B   #0x1, &0x202
+    127            P6OUT &= ~GRN_LED;
+   \   000004   F2C040004302 BIC.B   #0x40, &0x243
+    128          //------------------------------------------------------------------------------
+    129          }
+   \   00000A   1001         RETA
+   \   00000C                REQUIRE _A_PAOUT_L
+   \   00000C                REQUIRE _A_PCOUT_L
+    130          
+
+   \                                 In  segment CODE, align 2
+    131          void Carlson_StateMachine(void){
+   \                     Carlson_StateMachine:
+    132              switch(Time_Sequence){
+   \   000000   1F42....     MOV.W   &Time_Sequence, R15
+   \   000004   3F803200     SUB.W   #0x32, R15
+   \   000008   3B24         JEQ     ??Carlson_StateMachine_6
+   \   00000A   3F803200     SUB.W   #0x32, R15
+   \   00000E   2B24         JEQ     ??Carlson_StateMachine_7
+   \   000010   3F803200     SUB.W   #0x32, R15
+   \   000014   1D24         JEQ     ??Carlson_StateMachine_8
+   \   000016   3F803200     SUB.W   #0x32, R15
+   \   00001A   1124         JEQ     ??Carlson_StateMachine_9
+   \   00001C   3F803200     SUB.W   #0x32, R15
+   \   000020   3920         JNE     ??Carlson_StateMachine_5
+    133                case 250:                        //
+    134                  if(one_time){
+   \   000022   C293....     CMP.B   #0x0, &one_time
+   \   000026   0824         JEQ     ??Carlson_StateMachine_10
+    135                    Init_LEDs();
+   \   000028   ........     CALLA   #Init_LEDs
+    136                    lcd_BIG_mid();
+   \   00002C   ........     CALLA   #lcd_BIG_mid
+    137                    display_changed = 1;
+   \   000030   D243....     MOV.B   #0x1, &display_changed
+    138                    one_time = 0;
+   \   000034   C243....     MOV.B   #0x0, &one_time
+    139                  }
+    140                  Time_Sequence = 0;             //
+   \                     ??Carlson_StateMachine_10:
+   \   000038   8243....     MOV.W   #0x0, &Time_Sequence
+    141                  break;
+   \   00003C   1001         RETA
+    142                case 200:                        //
+    143                  if(one_time){
+   \                     ??Carlson_StateMachine_9:
+   \   00003E   C293....     CMP.B   #0x0, &one_time
+   \   000042   2824         JEQ     ??Carlson_StateMachine_5
+    144                    P6OUT |= GRN_LED;            // Change State of LED 5
+   \   000044   F2D040004302 BIS.B   #0x40, &0x243
+    145                    one_time = 0;
+   \   00004A   C243....     MOV.B   #0x0, &one_time
+    146                  }
+    147                  break;
+   \   00004E   1001         RETA
+    148                case 150:                         //
+    149                  if(one_time){
+   \                     ??Carlson_StateMachine_8:
+   \   000050   C293....     CMP.B   #0x0, &one_time
+   \   000054   1F24         JEQ     ??Carlson_StateMachine_5
+    150                    P1OUT |= RED_LED;            // Change State of LED 4
+   \   000056   D2D30202     BIS.B   #0x1, &0x202
+    151                    P6OUT &= ~GRN_LED;           // Change State of LED 5
+   \   00005A   F2C040004302 BIC.B   #0x40, &0x243
+    152                    one_time = 0;
+   \   000060   C243....     MOV.B   #0x0, &one_time
+    153                  }
+    154                  break;
+   \   000064   1001         RETA
+    155                case 100:                         //
+    156                  if(one_time){
+   \                     ??Carlson_StateMachine_7:
+   \   000066   C293....     CMP.B   #0x0, &one_time
+   \   00006A   1424         JEQ     ??Carlson_StateMachine_5
+    157          //          lcd_4line();
+    158                    lcd_BIG_bot();
+   \   00006C   ........     CALLA   #lcd_BIG_bot
+    159                    P6OUT |= GRN_LED;            // Change State of LED 5
+   \   000070   F2D040004302 BIS.B   #0x40, &0x243
+    160                    display_changed = 1;
+   \   000076   D243....     MOV.B   #0x1, &display_changed
+    161                    one_time = 0;
+   \   00007A   C243....     MOV.B   #0x0, &one_time
+    162                  }
+    163                  break;
+   \   00007E   1001         RETA
+    164                case  50:                        //
+    165                  if(one_time){
+   \                     ??Carlson_StateMachine_6:
+   \   000080   C293....     CMP.B   #0x0, &one_time
+   \   000084   0724         JEQ     ??Carlson_StateMachine_5
+    166                    P1OUT &= ~RED_LED;           // Change State of LED 4
+   \   000086   D2C30202     BIC.B   #0x1, &0x202
+    167                    P6OUT &= ~GRN_LED;           // Change State of LED 5
+   \   00008A   F2C040004302 BIC.B   #0x40, &0x243
+    168                    one_time = 0;
+   \   000090   C243....     MOV.B   #0x0, &one_time
+    169                  }
+    170                  break;                         //
+    171                default: break;
+    172              }
+    173          }
+   \                     ??Carlson_StateMachine_5:
+   \   000094   1001         RETA
+   \   000096                REQUIRE _A_PCOUT_L
+   \   000096                REQUIRE _A_PAOUT_L
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   NCSU   ">`:
+   \   000000   2020204E4353 DC8 "   NCSU   "
+   \            5520202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant " WOLFPACK ">`:
+   \   000000   20574F4C4650 DC8 " WOLFPACK "
+   \            41434B2000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  ECE306  ">`:
+   \   000000   202045434533 DC8 "  ECE306  "
+   \            3036202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  GP I/O  ">`:
+   \   000000   202047502049 DC8 "  GP I/O  "
+   \            2F4F202000  
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   Carlson_StateMachine
+        4   -> Init_LEDs
+        4   -> lcd_BIG_bot
+        4   -> lcd_BIG_mid
+      4   Display_Process
+        4   -> Display_Update
+      6   Init_Conditions
+        6   -> enable_interrupts
+      4   Init_LEDs
+      4   main
+        4   -> Carlson_StateMachine
+        4   -> Display_Process
+        4   -> Init_Clocks
+        4   -> Init_Conditions
+        4   -> Init_LCD
+        4   -> Init_Ports
+        4   -> Init_Timers
+        4   -> Switches_Process
+        4   -> strcpy
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      11  ?<Constant "   NCSU   ">
+      11  ?<Constant "  ECE306  ">
+      11  ?<Constant "  GP I/O  ">
+      11  ?<Constant " WOLFPACK ">
+     150  Carlson_StateMachine
+      34  Display_Process
+      82  Init_Conditions
+      12  Init_LEDs
+       2  _A_PAOUT_L
+       2  _A_PBOUT_L
+       2  _A_PCOUT_L
+       2  _A_PM5CTL0_L
+       1  change
+       1  chosen_direction
+       1  display_mode
+      96  main
+       1  slow_input_down
+       2  test_value
+
+ 
+ 374 bytes in segment CODE
+   8 bytes in segment DATA16_AN
+  44 bytes in segment DATA16_C
+   6 bytes in segment DATA16_Z
+ 
+ 374 bytes of CODE  memory
+  44 bytes of CONST memory
+   6 bytes of DATA  memory (+ 8 bytes shared)
+
+Errors: none
+Warnings: none
