@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          03/Feb/2022  11:48:04
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Feb/2022  17:24:11
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ECE306\Project 04\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWD947.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWF185.tmp
 #        ("C:\Users\saad\Documents\ECE306\Project 04\main.c" -lC
 #        "C:\Users\saad\Documents\ECE306\Project 04\Debug\List" -o
 #        "C:\Users\saad\Documents\ECE306\Project 04\Debug\Obj" --no_cse
@@ -120,14 +120,14 @@ C:\Users\saad\Documents\ECE306\Project 04\main.c
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-     41          volatile unsigned int stopwatch_milliseconds;
-   \                     stopwatch_milliseconds:
+     41          volatile unsigned int stopwatch_seconds;
+   \                     stopwatch_seconds:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-     42          volatile unsigned int stopwatch_seconds;
-   \                     stopwatch_seconds:
+     42          volatile unsigned int wheel_tick;
+   \                     wheel_tick:
    \   000000                DS8 2
      43          
      44          //===========================================================================
@@ -208,8 +208,8 @@ C:\Users\saad\Documents\ECE306\Project 04\main.c
    \   000050   ........     CALLA   #Switches_Process
      95              Display_Process();                 // Update Display
    \   000054   ........     CALLA   #Display_Process
-     96              RunMotors();
-   \   000058   ........     CALLA   #RunMotors
+     96              StateMachine();
+   \   000058   ........     CALLA   #StateMachine
      97              P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
    \   00005C   D2E32202     XOR.B   #0x1, &0x222
      98              if(Last_Time_Sequence!=Time_Sequence){
@@ -226,9 +226,9 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
     101                if(cycle_count == 200){
    \   000074   B290C800.... CMP.W   #0xc8, &cycle_count
    \   00007A   E823         JNE     ??main_0
-    102                cycle_count = 0;
+    102                  cycle_count = 0;
    \   00007C   8243....     MOV.W   #0x0, &cycle_count
-    103                stopwatch_seconds++;//stopwatch_milliseconds++;
+    103                  stopwatch_seconds++;//stopwatch_milliseconds++;
    \   000080   9253....     ADD.W   #0x1, &stopwatch_seconds
    \   000084   E33F         JMP     ??main_0
    \   000086   0343         NOP
@@ -236,14 +236,12 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000088                REQUIRE _A_PBOUT_L
     104                }
     105              }
-    106              
-    107              //if(stopwatch_milliseconds == 1000){
-    108              //  stopwatch_milliseconds = 0;
-    109              //  stopwatch_seconds++;
-    110             }
-    111              
-    112          //------------------------------------------------------------------------------
-    113          }
+    106              //wheel_tick++;
+    107              
+    108             }
+    109              
+    110          //------------------------------------------------------------------------------
+    111          }
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "   NCSU   ">`:
@@ -264,7 +262,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \                     `?<Constant "  GP I/O  ">`:
    \   000000   202047502049 DC8 "  GP I/O  "
    \            2F4F202000  
-    114          
+    112          
 
    Maximum stack usage in bytes:
 
@@ -278,7 +276,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
         4   -> Init_LCD
         4   -> Init_Ports
         4   -> Init_Timers
-        4   -> RunMotors
+        4   -> StateMachine
         4   -> Switches_Process
         4   -> strcpy
 
@@ -300,9 +298,9 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
        1  display_mode
      136  main
        1  slow_input_down
-       2  stopwatch_milliseconds
        2  stopwatch_seconds
        2  test_value
+       2  wheel_tick
 
  
  136 bytes in segment CODE

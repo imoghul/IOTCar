@@ -38,8 +38,8 @@ char chosen_direction;
 char change;
 volatile unsigned int Last_Time_Sequence;
 volatile unsigned int cycle_count;
-volatile unsigned int stopwatch_milliseconds;
 volatile unsigned int stopwatch_seconds;
+volatile unsigned int wheel_tick;
 
 //===========================================================================
 // Function name: Main
@@ -93,20 +93,18 @@ void main(void){
     Carlson_StateMachine();            // Run a Time Based State Machine
     Switches_Process();                // Check for switch state change
     Display_Process();                 // Update Display
-    RunMotors();
+    StateMachine();
     P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
     if(Last_Time_Sequence!=Time_Sequence){
       Last_Time_Sequence=Time_Sequence;
       cycle_count++;
       if(cycle_count == 200){
-      cycle_count = 0;
-      stopwatch_seconds++;//stopwatch_milliseconds++;
+        cycle_count = 0;
+        stopwatch_seconds++;//stopwatch_milliseconds++;
       }
     }
+    //wheel_tick++;
     
-    //if(stopwatch_milliseconds == 1000){
-    //  stopwatch_milliseconds = 0;
-    //  stopwatch_seconds++;
    }
     
 //------------------------------------------------------------------------------
