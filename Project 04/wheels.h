@@ -7,8 +7,8 @@
 #define RCIRC_RIGHT (21)
 #define RCIRC_LEFT (5)
 #define WHEEL_TICK (20)
-#define MAX_RCIRCLE_TICK (4700)  // without bearing (5500)
-#define MAX_LCIRCLE_TICK (4700)  // without bearing (5500)
+#define MAX_RCIRCLE_TICK (5300)  // without bearing (5500)
+#define MAX_LCIRCLE_TICK (5300)  // without bearing (5500)
 
 // states
 #define START           ('S')
@@ -17,6 +17,7 @@
 #define ARM             ('A')
 #define CIRCLE          ('C')
 #define FIGURE8         ('F')
+#define TRIANGLE        ('T')
 
 void RunMotor(int, volatile unsigned int*, int, int);
 void Drive_Straight(int);
@@ -27,3 +28,5 @@ int Drive_Path(int right_ticks, int left_ticks, int max_ticks, char endState);
 void delay(int seconds,int cycles);
 void StateMachine(void);
 void Figure8(void);
+void Circle(void);
+void Triangle(void);

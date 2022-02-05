@@ -17,6 +17,7 @@
 #include "led.h"
 #include "wheels.h"
 #include "ports.h"
+#include "switches.h"
 
 // Function Prototypes
 void main(void);
@@ -39,8 +40,6 @@ char change;
 volatile unsigned int Last_Time_Sequence;
 volatile unsigned int cycle_count;
 volatile unsigned int stopwatch_seconds;
-volatile unsigned int wheel_tick;
-
 //===========================================================================
 // Function name: Main
 //
@@ -80,31 +79,33 @@ void main(void){
 
   // Place the contents of what you want on the display, in between the quotes
 // Limited to 10 characters per line
-  strcpy(display_line[0], "   NCSU   ");
-  strcpy(display_line[1], " WOLFPACK ");
-  strcpy(display_line[2], "  ECE306  ");
-  strcpy(display_line[3], "  GP I/O  ");
+  //strcpy(display_line[0], "   NCSU   ");
+  //strcpy(display_line[1], " WOLFPACK ");
+  //strcpy(display_line[2], "  ECE306  ");
+  //strcpy(display_line[3], "  GP I/O  ");
+  strcpy(display_line[0], "WAITING...");
+  strcpy(display_line[1], "          ");
+  strcpy(display_line[2], "          ");
+  strcpy(display_line[3], "          ");
   display_changed = TRUE;
 
 //------------------------------------------------------------------------------
 // Begining of the "While" Operating System
 //------------------------------------------------------------------------------
   while(ALWAYS) {                      // Can the Operating system run
-    Carlson_StateMachine();            // Run a Time Based State Machine
-    Switches_Process();                // Check for switch state change
+    //Carlson_StateMachine();            // Run a Time Based State Machine
+    SwitchesProcess();                // Check for switch state change
     Display_Process();                 // Update Display
-    StateMachine();
+    StateMachine();                    // Run wheels state machine
     P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
     if(Last_Time_Sequence!=Time_Sequence){
       Last_Time_Sequence=Time_Sequence;
       cycle_count++;
       if(cycle_count == 200){
         cycle_count = 0;
-        stopwatch_seconds++;//stopwatch_milliseconds++;
+        stopwatch_seconds++;
       }
     }
-    //wheel_tick++;
-    
    }
     
 //------------------------------------------------------------------------------

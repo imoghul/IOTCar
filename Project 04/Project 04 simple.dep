@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
     <fileVersion>4</fileVersion>
-    <fileChecksum>1756039568</fileChecksum>
+    <fileChecksum>808083203</fileChecksum>
     <configuration>
         <name>Debug</name>
         <outputs>
@@ -58,6 +58,7 @@
             <file>$PROJ_DIR$\Debug\Obj\wheels.r43</file>
             <file>$PROJ_DIR$\wheels.h</file>
             <file>$PROJ_DIR$\Debug\Obj\clocks.r43</file>
+            <file>$PROJ_DIR$\switches.c</file>
             <file>$PROJ_DIR$\Debug\Obj\wheels.__cstat.et</file>
             <file>$PROJ_DIR$\Debug\Obj\led.__cstat.et</file>
             <file>$PROJ_DIR$\Debug\Obj\clocks.__cstat.et</file>
@@ -69,6 +70,10 @@
             <file>$PROJ_DIR$\Debug\List\clocks.lst</file>
             <file>$PROJ_DIR$\Debug\List\ports.lst</file>
             <file>$PROJ_DIR$\Debug\List\init.lst</file>
+            <file>$PROJ_DIR$\switches.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\switches.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\switches.r43</file>
+            <file>$PROJ_DIR$\Debug\List\switches.lst</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
@@ -90,7 +95,7 @@
             <inputs>
                 <tool>
                     <name>XLINK</name>
-                    <file> 13 37 52 0 19 1 2 3 20 4 21 50 39</file>
+                    <file> 13 37 52 0 19 1 2 3 67 4 21 50 39</file>
                 </tool>
             </inputs>
         </file>
@@ -103,11 +108,11 @@
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 55</file>
+                    <file> 56</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 61 52</file>
+                    <file> 62 52</file>
                 </tool>
             </outputs>
             <inputs>
@@ -126,11 +131,11 @@
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 60</file>
+                    <file> 61</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 63 0</file>
+                    <file> 64 0</file>
                 </tool>
             </outputs>
             <inputs>
@@ -149,7 +154,7 @@
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 54</file>
+                    <file> 55</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
@@ -172,7 +177,7 @@
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 56</file>
+                    <file> 57</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
@@ -182,7 +187,7 @@
             <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 46 42 41 43 44 45 16 17 18 29 30 31 32 33 34 35 15 40 51 47</file>
+                    <file> 46 42 41 43 44 45 16 17 18 29 30 31 32 33 34 35 15 40 51 47 65</file>
                 </tool>
             </inputs>
         </file>
@@ -195,11 +200,11 @@
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 57</file>
+                    <file> 58</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 62 3</file>
+                    <file> 63 3</file>
                 </tool>
             </outputs>
             <inputs>
@@ -218,11 +223,11 @@
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 58</file>
+                    <file> 59</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 59 4</file>
+                    <file> 60 4</file>
                 </tool>
             </outputs>
             <inputs>
@@ -241,7 +246,7 @@
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 53</file>
+                    <file> 54</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
@@ -251,7 +256,26 @@
             <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 42 41 43 44 45 47 51</file>
+                    <file> 42 41 43 44 45 47 51 16 17 18 29 30 31 32 33 34</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\switches.c</name>
+            <outputs>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 66</file>
+                </tool>
+                <tool>
+                    <name>ICC430</name>
+                    <file> 68 67</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICC430</name>
+                    <file> 42 41 43 44 45 65 47 51</file>
                 </tool>
             </inputs>
         </file>

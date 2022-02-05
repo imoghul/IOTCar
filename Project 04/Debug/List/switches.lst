@@ -1,0 +1,228 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Feb/2022  11:23:59
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  C:\Users\saad\Documents\ECE306\Project 04\switches.c
+#    Command line  =  
+#        -f C:\Users\saad\AppData\Local\Temp\EW8C9F.tmp
+#        ("C:\Users\saad\Documents\ECE306\Project 04\switches.c" -lC
+#        "C:\Users\saad\Documents\ECE306\Project 04\Debug\List" -o
+#        "C:\Users\saad\Documents\ECE306\Project 04\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
+#        --core=430X --data_model=small -On --multiplier=32
+#        --hw_workaround=CPU40 --code_model=large)
+#    Locale        =  English_USA.1252
+#    List file     =  
+#        C:\Users\saad\Documents\ECE306\Project 04\Debug\List\switches.lst
+#    Object file   =  
+#        C:\Users\saad\Documents\ECE306\Project 04\Debug\Obj\switches.r43
+#
+###############################################################################
+
+C:\Users\saad\Documents\ECE306\Project 04\switches.c
+      1          #include "msp430.h"
+
+   \                                 In  segment DATA16_AN, at 0x200
+   \   union <unnamed> _A_PAIN_L
+   \                     _A_PAIN_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x220
+   \   union <unnamed> _A_PBIN_L
+   \                     _A_PBIN_L:
+   \   000000                DS8 2
+      2          #include "switches.h"
+      3          #include "ports.h"
+      4          #include "wheels.h"
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+      5          volatile unsigned int sw1Okay, sw2Okay;
+   \                     sw1Okay:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     sw2Okay:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+      6          volatile unsigned int count_debounce_SW1, count_debounce_SW2;
+   \                     count_debounce_SW1:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     count_debounce_SW2:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+      7          volatile unsigned int sw1_pos, sw2_pos;
+   \                     sw1_pos:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     sw2_pos:
+   \   000000                DS8 2
+      8          extern volatile unsigned int cycle_count;
+      9          extern volatile unsigned int stopwatch_seconds;
+     10          extern volatile char state;
+     11          
+
+   \                                 In  segment CODE, align 2
+     12          void SwitchesProcess(void){
+   \                     SwitchesProcess:
+     13            Switch1Process();
+   \   000000   ........     CALLA   #Switch1Process
+     14            Switch2Process();
+   \   000004   ........     CALLA   #Switch2Process
+     15          }
+   \   000008   1001         RETA
+
+   \                                 In  segment CODE, align 2
+     16          void Switch1Process(void){
+   \                     Switch1Process:
+     17            if(sw1Okay && sw1_pos){
+   \   000000   8293....     CMP.W   #0x0, &sw1Okay
+   \   000004   1324         JEQ     ??Switch1Process_0
+   \   000006   8293....     CMP.W   #0x0, &sw1_pos
+   \   00000A   1024         JEQ     ??Switch1Process_0
+     18              if(!(P4IN & SW1)){
+   \   00000C   E2B32102     BIT.B   #0x2, &0x221
+   \   000010   0D2C         JC      ??Switch1Process_0
+     19                sw1_pos = PRESSED;
+   \   000012   8243....     MOV.W   #0x0, &sw1_pos
+     20                sw1Okay = NOT_OKAY;
+   \   000016   8243....     MOV.W   #0x0, &sw1Okay
+     21                count_debounce_SW1 = DEBOUNCE_RESTART;
+   \   00001A   8243....     MOV.W   #0x0, &count_debounce_SW1
+     22                stopwatch_seconds = 0;
+   \   00001E   8243....     MOV.W   #0x0, &stopwatch_seconds
+     23                cycle_count = 0;
+   \   000022   8243....     MOV.W   #0x0, &cycle_count
+     24                state = WAIT;
+   \   000026   F2405700.... MOV.B   #0x57, &state
+     25              }
+     26            }  
+     27            if(count_debounce_SW1 <= DEBOUNCE_TIME){
+   \                     ??Switch1Process_0:
+   \   00002C   B2906500.... CMP.W   #0x65, &count_debounce_SW1
+   \   000032   032C         JC      ??Switch1Process_1
+     28              count_debounce_SW1++;
+   \   000034   9253....     ADD.W   #0x1, &count_debounce_SW1
+   \   000038   1001         RETA
+     29            }
+     30            else{
+     31              sw1Okay = OKAY;
+   \                     ??Switch1Process_1:
+   \   00003A   9243....     MOV.W   #0x1, &sw1Okay
+     32              if(P4IN & SW1){
+   \   00003E   E2B32102     BIT.B   #0x2, &0x221
+   \   000042   0228         JNC     ??Switch1Process_2
+     33                sw1_pos = RELEASED;
+   \   000044   9243....     MOV.W   #0x1, &sw1_pos
+     34              }
+     35            }
+     36          }
+   \                     ??Switch1Process_2:
+   \   000048   1001         RETA
+   \   00004A                REQUIRE _A_PBIN_L
+
+   \                                 In  segment CODE, align 2
+     37          void Switch2Process(void){
+   \                     Switch2Process:
+     38            if(sw2Okay && sw2_pos){
+   \   000000   8293....     CMP.W   #0x0, &sw2Okay
+   \   000004   0C24         JEQ     ??Switch2Process_0
+   \   000006   8293....     CMP.W   #0x0, &sw2_pos
+   \   00000A   0924         JEQ     ??Switch2Process_0
+     39              if(!(P2IN & SW1)){
+   \   00000C   E2B30102     BIT.B   #0x2, &0x201
+   \   000010   062C         JC      ??Switch2Process_0
+     40                sw2_pos = PRESSED;
+   \   000012   8243....     MOV.W   #0x0, &sw2_pos
+     41                sw2Okay = NOT_OKAY;
+   \   000016   8243....     MOV.W   #0x0, &sw2Okay
+     42                count_debounce_SW2 = DEBOUNCE_RESTART;
+   \   00001A   8243....     MOV.W   #0x0, &count_debounce_SW2
+     43                //stopwatch_seconds = 0;
+     44                //cycle_count = 0;
+     45                //state = WAIT;
+     46              }
+     47            }  
+     48            if(count_debounce_SW2 <= DEBOUNCE_TIME){
+   \                     ??Switch2Process_0:
+   \   00001E   B2906500.... CMP.W   #0x65, &count_debounce_SW2
+   \   000024   032C         JC      ??Switch2Process_1
+     49              count_debounce_SW2++;
+   \   000026   9253....     ADD.W   #0x1, &count_debounce_SW2
+   \   00002A   1001         RETA
+     50            }
+     51            else{
+     52              sw2Okay = OKAY;
+   \                     ??Switch2Process_1:
+   \   00002C   9243....     MOV.W   #0x1, &sw2Okay
+     53              if(P2IN & SW2){
+   \   000030   F2B20102     BIT.B   #0x8, &0x201
+   \   000034   0228         JNC     ??Switch2Process_2
+     54                sw2_pos = RELEASED;
+   \   000036   9243....     MOV.W   #0x1, &sw2_pos
+     55              }
+     56            }
+     57          }
+   \                     ??Switch2Process_2:
+   \   00003A   1001         RETA
+   \   00003C                REQUIRE _A_PAIN_L
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   Switch1Process
+      4   Switch2Process
+      4   SwitchesProcess
+        4   -> Switch1Process
+        4   -> Switch2Process
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      74  Switch1Process
+      60  Switch2Process
+      10  SwitchesProcess
+       2  _A_PAIN_L
+       2  _A_PBIN_L
+       2  count_debounce_SW1
+       2  count_debounce_SW2
+       2  sw1Okay
+       2  sw1_pos
+       2  sw2Okay
+       2  sw2_pos
+
+ 
+ 144 bytes in segment CODE
+   4 bytes in segment DATA16_AN
+  12 bytes in segment DATA16_Z
+ 
+ 144 bytes of CODE memory
+  12 bytes of DATA memory (+ 4 bytes shared)
+
+Errors: none
+Warnings: none

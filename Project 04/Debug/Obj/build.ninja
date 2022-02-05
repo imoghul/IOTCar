@@ -25,11 +25,12 @@ build init.pbi : index init.xcl
 build led.pbi : index led.xcl
 build main.pbi : index main.xcl
 build ports.pbi : index ports.xcl
+build switches.pbi : index switches.xcl
 build system.pbi : index system.xcl
 build wheels.pbi : index wheels.xcl
 build Project$ 04$ simple_part0.pbi : link clocks.pbi init.pbi led.pbi
-build Project$ 04$ simple_part1.pbi : link main.pbi ports.pbi system.pbi
-build Project$ 04$ simple_part2.pbi : link wheels.pbi
+build Project$ 04$ simple_part1.pbi : link main.pbi ports.pbi switches.pbi
+build Project$ 04$ simple_part2.pbi : link system.pbi wheels.pbi
 build Project$ 04$ simple.pbd : link Project$ 04$ simple_part0.pbi Project$ 04$ simple_part1.pbi Project$ 04$ simple_part2.pbi
 build Project$ 04$ simple.pbw : browsedata Project$ 04$ simple.pbd
 
