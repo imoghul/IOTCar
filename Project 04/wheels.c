@@ -78,23 +78,28 @@ void Right_Circle(int ticks){
 
 void Circle(void){
   if (shapeCounter == 0) {
-    //strcpy(display_line[0], "  CIRCLE  ");
-    //display_changed = 1;
+    strcpy(display_line[0], "  CIRCLE  ");
+    display_changed = 1;
+    Update_Ticks(&wheel_periods,MAX_RCIRCLE_TICK, CIRCLE);
     shapeCounter++;
   }
-  if(shapeCounter==1){
+  if(shapeCounter==1 || shapeCounter == 2){
     if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK, CIRCLE)) shapeCounter++;
   }
-  else if(shapeCounter==2){
-    if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_LCIRCLE_TICK, START)) shapeCounter++;
+  //else if(shapeCounter==2){
+  //  if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_LCIRCLE_TICK, START)) shapeCounter++;
+  //}
+  if (shapeCounter==3) {
+    shapeCounter = 0 ;
+    state = START;
   }
-  if (shapeCounter==3) shapeCounter = 0 ;
 }
 
 void Figure8(void){
   if (shapeCounter == 0) {
-    //strcpy(display_line[0], "  FIGURE8 ");
-    //display_changed = 1;
+    strcpy(display_line[0], "  FIGURE8 ");
+    display_changed = 1;
+    Update_Ticks(&wheel_periods,MAX_RCIRCLE_TICK, FIGURE8);
     shapeCounter++;
   }
   if(shapeCounter==1){
@@ -107,39 +112,43 @@ void Figure8(void){
 }
 
 void Triangle(void){
-  if (shapeCounter == 0) {
-    //strcpy(display_line[0], " TRIANGLE ");
-    //display_changed = 1;
+  if (shapeCounter == 0 || shapeCounter == 8) {
+    strcpy(display_line[0], " TRIANGLE ");
+    display_changed = 1;
+    Update_Ticks(&wheel_periods,MAX_RCIRCLE_TICK, TRIANGLE);
     shapeCounter++;
   }
-  if(shapeCounter==1){
-    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, 500, TRIANGLE)) shapeCounter++;
+  if(shapeCounter==1 || shapeCounter == 9){
+    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG/2, TRIANGLE)) shapeCounter++;
   }
-  else if(shapeCounter==2){
-    if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK/3, TRIANGLE)) shapeCounter++;
+  else if(shapeCounter==2 || shapeCounter == 10){
+    if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
   }
-  else if(shapeCounter==3){
-    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, 1000, TRIANGLE)) shapeCounter++;
+  else if(shapeCounter==3 || shapeCounter == 11){
+    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
   }
-  else if(shapeCounter==4){
-    if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK/3, TRIANGLE)) shapeCounter++;
+  else if(shapeCounter==4 || shapeCounter == 12){
+    if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
   }
-  else if(shapeCounter==5){
-    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, 1000, TRIANGLE)) shapeCounter++;
+  else if(shapeCounter==5 || shapeCounter == 13){
+    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG/2, TRIANGLE)) shapeCounter++;
   }
-  else if(shapeCounter==6){
-    if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK/3, TRIANGLE)) shapeCounter++;
+  else if(shapeCounter==6 || shapeCounter == 14){
+    if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
   }
-  else if(shapeCounter==7){
-    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, 500, END)) shapeCounter++;
+  else if(shapeCounter==7 || shapeCounter == 15){
+    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
   }
-  if (shapeCounter==8) shapeCounter = 0 ;
+  if (shapeCounter==16) {
+    shapeCounter = 0;
+    state = END;
+  }
 }
 
 // delays for a specified time and then switches state to global nextState
 // make sure nextState is set to desired vlaue before the end of delay
 void delay(int seconds,int cycles){
-  //if(stopwatch_seconds == 0 && cycle_count<=1) display_changed = 1;
+  if(stopwatch_seconds == 0 && cycle_count<=1) display_changed = 1;
   if(stopwatch_seconds>=seconds && cycle_count >= cycles) {
     stopwatch_seconds = 0;
     cycle_count = 0;
@@ -147,20 +156,22 @@ void delay(int seconds,int cycles){
   }
 }
 
+
+
 void StateMachine(void){
   switch(state){
     case (START):
-      //strcpy(display_line[0], "WAITING...");
-      //display_changed = 1;
+      strcpy(display_line[0], "WAITING...");
+      display_changed = 1;
       break;
     case (WAIT):
-      delay(1,100);
-      //strcpy(display_line[0], "WAITING...");
+      delay(3,0);
+      strcpy(display_line[0], "WAITING...");
       break;
     case (ARM):
-      wheel_tick = 0;
-      right_tick = 0;
-      left_tick = 0;
+      //wheel_tick = 0;
+      //right_tick = 0;
+      //left_tick = 0;
       state = CIRCLE;
       break;
     case (CIRCLE):
@@ -176,8 +187,8 @@ void StateMachine(void){
       nextState = END;
       break;
     case (END):
-      //strcpy(display_line[0], "    END   ");
-      //display_changed = 1;
+      strcpy(display_line[0], "    END   ");
+      display_changed = 1;
       break;
     default: break;  
   }

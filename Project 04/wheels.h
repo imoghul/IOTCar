@@ -1,3 +1,5 @@
+// general
+#define WHEEL_TICK (20)
 // straight
 #define STRAIGHT_RIGHT (21)
 #define STRAIGHT_LEFT (21)
@@ -6,9 +8,14 @@
 #define LCIRC_LEFT (21)
 #define RCIRC_RIGHT (21)
 #define RCIRC_LEFT (5)
-#define WHEEL_TICK (20)
-#define MAX_RCIRCLE_TICK (5300)  // without bearing (5500)
-#define MAX_LCIRCLE_TICK (5300)  // without bearing (5500)
+#define MAX_RCIRCLE_TICK (5500)  // without bearing (5500)
+#define MAX_LCIRCLE_TICK (5500)  // without bearing (5500)
+// triangle
+#define TRIANGLE_LEG    (500)
+#define TRIANGLE_TURN_TICK      (1000)
+#define TRIANGLE_LEFT_TICK      (0)
+#define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
+
 
 // states
 #define START           ('S')
