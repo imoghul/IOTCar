@@ -19,9 +19,11 @@ void Switch1Process(void){
       sw1_pos = PRESSED;
       sw1Okay = NOT_OKAY;
       count_debounce_SW1 = DEBOUNCE_RESTART;
-      stopwatch_seconds = 0;
-      cycle_count = 0;
-      state = WAIT;
+      if(state == START){
+        stopwatch_seconds = 0;
+        cycle_count = 0;
+        state = WAIT;
+      }
     }
   }  
   if(count_debounce_SW1 <= DEBOUNCE_TIME){

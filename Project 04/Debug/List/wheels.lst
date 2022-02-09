@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Feb/2022  20:25:00
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          07/Feb/2022  12:21:56
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ECE306\Project 04\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWE18F.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW5B0.tmp
 #        ("C:\Users\saad\Documents\ECE306\Project 04\wheels.c" -lC
 #        "C:\Users\saad\Documents\ECE306\Project 04\Debug\List" -o
 #        "C:\Users\saad\Documents\ECE306\Project 04\Debug\Obj" --no_cse
@@ -91,111 +91,118 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
    \                     nextState:
    \   000000                DS8 1
    \   000001                REQUIRE `?<Initializer for nextState>`
-     18          
+     18          extern volatile unsigned int Time_Sequence;
+     19          extern volatile unsigned int Last_Time_Sequence;
+     20          extern volatile unsigned int time_change;
+     21          
 
    \                                 In  segment CODE, align 2
-     19          void RunMotor(int pinForward, volatile unsigned int* tick, int tick_count, int val){
+     22          void RunMotor(int pinForward, volatile unsigned int* tick, int tick_count, int val){
    \                     RunMotor:
    \   000000   1B15         PUSHM.W #0x2, R11
-     20            if((*tick)++ >= tick_count){
+     23              if((*tick)++ >= tick_count){
    \   000002   2A4D         MOV.W   @R13, R10
    \   000004   0B4A         MOV.W   R10, R11
    \   000006   1B53         ADD.W   #0x1, R11
    \   000008   8D4B0000     MOV.W   R11, 0(R13)
    \   00000C   0A9E         CMP.W   R14, R10
    \   00000E   0328         JNC     ??RunMotor_1
-     21              P6OUT &= ~pinForward;
+     24              P6OUT &= ~pinForward;
    \   000010   C2CC4302     BIC.B   R12, &0x243
-     22              return;
+     25              return;
    \   000014   123C         JMP     ??RunMotor_0
-     23              //P6OUT &= ~pinReverse;
-     24            }
-     25            if (val>0){
+     26              //P6OUT &= ~pinReverse;
+     27            }
+     28            if (val>0){
    \                     ??RunMotor_1:
    \   000016   1F93         CMP.W   #0x1, R15
    \   000018   0538         JL      ??RunMotor_2
-     26              //P6OUT &= ~pinReverse;
-     27              //P6OUT &= ~pinReverse;
-     28              P6OUT |= pinForward;
+     29              //P6OUT &= ~pinReverse;
+     30              //P6OUT &= ~pinReverse;
+     31              P6OUT |= pinForward;
    \   00001A   C2DC4302     BIS.B   R12, &0x243
-     29              P6OUT |= pinForward;
+     32              P6OUT |= pinForward;
    \   00001E   C2DC4302     BIS.B   R12, &0x243
    \   000022   0B3C         JMP     ??RunMotor_0
-     30            }
-     31            else if (val==0){
+     33            }
+     34            else if (val==0){
    \                     ??RunMotor_2:
    \   000024   0F93         CMP.W   #0x0, R15
    \   000026   0520         JNE     ??RunMotor_3
-     32              P6OUT &= ~pinForward;
+     35              P6OUT &= ~pinForward;
    \   000028   C2CC4302     BIC.B   R12, &0x243
-     33              P6OUT &= ~pinForward;
+     36              P6OUT &= ~pinForward;
    \   00002C   C2CC4302     BIC.B   R12, &0x243
    \   000030   043C         JMP     ??RunMotor_0
-     34              //P6OUT &= ~pinReverse;
-     35              //P6OUT &= ~pinReverse;
-     36            }
-     37            else{
-     38              P6OUT &= ~pinForward;
+     37              //P6OUT &= ~pinReverse;
+     38              //P6OUT &= ~pinReverse;
+     39            }
+     40            else{
+     41              P6OUT &= ~pinForward;
    \                     ??RunMotor_3:
    \   000032   C2CC4302     BIC.B   R12, &0x243
-     39              P6OUT &= ~pinForward;
+     42              P6OUT &= ~pinForward;
    \   000036   C2CC4302     BIC.B   R12, &0x243
-     40              //P6OUT |= pinReverse;
-     41              //P6OUT |= pinReverse;
-     42            }
-     43          }
+     43              //P6OUT |= pinReverse;
+     44              //P6OUT |= pinReverse;
+     45            }
+     46           
+     47          }
    \                     ??RunMotor_0:
    \   00003A   1A17         POPM.W  #0x2, R11
    \   00003C   1001         RETA
    \   00003E                REQUIRE _A_PCOUT_L
-     44          
+     48          
 
    \                                 In  segment CODE, align 2
-     45          int Update_Ticks(volatile unsigned int* tickCounter, int max_tick, char nState){
+     49          int Update_Ticks(volatile unsigned int* tickCounter, int max_tick, char nState){
    \                     Update_Ticks:
    \   000000   0F4C         MOV.W   R12, R15
-     46            if(wheel_tick>=WHEEL_TICK){
+     50              if(wheel_tick>=WHEEL_TICK){
    \   000002   B2901400.... CMP.W   #0x14, &wheel_tick
    \   000008   0828         JNC     ??Update_Ticks_0
-     47              wheel_tick = 0;
+     51                  wheel_tick = 0;
    \   00000A   8243....     MOV.W   #0x0, &wheel_tick
-     48              right_tick = 0;
+     52                  right_tick = 0;
    \   00000E   8243....     MOV.W   #0x0, &right_tick
-     49              left_tick = 0;
+     53                  left_tick = 0;
    \   000012   8243....     MOV.W   #0x0, &left_tick
-     50              (*tickCounter)++;
+     54                  (*tickCounter)++;
    \   000016   9F530000     ADD.W   #0x1, 0(R15)
-     51            }
-     52            if(*tickCounter>max_tick){
+     55                }
+     56                if(*tickCounter>max_tick){
    \                     ??Update_Ticks_0:
    \   00001A   2D9F         CMP.W   @R15, R13
    \   00001C   062C         JC      ??Update_Ticks_1
-     53              *tickCounter=0; // max_tick FOR STOP, 0 FOR CONTINUOUS
+     57                  *tickCounter=0; // max_tick FOR STOP, 0 FOR CONTINUOUS
    \   00001E   8F430000     MOV.W   #0x0, 0(R15)
-     54              state = nState;
+     58                  state = nState;
    \   000022   C24E....     MOV.B   R14, &state
-     55              return 1;
+     59                  return 1;
    \   000026   1C43         MOV.W   #0x1, R12
    \   000028   1001         RETA
-     56            }
-     57            return 0;
+     60                }
+     61           
+     62            return 0;
    \                     ??Update_Ticks_1:
    \   00002A   0C43         MOV.W   #0x0, R12
    \   00002C   1001         RETA
-     58          }
-     59          
+     63          }
+     64          
 
    \                                 In  segment CODE, align 2
-     60          int Drive_Path(int right_ticks, int left_ticks, int max_ticks, char endState){
+     65          int Drive_Path(int right_ticks, int left_ticks, int max_ticks, char endState){
    \                     Drive_Path:
    \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   0B4C         MOV.W   R12, R11
    \   000004   084D         MOV.W   R13, R8
    \   000006   094E         MOV.W   R14, R9
    \   000008   4A4F         MOV.B   R15, R10
-     61            wheel_tick++;
+     66            if(1){//time_change){
+     67              //time_change = 0;
+     68              wheel_tick++;
    \   00000A   9253....     ADD.W   #0x1, &wheel_tick
-     62            RunMotor(R_FORWARD,&right_tick,right_ticks,wheel_periods<max_ticks);
+     69              RunMotor(R_FORWARD,&right_tick,right_ticks,wheel_periods<max_ticks);
    \   00000E   8299....     CMP.W   R9, &wheel_periods
    \   000012   022C         JC      ??Drive_Path_2
    \   000014   5F43         MOV.B   #0x1, R15
@@ -208,7 +215,7 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
    \   00001E   3D40....     MOV.W   #right_tick, R13
    \   000022   1C43         MOV.W   #0x1, R12
    \   000024   ........     CALLA   #RunMotor
-     63            RunMotor(L_FORWARD,&left_tick,left_ticks,wheel_periods<max_ticks);
+     70              RunMotor(L_FORWARD,&left_tick,left_ticks,wheel_periods<max_ticks);
    \   000028   8299....     CMP.W   R9, &wheel_periods
    \   00002C   022C         JC      ??Drive_Path_3
    \   00002E   5F43         MOV.B   #0x1, R15
@@ -221,57 +228,26 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
    \   000038   3D40....     MOV.W   #left_tick, R13
    \   00003C   2C43         MOV.W   #0x2, R12
    \   00003E   ........     CALLA   #RunMotor
-     64            return Update_Ticks(&wheel_periods,max_ticks, endState);
+     71              return Update_Ticks(&wheel_periods,max_ticks, endState);
    \   000042   4E4A         MOV.B   R10, R14
    \   000044   0D49         MOV.W   R9, R13
    \   000046   3C40....     MOV.W   #wheel_periods, R12
    \   00004A   ........     CALLA   #Update_Ticks
    \   00004E   3817         POPM.W  #0x4, R11
    \   000050   1001         RETA
-     65          }
-     66          
-
-   \                                 In  segment CODE, align 2
-     67          void Drive_Straight(int ticks){
-   \                     Drive_Straight:
-   \   000000   0A12         PUSH.W  R10
-   \   000002   0A4C         MOV.W   R12, R10
-     68            Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, ticks, END);
-   \   000004   7F404500     MOV.B   #0x45, R15
-   \   000008   0E4A         MOV.W   R10, R14
-   \   00000A   3D401500     MOV.W   #0x15, R13
-   \   00000E   3C401500     MOV.W   #0x15, R12
-   \   000012   ........     CALLA   #Drive_Path
-     69          }
-   \   000016   3A41         POP.W   R10
-   \   000018   1001         RETA
-     70          
-
-   \                                 In  segment CODE, align 2
-     71          void Left_Circle(int ticks){
-   \                     Left_Circle:
-   \   000000   0A12         PUSH.W  R10
-   \   000002   0A4C         MOV.W   R12, R10
-     72            Drive_Path(LCIRC_RIGHT,LCIRC_LEFT, ticks, END);
-   \   000004   7F404500     MOV.B   #0x45, R15
-   \   000008   0E4A         MOV.W   R10, R14
-   \   00000A   3D401500     MOV.W   #0x15, R13
-   \   00000E   3C400500     MOV.W   #0x5, R12
-   \   000012   ........     CALLA   #Drive_Path
+     72            }
      73          }
-   \   000016   3A41         POP.W   R10
-   \   000018   1001         RETA
      74          
 
    \                                 In  segment CODE, align 2
-     75          void Right_Circle(int ticks){
-   \                     Right_Circle:
+     75          void Drive_Straight(int ticks){
+   \                     Drive_Straight:
    \   000000   0A12         PUSH.W  R10
    \   000002   0A4C         MOV.W   R12, R10
-     76            Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, ticks, END);
+     76            Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, ticks, END);
    \   000004   7F404500     MOV.B   #0x45, R15
    \   000008   0E4A         MOV.W   R10, R14
-   \   00000A   3D400500     MOV.W   #0x5, R13
+   \   00000A   3D401200     MOV.W   #0x12, R13
    \   00000E   3C401500     MOV.W   #0x15, R12
    \   000012   ........     CALLA   #Drive_Path
      77          }
@@ -280,315 +256,302 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
      78          
 
    \                                 In  segment CODE, align 2
-     79          void Circle(void){
+     79          void Left_Circle(int ticks){
+   \                     Left_Circle:
+   \   000000   0A12         PUSH.W  R10
+   \   000002   0A4C         MOV.W   R12, R10
+     80            Drive_Path(LCIRC_RIGHT,LCIRC_LEFT, ticks, END);
+   \   000004   7F404500     MOV.B   #0x45, R15
+   \   000008   0E4A         MOV.W   R10, R14
+   \   00000A   3D401500     MOV.W   #0x15, R13
+   \   00000E   3C400500     MOV.W   #0x5, R12
+   \   000012   ........     CALLA   #Drive_Path
+     81          }
+   \   000016   3A41         POP.W   R10
+   \   000018   1001         RETA
+     82          
+
+   \                                 In  segment CODE, align 2
+     83          void Right_Circle(int ticks){
+   \                     Right_Circle:
+   \   000000   0A12         PUSH.W  R10
+   \   000002   0A4C         MOV.W   R12, R10
+     84            Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, ticks, END);
+   \   000004   7F404500     MOV.B   #0x45, R15
+   \   000008   0E4A         MOV.W   R10, R14
+   \   00000A   3D400500     MOV.W   #0x5, R13
+   \   00000E   3C401500     MOV.W   #0x15, R12
+   \   000012   ........     CALLA   #Drive_Path
+     85          }
+   \   000016   3A41         POP.W   R10
+   \   000018   1001         RETA
+     86          
+
+   \                                 In  segment CODE, align 2
+     87          void Circle(void){
    \                     Circle:
-     80            if (shapeCounter == 0) {
+     88            if (shapeCounter == 0) {
    \   000000   8293....     CMP.W   #0x0, &shapeCounter
    \   000004   1220         JNE     ??Circle_0
-     81              strcpy(display_line[0], "  CIRCLE  ");
+     89              strcpy(display_line[0], "  CIRCLE  ");
    \   000006   3D40....     MOV.W   #`?<Constant "  CIRCLE  ">`, R13
    \   00000A   3C40....     MOV.W   #display_line, R12
    \   00000E   ........     CALLA   #strcpy
-     82              display_changed = 1;
+     90              display_changed = 1;
    \   000012   D243....     MOV.B   #0x1, &display_changed
-     83              Update_Ticks(&wheel_periods,MAX_RCIRCLE_TICK, CIRCLE);
+     91              Update_Ticks(&wheel_periods,MAX_RCIRCLE_TICK, CIRCLE);
    \   000016   7E404300     MOV.B   #0x43, R14
-   \   00001A   3D407C15     MOV.W   #0x157c, R13
+   \   00001A   3D407017     MOV.W   #0x1770, R13
    \   00001E   3C40....     MOV.W   #wheel_periods, R12
    \   000022   ........     CALLA   #Update_Ticks
-     84              shapeCounter++;
+     92              shapeCounter++;
    \   000026   9253....     ADD.W   #0x1, &shapeCounter
-     85            }
-     86            if(shapeCounter==1 || shapeCounter == 2){
+     93            }
+     94            if(shapeCounter==1 || shapeCounter == 2){
    \                     ??Circle_0:
    \   00002A   9293....     CMP.W   #0x1, &shapeCounter
    \   00002E   0324         JEQ     ??Circle_1
    \   000030   A293....     CMP.W   #0x2, &shapeCounter
    \   000034   0E20         JNE     ??Circle_2
-     87              if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK, CIRCLE)) shapeCounter++;
+     95              if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK, CIRCLE)) shapeCounter++;
    \                     ??Circle_1:
    \   000036   7F404300     MOV.B   #0x43, R15
-   \   00003A   3E407C15     MOV.W   #0x157c, R14
+   \   00003A   3E407017     MOV.W   #0x1770, R14
    \   00003E   3D400500     MOV.W   #0x5, R13
    \   000042   3C401500     MOV.W   #0x15, R12
    \   000046   ........     CALLA   #Drive_Path
    \   00004A   0C93         CMP.W   #0x0, R12
    \   00004C   0224         JEQ     ??Circle_2
    \   00004E   9253....     ADD.W   #0x1, &shapeCounter
-     88            }
-     89            //else if(shapeCounter==2){
-     90            //  if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_LCIRCLE_TICK, START)) shapeCounter++;
-     91            //}
-     92            if (shapeCounter==3) {
+     96            }
+     97            if (shapeCounter==3) {
    \                     ??Circle_2:
    \   000052   B2900300.... CMP.W   #0x3, &shapeCounter
    \   000058   0520         JNE     ??Circle_3
-     93              shapeCounter = 0 ;
+     98              shapeCounter = 0 ;
    \   00005A   8243....     MOV.W   #0x0, &shapeCounter
-     94              state = START;
+     99              state = START;
    \   00005E   F2405300.... MOV.B   #0x53, &state
-     95            }
-     96          }
+    100            }
+    101          }
    \                     ??Circle_3:
    \   000064   1001         RETA
-     97          
+    102          
 
    \                                 In  segment CODE, align 2
-     98          void Figure8(void){
+    103          void Figure8(void){
    \                     Figure8:
-     99            if (shapeCounter == 0) {
+    104            if (shapeCounter == 0) {
    \   000000   8293....     CMP.W   #0x0, &shapeCounter
    \   000004   1220         JNE     ??Figure8_1
-    100              strcpy(display_line[0], "  FIGURE8 ");
+    105              strcpy(display_line[0], "  FIGURE8 ");
    \   000006   3D40....     MOV.W   #`?<Constant "  FIGURE8 ">`, R13
    \   00000A   3C40....     MOV.W   #display_line, R12
    \   00000E   ........     CALLA   #strcpy
-    101              display_changed = 1;
+    106              display_changed = 1;
    \   000012   D243....     MOV.B   #0x1, &display_changed
-    102              Update_Ticks(&wheel_periods,MAX_RCIRCLE_TICK, FIGURE8);
+    107              Update_Ticks(&wheel_periods,MAX_RCIRCLE_TICK, FIGURE8);
    \   000016   7E404600     MOV.B   #0x46, R14
-   \   00001A   3D407C15     MOV.W   #0x157c, R13
+   \   00001A   3D407017     MOV.W   #0x1770, R13
    \   00001E   3C40....     MOV.W   #wheel_periods, R12
    \   000022   ........     CALLA   #Update_Ticks
-    103              shapeCounter++;
+    108              shapeCounter++;
    \   000026   9253....     ADD.W   #0x1, &shapeCounter
-    104            }
-    105            if(shapeCounter==1){
+    109            }
+    110            if(shapeCounter==1 || shapeCounter==3){
    \                     ??Figure8_1:
    \   00002A   9293....     CMP.W   #0x1, &shapeCounter
-   \   00002E   0F20         JNE     ??Figure8_2
-    106              if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK, FIGURE8)) shapeCounter++;
-   \   000030   7F404600     MOV.B   #0x46, R15
-   \   000034   3E407C15     MOV.W   #0x157c, R14
-   \   000038   3D400500     MOV.W   #0x5, R13
-   \   00003C   3C401500     MOV.W   #0x15, R12
-   \   000040   ........     CALLA   #Drive_Path
-   \   000044   0C93         CMP.W   #0x0, R12
-   \   000046   1424         JEQ     ??Figure8_0
-   \   000048   9253....     ADD.W   #0x1, &shapeCounter
-   \   00004C   113C         JMP     ??Figure8_0
-    107            }
-    108            else if(shapeCounter==2){
+   \   00002E   0424         JEQ     ??Figure8_2
+   \   000030   B2900300.... CMP.W   #0x3, &shapeCounter
+   \   000036   0F20         JNE     ??Figure8_3
+    111              if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK, FIGURE8)) shapeCounter++;
    \                     ??Figure8_2:
-   \   00004E   A293....     CMP.W   #0x2, &shapeCounter
-   \   000052   0E20         JNE     ??Figure8_0
-    109              if (Drive_Path(LCIRC_RIGHT,LCIRC_LEFT, MAX_LCIRCLE_TICK, START)) shapeCounter++;
-   \   000054   7F405300     MOV.B   #0x53, R15
-   \   000058   3E407C15     MOV.W   #0x157c, R14
-   \   00005C   3D401500     MOV.W   #0x15, R13
-   \   000060   3C400500     MOV.W   #0x5, R12
-   \   000064   ........     CALLA   #Drive_Path
-   \   000068   0C93         CMP.W   #0x0, R12
-   \   00006A   0224         JEQ     ??Figure8_0
-   \   00006C   9253....     ADD.W   #0x1, &shapeCounter
-    110            }
-    111            if (shapeCounter==3) shapeCounter = 0 ;
-   \                     ??Figure8_0:
-   \   000070   B2900300.... CMP.W   #0x3, &shapeCounter
-   \   000076   0220         JNE     ??Figure8_3
-   \   000078   8243....     MOV.W   #0x0, &shapeCounter
-    112          }
+   \   000038   7F404600     MOV.B   #0x46, R15
+   \   00003C   3E407017     MOV.W   #0x1770, R14
+   \   000040   3D400500     MOV.W   #0x5, R13
+   \   000044   3C401500     MOV.W   #0x15, R12
+   \   000048   ........     CALLA   #Drive_Path
+   \   00004C   0C93         CMP.W   #0x0, R12
+   \   00004E   1724         JEQ     ??Figure8_0
+   \   000050   9253....     ADD.W   #0x1, &shapeCounter
+   \   000054   143C         JMP     ??Figure8_0
+    112            }
+    113            else if(shapeCounter==2 || shapeCounter==4){
    \                     ??Figure8_3:
-   \   00007C   1001         RETA
-    113          
+   \   000056   A293....     CMP.W   #0x2, &shapeCounter
+   \   00005A   0324         JEQ     ??Figure8_4
+   \   00005C   A292....     CMP.W   #0x4, &shapeCounter
+   \   000060   0E20         JNE     ??Figure8_0
+    114              if (Drive_Path(LCIRC_RIGHT,LCIRC_LEFT, MAX_LCIRCLE_TICK, FIGURE8)) shapeCounter++;
+   \                     ??Figure8_4:
+   \   000062   7F404600     MOV.B   #0x46, R15
+   \   000066   3E40B414     MOV.W   #0x14b4, R14
+   \   00006A   3D401500     MOV.W   #0x15, R13
+   \   00006E   3C400500     MOV.W   #0x5, R12
+   \   000072   ........     CALLA   #Drive_Path
+   \   000076   0C93         CMP.W   #0x0, R12
+   \   000078   0224         JEQ     ??Figure8_0
+   \   00007A   9253....     ADD.W   #0x1, &shapeCounter
+    115            }
+    116            if (shapeCounter==5) {
+   \                     ??Figure8_0:
+   \   00007E   B2900500.... CMP.W   #0x5, &shapeCounter
+   \   000084   0520         JNE     ??Figure8_5
+    117              state = START;
+   \   000086   F2405300.... MOV.B   #0x53, &state
+    118              shapeCounter = 0 ;
+   \   00008C   8243....     MOV.W   #0x0, &shapeCounter
+    119            }
+    120          }
+   \                     ??Figure8_5:
+   \   000090   1001         RETA
+    121          
 
    \                                 In  segment CODE, align 2
-    114          void Triangle(void){
+    122          void Triangle(void){
    \                     Triangle:
-    115            if (shapeCounter == 0 || shapeCounter == 8) {
+    123            if (shapeCounter == 0 || shapeCounter == 6) {
    \   000000   8293....     CMP.W   #0x0, &shapeCounter
-   \   000004   0324         JEQ     ??Triangle_1
-   \   000006   B292....     CMP.W   #0x8, &shapeCounter
-   \   00000A   1220         JNE     ??Triangle_2
-    116              strcpy(display_line[0], " TRIANGLE ");
+   \   000004   0424         JEQ     ??Triangle_1
+   \   000006   B2900600.... CMP.W   #0x6, &shapeCounter
+   \   00000C   1220         JNE     ??Triangle_2
+    124              strcpy(display_line[0], " TRIANGLE ");
    \                     ??Triangle_1:
-   \   00000C   3D40....     MOV.W   #`?<Constant " TRIANGLE ">`, R13
-   \   000010   3C40....     MOV.W   #display_line, R12
-   \   000014   ........     CALLA   #strcpy
-    117              display_changed = 1;
-   \   000018   D243....     MOV.B   #0x1, &display_changed
-    118              Update_Ticks(&wheel_periods,MAX_RCIRCLE_TICK, TRIANGLE);
-   \   00001C   7E405400     MOV.B   #0x54, R14
-   \   000020   3D407C15     MOV.W   #0x157c, R13
-   \   000024   3C40....     MOV.W   #wheel_periods, R12
-   \   000028   ........     CALLA   #Update_Ticks
-    119              shapeCounter++;
-   \   00002C   9253....     ADD.W   #0x1, &shapeCounter
-    120            }
-    121            if(shapeCounter==1 || shapeCounter == 9){
+   \   00000E   3D40....     MOV.W   #`?<Constant " TRIANGLE ">`, R13
+   \   000012   3C40....     MOV.W   #display_line, R12
+   \   000016   ........     CALLA   #strcpy
+    125              display_changed = 1;
+   \   00001A   D243....     MOV.B   #0x1, &display_changed
+    126              Update_Ticks(&wheel_periods,MAX_RCIRCLE_TICK, TRIANGLE);
+   \   00001E   7E405400     MOV.B   #0x54, R14
+   \   000022   3D407017     MOV.W   #0x1770, R13
+   \   000026   3C40....     MOV.W   #wheel_periods, R12
+   \   00002A   ........     CALLA   #Update_Ticks
+    127              shapeCounter++;
+   \   00002E   9253....     ADD.W   #0x1, &shapeCounter
+    128            }
+    129            //if(shapeCounter==1 || shapeCounter == 9){
+    130            //  if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG/2, TRIANGLE)) shapeCounter++;
+    131            //}
+    132            //else if(shapeCounter==2 || shapeCounter == 10){
+    133            //  if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
+    134            //}
+    135            //else if(shapeCounter==3 || shapeCounter == 11){
+    136            //  if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
+    137            //}
+    138            //else if(shapeCounter==4 || shapeCounter == 12){
+    139            //  if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
+    140            //}
+    141            //else if(shapeCounter==5 || shapeCounter == 13){
+    142            //  if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG/2, TRIANGLE)) shapeCounter++;
+    143            //}
+    144            //else if(shapeCounter==6 || shapeCounter == 14){
+    145            //  if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
+    146            //}
+    147            //else if(shapeCounter==7 || shapeCounter == 15){
+    148            //  if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
+    149            //}
+    150            if(shapeCounter==1 || shapeCounter == 3 || shapeCounter==5 || shapeCounter==8 || shapeCounter==10 || shapeCounter==12){
    \                     ??Triangle_2:
-   \   000030   9293....     CMP.W   #0x1, &shapeCounter
-   \   000034   0424         JEQ     ??Triangle_3
-   \   000036   B2900900.... CMP.W   #0x9, &shapeCounter
-   \   00003C   0F20         JNE     ??Triangle_4
-    122              if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG/2, TRIANGLE)) shapeCounter++;
+   \   000032   9293....     CMP.W   #0x1, &shapeCounter
+   \   000036   1324         JEQ     ??Triangle_3
+   \   000038   B2900300.... CMP.W   #0x3, &shapeCounter
+   \   00003E   0F24         JEQ     ??Triangle_3
+   \   000040   B2900500.... CMP.W   #0x5, &shapeCounter
+   \   000046   0B24         JEQ     ??Triangle_3
+   \   000048   B292....     CMP.W   #0x8, &shapeCounter
+   \   00004C   0824         JEQ     ??Triangle_3
+   \   00004E   B2900A00.... CMP.W   #0xa, &shapeCounter
+   \   000054   0424         JEQ     ??Triangle_3
+   \   000056   B2900C00.... CMP.W   #0xc, &shapeCounter
+   \   00005C   0F20         JNE     ??Triangle_4
+    151              if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
    \                     ??Triangle_3:
-   \   00003E   7F405400     MOV.B   #0x54, R15
-   \   000042   3E40FA00     MOV.W   #0xfa, R14
-   \   000046   3D401500     MOV.W   #0x15, R13
-   \   00004A   3C401500     MOV.W   #0x15, R12
-   \   00004E   ........     CALLA   #Drive_Path
-   \   000052   0C93         CMP.W   #0x0, R12
-   \   000054   8724         JEQ     ??Triangle_0
-   \   000056   9253....     ADD.W   #0x1, &shapeCounter
-   \   00005A   843C         JMP     ??Triangle_0
-    123            }
-    124            else if(shapeCounter==2 || shapeCounter == 10){
+   \   00005E   7F405400     MOV.B   #0x54, R15
+   \   000062   3E40E803     MOV.W   #0x3e8, R14
+   \   000066   3D401200     MOV.W   #0x12, R13
+   \   00006A   3C401500     MOV.W   #0x15, R12
+   \   00006E   ........     CALLA   #Drive_Path
+   \   000072   0C93         CMP.W   #0x0, R12
+   \   000074   2624         JEQ     ??Triangle_0
+   \   000076   9253....     ADD.W   #0x1, &shapeCounter
+   \   00007A   233C         JMP     ??Triangle_0
+    152            }
+    153            else if(shapeCounter==2 || shapeCounter == 4 || shapeCounter==7 || shapeCounter==9 || shapeCounter==11 || shapeCounter==13){
    \                     ??Triangle_4:
-   \   00005C   A293....     CMP.W   #0x2, &shapeCounter
-   \   000060   0424         JEQ     ??Triangle_5
-   \   000062   B2900A00.... CMP.W   #0xa, &shapeCounter
-   \   000068   0E20         JNE     ??Triangle_6
-    125              if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
+   \   00007C   A293....     CMP.W   #0x2, &shapeCounter
+   \   000080   1324         JEQ     ??Triangle_5
+   \   000082   A292....     CMP.W   #0x4, &shapeCounter
+   \   000086   1024         JEQ     ??Triangle_5
+   \   000088   B2900700.... CMP.W   #0x7, &shapeCounter
+   \   00008E   0C24         JEQ     ??Triangle_5
+   \   000090   B2900900.... CMP.W   #0x9, &shapeCounter
+   \   000096   0824         JEQ     ??Triangle_5
+   \   000098   B2900B00.... CMP.W   #0xb, &shapeCounter
+   \   00009E   0424         JEQ     ??Triangle_5
+   \   0000A0   B2900D00.... CMP.W   #0xd, &shapeCounter
+   \   0000A6   0D20         JNE     ??Triangle_0
+    154              if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
    \                     ??Triangle_5:
-   \   00006A   7F405400     MOV.B   #0x54, R15
-   \   00006E   3E40E803     MOV.W   #0x3e8, R14
-   \   000072   0D43         MOV.W   #0x0, R13
-   \   000074   3C401500     MOV.W   #0x15, R12
-   \   000078   ........     CALLA   #Drive_Path
-   \   00007C   0C93         CMP.W   #0x0, R12
-   \   00007E   7224         JEQ     ??Triangle_0
-   \   000080   9253....     ADD.W   #0x1, &shapeCounter
-   \   000084   6F3C         JMP     ??Triangle_0
-    126            }
-    127            else if(shapeCounter==3 || shapeCounter == 11){
-   \                     ??Triangle_6:
-   \   000086   B2900300.... CMP.W   #0x3, &shapeCounter
-   \   00008C   0424         JEQ     ??Triangle_7
-   \   00008E   B2900B00.... CMP.W   #0xb, &shapeCounter
-   \   000094   0F20         JNE     ??Triangle_8
-    128              if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
-   \                     ??Triangle_7:
-   \   000096   7F405400     MOV.B   #0x54, R15
-   \   00009A   3E40F401     MOV.W   #0x1f4, R14
-   \   00009E   3D401500     MOV.W   #0x15, R13
-   \   0000A2   3C401500     MOV.W   #0x15, R12
-   \   0000A6   ........     CALLA   #Drive_Path
-   \   0000AA   0C93         CMP.W   #0x0, R12
-   \   0000AC   5B24         JEQ     ??Triangle_0
-   \   0000AE   9253....     ADD.W   #0x1, &shapeCounter
-   \   0000B2   583C         JMP     ??Triangle_0
-    129            }
-    130            else if(shapeCounter==4 || shapeCounter == 12){
-   \                     ??Triangle_8:
-   \   0000B4   A292....     CMP.W   #0x4, &shapeCounter
-   \   0000B8   0424         JEQ     ??Triangle_9
-   \   0000BA   B2900C00.... CMP.W   #0xc, &shapeCounter
-   \   0000C0   0E20         JNE     ??Triangle_10
-    131              if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
-   \                     ??Triangle_9:
-   \   0000C2   7F405400     MOV.B   #0x54, R15
-   \   0000C6   3E40E803     MOV.W   #0x3e8, R14
-   \   0000CA   0D43         MOV.W   #0x0, R13
-   \   0000CC   3C401500     MOV.W   #0x15, R12
-   \   0000D0   ........     CALLA   #Drive_Path
-   \   0000D4   0C93         CMP.W   #0x0, R12
-   \   0000D6   4624         JEQ     ??Triangle_0
-   \   0000D8   9253....     ADD.W   #0x1, &shapeCounter
-   \   0000DC   433C         JMP     ??Triangle_0
-    132            }
-    133            else if(shapeCounter==5 || shapeCounter == 13){
-   \                     ??Triangle_10:
-   \   0000DE   B2900500.... CMP.W   #0x5, &shapeCounter
-   \   0000E4   0424         JEQ     ??Triangle_11
-   \   0000E6   B2900D00.... CMP.W   #0xd, &shapeCounter
-   \   0000EC   0F20         JNE     ??Triangle_12
-    134              if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG/2, TRIANGLE)) shapeCounter++;
-   \                     ??Triangle_11:
-   \   0000EE   7F405400     MOV.B   #0x54, R15
-   \   0000F2   3E40FA00     MOV.W   #0xfa, R14
-   \   0000F6   3D401500     MOV.W   #0x15, R13
-   \   0000FA   3C401500     MOV.W   #0x15, R12
-   \   0000FE   ........     CALLA   #Drive_Path
-   \   000102   0C93         CMP.W   #0x0, R12
-   \   000104   2F24         JEQ     ??Triangle_0
-   \   000106   9253....     ADD.W   #0x1, &shapeCounter
-   \   00010A   2C3C         JMP     ??Triangle_0
-    135            }
-    136            else if(shapeCounter==6 || shapeCounter == 14){
-   \                     ??Triangle_12:
-   \   00010C   B2900600.... CMP.W   #0x6, &shapeCounter
-   \   000112   0424         JEQ     ??Triangle_13
-   \   000114   B2900E00.... CMP.W   #0xe, &shapeCounter
-   \   00011A   0E20         JNE     ??Triangle_14
-    137              if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
-   \                     ??Triangle_13:
-   \   00011C   7F405400     MOV.B   #0x54, R15
-   \   000120   3E40E803     MOV.W   #0x3e8, R14
-   \   000124   0D43         MOV.W   #0x0, R13
-   \   000126   3C401500     MOV.W   #0x15, R12
-   \   00012A   ........     CALLA   #Drive_Path
-   \   00012E   0C93         CMP.W   #0x0, R12
-   \   000130   1924         JEQ     ??Triangle_0
-   \   000132   9253....     ADD.W   #0x1, &shapeCounter
-   \   000136   163C         JMP     ??Triangle_0
-    138            }
-    139            else if(shapeCounter==7 || shapeCounter == 15){
-   \                     ??Triangle_14:
-   \   000138   B2900700.... CMP.W   #0x7, &shapeCounter
-   \   00013E   0424         JEQ     ??Triangle_15
-   \   000140   B2900F00.... CMP.W   #0xf, &shapeCounter
-   \   000146   0E20         JNE     ??Triangle_0
-    140              if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
-   \                     ??Triangle_15:
-   \   000148   7F405400     MOV.B   #0x54, R15
-   \   00014C   3E40F401     MOV.W   #0x1f4, R14
-   \   000150   3D401500     MOV.W   #0x15, R13
-   \   000154   3C401500     MOV.W   #0x15, R12
-   \   000158   ........     CALLA   #Drive_Path
-   \   00015C   0C93         CMP.W   #0x0, R12
-   \   00015E   0224         JEQ     ??Triangle_0
-   \   000160   9253....     ADD.W   #0x1, &shapeCounter
-    141            }
-    142            if (shapeCounter==16) {
+   \   0000A8   7F405400     MOV.B   #0x54, R15
+   \   0000AC   3E40E204     MOV.W   #0x4e2, R14
+   \   0000B0   0D43         MOV.W   #0x0, R13
+   \   0000B2   3C401500     MOV.W   #0x15, R12
+   \   0000B6   ........     CALLA   #Drive_Path
+   \   0000BA   0C93         CMP.W   #0x0, R12
+   \   0000BC   0224         JEQ     ??Triangle_0
+   \   0000BE   9253....     ADD.W   #0x1, &shapeCounter
+    155            }
+    156            
+    157            if (shapeCounter==14) {
    \                     ??Triangle_0:
-   \   000164   B2901000.... CMP.W   #0x10, &shapeCounter
-   \   00016A   0520         JNE     ??Triangle_16
-    143              shapeCounter = 0;
-   \   00016C   8243....     MOV.W   #0x0, &shapeCounter
-    144              state = END;
-   \   000170   F2404500.... MOV.B   #0x45, &state
-    145            }
-    146          }
-   \                     ??Triangle_16:
-   \   000176   1001         RETA
-    147          
-    148          // delays for a specified time and then switches state to global nextState
-    149          // make sure nextState is set to desired vlaue before the end of delay
+   \   0000C2   B2900E00.... CMP.W   #0xe, &shapeCounter
+   \   0000C8   0520         JNE     ??Triangle_6
+    158              shapeCounter = 0;
+   \   0000CA   8243....     MOV.W   #0x0, &shapeCounter
+    159              state = END;
+   \   0000CE   F2404500.... MOV.B   #0x45, &state
+    160            }
+    161          }
+   \                     ??Triangle_6:
+   \   0000D4   1001         RETA
+    162          
+    163          // delays for a specified time and then switches state to global nextState
+    164          // make sure nextState is set to desired vlaue before the end of delay
 
    \                                 In  segment CODE, align 2
-    150          void delay(int seconds,int cycles){
+    165          void delay(int seconds,int cycles){
    \                     delay:
-    151            if(stopwatch_seconds == 0 && cycle_count<=1) display_changed = 1;
+    166            if(stopwatch_seconds == 0 && cycle_count<=1) display_changed = 1;
    \   000000   8293....     CMP.W   #0x0, &stopwatch_seconds
    \   000004   0520         JNE     ??delay_0
    \   000006   A293....     CMP.W   #0x2, &cycle_count
    \   00000A   022C         JC      ??delay_0
    \   00000C   D243....     MOV.B   #0x1, &display_changed
-    152            if(stopwatch_seconds>=seconds && cycle_count >= cycles) {
+    167            if(stopwatch_seconds>=seconds && cycle_count >= cycles) {
    \                     ??delay_0:
    \   000010   829C....     CMP.W   R12, &stopwatch_seconds
    \   000014   0A28         JNC     ??delay_1
    \   000016   829D....     CMP.W   R13, &cycle_count
    \   00001A   0728         JNC     ??delay_1
-    153              stopwatch_seconds = 0;
+    168              stopwatch_seconds = 0;
    \   00001C   8243....     MOV.W   #0x0, &stopwatch_seconds
-    154              cycle_count = 0;
+    169              cycle_count = 0;
    \   000020   8243....     MOV.W   #0x0, &cycle_count
-    155              state = nextState;
+    170              state = nextState;
    \   000024   D242........ MOV.B   &nextState, &state
-    156            }
-    157          }
+    171            }
+    172          }
    \                     ??delay_1:
    \   00002A   1001         RETA
-    158          
-    159          
-    160          
+    173          
+    174          
+    175          
 
    \                                 In  segment CODE, align 2
-    161          void StateMachine(void){
+    176          void StateMachine(void){
    \                     StateMachine:
-    162            switch(state){
+    177            switch(state){
    \   000000   5E42....     MOV.B   &state, R14
    \   000004   7E804100     SUB.B   #0x41, R14
    \   000008   2424         JEQ     ??StateMachine_1
@@ -605,73 +568,73 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
    \   000020   7E800300     SUB.B   #0x3, R14
    \   000024   0A24         JEQ     ??StateMachine_7
    \   000026   1001         RETA
-    163              case (START):
-    164                strcpy(display_line[0], "WAITING...");
+    178              case (START):
+    179                strcpy(display_line[0], "WAITING...");
    \                     ??StateMachine_5:
    \   000028   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
    \   00002C   3C40....     MOV.W   #display_line, R12
    \   000030   ........     CALLA   #strcpy
-    165                display_changed = 1;
+    180                display_changed = 1;
    \   000034   D243....     MOV.B   #0x1, &display_changed
-    166                break;
+    181                break;
    \   000038   1001         RETA
-    167              case (WAIT):
-    168                delay(3,0);
+    182              case (WAIT):
+    183                delay(3,0);
    \                     ??StateMachine_7:
    \   00003A   0D43         MOV.W   #0x0, R13
    \   00003C   3C400300     MOV.W   #0x3, R12
    \   000040   ........     CALLA   #delay
-    169                strcpy(display_line[0], "WAITING...");
+    184                strcpy(display_line[0], "WAITING...");
    \   000044   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
    \   000048   3C40....     MOV.W   #display_line, R12
    \   00004C   ........     CALLA   #strcpy
-    170                break;
+    185                break;
    \   000050   1001         RETA
-    171              case (ARM):
-    172                //wheel_tick = 0;
-    173                //right_tick = 0;
-    174                //left_tick = 0;
-    175                state = CIRCLE;
+    186              case (ARM):
+    187                //wheel_tick = 0;
+    188                //right_tick = 0;
+    189                //left_tick = 0;
+    190                state = CIRCLE;
    \                     ??StateMachine_1:
    \   000052   F2404300.... MOV.B   #0x43, &state
-    176                break;
+    191                break;
    \   000058   1001         RETA
-    177              case (CIRCLE):
-    178                Circle();
+    192              case (CIRCLE):
+    193                Circle();
    \                     ??StateMachine_2:
    \   00005A   ........     CALLA   #Circle
-    179                nextState = FIGURE8;
+    194                nextState = FIGURE8;
    \   00005E   F2404600.... MOV.B   #0x46, &nextState
-    180                break;
+    195                break;
    \   000064   1001         RETA
-    181              case (FIGURE8):
-    182                Figure8();
+    196              case (FIGURE8):
+    197                Figure8();
    \                     ??StateMachine_4:
    \   000066   ........     CALLA   #Figure8
-    183                nextState = TRIANGLE;
+    198                nextState = TRIANGLE;
    \   00006A   F2405400.... MOV.B   #0x54, &nextState
-    184                break;
+    199                break;
    \   000070   1001         RETA
-    185              case (TRIANGLE):
-    186                Triangle();
+    200              case (TRIANGLE):
+    201                Triangle();
    \                     ??StateMachine_6:
    \   000072   ........     CALLA   #Triangle
-    187                nextState = END;
+    202                nextState = END;
    \   000076   F2404500.... MOV.B   #0x45, &nextState
-    188                break;
+    203                break;
    \   00007C   1001         RETA
-    189              case (END):
-    190                strcpy(display_line[0], "    END   ");
+    204              case (END):
+    205                strcpy(display_line[0], "    END   ");
    \                     ??StateMachine_3:
    \   00007E   3D40....     MOV.W   #`?<Constant "    END   ">`, R13
    \   000082   3C40....     MOV.W   #display_line, R12
    \   000086   ........     CALLA   #strcpy
-    191                display_changed = 1;
+    206                display_changed = 1;
    \   00008A   D243....     MOV.B   #0x1, &display_changed
-    192                break;
-    193              default: break;  
-    194            }
-    195          }
+    207                break;
+    208              default: break;  
+    209            }
+    210          }
    \   00008E   1001         RETA
 
    \                                 In  segment DATA16_ID, align 1, align-sorted
@@ -757,12 +720,12 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
      102  Circle
       82  Drive_Path
       26  Drive_Straight
-     126  Figure8
+     146  Figure8
       26  Left_Circle
       26  Right_Circle
       62  RunMotor
      144  StateMachine
-     376  Triangle
+     214  Triangle
       46  Update_Ticks
        2  _A_PCOUT_L
       44  delay
@@ -775,16 +738,16 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
        2  wheel_tick
 
  
- 1 060 bytes in segment CODE
-     2 bytes in segment DATA16_AN
-    55 bytes in segment DATA16_C
-     2 bytes in segment DATA16_I
-     2 bytes in segment DATA16_ID
-    10 bytes in segment DATA16_Z
+ 918 bytes in segment CODE
+   2 bytes in segment DATA16_AN
+  55 bytes in segment DATA16_C
+   2 bytes in segment DATA16_I
+   2 bytes in segment DATA16_ID
+  10 bytes in segment DATA16_Z
  
- 1 060 bytes of CODE  memory
-    57 bytes of CONST memory
-    12 bytes of DATA  memory (+ 2 bytes shared)
+ 918 bytes of CODE  memory
+  57 bytes of CONST memory
+  12 bytes of DATA  memory (+ 2 bytes shared)
 
 Errors: none
 Warnings: none

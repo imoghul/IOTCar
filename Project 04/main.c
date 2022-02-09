@@ -34,12 +34,14 @@ extern volatile unsigned char update_display;
 extern volatile unsigned int update_display_count;
 extern volatile unsigned int Time_Sequence;
 extern volatile char one_time;
+extern volatile unsigned int wheel_tick;
 unsigned int test_value;
 char chosen_direction;
 char change;
 volatile unsigned int Last_Time_Sequence;
 volatile unsigned int cycle_count;
 volatile unsigned int stopwatch_seconds;
+volatile unsigned int time_change;
 //===========================================================================
 // Function name: Main
 //
@@ -103,6 +105,7 @@ void main(void){
     if(Last_Time_Sequence!=Time_Sequence){
       Last_Time_Sequence=Time_Sequence;
       cycle_count++;
+      time_change = 1;
       if(cycle_count == 200){
         cycle_count = 0;
         stopwatch_seconds++;

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Feb/2022  20:25:00
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          07/Feb/2022  12:10:23
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ECE306\Project 04\switches.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWDF3D.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWC7D0.tmp
 #        ("C:\Users\saad\Documents\ECE306\Project 04\switches.c" -lC
 #        "C:\Users\saad\Documents\ECE306\Project 04\Debug\List" -o
 #        "C:\Users\saad\Documents\ECE306\Project 04\Debug\Obj" --no_cse
@@ -99,92 +99,96 @@ C:\Users\saad\Documents\ECE306\Project 04\switches.c
    \                     Switch1Process:
      17            if(sw1Okay && sw1_pos){
    \   000000   8293....     CMP.W   #0x0, &sw1Okay
-   \   000004   1324         JEQ     ??Switch1Process_0
+   \   000004   1724         JEQ     ??Switch1Process_0
    \   000006   8293....     CMP.W   #0x0, &sw1_pos
-   \   00000A   1024         JEQ     ??Switch1Process_0
+   \   00000A   1424         JEQ     ??Switch1Process_0
      18              if(!(P4IN & SW1)){
    \   00000C   E2B32102     BIT.B   #0x2, &0x221
-   \   000010   0D2C         JC      ??Switch1Process_0
+   \   000010   112C         JC      ??Switch1Process_0
      19                sw1_pos = PRESSED;
    \   000012   8243....     MOV.W   #0x0, &sw1_pos
      20                sw1Okay = NOT_OKAY;
    \   000016   8243....     MOV.W   #0x0, &sw1Okay
      21                count_debounce_SW1 = DEBOUNCE_RESTART;
    \   00001A   8243....     MOV.W   #0x0, &count_debounce_SW1
-     22                stopwatch_seconds = 0;
-   \   00001E   8243....     MOV.W   #0x0, &stopwatch_seconds
-     23                cycle_count = 0;
-   \   000022   8243....     MOV.W   #0x0, &cycle_count
-     24                state = WAIT;
-   \   000026   F2405700.... MOV.B   #0x57, &state
-     25              }
-     26            }  
-     27            if(count_debounce_SW1 <= DEBOUNCE_TIME){
+     22                if(state == START){
+   \   00001E   F2905300.... CMP.B   #0x53, &state
+   \   000024   0720         JNE     ??Switch1Process_0
+     23                  stopwatch_seconds = 0;
+   \   000026   8243....     MOV.W   #0x0, &stopwatch_seconds
+     24                  cycle_count = 0;
+   \   00002A   8243....     MOV.W   #0x0, &cycle_count
+     25                  state = WAIT;
+   \   00002E   F2405700.... MOV.B   #0x57, &state
+     26                }
+     27              }
+     28            }  
+     29            if(count_debounce_SW1 <= DEBOUNCE_TIME){
    \                     ??Switch1Process_0:
-   \   00002C   B2906500.... CMP.W   #0x65, &count_debounce_SW1
-   \   000032   032C         JC      ??Switch1Process_1
-     28              count_debounce_SW1++;
-   \   000034   9253....     ADD.W   #0x1, &count_debounce_SW1
-   \   000038   1001         RETA
-     29            }
-     30            else{
-     31              sw1Okay = OKAY;
+   \   000034   B2906500.... CMP.W   #0x65, &count_debounce_SW1
+   \   00003A   032C         JC      ??Switch1Process_1
+     30              count_debounce_SW1++;
+   \   00003C   9253....     ADD.W   #0x1, &count_debounce_SW1
+   \   000040   1001         RETA
+     31            }
+     32            else{
+     33              sw1Okay = OKAY;
    \                     ??Switch1Process_1:
-   \   00003A   9243....     MOV.W   #0x1, &sw1Okay
-     32              if(P4IN & SW1){
-   \   00003E   E2B32102     BIT.B   #0x2, &0x221
-   \   000042   0228         JNC     ??Switch1Process_2
-     33                sw1_pos = RELEASED;
-   \   000044   9243....     MOV.W   #0x1, &sw1_pos
-     34              }
-     35            }
-     36          }
+   \   000042   9243....     MOV.W   #0x1, &sw1Okay
+     34              if(P4IN & SW1){
+   \   000046   E2B32102     BIT.B   #0x2, &0x221
+   \   00004A   0228         JNC     ??Switch1Process_2
+     35                sw1_pos = RELEASED;
+   \   00004C   9243....     MOV.W   #0x1, &sw1_pos
+     36              }
+     37            }
+     38          }
    \                     ??Switch1Process_2:
-   \   000048   1001         RETA
-   \   00004A                REQUIRE _A_PBIN_L
+   \   000050   1001         RETA
+   \   000052                REQUIRE _A_PBIN_L
 
    \                                 In  segment CODE, align 2
-     37          void Switch2Process(void){
+     39          void Switch2Process(void){
    \                     Switch2Process:
-     38            if(sw2Okay && sw2_pos){
+     40            if(sw2Okay && sw2_pos){
    \   000000   8293....     CMP.W   #0x0, &sw2Okay
    \   000004   0C24         JEQ     ??Switch2Process_0
    \   000006   8293....     CMP.W   #0x0, &sw2_pos
    \   00000A   0924         JEQ     ??Switch2Process_0
-     39              if(!(P2IN & SW1)){
+     41              if(!(P2IN & SW1)){
    \   00000C   E2B30102     BIT.B   #0x2, &0x201
    \   000010   062C         JC      ??Switch2Process_0
-     40                sw2_pos = PRESSED;
+     42                sw2_pos = PRESSED;
    \   000012   8243....     MOV.W   #0x0, &sw2_pos
-     41                sw2Okay = NOT_OKAY;
+     43                sw2Okay = NOT_OKAY;
    \   000016   8243....     MOV.W   #0x0, &sw2Okay
-     42                count_debounce_SW2 = DEBOUNCE_RESTART;
+     44                count_debounce_SW2 = DEBOUNCE_RESTART;
    \   00001A   8243....     MOV.W   #0x0, &count_debounce_SW2
-     43                //stopwatch_seconds = 0;
-     44                //cycle_count = 0;
-     45                //state = WAIT;
-     46              }
-     47            }  
-     48            if(count_debounce_SW2 <= DEBOUNCE_TIME){
+     45                //stopwatch_seconds = 0;
+     46                //cycle_count = 0;
+     47                //state = WAIT;
+     48              }
+     49            }  
+     50            if(count_debounce_SW2 <= DEBOUNCE_TIME){
    \                     ??Switch2Process_0:
    \   00001E   B2906500.... CMP.W   #0x65, &count_debounce_SW2
    \   000024   032C         JC      ??Switch2Process_1
-     49              count_debounce_SW2++;
+     51              count_debounce_SW2++;
    \   000026   9253....     ADD.W   #0x1, &count_debounce_SW2
    \   00002A   1001         RETA
-     50            }
-     51            else{
-     52              sw2Okay = OKAY;
+     52            }
+     53            else{
+     54              sw2Okay = OKAY;
    \                     ??Switch2Process_1:
    \   00002C   9243....     MOV.W   #0x1, &sw2Okay
-     53              if(P2IN & SW2){
+     55              if(P2IN & SW2){
    \   000030   F2B20102     BIT.B   #0x8, &0x201
    \   000034   0228         JNC     ??Switch2Process_2
-     54                sw2_pos = RELEASED;
+     56                sw2_pos = RELEASED;
    \   000036   9243....     MOV.W   #0x1, &sw2_pos
-     55              }
-     56            }
-     57          }
+     57              }
+     58            }
+     59          }
    \                     ??Switch2Process_2:
    \   00003A   1001         RETA
    \   00003C                REQUIRE _A_PAIN_L
@@ -204,7 +208,7 @@ C:\Users\saad\Documents\ECE306\Project 04\switches.c
 
    Bytes  Function/Label
    -----  --------------
-      74  Switch1Process
+      82  Switch1Process
       60  Switch2Process
       10  SwitchesProcess
        2  _A_PAIN_L
@@ -217,11 +221,11 @@ C:\Users\saad\Documents\ECE306\Project 04\switches.c
        2  sw2_pos
 
  
- 144 bytes in segment CODE
+ 152 bytes in segment CODE
    4 bytes in segment DATA16_AN
   12 bytes in segment DATA16_Z
  
- 144 bytes of CODE memory
+ 152 bytes of CODE memory
   12 bytes of DATA memory (+ 4 bytes shared)
 
 Errors: none

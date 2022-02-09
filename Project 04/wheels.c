@@ -15,9 +15,12 @@ volatile unsigned int left_tick;
 volatile char state = START;
 volatile int shapeCounter;
 volatile char nextState = ARM;
+extern volatile unsigned int Time_Sequence;
+extern volatile unsigned int Last_Time_Sequence;
+extern volatile unsigned int time_change;
 
 void RunMotor(int pinForward, volatile unsigned int* tick, int tick_count, int val){
-  if((*tick)++ >= tick_count){
+    if((*tick)++ >= tick_count){
     P6OUT &= ~pinForward;
     return;
     //P6OUT &= ~pinReverse;
@@ -40,28 +43,33 @@ void RunMotor(int pinForward, volatile unsigned int* tick, int tick_count, int v
     //P6OUT |= pinReverse;
     //P6OUT |= pinReverse;
   }
+ 
 }
 
 int Update_Ticks(volatile unsigned int* tickCounter, int max_tick, char nState){
-  if(wheel_tick>=WHEEL_TICK){
-    wheel_tick = 0;
-    right_tick = 0;
-    left_tick = 0;
-    (*tickCounter)++;
-  }
-  if(*tickCounter>max_tick){
-    *tickCounter=0; // max_tick FOR STOP, 0 FOR CONTINUOUS
-    state = nState;
-    return 1;
-  }
+    if(wheel_tick>=WHEEL_TICK){
+        wheel_tick = 0;
+        right_tick = 0;
+        left_tick = 0;
+        (*tickCounter)++;
+      }
+      if(*tickCounter>max_tick){
+        *tickCounter=0; // max_tick FOR STOP, 0 FOR CONTINUOUS
+        state = nState;
+        return 1;
+      }
+ 
   return 0;
 }
 
 int Drive_Path(int right_ticks, int left_ticks, int max_ticks, char endState){
-  wheel_tick++;
-  RunMotor(R_FORWARD,&right_tick,right_ticks,wheel_periods<max_ticks);
-  RunMotor(L_FORWARD,&left_tick,left_ticks,wheel_periods<max_ticks);
-  return Update_Ticks(&wheel_periods,max_ticks, endState);
+  if(1){//time_change){
+    //time_change = 0;
+    wheel_tick++;
+    RunMotor(R_FORWARD,&right_tick,right_ticks,wheel_periods<max_ticks);
+    RunMotor(L_FORWARD,&left_tick,left_ticks,wheel_periods<max_ticks);
+    return Update_Ticks(&wheel_periods,max_ticks, endState);
+  }
 }
 
 void Drive_Straight(int ticks){
@@ -86,9 +94,6 @@ void Circle(void){
   if(shapeCounter==1 || shapeCounter == 2){
     if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK, CIRCLE)) shapeCounter++;
   }
-  //else if(shapeCounter==2){
-  //  if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_LCIRCLE_TICK, START)) shapeCounter++;
-  //}
   if (shapeCounter==3) {
     shapeCounter = 0 ;
     state = START;
@@ -102,44 +107,33 @@ void Figure8(void){
     Update_Ticks(&wheel_periods,MAX_RCIRCLE_TICK, FIGURE8);
     shapeCounter++;
   }
-  if(shapeCounter==1){
+  if(shapeCounter==1 || shapeCounter==3){
     if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK, FIGURE8)) shapeCounter++;
   }
-  else if(shapeCounter==2){
-    if (Drive_Path(LCIRC_RIGHT,LCIRC_LEFT, MAX_LCIRCLE_TICK, START)) shapeCounter++;
+  else if(shapeCounter==2 || shapeCounter==4){
+    if (Drive_Path(LCIRC_RIGHT,LCIRC_LEFT, MAX_LCIRCLE_TICK, FIGURE8)) shapeCounter++;
   }
-  if (shapeCounter==3) shapeCounter = 0 ;
+  if (shapeCounter==5) {
+    state = START;
+    shapeCounter = 0 ;
+  }
 }
 
 void Triangle(void){
-  if (shapeCounter == 0 || shapeCounter == 8) {
+  if (shapeCounter == 0 || shapeCounter == 6) {
     strcpy(display_line[0], " TRIANGLE ");
     display_changed = 1;
     Update_Ticks(&wheel_periods,MAX_RCIRCLE_TICK, TRIANGLE);
     shapeCounter++;
   }
-  if(shapeCounter==1 || shapeCounter == 9){
-    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG/2, TRIANGLE)) shapeCounter++;
-  }
-  else if(shapeCounter==2 || shapeCounter == 10){
-    if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
-  }
-  else if(shapeCounter==3 || shapeCounter == 11){
+  if(shapeCounter==1 || shapeCounter == 3 || shapeCounter==5 || shapeCounter==8 || shapeCounter==10 || shapeCounter==12){
     if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
   }
-  else if(shapeCounter==4 || shapeCounter == 12){
+  else if(shapeCounter==2 || shapeCounter == 4 || shapeCounter==7 || shapeCounter==9 || shapeCounter==11 || shapeCounter==13){
     if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
   }
-  else if(shapeCounter==5 || shapeCounter == 13){
-    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG/2, TRIANGLE)) shapeCounter++;
-  }
-  else if(shapeCounter==6 || shapeCounter == 14){
-    if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
-  }
-  else if(shapeCounter==7 || shapeCounter == 15){
-    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
-  }
-  if (shapeCounter==16) {
+  
+  if (shapeCounter==14) {
     shapeCounter = 0;
     state = END;
   }
