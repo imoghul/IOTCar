@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Feb/2022  11:31:51
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Feb/2022  17:09:21
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ECE306\Project 05\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW3DC2.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW3C44.tmp
 #        ("C:\Users\saad\Documents\ECE306\Project 05\wheels.c" -lC
 #        "C:\Users\saad\Documents\ECE306\Project 05\Debug\List" -o
 #        "C:\Users\saad\Documents\ECE306\Project 05\Debug\Obj" --no_cse
@@ -37,6 +37,11 @@ C:\Users\saad\Documents\ECE306\Project 05\wheels.c
    \                                 In  segment DATA16_AN, at 0x202
    \   union <unnamed> _A_PAOUT_L
    \                     _A_PAOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x240
+   \   union <unnamed> _A_PCIN_L
+   \                     _A_PCIN_L:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_AN, at 0x242
@@ -126,15 +131,15 @@ C:\Users\saad\Documents\ECE306\Project 05\wheels.c
    \                                 In  segment CODE, align 2
      30          void MotorSafety(void){
    \                     MotorSafety:
-     31            if ((P6OUT & R_FORWARD) && (P6OUT & R_REVERSE) || (P6OUT & L_FORWARD) && (P6OUT & L_REVERSE_2355)){
-   \   000000   D2B34302     BIT.B   #0x1, &0x243
+     31            if (((P6IN & R_FORWARD) && (P6IN & R_REVERSE)) || ((P6IN & L_FORWARD) && (P6IN & L_REVERSE_2355))){
+   \   000000   D2B34102     BIT.B   #0x1, &0x241
    \   000004   0328         JNC     ??MotorSafety_0
-   \   000006   E2B24302     BIT.B   #0x4, &0x243
+   \   000006   E2B24102     BIT.B   #0x4, &0x241
    \   00000A   062C         JC      ??MotorSafety_1
    \                     ??MotorSafety_0:
-   \   00000C   E2B34302     BIT.B   #0x2, &0x243
+   \   00000C   E2B34102     BIT.B   #0x2, &0x241
    \   000010   0828         JNC     ??MotorSafety_2
-   \   000012   F2B24302     BIT.B   #0x8, &0x243
+   \   000012   F2B24102     BIT.B   #0x8, &0x241
    \   000016   0528         JNC     ??MotorSafety_2
      32              ShutoffMotors();
    \                     ??MotorSafety_1:
@@ -150,7 +155,7 @@ C:\Users\saad\Documents\ECE306\Project 05\wheels.c
      37            }
      38          }
    \   000026   1001         RETA
-   \   000028                REQUIRE _A_PCOUT_L
+   \   000028                REQUIRE _A_PCIN_L
    \   000028                REQUIRE _A_PAOUT_L
      39          
 
@@ -159,61 +164,58 @@ C:\Users\saad\Documents\ECE306\Project 05\wheels.c
    \                     RunMotor:
    \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   1A410C00     MOV.W   0xc(SP), R10
-     41            ShutoffMotors();
-   \   000006   ........     CALLA   #ShutoffMotors
+     41            //ShutoffMotors();
      42            if((*tick)++ >= tick_count){
-   \   00000A   2B4E         MOV.W   @R14, R11
-   \   00000C   084B         MOV.W   R11, R8
-   \   00000E   1853         ADD.W   #0x1, R8
-   \   000010   8E480000     MOV.W   R8, 0(R14)
-   \   000014   0B9F         CMP.W   R15, R11
-   \   000016   0528         JNC     ??RunMotor_2
+   \   000006   2B4E         MOV.W   @R14, R11
+   \   000008   084B         MOV.W   R11, R8
+   \   00000A   1853         ADD.W   #0x1, R8
+   \   00000C   8E480000     MOV.W   R8, 0(R14)
+   \   000010   0B9F         CMP.W   R15, R11
+   \   000012   0528         JNC     ??RunMotor_1
      43              P6OUT &= ~pinForward;
-   \   000018   C2CC4302     BIC.B   R12, &0x243
+   \   000014   C2CC4302     BIC.B   R12, &0x243
      44              P6OUT &= ~pinReverse;
-   \   00001C   C2CD4302     BIC.B   R13, &0x243
+   \   000018   C2CD4302     BIC.B   R13, &0x243
      45              return;
-   \   000020   143C         JMP     ??RunMotor_0
+   \   00001C   123C         JMP     ??RunMotor_0
      46            }
      47            if (val>0){
-   \                     ??RunMotor_2:
-   \   000022   1A93         CMP.W   #0x1, R10
-   \   000024   0538         JL      ??RunMotor_3
+   \                     ??RunMotor_1:
+   \   00001E   1A93         CMP.W   #0x1, R10
+   \   000020   0538         JL      ??RunMotor_2
      48              P6OUT &= ~pinReverse;
-   \   000026   C2CD4302     BIC.B   R13, &0x243
+   \   000022   C2CD4302     BIC.B   R13, &0x243
      49              P6OUT |= pinForward;
-   \   00002A   C2DC4302     BIS.B   R12, &0x243
-   \   00002E   0B3C         JMP     ??RunMotor_1
+   \   000026   C2DC4302     BIS.B   R12, &0x243
+   \   00002A   0B3C         JMP     ??RunMotor_0
      50            }
      51            else if (val==0){
-   \                     ??RunMotor_3:
-   \   000030   0A93         CMP.W   #0x0, R10
-   \   000032   0520         JNE     ??RunMotor_4
+   \                     ??RunMotor_2:
+   \   00002C   0A93         CMP.W   #0x0, R10
+   \   00002E   0520         JNE     ??RunMotor_3
      52              P6OUT &= ~pinForward;
-   \   000034   C2CC4302     BIC.B   R12, &0x243
+   \   000030   C2CC4302     BIC.B   R12, &0x243
      53              P6OUT &= ~pinReverse;
-   \   000038   C2CD4302     BIC.B   R13, &0x243
-   \   00003C   043C         JMP     ??RunMotor_1
+   \   000034   C2CD4302     BIC.B   R13, &0x243
+   \   000038   043C         JMP     ??RunMotor_0
      54            }
      55            else{
      56              P6OUT &= ~pinForward;
-   \                     ??RunMotor_4:
-   \   00003E   C2CC4302     BIC.B   R12, &0x243
+   \                     ??RunMotor_3:
+   \   00003A   C2CC4302     BIC.B   R12, &0x243
      57              P6OUT |= pinReverse;
-   \   000042   C2DD4302     BIS.B   R13, &0x243
+   \   00003E   C2DD4302     BIS.B   R13, &0x243
      58            }
-     59            MotorSafety();
-   \                     ??RunMotor_1:
-   \   000046   ........     CALLA   #MotorSafety
+     59            //MotorSafety();
      60          }
    \                     ??RunMotor_0:
-   \   00004A   3817         POPM.W  #0x4, R11
-   \   00004C   1001         RETA
-   \   00004E                REQUIRE _A_PCOUT_L
+   \   000042   3817         POPM.W  #0x4, R11
+   \   000044   1001         RETA
+   \   000046                REQUIRE _A_PCOUT_L
      61          
 
    \                                 In  segment CODE, align 2
-     62          int Update_Ticks(volatile unsigned int* tickCounter, int max_tick){
+     62          int Update_Ticks(int max_tick){
    \                     Update_Ticks:
    \   000000   0F4C         MOV.W   R12, R15
      63              if(wheel_tick>=WHEEL_TICK){
@@ -225,24 +227,24 @@ C:\Users\saad\Documents\ECE306\Project 05\wheels.c
    \   00000E   8243....     MOV.W   #0x0, &right_tick
      66                  left_tick = 0;
    \   000012   8243....     MOV.W   #0x0, &left_tick
-     67                  (*tickCounter)++;
-   \   000016   9F530000     ADD.W   #0x1, 0(R15)
+     67                  wheel_periods++;
+   \   000016   9253....     ADD.W   #0x1, &wheel_periods
      68                }
-     69                if(*tickCounter>max_tick){
+     69                if(wheel_periods>max_tick){
    \                     ??Update_Ticks_0:
-   \   00001A   2D9F         CMP.W   @R15, R13
-   \   00001C   042C         JC      ??Update_Ticks_1
-     70                  *tickCounter=0; // max_tick FOR STOP, 0 FOR CONTINUOUS
-   \   00001E   8F430000     MOV.W   #0x0, 0(R15)
+   \   00001A   1F92....     CMP.W   &wheel_periods, R15
+   \   00001E   042C         JC      ??Update_Ticks_1
+     70                  wheel_periods=0; // max_tick FOR STOP, 0 FOR CONTINUOUS
+   \   000020   8243....     MOV.W   #0x0, &wheel_periods
      71                  return 1;
-   \   000022   1C43         MOV.W   #0x1, R12
-   \   000024   1001         RETA
+   \   000024   1C43         MOV.W   #0x1, R12
+   \   000026   1001         RETA
      72                }
      73           
      74            return 0;
    \                     ??Update_Ticks_1:
-   \   000026   0C43         MOV.W   #0x0, R12
-   \   000028   1001         RETA
+   \   000028   0C43         MOV.W   #0x0, R12
+   \   00002A   1001         RETA
      75          }
      76          
 
@@ -257,356 +259,369 @@ C:\Users\saad\Documents\ECE306\Project 05\wheels.c
    \   00000A   16411000     MOV.W   0x10(SP), R6
      78            if (time_change){
    \   00000E   8293....     CMP.W   #0x0, &time_change
-   \   000012   4B24         JEQ     ??Drive_Path_5
+   \   000012   4124         JEQ     ??Drive_Path_3
      79              time_change = 0;
    \   000014   8243....     MOV.W   #0x0, &time_change
      80              wheel_tick++;
    \   000018   9253....     ADD.W   #0x1, &wheel_tick
-     81              RunMotor(R_FORWARD,R_REVERSE,&right_tick,right_ticks,wheel_periods<max_ticks * polarityr>0?1:-1);
-   \   00001C   0212         PUSH.W  SR
-   \   00001E   32C2         DINT
-   \   000020   0343         NOP
-   \   000022   8248....     MOV.W   R8, &__iar_HWMUL               // MPY
-   \   000026   8249....     MOV.W   R9, &__iar_HWMUL + 8           // OP2
-   \   00002A   1F42....     MOV.W   &__iar_HWMUL + 10, R15         // RESLO
-   \   00002E   0343         NOP
-   \   000030   3241         POP.W   SR
-   \   000032   829F....     CMP.W   R15, &wheel_periods
-   \   000036   022C         JC      ??Drive_Path_6
-   \   000038   5E43         MOV.B   #0x1, R14
-   \   00003A   013C         JMP     ??Drive_Path_0
-   \                     ??Drive_Path_6:
-   \   00003C   4E43         MOV.B   #0x0, R14
-   \                     ??Drive_Path_0:
-   \   00003E   4E93         CMP.B   #0x0, R14
-   \   000040   0224         JEQ     ??Drive_Path_7
-   \   000042   1F43         MOV.W   #0x1, R15
-   \   000044   013C         JMP     ??Drive_Path_1
-   \                     ??Drive_Path_7:
-   \   000046   3F43         MOV.W   #0xffff, R15
-   \                     ??Drive_Path_1:
-   \   000048   0F12         PUSH.W  R15
-   \   00004A   0F4A         MOV.W   R10, R15
-   \   00004C   3E40....     MOV.W   #right_tick, R14
-   \   000050   2D42         MOV.W   #0x4, R13
-   \   000052   1C43         MOV.W   #0x1, R12
-   \   000054   ........     CALLA   #RunMotor
-     82              RunMotor(L_FORWARD,L_REVERSE_2355,&left_tick,left_ticks,wheel_periods<max_ticks * polarityl>0?1:-1);
-   \   000058   0212         PUSH.W  SR
-   \   00005A   32C2         DINT
-   \   00005C   0343         NOP
-   \   00005E   8248....     MOV.W   R8, &__iar_HWMUL               // MPY
-   \   000062   8246....     MOV.W   R6, &__iar_HWMUL + 8           // OP2
-   \   000066   1F42....     MOV.W   &__iar_HWMUL + 10, R15         // RESLO
-   \   00006A   0343         NOP
-   \   00006C   3241         POP.W   SR
-   \   00006E   E103         ADDA    #0x2, SP
-   \   000070   829F....     CMP.W   R15, &wheel_periods
-   \   000074   022C         JC      ??Drive_Path_8
-   \   000076   5E43         MOV.B   #0x1, R14
-   \   000078   013C         JMP     ??Drive_Path_2
-   \                     ??Drive_Path_8:
-   \   00007A   4E43         MOV.B   #0x0, R14
-   \                     ??Drive_Path_2:
-   \   00007C   4E93         CMP.B   #0x0, R14
-   \   00007E   0224         JEQ     ??Drive_Path_9
-   \   000080   1F43         MOV.W   #0x1, R15
-   \   000082   013C         JMP     ??Drive_Path_3
-   \                     ??Drive_Path_9:
-   \   000084   3F43         MOV.W   #0xffff, R15
-   \                     ??Drive_Path_3:
-   \   000086   0F12         PUSH.W  R15
-   \   000088   0F4B         MOV.W   R11, R15
-   \   00008A   3E40....     MOV.W   #left_tick, R14
-   \   00008E   3D42         MOV.W   #0x8, R13
-   \   000090   2C43         MOV.W   #0x2, R12
-   \   000092   ........     CALLA   #RunMotor
-     83              if (Update_Ticks(&wheel_periods,max_ticks)){
-   \   000096   0D48         MOV.W   R8, R13
-   \   000098   3C40....     MOV.W   #wheel_periods, R12
-   \   00009C   ........     CALLA   #Update_Ticks
-   \   0000A0   E103         ADDA    #0x2, SP
-   \   0000A2   0C93         CMP.W   #0x0, R12
-   \   0000A4   0224         JEQ     ??Drive_Path_5
-     84                //state = endState;
-     85                return 1;
-   \   0000A6   1C43         MOV.W   #0x1, R12
-   \   0000A8   013C         JMP     ??Drive_Path_4
-     86              }
-     87            }
-     88            return 0;
-   \                     ??Drive_Path_5:
-   \   0000AA   0C43         MOV.W   #0x0, R12
+     81              RunMotor(R_FORWARD,R_REVERSE,&right_tick,right_ticks,(wheel_periods<max_ticks) * polarityr);
+   \   00001C   8298....     CMP.W   R8, &wheel_periods
+   \   000020   022C         JC      ??Drive_Path_4
+   \   000022   5E43         MOV.B   #0x1, R14
+   \   000024   013C         JMP     ??Drive_Path_0
    \                     ??Drive_Path_4:
-   \   0000AC   5617         POPM.W  #0x6, R11
-   \   0000AE   1001         RETA
-     89          }
-     90          
+   \   000026   4E43         MOV.B   #0x0, R14
+   \                     ??Drive_Path_0:
+   \   000028   0212         PUSH.W  SR
+   \   00002A   32C2         DINT
+   \   00002C   0343         NOP
+   \   00002E   C24E....     MOV.B   R14, &__iar_HWMUL              // MPY
+   \   000032   8249....     MOV.W   R9, &__iar_HWMUL + 8           // OP2
+   \   000036   1F42....     MOV.W   &__iar_HWMUL + 10, R15         // RESLO
+   \   00003A   0343         NOP
+   \   00003C   3241         POP.W   SR
+   \   00003E   0F12         PUSH.W  R15
+   \   000040   0F4A         MOV.W   R10, R15
+   \   000042   3E40....     MOV.W   #right_tick, R14
+   \   000046   2D42         MOV.W   #0x4, R13
+   \   000048   1C43         MOV.W   #0x1, R12
+   \   00004A   ........     CALLA   #RunMotor
+     82              RunMotor(L_FORWARD,L_REVERSE_2355,&left_tick,left_ticks,(wheel_periods<max_ticks) * polarityl);
+   \   00004E   E103         ADDA    #0x2, SP
+   \   000050   8298....     CMP.W   R8, &wheel_periods
+   \   000054   022C         JC      ??Drive_Path_5
+   \   000056   5E43         MOV.B   #0x1, R14
+   \   000058   013C         JMP     ??Drive_Path_1
+   \                     ??Drive_Path_5:
+   \   00005A   4E43         MOV.B   #0x0, R14
+   \                     ??Drive_Path_1:
+   \   00005C   0212         PUSH.W  SR
+   \   00005E   32C2         DINT
+   \   000060   0343         NOP
+   \   000062   C24E....     MOV.B   R14, &__iar_HWMUL              // MPY
+   \   000066   8246....     MOV.W   R6, &__iar_HWMUL + 8           // OP2
+   \   00006A   1F42....     MOV.W   &__iar_HWMUL + 10, R15         // RESLO
+   \   00006E   0343         NOP
+   \   000070   3241         POP.W   SR
+   \   000072   0F12         PUSH.W  R15
+   \   000074   0F4B         MOV.W   R11, R15
+   \   000076   3E40....     MOV.W   #left_tick, R14
+   \   00007A   3D42         MOV.W   #0x8, R13
+   \   00007C   2C43         MOV.W   #0x2, R12
+   \   00007E   ........     CALLA   #RunMotor
+     83              if (Update_Ticks(max_ticks)){
+   \   000082   0C48         MOV.W   R8, R12
+   \   000084   ........     CALLA   #Update_Ticks
+   \   000088   E103         ADDA    #0x2, SP
+   \   00008A   0C93         CMP.W   #0x0, R12
+   \   00008C   0424         JEQ     ??Drive_Path_3
+     84                //state = endState;
+     85                ShutoffMotors();
+   \   00008E   ........     CALLA   #ShutoffMotors
+     86                return 1;
+   \   000092   1C43         MOV.W   #0x1, R12
+   \   000094   013C         JMP     ??Drive_Path_2
+     87              }
+     88            }
+     89            return 0;
+   \                     ??Drive_Path_3:
+   \   000096   0C43         MOV.W   #0x0, R12
+   \                     ??Drive_Path_2:
+   \   000098   5617         POPM.W  #0x6, R11
+   \   00009A   1001         RETA
+     90          }
+     91          
 
    \                                 In  segment CODE, align 2
-     91          int Drive_Straight(int ticks, int polarity){
+     92          int Drive_Straight(int ticks, int polarity){
    \                     Drive_Straight:
    \   000000   1B15         PUSHM.W #0x2, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
-     92            return Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, ticks, polarity, polarity);
+     93            return Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, ticks, polarity, polarity);
    \   000006   0B12         PUSH.W  R11
    \   000008   0F4B         MOV.W   R11, R15
    \   00000A   0E4A         MOV.W   R10, R14
-   \   00000C   3D401200     MOV.W   #0x12, R13
-   \   000010   3C401500     MOV.W   #0x15, R12
+   \   00000C   3D401000     MOV.W   #0x10, R13
+   \   000010   3C401400     MOV.W   #0x14, R12
    \   000014   ........     CALLA   #Drive_Path
    \   000018   E103         ADDA    #0x2, SP
    \   00001A   1A17         POPM.W  #0x2, R11
    \   00001C   1001         RETA
-     93          }
-     94          
+     94          }
      95          
+     96          
 
    \                                 In  segment CODE, align 2
-     96          void Forward(int polarity, int ticks){
+     97          void Forward(int polarity, int ticks, const char * disp){
    \                     Forward:
-   \   000000   1B15         PUSHM.W #0x2, R11
+   \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
-     97            if (shapeCounter == 0) {
-   \   000006   8293....     CMP.W   #0x0, &shapeCounter
-   \   00000A   0A20         JNE     ??Forward_0
-     98              strcpy(display_line[0], " FORWARD  ");
-   \   00000C   3D40....     MOV.W   #`?<Constant " FORWARD  ">`, R13
+   \   000006   084E         MOV.W   R14, R8
+     98            if (shapeCounter == 0) {
+   \   000008   8293....     CMP.W   #0x0, &shapeCounter
+   \   00000C   0920         JNE     ??Forward_0
+     99              strcpy(display_line[0], disp);
+   \   00000E   0D48         MOV.W   R8, R13
    \   000010   3C40....     MOV.W   #display_line, R12
    \   000014   ........     CALLA   #strcpy
-     99              display_changed = 1;
+    100              display_changed = 1;
    \   000018   D243....     MOV.B   #0x1, &display_changed
-    100              shapeCounter++;
+    101              shapeCounter++;
    \   00001C   9253....     ADD.W   #0x1, &shapeCounter
-    101            }
-    102            if(shapeCounter==1){
+    102            }
+    103            if(shapeCounter==1){
    \                     ??Forward_0:
    \   000020   9293....     CMP.W   #0x1, &shapeCounter
    \   000024   0820         JNE     ??Forward_1
-    103              if (Drive_Straight(ticks,polarity)) shapeCounter++;
+    104              if (Drive_Straight(ticks,polarity)) shapeCounter++;
    \   000026   0D4A         MOV.W   R10, R13
    \   000028   0C4B         MOV.W   R11, R12
    \   00002A   ........     CALLA   #Drive_Straight
    \   00002E   0C93         CMP.W   #0x0, R12
    \   000030   0224         JEQ     ??Forward_1
    \   000032   9253....     ADD.W   #0x1, &shapeCounter
-    104            }
-    105            if (shapeCounter==2) {
+    105            }
+    106            if (shapeCounter==2) {
    \                     ??Forward_1:
    \   000036   A293....     CMP.W   #0x2, &shapeCounter
    \   00003A   0520         JNE     ??Forward_2
-    106              state = START;
+    107              state = START;
    \   00003C   F2405300.... MOV.B   #0x53, &state
-    107              shapeCounter = 0 ;
+    108              shapeCounter = 0;
    \   000042   8243....     MOV.W   #0x0, &shapeCounter
-    108            }
-    109          }
+    109            }
+    110          }
    \                     ??Forward_2:
-   \   000046   1A17         POPM.W  #0x2, R11
+   \   000046   3817         POPM.W  #0x4, R11
    \   000048   1001         RETA
 
    \                                 In  segment CODE, align 2
-    110          void Spin(int direction, int ticks){
+    111          void Spin(int direction, int ticks, const char * disp){
    \                     Spin:
-   \   000000   1B15         PUSHM.W #0x2, R11
+   \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
-    111            if (shapeCounter == 0) {
-   \   000006   8293....     CMP.W   #0x0, &shapeCounter
-   \   00000A   0A20         JNE     ??Spin_0
-    112              strcpy(display_line[0], "   SPIN   ");
-   \   00000C   3D40....     MOV.W   #`?<Constant "   SPIN   ">`, R13
+   \   000006   084E         MOV.W   R14, R8
+    112            if (shapeCounter == 0) {
+   \   000008   8293....     CMP.W   #0x0, &shapeCounter
+   \   00000C   0920         JNE     ??Spin_1
+    113              strcpy(display_line[0], disp);
+   \   00000E   0D48         MOV.W   R8, R13
    \   000010   3C40....     MOV.W   #display_line, R12
    \   000014   ........     CALLA   #strcpy
-    113              display_changed = 1;
+    114              display_changed = 1;
    \   000018   D243....     MOV.B   #0x1, &display_changed
-    114              shapeCounter++;
+    115              shapeCounter++;
    \   00001C   9253....     ADD.W   #0x1, &shapeCounter
-    115            }
-    116            if(shapeCounter==1){
-   \                     ??Spin_0:
+    116            }
+    117            if(shapeCounter==1){
+   \                     ??Spin_1:
    \   000020   9293....     CMP.W   #0x1, &shapeCounter
-   \   000024   1120         JNE     ??Spin_1
-    117              if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, ticks,direction,-direction)) shapeCounter++;
+   \   000024   1120         JNE     ??Spin_2
+    118              if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, ticks,direction,-direction)) shapeCounter++;
    \   000026   0F4A         MOV.W   R10, R15
    \   000028   3FE3         XOR.W   #0xffff, R15
    \   00002A   1F53         ADD.W   #0x1, R15
    \   00002C   0F12         PUSH.W  R15
    \   00002E   0F4A         MOV.W   R10, R15
    \   000030   0E4B         MOV.W   R11, R14
-   \   000032   3D401200     MOV.W   #0x12, R13
-   \   000036   3C401500     MOV.W   #0x15, R12
+   \   000032   3D401000     MOV.W   #0x10, R13
+   \   000036   3C401400     MOV.W   #0x14, R12
    \   00003A   ........     CALLA   #Drive_Path
    \   00003E   E103         ADDA    #0x2, SP
    \   000040   0C93         CMP.W   #0x0, R12
-   \   000042   0224         JEQ     ??Spin_1
+   \   000042   0224         JEQ     ??Spin_2
    \   000044   9253....     ADD.W   #0x1, &shapeCounter
-    118            }
-    119            if (shapeCounter==2) {
-   \                     ??Spin_1:
-   \   000048   A293....     CMP.W   #0x2, &shapeCounter
-   \   00004C   0520         JNE     ??Spin_2
-    120              state = START;
-   \   00004E   F2405300.... MOV.B   #0x53, &state
-    121              shapeCounter = 0 ;
-   \   000054   8243....     MOV.W   #0x0, &shapeCounter
-    122            }
-    123          }
+    119            }
+    120            if (shapeCounter==2) {
    \                     ??Spin_2:
-   \   000058   1A17         POPM.W  #0x2, R11
-   \   00005A   1001         RETA
-    124          
-    125          // delays for a specified time and then switches state to global nextState
-    126          // make sure nextState is set to desired vlaue before the end of delay
+   \   000048   A293....     CMP.W   #0x2, &shapeCounter
+   \   00004C   0B20         JNE     ??Spin_3
+    121              state = direction == SPIN_CK?START:ARM;
+   \   00004E   1A93         CMP.W   #0x1, R10
+   \   000050   0320         JNE     ??Spin_4
+   \   000052   7E405300     MOV.B   #0x53, R14
+   \   000056   023C         JMP     ??Spin_0
+   \                     ??Spin_4:
+   \   000058   7E404100     MOV.B   #0x41, R14
+   \                     ??Spin_0:
+   \   00005C   C24E....     MOV.B   R14, &state
+    122              shapeCounter = 0;
+   \   000060   8243....     MOV.W   #0x0, &shapeCounter
+    123            }
+    124          }
+   \                     ??Spin_3:
+   \   000064   3817         POPM.W  #0x4, R11
+   \   000066   1001         RETA
+    125          
+    126          // delays for a specified time and then switches state to global nextState
+    127          // make sure nextState is set to desired vlaue before the end of delay
 
    \                                 In  segment CODE, align 2
-    127          void delay(int seconds,int cycles){
+    128          void delay(int seconds,int cycles){
    \                     delay:
-    128            if(stopwatch_seconds == 0 && cycle_count<=1) display_changed = 1;
+    129            if(stopwatch_seconds == 0 && cycle_count<=1) display_changed = 1;
    \   000000   8293....     CMP.W   #0x0, &stopwatch_seconds
    \   000004   0520         JNE     ??delay_0
    \   000006   A293....     CMP.W   #0x2, &cycle_count
    \   00000A   022C         JC      ??delay_0
    \   00000C   D243....     MOV.B   #0x1, &display_changed
-    129            if(stopwatch_seconds>=seconds && cycle_count >= cycles) {
+    130            if(stopwatch_seconds>=seconds && cycle_count >= cycles) {
    \                     ??delay_0:
    \   000010   829C....     CMP.W   R12, &stopwatch_seconds
    \   000014   0A28         JNC     ??delay_1
    \   000016   829D....     CMP.W   R13, &cycle_count
    \   00001A   0728         JNC     ??delay_1
-    130              stopwatch_seconds = 0;
+    131              stopwatch_seconds = 0;
    \   00001C   8243....     MOV.W   #0x0, &stopwatch_seconds
-    131              cycle_count = 0;
+    132              cycle_count = 0;
    \   000020   8243....     MOV.W   #0x0, &cycle_count
-    132              state = nextState;
+    133              state = nextState;
    \   000024   D242........ MOV.B   &nextState, &state
-    133            }
-    134          }
+    134            }
+    135          }
    \                     ??delay_1:
    \   00002A   1001         RETA
-    135          
     136          
     137          
+    138          
 
    \                                 In  segment CODE, align 2
-    138          void StateMachine(void){
+    139          void StateMachine(void){
    \                     StateMachine:
-    139            switch(state){
+    140            switch(state){
    \   000000   5E42....     MOV.B   &state, R14
-   \   000004   7E804500     SUB.B   #0x45, R14
-   \   000008   5E24         JEQ     ??StateMachine_1
-   \   00000A   5E83         SUB.B   #0x1, R14
-   \   00000C   2724         JEQ     ??StateMachine_2
-   \   00000E   7E800A00     SUB.B   #0xa, R14
-   \   000012   4324         JEQ     ??StateMachine_3
-   \   000014   6E83         SUB.B   #0x2, R14
-   \   000016   2D24         JEQ     ??StateMachine_4
-   \   000018   5E83         SUB.B   #0x1, R14
-   \   00001A   0924         JEQ     ??StateMachine_5
-   \   00001C   6E82         SUB.B   #0x4, R14
-   \   00001E   1224         JEQ     ??StateMachine_6
-   \   000020   7E800F00     SUB.B   #0xf, R14
-   \   000024   2F24         JEQ     ??StateMachine_7
-   \   000026   7E800D00     SUB.B   #0xd, R14
-   \   00002A   4224         JEQ     ??StateMachine_8
-   \   00002C   1001         RETA
-    140              case (START):
-    141                strcpy(display_line[0], "WAITING...");
-   \                     ??StateMachine_5:
-   \   00002E   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
-   \   000032   3C40....     MOV.W   #display_line, R12
-   \   000036   ........     CALLA   #strcpy
-    142                display_changed = 1;
-   \   00003A   D243....     MOV.B   #0x1, &display_changed
-    143                delayTime = 1;
-   \   00003E   9243....     MOV.W   #0x1, &delayTime
-    144                break;
-   \   000042   1001         RETA
-    145              case (WAIT):
-    146                delay(delayTime,0);
+   \   000004   7E804100     SUB.B   #0x41, R14
+   \   000008   1F24         JEQ     ??StateMachine_1
+   \   00000A   6E82         SUB.B   #0x4, R14
+   \   00000C   7024         JEQ     ??StateMachine_2
+   \   00000E   5E83         SUB.B   #0x1, R14
+   \   000010   2F24         JEQ     ??StateMachine_3
+   \   000012   7E800A00     SUB.B   #0xa, R14
+   \   000016   5124         JEQ     ??StateMachine_4
+   \   000018   6E83         SUB.B   #0x2, R14
+   \   00001A   3724         JEQ     ??StateMachine_5
+   \   00001C   5E83         SUB.B   #0x1, R14
+   \   00001E   0924         JEQ     ??StateMachine_6
+   \   000020   6E82         SUB.B   #0x4, R14
+   \   000022   1A24         JEQ     ??StateMachine_7
+   \   000024   7E800F00     SUB.B   #0xf, R14
+   \   000028   3B24         JEQ     ??StateMachine_8
+   \   00002A   7E800D00     SUB.B   #0xd, R14
+   \   00002E   5224         JEQ     ??StateMachine_9
+   \   000030   1001         RETA
+    141              case (START):
+    142                strcpy(display_line[0], "WAITING...");
    \                     ??StateMachine_6:
-   \   000044   0D43         MOV.W   #0x0, R13
-   \   000046   1C42....     MOV.W   &delayTime, R12
-   \   00004A   ........     CALLA   #delay
-    147                strcpy(display_line[0], "WAITING...");
-   \   00004E   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
-   \   000052   3C40....     MOV.W   #display_line, R12
-   \   000056   ........     CALLA   #strcpy
-    148                break;
-   \   00005A   1001         RETA
-    149              case (FORWARD1):
-    150                Forward(1, ONESEC_STRAIGHT);
-   \                     ??StateMachine_2:
-   \   00005C   3D400A00     MOV.W   #0xa, R13
-   \   000060   1C43         MOV.W   #0x1, R12
-   \   000062   ........     CALLA   #Forward
-    151                nextState = REVERSE;
-   \   000066   F2405200.... MOV.B   #0x52, &nextState
-    152                delayTime = 1;
-   \   00006C   9243....     MOV.W   #0x1, &delayTime
-    153                break;
-   \   000070   1001         RETA
-    154              case (REVERSE):
-    155                Forward(-1, TWOSEC_STRAIGHT);
-   \                     ??StateMachine_4:
-   \   000072   3D400A00     MOV.W   #0xa, R13
-   \   000076   3C43         MOV.W   #0xffff, R12
-   \   000078   ........     CALLA   #Forward
-    156                nextState = FORWARD2;
-   \   00007C   F2406600.... MOV.B   #0x66, &nextState
-    157                break;
-   \   000082   1001         RETA
-    158              case (FORWARD2):
-    159                Forward(1, ONESEC_STRAIGHT);
-   \                     ??StateMachine_7:
-   \   000084   3D400A00     MOV.W   #0xa, R13
-   \   000088   1C43         MOV.W   #0x1, R12
-   \   00008A   ........     CALLA   #Forward
-    160                nextState = SPINCK;
-   \   00008E   F2405000.... MOV.B   #0x50, &nextState
-    161                delayTime = 1;
-   \   000094   9243....     MOV.W   #0x1, &delayTime
-    162                break;
-   \   000098   1001         RETA
-    163              case (SPINCK):
-    164                Spin(SPIN_CK, SPINR_TICKS);
-   \                     ??StateMachine_3:
-   \   00009A   3D401400     MOV.W   #0x14, R13
-   \   00009E   1C43         MOV.W   #0x1, R12
-   \   0000A0   ........     CALLA   #Spin
-    165                nextState = SPINCCK;
-   \   0000A4   F2407300.... MOV.B   #0x73, &nextState
-    166                delayTime = 2;
-   \   0000AA   A243....     MOV.W   #0x2, &delayTime
-    167                break;
-   \   0000AE   1001         RETA
-    168              case (SPINCCK):
-    169                Spin(SPIN_CK, SPINL_TICKS);
-   \                     ??StateMachine_8:
-   \   0000B0   3D401400     MOV.W   #0x14, R13
-   \   0000B4   1C43         MOV.W   #0x1, R12
-   \   0000B6   ........     CALLA   #Spin
-    170                nextState = END;
-   \   0000BA   F2404500.... MOV.B   #0x45, &nextState
-    171                delayTime = 2;
-   \   0000C0   A243....     MOV.W   #0x2, &delayTime
-    172                break;
-   \   0000C4   1001         RETA
-    173              case (END):
-    174                strcpy(display_line[0], "    END   ");
+   \   000032   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
+   \   000036   3C40....     MOV.W   #display_line, R12
+   \   00003A   ........     CALLA   #strcpy
+    143                display_changed = 1;
+   \   00003E   D243....     MOV.B   #0x1, &display_changed
+    144                delayTime = 1;
+   \   000042   9243....     MOV.W   #0x1, &delayTime
+    145                break;
+   \   000046   1001         RETA
+    146              case (ARM):
+    147                stopwatch_seconds = 0;
    \                     ??StateMachine_1:
-   \   0000C6   3D40....     MOV.W   #`?<Constant "    END   ">`, R13
-   \   0000CA   3C40....     MOV.W   #display_line, R12
-   \   0000CE   ........     CALLA   #strcpy
-    175                display_changed = 1;
-   \   0000D2   D243....     MOV.B   #0x1, &display_changed
-    176                break;
-    177              default: break;  
-    178            }
-    179          }
-   \   0000D6   1001         RETA
+   \   000048   8243....     MOV.W   #0x0, &stopwatch_seconds
+    148                cycle_count = 0;
+   \   00004C   8243....     MOV.W   #0x0, &cycle_count
+    149                state = WAIT;
+   \   000050   F2405700.... MOV.B   #0x57, &state
+    150                break;
+   \   000056   1001         RETA
+    151              case (WAIT):
+    152                delay(delayTime,0);
+   \                     ??StateMachine_7:
+   \   000058   0D43         MOV.W   #0x0, R13
+   \   00005A   1C42....     MOV.W   &delayTime, R12
+   \   00005E   ........     CALLA   #delay
+    153                strcpy(display_line[0], "WAITING...");
+   \   000062   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
+   \   000066   3C40....     MOV.W   #display_line, R12
+   \   00006A   ........     CALLA   #strcpy
+    154                break;
+   \   00006E   1001         RETA
+    155              case (FORWARD1):
+    156                Forward(1, ONESEC_STRAIGHT, " FORWARD  ");
+   \                     ??StateMachine_3:
+   \   000070   3E40....     MOV.W   #`?<Constant " FORWARD  ">`, R14
+   \   000074   3D400A00     MOV.W   #0xa, R13
+   \   000078   1C43         MOV.W   #0x1, R12
+   \   00007A   ........     CALLA   #Forward
+    157                nextState = REVERSE;
+   \   00007E   F2405200.... MOV.B   #0x52, &nextState
+    158                delayTime = 1;
+   \   000084   9243....     MOV.W   #0x1, &delayTime
+    159                break;
+   \   000088   1001         RETA
+    160              case (REVERSE):
+    161                Forward(-1, TWOSEC_STRAIGHT, " REVERSE  ");
+   \                     ??StateMachine_5:
+   \   00008A   3E40....     MOV.W   #`?<Constant " REVERSE  ">`, R14
+   \   00008E   3D401400     MOV.W   #0x14, R13
+   \   000092   3C43         MOV.W   #0xffff, R12
+   \   000094   ........     CALLA   #Forward
+    162                nextState = FORWARD2;
+   \   000098   F2406600.... MOV.B   #0x66, &nextState
+    163                break;
+   \   00009E   1001         RETA
+    164              case (FORWARD2):
+    165                Forward(1, ONESEC_STRAIGHT, " FORWARD  ");
+   \                     ??StateMachine_8:
+   \   0000A0   3E40....     MOV.W   #`?<Constant " FORWARD  ">`, R14
+   \   0000A4   3D400A00     MOV.W   #0xa, R13
+   \   0000A8   1C43         MOV.W   #0x1, R12
+   \   0000AA   ........     CALLA   #Forward
+    166                nextState = SPINCK;
+   \   0000AE   F2405000.... MOV.B   #0x50, &nextState
+    167                delayTime = 1;
+   \   0000B4   9243....     MOV.W   #0x1, &delayTime
+    168                break;
+   \   0000B8   1001         RETA
+    169              case (SPINCK):
+    170                Spin(SPIN_CK, SPINR_TICKS,"  SPINCK  ");
+   \                     ??StateMachine_4:
+   \   0000BA   3E40....     MOV.W   #`?<Constant "  SPINCK  ">`, R14
+   \   0000BE   3D401E00     MOV.W   #0x1e, R13
+   \   0000C2   1C43         MOV.W   #0x1, R12
+   \   0000C4   ........     CALLA   #Spin
+    171                nextState = SPINCCK;
+   \   0000C8   F2407300.... MOV.B   #0x73, &nextState
+    172                delayTime = 2;
+   \   0000CE   A243....     MOV.W   #0x2, &delayTime
+    173                break;
+   \   0000D2   1001         RETA
+    174              case (SPINCCK):
+    175                Spin(SPIN_CCK, SPINL_TICKS," SPINCCK  ");
+   \                     ??StateMachine_9:
+   \   0000D4   3E40....     MOV.W   #`?<Constant " SPINCCK  ">`, R14
+   \   0000D8   3D401E00     MOV.W   #0x1e, R13
+   \   0000DC   3C43         MOV.W   #0xffff, R12
+   \   0000DE   ........     CALLA   #Spin
+    176                nextState = END;
+   \   0000E2   F2404500.... MOV.B   #0x45, &nextState
+    177                delayTime = 2;
+   \   0000E8   A243....     MOV.W   #0x2, &delayTime
+    178                break;
+   \   0000EC   1001         RETA
+    179              case (END):
+    180                strcpy(display_line[0], "    END   ");
+   \                     ??StateMachine_2:
+   \   0000EE   3D40....     MOV.W   #`?<Constant "    END   ">`, R13
+   \   0000F2   3C40....     MOV.W   #display_line, R12
+   \   0000F6   ........     CALLA   #strcpy
+    181                display_changed = 1;
+   \   0000FA   D243....     MOV.B   #0x1, &display_changed
+    182                break;
+    183              default: break;  
+    184            }
+    185          }
+   \   0000FE   1001         RETA
 
    \                                 In  segment DATA16_ID, align 1, align-sorted
    \                     `?<Initializer for state>`:
@@ -617,19 +632,29 @@ C:\Users\saad\Documents\ECE306\Project 05\wheels.c
    \   000000   46           DC8 70
 
    \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "WAITING...">`:
+   \   000000   57414954494E DC8 "WAITING..."
+   \            472E2E2E00  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant " FORWARD  ">`:
    \   000000   20464F525741 DC8 " FORWARD  "
    \            5244202000  
 
    \                                 In  segment DATA16_C, align 1, align-sorted
-   \                     `?<Constant "   SPIN   ">`:
-   \   000000   202020535049 DC8 "   SPIN   "
-   \            4E20202000  
+   \                     `?<Constant " REVERSE  ">`:
+   \   000000   205245564552 DC8 " REVERSE  "
+   \            5345202000  
 
    \                                 In  segment DATA16_C, align 1, align-sorted
-   \                     `?<Constant "WAITING...">`:
-   \   000000   57414954494E DC8 "WAITING..."
-   \            472E2E2E00  
+   \                     `?<Constant "  SPINCK  ">`:
+   \   000000   20205350494E DC8 "  SPINCK  "
+   \            434B202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant " SPINCCK  ">`:
+   \   000000   205350494E43 DC8 " SPINCCK  "
+   \            434B202000  
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "    END   ">`:
@@ -640,23 +665,22 @@ C:\Users\saad\Documents\ECE306\Project 05\wheels.c
 
    CSTACK Function
    ------ --------
-     20   Drive_Path
+     18   Drive_Path
        18   -> RunMotor
+       16   -> ShutoffMotors
        18   -> Update_Ticks
      10   Drive_Straight
        10   -> Drive_Path
-      8   Forward
-        8   -> Drive_Straight
-        8   -> strcpy
+     12   Forward
+       12   -> Drive_Straight
+       12   -> strcpy
       4   MotorSafety
         4   -> ShutoffMotors
      12   RunMotor
-       12   -> MotorSafety
-       12   -> ShutoffMotors
       4   ShutoffMotors
-     10   Spin
-       10   -> Drive_Path
-        8   -> strcpy
+     14   Spin
+       14   -> Drive_Path
+       12   -> strcpy
       4   StateMachine
         4   -> Forward
         4   -> Spin
@@ -671,21 +695,24 @@ C:\Users\saad\Documents\ECE306\Project 05\wheels.c
    Bytes  Function/Label
    -----  --------------
       11  ?<Constant "    END   ">
-      11  ?<Constant "   SPIN   ">
+      11  ?<Constant "  SPINCK  ">
       11  ?<Constant " FORWARD  ">
+      11  ?<Constant " REVERSE  ">
+      11  ?<Constant " SPINCCK  ">
       11  ?<Constant "WAITING...">
        1  ?<Initializer for nextState>
        1  ?<Initializer for state>
-     176  Drive_Path
+     156  Drive_Path
       30  Drive_Straight
       74  Forward
       40  MotorSafety
-      78  RunMotor
+      70  RunMotor
       18  ShutoffMotors
-      92  Spin
-     216  StateMachine
-      42  Update_Ticks
+     104  Spin
+     256  StateMachine
+      44  Update_Ticks
        2  _A_PAOUT_L
+       2  _A_PCIN_L
        2  _A_PCOUT_L
       44  delay
        2  delayTime
@@ -698,16 +725,16 @@ C:\Users\saad\Documents\ECE306\Project 05\wheels.c
        2  wheel_tick
 
  
- 810 bytes in segment CODE
-   4 bytes in segment DATA16_AN
-  44 bytes in segment DATA16_C
+ 836 bytes in segment CODE
+   6 bytes in segment DATA16_AN
+  66 bytes in segment DATA16_C
    2 bytes in segment DATA16_I
    2 bytes in segment DATA16_ID
   12 bytes in segment DATA16_Z
  
- 810 bytes of CODE  memory
-  46 bytes of CONST memory
-  14 bytes of DATA  memory (+ 4 bytes shared)
+ 836 bytes of CODE  memory
+  68 bytes of CONST memory
+  14 bytes of DATA  memory (+ 6 bytes shared)
 
 Errors: none
 Warnings: none

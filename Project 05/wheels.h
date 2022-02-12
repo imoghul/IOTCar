@@ -1,12 +1,12 @@
 // general
 #define WHEEL_TICK              (20)
 // straight
-#define STRAIGHT_RIGHT          (21)
-#define STRAIGHT_LEFT           (18)
+#define STRAIGHT_RIGHT          (20)
+#define STRAIGHT_LEFT           (16)
 // circle
 #define LCIRC_RIGHT             (3)
-#define LCIRC_LEFT              (21)
-#define RCIRC_RIGHT             (21)
+#define LCIRC_LEFT              (20)
+#define RCIRC_RIGHT             (20)
 #define RCIRC_LEFT              (3)
 #define MAX_RCIRCLE_TICK        (75)  // without time_change (6000)
 #define MAX_LCIRCLE_TICK        (72)  // without time_change (5300)
@@ -17,15 +17,16 @@
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
 // forward
 #define ONESEC_STRAIGHT         (10)
-#define TWOSEC_STRAIGHT         (10)
+#define TWOSEC_STRAIGHT         (20)
 // spin
 #define SPIN_CK                 (1)
 #define SPIN_CCK                (-1)
-#define SPINR_TICKS             (20)
-#define SPINL_TICKS             (20)
+#define SPINR_TICKS             (30)
+#define SPINL_TICKS             (30)
 // states
 #define START                   ('S')
 #define WAIT                    ('W')
+#define ARM                     ('A')
 #define END                     ('E')
 #define FORWARD1                ('F')
 #define FORWARD2                ('f')
@@ -41,5 +42,5 @@ void delay(int seconds,int cycles);
 void StateMachine(void);
 void ShutoffMotors(void);
 void MotorSafety(void);
-void Forward(int, int);
-void Spin(int,int);
+void Forward(int, int, const char *);
+void Spin(int,int, const char * disp);

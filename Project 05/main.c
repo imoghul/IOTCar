@@ -42,6 +42,7 @@ volatile unsigned int Last_Time_Sequence;
 volatile unsigned int cycle_count;
 volatile unsigned int stopwatch_seconds;
 volatile unsigned int time_change;
+extern volatile unsigned int right_tick, left_tick;
 //===========================================================================
 // Function name: Main
 //

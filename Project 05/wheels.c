@@ -28,7 +28,7 @@ void ShutoffMotors(void){
 }
 
 void MotorSafety(void){
-  if (((P6OUT & R_FORWARD) && (P6OUT & R_REVERSE)) || ((P6OUT & L_FORWARD) && (P6OUT & L_REVERSE_2355))){
+  if (((P6IN & R_FORWARD) && (P6IN & R_REVERSE)) || ((P6IN & L_FORWARD) && (P6IN & L_REVERSE_2355))){
     ShutoffMotors();
     P1OUT |= RED_LED;
   }
@@ -38,7 +38,7 @@ void MotorSafety(void){
 }
 
 void RunMotor(int pinForward, int pinReverse, volatile unsigned int* tick, int tick_count, int val){
-  ShutoffMotors();
+  //ShutoffMotors();
   if((*tick)++ >= tick_count){
     P6OUT &= ~pinForward;
     P6OUT &= ~pinReverse;
@@ -56,7 +56,7 @@ void RunMotor(int pinForward, int pinReverse, volatile unsigned int* tick, int t
     P6OUT &= ~pinForward;
     P6OUT |= pinReverse;
   }
-  MotorSafety();
+  //MotorSafety();
 }
 
 int Update_Ticks(int max_tick){
@@ -78,10 +78,11 @@ int Drive_Path(int right_ticks, int left_ticks, int max_ticks, int polarityr, in
   if (time_change){
     time_change = 0;
     wheel_tick++;
-    RunMotor(R_FORWARD,R_REVERSE,&right_tick,right_ticks,wheel_periods<max_ticks * polarityr>0?1:-1);
-    RunMotor(L_FORWARD,L_REVERSE_2355,&left_tick,left_ticks,wheel_periods<max_ticks * polarityl>0?1:-1);
+    RunMotor(R_FORWARD,R_REVERSE,&right_tick,right_ticks,(wheel_periods<max_ticks) * polarityr);
+    RunMotor(L_FORWARD,L_REVERSE_2355,&left_tick,left_ticks,(wheel_periods<max_ticks) * polarityl);
     if (Update_Ticks(max_ticks)){
       //state = endState;
+      ShutoffMotors();
       return 1;
     }
   }
@@ -93,9 +94,9 @@ int Drive_Straight(int ticks, int polarity){
 }
 
 
-void Forward(int polarity, int ticks){
+void Forward(int polarity, int ticks, const char * disp){
   if (shapeCounter == 0) {
-    strcpy(display_line[0], " FORWARD  ");
+    strcpy(display_line[0], disp);
     display_changed = 1;
     shapeCounter++;
   }
@@ -107,9 +108,9 @@ void Forward(int polarity, int ticks){
     shapeCounter = 0;
   }
 }
-void Spin(int direction, int ticks){
+void Spin(int direction, int ticks, const char * disp){
   if (shapeCounter == 0) {
-    strcpy(display_line[0], "   SPIN   ");
+    strcpy(display_line[0], disp);
     display_changed = 1;
     shapeCounter++;
   }
@@ -117,7 +118,7 @@ void Spin(int direction, int ticks){
     if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, ticks,direction,-direction)) shapeCounter++;
   }
   if (shapeCounter==2) {
-    state = START;
+    state = direction == SPIN_CK?START:ARM;
     shapeCounter = 0;
   }
 }
@@ -142,31 +143,36 @@ void StateMachine(void){
       display_changed = 1;
       delayTime = 1;
       break;
+    case (ARM):
+      stopwatch_seconds = 0;
+      cycle_count = 0;
+      state = WAIT;
+      break;
     case (WAIT):
       delay(delayTime,0);
       strcpy(display_line[0], "WAITING...");
       break;
     case (FORWARD1):
-      Forward(1, ONESEC_STRAIGHT);
+      Forward(1, ONESEC_STRAIGHT, " FORWARD  ");
       nextState = REVERSE;
       delayTime = 1;
       break;
     case (REVERSE):
-      Forward(-1, TWOSEC_STRAIGHT);
+      Forward(-1, TWOSEC_STRAIGHT, " REVERSE  ");
       nextState = FORWARD2;
       break;
     case (FORWARD2):
-      Forward(1, ONESEC_STRAIGHT);
+      Forward(1, ONESEC_STRAIGHT, " FORWARD  ");
       nextState = SPINCK;
       delayTime = 1;
       break;
     case (SPINCK):
-      Spin(SPIN_CK, SPINR_TICKS);
+      Spin(SPIN_CK, SPINR_TICKS,"  SPINCK  ");
       nextState = SPINCCK;
       delayTime = 2;
       break;
     case (SPINCCK):
-      Spin(SPIN_CK, SPINL_TICKS);
+      Spin(SPIN_CCK, SPINL_TICKS," SPINCCK  ");
       nextState = END;
       delayTime = 2;
       break;
