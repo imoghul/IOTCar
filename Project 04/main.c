@@ -106,6 +106,7 @@ void main(void){
       Last_Time_Sequence=Time_Sequence;
       cycle_count++;
       time_change = 1;
+      P1OUT|=RED_LED;
       if(cycle_count == 200){
         cycle_count = 0;
         stopwatch_seconds++;
