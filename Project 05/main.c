@@ -97,7 +97,7 @@ void main(void){
 //------------------------------------------------------------------------------
   while(ALWAYS) {                       // Can the Operating system run
     //Carlson_StateMachine();           // Run a Time Based State Machine
-    SwitchesProcess();                  // Check for switch state change
+    //SwitchesProcess();                  // Check for switch state change
     Display_Process();                  // Update Display
     StateMachine();                     // Run wheels state machine
     MotorSafety();

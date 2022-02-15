@@ -115,9 +115,9 @@ void Init_Port2() {
     P2OUT |= SW2;
     P2DIR &= ~SW2;
     P2REN |= SW2;
-    // P2IES = SW2;
-    // P2IFG &= ~SW2;
-    // P2IE = SW2;
+    P2IES |= SW2;
+    P2IFG &= ~SW2;
+    P2IE |= SW2;
     
     P2SEL0 &= ~IOT_RUN_CPU;
     P2SEL1 &= ~IOT_RUN_CPU;
@@ -224,9 +224,9 @@ void Init_Port4() {
     P4OUT |= SW1;
     P4DIR &= ~SW1;
     P4REN |= SW1;
-    // P4IES |= SW1;
-    // P4IFG &= SW1; 
-    // P4IE (= SW1;
+    P4IES |= SW1;
+    P4IFG &= ~SW1;
+    P4IE |= SW1;
     
     P4SEL0 |= UCA1TXD;
     P4SEL1 &= ~UCA1TXD;

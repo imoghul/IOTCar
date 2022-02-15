@@ -29,10 +29,10 @@ __interrupt void Timer0_B0_ISR(void){
 //------------------------------------------------------------------------------
 // TimerB0 0 Interrupt handler
 //----------------------------------------------------------------------------
-//...... Add What you need happen in the interrupt ......
-Time_Sequence++;
-update_display=1;
-TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
+  Time_Sequence++;
+  if(Time_Sequence == TIME_SEQUENCE_MAX) Time_Sequence = 0;
+  update_display=1;
+  TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
 //----------------------------------------------------------------------------
 }
 

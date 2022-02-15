@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          15/Feb/2022  11:20:45
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          15/Feb/2022  11:31:49
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 05\timers.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW2B5C.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW4D77.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 05\timers.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 05\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 05\Debug\Obj" --no_cse
@@ -113,17 +113,21 @@ C:\Users\saad\Documents\ece-306\Project 05\timers.c
      29          //------------------------------------------------------------------------------
      30          // TimerB0 0 Interrupt handler
      31          //----------------------------------------------------------------------------
-     32          //...... Add What you need happen in the interrupt ......
-     33          Time_Sequence++;
+     32            Time_Sequence++;
    \   000000   9253....     ADD.W   #0x1, &Time_Sequence
-     34          update_display=1;
-   \   000004   D243....     MOV.B   #0x1, &update_display
-     35          TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
-   \   000008   B250C4099203 ADD.W   #0x9c4, &0x392
+     33            if(Time_Sequence == TIME_SEQUENCE_MAX) Time_Sequence = 0;
+   \   000004   B290C800.... CMP.W   #0xc8, &Time_Sequence
+   \   00000A   0220         JNE     ??Timer0_B0_ISR_0
+   \   00000C   8243....     MOV.W   #0x0, &Time_Sequence
+     34            update_display=1;
+   \                     ??Timer0_B0_ISR_0:
+   \   000010   D243....     MOV.B   #0x1, &update_display
+     35            TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
+   \   000014   B250C4099203 ADD.W   #0x9c4, &0x392
      36          //----------------------------------------------------------------------------
      37          }
-   \   00000E   0013         RETI
-   \   000010                REQUIRE _A_TB0CCR0_L
+   \   00001A   0013         RETI
+   \   00001C                REQUIRE _A_TB0CCR0_L
 
    \                                 In  segment INTVEC, offset 0x56, root
    \                     `??Timer0_B0_ISR::??INTVEC 86`:
@@ -147,7 +151,7 @@ C:\Users\saad\Documents\ece-306\Project 05\timers.c
       50  Init_Timer_B0
        6  Init_Timers
        2  Time_Sequence
-      16  Timer0_B0_ISR
+      28  Timer0_B0_ISR
        2  Timer0_B0_ISR::??INTVEC 86
        2  _A_TB0CCR0_L
        2  _A_TB0CCTL0_L
@@ -159,9 +163,9 @@ C:\Users\saad\Documents\ece-306\Project 05\timers.c
   8 bytes in segment DATA16_AN
   2 bytes in segment DATA16_Z
   2 bytes in segment INTVEC
- 16 bytes in segment ISR_CODE
+ 28 bytes in segment ISR_CODE
  
- 72 bytes of CODE  memory
+ 84 bytes of CODE  memory
   0 bytes of CONST memory (+ 2 bytes shared)
   2 bytes of DATA  memory (+ 8 bytes shared)
 

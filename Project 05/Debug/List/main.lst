@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          15/Feb/2022  11:08:29
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          15/Feb/2022  11:31:49
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 05\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWED7E.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW4AE7.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 05\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 05\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 05\Debug\Obj" --no_cse
@@ -208,41 +208,40 @@ C:\Users\saad\Documents\ece-306\Project 05\main.c
      97          //------------------------------------------------------------------------------
      98            while(ALWAYS) {                       // Can the Operating system run
      99              //Carlson_StateMachine();           // Run a Time Based State Machine
-    100              SwitchesProcess();                  // Check for switch state change
-   \                     ??main_0:
-   \   00004C   ........     CALLA   #SwitchesProcess
+    100              //SwitchesProcess();                  // Check for switch state change
     101              Display_Process();                  // Update Display
-   \   000050   ........     CALLA   #Display_Process
+   \                     ??main_0:
+   \   00004C   ........     CALLA   #Display_Process
     102              StateMachine();                     // Run wheels state machine
-   \   000054   ........     CALLA   #StateMachine
+   \   000050   ........     CALLA   #StateMachine
     103              MotorSafety();
-   \   000058   ........     CALLA   #MotorSafety
+   \   000054   ........     CALLA   #MotorSafety
     104              P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-   \   00005C   D2E32202     XOR.B   #0x1, &0x222
+   \   000058   D2E32202     XOR.B   #0x1, &0x222
     105              if(Last_Time_Sequence!=Time_Sequence){
                      ^
 Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
-   \   000060   1F42....     MOV.W   &Last_Time_Sequence, R15
-   \   000064   1F92....     CMP.W   &Time_Sequence, R15
-   \   000068   F127         JEQ     ??main_0
+   \   00005C   1F42....     MOV.W   &Last_Time_Sequence, R15
+   \   000060   1F92....     CMP.W   &Time_Sequence, R15
+   \   000064   F327         JEQ     ??main_0
     106                Last_Time_Sequence=Time_Sequence;
-   \   00006A   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
+   \   000066   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
     107                cycle_count++;
-   \   000070   9253....     ADD.W   #0x1, &cycle_count
+   \   00006C   9253....     ADD.W   #0x1, &cycle_count
     108                time_change = 1;
-   \   000074   9243....     MOV.W   #0x1, &time_change
+   \   000070   9243....     MOV.W   #0x1, &time_change
     109                if(cycle_count == 200){
-   \   000078   B290C800.... CMP.W   #0xc8, &cycle_count
-   \   00007E   E623         JNE     ??main_0
+   \   000074   B290C800.... CMP.W   #0xc8, &cycle_count
+   \   00007A   E823         JNE     ??main_0
     110                  cycle_count = 0;
-   \   000080   8243....     MOV.W   #0x0, &cycle_count
+   \   00007C   8243....     MOV.W   #0x0, &cycle_count
     111                  stopwatch_seconds++;
-   \   000084   9253....     ADD.W   #0x1, &stopwatch_seconds
-   \   000088   E13F         JMP     ??main_0
-   \   00008A   0343         NOP
-   \   00008C                REQUIRE _A_PM5CTL0_L
-   \   00008C                REQUIRE _A_PBOUT_L
+   \   000080   9253....     ADD.W   #0x1, &stopwatch_seconds
+   \   000084   E33F         JMP     ??main_0
+   \   000086   0343         NOP
+   \   000088                REQUIRE _A_PM5CTL0_L
+   \   000088                REQUIRE _A_PBOUT_L
     112                }
     113              }
     114             }
@@ -274,7 +273,6 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
         4   -> Init_Timers
         4   -> MotorSafety
         4   -> StateMachine
-        4   -> SwitchesProcess
         4   -> strcpy
 
 
@@ -291,19 +289,19 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
        1  chosen_direction
        2  cycle_count
        1  display_mode
-     140  main
+     136  main
        1  slow_input_down
        2  stopwatch_seconds
        2  test_value
        2  time_change
 
  
- 140 bytes in segment CODE
+ 136 bytes in segment CODE
    4 bytes in segment DATA16_AN
   22 bytes in segment DATA16_C
   14 bytes in segment DATA16_Z
  
- 140 bytes of CODE  memory
+ 136 bytes of CODE  memory
   22 bytes of CONST memory
   14 bytes of DATA  memory (+ 4 bytes shared)
 

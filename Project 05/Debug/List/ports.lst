@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          15/Feb/2022  11:06:33
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          15/Feb/2022  11:38:10
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 05\ports.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW28DD.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW1979.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 05\ports.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 05\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 05\Debug\Obj" --no_cse
@@ -69,6 +69,21 @@ C:\Users\saad\Documents\ece-306\Project 05\ports.c
    \                     _A_PASEL1_L:
    \   000000                DS8 2
 
+   \                                 In  segment DATA16_AN, at 0x218
+   \   union <unnamed> _A_PAIES_L
+   \                     _A_PAIES_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x21a
+   \   union <unnamed> _A_PAIE_L
+   \                     _A_PAIE_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x21c
+   \   union <unnamed> _A_PAIFG_L
+   \                     _A_PAIFG_L:
+   \   000000                DS8 2
+
    \                                 In  segment DATA16_AN, at 0x222
    \   union <unnamed> _A_PBOUT_L
    \                     _A_PBOUT_L:
@@ -92,6 +107,21 @@ C:\Users\saad\Documents\ece-306\Project 05\ports.c
    \                                 In  segment DATA16_AN, at 0x22c
    \   union <unnamed> _A_PBSEL1_L
    \                     _A_PBSEL1_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x238
+   \   union <unnamed> _A_PBIES_L
+   \                     _A_PBIES_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x23a
+   \   union <unnamed> _A_PBIE_L
+   \                     _A_PBIE_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x23c
+   \   union <unnamed> _A_PBIFG_L
+   \                     _A_PBIFG_L:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_AN, at 0x242
@@ -279,44 +309,50 @@ C:\Users\saad\Documents\ece-306\Project 05\ports.c
    \   00003C   F2C20502     BIC.B   #0x8, &0x205
     117              P2REN |= SW2;
    \   000040   F2D20702     BIS.B   #0x8, &0x207
-    118              // P2IES = SW2;
-    119              // P2IFG &= ~SW2;
-    120              // P2IE = SW2;
+    118              P2IES |= SW2;
+   \   000044   F2D21902     BIS.B   #0x8, &0x219
+    119              P2IFG &= ~SW2;
+   \   000048   F2C21D02     BIC.B   #0x8, &0x21d
+    120              P2IE |= SW2;
+   \   00004C   F2D21B02     BIS.B   #0x8, &0x21b
     121              
     122              P2SEL0 &= ~IOT_RUN_CPU;
-   \   000044   F2C010000B02 BIC.B   #0x10, &0x20b
+   \   000050   F2C010000B02 BIC.B   #0x10, &0x20b
     123              P2SEL1 &= ~IOT_RUN_CPU;
-   \   00004A   F2C010000D02 BIC.B   #0x10, &0x20d
+   \   000056   F2C010000D02 BIC.B   #0x10, &0x20d
     124              P2OUT &= ~IOT_RUN_CPU;
-   \   000050   F2C010000302 BIC.B   #0x10, &0x203
+   \   00005C   F2C010000302 BIC.B   #0x10, &0x203
     125              P2DIR |= IOT_RUN_CPU;
-   \   000056   F2D010000502 BIS.B   #0x10, &0x205
+   \   000062   F2D010000502 BIS.B   #0x10, &0x205
     126              
     127              P2SEL0 &= ~DAC_ENB;
-   \   00005C   F2C020000B02 BIC.B   #0x20, &0x20b
+   \   000068   F2C020000B02 BIC.B   #0x20, &0x20b
     128              P2SEL1 &= -DAC_ENB;
-   \   000062   F2F0E0000D02 AND.B   #0xe0, &0x20d
+   \   00006E   F2F0E0000D02 AND.B   #0xe0, &0x20d
     129              P2OUT |= DAC_ENB;
-   \   000068   F2D020000302 BIS.B   #0x20, &0x203
+   \   000074   F2D020000302 BIS.B   #0x20, &0x203
     130              P2DIR |= DAC_ENB;
-   \   00006E   F2D020000502 BIS.B   #0x20, &0x205
+   \   00007A   F2D020000502 BIS.B   #0x20, &0x205
     131              
     132              P2SEL0 &= ~LFXOUT;
-   \   000074   F2C040000B02 BIC.B   #0x40, &0x20b
+   \   000080   F2C040000B02 BIC.B   #0x40, &0x20b
     133              P2SEL1 |= LFXOUT;
-   \   00007A   F2D040000D02 BIS.B   #0x40, &0x20d
+   \   000086   F2D040000D02 BIS.B   #0x40, &0x20d
     134              
     135              P2SEL0 &= ~LFXIN;
-   \   000080   F2C080000B02 BIC.B   #0x80, &0x20b
+   \   00008C   F2C080000B02 BIC.B   #0x80, &0x20b
     136              P2SEL1 |= LFXIN;
-   \   000086   F2D080000D02 BIS.B   #0x80, &0x20d
+   \   000092   F2D080000D02 BIS.B   #0x80, &0x20d
     137          }
-   \   00008C   1001         RETA
-   \   00008E                REQUIRE _A_PAOUT_L
-   \   00008E                REQUIRE _A_PADIR_L
-   \   00008E                REQUIRE _A_PASEL0_L
-   \   00008E                REQUIRE _A_PASEL1_L
-   \   00008E                REQUIRE _A_PAREN_L
+   \   000098   1001         RETA
+   \   00009A                REQUIRE _A_PAOUT_L
+   \   00009A                REQUIRE _A_PADIR_L
+   \   00009A                REQUIRE _A_PASEL0_L
+   \   00009A                REQUIRE _A_PASEL1_L
+   \   00009A                REQUIRE _A_PAREN_L
+   \   00009A                REQUIRE _A_PAIES_L
+   \   00009A                REQUIRE _A_PAIFG_L
+   \   00009A                REQUIRE _A_PAIE_L
     138          
     139          //===========================================================================
     140          // Function name: Init_Port3
@@ -464,50 +500,56 @@ C:\Users\saad\Documents\ece-306\Project 05\ports.c
    \   000020   E2C32502     BIC.B   #0x2, &0x225
     226              P4REN |= SW1;
    \   000024   E2D32702     BIS.B   #0x2, &0x227
-    227              // P4IES |= SW1;
-    228              // P4IFG &= SW1; 
-    229              // P4IE (= SW1;
+    227              P4IES |= SW1;
+   \   000028   E2D33902     BIS.B   #0x2, &0x239
+    228              P4IFG &= ~SW1;
+   \   00002C   E2C33D02     BIC.B   #0x2, &0x23d
+    229              P4IE |= SW1;
+   \   000030   E2D33B02     BIS.B   #0x2, &0x23b
     230              
     231              P4SEL0 |= UCA1TXD;
-   \   000028   F2D22B02     BIS.B   #0x8, &0x22b
+   \   000034   F2D22B02     BIS.B   #0x8, &0x22b
     232              P4SEL1 &= ~UCA1TXD;
-   \   00002C   F2C22D02     BIC.B   #0x8, &0x22d
+   \   000038   F2C22D02     BIC.B   #0x8, &0x22d
     233              
     234              P4SEL0 |= UCA1RXD;
-   \   000030   E2D22B02     BIS.B   #0x4, &0x22b
+   \   00003C   E2D22B02     BIS.B   #0x4, &0x22b
     235              P4SEL1 &= UCA1RXD;
-   \   000034   E2F22D02     AND.B   #0x4, &0x22d
+   \   000040   E2F22D02     AND.B   #0x4, &0x22d
     236              
     237              P4SEL0 &= ~UCB1_CS_LCD;
-   \   000038   F2C010002B02 BIC.B   #0x10, &0x22b
+   \   000044   F2C010002B02 BIC.B   #0x10, &0x22b
     238              P4SEL1 &= ~UCB1_CS_LCD;
-   \   00003E   F2C010002D02 BIC.B   #0x10, &0x22d
+   \   00004A   F2C010002D02 BIC.B   #0x10, &0x22d
     239              P4OUT |= UCB1_CS_LCD;
-   \   000044   F2D010002302 BIS.B   #0x10, &0x223
+   \   000050   F2D010002302 BIS.B   #0x10, &0x223
     240              P4DIR |= UCB1_CS_LCD;
-   \   00004A   F2D010002502 BIS.B   #0x10, &0x225
+   \   000056   F2D010002502 BIS.B   #0x10, &0x225
     241              
     242              P4SEL0 |= UCB1CLK;
-   \   000050   F2D020002B02 BIS.B   #0x20, &0x22b
+   \   00005C   F2D020002B02 BIS.B   #0x20, &0x22b
     243              P4SEL1 &= ~UCB1CLK;
-   \   000056   F2C020002D02 BIC.B   #0x20, &0x22d
+   \   000062   F2C020002D02 BIC.B   #0x20, &0x22d
     244              
     245              P4SEL0 |= UCB1SIMO;
-   \   00005C   F2D040002B02 BIS.B   #0x40, &0x22b
+   \   000068   F2D040002B02 BIS.B   #0x40, &0x22b
     246              P4SEL1 &= ~UCB1SIMO;
-   \   000062   F2C040002D02 BIC.B   #0x40, &0x22d
+   \   00006E   F2C040002D02 BIC.B   #0x40, &0x22d
     247              
     248              P4SEL0 |= UCB1SOMI;
-   \   000068   F2D080002B02 BIS.B   #0x80, &0x22b
+   \   000074   F2D080002B02 BIS.B   #0x80, &0x22b
     249              P4SEL1 &= UCB1SOMI;
-   \   00006E   F2F080002D02 AND.B   #0x80, &0x22d
+   \   00007A   F2F080002D02 AND.B   #0x80, &0x22d
     250          }
-   \   000074   1001         RETA
-   \   000076                REQUIRE _A_PBOUT_L
-   \   000076                REQUIRE _A_PBDIR_L
-   \   000076                REQUIRE _A_PBSEL0_L
-   \   000076                REQUIRE _A_PBSEL1_L
-   \   000076                REQUIRE _A_PBREN_L
+   \   000080   1001         RETA
+   \   000082                REQUIRE _A_PBOUT_L
+   \   000082                REQUIRE _A_PBDIR_L
+   \   000082                REQUIRE _A_PBSEL0_L
+   \   000082                REQUIRE _A_PBSEL1_L
+   \   000082                REQUIRE _A_PBREN_L
+   \   000082                REQUIRE _A_PBIES_L
+   \   000082                REQUIRE _A_PBIFG_L
+   \   000082                REQUIRE _A_PBIE_L
     251          
     252          
     253          //===========================================================================
@@ -687,18 +729,24 @@ C:\Users\saad\Documents\ece-306\Project 05\ports.c
    Bytes  Function/Label
    -----  --------------
      104  Init_Port1
-     142  Init_Port2
+     154  Init_Port2
      160  Init_Port3
-     118  Init_Port4
+     130  Init_Port4
       76  Init_Port5
      134  Init_Port6
       28  Init_Ports
        2  _A_PADIR_L
+       2  _A_PAIES_L
+       2  _A_PAIE_L
+       2  _A_PAIFG_L
        2  _A_PAOUT_L
        2  _A_PAREN_L
        2  _A_PASEL0_L
        2  _A_PASEL1_L
        2  _A_PBDIR_L
+       2  _A_PBIES_L
+       2  _A_PBIE_L
+       2  _A_PBIFG_L
        2  _A_PBOUT_L
        2  _A_PBREN_L
        2  _A_PBSEL0_L
@@ -709,11 +757,11 @@ C:\Users\saad\Documents\ece-306\Project 05\ports.c
        2  _A_PCSEL1_L
 
  
- 762 bytes in segment CODE
-  28 bytes in segment DATA16_AN
+ 786 bytes in segment CODE
+  40 bytes in segment DATA16_AN
  
- 762 bytes of CODE memory
-   0 bytes of DATA memory (+ 28 bytes shared)
+ 786 bytes of CODE memory
+   0 bytes of DATA memory (+ 40 bytes shared)
 
 Errors: none
 Warnings: none
