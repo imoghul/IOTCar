@@ -16,6 +16,7 @@
 #include "init.h"
 #include "ports.h"
 #include "switches.h"
+#include "led.h"
 
 // Function Prototypes
 void main(void);
@@ -89,6 +90,7 @@ void main(void){
 //------------------------------------------------------------------------------
   while(ALWAYS) {                      // Can the Operating system run
     SwitchesProcess();
+    Carlson_StateMachine();
     P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
     if(Last_Time_Sequence!=Time_Sequence){
       Last_Time_Sequence=Time_Sequence;

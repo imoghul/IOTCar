@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          02/Feb/2022  16:42:16
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          15/Feb/2022  11:18:40
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,12 +12,12 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ECE306\Homework 03\clocks.c
+#    Source file   =  C:\Users\saad\Documents\ece-306\Homework 05\clocks.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWDACB.tmp
-#        ("C:\Users\saad\Documents\ECE306\Homework 03\clocks.c" -lC
-#        "C:\Users\saad\Documents\ECE306\Homework 03\Debug\List" -o
-#        "C:\Users\saad\Documents\ECE306\Homework 03\Debug\Obj" --no_cse
+#        -f C:\Users\saad\AppData\Local\Temp\EWEDE9.tmp
+#        ("C:\Users\saad\Documents\ece-306\Homework 05\clocks.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Homework 05\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Homework 05\Debug\Obj" --no_cse
 #        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
@@ -25,13 +25,13 @@
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ECE306\Homework 03\Debug\List\clocks.lst
+#        C:\Users\saad\Documents\ece-306\Homework 05\Debug\List\clocks.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ECE306\Homework 03\Debug\Obj\clocks.r43
+#        C:\Users\saad\Documents\ece-306\Homework 05\Debug\Obj\clocks.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ECE306\Homework 03\clocks.c
+C:\Users\saad\Documents\ece-306\Homework 05\clocks.c
       1          // ------------------------------------------------------------------------------
       2          //
       3          //  Description: This file contains the Clock Initialization
@@ -161,27 +161,27 @@ C:\Users\saad\Documents\ECE306\Homework 03\clocks.c
      54            CSCTL4 |= SELMS__DCOCLKDIV;// DCOCLK = MCLK and SMCLK source
    \   00004E   924288018801 MOV.W   &0x188, &0x188
      55          
-     56          //  CSCTL5 |= DIVM__2;         // MCLK = DCOCLK / 2  = 4MHZ,
-     57          //  CSCTL5 |= DIVS__8;         // SMCLK = MCLK / 8 = 1MHz
-     58            CSCTL5 |= DIVM_0;        // MCLK = DCOCLK = 8MHZ,
-   \   000054   92428A018A01 MOV.W   &0x18a, &0x18a
-     59            CSCTL5 |= DIVS_0;        // SMCLK = MCLK = 8MHz
-   \   00005A   92428A018A01 MOV.W   &0x18a, &0x18a
+     56            CSCTL5 |= DIVM__2;         // MCLK = DCOCLK / 2  = 4MHZ,
+   \   000054   92D38A01     BIS.W   #0x1, &0x18a
+     57            CSCTL5 |= DIVS__8;         // SMCLK = MCLK / 8 = 1MHz
+   \   000058   B2D030008A01 BIS.W   #0x30, &0x18a
+     58            //CSCTL5 |= DIVM_0;        // MCLK = DCOCLK = 8MHZ,
+     59            //CSCTL5 |= DIVS_0;        // SMCLK = MCLK = 8MHz
      60          
      61            PM5CTL0 &= ~LOCKLPM5;      // Disable the GPIO power-on default high-impedance mode
-   \   000060   92C33001     BIC.W   #0x1, &0x130
+   \   00005E   92C33001     BIC.W   #0x1, &0x130
      62                                       // to activate previously configured port settings
      63          }
-   \   000064   1001         RETA
-   \   000066                REQUIRE _A_WDTCTL_L
-   \   000066                REQUIRE _A_CSCTL7_L
-   \   000066                REQUIRE _A_SFRIFG1_L
-   \   000066                REQUIRE _A_CSCTL1_L
-   \   000066                REQUIRE _A_CSCTL2_L
-   \   000066                REQUIRE _A_CSCTL3_L
-   \   000066                REQUIRE _A_CSCTL4_L
-   \   000066                REQUIRE _A_CSCTL5_L
-   \   000066                REQUIRE _A_PM5CTL0_L
+   \   000062   1001         RETA
+   \   000064                REQUIRE _A_WDTCTL_L
+   \   000064                REQUIRE _A_CSCTL7_L
+   \   000064                REQUIRE _A_SFRIFG1_L
+   \   000064                REQUIRE _A_CSCTL1_L
+   \   000064                REQUIRE _A_CSCTL2_L
+   \   000064                REQUIRE _A_CSCTL3_L
+   \   000064                REQUIRE _A_CSCTL4_L
+   \   000064                REQUIRE _A_CSCTL5_L
+   \   000064                REQUIRE _A_PM5CTL0_L
      64          
 
    \                                 In  segment CODE, align 2
@@ -357,7 +357,7 @@ C:\Users\saad\Documents\ECE306\Homework 03\clocks.c
 
    Bytes  Function/Label
    -----  --------------
-     102  Init_Clocks
+     100  Init_Clocks
      218  Software_Trim
        2  _A_CSCTL0_L
        2  _A_CSCTL1_L
@@ -371,10 +371,10 @@ C:\Users\saad\Documents\ECE306\Homework 03\clocks.c
        2  _A_WDTCTL_L
 
  
- 320 bytes in segment CODE
+ 318 bytes in segment CODE
   20 bytes in segment DATA16_AN
  
- 320 bytes of CODE memory
+ 318 bytes of CODE memory
    0 bytes of DATA memory (+ 20 bytes shared)
 
 Errors: none

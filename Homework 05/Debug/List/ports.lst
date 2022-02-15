@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          11/Feb/2022  17:33:46
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          15/Feb/2022  11:19:02
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,12 +12,12 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ECE306\Homework 05\ports.c
+#    Source file   =  C:\Users\saad\Documents\ece-306\Homework 05\ports.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW3DA5.tmp
-#        ("C:\Users\saad\Documents\ECE306\Homework 05\ports.c" -lC
-#        "C:\Users\saad\Documents\ECE306\Homework 05\Debug\List" -o
-#        "C:\Users\saad\Documents\ECE306\Homework 05\Debug\Obj" --no_cse
+#        -f C:\Users\saad\AppData\Local\Temp\EW988D.tmp
+#        ("C:\Users\saad\Documents\ece-306\Homework 05\ports.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Homework 05\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Homework 05\Debug\Obj" --no_cse
 #        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
@@ -25,13 +25,13 @@
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ECE306\Homework 05\Debug\List\ports.lst
+#        C:\Users\saad\Documents\ece-306\Homework 05\Debug\List\ports.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ECE306\Homework 05\Debug\Obj\ports.r43
+#        C:\Users\saad\Documents\ece-306\Homework 05\Debug\Obj\ports.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ECE306\Homework 05\ports.c
+C:\Users\saad\Documents\ece-306\Homework 05\ports.c
       1          //==============================================================================
       2          // File Name : ports.c 
       3          // 
@@ -393,13 +393,13 @@ C:\Users\saad\Documents\ECE306\Homework 05\ports.c
     181                  break;
    \   000068   093C         JMP     ??Init_Port3_0
     182                case USE_SMCLK:
-    183                  P1SEL0 &= ~SMCLK_2476;
+    183                  P3SEL1 &= ~SMCLK_2355;
    \                     ??Init_Port3_2:
-   \   00006A   F2C010000A02 BIC.B   #0x10, &0x20a
-    184                  P1SEL1 |= SMCLK_2476;
-   \   000070   F2D010000C02 BIS.B   #0x10, &0x20c
-    185                  P1DIR |= SMCLK_2476;
-   \   000076   F2D010000402 BIS.B   #0x10, &0x204
+   \   00006A   F2C010002C02 BIC.B   #0x10, &0x22c
+    184                  P3SEL0 |= SMCLK_2355;
+   \   000070   F2D010002A02 BIS.B   #0x10, &0x22a
+    185                  P3DIR |= SMCLK_2355;
+   \   000076   F2D010002402 BIS.B   #0x10, &0x224
     186                  break;
     187                default: break;
     188              }
@@ -432,9 +432,6 @@ C:\Users\saad\Documents\ECE306\Homework 05\ports.c
    \   0000B4                REQUIRE _A_PBDIR_L
    \   0000B4                REQUIRE _A_PBSEL0_L
    \   0000B4                REQUIRE _A_PBSEL1_L
-   \   0000B4                REQUIRE _A_PASEL0_L
-   \   0000B4                REQUIRE _A_PASEL1_L
-   \   0000B4                REQUIRE _A_PADIR_L
     203          
     204          //===========================================================================
     205          // Function name: Init_Port4

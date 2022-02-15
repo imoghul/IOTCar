@@ -180,8 +180,8 @@ void Init_Port3(char smclk) {
         P3DIR &= ~SMCLK_2355;
         break;
       case USE_SMCLK:
-        P3SEL0 &= ~SMCLK_2355;
-        P3SEL1 |= SMCLK_2355;
+        P3SEL1 &= ~SMCLK_2355;
+        P3SEL0 |= SMCLK_2355;
         P3DIR |= SMCLK_2355;
         break;
       default: break;

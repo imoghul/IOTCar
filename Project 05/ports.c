@@ -27,7 +27,7 @@
 void Init_Ports(void){
   Init_Port1();
   Init_Port2();
-  Init_Port3('a');
+  Init_Port3(USE_SMCLK);
   Init_Port4();
   Init_Port5();
   Init_Port6();
@@ -169,11 +169,19 @@ void Init_Port3(char smclk) {
     P3SEL1 &= ~LCD_BACKLITE;
     P3DIR |= LCD_BACKLITE;
     P3OUT |= LCD_BACKLITE;
-
-    P3SEL0 &= ~SMCLK_2355;
-    P3SEL1 &= ~SMCLK_2355;
-    P3DIR &= ~SMCLK_2355;
-
+    switch(smclk){
+      case(USE_SMCLK):
+        P3SEL0 |= SMCLK_2355;
+        P3SEL1 &= ~SMCLK_2355;
+        P3DIR |= SMCLK_2355;
+        break;
+      case(USE_GPIO):
+        P3SEL0 &= ~SMCLK_2355;
+        P3SEL1 &= ~SMCLK_2355;
+        P3DIR &= ~SMCLK_2355;
+        break;
+      default: break;
+    }
     P3SEL0 &= ~DAC_CNTL;
     P3SEL1 &= ~DAC_CNTL;
     P3DIR &= ~DAC_CNTL;

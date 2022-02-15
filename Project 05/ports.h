@@ -8,6 +8,9 @@
 // Compiler: Built with IAR Embedded Workbench Version: 7.21.1 
 //==============================================================================
 
+#define USE_GPIO        (0)
+#define USE_SMCLK       (1)
+
 // Port 1 Pins
 #define RED_LED         (0x01) // 0 RED LED 0
 #define A1_SEEED        (0x02) // 1 A1_SEEED
