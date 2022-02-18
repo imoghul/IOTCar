@@ -104,7 +104,7 @@ void Forward(int polarity, int ticks, const char * disp){
     if (Drive_Straight(ticks,polarity)) shapeCounter++;
   }
   if (shapeCounter==2) {
-    state = START;
+    state = ARM;
     shapeCounter = 0;
   }
 }
@@ -118,7 +118,7 @@ void Spin(int direction, int ticks, const char * disp){
     if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, ticks,direction,-direction)) shapeCounter++;
   }
   if (shapeCounter==2) {
-    state = direction == SPIN_CK?START:ARM;
+    state = direction == SPIN_CK?ARM:ARM;
     shapeCounter = 0;
   }
 }
@@ -142,8 +142,11 @@ void StateMachine(void){
       strcpy(display_line[0], "WAITING...");
       display_changed = 1;
       delayTime = 1;
+      state = ARM;
       break;
     case (ARM):
+      //strcpy(display_line[0], "WAITING...");
+      //display_changed = 1;
       stopwatch_seconds = 0;
       cycle_count = 0;
       state = WAIT;

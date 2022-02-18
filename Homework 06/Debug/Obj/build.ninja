@@ -1,0 +1,38 @@
+#Generating source browse information for project Homework 06 simple
+
+
+#Abbreviations
+cc = C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 8.5\common\bin\SourceIndexer.exe
+ll = C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 8.5\common\bin\PbdLink.exe
+bd = C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 8.5\common\bin\makeBrowseData.exe
+
+
+
+#Rules
+rule index
+  depfile = $out.dep
+  command = $cc -out=$out -f $in
+rule link
+  command = $ll -M $out $in
+rule browsedata
+  command = $bd $in -output  $out
+
+
+
+#Build steps
+build clocks.pbi : index clocks.xcl
+build init.pbi : index init.xcl
+build led.pbi : index led.xcl
+build main.pbi : index main.xcl
+build ports.pbi : index ports.xcl
+build switches.pbi : index switches.xcl
+build system.pbi : index system.xcl
+build timers.pbi : index timers.xcl
+build wheels.pbi : index wheels.xcl
+build Homework$ 06$ simple_part0.pbi : link clocks.pbi init.pbi led.pbi
+build Homework$ 06$ simple_part1.pbi : link main.pbi ports.pbi switches.pbi
+build Homework$ 06$ simple_part2.pbi : link system.pbi timers.pbi wheels.pbi
+build Homework$ 06$ simple.pbd : link Homework$ 06$ simple_part0.pbi Homework$ 06$ simple_part1.pbi Homework$ 06$ simple_part2.pbi
+build Homework$ 06$ simple.pbw : browsedata Homework$ 06$ simple.pbd
+
+

@@ -96,10 +96,8 @@ void main(void){
 // Begining of the "While" Operating System
 //------------------------------------------------------------------------------
   while(ALWAYS) {                       // Can the Operating system run
-    //Carlson_StateMachine();           // Run a Time Based State Machine
-    //SwitchesProcess();                  // Check for switch state change
     Display_Process();                  // Update Display
-    StateMachine();                     // Run wheels state machine
+    //StateMachine();                     // Run wheels state machine
     MotorSafety();
     P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
     if(Last_Time_Sequence!=Time_Sequence){

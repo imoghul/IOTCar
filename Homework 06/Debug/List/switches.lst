@@ -1,0 +1,269 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          17/Feb/2022  12:28:30
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  C:\Users\saad\Documents\ece-306\Homework 06\switches.c
+#    Command line  =  
+#        -f C:\Users\saad\AppData\Local\Temp\EWEBF5.tmp
+#        ("C:\Users\saad\Documents\ece-306\Homework 06\switches.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Homework 06\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
+#        --core=430X --data_model=small -On --multiplier=32
+#        --hw_workaround=CPU40 --code_model=large)
+#    Locale        =  English_USA.1252
+#    List file     =  
+#        C:\Users\saad\Documents\ece-306\Homework 06\Debug\List\switches.lst
+#    Object file   =  
+#        C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\switches.r43
+#
+###############################################################################
+
+C:\Users\saad\Documents\ece-306\Homework 06\switches.c
+      1          #include "msp430.h"
+
+   \                                 In  segment DATA16_AN, at 0x21a
+   \   union <unnamed> _A_PAIE_L
+   \                     _A_PAIE_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x21c
+   \   union <unnamed> _A_PAIFG_L
+   \                     _A_PAIFG_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x222
+   \   union <unnamed> _A_PBOUT_L
+   \                     _A_PBOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x23a
+   \   union <unnamed> _A_PBIE_L
+   \                     _A_PBIE_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x23c
+   \   union <unnamed> _A_PBIFG_L
+   \                     _A_PBIFG_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x384
+   \   union <unnamed> _A_TB0CCTL1_L
+   \                     _A_TB0CCTL1_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x386
+   \   union <unnamed> _A_TB0CCTL2_L
+   \                     _A_TB0CCTL2_L:
+   \   000000                DS8 2
+      2          #include "switches.h"
+      3          #include "ports.h"
+      4          #include "wheels.h"
+      5          #include "macros.h"
+      6          
+      7          
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+      8          volatile unsigned int sw1Okay, sw2Okay;
+   \                     sw1Okay:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     sw2Okay:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+      9          volatile unsigned int count_debounce_SW1, count_debounce_SW2;
+   \                     count_debounce_SW1:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     count_debounce_SW2:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     10          volatile unsigned int sw1_pos, sw2_pos;
+   \                     sw1_pos:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     sw2_pos:
+   \   000000                DS8 2
+     11          extern volatile unsigned int cycle_count;
+     12          extern volatile unsigned int stopwatch_seconds;
+     13          extern volatile char state;
+     14          extern volatile unsigned int debounce_count1, debounce_count2;
+     15          extern volatile unsigned int debouncing1, debouncing2;
+     16          
+     17          //===========================================================================
+     18          // Function name: switchP4_interrupt
+     19          //
+     20          // Description: This is the switch 1 interrupt, turns off LCD_BACKLITE and its 
+     21          // blinking timer
+     22          //
+     23          // Passed : no variables passed
+     24          // Locals: no variables declared
+     25          // Returned: no values returned
+     26          // Globals: no global values
+     27          //
+     28          // Author: Ibrahim Moghul
+     29          // Date: Feb 2022
+     30          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     31          //===========================================================================
+     32          
+     33          #pragma vector=PORT4_VECTOR
+
+   \                                 In  segment ISR_CODE, align 2
+     34          __interrupt void switchP4_interrupt(void){
+   \                     switchP4_interrupt:
+     35            if(P4IFG & SW1){
+   \   000000   E2B33D02     BIT.B   #0x2, &0x23d
+   \   000004   1028         JNC     ??switchP4_interrupt_0
+     36              P4IFG &= ~SW1;
+   \   000006   E2C33D02     BIC.B   #0x2, &0x23d
+     37              TB0CCTL1 |= CCIE; // CCR1 enable interrupt
+   \   00000A   B2D010008403 BIS.W   #0x10, &0x384
+     38              debouncing1 = TRUE;
+   \   000010   9243....     MOV.W   #0x1, &debouncing1
+     39              P4IE &= ~SW1;
+   \   000014   E2C33B02     BIC.B   #0x2, &0x23b
+     40              debounce_count1 = 0;
+   \   000018   8243....     MOV.W   #0x0, &debounce_count1
+     41              // Actual Code
+     42              //if(state == START){
+     43              //    stopwatch_seconds = 0;
+     44              //    cycle_count = 0;
+     45              //    state = WAIT;
+     46              //}
+     47              P3OUT &= ~LCD_BACKLITE;
+   \   00001C   F2C22202     BIC.B   #0x8, &0x222
+     48              TB0CCTL2 &= ~CCIE;
+   \   000020   B2C010008603 BIC.W   #0x10, &0x386
+     49            }
+     50          }
+   \                     ??switchP4_interrupt_0:
+   \   000026   0013         RETI
+   \   000028                REQUIRE _A_PBIFG_L
+   \   000028                REQUIRE _A_TB0CCTL1_L
+   \   000028                REQUIRE _A_PBIE_L
+   \   000028                REQUIRE _A_PBOUT_L
+   \   000028                REQUIRE _A_TB0CCTL2_L
+     51          
+     52          //===========================================================================
+     53          // Function name: switchP4_interrupt
+     54          //
+     55          // Description: This is the switch 2 interrupt, turns off LCD_BACKLITE and its 
+     56          // blinking timer
+     57          //
+     58          // Passed : no variables passed
+     59          // Locals: no variables declared
+     60          // Returned: no values returned
+     61          // Globals: no global values
+     62          //
+     63          // Author: Ibrahim Moghul
+     64          // Date: Feb 2022
+     65          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     66          //===========================================================================
+     67          #pragma vector=PORT2_VECTOR
+
+   \                                 In  segment ISR_CODE, align 2
+     68          __interrupt void switchP2_interrupt(void){
+   \                     switchP2_interrupt:
+     69            if(P2IFG & SW2){
+   \   000000   F2B21D02     BIT.B   #0x8, &0x21d
+   \   000004   1028         JNC     ??switchP2_interrupt_0
+     70              P2IFG &= ~SW2;
+   \   000006   F2C21D02     BIC.B   #0x8, &0x21d
+     71              TB0CCTL1 |= CCIE; // CCR1 enable interrupt
+   \   00000A   B2D010008403 BIS.W   #0x10, &0x384
+     72              debouncing2 = TRUE;
+   \   000010   9243....     MOV.W   #0x1, &debouncing2
+     73              P2IE &= ~SW2;
+   \   000014   F2C21B02     BIC.B   #0x8, &0x21b
+     74              debounce_count2 = 0;
+   \   000018   8243....     MOV.W   #0x0, &debounce_count2
+     75              // Actual Code
+     76              //P1OUT |= RED_LED;
+     77              P3OUT &= ~LCD_BACKLITE;
+   \   00001C   F2C22202     BIC.B   #0x8, &0x222
+     78              TB0CCTL2 &= ~CCIE;
+   \   000020   B2C010008603 BIC.W   #0x10, &0x386
+     79            }
+     80          }
+   \                     ??switchP2_interrupt_0:
+   \   000026   0013         RETI
+   \   000028                REQUIRE _A_PAIFG_L
+   \   000028                REQUIRE _A_TB0CCTL1_L
+   \   000028                REQUIRE _A_PAIE_L
+   \   000028                REQUIRE _A_PBOUT_L
+   \   000028                REQUIRE _A_TB0CCTL2_L
+
+   \                                 In  segment INTVEC, offset 0x2c, root
+   \                     `??switchP4_interrupt::??INTVEC 44`:
+   \   00002C   ....         DC16    switchP4_interrupt
+
+   \                                 In  segment INTVEC, offset 0x30, root
+   \                     `??switchP2_interrupt::??INTVEC 48`:
+   \   000030   ....         DC16    switchP2_interrupt
+     81          
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   switchP2_interrupt
+      4   switchP4_interrupt
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       2  _A_PAIE_L
+       2  _A_PAIFG_L
+       2  _A_PBIE_L
+       2  _A_PBIFG_L
+       2  _A_PBOUT_L
+       2  _A_TB0CCTL1_L
+       2  _A_TB0CCTL2_L
+       2  count_debounce_SW1
+       2  count_debounce_SW2
+       2  sw1Okay
+       2  sw1_pos
+       2  sw2Okay
+       2  sw2_pos
+      40  switchP2_interrupt
+       2  switchP2_interrupt::??INTVEC 48
+      40  switchP4_interrupt
+       2  switchP4_interrupt::??INTVEC 44
+
+ 
+ 14 bytes in segment DATA16_AN
+ 12 bytes in segment DATA16_Z
+  4 bytes in segment INTVEC
+ 80 bytes in segment ISR_CODE
+ 
+ 80 bytes of CODE  memory
+  0 bytes of CONST memory (+  4 bytes shared)
+ 12 bytes of DATA  memory (+ 14 bytes shared)
+
+Errors: none
+Warnings: none

@@ -8,8 +8,8 @@
 // Compiler: Built with IAR Embedded Workbench Version: 7.21.1 
 //==============================================================================
 
-#define USE_GPIO        (0x00)
-#define USE_SMCLK       (0x01)
+#define USE_GPIO        (0x00) // Uses 3.4 as GPIO
+#define USE_SMCLK       (0x01) // Uses 3.4 as SMCLK
 
 // Port 1 Pins
 #define RED_LED         (0x01) // 0 RED LED 0
