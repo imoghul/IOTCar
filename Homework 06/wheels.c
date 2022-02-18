@@ -164,6 +164,8 @@ void StateMachine(void){
     case (START):
       strcpy(display_line[0], "WAITING...");
       display_changed = 1;
+      stopwatch_seconds = 0;
+      cycle_count = 0;
       state = WAIT;
       break;
     case (WAIT):

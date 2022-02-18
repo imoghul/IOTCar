@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "C:\Users\saad\Documents\ece-306\Homework 06\settings\Homework 06 simple.Debug.general.xcl" --backend -f "C:\Users\saad\Documents\ece-306\Homework 06\settings\Homework 06 simple.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "\\Mac\Home\Desktop\ece-306\Homework 06\settings\Homework 06 simple.Debug.general.xcl" --backend -f "\\Mac\Home\Desktop\ece-306\Homework 06\settings\Homework 06 simple.Debug.driver.xcl" 
 }
 else
 {
-& "C:\Program Files\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "C:\Users\saad\Documents\ece-306\Homework 06\settings\Homework 06 simple.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\Users\saad\Documents\ece-306\Homework 06\settings\Homework 06 simple.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "\\Mac\Home\Desktop\ece-306\Homework 06\settings\Homework 06 simple.Debug.general.xcl" --debug_file=$debugfile --backend -f "\\Mac\Home\Desktop\ece-306\Homework 06\settings\Homework 06 simple.Debug.driver.xcl" 
 }

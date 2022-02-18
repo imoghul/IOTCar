@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          17/Feb/2022  12:26:46
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          18/Feb/2022  17:12:40
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,26 +12,26 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece-306\Homework 06\timers.c
+#    Source file   =  \\Mac\Home\Desktop\ece-306\Homework 06\timers.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW5523.tmp
-#        ("C:\Users\saad\Documents\ece-306\Homework 06\timers.c" -lC
-#        "C:\Users\saad\Documents\ece-306\Homework 06\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj" --no_cse
+#        -f C:\Users\IBRAHI~1\AppData\Local\Temp\EWCDAA.tmp
+#        ("\\Mac\Home\Desktop\ece-306\Homework 06\timers.c" -lC
+#        "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\List" -o
+#        "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj" --no_cse
 #        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
-#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
-#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -On --multiplier=32
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files
+#        (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I
+#        ./ --core=430X --data_model=small -On --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece-306\Homework 06\Debug\List\timers.lst
+#        \\Mac\Home\Desktop\ece-306\Homework 06\Debug\List\timers.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\timers.r43
+#        \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\timers.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece-306\Homework 06\timers.c
+\\Mac\Home\Desktop\ece-306\Homework 06\timers.c
       1          #include "msp430.h"
 
    \                                 In  segment DATA16_AN, at 0x21a
@@ -152,251 +152,264 @@ C:\Users\saad\Documents\ece-306\Homework 06\timers.c
    \   000000                DS8 2
    \   000002                REQUIRE `?<Initializer for debounce_thresh2>`
 
-   \                                 In  segment CODE, align 2
-     13          void Init_Timers(void){
-   \                     Init_Timers:
-     14            Init_Timer_B0();
-   \   000000   ........     CALLA   #Init_Timer_B0
-     15          }
-   \   000004   1001         RETA
-     16          
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     13          volatile unsigned int backliteBlinking = TRUE;
+   \                     backliteBlinking:
+   \   000000                DS8 2
+   \   000002                REQUIRE `?<Initializer for backliteBlinking>`
 
    \                                 In  segment CODE, align 2
-     17          void Init_Timer_B0(void) {
+     14          void Init_Timers(void){
+   \                     Init_Timers:
+     15            Init_Timer_B0();
+   \   000000   ........     CALLA   #Init_Timer_B0
+     16          }
+   \   000004   1001         RETA
+     17          
+
+   \                                 In  segment CODE, align 2
+     18          void Init_Timer_B0(void) {
    \                     Init_Timer_B0:
-     18            TB0CTL = TBSSEL__SMCLK; // SMCLK source
+     19            TB0CTL = TBSSEL__SMCLK; // SMCLK source
    \   000000   B24000028003 MOV.W   #0x200, &0x380
-     19            TB0CTL |= TBCLR; // Resets TB0R, clock divider, count direction
+     20            TB0CTL |= TBCLR; // Resets TB0R, clock divider, count direction
    \   000006   A2D28003     BIS.W   #0x4, &0x380
-     20            TB0CTL |= MC__CONTINOUS; // Continuous up
+     21            TB0CTL |= MC__CONTINOUS; // Continuous up
    \   00000A   B2D020008003 BIS.W   #0x20, &0x380
-     21            TB0CTL |= ID__2; // Divide clock by 2
+     22            TB0CTL |= ID__2; // Divide clock by 2
    \   000010   B2D040008003 BIS.W   #0x40, &0x380
-     22            TB0EX0 = TBIDEX__8; // Divide clock by an additional 8
+     23            TB0EX0 = TBIDEX__8; // Divide clock by an additional 8
    \   000016   B2400700A003 MOV.W   #0x7, &0x3a0
-     23            TB0CCR0 = TB0CCR0_INTERVAL; // CCR0
-   \   00001C   B240E8039203 MOV.W   #0x3e8, &0x392
-     24            TB0CCTL0 |= CCIE; // CCR0 enable interrupt
+     24            TB0CCR0 = TB0CCR0_INTERVAL; // CCR0
+   \   00001C   B240D0079203 MOV.W   #0x7d0, &0x392
+     25            TB0CCTL0 |= CCIE; // CCR0 enable interrupt
    \   000022   B2D010008203 BIS.W   #0x10, &0x382
-     25            TB0CCR1 = TB0CCR1_INTERVAL; // CCR1
+     26            TB0CCR1 = TB0CCR1_INTERVAL; // CCR1
    \   000028   B24050C39403 MOV.W   #0xc350, &0x394
-     26            //TB0CCTL1 |= CCIE; // CCR1 enable interrupt
-     27            TB0CCR2 = TB0CCR2_INTERVAL; // CCR2
-   \   00002E   B240A8619603 MOV.W   #0x61a8, &0x396
-     28            TB0CCTL2 |= CCIE; // CCR2 enable interrupt
-   \   000034   B2D010008603 BIS.W   #0x10, &0x386
-     29            TB0CTL &= ~TBIE; // Disable Overflow Interrupt
-   \   00003A   A2C38003     BIC.W   #0x2, &0x380
-     30            TB0CTL &= ~TBIFG; // Clear Overflow Interrupt flag
-   \   00003E   92C38003     BIC.W   #0x1, &0x380
-     31          }
-   \   000042   1001         RETA
-   \   000044                REQUIRE _A_TB0CTL_L
-   \   000044                REQUIRE _A_TB0EX0_L
-   \   000044                REQUIRE _A_TB0CCR0_L
-   \   000044                REQUIRE _A_TB0CCTL0_L
-   \   000044                REQUIRE _A_TB0CCR1_L
-   \   000044                REQUIRE _A_TB0CCR2_L
-   \   000044                REQUIRE _A_TB0CCTL2_L
-     32          
+     27            //TB0CCTL1 |= CCIE; // CCR1 enable interrupt
+     28            TB0CCR2 = TB0CCR2_INTERVAL; // CCR2
+   \   00002E   B24050C39603 MOV.W   #0xc350, &0x396
+     29            //TB0CCTL2 |= CCIE; // CCR2 enable interrupt
+     30            TB0CTL &= ~TBIE; // Disable Overflow Interrupt
+   \   000034   A2C38003     BIC.W   #0x2, &0x380
+     31            TB0CTL &= ~TBIFG; // Clear Overflow Interrupt flag
+   \   000038   92C38003     BIC.W   #0x1, &0x380
+     32          }
+   \   00003C   1001         RETA
+   \   00003E                REQUIRE _A_TB0CTL_L
+   \   00003E                REQUIRE _A_TB0EX0_L
+   \   00003E                REQUIRE _A_TB0CCR0_L
+   \   00003E                REQUIRE _A_TB0CCTL0_L
+   \   00003E                REQUIRE _A_TB0CCR1_L
+   \   00003E                REQUIRE _A_TB0CCR2_L
      33          
-     34          //===========================================================================
-     35          // Function name: Timer0_B0_ISR
-     36          //
-     37          // Description: Increments Time_Sequence and update_display
-     38          //
-     39          // Passed : no variables passed
-     40          // Locals: no variables declared
-     41          // Returned: no values returned
-     42          // Globals: no global values
-     43          //
-     44          // Author: Ibrahim Moghul
-     45          // Date: Feb 2022
-     46          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
-     47          //===========================================================================
-     48          #pragma vector = TIMER0_B0_VECTOR
+     34          
+     35          //===========================================================================
+     36          // Function name: Timer0_B0_ISR
+     37          //
+     38          // Description: Increments Time_Sequence and update_display
+     39          //
+     40          // Passed : no variables passed
+     41          // Locals: no variables declared
+     42          // Returned: no values returned
+     43          // Globals: no global values
+     44          //
+     45          // Author: Ibrahim Moghul
+     46          // Date: Feb 2022
+     47          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     48          //===========================================================================
+     49          #pragma vector = TIMER0_B0_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-     49          __interrupt void Timer0_B0_ISR(void){
+     50          __interrupt void Timer0_B0_ISR(void){
    \                     Timer0_B0_ISR:
    \   000000   3F15         PUSHM.W #0x4, R15
-     50          //------------------------------------------------------------------------------
-     51          // TimerB0 0 Interrupt handler
-     52          //----------------------------------------------------------------------------
-     53            if(++timer0Counter==UPDATE_DISPLAY_TIMER_COUNT+1) timer0Counter = 1;
+     51          //------------------------------------------------------------------------------
+     52          // TimerB0 0 Interrupt handler
+     53          //----------------------------------------------------------------------------
+     54            if(++timer0Counter==((UPDATE_DISPLAY_TIMER_COUNT*BACKLITE_TIMER_COUNT)+1)) timer0Counter = 1;
    \   000002   1F42....     MOV.W   &timer0Counter, R15
    \   000006   1F53         ADD.W   #0x1, R15
    \   000008   824F....     MOV.W   R15, &timer0Counter
-   \   00000C   3F906500     CMP.W   #0x65, R15
+   \   00000C   3F905902     CMP.W   #0x259, R15
    \   000010   0220         JNE     ??Timer0_B0_ISR_0
    \   000012   9243....     MOV.W   #0x1, &timer0Counter
-     54            if(timer0Counter%TIME_SEQUENCE_TIMER_COUNT==0)
+     55            if(timer0Counter%TIME_SEQUENCE_TIMER_COUNT==0)
    \                     ??Timer0_B0_ISR_0:
-   \   000016   1E42....     MOV.W   &timer0Counter, R14
-   \   00001A   7EB00700     BIT.B   #0x7, R14
-   \   00001E   0B20         JNE     ??Timer0_B0_ISR_1
-     55              if(Time_Sequence++ == TIME_SEQUENCE_MAX) Time_Sequence = 0;
-   \   000020   1F42....     MOV.W   &Time_Sequence, R15
-   \   000024   0E4F         MOV.W   R15, R14
-   \   000026   1E53         ADD.W   #0x1, R14
-   \   000028   824E....     MOV.W   R14, &Time_Sequence
-   \   00002C   3F90FA00     CMP.W   #0xfa, R15
-   \   000030   0220         JNE     ??Timer0_B0_ISR_1
-   \   000032   8243....     MOV.W   #0x0, &Time_Sequence
-     56            if(timer0Counter%UPDATE_DISPLAY_TIMER_COUNT==0)
+   \   000016   1F42....     MOV.W   &timer0Counter, R15
+     56              if(Time_Sequence++ == TIME_SEQUENCE_MAX) Time_Sequence = 0;
+   \   00001A   1E42....     MOV.W   &Time_Sequence, R14
+   \   00001E   0D4E         MOV.W   R14, R13
+   \   000020   1D53         ADD.W   #0x1, R13
+   \   000022   824D....     MOV.W   R13, &Time_Sequence
+   \   000026   3E90FA00     CMP.W   #0xfa, R14
+   \   00002A   0220         JNE     ??Timer0_B0_ISR_1
+   \   00002C   8243....     MOV.W   #0x0, &Time_Sequence
+     57            if(timer0Counter%UPDATE_DISPLAY_TIMER_COUNT==0)
    \                     ??Timer0_B0_ISR_1:
-   \   000036   1C42....     MOV.W   &timer0Counter, R12
-   \   00003A   3E406400     MOV.W   #0x64, R14
-   \   00003E   ........     CALLA   #?DivMod16u
-   \   000042   0E93         CMP.W   #0x0, R14
-   \   000044   0220         JNE     ??Timer0_B0_ISR_2
-     57              update_display=1;
-   \   000046   D243....     MOV.B   #0x1, &update_display
-     58            
-     59            
-     60            TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
+   \   000030   1C42....     MOV.W   &timer0Counter, R12
+   \   000034   3E403200     MOV.W   #0x32, R14
+   \   000038   ........     CALLA   #?DivMod16u
+   \   00003C   0E93         CMP.W   #0x0, R14
+   \   00003E   0220         JNE     ??Timer0_B0_ISR_2
+     58              update_display=1;
+   \   000040   D243....     MOV.B   #0x1, &update_display
+     59            if (timer0Counter%BACKLITE_TIMER_COUNT==0 && backliteBlinking == TRUE){
    \                     ??Timer0_B0_ISR_2:
-   \   00004A   B250E8039203 ADD.W   #0x3e8, &0x392
-     61          //----------------------------------------------------------------------------
-     62          }
-   \   000050   3C17         POPM.W  #0x4, R15
-   \   000052   0013         RETI
-   \   000054                REQUIRE _A_TB0CCR0_L
-     63          
-     64          
-     65          //===========================================================================
-     66          // Function name: TIMER0_B1_ISR
-     67          //
-     68          // Description: Timer 1 handles switch debounce, and Timer 2 handles 
-     69          // LCD blinking
-     70          //
-     71          // Passed : no variables passed
-     72          // Locals: no variables declared
-     73          // Returned: no values returned
-     74          // Globals: no global values
-     75          //
-     76          // Author: Ibrahim Moghul
-     77          // Date: Feb 2022
-     78          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
-     79          //===========================================================================
-     80          #pragma vector=TIMER0_B1_VECTOR
+   \   000044   1C42....     MOV.W   &timer0Counter, R12
+   \   000048   3E400C00     MOV.W   #0xc, R14
+   \   00004C   ........     CALLA   #?DivMod16u
+   \   000050   0E93         CMP.W   #0x0, R14
+   \   000052   0F20         JNE     ??Timer0_B0_ISR_3
+   \   000054   9293....     CMP.W   #0x1, &backliteBlinking
+   \   000058   0C20         JNE     ??Timer0_B0_ISR_3
+     60              if (++backliteCounter==10){
+   \   00005A   1F42....     MOV.W   &backliteCounter, R15
+   \   00005E   1F53         ADD.W   #0x1, R15
+   \   000060   824F....     MOV.W   R15, &backliteCounter
+   \   000064   3F900A00     CMP.W   #0xa, R15
+   \   000068   0420         JNE     ??Timer0_B0_ISR_3
+     61                backliteCounter = 0;
+   \   00006A   8243....     MOV.W   #0x0, &backliteCounter
+     62                P3OUT ^= LCD_BACKLITE;
+   \   00006E   F2E22202     XOR.B   #0x8, &0x222
+     63              }
+     64            }
+     65            
+     66            TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
+   \                     ??Timer0_B0_ISR_3:
+   \   000072   B250D0079203 ADD.W   #0x7d0, &0x392
+     67          //----------------------------------------------------------------------------
+     68          }
+   \   000078   3C17         POPM.W  #0x4, R15
+   \   00007A   0013         RETI
+   \   00007C                REQUIRE _A_PBOUT_L
+   \   00007C                REQUIRE _A_TB0CCR0_L
+     69          
+     70          
+     71          //===========================================================================
+     72          // Function name: TIMER0_B1_ISR
+     73          //
+     74          // Description: Timer 1 handles switch debounce, and Timer 2 handles 
+     75          // LCD blinking
+     76          //
+     77          // Passed : no variables passed
+     78          // Locals: no variables declared
+     79          // Returned: no values returned
+     80          // Globals: no global values
+     81          //
+     82          // Author: Ibrahim Moghul
+     83          // Date: Feb 2022
+     84          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     85          //===========================================================================
+     86          #pragma vector=TIMER0_B1_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-     81          __interrupt void TIMER0_B1_ISR(void){
+     87          __interrupt void TIMER0_B1_ISR(void){
    \                     TIMER0_B1_ISR:
    \   000000   0F12         PUSH.W  R15
-     82            //----------------------------------------------------------------------------
-     83            // TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
-     84            //----------------------------------------------------------------------------
-     85            switch(__even_in_range(TB0IV,14)){
+     88            //----------------------------------------------------------------------------
+     89            // TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
+     90            //----------------------------------------------------------------------------
+     91            switch(__even_in_range(TB0IV,14)){
    \   000002   1F42AE03     MOV.W   &0x3ae, R15
    \   000006   E00F         ADDA    R15, PC
    \                     `?<Jumptable for TIMER0_B1_ISR>_0`:
-   \   000008   483C         JMP     ??TIMER0_B1_ISR_1
-   \   00000A   063C         JMP     ??TIMER0_B1_ISR_8
-   \   00000C   373C         JMP     ??TIMER0_B1_ISR_9
-   \   00000E   453C         JMP     ??TIMER0_B1_ISR_1
-   \   000010   443C         JMP     ??TIMER0_B1_ISR_1
-   \   000012   433C         JMP     ??TIMER0_B1_ISR_1
-   \   000014   423C         JMP     ??TIMER0_B1_ISR_1
-   \   000016   413C         JMP     ??TIMER0_B1_ISR_1
-     86              case 0: break; // No interrupt
-     87              case 2: // CCR1 not used
-     88                if(debouncing1) debounce_count1++;
-   \                     ??TIMER0_B1_ISR_8:
-   \   000018   8293....     CMP.W   #0x0, &debouncing1
-   \   00001C   0224         JEQ     ??TIMER0_B1_ISR_2
+   \   000008   2E3C         JMP     ??TIMER0_B1_ISR_1
+   \   00000A   063C         JMP     ??TIMER0_B1_ISR_7
+   \   00000C   193C         JMP     ??TIMER0_B1_ISR_8
+   \   00000E   2B3C         JMP     ??TIMER0_B1_ISR_1
+   \   000010   2A3C         JMP     ??TIMER0_B1_ISR_1
+   \   000012   293C         JMP     ??TIMER0_B1_ISR_1
+   \   000014   283C         JMP     ??TIMER0_B1_ISR_1
+   \   000016   273C         JMP     ??TIMER0_B1_ISR_1
+     92              case 0: break; // No interrupt
+     93              case 2: // CCR1 not used
+     94                if(debouncing1==TRUE) debounce_count1++;
+   \                     ??TIMER0_B1_ISR_7:
+   \   000018   9293....     CMP.W   #0x1, &debouncing1
+   \   00001C   0220         JNE     ??TIMER0_B1_ISR_2
    \   00001E   9253....     ADD.W   #0x1, &debounce_count1
-     89                if(debouncing2) debounce_count2++;
-   \                     ??TIMER0_B1_ISR_2:
-   \   000022   8293....     CMP.W   #0x0, &debouncing2
-   \   000026   0224         JEQ     ??TIMER0_B1_ISR_3
-   \   000028   9253....     ADD.W   #0x1, &debounce_count2
-     90                if (debounce_count1 >= debounce_thresh1){
+     95                if (debounce_count1 > debounce_thresh1){
                        ^
 Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
+   \                     ??TIMER0_B1_ISR_2:
+   \   000022   1F42....     MOV.W   &debounce_thresh1, R15
+   \   000026   1F92....     CMP.W   &debounce_count1, R15
+   \   00002A   062C         JC      ??TIMER0_B1_ISR_3
+     96                  debounce_count1 = 0;
+   \   00002C   8243....     MOV.W   #0x0, &debounce_count1
+     97                  debouncing1 = FALSE;
+   \   000030   8243....     MOV.W   #0x0, &debouncing1
+     98                  P4IE |= SW1;
+   \   000034   E2D33B02     BIS.B   #0x2, &0x23b
+     99                }
+    100                TB0CCR1 += TB0CCR1_INTERVAL; // Add Offset to TBCCR1
    \                     ??TIMER0_B1_ISR_3:
-   \   00002C   1F42....     MOV.W   &debounce_count1, R15
-   \   000030   1F92....     CMP.W   &debounce_thresh1, R15
-   \   000034   0628         JNC     ??TIMER0_B1_ISR_4
-     91                  debounce_count1 = 0;
-   \   000036   8243....     MOV.W   #0x0, &debounce_count1
-     92                  debouncing1 = FALSE;
-   \   00003A   8243....     MOV.W   #0x0, &debouncing1
-     93                  P4IE |= SW1;
-   \   00003E   E2D33B02     BIS.B   #0x2, &0x23b
-     94                }
-     95                if (debounce_count2 >= debounce_thresh2){
+   \   000038   B25050C39403 ADD.W   #0xc350, &0x394
+    101                
+    102                break;
+   \   00003E   133C         JMP     ??TIMER0_B1_ISR_1
+    103              case 4: // CCR2 not used
+    104                if(debouncing2==TRUE) debounce_count2++;
+   \                     ??TIMER0_B1_ISR_8:
+   \   000040   9293....     CMP.W   #0x1, &debouncing2
+   \   000044   0220         JNE     ??TIMER0_B1_ISR_4
+   \   000046   9253....     ADD.W   #0x1, &debounce_count2
+    105                if (debounce_count2 > debounce_thresh2){
                        ^
 Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
    \                     ??TIMER0_B1_ISR_4:
-   \   000042   1F42....     MOV.W   &debounce_count2, R15
-   \   000046   1F92....     CMP.W   &debounce_thresh2, R15
-   \   00004A   0628         JNC     ??TIMER0_B1_ISR_5
-     96                  debounce_count2 = 0;
-   \   00004C   8243....     MOV.W   #0x0, &debounce_count2
-     97                  debouncing2 = FALSE;
-   \   000050   8243....     MOV.W   #0x0, &debouncing2
-     98                  P2IE |= SW2;
-   \   000054   F2D21B02     BIS.B   #0x8, &0x21b
-     99                }
-    100                if(debouncing1==FALSE && debouncing2==FALSE) {
+   \   00004A   1F42....     MOV.W   &debounce_thresh2, R15
+   \   00004E   1F92....     CMP.W   &debounce_count2, R15
+   \   000052   062C         JC      ??TIMER0_B1_ISR_5
+    106                  debounce_count2 = 0;
+   \   000054   8243....     MOV.W   #0x0, &debounce_count2
+    107                  debouncing2 = FALSE;
+   \   000058   8243....     MOV.W   #0x0, &debouncing2
+    108                  P2IE |= SW2;
+   \   00005C   F2D21B02     BIS.B   #0x8, &0x21b
+    109                }
+    110                TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR2
    \                     ??TIMER0_B1_ISR_5:
-   \   000058   8293....     CMP.W   #0x0, &debouncing1
-   \   00005C   0B20         JNE     ??TIMER0_B1_ISR_6
-   \   00005E   8293....     CMP.W   #0x0, &debouncing2
-   \   000062   0820         JNE     ??TIMER0_B1_ISR_6
-    101                  TB0CCTL1 &= ~CCIE; // CCR1 disable interrupt
-   \   000064   B2C010008403 BIC.W   #0x10, &0x384
-    102                  TB0CCTL2 |= CCIE;
-   \   00006A   B2D010008603 BIS.W   #0x10, &0x386
-    103                  backliteCounter = 0;
-   \   000070   8243....     MOV.W   #0x0, &backliteCounter
-    104                }
-    105                TB0CCR1 += TB0CCR1_INTERVAL; // Add Offset to TBCCR1
-   \                     ??TIMER0_B1_ISR_6:
-   \   000074   B25050C39403 ADD.W   #0xc350, &0x394
-    106                break;
-   \   00007A   0F3C         JMP     ??TIMER0_B1_ISR_1
-    107              case 4: // CCR2 not used
-    108          
-    109                  if (++backliteCounter==10){
-   \                     ??TIMER0_B1_ISR_9:
-   \   00007C   1F42....     MOV.W   &backliteCounter, R15
-   \   000080   1F53         ADD.W   #0x1, R15
-   \   000082   824F....     MOV.W   R15, &backliteCounter
-   \   000086   3F900A00     CMP.W   #0xa, R15
-   \   00008A   0420         JNE     ??TIMER0_B1_ISR_7
-    110                    backliteCounter = 0;
-   \   00008C   8243....     MOV.W   #0x0, &backliteCounter
-    111                    P3OUT ^= LCD_BACKLITE;
-   \   000090   F2E22202     XOR.B   #0x8, &0x222
-    112                  }
-    113                
-    114                TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR2
-   \                     ??TIMER0_B1_ISR_7:
-   \   000094   B250A8619603 ADD.W   #0x61a8, &0x396
+   \   000060   B25050C39603 ADD.W   #0xc350, &0x396
+    111                
+    112                break;
+    113              case 14: // overflow
+    114                
     115                break;
-    116              case 14: // overflow
-    117                
-    118                break;
-    119              default: break;
-    120            }
-    121            //----------------------------------------------------------------------------
-    122          }
+    116              default: break;
+    117            }
+    118            if(debouncing1==FALSE && debouncing2==FALSE) {
    \                     ??TIMER0_B1_ISR_1:
-   \   00009A   3F41         POP.W   R15
-   \   00009C   0013         RETI
-   \   00009E                REQUIRE _A_PBIE_L
-   \   00009E                REQUIRE _A_PAIE_L
-   \   00009E                REQUIRE _A_TB0CCTL1_L
-   \   00009E                REQUIRE _A_TB0CCTL2_L
-   \   00009E                REQUIRE _A_TB0CCR1_L
-   \   00009E                REQUIRE _A_PBOUT_L
-   \   00009E                REQUIRE _A_TB0CCR2_L
-   \   00009E                REQUIRE _A_TB0IV_L
+   \   000066   8293....     CMP.W   #0x0, &debouncing1
+   \   00006A   0D20         JNE     ??TIMER0_B1_ISR_6
+   \   00006C   8293....     CMP.W   #0x0, &debouncing2
+   \   000070   0A20         JNE     ??TIMER0_B1_ISR_6
+    119              TB0CCTL1 &= ~CCIE; // CCR1 disable interrupt
+   \   000072   B2C010008403 BIC.W   #0x10, &0x384
+    120              TB0CCTL2 &= ~CCIE;
+   \   000078   B2C010008603 BIC.W   #0x10, &0x386
+    121              backliteBlinking = TRUE;//TB0CCTL2 |= CCIE;
+   \   00007E   9243....     MOV.W   #0x1, &backliteBlinking
+    122              backliteCounter = 0;
+   \   000082   8243....     MOV.W   #0x0, &backliteCounter
+    123            }
+    124            //----------------------------------------------------------------------------
+    125          }
+   \                     ??TIMER0_B1_ISR_6:
+   \   000086   3F41         POP.W   R15
+   \   000088   0013         RETI
+   \   00008A                REQUIRE _A_PBIE_L
+   \   00008A                REQUIRE _A_TB0CCR1_L
+   \   00008A                REQUIRE _A_PAIE_L
+   \   00008A                REQUIRE _A_TB0CCR2_L
+   \   00008A                REQUIRE _A_TB0IV_L
+   \   00008A                REQUIRE _A_TB0CCTL1_L
+   \   00008A                REQUIRE _A_TB0CCTL2_L
 
    \                                 In  segment INTVEC, offset 0x54, root
    \                     `??TIMER0_B1_ISR::??INTVEC 84`:
@@ -414,6 +427,10 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \                     `?<Initializer for debounce_thresh2>`:
    \   000000   0A00         DC16 10
 
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for backliteBlinking>`:
+   \   000000   0100         DC16 1
+
    Maximum stack usage in bytes:
 
    CSTACK Function
@@ -430,14 +447,15 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
 
    Bytes  Function/Label
    -----  --------------
+       2  ?<Initializer for backliteBlinking>
        2  ?<Initializer for debounce_thresh1>
        2  ?<Initializer for debounce_thresh2>
-      68  Init_Timer_B0
+      62  Init_Timer_B0
        6  Init_Timers
-     158  TIMER0_B1_ISR
+     138  TIMER0_B1_ISR
        2  TIMER0_B1_ISR::??INTVEC 84
        2  Time_Sequence
-      84  Timer0_B0_ISR
+     124  Timer0_B0_ISR
        2  Timer0_B0_ISR::??INTVEC 86
        2  _A_PAIE_L
        2  _A_PBIE_L
@@ -451,6 +469,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
        2  _A_TB0CTL_L
        2  _A_TB0EX0_L
        2  _A_TB0IV_L
+       2  backliteBlinking
        2  backliteCounter
        2  debounce_count1
        2  debounce_count2
@@ -461,17 +480,17 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
        2  timer0Counter
 
  
-  74 bytes in segment CODE
+  68 bytes in segment CODE
   24 bytes in segment DATA16_AN
-   4 bytes in segment DATA16_I
-   4 bytes in segment DATA16_ID
+   6 bytes in segment DATA16_I
+   6 bytes in segment DATA16_ID
   14 bytes in segment DATA16_Z
    4 bytes in segment INTVEC
- 242 bytes in segment ISR_CODE
+ 262 bytes in segment ISR_CODE
  
- 316 bytes of CODE  memory
-   4 bytes of CONST memory (+  4 bytes shared)
-  18 bytes of DATA  memory (+ 24 bytes shared)
+ 330 bytes of CODE  memory
+   6 bytes of CONST memory (+  4 bytes shared)
+  20 bytes of DATA  memory (+ 24 bytes shared)
 
 Errors: none
 Warnings: 2

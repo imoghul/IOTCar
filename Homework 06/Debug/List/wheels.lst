@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          17/Feb/2022  12:30:56
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          17/Feb/2022  20:54:10
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,26 +12,26 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece-306\Homework 06\wheels.c
+#    Source file   =  \\Mac\Home\Desktop\ece-306\Homework 06\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW2693.tmp
-#        ("C:\Users\saad\Documents\ece-306\Homework 06\wheels.c" -lC
-#        "C:\Users\saad\Documents\ece-306\Homework 06\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj" --no_cse
+#        -f C:\Users\IBRAHI~1\AppData\Local\Temp\EWBAA8.tmp
+#        ("\\Mac\Home\Desktop\ece-306\Homework 06\wheels.c" -lC
+#        "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\List" -o
+#        "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj" --no_cse
 #        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
-#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
-#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -On --multiplier=32
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files
+#        (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I
+#        ./ --core=430X --data_model=small -On --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece-306\Homework 06\Debug\List\wheels.lst
+#        \\Mac\Home\Desktop\ece-306\Homework 06\Debug\List\wheels.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\wheels.r43
+#        \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\wheels.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece-306\Homework 06\wheels.c
+\\Mac\Home\Desktop\ece-306\Homework 06\wheels.c
       1          #include "msp430.h"
 
    \                                 In  segment DATA16_AN, at 0x202
@@ -593,19 +593,19 @@ C:\Users\saad\Documents\ece-306\Homework 06\wheels.c
     163            switch(state){
    \   000000   5E42....     MOV.B   &state, R14
    \   000004   7E804100     SUB.B   #0x41, R14
-   \   000008   2724         JEQ     ??StateMachine_1
+   \   000008   2B24         JEQ     ??StateMachine_1
    \   00000A   6E83         SUB.B   #0x2, R14
-   \   00000C   2924         JEQ     ??StateMachine_2
+   \   00000C   2D24         JEQ     ??StateMachine_2
    \   00000E   6E83         SUB.B   #0x2, R14
-   \   000010   3924         JEQ     ??StateMachine_3
+   \   000010   3D24         JEQ     ??StateMachine_3
    \   000012   5E83         SUB.B   #0x1, R14
-   \   000014   2B24         JEQ     ??StateMachine_4
+   \   000014   2F24         JEQ     ??StateMachine_4
    \   000016   7E800D00     SUB.B   #0xd, R14
    \   00001A   0624         JEQ     ??StateMachine_5
    \   00001C   5E83         SUB.B   #0x1, R14
-   \   00001E   2C24         JEQ     ??StateMachine_6
+   \   00001E   3024         JEQ     ??StateMachine_6
    \   000020   7E800300     SUB.B   #0x3, R14
-   \   000024   0D24         JEQ     ??StateMachine_7
+   \   000024   1124         JEQ     ??StateMachine_7
    \   000026   1001         RETA
     164              case (START):
     165                strcpy(display_line[0], "WAITING...");
@@ -615,68 +615,72 @@ C:\Users\saad\Documents\ece-306\Homework 06\wheels.c
    \   000030   ........     CALLA   #strcpy
     166                display_changed = 1;
    \   000034   D243....     MOV.B   #0x1, &display_changed
-    167                state = WAIT;
-   \   000038   F2405700.... MOV.B   #0x57, &state
-    168                break;
-   \   00003E   1001         RETA
-    169              case (WAIT):
-    170                delay(3,0);
+    167                stopwatch_seconds = 0;
+   \   000038   8243....     MOV.W   #0x0, &stopwatch_seconds
+    168                cycle_count = 0;
+   \   00003C   8243....     MOV.W   #0x0, &cycle_count
+    169                state = WAIT;
+   \   000040   F2405700.... MOV.B   #0x57, &state
+    170                break;
+   \   000046   1001         RETA
+    171              case (WAIT):
+    172                delay(3,0);
    \                     ??StateMachine_7:
-   \   000040   0D43         MOV.W   #0x0, R13
-   \   000042   3C400300     MOV.W   #0x3, R12
-   \   000046   ........     CALLA   #delay
-    171                strcpy(display_line[0], "WAITING...");
-   \   00004A   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
-   \   00004E   3C40....     MOV.W   #display_line, R12
-   \   000052   ........     CALLA   #strcpy
-    172                break;
-   \   000056   1001         RETA
-    173              case (ARM):
-    174                //wheel_tick = 0;
-    175                //right_tick = 0;
-    176                //left_tick = 0;
-    177                state = CIRCLE;
-   \                     ??StateMachine_1:
-   \   000058   F2404300.... MOV.B   #0x43, &state
-    178                break;
+   \   000048   0D43         MOV.W   #0x0, R13
+   \   00004A   3C400300     MOV.W   #0x3, R12
+   \   00004E   ........     CALLA   #delay
+    173                strcpy(display_line[0], "WAITING...");
+   \   000052   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
+   \   000056   3C40....     MOV.W   #display_line, R12
+   \   00005A   ........     CALLA   #strcpy
+    174                break;
    \   00005E   1001         RETA
-    179              case (CIRCLE):
-    180                Circle();
+    175              case (ARM):
+    176                //wheel_tick = 0;
+    177                //right_tick = 0;
+    178                //left_tick = 0;
+    179                state = CIRCLE;
+   \                     ??StateMachine_1:
+   \   000060   F2404300.... MOV.B   #0x43, &state
+    180                break;
+   \   000066   1001         RETA
+    181              case (CIRCLE):
+    182                Circle();
    \                     ??StateMachine_2:
-   \   000060   ........     CALLA   #Circle
-    181                nextState = FIGURE8;
-   \   000064   F2404600.... MOV.B   #0x46, &nextState
-    182                break;
-   \   00006A   1001         RETA
-    183              case (FIGURE8):
-    184                Figure8();
+   \   000068   ........     CALLA   #Circle
+    183                nextState = FIGURE8;
+   \   00006C   F2404600.... MOV.B   #0x46, &nextState
+    184                break;
+   \   000072   1001         RETA
+    185              case (FIGURE8):
+    186                Figure8();
    \                     ??StateMachine_4:
-   \   00006C   ........     CALLA   #Figure8
-    185                nextState = TRIANGLE;
-   \   000070   F2405400.... MOV.B   #0x54, &nextState
-    186                break;
-   \   000076   1001         RETA
-    187              case (TRIANGLE):
-    188                Triangle();
+   \   000074   ........     CALLA   #Figure8
+    187                nextState = TRIANGLE;
+   \   000078   F2405400.... MOV.B   #0x54, &nextState
+    188                break;
+   \   00007E   1001         RETA
+    189              case (TRIANGLE):
+    190                Triangle();
    \                     ??StateMachine_6:
-   \   000078   ........     CALLA   #Triangle
-    189                nextState = END;
-   \   00007C   F2404500.... MOV.B   #0x45, &nextState
-    190                break;
-   \   000082   1001         RETA
-    191              case (END):
-    192                strcpy(display_line[0], "    END   ");
+   \   000080   ........     CALLA   #Triangle
+    191                nextState = END;
+   \   000084   F2404500.... MOV.B   #0x45, &nextState
+    192                break;
+   \   00008A   1001         RETA
+    193              case (END):
+    194                strcpy(display_line[0], "    END   ");
    \                     ??StateMachine_3:
-   \   000084   3D40....     MOV.W   #`?<Constant "    END   ">`, R13
-   \   000088   3C40....     MOV.W   #display_line, R12
-   \   00008C   ........     CALLA   #strcpy
-    193                display_changed = 1;
-   \   000090   D243....     MOV.B   #0x1, &display_changed
-    194                break;
-    195              default: break;  
-    196            }
-    197          }
-   \   000094   1001         RETA
+   \   00008C   3D40....     MOV.W   #`?<Constant "    END   ">`, R13
+   \   000090   3C40....     MOV.W   #display_line, R12
+   \   000094   ........     CALLA   #strcpy
+    195                display_changed = 1;
+   \   000098   D243....     MOV.B   #0x1, &display_changed
+    196                break;
+    197              default: break;  
+    198            }
+    199          }
+   \   00009C   1001         RETA
 
    \                                 In  segment DATA16_ID, align 1, align-sorted
    \                     `?<Initializer for state>`:
@@ -762,7 +766,7 @@ C:\Users\saad\Documents\ece-306\Homework 06\wheels.c
       40  MotorSafety
       70  RunMotor
       18  ShutoffMotors
-     150  StateMachine
+     158  StateMachine
      202  Triangle
       44  Update_Ticks
        2  _A_PAOUT_L
@@ -779,14 +783,14 @@ C:\Users\saad\Documents\ece-306\Homework 06\wheels.c
        2  wheel_tick
 
  
- 976 bytes in segment CODE
+ 984 bytes in segment CODE
    6 bytes in segment DATA16_AN
   55 bytes in segment DATA16_C
    2 bytes in segment DATA16_I
    2 bytes in segment DATA16_ID
   12 bytes in segment DATA16_Z
  
- 976 bytes of CODE  memory
+ 984 bytes of CODE  memory
   57 bytes of CONST memory
   14 bytes of DATA  memory (+ 6 bytes shared)
 

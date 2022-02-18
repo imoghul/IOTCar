@@ -4,10 +4,10 @@
 #define STRAIGHT_RIGHT          (20)
 #define STRAIGHT_LEFT           (16)
 // circle
-#define LCIRC_RIGHT             (3)
+#define LCIRC_RIGHT             (3) // 3
 #define LCIRC_LEFT              (20)
 #define RCIRC_RIGHT             (20)
-#define RCIRC_LEFT              (3)
+#define RCIRC_LEFT              (3) // 3
 #define MAX_RCIRCLE_TICK        (75)  // without time_change (6000)
 #define MAX_LCIRCLE_TICK        (72)  // without time_change (5300)
 // triangle

@@ -3,7 +3,7 @@
 #include "ports.h"
 #include "wheels.h"
 #include "macros.h"
-
+#include "timers.h"
 
 volatile unsigned int sw1Okay, sw2Okay;
 volatile unsigned int count_debounce_SW1, count_debounce_SW2;
@@ -13,6 +13,7 @@ extern volatile unsigned int stopwatch_seconds;
 extern volatile char state;
 extern volatile unsigned int debounce_count1, debounce_count2;
 extern volatile unsigned int debouncing1, debouncing2;
+extern volatile unsigned int backliteBlinking;
 
 //===========================================================================
 // Function name: switchP4_interrupt
@@ -38,6 +39,7 @@ __interrupt void switchP4_interrupt(void){
     debouncing1 = TRUE;
     P4IE &= ~SW1;
     debounce_count1 = 0;
+    TB0CCR1 = TB0R + TB0CCR1_INTERVAL;
     // Actual Code
     //if(state == START){
     //    stopwatch_seconds = 0;
@@ -45,7 +47,7 @@ __interrupt void switchP4_interrupt(void){
     //    state = WAIT;
     //}
     P3OUT &= ~LCD_BACKLITE;
-    TB0CCTL2 &= ~CCIE;
+    backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
   }
 }
 
@@ -68,14 +70,15 @@ __interrupt void switchP4_interrupt(void){
 __interrupt void switchP2_interrupt(void){
   if(P2IFG & SW2){
     P2IFG &= ~SW2;
-    TB0CCTL1 |= CCIE; // CCR1 enable interrupt
+    TB0CCTL2 |= CCIE; // CCR1 enable interrupt
     debouncing2 = TRUE;
     P2IE &= ~SW2;
     debounce_count2 = 0;
+    TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
     // Actual Code
     //P1OUT |= RED_LED;
     P3OUT &= ~LCD_BACKLITE;
-    TB0CCTL2 &= ~CCIE;
+    backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
   }
 }
 

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          07/Feb/2022  12:21:56
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          17/Feb/2022  20:31:47
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,26 +12,26 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ECE306\Project 04\wheels.c
+#    Source file   =  \\Mac\Home\Desktop\ece-306\Project 04\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW5B0.tmp
-#        ("C:\Users\saad\Documents\ECE306\Project 04\wheels.c" -lC
-#        "C:\Users\saad\Documents\ECE306\Project 04\Debug\List" -o
-#        "C:\Users\saad\Documents\ECE306\Project 04\Debug\Obj" --no_cse
-#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
-#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
-#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -On --multiplier=32
-#        --hw_workaround=CPU40 --code_model=large)
+#        -f C:\Users\IBRAHI~1\AppData\Local\Temp\EWF2FD.tmp
+#        ("\\Mac\Home\Desktop\ece-306\Project 04\wheels.c" -lC
+#        "\\Mac\Home\Desktop\ece-306\Project 04\Debug\List" -o
+#        "\\Mac\Home\Desktop\ece-306\Project 04\Debug\Obj" --no_cse --no_unroll
+#        --no_inline --no_code_motion --no_tbaa --debug -D__MSP430FR2355__ -e
+#        --double=32 --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded
+#        Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./ --core=430X
+#        --data_model=small -On --multiplier=32 --hw_workaround=CPU40
+#        --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ECE306\Project 04\Debug\List\wheels.lst
+#        \\Mac\Home\Desktop\ece-306\Project 04\Debug\List\wheels.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ECE306\Project 04\Debug\Obj\wheels.r43
+#        \\Mac\Home\Desktop\ece-306\Project 04\Debug\Obj\wheels.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ECE306\Project 04\wheels.c
+\\Mac\Home\Desktop\ece-306\Project 04\wheels.c
       1          #include "msp430.h"
 
    \                                 In  segment DATA16_AN, at 0x242
@@ -430,28 +430,7 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
     127              shapeCounter++;
    \   00002E   9253....     ADD.W   #0x1, &shapeCounter
     128            }
-    129            //if(shapeCounter==1 || shapeCounter == 9){
-    130            //  if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG/2, TRIANGLE)) shapeCounter++;
-    131            //}
-    132            //else if(shapeCounter==2 || shapeCounter == 10){
-    133            //  if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
-    134            //}
-    135            //else if(shapeCounter==3 || shapeCounter == 11){
-    136            //  if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
-    137            //}
-    138            //else if(shapeCounter==4 || shapeCounter == 12){
-    139            //  if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
-    140            //}
-    141            //else if(shapeCounter==5 || shapeCounter == 13){
-    142            //  if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG/2, TRIANGLE)) shapeCounter++;
-    143            //}
-    144            //else if(shapeCounter==6 || shapeCounter == 14){
-    145            //  if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
-    146            //}
-    147            //else if(shapeCounter==7 || shapeCounter == 15){
-    148            //  if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
-    149            //}
-    150            if(shapeCounter==1 || shapeCounter == 3 || shapeCounter==5 || shapeCounter==8 || shapeCounter==10 || shapeCounter==12){
+    129            if(shapeCounter==1 || shapeCounter == 3 || shapeCounter==5 || shapeCounter==8 || shapeCounter==10 || shapeCounter==12){
    \                     ??Triangle_2:
    \   000032   9293....     CMP.W   #0x1, &shapeCounter
    \   000036   1324         JEQ     ??Triangle_3
@@ -465,7 +444,7 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
    \   000054   0424         JEQ     ??Triangle_3
    \   000056   B2900C00.... CMP.W   #0xc, &shapeCounter
    \   00005C   0F20         JNE     ??Triangle_4
-    151              if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
+    130              if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, TRIANGLE)) shapeCounter++;
    \                     ??Triangle_3:
    \   00005E   7F405400     MOV.B   #0x54, R15
    \   000062   3E40E803     MOV.W   #0x3e8, R14
@@ -476,8 +455,8 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
    \   000074   2624         JEQ     ??Triangle_0
    \   000076   9253....     ADD.W   #0x1, &shapeCounter
    \   00007A   233C         JMP     ??Triangle_0
-    152            }
-    153            else if(shapeCounter==2 || shapeCounter == 4 || shapeCounter==7 || shapeCounter==9 || shapeCounter==11 || shapeCounter==13){
+    131            }
+    132            else if(shapeCounter==2 || shapeCounter == 4 || shapeCounter==7 || shapeCounter==9 || shapeCounter==11 || shapeCounter==13){
    \                     ??Triangle_4:
    \   00007C   A293....     CMP.W   #0x2, &shapeCounter
    \   000080   1324         JEQ     ??Triangle_5
@@ -491,7 +470,7 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
    \   00009E   0424         JEQ     ??Triangle_5
    \   0000A0   B2900D00.... CMP.W   #0xd, &shapeCounter
    \   0000A6   0D20         JNE     ??Triangle_0
-    154              if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
+    133              if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, TRIANGLE)) shapeCounter++;
    \                     ??Triangle_5:
    \   0000A8   7F405400     MOV.B   #0x54, R15
    \   0000AC   3E40E204     MOV.W   #0x4e2, R14
@@ -501,57 +480,57 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
    \   0000BA   0C93         CMP.W   #0x0, R12
    \   0000BC   0224         JEQ     ??Triangle_0
    \   0000BE   9253....     ADD.W   #0x1, &shapeCounter
-    155            }
-    156            
-    157            if (shapeCounter==14) {
+    134            }
+    135            
+    136            if (shapeCounter==14) {
    \                     ??Triangle_0:
    \   0000C2   B2900E00.... CMP.W   #0xe, &shapeCounter
    \   0000C8   0520         JNE     ??Triangle_6
-    158              shapeCounter = 0;
+    137              shapeCounter = 0;
    \   0000CA   8243....     MOV.W   #0x0, &shapeCounter
-    159              state = END;
+    138              state = END;
    \   0000CE   F2404500.... MOV.B   #0x45, &state
-    160            }
-    161          }
+    139            }
+    140          }
    \                     ??Triangle_6:
    \   0000D4   1001         RETA
-    162          
-    163          // delays for a specified time and then switches state to global nextState
-    164          // make sure nextState is set to desired vlaue before the end of delay
+    141          
+    142          // delays for a specified time and then switches state to global nextState
+    143          // make sure nextState is set to desired vlaue before the end of delay
 
    \                                 In  segment CODE, align 2
-    165          void delay(int seconds,int cycles){
+    144          void delay(int seconds,int cycles){
    \                     delay:
-    166            if(stopwatch_seconds == 0 && cycle_count<=1) display_changed = 1;
+    145            if(stopwatch_seconds == 0 && cycle_count<=1) display_changed = 1;
    \   000000   8293....     CMP.W   #0x0, &stopwatch_seconds
    \   000004   0520         JNE     ??delay_0
    \   000006   A293....     CMP.W   #0x2, &cycle_count
    \   00000A   022C         JC      ??delay_0
    \   00000C   D243....     MOV.B   #0x1, &display_changed
-    167            if(stopwatch_seconds>=seconds && cycle_count >= cycles) {
+    146            if(stopwatch_seconds>=seconds && cycle_count >= cycles) {
    \                     ??delay_0:
    \   000010   829C....     CMP.W   R12, &stopwatch_seconds
    \   000014   0A28         JNC     ??delay_1
    \   000016   829D....     CMP.W   R13, &cycle_count
    \   00001A   0728         JNC     ??delay_1
-    168              stopwatch_seconds = 0;
+    147              stopwatch_seconds = 0;
    \   00001C   8243....     MOV.W   #0x0, &stopwatch_seconds
-    169              cycle_count = 0;
+    148              cycle_count = 0;
    \   000020   8243....     MOV.W   #0x0, &cycle_count
-    170              state = nextState;
+    149              state = nextState;
    \   000024   D242........ MOV.B   &nextState, &state
-    171            }
-    172          }
+    150            }
+    151          }
    \                     ??delay_1:
    \   00002A   1001         RETA
-    173          
-    174          
-    175          
+    152          
+    153          
+    154          
 
    \                                 In  segment CODE, align 2
-    176          void StateMachine(void){
+    155          void StateMachine(void){
    \                     StateMachine:
-    177            switch(state){
+    156            switch(state){
    \   000000   5E42....     MOV.B   &state, R14
    \   000004   7E804100     SUB.B   #0x41, R14
    \   000008   2424         JEQ     ??StateMachine_1
@@ -568,73 +547,73 @@ C:\Users\saad\Documents\ECE306\Project 04\wheels.c
    \   000020   7E800300     SUB.B   #0x3, R14
    \   000024   0A24         JEQ     ??StateMachine_7
    \   000026   1001         RETA
-    178              case (START):
-    179                strcpy(display_line[0], "WAITING...");
+    157              case (START):
+    158                strcpy(display_line[0], "WAITING...");
    \                     ??StateMachine_5:
    \   000028   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
    \   00002C   3C40....     MOV.W   #display_line, R12
    \   000030   ........     CALLA   #strcpy
-    180                display_changed = 1;
+    159                display_changed = 1;
    \   000034   D243....     MOV.B   #0x1, &display_changed
-    181                break;
+    160                break;
    \   000038   1001         RETA
-    182              case (WAIT):
-    183                delay(3,0);
+    161              case (WAIT):
+    162                delay(3,0);
    \                     ??StateMachine_7:
    \   00003A   0D43         MOV.W   #0x0, R13
    \   00003C   3C400300     MOV.W   #0x3, R12
    \   000040   ........     CALLA   #delay
-    184                strcpy(display_line[0], "WAITING...");
+    163                strcpy(display_line[0], "WAITING...");
    \   000044   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
    \   000048   3C40....     MOV.W   #display_line, R12
    \   00004C   ........     CALLA   #strcpy
-    185                break;
+    164                break;
    \   000050   1001         RETA
-    186              case (ARM):
-    187                //wheel_tick = 0;
-    188                //right_tick = 0;
-    189                //left_tick = 0;
-    190                state = CIRCLE;
+    165              case (ARM):
+    166                //wheel_tick = 0;
+    167                //right_tick = 0;
+    168                //left_tick = 0;
+    169                state = CIRCLE;
    \                     ??StateMachine_1:
    \   000052   F2404300.... MOV.B   #0x43, &state
-    191                break;
+    170                break;
    \   000058   1001         RETA
-    192              case (CIRCLE):
-    193                Circle();
+    171              case (CIRCLE):
+    172                Circle();
    \                     ??StateMachine_2:
    \   00005A   ........     CALLA   #Circle
-    194                nextState = FIGURE8;
+    173                nextState = FIGURE8;
    \   00005E   F2404600.... MOV.B   #0x46, &nextState
-    195                break;
+    174                break;
    \   000064   1001         RETA
-    196              case (FIGURE8):
-    197                Figure8();
+    175              case (FIGURE8):
+    176                Figure8();
    \                     ??StateMachine_4:
    \   000066   ........     CALLA   #Figure8
-    198                nextState = TRIANGLE;
+    177                nextState = TRIANGLE;
    \   00006A   F2405400.... MOV.B   #0x54, &nextState
-    199                break;
+    178                break;
    \   000070   1001         RETA
-    200              case (TRIANGLE):
-    201                Triangle();
+    179              case (TRIANGLE):
+    180                Triangle();
    \                     ??StateMachine_6:
    \   000072   ........     CALLA   #Triangle
-    202                nextState = END;
+    181                nextState = END;
    \   000076   F2404500.... MOV.B   #0x45, &nextState
-    203                break;
+    182                break;
    \   00007C   1001         RETA
-    204              case (END):
-    205                strcpy(display_line[0], "    END   ");
+    183              case (END):
+    184                strcpy(display_line[0], "    END   ");
    \                     ??StateMachine_3:
    \   00007E   3D40....     MOV.W   #`?<Constant "    END   ">`, R13
    \   000082   3C40....     MOV.W   #display_line, R12
    \   000086   ........     CALLA   #strcpy
-    206                display_changed = 1;
+    185                display_changed = 1;
    \   00008A   D243....     MOV.B   #0x1, &display_changed
-    207                break;
-    208              default: break;  
-    209            }
-    210          }
+    186                break;
+    187              default: break;  
+    188            }
+    189          }
    \   00008E   1001         RETA
 
    \                                 In  segment DATA16_ID, align 1, align-sorted

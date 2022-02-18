@@ -104,7 +104,7 @@ void main(void){
       Last_Time_Sequence=Time_Sequence;
       cycle_count++;
       time_change = 1;
-      if(cycle_count == 200){
+      if(cycle_count == TIME_SEQUENCE_MAX){
         cycle_count = 0;
         stopwatch_seconds++;
       }
