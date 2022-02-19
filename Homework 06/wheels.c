@@ -8,10 +8,7 @@ extern volatile unsigned int stopwatch_milliseconds;
 extern volatile unsigned int stopwatch_seconds;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
-volatile unsigned int wheel_tick;
 volatile unsigned int wheel_periods;
-volatile unsigned int right_tick;
-volatile unsigned int left_tick;
 volatile char state = START;
 volatile int shapeCounter;
 volatile char nextState = CIRCLE;
@@ -25,10 +22,16 @@ void ShutoffMotors(void){
   P6OUT &= ~L_FORWARD;
   P6OUT &= ~R_REVERSE;
   P6OUT &= ~L_REVERSE_2355;
+  RIGHT_FORWARD_SPEED = WHEEL_OFF;
+  LEFT_FORWARD_SPEED = WHEEL_OFF;
+  RIGHT_REVERSE_SPEED = WHEEL_OFF;
+  LEFT_REVERSE_SPEED = WHEEL_OFF;
 }
 
 void MotorSafety(void){
-  if (((P6IN & R_FORWARD) && (P6IN & R_REVERSE)) || ((P6IN & L_FORWARD) && (P6IN & L_REVERSE_2355))){
+  if ((((P6IN & R_FORWARD)!=0 && (P6IN & R_REVERSE)!=0) || ((P6IN & L_FORWARD)!=0 && (P6IN & L_REVERSE_2355)!=0))
+      ||
+        ((RIGHT_FORWARD_SPEED!=0 && RIGHT_REVERSE_SPEED!=0) || (LEFT_FORWARD_SPEED!=0 && LEFT_REVERSE_SPEED!=0))){
     ShutoffMotors();
     P1OUT |= RED_LED;
   }
@@ -37,60 +40,59 @@ void MotorSafety(void){
   }
 }
 
-void RunMotor(int pinForward, int pinReverse, volatile unsigned int* tick, int tick_count, int val){
+void RunRightMotor(int val){
   //ShutoffMotors();
-  if((*tick)++ >= tick_count){
-    P6OUT &= ~pinForward;
-    P6OUT &= ~pinReverse;
-    return;
-  }
   if (val>0){
-    P6OUT &= ~pinReverse;
-    P6OUT |= pinForward;
+    RIGHT_REVERSE_SPEED = WHEEL_OFF;
+    RIGHT_FORWARD_SPEED = val;
   }
   else if (val==0){
-    P6OUT &= ~pinForward;
-    P6OUT &= ~pinReverse;
+    RIGHT_FORWARD_SPEED = WHEEL_OFF;
+    RIGHT_REVERSE_SPEED = WHEEL_OFF;
   }
   else{
-    P6OUT &= ~pinForward;
-    P6OUT |= pinReverse;
+    RIGHT_FORWARD_SPEED = WHEEL_OFF;
+    RIGHT_REVERSE_SPEED = -val;
   }
-  //MotorSafety();
+  MotorSafety();
+}
+
+void RunLeftMotor(int val){
+  //ShutoffMotors();
+  if (val>0){
+    LEFT_REVERSE_SPEED = WHEEL_OFF;
+    LEFT_FORWARD_SPEED = val;
+  }
+  else if (val==0){
+    LEFT_FORWARD_SPEED = WHEEL_OFF;
+    LEFT_REVERSE_SPEED = WHEEL_OFF;
+  }
+  else{
+    LEFT_FORWARD_SPEED = WHEEL_OFF;
+    LEFT_REVERSE_SPEED = -val;
+  }
+  MotorSafety();
 }
 
 int Update_Ticks(int max_tick){
-    if(wheel_tick>=WHEEL_TICK){
-        wheel_tick = 0;
-        right_tick = 0;
-        left_tick = 0;
-        wheel_periods++;
-      }
-      if(wheel_periods>max_tick){
-        wheel_periods=0; // max_tick FOR STOP, 0 FOR CONTINUOUS
-        return 1;
-      }
- 
+  if(++wheel_periods>max_tick){
+    wheel_periods=0; // max_tick FOR STOP, 0 FOR CONTINUOUS
+    return 1;
+  }
   return 0;
 }
 
-int Drive_Path(int right_ticks, int left_ticks, int max_ticks, int polarityr, int polarityl/*, char endState*/){
+int Drive_Path(int speedR, int speedL, int max_ticks){
   if (time_change){
     time_change = 0;
-    wheel_tick++;
-    RunMotor(R_FORWARD,R_REVERSE,&right_tick,right_ticks,(wheel_periods<max_ticks) * polarityr);
-    RunMotor(L_FORWARD,L_REVERSE_2355,&left_tick,left_ticks,(wheel_periods<max_ticks) * polarityl);
+    RunRightMotor(speedR);
+    RunLeftMotor(speedL);
     if (Update_Ticks(max_ticks)){
-      //state = endState;
       ShutoffMotors();
       return 1;
     }
   }
   return 0;
-}
-
-int Drive_Straight(int ticks, int polarity){
-  return Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, ticks, polarity, polarity);
 }
 
 
@@ -101,7 +103,7 @@ void Circle(void){
     shapeCounter++;
   }
   if(shapeCounter==1 || shapeCounter == 2){
-    if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK, 1,1)) shapeCounter++;
+    if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK)) shapeCounter++;
   }
   if (shapeCounter==3) {
     shapeCounter = 0 ;
@@ -116,10 +118,10 @@ void Figure8(void){
     shapeCounter++;
   }
   if(shapeCounter==1 || shapeCounter==3){
-    if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK, 1,1)) shapeCounter++;
+    if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK)) shapeCounter++;
   }
   else if(shapeCounter==2 || shapeCounter==4){
-    if (Drive_Path(LCIRC_RIGHT,LCIRC_LEFT, MAX_LCIRCLE_TICK, 1,1)) shapeCounter++;
+    if (Drive_Path(LCIRC_RIGHT,LCIRC_LEFT, MAX_LCIRCLE_TICK)) shapeCounter++;
   }
   if (shapeCounter==5) {
     state = START;
@@ -134,10 +136,10 @@ void Triangle(void){
     shapeCounter++;
   }
   if(shapeCounter==1 || shapeCounter == 3 || shapeCounter==5 || shapeCounter==8 || shapeCounter==10 || shapeCounter==12){
-    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG, 1,1)) shapeCounter++;
+    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG)) shapeCounter++;
   }
   else if(shapeCounter==2 || shapeCounter == 4 || shapeCounter==7 || shapeCounter==9 || shapeCounter==11 || shapeCounter==13){
-    if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK, 1,1)) shapeCounter++;
+    if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK)) shapeCounter++;
   }
   
   if (shapeCounter==14) {

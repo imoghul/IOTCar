@@ -1,28 +1,26 @@
 // general
 #define WHEEL_TICK              (20)
+#define RIGHT_FORWARD_SPEED     (TB3CCR1)
+#define LEFT_FORWARD_SPEED      (TB3CCR2)
+#define RIGHT_REVERSE_SPEED     (TB3CCR3)
+#define LEFT_REVERSE_SPEED      (TB3CCR4)
+#define WHEEL_OFF               (0)
+#define WHEEL_PERIOD            (20000)
 // straight
-#define STRAIGHT_RIGHT          (20)
-#define STRAIGHT_LEFT           (16)
+#define STRAIGHT_RIGHT          (20000)
+#define STRAIGHT_LEFT           (16000)
 // circle
-#define LCIRC_RIGHT             (3) // 3
-#define LCIRC_LEFT              (20)
-#define RCIRC_RIGHT             (20)
-#define RCIRC_LEFT              (3) // 3
-#define MAX_RCIRCLE_TICK        (75)  // without time_change (6000)
-#define MAX_LCIRCLE_TICK        (72)  // without time_change (5300)
+#define LCIRC_RIGHT             (3000) // 3
+#define LCIRC_LEFT              (20000)
+#define RCIRC_RIGHT             (20000)
+#define RCIRC_LEFT              (3000) // 3
+#define MAX_RCIRCLE_TICK        (1285)//(75)
+#define MAX_LCIRCLE_TICK        (1180)//(72)
 // triangle
-#define TRIANGLE_LEG            (20)
-#define TRIANGLE_TURN_TICK      (13)
+#define TRIANGLE_LEG            (120)//(4)
+#define TRIANGLE_TURN_TICK      (350)//(15)
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
-// forward
-#define ONESEC_STRAIGHT         (10)
-#define TWOSEC_STRAIGHT         (20)
-// spin
-#define SPIN_CK                 (1)
-#define SPIN_CCK                (-1)
-#define SPINR_TICKS             (30)
-#define SPINL_TICKS             (30)
 // states
 #define START           ('S')
 #define WAIT            ('W')
@@ -32,13 +30,15 @@
 #define FIGURE8         ('F')
 #define TRIANGLE        ('T')
 
-void RunMotor(int, int, volatile unsigned int*, int, int);
+void RunRightMotor(int);
+void RunLeftMotor(int);
 int Drive_Straight(int, int);
 int Update_Ticks(int);
-int Drive_Path(int right_ticks, int left_ticks, int max_ticks, int polarityr, int polarityl/*, char endState*/);
+int Drive_Path(int , int, int);
 void delay(int seconds,int cycles);
 void StateMachine(void);
 void ShutoffMotors(void);
 void MotorSafety(void);
-void Forward(int, int, const char *);
-void Spin(int,int, const char * disp);
+void Circle(void);
+void Figure8(void);
+void Triangle(void);

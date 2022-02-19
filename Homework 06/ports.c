@@ -307,25 +307,25 @@ void Init_Port6() {
     P6OUT = 0x00;
     P6DIR = 0x00;
     
-    P6SEL0 &= ~R_FORWARD;
+    P6SEL0 |= R_FORWARD;
     P6SEL1 &= ~R_FORWARD;
     P6DIR |= R_FORWARD;
-    P6OUT &= ~R_FORWARD;
+    //P6OUT &= ~R_FORWARD;
 
-    P6SEL0 &= ~L_FORWARD;
+    P6SEL0 |= L_FORWARD;
     P6SEL1 &= ~L_FORWARD;
     P6DIR |= L_FORWARD;
-    P6OUT &= ~L_FORWARD;
+    //P6OUT &= ~L_FORWARD;
 
-    P6SEL0 &= ~R_REVERSE;
+    P6SEL0 |= R_REVERSE;
     P6SEL1 &= ~R_REVERSE;
     P6DIR |= R_REVERSE;
-    P6OUT &= ~R_REVERSE;
+    //P6OUT &= ~R_REVERSE;
 
-    P6SEL0 &= ~L_REVERSE_2355;
+    P6SEL0 |= L_REVERSE_2355;
     P6SEL1 &= ~L_REVERSE_2355;
     P6DIR |= L_REVERSE_2355;
-    P6OUT &= ~L_REVERSE_2355;
+    //P6OUT &= ~L_REVERSE_2355;
 
     P6SEL0 &= ~IR_LED;
     P6SEL1 &= ~IR_LED;

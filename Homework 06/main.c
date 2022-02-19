@@ -73,7 +73,7 @@ void main(void){
   PM5CTL0 &= ~LOCKLPM5;
 // Disable the GPIO power-on default high-impedance mode to activate
 // previously configured port settings
-
+  
   Init_Ports();                        // Initialize Ports
   Init_Clocks();                       // Initialize Clock System
   Init_Conditions();                   // Initialize Variables and Initial Conditions

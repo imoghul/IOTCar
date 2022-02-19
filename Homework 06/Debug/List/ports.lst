@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          17/Feb/2022  20:18:52
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          19/Feb/2022  15:20:41
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,26 +12,26 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  \\Mac\Home\Desktop\ece-306\Homework 06\ports.c
+#    Source file   =  C:\Users\saad\Documents\ece-306\Homework 06\ports.c
 #    Command line  =  
-#        -f C:\Users\IBRAHI~1\AppData\Local\Temp\EW1E1E.tmp
-#        ("\\Mac\Home\Desktop\ece-306\Homework 06\ports.c" -lC
-#        "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\List" -o
-#        "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj" --no_cse
+#        -f C:\Users\saad\AppData\Local\Temp\EW4647.tmp
+#        ("C:\Users\saad\Documents\ece-306\Homework 06\ports.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Homework 06\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj" --no_cse
 #        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
-#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files
-#        (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I
-#        ./ --core=430X --data_model=small -On --multiplier=32
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
+#        --core=430X --data_model=small -On --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        \\Mac\Home\Desktop\ece-306\Homework 06\Debug\List\ports.lst
+#        C:\Users\saad\Documents\ece-306\Homework 06\Debug\List\ports.lst
 #    Object file   =  
-#        \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\ports.r43
+#        C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\ports.r43
 #
 ###############################################################################
 
-\\Mac\Home\Desktop\ece-306\Homework 06\ports.c
+C:\Users\saad\Documents\ece-306\Homework 06\ports.c
       1          //==============================================================================
       2          // File Name : ports.c 
       3          // 
@@ -639,71 +639,67 @@
     308              P6DIR = 0x00;
    \   000004   C2434502     MOV.B   #0x0, &0x245
     309              
-    310              P6SEL0 &= ~R_FORWARD;
-   \   000008   D2C34B02     BIC.B   #0x1, &0x24b
+    310              P6SEL0 |= R_FORWARD;
+   \   000008   D2D34B02     BIS.B   #0x1, &0x24b
     311              P6SEL1 &= ~R_FORWARD;
    \   00000C   D2C34D02     BIC.B   #0x1, &0x24d
     312              P6DIR |= R_FORWARD;
    \   000010   D2D34502     BIS.B   #0x1, &0x245
-    313              P6OUT &= ~R_FORWARD;
-   \   000014   D2C34302     BIC.B   #0x1, &0x243
+    313              //P6OUT &= ~R_FORWARD;
     314          
-    315              P6SEL0 &= ~L_FORWARD;
-   \   000018   E2C34B02     BIC.B   #0x2, &0x24b
+    315              P6SEL0 |= L_FORWARD;
+   \   000014   E2D34B02     BIS.B   #0x2, &0x24b
     316              P6SEL1 &= ~L_FORWARD;
-   \   00001C   E2C34D02     BIC.B   #0x2, &0x24d
+   \   000018   E2C34D02     BIC.B   #0x2, &0x24d
     317              P6DIR |= L_FORWARD;
-   \   000020   E2D34502     BIS.B   #0x2, &0x245
-    318              P6OUT &= ~L_FORWARD;
-   \   000024   E2C34302     BIC.B   #0x2, &0x243
+   \   00001C   E2D34502     BIS.B   #0x2, &0x245
+    318              //P6OUT &= ~L_FORWARD;
     319          
-    320              P6SEL0 &= ~R_REVERSE;
-   \   000028   E2C24B02     BIC.B   #0x4, &0x24b
+    320              P6SEL0 |= R_REVERSE;
+   \   000020   E2D24B02     BIS.B   #0x4, &0x24b
     321              P6SEL1 &= ~R_REVERSE;
-   \   00002C   E2C24D02     BIC.B   #0x4, &0x24d
+   \   000024   E2C24D02     BIC.B   #0x4, &0x24d
     322              P6DIR |= R_REVERSE;
-   \   000030   E2D24502     BIS.B   #0x4, &0x245
-    323              P6OUT &= ~R_REVERSE;
-   \   000034   E2C24302     BIC.B   #0x4, &0x243
+   \   000028   E2D24502     BIS.B   #0x4, &0x245
+    323              //P6OUT &= ~R_REVERSE;
     324          
-    325              P6SEL0 &= ~L_REVERSE_2355;
-   \   000038   F2C24B02     BIC.B   #0x8, &0x24b
+    325              P6SEL0 |= L_REVERSE_2355;
+   \   00002C   F2D24B02     BIS.B   #0x8, &0x24b
     326              P6SEL1 &= ~L_REVERSE_2355;
-   \   00003C   F2C24D02     BIC.B   #0x8, &0x24d
+   \   000030   F2C24D02     BIC.B   #0x8, &0x24d
     327              P6DIR |= L_REVERSE_2355;
-   \   000040   F2D24502     BIS.B   #0x8, &0x245
-    328              P6OUT &= ~L_REVERSE_2355;
-   \   000044   F2C24302     BIC.B   #0x8, &0x243
+   \   000034   F2D24502     BIS.B   #0x8, &0x245
+    328              //P6OUT &= ~L_REVERSE_2355;
     329          
     330              P6SEL0 &= ~IR_LED;
-   \   000048   F2C010004B02 BIC.B   #0x10, &0x24b
+   \   000038   F2C010004B02 BIC.B   #0x10, &0x24b
     331              P6SEL1 &= ~IR_LED;
-   \   00004E   F2C010004D02 BIC.B   #0x10, &0x24d
+   \   00003E   F2C010004D02 BIC.B   #0x10, &0x24d
     332              P6DIR &= ~IR_LED;//|= IR_LED;
-   \   000054   F2C010004502 BIC.B   #0x10, &0x245
+   \   000044   F2C010004502 BIC.B   #0x10, &0x245
     333              //P6OUT |= IR_LED;
     334          
     335              P6SEL0 &= ~P6_5;
-   \   00005A   F2C020004B02 BIC.B   #0x20, &0x24b
+   \   00004A   F2C020004B02 BIC.B   #0x20, &0x24b
     336              P6SEL1 &= ~P6_5;
-   \   000060   F2C020004D02 BIC.B   #0x20, &0x24d
+   \   000050   F2C020004D02 BIC.B   #0x20, &0x24d
     337              P6DIR &= ~P6_5;
-   \   000066   F2C020004502 BIC.B   #0x20, &0x245
+   \   000056   F2C020004502 BIC.B   #0x20, &0x245
     338          
     339              P6SEL0 &= ~GRN_LED;
-   \   00006C   F2C040004B02 BIC.B   #0x40, &0x24b
+   \   00005C   F2C040004B02 BIC.B   #0x40, &0x24b
     340              P6SEL1 &= ~GRN_LED;
-   \   000072   F2C040004D02 BIC.B   #0x40, &0x24d
+   \   000062   F2C040004D02 BIC.B   #0x40, &0x24d
     341              P6DIR |= GRN_LED;
-   \   000078   F2D040004502 BIS.B   #0x40, &0x245
+   \   000068   F2D040004502 BIS.B   #0x40, &0x245
     342              P6OUT &= ~GRN_LED;
-   \   00007E   F2C040004302 BIC.B   #0x40, &0x243
+   \   00006E   F2C040004302 BIC.B   #0x40, &0x243
     343          }
-   \   000084   1001         RETA
-   \   000086                REQUIRE _A_PCOUT_L
-   \   000086                REQUIRE _A_PCDIR_L
-   \   000086                REQUIRE _A_PCSEL0_L
-   \   000086                REQUIRE _A_PCSEL1_L
+   \   000074   1001         RETA
+   \   000076                REQUIRE _A_PCOUT_L
+   \   000076                REQUIRE _A_PCDIR_L
+   \   000076                REQUIRE _A_PCSEL0_L
+   \   000076                REQUIRE _A_PCSEL1_L
 
    Maximum stack usage in bytes:
 
@@ -733,7 +729,7 @@
      160  Init_Port3
      130  Init_Port4
       76  Init_Port5
-     134  Init_Port6
+     118  Init_Port6
       28  Init_Ports
        2  _A_PADIR_L
        2  _A_PAIES_L
@@ -757,10 +753,10 @@
        2  _A_PCSEL1_L
 
  
- 786 bytes in segment CODE
+ 770 bytes in segment CODE
   40 bytes in segment DATA16_AN
  
- 786 bytes of CODE memory
+ 770 bytes of CODE memory
    0 bytes of DATA memory (+ 40 bytes shared)
 
 Errors: none

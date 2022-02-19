@@ -7,3 +7,4 @@
 #define BACKLITE_TIMER_COUNT            (12)
 void Init_Timers(void);
 void Init_Timer_B0(void);
+void Init_Timer_B3(void);

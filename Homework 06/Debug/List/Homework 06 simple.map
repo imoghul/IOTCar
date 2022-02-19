@@ -2,49 +2,48 @@
 #                                                                              #
 #      IAR Universal Linker V6.6.2.104                                         #
 #                                                                              #
-#           Link time     =  18/Feb/2022  17:13:30                             #
+#           Link time     =  19/Feb/2022  17:13:03                             #
 #           Target CPU    =  MSP430                                            #
-#           List file     =  "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Lis #
-#                            t\Homework 06 simple.map"                         #
-#           Output file 1 =  "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Exe #
-#                            \Homework 06 simple.d43"                          #
+#           List file     =  "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\List\Homework 06 simple.map"                    #
+#           Output file 1 =  "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\Exe\Homework 06 simple.d43"                     #
 #                            Format: ubrof10                                   #
 #                            UBROF version 10.0.6                              #
 #                            Using library modules for C-SPY (-rt)             #
-#           Command line  =  -f                                                #
-#                            C:\Users\IBRAHI~1\AppData\Local\Temp\EW9366.tmp   #
-#                            ("\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Ob #
-#                            j\clocks.r43"                                     #
-#                            "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj #
-#                            \init.r43"                                        #
-#                            "\\Mac\Home\Desktop\ece-306\Homework 06\Compiled\ #
-#                            LCD.r43"                                          #
-#                            "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj #
-#                            \led.r43"                                         #
-#                            "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj #
-#                            \main.r43"                                        #
-#                            "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj #
-#                            \ports.r43"                                       #
-#                            "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj #
-#                            \switches.r43"                                    #
-#                            "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj #
-#                            \system.r43"                                      #
-#                            "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj #
-#                            \timers.r43"                                      #
-#                            "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj #
-#                            \wheels.r43"                                      #
+#           Command line  =  -f C:\Users\saad\AppData\Local\Temp\EW2815.tmp    #
+#                            ("C:\Users\saad\Documents\ece-306\Homework 06\Deb #
+#                            ug\Obj\clocks.r43"                                #
+#                            "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\Obj\init.r43"                                   #
+#                            "C:\Users\saad\Documents\ece-306\Homework 06\Comp #
+#                            iled\LCD.r43"                                     #
+#                            "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\Obj\led.r43"                                    #
+#                            "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\Obj\main.r43"                                   #
+#                            "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\Obj\ports.r43"                                  #
+#                            "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\Obj\switches.r43"                               #
+#                            "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\Obj\system.r43"                                 #
+#                            "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\Obj\timers.r43"                                 #
+#                            "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\Obj\wheels.r43"                                 #
 #                            -o                                                #
-#                            "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Exe #
-#                            \Homework 06 simple.d43"                          #
+#                            "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\Exe\Homework 06 simple.d43"                     #
 #                            -l                                                #
-#                            "\\Mac\Home\Desktop\ece-306\Homework 06\Debug\Lis #
-#                            t\Homework 06 simple.map"                         #
+#                            "C:\Users\saad\Documents\ece-306\Homework 06\Debu #
+#                            g\List\Homework 06 simple.map"                    #
 #                            -xesni                                            #
-#                            "-IC:\Program Files (x86)\IAR Systems\Embedded Wo #
-#                            rkbench 8.5\430\LIB\\"                            #
+#                            "-IC:\Program Files\IAR Systems\Embedded Workbenc #
+#                            h 8.5\430\LIB\\"                                  #
 #                            -f                                                #
-#                            "C:\Program Files (x86)\IAR Systems\Embedded Work #
-#                            bench 8.5\430\config\linker\lnk430fr2355.xcl"     #
+#                            "C:\Program Files\IAR Systems\Embedded Workbench  #
+#                            8.5\430\config\linker\lnk430fr2355.xcl"           #
 #                            (-cmsp430 -QCODE_I=CODE_ID -QTLS16_I=TLS16_ID     #
 #                            -D__iar_HWMUL=4C0 -Z(CONST)INFO=1800-19FF         #
 #                            -Z(DATA)TINYRAM=0006-001F                         #
@@ -68,8 +67,8 @@
 #                            -Z(CONST)BSLSIGNATURE=FF84-FF87                   #
 #                            -Z(CODE)INTVEC=FFA2-FFFF                          #
 #                            -Z(CODE)RESET=FFFE-FFFF) -f                       #
-#                            "C:\Program Files (x86)\IAR Systems\Embedded Work #
-#                            bench 8.5\430\config\linker\multiplier32.xcl"     #
+#                            "C:\Program Files\IAR Systems\Embedded Workbench  #
+#                            8.5\430\config\linker\multiplier32.xcl"           #
 #                            (-e?Mul8Hw=?Mul8 -e?Mul16Hw=?Mul16                #
 #                            -e?Mul16to32uHw=?Mul16to32u                       #
 #                            -e?Mul16to32sHw=?Mul16to32s -e?Mul32Hw32=?Mul32   #
@@ -78,8 +77,8 @@
 #                            -e?Mul32fHw32=_Mul32f                             #
 #                            -e_Mul64fHw32Ptr=_Mul64fPtr) -D_STACK_SIZE=A0     #
 #                            -rt                                               #
-#                            "C:\Program Files (x86)\IAR Systems\Embedded Work #
-#                            bench 8.5\430\lib\dlib\dl430xlsfn.r43"            #
+#                            "C:\Program Files\IAR Systems\Embedded Workbench  #
+#                            8.5\430\lib\dlib\dl430xlsfn.r43"                  #
 #                            -e_PrintfLarge=_Printf -e_ScanfLarge=_Scanf       #
 #                            -D_DATA16_HEAP_SIZE=A0 -s __program_start         #
 #                            -D_DATA20_HEAP_SIZE=50)                           #
@@ -143,7 +142,7 @@ Module  Entry                              Address
         _DATA16_HEAP_SIZE                   00A0
         _STACK_SIZE                         00A0
         __iar_HWMUL                         04C0
-clocks ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\clocks.r43 )
+clocks ( C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\clocks.r43 )
         _A_CSCTL0_L                         0180
         _A_CSCTL1_L                         0182
         _A_CSCTL2_L                         0184
@@ -154,7 +153,7 @@ clocks ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\clocks.r43 )
         _A_PM5CTL0_L                        0130
         _A_SFRIFG1_L                        0102
         _A_WDTCTL_L                         01CC
-        Init_Clocks                         8922
+        Init_Clocks                         885E
         Software_Trim                       81F0
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
@@ -188,11 +187,11 @@ clocks ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\clocks.r43 )
         WDTCTL                              01CC
         WDTCTL_H                            01CD
         WDTCTL_L                            01CC
-init ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\init.r43 )
+init ( C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\init.r43 )
         _A_PAOUT_L                          0202
         _A_PCOUT_L                          0242
         Init_LEDs                           NOT NEEDED
-        Init_Conditions                     89E0
+        Init_Conditions                     88C4
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         PAOUT                               0202
@@ -201,7 +200,7 @@ init ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\init.r43 )
         PCOUT                               0242
         PCOUT_H                             0243
         PCOUT_L                             0242
-LCD ( \\Mac\Home\Desktop\ece-306\Homework 06\Compiled\LCD.r43 )
+LCD ( C:\Users\saad\Documents\ece-306\Homework 06\Compiled\LCD.r43 )
         _A_PAOUT_L                          NOT NEEDED
         _A_PBOUT_L                          0222
         _A_TB0CCTL2_L                       0386
@@ -211,13 +210,13 @@ LCD ( \\Mac\Home\Desktop\ece-306\Homework 06\Compiled\LCD.r43 )
         _A_UCB1RXBUF_L                      05CC
         _A_UCB1TXBUF_L                      05CE
         _A_UCB1IFG_L                        05EC
-        current_character                   2030
+        current_character                   202A
         update_display_count                NOT NEEDED
         display_update_time                 NOT NEEDED
-        update_display                      2031
-        display_changed                     2032
+        update_display                      202B
+        display_changed                     202C
         lcd_control                         NOT NEEDED
-        display_line                        2033
+        display_line                        202D
         display                             2008
         posi_L1                             NOT NEEDED
         posi_L2                             NOT NEEDED
@@ -227,32 +226,32 @@ LCD ( \\Mac\Home\Desktop\ece-306\Homework 06\Compiled\LCD.r43 )
         char_count                          NOT NEEDED
         current_line                        NOT NEEDED
         LCD_test                            NOT NEEDED
-        spi_chipselect_idle                 8D9E
-        spi_chipselect_active               8DD0
-        spi_reset_idle                      8DDC
-        spi_reset_active                    8DE2
-        Display_Update                      8AC4
+        spi_chipselect_idle                 8D68
+        spi_chipselect_active               8DAC
+        spi_reset_idle                      8DC8
+        spi_reset_active                    8DCE
+        Display_Update                      89B4
         enable_display_update               NOT NEEDED
         update_string                       NOT NEEDED
-        Init_LCD                            856E
+        Init_LCD                            84C6
         lcd_4line                           NOT NEEDED
         lcd_BIG_mid                         NOT NEEDED
         lcd_BIG_bot                         NOT NEEDED
         lcd_180                             NOT NEEDED
-        lcd_out                             8C56
+        lcd_out                             8C06
         lcd_puts                            NOT NEEDED
-        WriteIns                            8C06
-        WriteData                           8BDE
+        WriteIns                            8BDE
+        WriteData                           8BB6
         CheckBusy                           NOT NEEDED
-        ClrDisplay                          8CEC
-        ClrDisplay_Buffer_0                 8D66
-        ClrDisplay_Buffer_1                 8D16
-        ClrDisplay_Buffer_2                 8D02
-        ClrDisplay_Buffer_3                 8D52
+        ClrDisplay                          8CDA
+        ClrDisplay_Buffer_0                 8D2C
+        ClrDisplay_Buffer_1                 8CF0
+        ClrDisplay_Buffer_2                 8D54
+        ClrDisplay_Buffer_3                 8D18
         SetPostion                          NOT NEEDED
-        DisplayOnOff                        8D3E
-        Init_SPI_B1                         8B48
-        SPI_B1_write                        8C9C
+        DisplayOnOff                        8D40
+        Init_SPI_B1                         8AB8
+        SPI_B1_write                        8C6E
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         PAOUT                               0202
@@ -282,10 +281,10 @@ LCD ( \\Mac\Home\Desktop\ece-306\Homework 06\Compiled\LCD.r43 )
         UCB1IFG                             05EC
         UCB1IFG_H                           05ED
         UCB1IFG_L                           05EC
-led ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\led.r43 )
+led ( C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\led.r43 )
         _A_PAOUT_L                          NOT NEEDED
         _A_PCOUT_L                          NOT NEEDED
-        Display_Process                     8C7A
+        Display_Process                     8C2A
         Carlson_StateMachine                NOT NEEDED
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
@@ -295,7 +294,7 @@ led ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\led.r43 )
         PCOUT                               0242
         PCOUT_H                             0243
         PCOUT_L                             0242
-main ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\main.r43 )
+main ( C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\main.r43 )
         _A_PBOUT_L                          NOT NEEDED
         _A_PM5CTL0_L                        NOT NEEDED
         slow_input_down                     NOT NEEDED
@@ -307,7 +306,7 @@ main ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\main.r43 )
         cycle_count                         2012
         stopwatch_seconds                   2014
         time_change                         2016
-        main                                86A4
+        main                                85FC
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         PBOUT                               0222
@@ -316,7 +315,7 @@ main ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\main.r43 )
         PM5CTL0                             0130
         PM5CTL0_H                           0131
         PM5CTL0_L                           0130
-ports ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\ports.r43 )
+ports ( C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\ports.r43 )
         _A_PAOUT_L                          NOT NEEDED
         _A_PADIR_L                          0204
         _A_PAREN_L                          0206
@@ -337,13 +336,13 @@ ports ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\ports.r43 )
         _A_PCDIR_L                          0244
         _A_PCSEL0_L                         024A
         _A_PCSEL1_L                         024C
-        Init_Ports                          8CB8
-        Init_Port1                          88BA
-        Init_Port2                          860A
-        Init_Port3                          8394
-        Init_Port4                          8838
-        Init_Port5                          8A32
-        Init_Port6                          872C
+        Init_Ports                          8C8A
+        Init_Port1                          87F6
+        Init_Port2                          8562
+        Init_Port3                          8388
+        Init_Port4                          8684
+        Init_Port5                          8968
+        Init_Port6                          8780
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         PAOUT                               0202
@@ -406,7 +405,7 @@ ports ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\ports.r43 )
         PCSEL1                              024C
         PCSEL1_H                            024D
         PCSEL1_L                            024C
-switches ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\switches.r43 )
+switches ( C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\switches.r43 )
         _A_PAIE_L                           NOT NEEDED
         _A_PAIFG_L                          NOT NEEDED
         _A_PBOUT_L                          NOT NEEDED
@@ -459,11 +458,11 @@ switches ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\switches.r43 )
         TB0CCR2                             0396
         TB0CCR2_H                           0397
         TB0CCR2_L                           0396
-system ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\system.r43 )
-        enable_interrupts                   8DE8
+system ( C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\system.r43 )
+        enable_interrupts                   8DC2
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
-timers ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\timers.r43 )
+timers ( C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\timers.r43 )
         _A_PAIE_L                           NOT NEEDED
         _A_PBOUT_L                          NOT NEEDED
         _A_PBIE_L                           NOT NEEDED
@@ -476,6 +475,16 @@ timers ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\timers.r43 )
         _A_TB0CCR2_L                        NOT NEEDED
         _A_TB0EX0_L                         03A0
         _A_TB0IV_L                          03AE
+        _A_TB3CTL_L                         0440
+        _A_TB3CCTL1_L                       0444
+        _A_TB3CCTL2_L                       0446
+        _A_TB3CCTL3_L                       0448
+        _A_TB3CCTL4_L                       044A
+        _A_TB3CCR0_L                        0452
+        _A_TB3CCR1_L                        0454
+        _A_TB3CCR2_L                        0456
+        _A_TB3CCR3_L                        0458
+        _A_TB3CCR4_L                        045A
         Time_Sequence                       2018
         timer0Counter                       201A
         backliteCounter                     201C
@@ -486,8 +495,9 @@ timers ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\timers.r43 )
         debounce_thresh1                    2000
         debounce_thresh2                    2002
         backliteBlinking                    2004
-        Init_Timers                         8DEE
-        Init_Timer_B0                       8B0A
+        Init_Timers                         8DB8
+        Init_Timer_B0                       8A7A
+        Init_Timer_B3                       8A3A
         Timer0_B0_ISR                       80EA
         TIMER0_B1_ISR                       8166
         TIMER0_B1_ISR::??INTVEC 84          FFF6
@@ -530,29 +540,60 @@ timers ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\timers.r43 )
         TB0IV                               03AE
         TB0IV_H                             03AF
         TB0IV_L                             03AE
-wheels ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\wheels.r43 )
+        TB3CTL                              0440
+        TB3CTL_H                            0441
+        TB3CTL_L                            0440
+        TB3CCTL1                            0444
+        TB3CCTL1_H                          0445
+        TB3CCTL1_L                          0444
+        TB3CCTL2                            0446
+        TB3CCTL2_H                          0447
+        TB3CCTL2_L                          0446
+        TB3CCTL3                            0448
+        TB3CCTL3_H                          0449
+        TB3CCTL3_L                          0448
+        TB3CCTL4                            044A
+        TB3CCTL4_H                          044B
+        TB3CCTL4_L                          044A
+        TB3CCR0                             0452
+        TB3CCR0_H                           0453
+        TB3CCR0_L                           0452
+        TB3CCR1                             0454
+        TB3CCR1_H                           0455
+        TB3CCR1_L                           0454
+        TB3CCR2                             0456
+        TB3CCR2_H                           0457
+        TB3CCR2_L                           0456
+        TB3CCR3                             0458
+        TB3CCR3_H                           0459
+        TB3CCR3_L                           0458
+        TB3CCR4                             045A
+        TB3CCR4_H                           045B
+        TB3CCR4_L                           045A
+wheels ( C:\Users\saad\Documents\ece-306\Homework 06\Debug\Obj\wheels.r43 )
         _A_PAOUT_L                          NOT NEEDED
         _A_PCIN_L                           0240
         _A_PCOUT_L                          NOT NEEDED
-        wheel_tick                          2026
-        wheel_periods                       2028
-        right_tick                          202A
-        left_tick                           202C
+        _A_TB3CCR1_L                        NOT NEEDED
+        _A_TB3CCR2_L                        NOT NEEDED
+        _A_TB3CCR3_L                        NOT NEEDED
+        _A_TB3CCR4_L                        NOT NEEDED
+        wheel_periods                       2026
         state                               2006
-        shapeCounter                        202E
+        shapeCounter                        2028
         nextState                           2007
         delayTime                           NOT NEEDED
-        ShutoffMotors                       8D8C
-        MotorSafety                         8C2E
-        RunMotor                            8A7E
-        Update_Ticks                        8B86
-        Drive_Path                          84D2
-        Drive_Straight                      NOT NEEDED
-        Circle                              8988
-        Figure8                             87B2
+        ShutoffMotors                       8C4C
+        MotorSafety                         89FA
+        RunRightMotor                       8B5A
+        RunLeftMotor                        8B2A
+        Update_Ticks                        8CA6
+        Drive_Path                          8AF6
+        Circle                              8916
+        Figure8                             8706
         Triangle                            82CA
-        delay                               8BB2
-        StateMachine                        8434
+        delay                               8B8A
+        StateMachine                        8428
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         PAOUT                               0202
@@ -564,28 +605,40 @@ wheels ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\wheels.r43 )
         PCOUT                               0242
         PCOUT_H                             0243
         PCOUT_L                             0242
-?abort ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        TB3CCR1                             0454
+        TB3CCR1_H                           0455
+        TB3CCR1_L                           0454
+        TB3CCR2                             0456
+        TB3CCR2_H                           0457
+        TB3CCR2_L                           0456
+        TB3CCR3                             0458
+        TB3CCR3_H                           0459
+        TB3CCR3_L                           0458
+        TB3CCR4                             045A
+        TB3CCR4_H                           045B
+        TB3CCR4_L                           045A
+?abort ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         abort                               NOT NEEDED
-?__dbg_break ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        __DebugBreak                        8E00
-?__dwrite ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?__dbg_break ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __DebugBreak                        8DE0
+?__dwrite ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __dwrite                            NOT NEEDED
-?__exit ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        __exit                              8D2A
-?__write ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?__exit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __exit                              8D04
+?__write ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __write                             NOT NEEDED
-?_exit ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        _exit                               8DFC
+?_exit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        _exit                               8DD4
         __cstart_call_dtors                 NOT NEEDED
         __cstart_closeall                   NOT NEEDED
         __cstart_clearlocks                 NOT NEEDED
-?cppinit ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?cppinit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __call_ctors                        NOT NEEDED
         __alloc_record_needed_destruction   NOT NEEDED
         __record_needed_destruction         NOT NEEDED
         __call_dtors                        NOT NEEDED
         __data16_vec_cctor                  NOT NEEDED
-?cstart ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?cstart ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __program_start                     8056
         ?cstart_begin                       8056
         ?cstart_call_mpu_init               NOT NEEDED
@@ -600,56 +653,56 @@ wheels ( \\Mac\Home\Desktop\ece-306\Homework 06\Debug\Obj\wheels.r43 )
         ?cstart_call_ctors                  NOT NEEDED
         ?cstart_call_main                   8076
         ?cstart_end                         807E
-lowinit ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+lowinit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __low_level_init                    NOT NEEDED
-?reset_vector ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?reset_vector ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         ?reset_vector                       FFFE
-?exit ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        exit                                8DF4
-?FrwpInit ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?exit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        exit                                8DDC
+?FrwpInit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __iar_430_frwp_init                 NOT NEEDED
-?malloc ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?malloc ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         malloc                              NOT NEEDED
-?DivMod816u ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?DivMod816u ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         ?DivMod8u                           NOT NEEDED
-        ?DivMod16u                          8CD4
-?memcpy ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        ?DivMod16u                          8CC2
+?memcpy ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         memcpy                              8D7A
-?memmove ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?memmove ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         memmove                             NOT NEEDED
-?memzero ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        __data16_memzero                    8DB0
-        __data16_memcpy                     8DF8
+?memzero ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __data16_memzero                    8D8C
+        __data16_memcpy                     8DD8
         __data16_memmove                    NOT NEEDED
-?MpuInit ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?MpuInit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __iar_430_mpu_init                  NOT NEEDED
         ?mpu1_4k_init                       NOT NEEDED
         ?mpu1_8k_init                       NOT NEEDED
         ?mpu1_16k_init                      NOT NEEDED
         ?mpu2_init                          NOT NEEDED
-?setjmp ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?setjmp ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         setjmp                              NOT NEEDED
         ?setjmp_r5                          NOT NEEDED
         ?setjmp_r4                          NOT NEEDED
         ?setjmp_end                         NOT NEEDED
-?longjmp ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?longjmp ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         longjmp                             NOT NEEDED
         ?longjmp_r5                         NOT NEEDED
         ?longjmp_r4                         NOT NEEDED
         ?longjmp_end                        NOT NEEDED
-?IndCallR11 ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?IndCallR11 ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         ?IndCallR11                         NOT NEEDED
-?IndCallR15 ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?IndCallR15 ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         ?IndCallR15                         NOT NEEDED
-?strcpy ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        strcpy                              8DC0
-?xcloseall ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?strcpy ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        strcpy                              8D9C
+?xcloseall ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         _Close_all                          NOT NEEDED
-?xgetmemchunk ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?xgetmemchunk ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __data16_GetMemChunk                NOT NEEDED
-?xxmemxfree ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?xxmemxfree ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __data16_free                       NOT NEEDED
-?xxmemxmalloc ( C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+?xxmemxmalloc ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __data16_Aldata                     NOT NEEDED
         __data16_malloc                     NOT NEEDED
         __data16_findmem                     LOCAL, NOT NEEDED
@@ -682,19 +735,20 @@ init                   82
   + shared                            4
 led                    34
 main                  136      8            22
-ports                 786            26
+ports                 770            26
   + shared                            8
 switches              108             2
   + shared             50             4
   + common
 system                  6
-timers                330     20     10      6
-  + common             88
-wheels                954     12      2     57
+timers                398     20     22      6
+  + shared             88             8
+  + common
+wheels                870      6      2     57
 N/A (command line)           160
 N/A (alignment)
-----------          -----    ---     --     --
-Total:              3 502    255     92     85
+----------          -----    ---    ---     --
+Total:              3 470    249    112     85
   + common             88
 
 
@@ -724,25 +778,28 @@ DATA16_AN                              0102 - 0103               2   rel    0
                                        0390 - 0397               8 
                                        03A0 - 03A1               2 
                                        03AE - 03AF               2 
+                                       0440 - 0441               2 
+                                       0444 - 044B               8 
+                                       0452 - 045B               A 
                                        05C0 - 05C1               2 
                                        05C6 - 05C7               2 
                                        05CC - 05CF               4 
                                        05EC - 05ED               2 
 DATA16_I                               2000 - 2007               8   rel    1
-DATA16_Z                               2008 - 205E              57   rel    1
-DATA20_N                                  2060                       rel    1
-CODE_I                                    2060                       rel    1
-DATA20_Z                                  2060                       rel    1
-DATA20_I                                  2060                       rel    1
+DATA16_Z                               2008 - 2058              51   rel    1
+DATA20_I                                  205A                       rel    1
+DATA20_Z                                  205A                       rel    1
+DATA20_N                                  205A                       rel    1
+CODE_I                                    205A                       rel    1
 CSTACK                                 2F60 - 2FFF              A0   rel    1
 DATA16_C                               8000 - 804C              4D   rel    0
 DATA16_ID                              804E - 8055               8   rel    1
-DATA20_C                                  8056                       rel    1
 DATA20_ID                                 8056                       rel    1
+DATA20_C                                  8056                       rel    1
 CSTART                                 8056 - 807D              28   rel    1
 ISR_CODE                               807E - 81EF             172   rel    1
 CODE_ID                                   81F0                       rel    1
-<CODE> 1                               81F0 - 8E01             C12   rel    1
+<CODE> 1                               81F0 - 8DE1             BF2   rel    1
 INTVEC                                 FFA2 - FFF9              58   com    1
 RESET                                  FFFE - FFFF               2   rel    1
 
@@ -752,8 +809,8 @@ RESET                                  FFFE - FFFF               2   rel    1
                 *                                      *
                 ****************************************
 
- 3 590 bytes of CODE  memory
-   255 bytes of DATA  memory (+ 92 absolute )
+ 3 558 bytes of CODE  memory
+   249 bytes of DATA  memory (+ 112 absolute )
     85 bytes of CONST memory
 
 Errors: none
