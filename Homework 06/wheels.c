@@ -76,25 +76,24 @@ void RunLeftMotor(int val){
 
 int Update_Ticks(int max_tick){
   if(++wheel_periods>max_tick){
-    wheel_periods=0; // max_tick FOR STOP, 0 FOR CONTINUOUS
+    wheel_periods=0; 
     return 1;
   }
   return 0;
 }
 
-int Drive_Path(int speedR, int speedL, int max_ticks){
+int Drive_Path(int speedR, int speedL, int ticksDuration){
   if (time_change){
     time_change = 0;
     RunRightMotor(speedR);
     RunLeftMotor(speedL);
-    if (Update_Ticks(max_ticks)){
+    if (Update_Ticks(ticksDuration)){
       ShutoffMotors();
       return 1;
     }
   }
   return 0;
 }
-
 
 void Circle(void){
   if (shapeCounter == 0) {
@@ -151,7 +150,10 @@ void Triangle(void){
 // delays for a specified time and then switches state to global nextState
 // make sure nextState is set to desired vlaue before the end of delay
 void delay(int seconds,int cycles){
-  if(stopwatch_seconds == 0 && cycle_count<=1) display_changed = 1;
+  if(stopwatch_seconds == 0 && cycle_count<=1) {
+    strcpy(display_line[0], "WAITING...");
+    display_changed = 1;
+  }
   if(stopwatch_seconds>=seconds && cycle_count >= cycles) {
     stopwatch_seconds = 0;
     cycle_count = 0;
@@ -172,12 +174,8 @@ void StateMachine(void){
       break;
     case (WAIT):
       delay(3,0);
-      strcpy(display_line[0], "WAITING...");
       break;
     case (ARM):
-      //wheel_tick = 0;
-      //right_tick = 0;
-      //left_tick = 0;
       state = CIRCLE;
       break;
     case (CIRCLE):
