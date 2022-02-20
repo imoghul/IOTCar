@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Feb/2022  11:43:52
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Feb/2022  15:28:58
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\switches.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW1D68.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW38B4.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\switches.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -42,11 +42,6 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
    \                                 In  segment DATA16_AN, at 0x21c
    \   union <unnamed> _A_PAIFG_L
    \                     _A_PAIFG_L:
-   \   000000                DS8 2
-
-   \                                 In  segment DATA16_AN, at 0x222
-   \   union <unnamed> _A_PBOUT_L
-   \                     _A_PBOUT_L:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_AN, at 0x23a
@@ -153,7 +148,7 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
    \   000000   0F12         PUSH.W  R15
      36            if(P4IFG & SW1){
    \   000002   E2B33D02     BIT.B   #0x2, &0x23d
-   \   000006   1528         JNC     ??switchP4_interrupt_0
+   \   000006   1128         JNC     ??switchP4_interrupt_0
      37              P4IFG &= ~SW1;
    \   000008   E2C33D02     BIC.B   #0x2, &0x23d
      38              TB0CCTL1 |= CCIE; // CCR1 enable interrupt
@@ -174,21 +169,18 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
      46              //    cycle_count = 0;
      47              //    state = WAIT;
      48              //}
-     49              P3OUT &= ~LCD_BACKLITE;
-   \   00002A   F2C22202     BIC.B   #0x8, &0x222
-     50              backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
-   \   00002E   8243....     MOV.W   #0x0, &backliteBlinking
+     49              //P3OUT &= ~LCD_BACKLITE;
+     50              //backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
      51            }
      52          }
    \                     ??switchP4_interrupt_0:
-   \   000032   3F41         POP.W   R15
-   \   000034   0013         RETI
-   \   000036                REQUIRE _A_PBIFG_L
-   \   000036                REQUIRE _A_TB0CCTL1_L
-   \   000036                REQUIRE _A_PBIE_L
-   \   000036                REQUIRE _A_TB0CCR1_L
-   \   000036                REQUIRE _A_TB0R_L
-   \   000036                REQUIRE _A_PBOUT_L
+   \   00002A   3F41         POP.W   R15
+   \   00002C   0013         RETI
+   \   00002E                REQUIRE _A_PBIFG_L
+   \   00002E                REQUIRE _A_TB0CCTL1_L
+   \   00002E                REQUIRE _A_PBIE_L
+   \   00002E                REQUIRE _A_TB0CCR1_L
+   \   00002E                REQUIRE _A_TB0R_L
      53          
      54          //===========================================================================
      55          // Function name: switchP4_interrupt
@@ -213,7 +205,7 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
    \   000000   0F12         PUSH.W  R15
      71            if(P2IFG & SW2){
    \   000002   F2B21D02     BIT.B   #0x8, &0x21d
-   \   000006   1528         JNC     ??switchP2_interrupt_0
+   \   000006   1128         JNC     ??switchP2_interrupt_0
      72              P2IFG &= ~SW2;
    \   000008   F2C21D02     BIC.B   #0x8, &0x21d
      73              TB0CCTL2 |= CCIE; // CCR1 enable interrupt
@@ -230,21 +222,18 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
    \   000026   824F9603     MOV.W   R15, &0x396
      78              // Actual Code
      79              //P1OUT |= RED_LED;
-     80              P3OUT &= ~LCD_BACKLITE;
-   \   00002A   F2C22202     BIC.B   #0x8, &0x222
-     81              backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
-   \   00002E   8243....     MOV.W   #0x0, &backliteBlinking
+     80              //P3OUT &= ~LCD_BACKLITE;
+     81              //backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
      82            }
      83          }
    \                     ??switchP2_interrupt_0:
-   \   000032   3F41         POP.W   R15
-   \   000034   0013         RETI
-   \   000036                REQUIRE _A_PAIFG_L
-   \   000036                REQUIRE _A_TB0CCTL2_L
-   \   000036                REQUIRE _A_PAIE_L
-   \   000036                REQUIRE _A_TB0CCR2_L
-   \   000036                REQUIRE _A_TB0R_L
-   \   000036                REQUIRE _A_PBOUT_L
+   \   00002A   3F41         POP.W   R15
+   \   00002C   0013         RETI
+   \   00002E                REQUIRE _A_PAIFG_L
+   \   00002E                REQUIRE _A_TB0CCTL2_L
+   \   00002E                REQUIRE _A_PAIE_L
+   \   00002E                REQUIRE _A_TB0CCR2_L
+   \   00002E                REQUIRE _A_TB0R_L
 
    \                                 In  segment INTVEC, offset 0x2c, root
    \                     `??switchP4_interrupt::??INTVEC 44`:
@@ -271,7 +260,6 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
        2  _A_PAIFG_L
        2  _A_PBIE_L
        2  _A_PBIFG_L
-       2  _A_PBOUT_L
        2  _A_TB0CCR1_L
        2  _A_TB0CCR2_L
        2  _A_TB0CCTL1_L
@@ -283,20 +271,20 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
        2  sw1_pos
        2  sw2Okay
        2  sw2_pos
-      54  switchP2_interrupt
+      46  switchP2_interrupt
        2  switchP2_interrupt::??INTVEC 48
-      54  switchP4_interrupt
+      46  switchP4_interrupt
        2  switchP4_interrupt::??INTVEC 44
 
  
-  20 bytes in segment DATA16_AN
-  12 bytes in segment DATA16_Z
-   4 bytes in segment INTVEC
- 108 bytes in segment ISR_CODE
+ 18 bytes in segment DATA16_AN
+ 12 bytes in segment DATA16_Z
+  4 bytes in segment INTVEC
+ 92 bytes in segment ISR_CODE
  
- 108 bytes of CODE  memory
-   0 bytes of CONST memory (+  4 bytes shared)
-  12 bytes of DATA  memory (+ 20 bytes shared)
+ 92 bytes of CODE  memory
+  0 bytes of CONST memory (+  4 bytes shared)
+ 12 bytes of DATA  memory (+ 18 bytes shared)
 
 Errors: none
 Warnings: none

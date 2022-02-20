@@ -44,6 +44,7 @@ volatile unsigned int cycle_count;
 volatile unsigned int stopwatch_seconds;
 volatile unsigned int time_change;
 extern volatile unsigned int right_tick, left_tick;
+extern char adc_char[5];
 //===========================================================================
 // Function name: Main
 //
@@ -81,6 +82,8 @@ void main(void){
   Init_Timers();                       // Initialize Timers
   Init_LCD();                          // Initialize LCD
   Init_ADC();
+  Init_REF();
+  Init_DAC();
   
   // Place the contents of what you want on the display, in between the quotes
 // Limited to 10 characters per line
@@ -95,9 +98,10 @@ void main(void){
 //------------------------------------------------------------------------------
   while(ALWAYS) {                       // Can the Operating system run
     Display_Process();                  // Update Display
-    StateMachine();                     // Run wheels state machine
+    //StateMachine();                     // Run wheels state machine
     MotorSafety();
     P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+    
     if(Last_Time_Sequence!=Time_Sequence){
       Last_Time_Sequence=Time_Sequence;
       cycle_count++;

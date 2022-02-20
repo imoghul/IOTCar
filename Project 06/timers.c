@@ -11,7 +11,7 @@ volatile unsigned int backliteCounter;
 volatile unsigned int debounce_count1, debounce_count2;
 volatile unsigned int debouncing1, debouncing2;
 volatile unsigned int debounce_thresh1=10, debounce_thresh2=10;
-volatile unsigned int backliteBlinking = TRUE;
+volatile unsigned int backliteBlinking = FALSE;
 void Init_Timers(void){
   Init_Timer_B0();
   Init_Timer_B3();
@@ -140,7 +140,7 @@ __interrupt void TIMER0_B1_ISR(void){
   if(debouncing1==FALSE && debouncing2==FALSE) {
     TB0CCTL1 &= ~CCIE; // CCR1 disable interrupt
     TB0CCTL2 &= ~CCIE;
-    backliteBlinking = TRUE;//TB0CCTL2 |= CCIE;
+    backliteBlinking = FALSE;//TB0CCTL2 |= CCIE;
     backliteCounter = 0;
   }
   //----------------------------------------------------------------------------

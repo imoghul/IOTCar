@@ -1,6 +1,14 @@
 #include "msp430.h"
 #include "ports.h"
 #include "adc.h"
+#include <string.h>
+
+volatile unsigned int ADC_Channel;
+volatile unsigned int ADC_Left_Detect,ADC_Right_Detect,ADC_Thumb;
+volatile unsigned int DAC_data;
+char adc_char[5];
+extern char display_line[4][11];
+extern volatile unsigned char display_changed;
 
 void Init_ADC(void){
 //------------------------------------------------------------------------------
@@ -9,28 +17,18 @@ void Init_ADC(void){
 // V_THUMB
 //------------------------------------------------------------------------------
 // ADCCTL0 Register
-(0x04) // Pin 2 A2
-(0x08) // Pin 3 A3
-(0x20) // Pin 5 A5
-ADCCTL0 = 0;
+  ADCCTL0 = 0;
   ADCCTL0 |= ADCSHT_2;
   ADCCTL0 |= ADCMSC;
   ADCCTL0 |= ADCON;
 // ADCCTL1 Register
-ADCCTL2 = 0;
-ADCCTL1 |= ADCSHS_0; ADCCTL1 |= ADCSHP; ADCCTL1 &= ~ADCISSH; ADCCTL1 |= ADCDIV_0; ADCCTL1 |= ADCSSEL_0; ADCCTL1 |= ADCCONSEQ_0;
-// Reset
-// 16 ADC clocks
-// MSC
-// ADC ON
-// Reset
-// 00b = ADCSC bit
-// ADC sample-and-hold SAMPCON signal from sampling timer.
-// ADC invert signal sample-and-hold.
-// ADC clock divider - 000b = Divide by 1
-// ADC clock MODCLK
-// ADC conversion sequence 00b = Single-channel single-conversion
-// ADCCTL1 & ADCBUSY  identifies a conversion is in process
+  ADCCTL1 = 0;
+  ADCCTL1 |= ADCSHS_0; 
+  ADCCTL1 |= ADCSHP; 
+  ADCCTL1 &= ~ADCISSH; 
+  ADCCTL1 |= ADCDIV_0; 
+  ADCCTL1 |= ADCSSEL_0; 
+  ADCCTL1 |= ADCCONSEQ_0;
 // ADCCTL2 Register
   ADCCTL2 = 0;
   ADCCTL2 |= ADCPDIV0;
@@ -43,55 +41,56 @@ ADCCTL1 |= ADCSHS_0; ADCCTL1 |= ADCSHP; ADCCTL1 &= ~ADCISSH; ADCCTL1 |= ADCDIV_0
   ADCIE |= ADCIE0;
   ADCCTL0 |= ADCENC;
   ADCCTL0 |= ADCSC;
-// Reset
-// ADC pre-divider 00b = Pre-divide by 1
-// ADC resolution 10b = 12 bit (14 clock cycle conversion time) // ADC data read-back format 0b = Binary unsigned.
-// ADC sampling rate 0b = ADC buffer supports up to 200 ksps
-// VREF - 000b = {VR+ = AVCC and VR– = AVSS }
-// V_THUMB (0x20) Pin 5 A5
-// Enable ADC conv complete interrupt
-// ADC enable conversion.
-// ADC start conversion.  
 }
 
 #pragma vector=ADC_VECTOR 
 __interrupt void ADC_ISR(void){
-switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){ 
-case ADCIV_NONE:
-break;
-case ADCIV_ADCOVIFG:
-break;
-case ADCIV_ADCTOVIFG:
-break;
-case ADCIV_ADCHIIFG:
-break;
-case ADCIV_ADCLOIFG:
-break;
-case ADCIV_ADCINIFG:
-break;
-case ADCIV_ADCIFG:
-	ADCCTL0 &= ~ADCENC; 
-	switch (ADC_Channel4+){
-		case 0x00:
-			ADCMCTL0 &= ~ADCINCH_2; 
-			ADCMCTL0 = ADCINCH_3; 
-			ADC_Left_Detect = ADCMEM0; 
-			ADC_Left_Detect = ADC_Left_Detect >> 2; 
-			HEXtoBCD (ADC_Left Detect); 
-			adc_line4(0);
-			break; 
-		case 0x01:
-			break; 
-		case 0x0?:
-			ADC_Channel=0;
-			 break; 
-		default: break;
-	}
-	ADCCTL0 |= ADCENC; 
-	ADCCTL0 |= ADCSC;
-	default: break;
-} 
-default: break;
+  switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){ 
+    case ADCIV_NONE:
+      break;
+    case ADCIV_ADCOVIFG:
+      break;
+    case ADCIV_ADCTOVIFG:
+      break;
+    case ADCIV_ADCHIIFG:
+      break;
+    case ADCIV_ADCLOIFG:
+      break;
+    case ADCIV_ADCINIFG:
+      break;
+    case ADCIV_ADCIFG:
+      ADCCTL0 &= ~ADCENC; 
+      switch (ADC_Channel++){
+        case 0x00:
+          ADCMCTL0 &= ~ADCINCH_2; 
+          ADCMCTL0 = ADCINCH_3; 
+          ADC_Left_Detect = ADCMEM0; 
+          ADC_Left_Detect = ADC_Left_Detect >> 2; 
+          HEXtoBCD(ADC_Left_Detect,1); 
+          break; 
+        case 0x01:
+          ADCMCTL0 &= ~ADCINCH_3; 
+          ADCMCTL0 = ADCINCH_5; 
+          ADC_Right_Detect = ADCMEM0; 
+          ADC_Right_Detect = ADC_Right_Detect >> 2; 
+          HEXtoBCD(ADC_Right_Detect,2); 
+          break; 
+        case 0x02:
+          ADCMCTL0 &= ~ADCINCH_5; 
+          ADCMCTL0 = ADCINCH_2; 
+          ADC_Thumb = ADCMEM0; 
+          ADC_Thumb = ADC_Thumb >> 2; 
+          HEXtoBCD(ADC_Thumb,3); 
+          break; 
+        case 0x03:
+          ADC_Channel=0;
+          break; 
+        default: break;
+        }
+        ADCCTL0 |= ADCENC; 
+        ADCCTL0 |= ADCSC;
+    default: break;
+  }
 }
 
 void Init_REF(void){
@@ -116,4 +115,36 @@ void Init_DAC(void){
   SAC3PGA = MSEL_1; 
   SAC3OA |= SACEN; 
   SAC3OA |= OAEN;
+}
+
+void HEXtoBCD(int hex_value, int line){
+  int value=0;
+  adc_char[0] = '0';
+  strcpy(display_line[line],"          ");
+  while(hex_value>999){
+    hex_value-=1000;
+    value+=1;
+  }
+  adc_char[0] = 0x30 + value;
+  display_line[line][0] = 0x30 + value;
+  value = 0;
+  while(hex_value > 99){
+    hex_value -= 100;
+    value += 1;
+    adc_char[1] = 0x30 + value;
+    display_line[line][1] = 0x30 + value;
+  }
+  adc_char[1] = 0x30 + value;
+  display_line[line][1] = 0x30 + value;
+  value = 0;
+  while(hex_value > 9){
+    hex_value -= 10;
+    value += 1;
+  }
+  adc_char[2] = 0x30 + value;
+  display_line[line][2] = 0x30 + value;
+  adc_char[3] = 0x30 + hex_value;
+  display_line[line][3] = 0x30 + value;
+  adc_char[4] = 0;
+  display_changed=1;
 }

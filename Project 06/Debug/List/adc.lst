@@ -1,0 +1,591 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Feb/2022  17:08:36
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\adc.c
+#    Command line  =  
+#        -f C:\Users\saad\AppData\Local\Temp\EW72C8.tmp
+#        ("C:\Users\saad\Documents\ece-306\Project 06\adc.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
+#        --core=430X --data_model=small -On --multiplier=32
+#        --hw_workaround=CPU40 --code_model=large)
+#    Locale        =  English_USA.1252
+#    List file     =  
+#        C:\Users\saad\Documents\ece-306\Project 06\Debug\List\adc.lst
+#    Object file   =  
+#        C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj\adc.r43
+#
+###############################################################################
+
+C:\Users\saad\Documents\ece-306\Project 06\adc.c
+      1          #include "msp430.h"
+
+   \                                 In  segment DATA16_AN, at 0x700
+   \   union <unnamed> _A_ADCCTL0_L
+   \                     _A_ADCCTL0_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x702
+   \   union <unnamed> _A_ADCCTL1_L
+   \                     _A_ADCCTL1_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x704
+   \   union <unnamed> _A_ADCCTL2_L
+   \                     _A_ADCCTL2_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x70a
+   \   union <unnamed> _A_ADCMCTL0_L
+   \                     _A_ADCMCTL0_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x712
+   \   union <unnamed> _A_ADCMEM0_L
+   \                     _A_ADCMEM0_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x71a
+   \   union <unnamed> _A_ADCIE_L
+   \                     _A_ADCIE_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x71e
+   \   union <unnamed> _A_ADCIV_L
+   \                     _A_ADCIV_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x120
+   \   union <unnamed> _A_PMMCTL0_L
+   \                     _A_PMMCTL0_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x124
+   \   union <unnamed> _A_PMMCTL2_L
+   \                     _A_PMMCTL2_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0xcb0
+   \   union <unnamed> _A_SAC3OA_L
+   \                     _A_SAC3OA_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0xcb2
+   \   union <unnamed> _A_SAC3PGA_L
+   \                     _A_SAC3PGA_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0xcb4
+   \   union <unnamed> _A_SAC3DAC_L
+   \                     _A_SAC3DAC_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0xcb6
+   \   union <unnamed> _A_SAC3DAT_L
+   \                     _A_SAC3DAT_L:
+   \   000000                DS8 2
+      2          #include "ports.h"
+      3          #include "adc.h"
+      4          #include <string.h>
+      5          
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+      6          volatile unsigned int ADC_Channel;
+   \                     ADC_Channel:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+      7          volatile unsigned int ADC_Left_Detect,ADC_Right_Detect,ADC_Thumb;
+   \                     ADC_Left_Detect:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     ADC_Right_Detect:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     ADC_Thumb:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+      8          volatile unsigned int DAC_data;
+   \                     DAC_data:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+      9          char adc_char[5];
+   \                     adc_char:
+   \   000000                DS8 5
+     10          extern char display_line[4][11];
+     11          extern volatile unsigned char display_changed;
+     12          
+
+   \                                 In  segment CODE, align 2
+     13          void Init_ADC(void){
+   \                     Init_ADC:
+     14          //------------------------------------------------------------------------------
+     15          // V_DETECT_L
+     16          // V_DETECT_R
+     17          // V_THUMB
+     18          //------------------------------------------------------------------------------
+     19          // ADCCTL0 Register
+     20            ADCCTL0 = 0;
+   \   000000   82430007     MOV.W   #0x0, &0x700
+     21            ADCCTL0 |= ADCSHT_2;
+   \   000004   B2D000020007 BIS.W   #0x200, &0x700
+     22            ADCCTL0 |= ADCMSC;
+   \   00000A   B2D080000007 BIS.W   #0x80, &0x700
+     23            ADCCTL0 |= ADCON;
+   \   000010   B2D010000007 BIS.W   #0x10, &0x700
+     24          // ADCCTL1 Register
+     25            ADCCTL1 = 0;
+   \   000016   82430207     MOV.W   #0x0, &0x702
+     26            ADCCTL1 |= ADCSHS_0; 
+   \   00001A   924202070207 MOV.W   &0x702, &0x702
+     27            ADCCTL1 |= ADCSHP; 
+   \   000020   B2D000020207 BIS.W   #0x200, &0x702
+     28            ADCCTL1 &= ~ADCISSH; 
+   \   000026   B2C000010207 BIC.W   #0x100, &0x702
+     29            ADCCTL1 |= ADCDIV_0; 
+   \   00002C   924202070207 MOV.W   &0x702, &0x702
+     30            ADCCTL1 |= ADCSSEL_0; 
+   \   000032   924202070207 MOV.W   &0x702, &0x702
+     31            ADCCTL1 |= ADCCONSEQ_0;
+   \   000038   924202070207 MOV.W   &0x702, &0x702
+     32          // ADCCTL2 Register
+     33            ADCCTL2 = 0;
+   \   00003E   82430407     MOV.W   #0x0, &0x704
+     34            ADCCTL2 |= ADCPDIV0;
+   \   000042   B2D000010407 BIS.W   #0x100, &0x704
+     35            ADCCTL2 |= ADCRES_2;
+   \   000048   B2D020000407 BIS.W   #0x20, &0x704
+     36            ADCCTL2 &= ~ADCDF;
+   \   00004E   B2C20407     BIC.W   #0x8, &0x704
+     37            ADCCTL2 &= ~ADCSR;
+   \   000052   A2C20407     BIC.W   #0x4, &0x704
+     38          // ADCMCTL0 Register
+     39            ADCMCTL0 |= ADCSREF_0;
+   \   000056   92420A070A07 MOV.W   &0x70a, &0x70a
+     40            ADCMCTL0 |= ADCINCH_5;
+   \   00005C   B2D005000A07 BIS.W   #0x5, &0x70a
+     41            ADCIE |= ADCIE0;
+   \   000062   92D31A07     BIS.W   #0x1, &0x71a
+     42            ADCCTL0 |= ADCENC;
+   \   000066   A2D30007     BIS.W   #0x2, &0x700
+     43            ADCCTL0 |= ADCSC;
+   \   00006A   92D30007     BIS.W   #0x1, &0x700
+     44          }
+   \   00006E   1001         RETA
+   \   000070                REQUIRE _A_ADCCTL0_L
+   \   000070                REQUIRE _A_ADCCTL1_L
+   \   000070                REQUIRE _A_ADCCTL2_L
+   \   000070                REQUIRE _A_ADCMCTL0_L
+   \   000070                REQUIRE _A_ADCIE_L
+     45          
+     46          #pragma vector=ADC_VECTOR 
+
+   \                                 In  segment ISR_CODE, align 2
+     47          __interrupt void ADC_ISR(void){
+   \                     ADC_ISR:
+   \   000000   3F15         PUSHM.W #0x4, R15
+     48            switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){ 
+   \   000002   1F421E07     MOV.W   &0x71e, R15
+   \   000006   E00F         ADDA    R15, PC
+   \                     `?<Jumptable for ADC_ISR>_0`:
+   \   000008   583C         JMP     ??ADC_ISR_1
+   \   00000A   573C         JMP     ??ADC_ISR_1
+   \   00000C   563C         JMP     ??ADC_ISR_1
+   \   00000E   553C         JMP     ??ADC_ISR_1
+   \   000010   543C         JMP     ??ADC_ISR_1
+   \   000012   533C         JMP     ??ADC_ISR_1
+   \   000014   003C         JMP     ??ADC_ISR_6
+     49              case ADCIV_NONE:
+     50                break;
+     51              case ADCIV_ADCOVIFG:
+     52                break;
+     53              case ADCIV_ADCTOVIFG:
+     54                break;
+     55              case ADCIV_ADCHIIFG:
+     56                break;
+     57              case ADCIV_ADCLOIFG:
+     58                break;
+     59              case ADCIV_ADCINIFG:
+     60                break;
+     61              case ADCIV_ADCIFG:
+     62                ADCCTL0 &= ~ADCENC; 
+   \                     ??ADC_ISR_6:
+   \   000016   A2C30007     BIC.W   #0x2, &0x700
+     63                switch (ADC_Channel++){
+   \   00001A   1F42....     MOV.W   &ADC_Channel, R15
+   \   00001E   0E4F         MOV.W   R15, R14
+   \   000020   1E53         ADD.W   #0x1, R14
+   \   000022   824E....     MOV.W   R14, &ADC_Channel
+   \   000026   0F83         SUB.W   #0x0, R15
+   \   000028   0724         JEQ     ??ADC_ISR_2
+   \   00002A   1F83         SUB.W   #0x1, R15
+   \   00002C   1824         JEQ     ??ADC_ISR_3
+   \   00002E   1F83         SUB.W   #0x1, R15
+   \   000030   2A24         JEQ     ??ADC_ISR_4
+   \   000032   1F83         SUB.W   #0x1, R15
+   \   000034   3C24         JEQ     ??ADC_ISR_5
+   \   000036   3D3C         JMP     ??ADC_ISR_0
+     64                  case 0x00:
+     65                    ADCMCTL0 &= ~ADCINCH_2; 
+   \                     ??ADC_ISR_2:
+   \   000038   A2C30A07     BIC.W   #0x2, &0x70a
+     66                    ADCMCTL0 = ADCINCH_3; 
+   \   00003C   B24003000A07 MOV.W   #0x3, &0x70a
+     67                    ADC_Left_Detect = ADCMEM0; 
+   \   000042   92421207.... MOV.W   &0x712, &ADC_Left_Detect
+     68                    ADC_Left_Detect = ADC_Left_Detect >> 2; 
+   \   000048   1F42....     MOV.W   &ADC_Left_Detect, R15
+   \   00004C   5F07         RRUM.W  #0x2, R15
+   \   00004E   824F....     MOV.W   R15, &ADC_Left_Detect
+     69                    HEXtoBCD(ADC_Left_Detect,1); 
+   \   000052   1D43         MOV.W   #0x1, R13
+   \   000054   1C42....     MOV.W   &ADC_Left_Detect, R12
+   \   000058   ........     CALLA   #HEXtoBCD
+     70                    break; 
+   \   00005C   2A3C         JMP     ??ADC_ISR_0
+     71                  case 0x01:
+     72                    ADCMCTL0 &= ~ADCINCH_3; 
+   \                     ??ADC_ISR_3:
+   \   00005E   B2F0FCFF0A07 AND.W   #0xfffc, &0x70a
+     73                    ADCMCTL0 = ADCINCH_5; 
+   \   000064   B24005000A07 MOV.W   #0x5, &0x70a
+     74                    ADC_Right_Detect = ADCMEM0; 
+   \   00006A   92421207.... MOV.W   &0x712, &ADC_Right_Detect
+     75                    ADC_Right_Detect = ADC_Right_Detect >> 2; 
+   \   000070   1F42....     MOV.W   &ADC_Right_Detect, R15
+   \   000074   5F07         RRUM.W  #0x2, R15
+   \   000076   824F....     MOV.W   R15, &ADC_Right_Detect
+     76                    HEXtoBCD(ADC_Right_Detect,2); 
+   \   00007A   2D43         MOV.W   #0x2, R13
+   \   00007C   1C42....     MOV.W   &ADC_Right_Detect, R12
+   \   000080   ........     CALLA   #HEXtoBCD
+     77                    break; 
+   \   000084   163C         JMP     ??ADC_ISR_0
+     78                  case 0x02:
+     79                    ADCMCTL0 &= ~ADCINCH_5; 
+   \                     ??ADC_ISR_4:
+   \   000086   B2F0FAFF0A07 AND.W   #0xfffa, &0x70a
+     80                    ADCMCTL0 = ADCINCH_2; 
+   \   00008C   A2430A07     MOV.W   #0x2, &0x70a
+     81                    ADC_Thumb = ADCMEM0; 
+   \   000090   92421207.... MOV.W   &0x712, &ADC_Thumb
+     82                    ADC_Thumb = ADC_Thumb >> 2; 
+   \   000096   1F42....     MOV.W   &ADC_Thumb, R15
+   \   00009A   5F07         RRUM.W  #0x2, R15
+   \   00009C   824F....     MOV.W   R15, &ADC_Thumb
+     83                    HEXtoBCD(ADC_Thumb,3); 
+   \   0000A0   3D400300     MOV.W   #0x3, R13
+   \   0000A4   1C42....     MOV.W   &ADC_Thumb, R12
+   \   0000A8   ........     CALLA   #HEXtoBCD
+     84                    break; 
+   \   0000AC   023C         JMP     ??ADC_ISR_0
+     85                  case 0x03:
+     86                    ADC_Channel=0;
+   \                     ??ADC_ISR_5:
+   \   0000AE   8243....     MOV.W   #0x0, &ADC_Channel
+     87                    break; 
+     88                  default: break;
+     89                  }
+     90                  ADCCTL0 |= ADCENC; 
+   \                     ??ADC_ISR_0:
+   \   0000B2   A2D30007     BIS.W   #0x2, &0x700
+     91                  ADCCTL0 |= ADCSC;
+   \   0000B6   92D30007     BIS.W   #0x1, &0x700
+     92              default: break;
+     93            }
+     94          }
+   \                     ??ADC_ISR_1:
+   \   0000BA   3C17         POPM.W  #0x4, R15
+   \   0000BC   0013         RETI
+   \   0000BE                REQUIRE _A_ADCCTL0_L
+   \   0000BE                REQUIRE _A_ADCMCTL0_L
+   \   0000BE                REQUIRE _A_ADCMEM0_L
+   \   0000BE                REQUIRE _A_ADCIV_L
+     95          
+
+   \                                 In  segment CODE, align 2
+     96          void Init_REF(void){
+   \                     Init_REF:
+     97            PMMCTL0_H = PMMPW_H;
+   \   000000   F240A5002101 MOV.B   #0xa5, &0x121
+     98            PMMCTL2 = INTREFEN;
+   \   000006   92432401     MOV.W   #0x1, &0x124
+     99            PMMCTL2 |= REFVSEL_2;
+   \   00000A   B2D020002401 BIS.W   #0x20, &0x124
+    100            while(!(PMMCTL2 & REFGENRDY));
+   \                     ??Init_REF_0:
+   \   000010   B2B000102401 BIT.W   #0x1000, &0x124
+   \   000016   FC2B         JNC     ??Init_REF_0
+    101          }
+   \   000018   1001         RETA
+   \   00001A                REQUIRE _A_PMMCTL0_L
+   \   00001A                REQUIRE _A_PMMCTL2_L
+    102          
+
+   \                                 In  segment CODE, align 2
+    103          void Init_DAC(void){
+   \                     Init_DAC:
+    104            DAC_data = 1000;
+   \   000000   B240E803.... MOV.W   #0x3e8, &DAC_data
+    105            SAC3DAT = DAC_data;
+   \   000006   9242....B60C MOV.W   &DAC_data, &0xcb6
+    106            SAC3DAC = DACSREF_1;
+   \   00000C   B2400010B40C MOV.W   #0x1000, &0xcb4
+    107            SAC3DAC |= DACLSEL_0;
+   \   000012   9242B40CB40C MOV.W   &0xcb4, &0xcb4
+    108          //  SAC3DAC |= DACIE;
+    109            SAC3DAC |= DACEN;
+   \   000018   92D3B40C     BIS.W   #0x1, &0xcb4
+    110            SAC3OA = NMUXEN; 
+   \   00001C   B2408000B00C MOV.W   #0x80, &0xcb0
+    111            SAC3OA |= PMUXEN; 
+   \   000022   B2D2B00C     BIS.W   #0x8, &0xcb0
+    112            SAC3OA |= PSEL_1; 
+   \   000026   92D3B00C     BIS.W   #0x1, &0xcb0
+    113            SAC3OA |= NSEL_1; 
+   \   00002A   B2D01000B00C BIS.W   #0x10, &0xcb0
+    114            SAC3OA |= OAPM; 
+   \   000030   B2D00002B00C BIS.W   #0x200, &0xcb0
+    115            SAC3PGA = MSEL_1; 
+   \   000036   9243B20C     MOV.W   #0x1, &0xcb2
+    116            SAC3OA |= SACEN; 
+   \   00003A   B2D00004B00C BIS.W   #0x400, &0xcb0
+    117            SAC3OA |= OAEN;
+   \   000040   B2D00001B00C BIS.W   #0x100, &0xcb0
+    118          }
+   \   000046   1001         RETA
+   \   000048                REQUIRE _A_SAC3DAT_L
+   \   000048                REQUIRE _A_SAC3DAC_L
+   \   000048                REQUIRE _A_SAC3OA_L
+   \   000048                REQUIRE _A_SAC3PGA_L
+    119          
+
+   \                                 In  segment CODE, align 2
+    120          void HEXtoBCD(int hex_value, int line){
+   \                     HEXtoBCD:
+   \   000000   3B15         PUSHM.W #0x4, R11
+   \   000002   0B4C         MOV.W   R12, R11
+   \   000004   084D         MOV.W   R13, R8
+    121            int value=0;
+   \   000006   0A43         MOV.W   #0x0, R10
+    122            adc_char[0] = '0';
+   \   000008   F2403000.... MOV.B   #0x30, &adc_char
+    123            strcpy(display_line[line],"          ");
+   \   00000E   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000012   0C48         MOV.W   R8, R12
+   \   000014                RPT     #0xa
+   \   000014   49180C58     ADDX.W  R8, R12
+   \   000018   3C50....     ADD.W   #display_line, R12
+   \   00001C   ........     CALLA   #strcpy
+    124            while(hex_value>999){
+   \                     ??HEXtoBCD_0:
+   \   000020   3B90E803     CMP.W   #0x3e8, R11
+   \   000024   0438         JL      ??HEXtoBCD_3
+    125              hex_value-=1000;
+   \   000026   3B5018FC     ADD.W   #0xfc18, R11
+    126              value+=1;
+   \   00002A   1A53         ADD.W   #0x1, R10
+   \   00002C   F93F         JMP     ??HEXtoBCD_0
+    127            }
+    128            adc_char[0] = 0x30 + value;
+   \                     ??HEXtoBCD_3:
+   \   00002E   0E12         PUSH.W  R14
+   \   000030   C14A0000     MOV.B   R10, 0(SP)
+   \   000034   3E41         POP.W   R14
+   \   000036   7E503000     ADD.B   #0x30, R14
+   \   00003A   C24E....     MOV.B   R14, &adc_char
+    129            display_line[line][0] = 0x30 + value;
+   \   00003E   0E12         PUSH.W  R14
+   \   000040   C14A0000     MOV.B   R10, 0(SP)
+   \   000044   3E41         POP.W   R14
+   \   000046   7E503000     ADD.B   #0x30, R14
+   \   00004A   0F48         MOV.W   R8, R15
+   \   00004C                RPT     #0xa
+   \   00004C   49180F58     ADDX.W  R8, R15
+   \   000050   CF4E....     MOV.B   R14, display_line(R15)
+    130            value = 0;
+   \   000054   0A43         MOV.W   #0x0, R10
+    131            while(hex_value > 99){
+   \                     ??HEXtoBCD_1:
+   \   000056   3B906400     CMP.W   #0x64, R11
+   \   00005A   1738         JL      ??HEXtoBCD_4
+    132              hex_value -= 100;
+   \   00005C   3B509CFF     ADD.W   #0xff9c, R11
+    133              value += 1;
+   \   000060   1A53         ADD.W   #0x1, R10
+    134              adc_char[1] = 0x30 + value;
+   \   000062   0E12         PUSH.W  R14
+   \   000064   C14A0000     MOV.B   R10, 0(SP)
+   \   000068   3E41         POP.W   R14
+   \   00006A   7E503000     ADD.B   #0x30, R14
+   \   00006E   C24E....     MOV.B   R14, &adc_char + 1
+    135              display_line[line][1] = 0x30 + value;
+   \   000072   0E12         PUSH.W  R14
+   \   000074   C14A0000     MOV.B   R10, 0(SP)
+   \   000078   3E41         POP.W   R14
+   \   00007A   7E503000     ADD.B   #0x30, R14
+   \   00007E   0F48         MOV.W   R8, R15
+   \   000080                RPT     #0xa
+   \   000080   49180F58     ADDX.W  R8, R15
+   \   000084   CF4E....     MOV.B   R14, display_line + 1(R15)
+   \   000088   E63F         JMP     ??HEXtoBCD_1
+    136            }
+    137            adc_char[1] = 0x30 + value;
+   \                     ??HEXtoBCD_4:
+   \   00008A   0E12         PUSH.W  R14
+   \   00008C   C14A0000     MOV.B   R10, 0(SP)
+   \   000090   3E41         POP.W   R14
+   \   000092   7E503000     ADD.B   #0x30, R14
+   \   000096   C24E....     MOV.B   R14, &adc_char + 1
+    138            display_line[line][1] = 0x30 + value;
+   \   00009A   0E12         PUSH.W  R14
+   \   00009C   C14A0000     MOV.B   R10, 0(SP)
+   \   0000A0   3E41         POP.W   R14
+   \   0000A2   7E503000     ADD.B   #0x30, R14
+   \   0000A6   0F48         MOV.W   R8, R15
+   \   0000A8                RPT     #0xa
+   \   0000A8   49180F58     ADDX.W  R8, R15
+   \   0000AC   CF4E....     MOV.B   R14, display_line + 1(R15)
+    139            value = 0;
+   \   0000B0   0A43         MOV.W   #0x0, R10
+    140            while(hex_value > 9){
+   \                     ??HEXtoBCD_2:
+   \   0000B2   3B900A00     CMP.W   #0xa, R11
+   \   0000B6   0438         JL      ??HEXtoBCD_5
+    141              hex_value -= 10;
+   \   0000B8   3B50F6FF     ADD.W   #0xfff6, R11
+    142              value += 1;
+   \   0000BC   1A53         ADD.W   #0x1, R10
+   \   0000BE   F93F         JMP     ??HEXtoBCD_2
+    143            }
+    144            adc_char[2] = 0x30 + value;
+   \                     ??HEXtoBCD_5:
+   \   0000C0   0E12         PUSH.W  R14
+   \   0000C2   C14A0000     MOV.B   R10, 0(SP)
+   \   0000C6   3E41         POP.W   R14
+   \   0000C8   7E503000     ADD.B   #0x30, R14
+   \   0000CC   C24E....     MOV.B   R14, &adc_char + 2
+    145            display_line[line][2] = 0x30 + value;
+   \   0000D0   0E12         PUSH.W  R14
+   \   0000D2   C14A0000     MOV.B   R10, 0(SP)
+   \   0000D6   3E41         POP.W   R14
+   \   0000D8   7E503000     ADD.B   #0x30, R14
+   \   0000DC   0F48         MOV.W   R8, R15
+   \   0000DE                RPT     #0xa
+   \   0000DE   49180F58     ADDX.W  R8, R15
+   \   0000E2   CF4E....     MOV.B   R14, display_line + 2(R15)
+    146            adc_char[3] = 0x30 + hex_value;
+   \   0000E6   0E12         PUSH.W  R14
+   \   0000E8   C14B0000     MOV.B   R11, 0(SP)
+   \   0000EC   3E41         POP.W   R14
+   \   0000EE   7E503000     ADD.B   #0x30, R14
+   \   0000F2   C24E....     MOV.B   R14, &adc_char + 3
+    147            display_line[line][3] = 0x30 + value;
+   \   0000F6   0E12         PUSH.W  R14
+   \   0000F8   C14A0000     MOV.B   R10, 0(SP)
+   \   0000FC   3E41         POP.W   R14
+   \   0000FE   7E503000     ADD.B   #0x30, R14
+   \   000102   0F48         MOV.W   R8, R15
+   \   000104                RPT     #0xa
+   \   000104   49180F58     ADDX.W  R8, R15
+   \   000108   CF4E....     MOV.B   R14, display_line + 3(R15)
+    148            adc_char[4] = 0;
+   \   00010C   C243....     MOV.B   #0x0, &adc_char + 4
+    149            
+    150            display_changed=1;
+   \   000110   D243....     MOV.B   #0x1, &display_changed
+    151          }
+   \   000114   3817         POPM.W  #0x4, R11
+   \   000116   1001         RETA
+
+   \                                 In  segment INTVEC, offset 0x3a, root
+   \                     `??ADC_ISR::??INTVEC 58`:
+   \   00003A   ....         DC16    ADC_ISR
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "          ">`:
+   \   000000   202020202020 DC8 "          "
+   \            2020202000  
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+     12   ADC_ISR
+       12   -> HEXtoBCD
+     14   HEXtoBCD
+       12   -> strcpy
+      4   Init_ADC
+      4   Init_DAC
+      4   Init_REF
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      11  ?<Constant "          ">
+       2  ADC_Channel
+     190  ADC_ISR
+       2  ADC_ISR::??INTVEC 58
+       2  ADC_Left_Detect
+       2  ADC_Right_Detect
+       2  ADC_Thumb
+       2  DAC_data
+     280  HEXtoBCD
+     112  Init_ADC
+      72  Init_DAC
+      26  Init_REF
+       2  _A_ADCCTL0_L
+       2  _A_ADCCTL1_L
+       2  _A_ADCCTL2_L
+       2  _A_ADCIE_L
+       2  _A_ADCIV_L
+       2  _A_ADCMCTL0_L
+       2  _A_ADCMEM0_L
+       2  _A_PMMCTL0_L
+       2  _A_PMMCTL2_L
+       2  _A_SAC3DAC_L
+       2  _A_SAC3DAT_L
+       2  _A_SAC3OA_L
+       2  _A_SAC3PGA_L
+       5  adc_char
+
+ 
+ 490 bytes in segment CODE
+  26 bytes in segment DATA16_AN
+  11 bytes in segment DATA16_C
+  15 bytes in segment DATA16_Z
+   2 bytes in segment INTVEC
+ 190 bytes in segment ISR_CODE
+ 
+ 680 bytes of CODE  memory
+  11 bytes of CONST memory (+  2 bytes shared)
+  15 bytes of DATA  memory (+ 26 bytes shared)
+
+Errors: none
+Warnings: none

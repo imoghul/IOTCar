@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Feb/2022  11:43:54
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Feb/2022  15:30:52
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\timers.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW248B.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWF6DD.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\timers.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -203,12 +203,11 @@ C:\Users\saad\Documents\ece-306\Project 06\timers.c
    \   000000                DS8 2
    \   000002                REQUIRE `?<Initializer for debounce_thresh2>`
 
-   \                                 In  segment DATA16_I, align 2, align-sorted
-   \   000000                REQUIRE ?cstart_init_copy
-     14          volatile unsigned int backliteBlinking = TRUE;
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     14          volatile unsigned int backliteBlinking = FALSE;
    \                     backliteBlinking:
    \   000000                DS8 2
-   \   000002                REQUIRE `?<Initializer for backliteBlinking>`
 
    \                                 In  segment CODE, align 2
      15          void Init_Timers(void){
@@ -492,8 +491,8 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000072   B2C010008403 BIC.W   #0x10, &0x384
     142              TB0CCTL2 &= ~CCIE;
    \   000078   B2C010008603 BIC.W   #0x10, &0x386
-    143              backliteBlinking = TRUE;//TB0CCTL2 |= CCIE;
-   \   00007E   9243....     MOV.W   #0x1, &backliteBlinking
+    143              backliteBlinking = FALSE;//TB0CCTL2 |= CCIE;
+   \   00007E   8243....     MOV.W   #0x0, &backliteBlinking
     144              backliteCounter = 0;
    \   000082   8243....     MOV.W   #0x0, &backliteCounter
     145            }
@@ -526,10 +525,6 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \                     `?<Initializer for debounce_thresh2>`:
    \   000000   0A00         DC16 10
 
-   \                                 In  segment DATA16_ID, align 2, align-sorted
-   \                     `?<Initializer for backliteBlinking>`:
-   \   000000   0100         DC16 1
-
    Maximum stack usage in bytes:
 
    CSTACK Function
@@ -548,7 +543,6 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
 
    Bytes  Function/Label
    -----  --------------
-       2  ?<Initializer for backliteBlinking>
        2  ?<Initializer for debounce_thresh1>
        2  ?<Initializer for debounce_thresh2>
       62  Init_Timer_B0
@@ -594,14 +588,14 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
  
  136 bytes in segment CODE
   44 bytes in segment DATA16_AN
-   6 bytes in segment DATA16_I
-   6 bytes in segment DATA16_ID
-  14 bytes in segment DATA16_Z
+   4 bytes in segment DATA16_I
+   4 bytes in segment DATA16_ID
+  16 bytes in segment DATA16_Z
    4 bytes in segment INTVEC
  262 bytes in segment ISR_CODE
  
  398 bytes of CODE  memory
-   6 bytes of CONST memory (+  4 bytes shared)
+   4 bytes of CONST memory (+  4 bytes shared)
   20 bytes of DATA  memory (+ 44 bytes shared)
 
 Errors: none
