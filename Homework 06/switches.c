@@ -4,6 +4,7 @@
 #include "wheels.h"
 #include "macros.h"
 #include "timers.h"
+#include <string.h>
 
 volatile unsigned int sw1Okay, sw2Okay;
 volatile unsigned int count_debounce_SW1, count_debounce_SW2;
@@ -14,6 +15,8 @@ extern volatile char state;
 extern volatile unsigned int debounce_count1, debounce_count2;
 extern volatile unsigned int debouncing1, debouncing2;
 extern volatile unsigned int backliteBlinking;
+extern volatile unsigned char display_changed;
+extern char display_line[4][11];
 
 //===========================================================================
 // Function name: switchP4_interrupt
@@ -33,21 +36,21 @@ extern volatile unsigned int backliteBlinking;
 
 #pragma vector=PORT4_VECTOR
 __interrupt void switchP4_interrupt(void){
-  if(P4IFG & SW1){
+  if(P4IFG & SW1 && debouncing1 == FALSE){
+    
+    P4IE &= ~SW1;
     P4IFG &= ~SW1;
+    TB0CCTL1 &= ~CCIFG;
+    TB0CCR1 = TB0R + TB0CCR1_INTERVAL;
     TB0CCTL1 |= CCIE; // CCR1 enable interrupt
     debouncing1 = TRUE;
-    P4IE &= ~SW1;
-    debounce_count1 = 0;
-    TB0CCR1 = TB0R + TB0CCR1_INTERVAL;
+    //debounce_count1 = 0;
+    
     // Actual Code
-    //if(state == START){
-    //    stopwatch_seconds = 0;
-    //    cycle_count = 0;
-    //    state = WAIT;
-    //}
     P3OUT &= ~LCD_BACKLITE;
     backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
+    strcpy(display_line[0], " SWITCH 1 ");
+    display_changed = TRUE;
   }
 }
 
@@ -68,17 +71,21 @@ __interrupt void switchP4_interrupt(void){
 //===========================================================================
 #pragma vector=PORT2_VECTOR
 __interrupt void switchP2_interrupt(void){
-  if(P2IFG & SW2){
+  if(P2IFG & SW2 && debouncing2 == FALSE){
+    P2IE &= ~SW2;
     P2IFG &= ~SW2;
+    TB0CCTL2 &= ~CCIFG;
     TB0CCTL2 |= CCIE; // CCR1 enable interrupt
     debouncing2 = TRUE;
-    P2IE &= ~SW2;
-    debounce_count2 = 0;
+    
+    //debounce_count2 = 0;
     TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
     // Actual Code
     //P1OUT |= RED_LED;
     P3OUT &= ~LCD_BACKLITE;
     backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
+    strcpy(display_line[0], " SWITCH 2 ");
+    display_changed = TRUE;
   }
 }
 

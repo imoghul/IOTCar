@@ -4,7 +4,7 @@
 #include <string.h>
 
 volatile unsigned int ADC_Channel;
-volatile unsigned int ADC_Left_Detect,ADC_Right_Detect,ADC_Thumb;
+volatile unsigned int ADC_Left_Detect,ADC_Right_Detect,ADC_Thumb, ADC_Vbat, ADC_Vdac, ADC_V3v3;
 volatile unsigned int DAC_data;
 char adc_char[5];
 extern char display_line[4][11];
@@ -43,6 +43,30 @@ void Init_ADC(void){
   ADCCTL0 |= ADCSC;
 }
 
+void Init_REF(void){
+  PMMCTL0_H = PMMPW_H;
+  PMMCTL2 = INTREFEN;
+  PMMCTL2 |= REFVSEL_2;
+  while(!(PMMCTL2 & REFGENRDY));
+}
+
+void Init_DAC(void){
+  DAC_data = 1000;
+  SAC3DAT = DAC_data;
+  SAC3DAC = DACSREF_1;
+  SAC3DAC |= DACLSEL_0;
+//  SAC3DAC |= DACIE;
+  SAC3DAC |= DACEN;
+  SAC3OA = NMUXEN; 
+  SAC3OA |= PMUXEN; 
+  SAC3OA |= PSEL_1; 
+  SAC3OA |= NSEL_1; 
+  SAC3OA |= OAPM; 
+  SAC3PGA = MSEL_1; 
+  SAC3OA |= SACEN; 
+  SAC3OA |= OAEN;
+}
+
 #pragma vector=ADC_VECTOR 
 __interrupt void ADC_ISR(void){
   switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){ 
@@ -77,12 +101,33 @@ __interrupt void ADC_ISR(void){
           break; 
         case 0x02:
           ADCMCTL0 &= ~ADCINCH_5; 
-          ADCMCTL0 = ADCINCH_2; 
+          ADCMCTL0 = ADCINCH_9; 
           ADC_Thumb = ADCMEM0; 
           ADC_Thumb = ADC_Thumb >> 2; 
           HEXtoBCD(ADC_Thumb,3); 
           break; 
         case 0x03:
+          ADCMCTL0 &= ~ADCINCH_9; 
+          ADCMCTL0 = ADCINCH_10; 
+          ADC_Vbat = ADCMEM0; 
+          ADC_Vbat = ADC_Vbat >> 2; 
+          //HEXtoBCD(ADC_Vbat,1); 
+          break; 
+        case 0x04:
+          ADCMCTL0 &= ~ADCINCH_10; 
+          ADCMCTL0 = ADCINCH_11; 
+          ADC_Vdac = ADCMEM0; 
+          ADC_Vdac = ADC_Vdac >> 2; 
+          //HEXtoBCD(ADC_Vdac,2); 
+          break;
+        case 0x05:
+          ADCMCTL0 &= ~ADCINCH_11; 
+          ADCMCTL0 = ADCINCH_2; 
+          ADC_V3v3 = ADCMEM0; 
+          ADC_V3v3 = ADC_V3v3 >> 2; 
+          //HEXtoBCD(ADC_V3v3,3); 
+          break; 
+        case 0x06:
           ADC_Channel=0;
           break; 
         default: break;
@@ -93,29 +138,6 @@ __interrupt void ADC_ISR(void){
   }
 }
 
-void Init_REF(void){
-  PMMCTL0_H = PMMPW_H;
-  PMMCTL2 = INTREFEN;
-  PMMCTL2 |= REFVSEL_2;
-  while(!(PMMCTL2 & REFGENRDY));
-}
-
-void Init_DAC(void){
-  DAC_data = 1000;
-  SAC3DAT = DAC_data;
-  SAC3DAC = DACSREF_1;
-  SAC3DAC |= DACLSEL_0;
-//  SAC3DAC |= DACIE;
-  SAC3DAC |= DACEN;
-  SAC3OA = NMUXEN; 
-  SAC3OA |= PMUXEN; 
-  SAC3OA |= PSEL_1; 
-  SAC3OA |= NSEL_1; 
-  SAC3OA |= OAPM; 
-  SAC3PGA = MSEL_1; 
-  SAC3OA |= SACEN; 
-  SAC3OA |= OAEN;
-}
 
 void HEXtoBCD(int hex_value, int line){
   int value=0;
@@ -144,7 +166,7 @@ void HEXtoBCD(int hex_value, int line){
   adc_char[2] = 0x30 + value;
   display_line[line][2] = 0x30 + value;
   adc_char[3] = 0x30 + hex_value;
-  display_line[line][3] = 0x30 + value;
+  display_line[line][3] = 0x30 + hex_value;
   adc_char[4] = 0;
   display_changed=1;
 }

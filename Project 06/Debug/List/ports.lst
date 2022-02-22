@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Feb/2022  15:20:37
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Feb/2022  17:48:55
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\ports.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW9032.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWA7A7.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\ports.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -582,39 +582,36 @@ C:\Users\saad\Documents\ece-306\Project 06\ports.c
     273              P5DIR &= ~CHECK_BAT;
    \   000010   D2C34402     BIC.B   #0x1, &0x244
     274          
-    275              P5SEL0 &= ~V_BAT;
-   \   000014   E2C34A02     BIC.B   #0x2, &0x24a
-    276              P5SEL1 &= ~V_BAT;
-   \   000018   E2C34C02     BIC.B   #0x2, &0x24c
-    277              P5DIR &= ~V_BAT;
-   \   00001C   E2C34402     BIC.B   #0x2, &0x244
+    275              P5SEL0 |= V_BAT;
+   \   000014   E2D34A02     BIS.B   #0x2, &0x24a
+    276              P5SEL1 |= V_BAT;
+   \   000018   E2D34C02     BIS.B   #0x2, &0x24c
+    277              //P5DIR &= ~V_BAT;
     278          
-    279              P5SEL0 &= ~V_DAC;
-   \   000020   E2C24A02     BIC.B   #0x4, &0x24a
-    280              P5SEL1 &= ~V_DAC;
-   \   000024   E2C24C02     BIC.B   #0x4, &0x24c
-    281              P5DIR &= ~V_DAC;
-   \   000028   E2C24402     BIC.B   #0x4, &0x244
+    279              P5SEL0 |= V_DAC;
+   \   00001C   E2D24A02     BIS.B   #0x4, &0x24a
+    280              P5SEL1 |= V_DAC;
+   \   000020   E2D24C02     BIS.B   #0x4, &0x24c
+    281              //P5DIR &= ~V_DAC;
     282          
-    283              P5SEL0 &= ~V_3_3;
-   \   00002C   F2C24A02     BIC.B   #0x8, &0x24a
-    284              P5SEL1 &= ~V_3_3;
-   \   000030   F2C24C02     BIC.B   #0x8, &0x24c
-    285              P5DIR &= ~V_3_3;
-   \   000034   F2C24402     BIC.B   #0x8, &0x244
+    283              P5SEL0 |= V_3_3;
+   \   000024   F2D24A02     BIS.B   #0x8, &0x24a
+    284              P5SEL1 |= V_3_3;
+   \   000028   F2D24C02     BIS.B   #0x8, &0x24c
+    285              //P5DIR &= ~V_3_3;
     286          
     287              P5SEL0 &= ~IOT_BOOT_CPU;
-   \   000038   F2C010004A02 BIC.B   #0x10, &0x24a
+   \   00002C   F2C010004A02 BIC.B   #0x10, &0x24a
     288              P5SEL1 &= ~IOT_BOOT_CPU;
-   \   00003E   F2C010004C02 BIC.B   #0x10, &0x24c
+   \   000032   F2C010004C02 BIC.B   #0x10, &0x24c
     289              P5DIR &= ~IOT_BOOT_CPU;
-   \   000044   F2C010004402 BIC.B   #0x10, &0x244
+   \   000038   F2C010004402 BIC.B   #0x10, &0x244
     290          }
-   \   00004A   1001         RETA
-   \   00004C                REQUIRE _A_PCOUT_L
-   \   00004C                REQUIRE _A_PCDIR_L
-   \   00004C                REQUIRE _A_PCSEL0_L
-   \   00004C                REQUIRE _A_PCSEL1_L
+   \   00003E   1001         RETA
+   \   000040                REQUIRE _A_PCOUT_L
+   \   000040                REQUIRE _A_PCDIR_L
+   \   000040                REQUIRE _A_PCSEL0_L
+   \   000040                REQUIRE _A_PCSEL1_L
     291          
     292          //===========================================================================
     293          // Function name: Init_Port6
@@ -675,31 +672,32 @@ C:\Users\saad\Documents\ece-306\Project 06\ports.c
    \   000038   F2C010004B02 BIC.B   #0x10, &0x24b
     331              P6SEL1 &= ~IR_LED;
    \   00003E   F2C010004D02 BIC.B   #0x10, &0x24d
-    332              P6DIR &= ~IR_LED;//|= IR_LED;
-   \   000044   F2C010004502 BIC.B   #0x10, &0x245
-    333              //P6OUT |= IR_LED;
+    332              P6DIR |= IR_LED;
+   \   000044   F2D010004502 BIS.B   #0x10, &0x245
+    333              P6OUT |= IR_LED;
+   \   00004A   F2D010004302 BIS.B   #0x10, &0x243
     334          
     335              P6SEL0 &= ~P6_5;
-   \   00004A   F2C020004B02 BIC.B   #0x20, &0x24b
+   \   000050   F2C020004B02 BIC.B   #0x20, &0x24b
     336              P6SEL1 &= ~P6_5;
-   \   000050   F2C020004D02 BIC.B   #0x20, &0x24d
+   \   000056   F2C020004D02 BIC.B   #0x20, &0x24d
     337              P6DIR &= ~P6_5;
-   \   000056   F2C020004502 BIC.B   #0x20, &0x245
+   \   00005C   F2C020004502 BIC.B   #0x20, &0x245
     338          
     339              P6SEL0 &= ~GRN_LED;
-   \   00005C   F2C040004B02 BIC.B   #0x40, &0x24b
+   \   000062   F2C040004B02 BIC.B   #0x40, &0x24b
     340              P6SEL1 &= ~GRN_LED;
-   \   000062   F2C040004D02 BIC.B   #0x40, &0x24d
+   \   000068   F2C040004D02 BIC.B   #0x40, &0x24d
     341              P6DIR |= GRN_LED;
-   \   000068   F2D040004502 BIS.B   #0x40, &0x245
+   \   00006E   F2D040004502 BIS.B   #0x40, &0x245
     342              P6OUT &= ~GRN_LED;
-   \   00006E   F2C040004302 BIC.B   #0x40, &0x243
+   \   000074   F2C040004302 BIC.B   #0x40, &0x243
     343          }
-   \   000074   1001         RETA
-   \   000076                REQUIRE _A_PCOUT_L
-   \   000076                REQUIRE _A_PCDIR_L
-   \   000076                REQUIRE _A_PCSEL0_L
-   \   000076                REQUIRE _A_PCSEL1_L
+   \   00007A   1001         RETA
+   \   00007C                REQUIRE _A_PCOUT_L
+   \   00007C                REQUIRE _A_PCDIR_L
+   \   00007C                REQUIRE _A_PCSEL0_L
+   \   00007C                REQUIRE _A_PCSEL1_L
 
    Maximum stack usage in bytes:
 
@@ -728,8 +726,8 @@ C:\Users\saad\Documents\ece-306\Project 06\ports.c
      154  Init_Port2
      160  Init_Port3
      130  Init_Port4
-      76  Init_Port5
-     118  Init_Port6
+      64  Init_Port5
+     124  Init_Port6
       28  Init_Ports
        2  _A_PADIR_L
        2  _A_PAIES_L
@@ -753,10 +751,10 @@ C:\Users\saad\Documents\ece-306\Project 06\ports.c
        2  _A_PCSEL1_L
 
  
- 770 bytes in segment CODE
+ 764 bytes in segment CODE
   40 bytes in segment DATA16_AN
  
- 770 bytes of CODE memory
+ 764 bytes of CODE memory
    0 bytes of DATA memory (+ 40 bytes shared)
 
 Errors: none

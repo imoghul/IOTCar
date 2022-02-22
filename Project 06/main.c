@@ -98,7 +98,7 @@ void main(void){
 //------------------------------------------------------------------------------
   while(ALWAYS) {                       // Can the Operating system run
     Display_Process();                  // Update Display
-    //StateMachine();                     // Run wheels state machine
+    StateMachine();                     // Run wheels state machine
     MotorSafety();
     P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
     

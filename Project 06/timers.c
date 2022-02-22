@@ -11,7 +11,7 @@ volatile unsigned int backliteCounter;
 volatile unsigned int debounce_count1, debounce_count2;
 volatile unsigned int debouncing1, debouncing2;
 volatile unsigned int debounce_thresh1=10, debounce_thresh2=10;
-volatile unsigned int backliteBlinking = FALSE;
+volatile unsigned int backliteBlinking = TRUE;
 void Init_Timers(void){
   Init_Timer_B0();
   Init_Timer_B3();
@@ -79,7 +79,7 @@ __interrupt void Timer0_B0_ISR(void){
   if(timer0Counter%UPDATE_DISPLAY_TIMER_COUNT==0)
     update_display=1;
   if (timer0Counter%BACKLITE_TIMER_COUNT==0 && backliteBlinking == TRUE){
-    if (++backliteCounter==10){
+    if (backliteCounter++==10){
       backliteCounter = 0;
       P3OUT ^= LCD_BACKLITE;
     }
@@ -117,20 +117,22 @@ __interrupt void TIMER0_B1_ISR(void){
       if (debounce_count1 > debounce_thresh1){
         debounce_count1 = 0;
         debouncing1 = FALSE;
+        P4IFG &= ~SW1;
         P4IE |= SW1;
+        TB0CCTL1 &= ~CCIE;
       }
       TB0CCR1 += TB0CCR1_INTERVAL; // Add Offset to TBCCR1
-      
       break;
     case 4: // CCR2 not used
       if(debouncing2==TRUE) debounce_count2++;
       if (debounce_count2 > debounce_thresh2){
         debounce_count2 = 0;
         debouncing2 = FALSE;
+        P2IFG &= ~SW2;
         P2IE |= SW2;
+        TB0CCTL2 &= ~CCIE;
       }
       TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR2
-      
       break;
     case 14: // overflow
       
@@ -138,10 +140,8 @@ __interrupt void TIMER0_B1_ISR(void){
     default: break;
   }
   if(debouncing1==FALSE && debouncing2==FALSE) {
-    TB0CCTL1 &= ~CCIE; // CCR1 disable interrupt
-    TB0CCTL2 &= ~CCIE;
-    backliteBlinking = FALSE;//TB0CCTL2 |= CCIE;
-    backliteCounter = 0;
+    backliteBlinking = TRUE;//TB0CCTL2 |= CCIE;
+    backliteCounter = 10;
   }
   //----------------------------------------------------------------------------
 }

@@ -11,11 +11,12 @@ extern char display_line[4][11];
 volatile unsigned int wheel_periods;
 volatile char state = START;
 volatile int shapeCounter;
-volatile char nextState = CIRCLE;
+volatile char nextState = LINEFOLLOW;
 extern volatile unsigned int Time_Sequence;
 extern volatile unsigned int Last_Time_Sequence;
 extern volatile unsigned int time_change;
 volatile unsigned int delayTime;
+extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
 
 void ShutoffMotors(void){
   P6OUT &= ~R_FORWARD;
@@ -40,36 +41,19 @@ void MotorSafety(void){
   }
 }
 
-void RunRightMotor(int val){
+void RunMotor(unsigned short volatile* forwardPin, unsigned short volatile* reversePin, int val){
   //ShutoffMotors();
   if (val>0){
-    RIGHT_REVERSE_SPEED = WHEEL_OFF;
-    RIGHT_FORWARD_SPEED = val;
+    *reversePin = WHEEL_OFF;
+    *forwardPin = val;
   }
   else if (val==0){
-    RIGHT_FORWARD_SPEED = WHEEL_OFF;
-    RIGHT_REVERSE_SPEED = WHEEL_OFF;
+    *forwardPin = WHEEL_OFF;
+    *reversePin = WHEEL_OFF;
   }
   else{
-    RIGHT_FORWARD_SPEED = WHEEL_OFF;
-    RIGHT_REVERSE_SPEED = -val;
-  }
-  MotorSafety();
-}
-
-void RunLeftMotor(int val){
-  //ShutoffMotors();
-  if (val>0){
-    LEFT_REVERSE_SPEED = WHEEL_OFF;
-    LEFT_FORWARD_SPEED = val;
-  }
-  else if (val==0){
-    LEFT_FORWARD_SPEED = WHEEL_OFF;
-    LEFT_REVERSE_SPEED = WHEEL_OFF;
-  }
-  else{
-    LEFT_FORWARD_SPEED = WHEEL_OFF;
-    LEFT_REVERSE_SPEED = -val;
+    *forwardPin = WHEEL_OFF;
+    *reversePin = -val;
   }
   MotorSafety();
 }
@@ -85,8 +69,8 @@ int Update_Ticks(int max_tick){
 int Drive_Path(int speedR, int speedL, int ticksDuration){
   if (time_change){
     time_change = 0;
-    RunRightMotor(speedR);
-    RunLeftMotor(speedL);
+    RunMotor(&RIGHT_FORWARD_SPEED,&RIGHT_REVERSE_SPEED,speedR);//RunRightMotor(speedR);
+    RunMotor(&LEFT_FORWARD_SPEED,&LEFT_REVERSE_SPEED,speedL);//RunLeftMotor(speedL);
     if (Update_Ticks(ticksDuration)){
       ShutoffMotors();
       return 1;
@@ -95,56 +79,21 @@ int Drive_Path(int speedR, int speedL, int ticksDuration){
   return 0;
 }
 
-void Circle(void){
-  if (shapeCounter == 0) {
-    strcpy(display_line[0], "  CIRCLE  ");
-    display_changed = 1;
-    shapeCounter++;
-  }
-  if(shapeCounter==1 || shapeCounter == 2){
-    if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK)) shapeCounter++;
-  }
-  if (shapeCounter==3) {
-    shapeCounter = 0 ;
-    state = START;
-  }
-}
+void LineFollow(void){
 
-void Figure8(void){
-  if (shapeCounter == 0) {
-    strcpy(display_line[0], "  FIGURE8 ");
-    display_changed = 1;
-    shapeCounter++;
+  if(ADC_Left_Detect >= LEFT_LINE_DETECT && ADC_Right_Detect >= RIGHT_LINE_DETECT){
+    Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,0);
   }
-  if(shapeCounter==1 || shapeCounter==3){
-    if (Drive_Path(RCIRC_RIGHT,RCIRC_LEFT, MAX_RCIRCLE_TICK)) shapeCounter++;
+  else if(ADC_Left_Detect >= LEFT_LINE_DETECT){ // left detected so rcirc
+    Drive_Path(RCIRC_RIGHT,RCIRC_LEFT,0);
   }
-  else if(shapeCounter==2 || shapeCounter==4){
-    if (Drive_Path(LCIRC_RIGHT,LCIRC_LEFT, MAX_LCIRCLE_TICK)) shapeCounter++;
+  else if (ADC_Right_Detect >= RIGHT_LINE_DETECT){
+    Drive_Path(LCIRC_RIGHT,LCIRC_LEFT,0);
   }
-  if (shapeCounter==5) {
-    state = START;
-    shapeCounter = 0 ;
+  else {
+    Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,0);
   }
-}
 
-void Triangle(void){
-  if (shapeCounter == 0 || shapeCounter == 6) {
-    strcpy(display_line[0], " TRIANGLE ");
-    display_changed = 1;
-    shapeCounter++;
-  }
-  if(shapeCounter==1 || shapeCounter == 3 || shapeCounter==5 || shapeCounter==8 || shapeCounter==10 || shapeCounter==12){
-    if (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, TRIANGLE_LEG)) shapeCounter++;
-  }
-  else if(shapeCounter==2 || shapeCounter == 4 || shapeCounter==7 || shapeCounter==9 || shapeCounter==11 || shapeCounter==13){
-    if (Drive_Path(TRIANGLE_RIGHT_TICK,TRIANGLE_LEFT_TICK, TRIANGLE_TURN_TICK)) shapeCounter++;
-  }
-  
-  if (shapeCounter==14) {
-    shapeCounter = 0;
-    state = END;
-  }
 }
 
 // delays for a specified time and then switches state to global nextState
@@ -175,20 +124,8 @@ void StateMachine(void){
     case (WAIT):
       delay(3,0);
       break;
-    case (ARM):
-      state = CIRCLE;
-      break;
-    case (CIRCLE):
-      Circle();
-      nextState = FIGURE8;
-      break;
-    case (FIGURE8):
-      Figure8();
-      nextState = TRIANGLE;
-      break;
-    case (TRIANGLE):
-      Triangle();
-      nextState = END;
+    case (LINEFOLLOW):
+      LineFollow();
       break;
     case (END):
       strcpy(display_line[0], "    END   ");

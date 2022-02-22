@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Feb/2022  15:30:52
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          22/Feb/2022  16:07:04
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\timers.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWF6DD.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWD6C6.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\timers.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -39,6 +39,11 @@ C:\Users\saad\Documents\ece-306\Project 06\timers.c
    \                     _A_PAIE_L:
    \   000000                DS8 2
 
+   \                                 In  segment DATA16_AN, at 0x21c
+   \   union <unnamed> _A_PAIFG_L
+   \                     _A_PAIFG_L:
+   \   000000                DS8 2
+
    \                                 In  segment DATA16_AN, at 0x222
    \   union <unnamed> _A_PBOUT_L
    \                     _A_PBOUT_L:
@@ -47,6 +52,11 @@ C:\Users\saad\Documents\ece-306\Project 06\timers.c
    \                                 In  segment DATA16_AN, at 0x23a
    \   union <unnamed> _A_PBIE_L
    \                     _A_PBIE_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x23c
+   \   union <unnamed> _A_PBIFG_L
+   \                     _A_PBIFG_L:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_AN, at 0x380
@@ -203,11 +213,12 @@ C:\Users\saad\Documents\ece-306\Project 06\timers.c
    \   000000                DS8 2
    \   000002                REQUIRE `?<Initializer for debounce_thresh2>`
 
-   \                                 In  segment DATA16_Z, align 2, align-sorted
-   \   000000                REQUIRE ?cstart_init_zero
-     14          volatile unsigned int backliteBlinking = FALSE;
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     14          volatile unsigned int backliteBlinking = TRUE;
    \                     backliteBlinking:
    \   000000                DS8 2
+   \   000002                REQUIRE `?<Initializer for backliteBlinking>`
 
    \                                 In  segment CODE, align 2
      15          void Init_Timers(void){
@@ -359,31 +370,32 @@ C:\Users\saad\Documents\ece-306\Project 06\timers.c
    \   000048   3E400C00     MOV.W   #0xc, R14
    \   00004C   ........     CALLA   #?DivMod16u
    \   000050   0E93         CMP.W   #0x0, R14
-   \   000052   0F20         JNE     ??Timer0_B0_ISR_3
+   \   000052   1020         JNE     ??Timer0_B0_ISR_3
    \   000054   9293....     CMP.W   #0x1, &backliteBlinking
-   \   000058   0C20         JNE     ??Timer0_B0_ISR_3
-     82              if (++backliteCounter==10){
+   \   000058   0D20         JNE     ??Timer0_B0_ISR_3
+     82              if (backliteCounter++==10){
    \   00005A   1F42....     MOV.W   &backliteCounter, R15
-   \   00005E   1F53         ADD.W   #0x1, R15
-   \   000060   824F....     MOV.W   R15, &backliteCounter
-   \   000064   3F900A00     CMP.W   #0xa, R15
-   \   000068   0420         JNE     ??Timer0_B0_ISR_3
+   \   00005E   0E4F         MOV.W   R15, R14
+   \   000060   1E53         ADD.W   #0x1, R14
+   \   000062   824E....     MOV.W   R14, &backliteCounter
+   \   000066   3F900A00     CMP.W   #0xa, R15
+   \   00006A   0420         JNE     ??Timer0_B0_ISR_3
      83                backliteCounter = 0;
-   \   00006A   8243....     MOV.W   #0x0, &backliteCounter
+   \   00006C   8243....     MOV.W   #0x0, &backliteCounter
      84                P3OUT ^= LCD_BACKLITE;
-   \   00006E   F2E22202     XOR.B   #0x8, &0x222
+   \   000070   F2E22202     XOR.B   #0x8, &0x222
      85              }
      86            }
      87            
      88            TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
    \                     ??Timer0_B0_ISR_3:
-   \   000072   B250D0079203 ADD.W   #0x7d0, &0x392
+   \   000074   B250D0079203 ADD.W   #0x7d0, &0x392
      89          //----------------------------------------------------------------------------
      90          }
-   \   000078   3C17         POPM.W  #0x4, R15
-   \   00007A   0013         RETI
-   \   00007C                REQUIRE _A_PBOUT_L
-   \   00007C                REQUIRE _A_TB0CCR0_L
+   \   00007A   3C17         POPM.W  #0x4, R15
+   \   00007C   0013         RETI
+   \   00007E                REQUIRE _A_PBOUT_L
+   \   00007E                REQUIRE _A_TB0CCR0_L
      91          
      92          
      93          //===========================================================================
@@ -414,14 +426,14 @@ C:\Users\saad\Documents\ece-306\Project 06\timers.c
    \   000002   1F42AE03     MOV.W   &0x3ae, R15
    \   000006   E00F         ADDA    R15, PC
    \                     `?<Jumptable for TIMER0_B1_ISR>_0`:
-   \   000008   2E3C         JMP     ??TIMER0_B1_ISR_1
+   \   000008   383C         JMP     ??TIMER0_B1_ISR_1
    \   00000A   063C         JMP     ??TIMER0_B1_ISR_7
-   \   00000C   193C         JMP     ??TIMER0_B1_ISR_8
-   \   00000E   2B3C         JMP     ??TIMER0_B1_ISR_1
-   \   000010   2A3C         JMP     ??TIMER0_B1_ISR_1
-   \   000012   293C         JMP     ??TIMER0_B1_ISR_1
-   \   000014   283C         JMP     ??TIMER0_B1_ISR_1
-   \   000016   273C         JMP     ??TIMER0_B1_ISR_1
+   \   00000C   1E3C         JMP     ??TIMER0_B1_ISR_8
+   \   00000E   353C         JMP     ??TIMER0_B1_ISR_1
+   \   000010   343C         JMP     ??TIMER0_B1_ISR_1
+   \   000012   333C         JMP     ??TIMER0_B1_ISR_1
+   \   000014   323C         JMP     ??TIMER0_B1_ISR_1
+   \   000016   313C         JMP     ??TIMER0_B1_ISR_1
     114              case 0: break; // No interrupt
     115              case 2: // CCR1 not used
     116                if(debouncing1==TRUE) debounce_count1++;
@@ -436,78 +448,82 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \                     ??TIMER0_B1_ISR_2:
    \   000022   1F42....     MOV.W   &debounce_thresh1, R15
    \   000026   1F92....     CMP.W   &debounce_count1, R15
-   \   00002A   062C         JC      ??TIMER0_B1_ISR_3
+   \   00002A   0B2C         JC      ??TIMER0_B1_ISR_3
     118                  debounce_count1 = 0;
    \   00002C   8243....     MOV.W   #0x0, &debounce_count1
     119                  debouncing1 = FALSE;
    \   000030   8243....     MOV.W   #0x0, &debouncing1
-    120                  P4IE |= SW1;
-   \   000034   E2D33B02     BIS.B   #0x2, &0x23b
-    121                }
-    122                TB0CCR1 += TB0CCR1_INTERVAL; // Add Offset to TBCCR1
+    120                  P4IFG &= ~SW1;
+   \   000034   E2C33D02     BIC.B   #0x2, &0x23d
+    121                  P4IE |= SW1;
+   \   000038   E2D33B02     BIS.B   #0x2, &0x23b
+    122                  TB0CCTL1 &= ~CCIE;
+   \   00003C   B2C010008403 BIC.W   #0x10, &0x384
+    123                }
+    124                TB0CCR1 += TB0CCR1_INTERVAL; // Add Offset to TBCCR1
    \                     ??TIMER0_B1_ISR_3:
-   \   000038   B25050C39403 ADD.W   #0xc350, &0x394
-    123                
-    124                break;
-   \   00003E   133C         JMP     ??TIMER0_B1_ISR_1
-    125              case 4: // CCR2 not used
-    126                if(debouncing2==TRUE) debounce_count2++;
+   \   000042   B25050C39403 ADD.W   #0xc350, &0x394
+    125                break;
+   \   000048   183C         JMP     ??TIMER0_B1_ISR_1
+    126              case 4: // CCR2 not used
+    127                if(debouncing2==TRUE) debounce_count2++;
    \                     ??TIMER0_B1_ISR_8:
-   \   000040   9293....     CMP.W   #0x1, &debouncing2
-   \   000044   0220         JNE     ??TIMER0_B1_ISR_4
-   \   000046   9253....     ADD.W   #0x1, &debounce_count2
-    127                if (debounce_count2 > debounce_thresh2){
+   \   00004A   9293....     CMP.W   #0x1, &debouncing2
+   \   00004E   0220         JNE     ??TIMER0_B1_ISR_4
+   \   000050   9253....     ADD.W   #0x1, &debounce_count2
+    128                if (debounce_count2 > debounce_thresh2){
                        ^
 Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
    \                     ??TIMER0_B1_ISR_4:
-   \   00004A   1F42....     MOV.W   &debounce_thresh2, R15
-   \   00004E   1F92....     CMP.W   &debounce_count2, R15
-   \   000052   062C         JC      ??TIMER0_B1_ISR_5
-    128                  debounce_count2 = 0;
-   \   000054   8243....     MOV.W   #0x0, &debounce_count2
-    129                  debouncing2 = FALSE;
-   \   000058   8243....     MOV.W   #0x0, &debouncing2
-    130                  P2IE |= SW2;
-   \   00005C   F2D21B02     BIS.B   #0x8, &0x21b
-    131                }
-    132                TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR2
+   \   000054   1F42....     MOV.W   &debounce_thresh2, R15
+   \   000058   1F92....     CMP.W   &debounce_count2, R15
+   \   00005C   0B2C         JC      ??TIMER0_B1_ISR_5
+    129                  debounce_count2 = 0;
+   \   00005E   8243....     MOV.W   #0x0, &debounce_count2
+    130                  debouncing2 = FALSE;
+   \   000062   8243....     MOV.W   #0x0, &debouncing2
+    131                  P2IFG &= ~SW2;
+   \   000066   F2C21D02     BIC.B   #0x8, &0x21d
+    132                  P2IE |= SW2;
+   \   00006A   F2D21B02     BIS.B   #0x8, &0x21b
+    133                  TB0CCTL2 &= ~CCIE;
+   \   00006E   B2C010008603 BIC.W   #0x10, &0x386
+    134                }
+    135                TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR2
    \                     ??TIMER0_B1_ISR_5:
-   \   000060   B25050C39603 ADD.W   #0xc350, &0x396
-    133                
-    134                break;
-    135              case 14: // overflow
-    136                
-    137                break;
-    138              default: break;
-    139            }
-    140            if(debouncing1==FALSE && debouncing2==FALSE) {
+   \   000074   B25050C39603 ADD.W   #0xc350, &0x396
+    136                break;
+    137              case 14: // overflow
+    138                
+    139                break;
+    140              default: break;
+    141            }
+    142            if(debouncing1==FALSE && debouncing2==FALSE) {
    \                     ??TIMER0_B1_ISR_1:
-   \   000066   8293....     CMP.W   #0x0, &debouncing1
-   \   00006A   0D20         JNE     ??TIMER0_B1_ISR_6
-   \   00006C   8293....     CMP.W   #0x0, &debouncing2
-   \   000070   0A20         JNE     ??TIMER0_B1_ISR_6
-    141              TB0CCTL1 &= ~CCIE; // CCR1 disable interrupt
-   \   000072   B2C010008403 BIC.W   #0x10, &0x384
-    142              TB0CCTL2 &= ~CCIE;
-   \   000078   B2C010008603 BIC.W   #0x10, &0x386
-    143              backliteBlinking = FALSE;//TB0CCTL2 |= CCIE;
-   \   00007E   8243....     MOV.W   #0x0, &backliteBlinking
-    144              backliteCounter = 0;
-   \   000082   8243....     MOV.W   #0x0, &backliteCounter
+   \   00007A   8293....     CMP.W   #0x0, &debouncing1
+   \   00007E   0820         JNE     ??TIMER0_B1_ISR_6
+   \   000080   8293....     CMP.W   #0x0, &debouncing2
+   \   000084   0520         JNE     ??TIMER0_B1_ISR_6
+    143              backliteBlinking = TRUE;//TB0CCTL2 |= CCIE;
+   \   000086   9243....     MOV.W   #0x1, &backliteBlinking
+    144              backliteCounter = 10;
+   \   00008A   B2400A00.... MOV.W   #0xa, &backliteCounter
     145            }
     146            //----------------------------------------------------------------------------
     147          }
    \                     ??TIMER0_B1_ISR_6:
-   \   000086   3F41         POP.W   R15
-   \   000088   0013         RETI
-   \   00008A                REQUIRE _A_PBIE_L
-   \   00008A                REQUIRE _A_TB0CCR1_L
-   \   00008A                REQUIRE _A_PAIE_L
-   \   00008A                REQUIRE _A_TB0CCR2_L
-   \   00008A                REQUIRE _A_TB0IV_L
-   \   00008A                REQUIRE _A_TB0CCTL1_L
-   \   00008A                REQUIRE _A_TB0CCTL2_L
+   \   000090   3F41         POP.W   R15
+   \   000092   0013         RETI
+   \   000094                REQUIRE _A_PBIFG_L
+   \   000094                REQUIRE _A_PBIE_L
+   \   000094                REQUIRE _A_TB0CCTL1_L
+   \   000094                REQUIRE _A_TB0CCR1_L
+   \   000094                REQUIRE _A_PAIFG_L
+   \   000094                REQUIRE _A_PAIE_L
+   \   000094                REQUIRE _A_TB0CCTL2_L
+   \   000094                REQUIRE _A_TB0CCR2_L
+   \   000094                REQUIRE _A_TB0IV_L
 
    \                                 In  segment INTVEC, offset 0x54, root
    \                     `??TIMER0_B1_ISR::??INTVEC 84`:
@@ -524,6 +540,10 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \                                 In  segment DATA16_ID, align 2, align-sorted
    \                     `?<Initializer for debounce_thresh2>`:
    \   000000   0A00         DC16 10
+
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for backliteBlinking>`:
+   \   000000   0100         DC16 1
 
    Maximum stack usage in bytes:
 
@@ -543,18 +563,21 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
 
    Bytes  Function/Label
    -----  --------------
+       2  ?<Initializer for backliteBlinking>
        2  ?<Initializer for debounce_thresh1>
        2  ?<Initializer for debounce_thresh2>
       62  Init_Timer_B0
       64  Init_Timer_B3
       10  Init_Timers
-     138  TIMER0_B1_ISR
+     148  TIMER0_B1_ISR
        2  TIMER0_B1_ISR::??INTVEC 84
        2  Time_Sequence
-     124  Timer0_B0_ISR
+     126  Timer0_B0_ISR
        2  Timer0_B0_ISR::??INTVEC 86
        2  _A_PAIE_L
+       2  _A_PAIFG_L
        2  _A_PBIE_L
+       2  _A_PBIFG_L
        2  _A_PBOUT_L
        2  _A_TB0CCR0_L
        2  _A_TB0CCR1_L
@@ -587,16 +610,16 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
 
  
  136 bytes in segment CODE
-  44 bytes in segment DATA16_AN
-   4 bytes in segment DATA16_I
-   4 bytes in segment DATA16_ID
-  16 bytes in segment DATA16_Z
+  48 bytes in segment DATA16_AN
+   6 bytes in segment DATA16_I
+   6 bytes in segment DATA16_ID
+  14 bytes in segment DATA16_Z
    4 bytes in segment INTVEC
- 262 bytes in segment ISR_CODE
+ 274 bytes in segment ISR_CODE
  
- 398 bytes of CODE  memory
-   4 bytes of CONST memory (+  4 bytes shared)
-  20 bytes of DATA  memory (+ 44 bytes shared)
+ 410 bytes of CODE  memory
+   6 bytes of CONST memory (+  4 bytes shared)
+  20 bytes of DATA  memory (+ 48 bytes shared)
 
 Errors: none
 Warnings: 2

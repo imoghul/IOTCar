@@ -19,6 +19,7 @@
 #include "ports.h"
 #include "switches.h"
 #include "timers.h"
+#include "ports.h"
 // Function Prototypes
 void main(void);
 

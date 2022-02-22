@@ -272,17 +272,17 @@ void Init_Port5() {
     P5SEL1 &= ~CHECK_BAT;
     P5DIR &= ~CHECK_BAT;
 
-    P5SEL0 &= ~V_BAT;
-    P5SEL1 &= ~V_BAT;
-    P5DIR &= ~V_BAT;
+    P5SEL0 |= V_BAT;
+    P5SEL1 |= V_BAT;
+    //P5DIR &= ~V_BAT;
 
-    P5SEL0 &= ~V_DAC;
-    P5SEL1 &= ~V_DAC;
-    P5DIR &= ~V_DAC;
+    P5SEL0 |= V_DAC;
+    P5SEL1 |= V_DAC;
+    //P5DIR &= ~V_DAC;
 
-    P5SEL0 &= ~V_3_3;
-    P5SEL1 &= ~V_3_3;
-    P5DIR &= ~V_3_3;
+    P5SEL0 |= V_3_3;
+    P5SEL1 |= V_3_3;
+    //P5DIR &= ~V_3_3;
 
     P5SEL0 &= ~IOT_BOOT_CPU;
     P5SEL1 &= ~IOT_BOOT_CPU;
@@ -329,8 +329,8 @@ void Init_Port6() {
 
     P6SEL0 &= ~IR_LED;
     P6SEL1 &= ~IR_LED;
-    P6DIR &= ~IR_LED;//|= IR_LED;
-    //P6OUT |= IR_LED;
+    P6DIR |= IR_LED;
+    P6OUT |= IR_LED;
 
     P6SEL0 &= ~P6_5;
     P6SEL1 &= ~P6_5;

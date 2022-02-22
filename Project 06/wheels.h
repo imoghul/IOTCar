@@ -21,24 +21,23 @@
 #define TRIANGLE_TURN_TICK      (350)//(15)
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
+// detectors
+#define LEFT_LINE_DETECT        (70)
+#define RIGHT_LINE_DETECT       (70)
 // states
 #define START           ('S')
 #define WAIT            ('W')
 #define END             ('E')
 #define ARM             ('A')
-#define CIRCLE          ('C')
-#define FIGURE8         ('F')
-#define TRIANGLE        ('T')
+#define LINEFOLLOW      ('l')
+#define RCIRC           ('R')
+#define LCIRC           ('L')
+#define STRAIGHT        ('s')
 
-void RunRightMotor(int);
-void RunLeftMotor(int);
-int Drive_Straight(int, int);
+void RunMotor(unsigned short volatile * forwardPin, unsigned short volatile* reversePin, int val);
 int Update_Ticks(int);
 int Drive_Path(int , int, int);
 void delay(int seconds,int cycles);
 void StateMachine(void);
 void ShutoffMotors(void);
 void MotorSafety(void);
-void Circle(void);
-void Figure8(void);
-void Triangle(void);
