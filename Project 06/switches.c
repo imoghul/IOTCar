@@ -47,10 +47,11 @@ __interrupt void switchP4_interrupt(void){
     //debounce_count1 = 0;
     
     // Actual Code
-    P3OUT &= ~LCD_BACKLITE;
-    backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
-    strcpy(display_line[0], " SWITCH 1 ");
-    display_changed = TRUE;
+    if (state == START){
+      stopwatch_seconds = 0;
+      cycle_count = 0;
+      state = WAIT;
+    }
   }
 }
 
@@ -82,10 +83,10 @@ __interrupt void switchP2_interrupt(void){
     TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
     // Actual Code
     //P1OUT |= RED_LED;
-    P3OUT &= ~LCD_BACKLITE;
-    backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
-    strcpy(display_line[0], " SWITCH 2 ");
-    display_changed = TRUE;
+    //P3OUT &= ~LCD_BACKLITE;
+    //backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
+    //strcpy(display_line[0], " SWITCH 2 ");
+    //display_changed = TRUE;
   }
 }
 

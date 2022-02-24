@@ -11,9 +11,11 @@ volatile unsigned int backliteCounter;
 volatile unsigned int debounce_count1, debounce_count2;
 volatile unsigned int debouncing1, debouncing2;
 volatile unsigned int debounce_thresh1=10, debounce_thresh2=10;
-volatile unsigned int backliteBlinking = TRUE;
+volatile unsigned int checkAdc;
+extern volatile unsigned int rightSwitchable, leftSwitchable;
 void Init_Timers(void){
   Init_Timer_B0();
+  Init_Timer_B1();
   Init_Timer_B3();
 }
 
@@ -31,6 +33,22 @@ void Init_Timer_B0(void) {
   //TB0CCTL2 |= CCIE; // CCR2 enable interrupt
   TB0CTL &= ~TBIE; // Disable Overflow Interrupt
   TB0CTL &= ~TBIFG; // Clear Overflow Interrupt flag
+}
+
+void Init_Timer_B1(void) {
+  TB1CTL = TBSSEL__SMCLK; // SMCLK source
+  TB1CTL |= TBCLR; // Resets TB0R, clock divider, count direction
+  TB1CTL |= MC__CONTINOUS; // Continuous up
+  TB1CTL |= ID__2; // Divide clock by 2
+  TB1EX0 = TBIDEX__8; // Divide clock by an additional 8
+  //TB1CCR0 = TB0CCR0_INTERVAL; // CCR0
+  //TB1CCTL0 |= CCIE; // CCR0 enable interrupt
+  TB1CCR1 = TB1CCR1_INTERVAL; // CCR1
+  //TB1CCTL1 |= CCIE; // CCR1 enable interrupt
+  TB1CCR2 = TB1CCR2_INTERVAL; // CCR2
+  //TB1CCTL2 |= CCIE; // CCR2 enable interrupt
+  TB1CTL &= ~TBIE; // Disable Overflow Interrupt
+  TB1CTL &= ~TBIFG; // Clear Overflow Interrupt flag
 }
 
 void Init_Timer_B3(void){
@@ -73,17 +91,13 @@ __interrupt void Timer0_B0_ISR(void){
 //------------------------------------------------------------------------------
 // TimerB0 0 Interrupt handler
 //----------------------------------------------------------------------------
-  if(++timer0Counter==((UPDATE_DISPLAY_TIMER_COUNT*BACKLITE_TIMER_COUNT)+1)) timer0Counter = 1;
+  if(++timer0Counter==((UPDATE_DISPLAY_TIMER_COUNT*CHECK_ADC_TIMER_COUNT)+1)) timer0Counter = 1;
   if(timer0Counter%TIME_SEQUENCE_TIMER_COUNT==0)
     if(Time_Sequence++ == TIME_SEQUENCE_MAX) Time_Sequence = 0;
   if(timer0Counter%UPDATE_DISPLAY_TIMER_COUNT==0)
     update_display=1;
-  if (timer0Counter%BACKLITE_TIMER_COUNT==0 && backliteBlinking == TRUE){
-    if (backliteCounter++==10){
-      backliteCounter = 0;
-      P3OUT ^= LCD_BACKLITE;
-    }
-  }
+  if(timer0Counter%CHECK_ADC_TIMER_COUNT==0)
+    ADCIE |= ADCIE0;
   
   TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
 //----------------------------------------------------------------------------
@@ -117,31 +131,50 @@ __interrupt void TIMER0_B1_ISR(void){
       if (debounce_count1 > debounce_thresh1){
         debounce_count1 = 0;
         debouncing1 = FALSE;
-        P4IFG &= ~SW1;
         P4IE |= SW1;
-        TB0CCTL1 &= ~CCIE;
+        TB0CCTL1 &= ~CCIE; 
       }
       TB0CCR1 += TB0CCR1_INTERVAL; // Add Offset to TBCCR1
+      
       break;
     case 4: // CCR2 not used
       if(debouncing2==TRUE) debounce_count2++;
       if (debounce_count2 > debounce_thresh2){
         debounce_count2 = 0;
         debouncing2 = FALSE;
-        P2IFG &= ~SW2;
         P2IE |= SW2;
         TB0CCTL2 &= ~CCIE;
       }
       TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR2
+      
       break;
     case 14: // overflow
       
       break;
     default: break;
   }
-  if(debouncing1==FALSE && debouncing2==FALSE) {
-    backliteBlinking = TRUE;//TB0CCTL2 |= CCIE;
-    backliteCounter = 10;
+  //----------------------------------------------------------------------------
+}
+
+#pragma vector=TIMER1_B1_VECTOR
+__interrupt void TIMER1_B1_ISR(void){
+  //----------------------------------------------------------------------------
+  // TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
+  //----------------------------------------------------------------------------
+  switch(__even_in_range(TB1IV,14)){
+    case 0: break; // No interrupt
+    case 2: // Right Motor
+      rightSwitchable = 1;
+      TB1CCTL1 &= ~CCIE; //TB1CCR1 += TB1CCR1_INTERVAL; // Add Offset to TBCCR1
+      break;
+    case 4: // Left Motor
+      leftSwitchable = 1;
+      TB1CCTL2 &= ~CCIE; //TB1CCR2 += TB1CCR2_INTERVAL; // Add Offset to TBCCR2
+      break;
+    case 14: // overflow
+      
+      break;
+    default: break;
   }
   //----------------------------------------------------------------------------
 }

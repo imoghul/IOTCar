@@ -1,6 +1,7 @@
 #include "msp430.h"
 #include "ports.h"
 #include "adc.h"
+#include "macros.h"
 #include <string.h>
 
 volatile unsigned int ADC_Channel;
@@ -9,6 +10,7 @@ volatile unsigned int DAC_data;
 char adc_char[5];
 extern char display_line[4][11];
 extern volatile unsigned char display_changed;
+extern volatile unsigned int checkAdc;
 
 void Init_ADC(void){
 //------------------------------------------------------------------------------
@@ -38,6 +40,7 @@ void Init_ADC(void){
 // ADCMCTL0 Register
   ADCMCTL0 |= ADCSREF_0;
   ADCMCTL0 |= ADCINCH_5;
+  
   ADCIE |= ADCIE0;
   ADCCTL0 |= ADCENC;
   ADCCTL0 |= ADCSC;
@@ -69,6 +72,9 @@ void Init_DAC(void){
 
 #pragma vector=ADC_VECTOR 
 __interrupt void ADC_ISR(void){
+  //if(checkAdc==FALSE) return;
+  //checkAdc=FALSE;
+  //P6OUT |= IR_LED;
   switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){ 
     case ADCIV_NONE:
       break;
@@ -128,6 +134,8 @@ __interrupt void ADC_ISR(void){
           //HEXtoBCD(ADC_V3v3,3); 
           break; 
         case 0x06:
+          ADCIE &= ~ADCIE0;
+          //P6OUT &= ~IR_LED;
           ADC_Channel=0;
           break; 
         default: break;

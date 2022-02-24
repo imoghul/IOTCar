@@ -45,6 +45,7 @@ volatile unsigned int stopwatch_seconds;
 volatile unsigned int time_change;
 extern volatile unsigned int right_tick, left_tick;
 extern char adc_char[5];
+extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
 //===========================================================================
 // Function name: Main
 //

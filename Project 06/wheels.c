@@ -1,6 +1,7 @@
 #include "msp430.h"
 #include "ports.h"
 #include "wheels.h"
+#include "timers.h"
 #include <string.h>
 
 extern volatile unsigned int cycle_count;
@@ -10,23 +11,36 @@ extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 volatile unsigned int wheel_periods;
 volatile char state = START;
-volatile int shapeCounter;
-volatile char nextState = LINEFOLLOW;
+volatile int stateCounter;
+volatile char nextState = STRAIGHT;
 extern volatile unsigned int Time_Sequence;
 extern volatile unsigned int Last_Time_Sequence;
 extern volatile unsigned int time_change;
-volatile unsigned int delayTime;
+volatile unsigned int delayTime = 1;
 extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
+volatile unsigned int rightSwitchable=1, leftSwitchable=1;
 
 void ShutoffMotors(void){
-  P6OUT &= ~R_FORWARD;
-  P6OUT &= ~L_FORWARD;
-  P6OUT &= ~R_REVERSE;
-  P6OUT &= ~L_REVERSE_2355;
+  ShutoffRight();
+  ShutoffLeft();
+}
+
+void ShutoffRight(void){
+  rightSwitchable = 0;
   RIGHT_FORWARD_SPEED = WHEEL_OFF;
-  LEFT_FORWARD_SPEED = WHEEL_OFF;
   RIGHT_REVERSE_SPEED = WHEEL_OFF;
+  TB1CCTL1 |= CCIE; 
+  TB1CCTL1 &= ~CCIFG;
+  TB1CCR1 = TB1R + TB1CCR1_INTERVAL;
+}
+
+void ShutoffLeft(void){
+  leftSwitchable = 0;
+  LEFT_FORWARD_SPEED = WHEEL_OFF;
   LEFT_REVERSE_SPEED = WHEEL_OFF;
+  TB1CCTL2 |= CCIE; 
+  TB1CCTL2 &= ~CCIFG;
+  TB1CCR2 = TB1R + TB1CCR2_INTERVAL;
 }
 
 void MotorSafety(void){
@@ -41,22 +55,52 @@ void MotorSafety(void){
   }
 }
 
-void RunMotor(unsigned short volatile* forwardPin, unsigned short volatile* reversePin, int val){
+
+int RunRightMotor(int val){
+  if(RIGHT_REVERSE_SPEED>0 && val>0 || RIGHT_FORWARD_SPEED>0 && val<0){
+    ShutoffRight();
+  }
   //ShutoffMotors();
   if (val>0){
-    *reversePin = WHEEL_OFF;
-    *forwardPin = val;
+    RIGHT_REVERSE_SPEED = WHEEL_OFF;
+    if(rightSwitchable) {RIGHT_FORWARD_SPEED = val;
+    return 1;}
+    else return 0;
   }
   else if (val==0){
-    *forwardPin = WHEEL_OFF;
-    *reversePin = WHEEL_OFF;
+    ShutoffRight();
+    return 1;
   }
   else{
-    *forwardPin = WHEEL_OFF;
-    *reversePin = -val;
+    RIGHT_FORWARD_SPEED = WHEEL_OFF;
+    if(rightSwitchable) {RIGHT_REVERSE_SPEED = -val; return 1;}
+    else return 0;
   }
-  MotorSafety();
+  //MotorSafety();
 }
+
+int RunLeftMotor(int val){
+  if(LEFT_REVERSE_SPEED>0 && val>0 || LEFT_FORWARD_SPEED>0 && val<0){
+    ShutoffLeft();
+  }
+  
+  if (val>0){
+    LEFT_REVERSE_SPEED = WHEEL_OFF;
+    if(leftSwitchable) {LEFT_FORWARD_SPEED = val;return 1;}
+    else return 0;
+  }
+  else if (val==0){
+    ShutoffLeft();
+    return 1;
+  }
+  else{
+    LEFT_FORWARD_SPEED = WHEEL_OFF;
+    if(leftSwitchable) {LEFT_REVERSE_SPEED = -val;return 1;}
+    else return 0;
+  }
+  //MotorSafety();
+}
+
 
 int Update_Ticks(int max_tick){
   if(++wheel_periods>max_tick){
@@ -69,8 +113,9 @@ int Update_Ticks(int max_tick){
 int Drive_Path(int speedR, int speedL, int ticksDuration){
   if (time_change){
     time_change = 0;
-    RunMotor(&RIGHT_FORWARD_SPEED,&RIGHT_REVERSE_SPEED,speedR);//RunRightMotor(speedR);
-    RunMotor(&LEFT_FORWARD_SPEED,&LEFT_REVERSE_SPEED,speedL);//RunLeftMotor(speedL);
+    RunRightMotor(speedR);
+    RunLeftMotor(speedL);
+    if(ticksDuration == 0) return 1;
     if (Update_Ticks(ticksDuration)){
       ShutoffMotors();
       return 1;
@@ -79,22 +124,31 @@ int Drive_Path(int speedR, int speedL, int ticksDuration){
   return 0;
 }
 
-void LineFollow(void){
 
-  if(ADC_Left_Detect >= LEFT_LINE_DETECT && ADC_Right_Detect >= RIGHT_LINE_DETECT){
-    Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,0);
+void Straight(void){
+  if (stateCounter == 0) {
+    strcpy(display_line[0], "SEARCHING ");
+    display_changed = 1;
+    stateCounter++;
   }
-  else if(ADC_Left_Detect >= LEFT_LINE_DETECT){ // left detected so rcirc
-    Drive_Path(RCIRC_RIGHT,RCIRC_LEFT,0);
+  if(stateCounter==1){
+    if ((ADC_Left_Detect <= LEFT_LINE_DETECT && ADC_Right_Detect <= RIGHT_LINE_DETECT)){
+      Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, 0);
+    }
+    else{
+      stateCounter++;
+    }
   }
-  else if (ADC_Right_Detect >= RIGHT_LINE_DETECT){
-    Drive_Path(LCIRC_RIGHT,LCIRC_LEFT,0);
+  if(stateCounter==2){
+    if(Drive_Path(-STRAIGHT_RIGHT,-STRAIGHT_LEFT, 10)) stateCounter++;
   }
-  else {
-    Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,0);
+  if (stateCounter==3) {
+    ShutoffMotors();
+    stateCounter = 0 ;
+    state = START;
   }
-
 }
+
 
 // delays for a specified time and then switches state to global nextState
 // make sure nextState is set to desired vlaue before the end of delay
@@ -119,13 +173,12 @@ void StateMachine(void){
       display_changed = 1;
       stopwatch_seconds = 0;
       cycle_count = 0;
-      state = WAIT;
       break;
     case (WAIT):
-      delay(3,0);
+      delay(delayTime,0);
       break;
-    case (LINEFOLLOW):
-      LineFollow();
+    case (STRAIGHT):
+      Straight();
       break;
     case (END):
       strcpy(display_line[0], "    END   ");
