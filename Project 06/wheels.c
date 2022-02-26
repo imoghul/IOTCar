@@ -123,7 +123,7 @@ int RunLeftMotor(unsigned int val, int polarity){
 
 int LockMotors(int polR,int polL,int ticks){
   //if (!(rightSwitchable && leftSwitchable)) return 0;
-  return (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,polR,polL, ticks));
+  return (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,polR,polL, 63));
 }
 
 
@@ -166,14 +166,22 @@ void Straight(void){
       stateCounter++;
     }
   }
-  if (stateCounter==2){
-    if(LockMotors(-1,-1,85)) stateCounter++;
+  if(stateCounter==2){
+    if(LockMotors(-1,-1,65)) stateCounter++;
   }
-  else if (stateCounter==3) {
-    //ShutoffMotors();
+  if (stateCounter==3){
+    if (((ADC_Left_Detect <= LEFT_LINE_DETECT && ADC_Right_Detect <= RIGHT_LINE_DETECT))){
+      Drive_Path(STRAIGHT_RIGHT/5,STRAIGHT_LEFT/5,-1,-1,0);
+    }
+    else stateCounter++;
+  }
+  else if (stateCounter==4) {
+    ShutoffMotors();
     stateCounter = 0 ;
     state = WAIT;    
     delayTime = 3;
+    stopwatch_seconds = 0;
+    cycle_count = 0;
     nextState = TURN;
     strcpy(display_line[0], "EMITER OFF");
     strcpy(display_line[2], "          ");
@@ -202,11 +210,16 @@ void Turn(){
       stateCounter++;
     }
   }
-  if (stateCounter==3){
-    if(LockMotors(-1,1,85)) stateCounter++;
+  if (stateCounter==3)
+    if(LockMotors(-1,1,55)) stateCounter++;
+  if (stateCounter==4){
+    if (((ADC_Left_Detect <= LEFT_LINE_DETECT || ADC_Right_Detect <= RIGHT_LINE_DETECT))){
+      Drive_Path(STRAIGHT_RIGHT/5,STRAIGHT_LEFT/5,-1,1,0);
+    }
+    else stateCounter++;
   }
-  else if (stateCounter==4) {
-    //ShutoffMotors();
+  else if (stateCounter==5) {
+    ShutoffMotors();
     stateCounter = 0 ;
     state = END;    
     nextState = END;

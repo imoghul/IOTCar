@@ -22,8 +22,8 @@
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
 // detectors
-#define LEFT_LINE_DETECT        (400)
-#define RIGHT_LINE_DETECT       (400)
+#define LEFT_LINE_DETECT        (500)
+#define RIGHT_LINE_DETECT       (500)
 // states
 #define START           ('S')
 #define WAIT            ('W')

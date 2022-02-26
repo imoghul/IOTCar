@@ -75,7 +75,7 @@ void Init_DAC(void){
 
 #pragma vector=ADC_VECTOR 
 __interrupt void ADC_ISR(void){
-  if(ADC_Channel==0 && (state == STRAIGHT || state==TURN || state==LINEFOLLOW)){
+  if(ADC_Channel==0 /*&& (state == STRAIGHT || state==TURN || state==LINEFOLLOW)*/){
     P6OUT |= IR_LED;
     //P6OUT |= GRN_LED;
     strcpy(display_line[0], "EMITTER ON");
