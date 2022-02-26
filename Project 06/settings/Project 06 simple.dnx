@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <settings>
     <DebugChecksum>
-        <Checksum>724663326</Checksum>
+        <Checksum>808211166</Checksum>
     </DebugChecksum>
     <Stack>
         <FillEnabled>0</FillEnabled>
@@ -21,7 +21,7 @@
         <Buffer>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</Buffer>
     </EEM_Sequencer>
     <EEM_Cycle_Counter_0>
-        <Counter0>0000000000000000000000000000000000000000000000000000000000000000</Counter0>
+        <Counter0>0600000000000000000000000000000000000000000000000000000001000000</Counter0>
     </EEM_Cycle_Counter_0>
     <EEM_Cycle_Counter_1>
         <Counter1>0000000000000000000000000000000000000000000000000000000000000000</Counter1>
@@ -46,7 +46,9 @@
         <LiveFile>PowerLogLive.log</LiveFile>
     </PowerLog>
     <Breakpoints>
-        <Count>0</Count>
+        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\wheels_interrupt.c}.6.1" 0 0 0 0 "" 0 ""</Bp0>
+        <Bp1>_ "STD_CODE" "{$PROJ_DIR$\wheels.c}.170.5" 0 0 0 0 "" 0 ""</Bp1>
+        <Count>2</Count>
     </Breakpoints>
     <FET>
         <Clock_mode>46</Clock_mode>

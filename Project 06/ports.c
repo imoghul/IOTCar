@@ -56,15 +56,18 @@ void Init_Port1() {
     P1DIR |= RED_LED;
     P1OUT &= ~RED_LED;
 
-    P1SEL0 |= A1_SEEED;
-    P1SEL1 |= A1_SEEED;
+    //P1SEL0 |= A1_SEEED;
+    //P1SEL1 |= A1_SEEED;
+    P1SELC |= A1_SEEED;
 
-    P1SEL0 |= V_DETECT_L;
-    P1SEL1 |= V_DETECT_L;
-
-    P1SEL0 |= V_DETECT_R;
-    P1SEL1 |= V_DETECT_R;
-
+    //P1SEL0 |= V_DETECT_L;
+    //P1SEL1 |= V_DETECT_L;
+    P1SELC |= V_DETECT_L;
+    
+    //P1SEL0 |= V_DETECT_R;
+    //P1SEL1 |= V_DETECT_R;
+    P1SELC |= V_DETECT_R;
+    
     P1SEL0 &= ~SMCLK_2476;
     P1SEL1 &= ~SMCLK_2476;
     P1DIR &= ~SMCLK_2476;
@@ -272,16 +275,19 @@ void Init_Port5() {
     P5SEL1 &= ~CHECK_BAT;
     P5DIR &= ~CHECK_BAT;
 
-    P5SEL0 |= V_BAT;
-    P5SEL1 |= V_BAT;
+    //P5SEL0 |= V_BAT;
+    //P5SEL1 |= V_BAT;
+    P5SELC |= V_BAT;
     //P5DIR &= ~V_BAT;
 
-    P5SEL0 |= V_DAC;
-    P5SEL1 |= V_DAC;
+    //P5SEL0 |= V_DAC;
+    //P5SEL1 |= V_DAC;
+    P5SELC |= V_DAC;
     //P5DIR &= ~V_DAC;
 
-    P5SEL0 |= V_3_3;
-    P5SEL1 |= V_3_3;
+    //P5SEL0 |= V_3_3;
+    //P5SEL1 |= V_3_3;
+    P5SELC |= V_3_3;
     //P5DIR &= ~V_3_3;
 
     P5SEL0 &= ~IOT_BOOT_CPU;

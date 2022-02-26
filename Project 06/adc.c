@@ -2,6 +2,8 @@
 #include "ports.h"
 #include "adc.h"
 #include "macros.h"
+#include "wheels.h"
+#include "functions.h"
 #include <string.h>
 
 volatile unsigned int ADC_Channel;
@@ -11,6 +13,7 @@ char adc_char[5];
 extern char display_line[4][11];
 extern volatile unsigned char display_changed;
 extern volatile unsigned int checkAdc;
+extern volatile char state;
 
 void Init_ADC(void){
 //------------------------------------------------------------------------------
@@ -72,9 +75,13 @@ void Init_DAC(void){
 
 #pragma vector=ADC_VECTOR 
 __interrupt void ADC_ISR(void){
-  //if(checkAdc==FALSE) return;
-  //checkAdc=FALSE;
-  //P6OUT |= IR_LED;
+  if(ADC_Channel==0 && (state == STRAIGHT || state==TURN || state==LINEFOLLOW)){
+    P6OUT |= IR_LED;
+    //P6OUT |= GRN_LED;
+    strcpy(display_line[0], "EMITTER ON");
+    HEXtoBCD(ADC_Right_Detect,3,0); HEXtoBCD(ADC_Left_Detect,3,6); 
+    display_changed = 1;
+  }
   switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){ 
     case ADCIV_NONE:
       break;
@@ -96,21 +103,21 @@ __interrupt void ADC_ISR(void){
           ADCMCTL0 = ADCINCH_3; 
           ADC_Left_Detect = ADCMEM0; 
           ADC_Left_Detect = ADC_Left_Detect >> 2; 
-          HEXtoBCD(ADC_Left_Detect,1); 
+          
           break; 
         case 0x01:
           ADCMCTL0 &= ~ADCINCH_3; 
           ADCMCTL0 = ADCINCH_5; 
           ADC_Right_Detect = ADCMEM0; 
           ADC_Right_Detect = ADC_Right_Detect >> 2; 
-          HEXtoBCD(ADC_Right_Detect,2); 
+          
           break; 
         case 0x02:
           ADCMCTL0 &= ~ADCINCH_5; 
           ADCMCTL0 = ADCINCH_9; 
           ADC_Thumb = ADCMEM0; 
           ADC_Thumb = ADC_Thumb >> 2; 
-          HEXtoBCD(ADC_Thumb,3); 
+          //HEXtoBCD(ADC_Thumb,3); 
           break; 
         case 0x03:
           ADCMCTL0 &= ~ADCINCH_9; 
@@ -136,6 +143,7 @@ __interrupt void ADC_ISR(void){
         case 0x06:
           ADCIE &= ~ADCIE0;
           //P6OUT &= ~IR_LED;
+          //P6OUT &= ~GRN_LED;
           ADC_Channel=0;
           break; 
         default: break;
@@ -147,34 +155,33 @@ __interrupt void ADC_ISR(void){
 }
 
 
-void HEXtoBCD(int hex_value, int line){
+void HEXtoBCD(int hex_value, int line, int start){
   int value=0;
   adc_char[0] = '0';
-  strcpy(display_line[line],"          ");
   while(hex_value>999){
     hex_value-=1000;
     value+=1;
   }
   adc_char[0] = 0x30 + value;
-  display_line[line][0] = 0x30 + value;
+  display_line[line][start] = 0x30 + value;
   value = 0;
   while(hex_value > 99){
     hex_value -= 100;
     value += 1;
     adc_char[1] = 0x30 + value;
-    display_line[line][1] = 0x30 + value;
+    display_line[line][start+1] = 0x30 + value;
   }
   adc_char[1] = 0x30 + value;
-  display_line[line][1] = 0x30 + value;
+  display_line[line][start+1] = 0x30 + value;
   value = 0;
   while(hex_value > 9){
     hex_value -= 10;
     value += 1;
   }
   adc_char[2] = 0x30 + value;
-  display_line[line][2] = 0x30 + value;
+  display_line[line][start+2] = 0x30 + value;
   adc_char[3] = 0x30 + hex_value;
-  display_line[line][3] = 0x30 + hex_value;
+  display_line[line][start+3] = 0x30 + hex_value;
   adc_char[4] = 0;
   display_changed=1;
 }

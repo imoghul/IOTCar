@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          24/Feb/2022  10:19:03
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          26/Feb/2022  09:09:36
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWF307.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW4F11.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -212,46 +212,47 @@ C:\Users\saad\Documents\ece-306\Project 06\main.c
      98          // Begining of the "While" Operating System
      99          //------------------------------------------------------------------------------
     100            while(ALWAYS) {                       // Can the Operating system run
-    101              Display_Process();                  // Update Display
+    101              
+    102              Display_Process();                  // Update Display
    \                     ??main_0:
    \   000058   ........     CALLA   #Display_Process
-    102              StateMachine();                     // Run wheels state machine
+    103              StateMachine();                     // Run wheels state machine
    \   00005C   ........     CALLA   #StateMachine
-    103              MotorSafety();
+    104              MotorSafety();
    \   000060   ........     CALLA   #MotorSafety
-    104              P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+    105              P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
    \   000064   D2E32202     XOR.B   #0x1, &0x222
-    105              
-    106              if(Last_Time_Sequence!=Time_Sequence){
+    106              
+    107              if(Last_Time_Sequence!=Time_Sequence){
                      ^
 Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
    \   000068   1F42....     MOV.W   &Last_Time_Sequence, R15
    \   00006C   1F92....     CMP.W   &Time_Sequence, R15
    \   000070   F327         JEQ     ??main_0
-    107                Last_Time_Sequence=Time_Sequence;
+    108                Last_Time_Sequence=Time_Sequence;
    \   000072   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
-    108                cycle_count++;
+    109                cycle_count++;
    \   000078   9253....     ADD.W   #0x1, &cycle_count
-    109                time_change = 1;
+    110                time_change = 1;
    \   00007C   9243....     MOV.W   #0x1, &time_change
-    110                if(cycle_count == TIME_SEQUENCE_MAX){
+    111                if(cycle_count == TIME_SEQUENCE_MAX){
    \   000080   B290FA00.... CMP.W   #0xfa, &cycle_count
    \   000086   E823         JNE     ??main_0
-    111                  cycle_count = 0;
+    112                  cycle_count = 0;
    \   000088   8243....     MOV.W   #0x0, &cycle_count
-    112                  stopwatch_seconds++;
+    113                  stopwatch_seconds++;
    \   00008C   9253....     ADD.W   #0x1, &stopwatch_seconds
    \   000090   E33F         JMP     ??main_0
    \   000092   0343         NOP
    \   000094                REQUIRE _A_PM5CTL0_L
    \   000094                REQUIRE _A_PBOUT_L
-    113                }
-    114              }
-    115             }
-    116              
-    117          //------------------------------------------------------------------------------
-    118          }
+    114                }
+    115              }
+    116             }
+    117              
+    118          //------------------------------------------------------------------------------
+    119          }
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "WAITING...">`:
@@ -262,7 +263,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
-    119          
+    120          
 
    Maximum stack usage in bytes:
 

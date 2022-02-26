@@ -12,6 +12,7 @@ volatile unsigned int debounce_count1, debounce_count2;
 volatile unsigned int debouncing1, debouncing2;
 volatile unsigned int debounce_thresh1=10, debounce_thresh2=10;
 volatile unsigned int checkAdc;
+extern volatile char state;
 extern volatile unsigned int rightSwitchable, leftSwitchable;
 void Init_Timers(void){
   Init_Timer_B0();
@@ -39,13 +40,13 @@ void Init_Timer_B1(void) {
   TB1CTL = TBSSEL__SMCLK; // SMCLK source
   TB1CTL |= TBCLR; // Resets TB0R, clock divider, count direction
   TB1CTL |= MC__CONTINOUS; // Continuous up
-  TB1CTL |= ID__2; // Divide clock by 2
+  TB1CTL |= ID__4; // Divide clock by 2
   TB1EX0 = TBIDEX__8; // Divide clock by an additional 8
   //TB1CCR0 = TB0CCR0_INTERVAL; // CCR0
   //TB1CCTL0 |= CCIE; // CCR0 enable interrupt
-  TB1CCR1 = TB1CCR1_INTERVAL; // CCR1
+  //TB1CCR1 = TB1CCR1_INTERVAL; // CCR1
   //TB1CCTL1 |= CCIE; // CCR1 enable interrupt
-  TB1CCR2 = TB1CCR2_INTERVAL; // CCR2
+  //TB1CCR2 = TB1CCR2_INTERVAL; // CCR2
   //TB1CCTL2 |= CCIE; // CCR2 enable interrupt
   TB1CTL &= ~TBIE; // Disable Overflow Interrupt
   TB1CTL &= ~TBIFG; // Clear Overflow Interrupt flag
@@ -156,6 +157,15 @@ __interrupt void TIMER0_B1_ISR(void){
   //----------------------------------------------------------------------------
 }
 
+#pragma vector = TIMER1_B0_VECTOR
+__interrupt void Timer1_B0_ISR(void){
+//------------------------------------------------------------------------------
+// TimerB0 0 Interrupt handler
+//----------------------------------------------------------------------------
+  
+//----------------------------------------------------------------------------
+}
+
 #pragma vector=TIMER1_B1_VECTOR
 __interrupt void TIMER1_B1_ISR(void){
   //----------------------------------------------------------------------------
@@ -165,11 +175,14 @@ __interrupt void TIMER1_B1_ISR(void){
     case 0: break; // No interrupt
     case 2: // Right Motor
       rightSwitchable = 1;
-      TB1CCTL1 &= ~CCIE; //TB1CCR1 += TB1CCR1_INTERVAL; // Add Offset to TBCCR1
+      TB1CCTL1 &= ~CCIE; 
+        
       break;
     case 4: // Left Motor
+      
       leftSwitchable = 1;
-      TB1CCTL2 &= ~CCIE; //TB1CCR2 += TB1CCR2_INTERVAL; // Add Offset to TBCCR2
+      TB1CCTL2 &= ~CCIE; 
+      
       break;
     case 14: // overflow
       

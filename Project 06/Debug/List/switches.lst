@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          24/Feb/2022  10:11:31
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          26/Feb/2022  08:52:24
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\switches.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWAFB.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW8DB6.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\switches.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -154,36 +154,35 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
    \   000006   1F28         JNC     ??switchP4_interrupt_0
    \   000008   8293....     CMP.W   #0x0, &debouncing1
    \   00000C   1C20         JNE     ??switchP4_interrupt_0
-     40              
-     41              P4IE &= ~SW1;
+     40              P4IE &= ~SW1;
    \   00000E   E2C33B02     BIC.B   #0x2, &0x23b
-     42              P4IFG &= ~SW1;
+     41              P4IFG &= ~SW1;
    \   000012   E2C33D02     BIC.B   #0x2, &0x23d
-     43              TB0CCTL1 &= ~CCIFG;
+     42              TB0CCTL1 &= ~CCIFG;
    \   000016   92C38403     BIC.W   #0x1, &0x384
-     44              TB0CCR1 = TB0R + TB0CCR1_INTERVAL;
+     43              TB0CCR1 = TB0R + TB0CCR1_INTERVAL;
    \   00001A   1F429003     MOV.W   &0x390, R15
    \   00001E   3F5050C3     ADD.W   #0xc350, R15
    \   000022   824F9403     MOV.W   R15, &0x394
-     45              TB0CCTL1 |= CCIE; // CCR1 enable interrupt
+     44              TB0CCTL1 |= CCIE; // CCR1 enable interrupt
    \   000026   B2D010008403 BIS.W   #0x10, &0x384
-     46              debouncing1 = TRUE;
+     45              debouncing1 = TRUE;
    \   00002C   9243....     MOV.W   #0x1, &debouncing1
-     47              //debounce_count1 = 0;
-     48              
-     49              // Actual Code
-     50              if (state == START){
+     46              //debounce_count1 = 0;
+     47              
+     48              // Actual Code
+     49              if (state == START){
    \   000030   F2905300.... CMP.B   #0x53, &state
    \   000036   0720         JNE     ??switchP4_interrupt_0
-     51                stopwatch_seconds = 0;
+     50                stopwatch_seconds = 0;
    \   000038   8243....     MOV.W   #0x0, &stopwatch_seconds
-     52                cycle_count = 0;
+     51                cycle_count = 0;
    \   00003C   8243....     MOV.W   #0x0, &cycle_count
-     53                state = WAIT;
+     52                state = WAIT;
    \   000040   F2405700.... MOV.B   #0x57, &state
-     54              }
-     55            }
-     56          }
+     53              }
+     54            }
+     55          }
    \                     ??switchP4_interrupt_0:
    \   000046   3F41         POP.W   R15
    \   000048   0013         RETI
@@ -192,57 +191,57 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
    \   00004A                REQUIRE _A_TB0CCTL1_L
    \   00004A                REQUIRE _A_TB0CCR1_L
    \   00004A                REQUIRE _A_TB0R_L
-     57          
-     58          //===========================================================================
-     59          // Function name: switchP4_interrupt
-     60          //
-     61          // Description: This is the switch 2 interrupt, turns off LCD_BACKLITE and its 
-     62          // blinking timer
-     63          //
-     64          // Passed : no variables passed
-     65          // Locals: no variables declared
-     66          // Returned: no values returned
-     67          // Globals: no global values
-     68          //
-     69          // Author: Ibrahim Moghul
-     70          // Date: Feb 2022
-     71          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
-     72          //===========================================================================
-     73          #pragma vector=PORT2_VECTOR
+     56          
+     57          //===========================================================================
+     58          // Function name: switchP4_interrupt
+     59          //
+     60          // Description: This is the switch 2 interrupt, turns off LCD_BACKLITE and its 
+     61          // blinking timer
+     62          //
+     63          // Passed : no variables passed
+     64          // Locals: no variables declared
+     65          // Returned: no values returned
+     66          // Globals: no global values
+     67          //
+     68          // Author: Ibrahim Moghul
+     69          // Date: Feb 2022
+     70          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     71          //===========================================================================
+     72          #pragma vector=PORT2_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-     74          __interrupt void switchP2_interrupt(void){
+     73          __interrupt void switchP2_interrupt(void){
    \                     switchP2_interrupt:
    \   000000   0F12         PUSH.W  R15
-     75            if(P2IFG & SW2 && debouncing2 == FALSE){
+     74            if(P2IFG & SW2 && debouncing2 == FALSE){
    \   000002   F2B21D02     BIT.B   #0x8, &0x21d
    \   000006   1428         JNC     ??switchP2_interrupt_0
    \   000008   8293....     CMP.W   #0x0, &debouncing2
    \   00000C   1120         JNE     ??switchP2_interrupt_0
-     76              P2IE &= ~SW2;
+     75              P2IE &= ~SW2;
    \   00000E   F2C21B02     BIC.B   #0x8, &0x21b
-     77              P2IFG &= ~SW2;
+     76              P2IFG &= ~SW2;
    \   000012   F2C21D02     BIC.B   #0x8, &0x21d
-     78              TB0CCTL2 &= ~CCIFG;
+     77              TB0CCTL2 &= ~CCIFG;
    \   000016   92C38603     BIC.W   #0x1, &0x386
-     79              TB0CCTL2 |= CCIE; // CCR1 enable interrupt
+     78              TB0CCTL2 |= CCIE; // CCR1 enable interrupt
    \   00001A   B2D010008603 BIS.W   #0x10, &0x386
-     80              debouncing2 = TRUE;
+     79              debouncing2 = TRUE;
    \   000020   9243....     MOV.W   #0x1, &debouncing2
-     81              
-     82              //debounce_count2 = 0;
-     83              TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
+     80              
+     81              //debounce_count2 = 0;
+     82              TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
    \   000024   1F429003     MOV.W   &0x390, R15
    \   000028   3F5050C3     ADD.W   #0xc350, R15
    \   00002C   824F9603     MOV.W   R15, &0x396
-     84              // Actual Code
-     85              //P1OUT |= RED_LED;
-     86              //P3OUT &= ~LCD_BACKLITE;
-     87              //backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
-     88              //strcpy(display_line[0], " SWITCH 2 ");
-     89              //display_changed = TRUE;
-     90            }
-     91          }
+     83              // Actual Code
+     84              //P1OUT |= RED_LED;
+     85              //P3OUT &= ~LCD_BACKLITE;
+     86              //backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
+     87              //strcpy(display_line[0], " SWITCH 2 ");
+     88              //display_changed = TRUE;
+     89            }
+     90          }
    \                     ??switchP2_interrupt_0:
    \   000030   3F41         POP.W   R15
    \   000032   0013         RETI
@@ -259,7 +258,7 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
    \                                 In  segment INTVEC, offset 0x30, root
    \                     `??switchP2_interrupt::??INTVEC 48`:
    \   000030   ....         DC16    switchP2_interrupt
-     92          
+     91          
 
    Maximum stack usage in bytes:
 

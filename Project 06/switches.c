@@ -37,7 +37,6 @@ extern char display_line[4][11];
 #pragma vector=PORT4_VECTOR
 __interrupt void switchP4_interrupt(void){
   if(P4IFG & SW1 && debouncing1 == FALSE){
-    
     P4IE &= ~SW1;
     P4IFG &= ~SW1;
     TB0CCTL1 &= ~CCIFG;

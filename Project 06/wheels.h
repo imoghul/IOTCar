@@ -5,15 +5,15 @@
 #define RIGHT_REVERSE_SPEED     (TB3CCR3)
 #define LEFT_REVERSE_SPEED      (TB3CCR4)
 #define WHEEL_OFF               (0)
-#define WHEEL_PERIOD            (20000)
+#define WHEEL_PERIOD            (40000)
 // straight
-#define STRAIGHT_RIGHT          (20000)
-#define STRAIGHT_LEFT           (16000)
+#define STRAIGHT_RIGHT          (40000)
+#define STRAIGHT_LEFT           (32000)
 // circle
-#define LCIRC_RIGHT             (3000) // 3
-#define LCIRC_LEFT              (20000)
-#define RCIRC_RIGHT             (20000)
-#define RCIRC_LEFT              (3000) // 3
+#define LCIRC_RIGHT             (6000) 
+#define LCIRC_LEFT              (40000)
+#define RCIRC_RIGHT             (40000)
+#define RCIRC_LEFT              (6000) 
 #define MAX_RCIRCLE_TICK        (1285)//(75)
 #define MAX_LCIRCLE_TICK        (1180)//(72)
 // triangle
@@ -22,24 +22,25 @@
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
 // detectors
-#define LEFT_LINE_DETECT        (200)
-#define RIGHT_LINE_DETECT       (200)
+#define LEFT_LINE_DETECT        (400)
+#define RIGHT_LINE_DETECT       (400)
 // states
 #define START           ('S')
 #define WAIT            ('W')
 #define END             ('E')
 #define ARM             ('A')
-#define RCIRC           ('R')
-#define LCIRC           ('L')
+#define TURN            ('T')        
 #define STRAIGHT        ('s')
+#define LINEFOLLOW      ('L')
 
-int RunRightMotor(int val);
-int RunLeftMotor(int val);
+int RunRightMotor(unsigned int val, int);
+int RunLeftMotor(unsigned int val,int);
 int Update_Ticks(int);
-int Drive_Path(int , int, int);
-void delay(int seconds,int cycles);
+int Drive_Path(unsigned int,unsigned int,int , int,unsigned int);
+int delay(int seconds,int cycles);
 void StateMachine(void);
 void ShutoffMotors(void);
 void ShutoffRight(void);
 void ShutoffLeft(void);
 void MotorSafety(void);
+int LockMotors(int,int,int);
