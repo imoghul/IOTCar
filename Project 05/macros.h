@@ -1,11 +1,11 @@
 //==============================================================================
 // File Name : macros.h
-// 
+//
 // Description: This file contains all macros
-// 
+//
 // Author: Ibrahim Moghul
-// Date: Feb 2022 
-// Compiler: Built with IAR Embedded Workbench Version: 7.21.1 
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: 7.21.1
 //==============================================================================
 
 #define ALWAYS                  (1)

@@ -22,7 +22,7 @@ void main(void);
 
 
 // Global Variables
-  // Global Variables
+// Global Variables
 volatile char slow_input_down;
 extern char display_line[4][11];
 extern char *display[4];
@@ -57,40 +57,41 @@ char change;
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
 
-void main(void){
-//------------------------------------------------------------------------------
-// Main Program
-// This is the main routine for the program. Execution of code starts here.
-// The operating system is Back Ground Fore Ground.
-//
-//------------------------------------------------------------------------------
-  PM5CTL0 &= ~LOCKLPM5;
-// Disable the GPIO power-on default high-impedance mode to activate
-// previously configured port settings
+void main(void) {
+    //------------------------------------------------------------------------------
+    // Main Program
+    // This is the main routine for the program. Execution of code starts here.
+    // The operating system is Back Ground Fore Ground.
+    //
+    //------------------------------------------------------------------------------
+    PM5CTL0 &= ~LOCKLPM5;
+    // Disable the GPIO power-on default high-impedance mode to activate
+    // previously configured port settings
 
-  Init_Ports();                        // Initialize Ports
-  Init_Clocks();                       // Initialize Clock System
-  Init_Conditions();                   // Initialize Variables and Initial Conditions
-  Init_Timers();                       // Initialize Timers
-  Init_LCD();                          // Initialize LCD
+    Init_Ports();                        // Initialize Ports
+    Init_Clocks();                       // Initialize Clock System
+    Init_Conditions();                   // Initialize Variables and Initial Conditions
+    Init_Timers();                       // Initialize Timers
+    Init_LCD();                          // Initialize LCD
 
-  // Place the contents of what you want on the display, in between the quotes
-// Limited to 10 characters per line
-  strcpy(display_line[0], "   NCSU   ");
-  strcpy(display_line[1], " WOLFPACK ");
-  strcpy(display_line[2], "  ECE306  ");
-  strcpy(display_line[3], "  GP I/O  ");
-  display_changed = TRUE;
+    // Place the contents of what you want on the display, in between the quotes
+    // Limited to 10 characters per line
+    strcpy(display_line[0], "   NCSU   ");
+    strcpy(display_line[1], " WOLFPACK ");
+    strcpy(display_line[2], "  ECE306  ");
+    strcpy(display_line[3], "  GP I/O  ");
+    display_changed = TRUE;
 
-//------------------------------------------------------------------------------
-// Begining of the "While" Operating System
-//------------------------------------------------------------------------------
-  while(ALWAYS) {                      // Can the Operating system run
-    Carlson_StateMachine();            // Run a Time Based State Machine
-    Switches_Process();                // Check for switch state change
-    Display_Process();                 // Update Display
-    P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-  }
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
+    // Begining of the "While" Operating System
+    //------------------------------------------------------------------------------
+    while(ALWAYS) {                      // Can the Operating system run
+        Carlson_StateMachine();            // Run a Time Based State Machine
+        Switches_Process();                // Check for switch state change
+        Display_Process();                 // Update Display
+        P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+    }
+
+    //------------------------------------------------------------------------------
 }
 

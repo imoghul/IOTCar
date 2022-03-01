@@ -32,7 +32,7 @@ void Left_Circle(int);
 void Right_Circle(int);
 int Update_Ticks(volatile unsigned int*, int, char);
 int Drive_Path(int right_ticks, int left_ticks, int max_ticks, char endState);
-void delay(int seconds,int cycles);
+void delay(int seconds, int cycles);
 void StateMachine(void);
 void Figure8(void);
 void Circle(void);

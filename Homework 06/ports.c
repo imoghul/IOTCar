@@ -1,11 +1,11 @@
 //==============================================================================
-// File Name : ports.c 
-// 
-// Description: This file contains the Initialization for all port pins 
-// 
+// File Name : ports.c
+//
+// Description: This file contains the Initialization for all port pins
+//
 // Author: Ibrahim Moghul
-// Date: Feb 2022 
-// Compiler: Built with IAR Embedded Workbench Version: 7.21.1 
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: 7.21.1
 //==============================================================================
 #include "ports.h"
 #include "msp430.h"
@@ -24,13 +24,13 @@
 // Date: Feb 2022
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
-void Init_Ports(void){
-  Init_Port1();
-  Init_Port2();
-  Init_Port3(USE_GPIO);
-  Init_Port4();
-  Init_Port5();
-  Init_Port6();
+void Init_Ports(void) {
+    Init_Port1();
+    Init_Port2();
+    Init_Port3(USE_GPIO);
+    Init_Port4();
+    Init_Port5();
+    Init_Port6();
 }
 
 //===========================================================================
@@ -96,20 +96,20 @@ void Init_Port1() {
 void Init_Port2() {
     P2OUT = 0x00;
     P2DIR = 0x00;
-    
+
     P2SEL0 &= ~RESET_LCD;
     P2SEL1 &= ~RESET_LCD;
     P2OUT &= ~RESET_LCD;
     P2DIR |= RESET_LCD;
-    
+
     P2SEL0 &= ~L_REVERSE_2476;
     P2SEL1 &= ~L_REVERSE_2476;
     P2DIR &= ~L_REVERSE_2476;
-    
+
     P2SEL0 &= ~P2_2;
     P2SEL1 &= ~P2_2;
     P2DIR &= ~P2_2;
-    
+
     P2SEL0 &= ~SW2;
     P2SEL1 &= ~SW2;
     P2OUT |= SW2;
@@ -118,20 +118,20 @@ void Init_Port2() {
     P2IES |= SW2;
     P2IFG &= ~SW2;
     P2IE |= SW2;
-    
+
     P2SEL0 &= ~IOT_RUN_CPU;
     P2SEL1 &= ~IOT_RUN_CPU;
     P2OUT &= ~IOT_RUN_CPU;
     P2DIR |= IOT_RUN_CPU;
-    
+
     P2SEL0 &= ~DAC_ENB;
     P2SEL1 &= -DAC_ENB;
     P2OUT |= DAC_ENB;
     P2DIR |= DAC_ENB;
-    
+
     P2SEL0 &= ~LFXOUT;
     P2SEL1 |= LFXOUT;
-    
+
     P2SEL0 &= ~LFXIN;
     P2SEL1 |= LFXIN;
 }
@@ -169,19 +169,24 @@ void Init_Port3(char smclk) {
     P3SEL1 &= ~LCD_BACKLITE;
     P3DIR |= LCD_BACKLITE;
     P3OUT |= LCD_BACKLITE;
-    switch(smclk){
-      case(USE_SMCLK):
-        P3SEL0 |= SMCLK_2355;
-        P3SEL1 &= ~SMCLK_2355;
-        P3DIR |= SMCLK_2355;
-        break;
-      case(USE_GPIO):
-        P3SEL0 &= ~SMCLK_2355;
-        P3SEL1 &= ~SMCLK_2355;
-        P3DIR &= ~SMCLK_2355;
-        break;
-      default: break;
+
+    switch(smclk) {
+        case(USE_SMCLK):
+            P3SEL0 |= SMCLK_2355;
+            P3SEL1 &= ~SMCLK_2355;
+            P3DIR |= SMCLK_2355;
+            break;
+
+        case(USE_GPIO):
+            P3SEL0 &= ~SMCLK_2355;
+            P3SEL1 &= ~SMCLK_2355;
+            P3DIR &= ~SMCLK_2355;
+            break;
+
+        default:
+            break;
     }
+
     P3SEL0 &= ~DAC_CNTL;
     P3SEL1 &= ~DAC_CNTL;
     P3DIR &= ~DAC_CNTL;
@@ -214,11 +219,11 @@ void Init_Port3(char smclk) {
 void Init_Port4() {
     P4OUT = 0x00;
     P4DIR = 0x00;
-    
+
     P4SEL0 &= ~_4_0;
     P4SEL1 &= ~_4_0;
     P4DIR &= ~_4_0;
-    
+
     P4SEL0 &= ~SW1;
     P4SEL1 &= ~SW1;
     P4OUT |= SW1;
@@ -227,24 +232,24 @@ void Init_Port4() {
     P4IES |= SW1;
     P4IFG &= ~SW1;
     P4IE |= SW1;
-    
+
     P4SEL0 |= UCA1TXD;
     P4SEL1 &= ~UCA1TXD;
-    
+
     P4SEL0 |= UCA1RXD;
     P4SEL1 &= UCA1RXD;
-    
+
     P4SEL0 &= ~UCB1_CS_LCD;
     P4SEL1 &= ~UCB1_CS_LCD;
     P4OUT |= UCB1_CS_LCD;
     P4DIR |= UCB1_CS_LCD;
-    
+
     P4SEL0 |= UCB1CLK;
     P4SEL1 &= ~UCB1CLK;
-    
+
     P4SEL0 |= UCB1SIMO;
     P4SEL1 &= ~UCB1SIMO;
-    
+
     P4SEL0 |= UCB1SOMI;
     P4SEL1 &= UCB1SOMI;
 }
@@ -306,7 +311,7 @@ void Init_Port5() {
 void Init_Port6() {
     P6OUT = 0x00;
     P6DIR = 0x00;
-    
+
     P6SEL0 |= R_FORWARD;
     P6SEL1 &= ~R_FORWARD;
     P6DIR |= R_FORWARD;

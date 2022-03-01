@@ -10,10 +10,10 @@
 #define STRAIGHT_RIGHT          (40000)
 #define STRAIGHT_LEFT           (32000)
 // circle
-#define LCIRC_RIGHT             (6000) 
+#define LCIRC_RIGHT             (6000)
 #define LCIRC_LEFT              (40000)
 #define RCIRC_RIGHT             (40000)
-#define RCIRC_LEFT              (6000) 
+#define RCIRC_LEFT              (6000)
 #define MAX_RCIRCLE_TICK        (1285)//(75)
 #define MAX_LCIRCLE_TICK        (1180)//(72)
 // triangle
@@ -29,18 +29,18 @@
 #define WAIT            ('W')
 #define END             ('E')
 #define ARM             ('A')
-#define TURN            ('T')        
+#define TURN            ('T')
 #define STRAIGHT        ('s')
 #define LINEFOLLOW      ('L')
 
 int RunRightMotor(unsigned int val, int);
-int RunLeftMotor(unsigned int val,int);
+int RunLeftMotor(unsigned int val, int);
 int Update_Ticks(int);
-int Drive_Path(unsigned int,unsigned int,int , int,unsigned int);
-int delay(int seconds,int cycles);
+int Drive_Path(unsigned int, unsigned int, int, int, unsigned int);
+int delay(int seconds, int cycles);
 void StateMachine(void);
 void ShutoffMotors(void);
 void ShutoffRight(void);
 void ShutoffLeft(void);
 void MotorSafety(void);
-int LockMotors(int,int,int);
+int LockMotors(int, int, int);

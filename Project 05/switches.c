@@ -11,22 +11,23 @@ extern volatile char state;
 
 
 #pragma vector=PORT4_VECTOR
-__interrupt void switchP4_interrupt(void){
-  if(P4IFG & SW1){
-    P4IFG &= ~SW1;
-    if(state == START){
-        stopwatch_seconds = 0;
-        cycle_count = 0;
-        state = WAIT;
+__interrupt void switchP4_interrupt(void) {
+    if(P4IFG & SW1) {
+        P4IFG &= ~SW1;
+
+        if(state == START) {
+            stopwatch_seconds = 0;
+            cycle_count = 0;
+            state = WAIT;
+        }
     }
-  }
 }
 
 #pragma vector=PORT2_VECTOR
-__interrupt void switchP2_interrupt(void){
-  if(P2IFG & SW2){
-    P2IFG &= ~SW2;
-    P1OUT |= RED_LED;
-  }
+__interrupt void switchP2_interrupt(void) {
+    if(P2IFG & SW2) {
+        P2IFG &= ~SW2;
+        P1OUT |= RED_LED;
+    }
 }
 
