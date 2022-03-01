@@ -92,13 +92,14 @@ __interrupt void Timer0_B0_ISR(void){
 //------------------------------------------------------------------------------
 // TimerB0 0 Interrupt handler
 //----------------------------------------------------------------------------
-  if(++timer0Counter==((UPDATE_DISPLAY_TIMER_COUNT*CHECK_ADC_TIMER_COUNT)+1)) timer0Counter = 1;
+  if(++timer0Counter==((UPDATE_DISPLAY_TIMER_COUNT*CHECK_ADC_TIMER_COUNT*TIME_SEQUENCE_TIMER_COUNT)+1)) timer0Counter = 1;
   if(timer0Counter%TIME_SEQUENCE_TIMER_COUNT==0)
     if(Time_Sequence++ == TIME_SEQUENCE_MAX) Time_Sequence = 0;
   if(timer0Counter%UPDATE_DISPLAY_TIMER_COUNT==0)
     update_display=1;
-  if(timer0Counter%CHECK_ADC_TIMER_COUNT==0)
-    ADCIE |= ADCIE0;
+  if(timer0Counter%CHECK_ADC_TIMER_COUNT==0){
+    ADCCTL0 |= ADCSC;
+  }
   
   TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
 //----------------------------------------------------------------------------

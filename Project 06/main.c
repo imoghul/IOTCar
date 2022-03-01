@@ -20,6 +20,7 @@
 #include "switches.h"
 #include "timers.h"
 #include "adc.h"
+#include "detectors.h"
 // Function Prototypes
 void main(void);
 
@@ -46,6 +47,8 @@ volatile unsigned int time_change;
 extern volatile unsigned int right_tick, left_tick;
 extern char adc_char[5];
 extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
+extern char movingDirection;
+extern char enteringDirection;
 //===========================================================================
 // Function name: Main
 //
@@ -93,18 +96,22 @@ void main(void){
   strcpy(display_line[2], "          ");
   strcpy(display_line[3], "          ");
   display_changed = TRUE;
-
+  
 //------------------------------------------------------------------------------
 // Begining of the "While" Operating System
 //------------------------------------------------------------------------------
   while(ALWAYS) {                       // Can the Operating system run
-    
     Display_Process();                  // Update Display
+    DetectMovement();
     StateMachine();                     // Run wheels state machine
     MotorSafety();
     P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+    /*if(enteringDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
+    else if(enteringDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
+    else if (enteringDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
+    else if (enteringDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
     
-    if(Last_Time_Sequence!=Time_Sequence){
+    if(Last_Time_Sequence!=Time_Sequence){ 
       Last_Time_Sequence=Time_Sequence;
       cycle_count++;
       time_change = 1;

@@ -22,6 +22,7 @@ rule browsedata
 #Build steps
 build adc.pbi : index adc.xcl
 build clocks.pbi : index clocks.xcl
+build detectors.pbi : index detectors.xcl
 build init.pbi : index init.xcl
 build led.pbi : index led.xcl
 build main.pbi : index main.xcl
@@ -30,10 +31,10 @@ build switches.pbi : index switches.xcl
 build system.pbi : index system.xcl
 build timers.pbi : index timers.xcl
 build wheels.pbi : index wheels.xcl
-build Project$ 06$ simple_part0.pbi : link adc.pbi clocks.pbi init.pbi
-build Project$ 06$ simple_part1.pbi : link led.pbi main.pbi ports.pbi
-build Project$ 06$ simple_part2.pbi : link switches.pbi system.pbi timers.pbi
-build Project$ 06$ simple_part3.pbi : link wheels.pbi
+build Project$ 06$ simple_part0.pbi : link adc.pbi clocks.pbi detectors.pbi
+build Project$ 06$ simple_part1.pbi : link init.pbi led.pbi main.pbi
+build Project$ 06$ simple_part2.pbi : link ports.pbi switches.pbi system.pbi
+build Project$ 06$ simple_part3.pbi : link timers.pbi wheels.pbi
 build Project$ 06$ simple.pbd : link Project$ 06$ simple_part0.pbi Project$ 06$ simple_part1.pbi Project$ 06$ simple_part2.pbi Project$ 06$ simple_part3.pbi
 build Project$ 06$ simple.pbw : browsedata Project$ 06$ simple.pbd
 

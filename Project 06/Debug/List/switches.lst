@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          26/Feb/2022  08:52:24
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          28/Feb/2022  10:24:34
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\switches.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW8DB6.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW19B0.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\switches.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -54,6 +54,11 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
    \                     _A_PBIFG_L:
    \   000000                DS8 2
 
+   \                                 In  segment DATA16_AN, at 0x240
+   \   union <unnamed> _A_PCIN_L
+   \                     _A_PCIN_L:
+   \   000000                DS8 2
+
    \                                 In  segment DATA16_AN, at 0x384
    \   union <unnamed> _A_TB0CCTL1_L
    \                     _A_TB0CCTL1_L:
@@ -83,12 +88,13 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
       4          #include "wheels.h"
       5          #include "macros.h"
       6          #include "timers.h"
-      7          #include <string.h>
-      8          
+      7          #include "detectors.h"
+      8          #include <string.h>
+      9          
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-      9          volatile unsigned int sw1Okay, sw2Okay;
+     10          volatile unsigned int sw1Okay, sw2Okay;
    \                     sw1Okay:
    \   000000                DS8 2
 
@@ -99,7 +105,7 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-     10          volatile unsigned int count_debounce_SW1, count_debounce_SW2;
+     11          volatile unsigned int count_debounce_SW1, count_debounce_SW2;
    \                     count_debounce_SW1:
    \   000000                DS8 2
 
@@ -110,7 +116,7 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-     11          volatile unsigned int sw1_pos, sw2_pos;
+     12          volatile unsigned int sw1_pos, sw2_pos;
    \                     sw1_pos:
    \   000000                DS8 2
 
@@ -118,71 +124,71 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
    \   000000                REQUIRE ?cstart_init_zero
    \                     sw2_pos:
    \   000000                DS8 2
-     12          extern volatile unsigned int cycle_count;
-     13          extern volatile unsigned int stopwatch_seconds;
-     14          extern volatile char state;
-     15          extern volatile unsigned int debounce_count1, debounce_count2;
-     16          extern volatile unsigned int debouncing1, debouncing2;
-     17          extern volatile unsigned int backliteBlinking;
-     18          extern volatile unsigned char display_changed;
-     19          extern char display_line[4][11];
-     20          
-     21          //===========================================================================
-     22          // Function name: switchP4_interrupt
-     23          //
-     24          // Description: This is the switch 1 interrupt, turns off LCD_BACKLITE and its 
-     25          // blinking timer
-     26          //
-     27          // Passed : no variables passed
-     28          // Locals: no variables declared
-     29          // Returned: no values returned
-     30          // Globals: no global values
-     31          //
-     32          // Author: Ibrahim Moghul
-     33          // Date: Feb 2022
-     34          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
-     35          //===========================================================================
-     36          
-     37          #pragma vector=PORT4_VECTOR
+     13          extern volatile unsigned int cycle_count;
+     14          extern volatile unsigned int stopwatch_seconds;
+     15          extern volatile char state;
+     16          extern volatile unsigned int debounce_count1, debounce_count2;
+     17          extern volatile unsigned int debouncing1, debouncing2;
+     18          extern volatile unsigned int backliteBlinking;
+     19          extern volatile unsigned char display_changed;
+     20          extern char display_line[4][11];
+     21          
+     22          //===========================================================================
+     23          // Function name: switchP4_interrupt
+     24          //
+     25          // Description: This is the switch 1 interrupt, turns off LCD_BACKLITE and its 
+     26          // blinking timer
+     27          //
+     28          // Passed : no variables passed
+     29          // Locals: no variables declared
+     30          // Returned: no values returned
+     31          // Globals: no global values
+     32          //
+     33          // Author: Ibrahim Moghul
+     34          // Date: Feb 2022
+     35          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     36          //===========================================================================
+     37          
+     38          #pragma vector=PORT4_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-     38          __interrupt void switchP4_interrupt(void){
+     39          __interrupt void switchP4_interrupt(void){
    \                     switchP4_interrupt:
    \   000000   0F12         PUSH.W  R15
-     39            if(P4IFG & SW1 && debouncing1 == FALSE){
+     40            if(P4IFG & SW1 && debouncing1 == FALSE){
    \   000002   E2B33D02     BIT.B   #0x2, &0x23d
    \   000006   1F28         JNC     ??switchP4_interrupt_0
    \   000008   8293....     CMP.W   #0x0, &debouncing1
    \   00000C   1C20         JNE     ??switchP4_interrupt_0
-     40              P4IE &= ~SW1;
+     41              P4IE &= ~SW1;
    \   00000E   E2C33B02     BIC.B   #0x2, &0x23b
-     41              P4IFG &= ~SW1;
+     42              P4IFG &= ~SW1;
    \   000012   E2C33D02     BIC.B   #0x2, &0x23d
-     42              TB0CCTL1 &= ~CCIFG;
+     43              TB0CCTL1 &= ~CCIFG;
    \   000016   92C38403     BIC.W   #0x1, &0x384
-     43              TB0CCR1 = TB0R + TB0CCR1_INTERVAL;
+     44              TB0CCR1 = TB0R + TB0CCR1_INTERVAL;
    \   00001A   1F429003     MOV.W   &0x390, R15
    \   00001E   3F5050C3     ADD.W   #0xc350, R15
    \   000022   824F9403     MOV.W   R15, &0x394
-     44              TB0CCTL1 |= CCIE; // CCR1 enable interrupt
+     45              TB0CCTL1 |= CCIE; // CCR1 enable interrupt
    \   000026   B2D010008403 BIS.W   #0x10, &0x384
-     45              debouncing1 = TRUE;
+     46              debouncing1 = TRUE;
    \   00002C   9243....     MOV.W   #0x1, &debouncing1
-     46              //debounce_count1 = 0;
-     47              
-     48              // Actual Code
-     49              if (state == START){
+     47              //debounce_count1 = 0;
+     48              
+     49              // Actual Code
+     50              if (state == START){
    \   000030   F2905300.... CMP.B   #0x53, &state
    \   000036   0720         JNE     ??switchP4_interrupt_0
-     50                stopwatch_seconds = 0;
+     51                stopwatch_seconds = 0;
    \   000038   8243....     MOV.W   #0x0, &stopwatch_seconds
-     51                cycle_count = 0;
+     52                cycle_count = 0;
    \   00003C   8243....     MOV.W   #0x0, &cycle_count
-     52                state = WAIT;
+     53                state = WAIT;
    \   000040   F2405700.... MOV.B   #0x57, &state
-     53              }
-     54            }
-     55          }
+     54              }
+     55            }
+     56          }
    \                     ??switchP4_interrupt_0:
    \   000046   3F41         POP.W   R15
    \   000048   0013         RETI
@@ -191,65 +197,71 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
    \   00004A                REQUIRE _A_TB0CCTL1_L
    \   00004A                REQUIRE _A_TB0CCR1_L
    \   00004A                REQUIRE _A_TB0R_L
-     56          
-     57          //===========================================================================
-     58          // Function name: switchP4_interrupt
-     59          //
-     60          // Description: This is the switch 2 interrupt, turns off LCD_BACKLITE and its 
-     61          // blinking timer
-     62          //
-     63          // Passed : no variables passed
-     64          // Locals: no variables declared
-     65          // Returned: no values returned
-     66          // Globals: no global values
-     67          //
-     68          // Author: Ibrahim Moghul
-     69          // Date: Feb 2022
-     70          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
-     71          //===========================================================================
-     72          #pragma vector=PORT2_VECTOR
+     57          
+     58          //===========================================================================
+     59          // Function name: switchP4_interrupt
+     60          //
+     61          // Description: This is the switch 2 interrupt, turns off LCD_BACKLITE and its 
+     62          // blinking timer
+     63          //
+     64          // Passed : no variables passed
+     65          // Locals: no variables declared
+     66          // Returned: no values returned
+     67          // Globals: no global values
+     68          //
+     69          // Author: Ibrahim Moghul
+     70          // Date: Feb 2022
+     71          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     72          //===========================================================================
+     73          #pragma vector=PORT2_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-     73          __interrupt void switchP2_interrupt(void){
+     74          __interrupt void switchP2_interrupt(void){
    \                     switchP2_interrupt:
-   \   000000   0F12         PUSH.W  R15
-     74            if(P2IFG & SW2 && debouncing2 == FALSE){
+   \   000000   3F15         PUSHM.W #0x4, R15
+     75            if(P2IFG & SW2 && debouncing2 == FALSE){
    \   000002   F2B21D02     BIT.B   #0x8, &0x21d
-   \   000006   1428         JNC     ??switchP2_interrupt_0
+   \   000006   1D28         JNC     ??switchP2_interrupt_0
    \   000008   8293....     CMP.W   #0x0, &debouncing2
-   \   00000C   1120         JNE     ??switchP2_interrupt_0
-     75              P2IE &= ~SW2;
+   \   00000C   1A20         JNE     ??switchP2_interrupt_0
+     76              P2IE &= ~SW2;
    \   00000E   F2C21B02     BIC.B   #0x8, &0x21b
-     76              P2IFG &= ~SW2;
+     77              P2IFG &= ~SW2;
    \   000012   F2C21D02     BIC.B   #0x8, &0x21d
-     77              TB0CCTL2 &= ~CCIFG;
+     78              TB0CCTL2 &= ~CCIFG;
    \   000016   92C38603     BIC.W   #0x1, &0x386
-     78              TB0CCTL2 |= CCIE; // CCR1 enable interrupt
+     79              TB0CCTL2 |= CCIE; // CCR1 enable interrupt
    \   00001A   B2D010008603 BIS.W   #0x10, &0x386
-     79              debouncing2 = TRUE;
+     80              debouncing2 = TRUE;
    \   000020   9243....     MOV.W   #0x1, &debouncing2
-     80              
-     81              //debounce_count2 = 0;
-     82              TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
+     81              
+     82              //debounce_count2 = 0;
+     83              TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
    \   000024   1F429003     MOV.W   &0x390, R15
    \   000028   3F5050C3     ADD.W   #0xc350, R15
    \   00002C   824F9603     MOV.W   R15, &0x396
-     83              // Actual Code
-     84              //P1OUT |= RED_LED;
-     85              //P3OUT &= ~LCD_BACKLITE;
-     86              //backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
-     87              //strcpy(display_line[0], " SWITCH 2 ");
-     88              //display_changed = TRUE;
+     84              // Actual Code
+     85              if(P6IN&IR_LED)
+   \   000030   F2B010004102 BIT.B   #0x10, &0x241
+   \   000036   0328         JNC     ??switchP2_interrupt_1
+     86                EmitterOff();
+   \   000038   ........     CALLA   #EmitterOff
+   \   00003C   023C         JMP     ??switchP2_interrupt_0
+     87              else 
+     88                EmitterOn();
+   \                     ??switchP2_interrupt_1:
+   \   00003E   ........     CALLA   #EmitterOn
      89            }
      90          }
    \                     ??switchP2_interrupt_0:
-   \   000030   3F41         POP.W   R15
-   \   000032   0013         RETI
-   \   000034                REQUIRE _A_PAIFG_L
-   \   000034                REQUIRE _A_PAIE_L
-   \   000034                REQUIRE _A_TB0CCTL2_L
-   \   000034                REQUIRE _A_TB0CCR2_L
-   \   000034                REQUIRE _A_TB0R_L
+   \   000042   3C17         POPM.W  #0x4, R15
+   \   000044   0013         RETI
+   \   000046                REQUIRE _A_PAIFG_L
+   \   000046                REQUIRE _A_PAIE_L
+   \   000046                REQUIRE _A_TB0CCTL2_L
+   \   000046                REQUIRE _A_TB0CCR2_L
+   \   000046                REQUIRE _A_TB0R_L
+   \   000046                REQUIRE _A_PCIN_L
 
    \                                 In  segment INTVEC, offset 0x2c, root
    \                     `??switchP4_interrupt::??INTVEC 44`:
@@ -264,7 +276,9 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
 
    CSTACK Function
    ------ --------
-      6   switchP2_interrupt
+     12   switchP2_interrupt
+       12   -> EmitterOff
+       12   -> EmitterOn
       6   switchP4_interrupt
 
 
@@ -276,6 +290,7 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
        2  _A_PAIFG_L
        2  _A_PBIE_L
        2  _A_PBIFG_L
+       2  _A_PCIN_L
        2  _A_TB0CCR1_L
        2  _A_TB0CCR2_L
        2  _A_TB0CCTL1_L
@@ -287,20 +302,20 @@ C:\Users\saad\Documents\ece-306\Project 06\switches.c
        2  sw1_pos
        2  sw2Okay
        2  sw2_pos
-      52  switchP2_interrupt
+      70  switchP2_interrupt
        2  switchP2_interrupt::??INTVEC 48
       74  switchP4_interrupt
        2  switchP4_interrupt::??INTVEC 44
 
  
-  18 bytes in segment DATA16_AN
+  20 bytes in segment DATA16_AN
   12 bytes in segment DATA16_Z
    4 bytes in segment INTVEC
- 126 bytes in segment ISR_CODE
+ 144 bytes in segment ISR_CODE
  
- 126 bytes of CODE  memory
+ 144 bytes of CODE  memory
    0 bytes of CONST memory (+  4 bytes shared)
-  12 bytes of DATA  memory (+ 18 bytes shared)
+  12 bytes of DATA  memory (+ 20 bytes shared)
 
 Errors: none
 Warnings: none

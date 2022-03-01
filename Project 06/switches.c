@@ -4,6 +4,7 @@
 #include "wheels.h"
 #include "macros.h"
 #include "timers.h"
+#include "detectors.h"
 #include <string.h>
 
 volatile unsigned int sw1Okay, sw2Okay;
@@ -81,11 +82,10 @@ __interrupt void switchP2_interrupt(void){
     //debounce_count2 = 0;
     TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
     // Actual Code
-    //P1OUT |= RED_LED;
-    //P3OUT &= ~LCD_BACKLITE;
-    //backliteBlinking = FALSE;//TB0CCTL2 &= ~CCIE;
-    //strcpy(display_line[0], " SWITCH 2 ");
-    //display_changed = TRUE;
+    if(P6IN&IR_LED)
+      EmitterOff();
+    else 
+      EmitterOn();
   }
 }
 

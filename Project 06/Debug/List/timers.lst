@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          26/Feb/2022  11:35:30
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          28/Feb/2022  10:24:35
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\timers.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWDF05.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW1B08.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\timers.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -34,9 +34,9 @@
 C:\Users\saad\Documents\ece-306\Project 06\timers.c
       1          #include "msp430.h"
 
-   \                                 In  segment DATA16_AN, at 0x71a
-   \   union <unnamed> _A_ADCIE_L
-   \                     _A_ADCIE_L:
+   \                                 In  segment DATA16_AN, at 0x700
+   \   union <unnamed> _A_ADCCTL0_L
+   \                     _A_ADCCTL0_L:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_AN, at 0x21a
@@ -384,7 +384,7 @@ C:\Users\saad\Documents\ece-306\Project 06\timers.c
      92          //------------------------------------------------------------------------------
      93          // TimerB0 0 Interrupt handler
      94          //----------------------------------------------------------------------------
-     95            if(++timer0Counter==((UPDATE_DISPLAY_TIMER_COUNT*CHECK_ADC_TIMER_COUNT)+1)) timer0Counter = 1;
+     95            if(++timer0Counter==((UPDATE_DISPLAY_TIMER_COUNT*CHECK_ADC_TIMER_COUNT*TIME_SEQUENCE_TIMER_COUNT)+1)) timer0Counter = 1;
    \   000002   1F42....     MOV.W   &timer0Counter, R15
    \   000006   1F53         ADD.W   #0x1, R15
    \   000008   824F....     MOV.W   R15, &timer0Counter
@@ -411,52 +411,53 @@ C:\Users\saad\Documents\ece-306\Project 06\timers.c
    \   00003E   0220         JNE     ??Timer0_B0_ISR_2
      99              update_display=1;
    \   000040   D243....     MOV.B   #0x1, &update_display
-    100            if(timer0Counter%CHECK_ADC_TIMER_COUNT==0)
+    100            if(timer0Counter%CHECK_ADC_TIMER_COUNT==0){
    \                     ??Timer0_B0_ISR_2:
    \   000044   1C42....     MOV.W   &timer0Counter, R12
    \   000048   3E400C00     MOV.W   #0xc, R14
    \   00004C   ........     CALLA   #?DivMod16u
    \   000050   0E93         CMP.W   #0x0, R14
    \   000052   0220         JNE     ??Timer0_B0_ISR_3
-    101              ADCIE |= ADCIE0;
-   \   000054   92D31A07     BIS.W   #0x1, &0x71a
-    102            
-    103            TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
+    101              ADCCTL0 |= ADCSC;
+   \   000054   92D30007     BIS.W   #0x1, &0x700
+    102            }
+    103            
+    104            TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
    \                     ??Timer0_B0_ISR_3:
    \   000058   B250D0079203 ADD.W   #0x7d0, &0x392
-    104          //----------------------------------------------------------------------------
-    105          }
+    105          //----------------------------------------------------------------------------
+    106          }
    \   00005E   3C17         POPM.W  #0x4, R15
    \   000060   0013         RETI
-   \   000062                REQUIRE _A_ADCIE_L
+   \   000062                REQUIRE _A_ADCCTL0_L
    \   000062                REQUIRE _A_TB0CCR0_L
-    106          
     107          
-    108          //===========================================================================
-    109          // Function name: TIMER0_B1_ISR
-    110          //
-    111          // Description: Timer 1 handles switch debounce, and Timer 2 handles 
-    112          // LCD blinking
-    113          //
-    114          // Passed : no variables passed
-    115          // Locals: no variables declared
-    116          // Returned: no values returned
-    117          // Globals: no global values
-    118          //
-    119          // Author: Ibrahim Moghul
-    120          // Date: Feb 2022
-    121          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
-    122          //===========================================================================
-    123          #pragma vector=TIMER0_B1_VECTOR
+    108          
+    109          //===========================================================================
+    110          // Function name: TIMER0_B1_ISR
+    111          //
+    112          // Description: Timer 1 handles switch debounce, and Timer 2 handles 
+    113          // LCD blinking
+    114          //
+    115          // Passed : no variables passed
+    116          // Locals: no variables declared
+    117          // Returned: no values returned
+    118          // Globals: no global values
+    119          //
+    120          // Author: Ibrahim Moghul
+    121          // Date: Feb 2022
+    122          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+    123          //===========================================================================
+    124          #pragma vector=TIMER0_B1_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-    124          __interrupt void TIMER0_B1_ISR(void){
+    125          __interrupt void TIMER0_B1_ISR(void){
    \                     TIMER0_B1_ISR:
    \   000000   0F12         PUSH.W  R15
-    125            //----------------------------------------------------------------------------
-    126            // TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
-    127            //----------------------------------------------------------------------------
-    128            switch(__even_in_range(TB0IV,14)){
+    126            //----------------------------------------------------------------------------
+    127            // TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
+    128            //----------------------------------------------------------------------------
+    129            switch(__even_in_range(TB0IV,14)){
    \   000002   1F42AE03     MOV.W   &0x3ae, R15
    \   000006   E00F         ADDA    R15, PC
    \                     `?<Jumptable for TIMER0_B1_ISR>_0`:
@@ -468,14 +469,14 @@ C:\Users\saad\Documents\ece-306\Project 06\timers.c
    \   000012   2F3C         JMP     ??TIMER0_B1_ISR_1
    \   000014   2E3C         JMP     ??TIMER0_B1_ISR_1
    \   000016   2D3C         JMP     ??TIMER0_B1_ISR_1
-    129              case 0: break; // No interrupt
-    130              case 2: // CCR1 not used
-    131                if(debouncing1==TRUE) debounce_count1++;
+    130              case 0: break; // No interrupt
+    131              case 2: // CCR1 not used
+    132                if(debouncing1==TRUE) debounce_count1++;
    \                     ??TIMER0_B1_ISR_6:
    \   000018   9293....     CMP.W   #0x1, &debouncing1
    \   00001C   0220         JNE     ??TIMER0_B1_ISR_2
    \   00001E   9253....     ADD.W   #0x1, &debounce_count1
-    132                if (debounce_count1 > debounce_thresh1){
+    133                if (debounce_count1 > debounce_thresh1){
                        ^
 Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
@@ -483,28 +484,28 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000022   1F42....     MOV.W   &debounce_thresh1, R15
    \   000026   1F92....     CMP.W   &debounce_count1, R15
    \   00002A   092C         JC      ??TIMER0_B1_ISR_3
-    133                  debounce_count1 = 0;
+    134                  debounce_count1 = 0;
    \   00002C   8243....     MOV.W   #0x0, &debounce_count1
-    134                  debouncing1 = FALSE;
+    135                  debouncing1 = FALSE;
    \   000030   8243....     MOV.W   #0x0, &debouncing1
-    135                  P4IE |= SW1;
+    136                  P4IE |= SW1;
    \   000034   E2D33B02     BIS.B   #0x2, &0x23b
-    136                  TB0CCTL1 &= ~CCIE; 
+    137                  TB0CCTL1 &= ~CCIE; 
    \   000038   B2C010008403 BIC.W   #0x10, &0x384
-    137                }
-    138                TB0CCR1 += TB0CCR1_INTERVAL; // Add Offset to TBCCR1
+    138                }
+    139                TB0CCR1 += TB0CCR1_INTERVAL; // Add Offset to TBCCR1
    \                     ??TIMER0_B1_ISR_3:
    \   00003E   B25050C39403 ADD.W   #0xc350, &0x394
-    139                
-    140                break;
+    140                
+    141                break;
    \   000044   163C         JMP     ??TIMER0_B1_ISR_1
-    141              case 4: // CCR2 not used
-    142                if(debouncing2==TRUE) debounce_count2++;
+    142              case 4: // CCR2 not used
+    143                if(debouncing2==TRUE) debounce_count2++;
    \                     ??TIMER0_B1_ISR_7:
    \   000046   9293....     CMP.W   #0x1, &debouncing2
    \   00004A   0220         JNE     ??TIMER0_B1_ISR_4
    \   00004C   9253....     ADD.W   #0x1, &debounce_count2
-    143                if (debounce_count2 > debounce_thresh2){
+    144                if (debounce_count2 > debounce_thresh2){
                        ^
 Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
@@ -512,27 +513,27 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000050   1F42....     MOV.W   &debounce_thresh2, R15
    \   000054   1F92....     CMP.W   &debounce_count2, R15
    \   000058   092C         JC      ??TIMER0_B1_ISR_5
-    144                  debounce_count2 = 0;
+    145                  debounce_count2 = 0;
    \   00005A   8243....     MOV.W   #0x0, &debounce_count2
-    145                  debouncing2 = FALSE;
+    146                  debouncing2 = FALSE;
    \   00005E   8243....     MOV.W   #0x0, &debouncing2
-    146                  P2IE |= SW2;
+    147                  P2IE |= SW2;
    \   000062   F2D21B02     BIS.B   #0x8, &0x21b
-    147                  TB0CCTL2 &= ~CCIE;
+    148                  TB0CCTL2 &= ~CCIE;
    \   000066   B2C010008603 BIC.W   #0x10, &0x386
-    148                }
-    149                TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR2
+    149                }
+    150                TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR2
    \                     ??TIMER0_B1_ISR_5:
    \   00006C   B25050C39603 ADD.W   #0xc350, &0x396
-    150                
-    151                break;
-    152              case 14: // overflow
-    153                
-    154                break;
-    155              default: break;
-    156            }
-    157            //----------------------------------------------------------------------------
-    158          }
+    151                
+    152                break;
+    153              case 14: // overflow
+    154                
+    155                break;
+    156              default: break;
+    157            }
+    158            //----------------------------------------------------------------------------
+    159          }
    \                     ??TIMER0_B1_ISR_1:
    \   000072   3F41         POP.W   R15
    \   000074   0013         RETI
@@ -543,30 +544,30 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000076                REQUIRE _A_TB0CCTL2_L
    \   000076                REQUIRE _A_TB0CCR2_L
    \   000076                REQUIRE _A_TB0IV_L
-    159          
-    160          #pragma vector = TIMER1_B0_VECTOR
+    160          
+    161          #pragma vector = TIMER1_B0_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-    161          __interrupt void Timer1_B0_ISR(void){
+    162          __interrupt void Timer1_B0_ISR(void){
    \                     Timer1_B0_ISR:
-    162          //------------------------------------------------------------------------------
-    163          // TimerB0 0 Interrupt handler
-    164          //----------------------------------------------------------------------------
-    165            
-    166          //----------------------------------------------------------------------------
-    167          }
+    163          //------------------------------------------------------------------------------
+    164          // TimerB0 0 Interrupt handler
+    165          //----------------------------------------------------------------------------
+    166            
+    167          //----------------------------------------------------------------------------
+    168          }
    \   000000   0013         RETI
-    168          
-    169          #pragma vector=TIMER1_B1_VECTOR
+    169          
+    170          #pragma vector=TIMER1_B1_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-    170          __interrupt void TIMER1_B1_ISR(void){
+    171          __interrupt void TIMER1_B1_ISR(void){
    \                     TIMER1_B1_ISR:
    \   000000   0F12         PUSH.W  R15
-    171            //----------------------------------------------------------------------------
-    172            // TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
-    173            //----------------------------------------------------------------------------
-    174            switch(__even_in_range(TB1IV,14)){
+    172            //----------------------------------------------------------------------------
+    173            // TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
+    174            //----------------------------------------------------------------------------
+    175            switch(__even_in_range(TB1IV,14)){
    \   000002   1F42EE03     MOV.W   &0x3ee, R15
    \   000006   E00F         ADDA    R15, PC
    \                     `?<Jumptable for TIMER1_B1_ISR>_0`:
@@ -578,32 +579,32 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000012   0D3C         JMP     ??TIMER1_B1_ISR_1
    \   000014   0C3C         JMP     ??TIMER1_B1_ISR_1
    \   000016   0B3C         JMP     ??TIMER1_B1_ISR_1
-    175              case 0: break; // No interrupt
-    176              case 2: // Right Motor
-    177                rightSwitchable = 1;
+    176              case 0: break; // No interrupt
+    177              case 2: // Right Motor
+    178                rightSwitchable = 1;
    \                     ??TIMER1_B1_ISR_2:
    \   000018   9243....     MOV.W   #0x1, &rightSwitchable
-    178                TB1CCTL1 &= ~CCIE; 
+    179                TB1CCTL1 &= ~CCIE; 
    \   00001C   B2C01000C403 BIC.W   #0x10, &0x3c4
-    179                  
-    180                break;
+    180                  
+    181                break;
    \   000022   053C         JMP     ??TIMER1_B1_ISR_1
-    181              case 4: // Left Motor
-    182                
-    183                leftSwitchable = 1;
+    182              case 4: // Left Motor
+    183                
+    184                leftSwitchable = 1;
    \                     ??TIMER1_B1_ISR_3:
    \   000024   9243....     MOV.W   #0x1, &leftSwitchable
-    184                TB1CCTL2 &= ~CCIE; 
+    185                TB1CCTL2 &= ~CCIE; 
    \   000028   B2C01000C603 BIC.W   #0x10, &0x3c6
-    185                
-    186                break;
-    187              case 14: // overflow
-    188                
-    189                break;
-    190              default: break;
-    191            }
-    192            //----------------------------------------------------------------------------
-    193          }
+    186                
+    187                break;
+    188              case 14: // overflow
+    189                
+    190                break;
+    191              default: break;
+    192            }
+    193            //----------------------------------------------------------------------------
+    194          }
    \                     ??TIMER1_B1_ISR_1:
    \   00002E   3F41         POP.W   R15
    \   000030   0013         RETI
@@ -672,7 +673,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
        2  Timer0_B0_ISR::??INTVEC 86
        2  Timer1_B0_ISR
        2  Timer1_B0_ISR::??INTVEC 82
-       2  _A_ADCIE_L
+       2  _A_ADCCTL0_L
        2  _A_PAIE_L
        2  _A_PBIE_L
        2  _A_TB0CCR0_L

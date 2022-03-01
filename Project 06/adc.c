@@ -4,6 +4,7 @@
 #include "macros.h"
 #include "wheels.h"
 #include "functions.h"
+#include "detectors.h"
 #include <string.h>
 
 volatile unsigned int ADC_Channel;
@@ -14,6 +15,7 @@ extern char display_line[4][11];
 extern volatile unsigned char display_changed;
 extern volatile unsigned int checkAdc;
 extern volatile char state;
+volatile unsigned int adcUpdated;
 
 void Init_ADC(void){
 //------------------------------------------------------------------------------
@@ -75,12 +77,9 @@ void Init_DAC(void){
 
 #pragma vector=ADC_VECTOR 
 __interrupt void ADC_ISR(void){
-  if(ADC_Channel==0 /*&& (state == STRAIGHT || state==TURN || state==LINEFOLLOW)*/){
-    P6OUT |= IR_LED;
-    //P6OUT |= GRN_LED;
-    strcpy(display_line[0], "EMITTER ON");
-    HEXtoBCD(ADC_Right_Detect,3,0); HEXtoBCD(ADC_Left_Detect,3,6); 
-    display_changed = 1;
+  if(ADC_Channel==0 && P6IN&IR_LED/* && (state == STRAIGHT || state==TURN || state==LINEFOLLOW)*/){
+    HEXtoBCD(ADC_Right_Detect,3,0); 
+    HEXtoBCD(ADC_Left_Detect,3,6); 
   }
   switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){ 
     case ADCIV_NONE:
@@ -99,57 +98,59 @@ __interrupt void ADC_ISR(void){
       ADCCTL0 &= ~ADCENC; 
       switch (ADC_Channel++){
         case 0x00:
-          ADCMCTL0 &= ~ADCINCH_2; 
-          ADCMCTL0 = ADCINCH_3; 
-          ADC_Left_Detect = ADCMEM0; 
-          ADC_Left_Detect = ADC_Left_Detect >> 2; 
-          
-          break; 
-        case 0x01:
-          ADCMCTL0 &= ~ADCINCH_3; 
-          ADCMCTL0 = ADCINCH_5; 
-          ADC_Right_Detect = ADCMEM0; 
-          ADC_Right_Detect = ADC_Right_Detect >> 2; 
-          
-          break; 
-        case 0x02:
           ADCMCTL0 &= ~ADCINCH_5; 
           ADCMCTL0 = ADCINCH_9; 
           ADC_Thumb = ADCMEM0; 
           ADC_Thumb = ADC_Thumb >> 2; 
+          ADCCTL0 |= ADCSC;
           //HEXtoBCD(ADC_Thumb,3); 
           break; 
-        case 0x03:
+        case 0x01:
           ADCMCTL0 &= ~ADCINCH_9; 
           ADCMCTL0 = ADCINCH_10; 
           ADC_Vbat = ADCMEM0; 
           ADC_Vbat = ADC_Vbat >> 2; 
+          ADCCTL0 |= ADCSC;
           //HEXtoBCD(ADC_Vbat,1); 
           break; 
-        case 0x04:
+        case 0x02:
           ADCMCTL0 &= ~ADCINCH_10; 
           ADCMCTL0 = ADCINCH_11; 
           ADC_Vdac = ADCMEM0; 
           ADC_Vdac = ADC_Vdac >> 2; 
           //HEXtoBCD(ADC_Vdac,2); 
+          ADCCTL0 |= ADCSC;
           break;
-        case 0x05:
+        case 0x03:
           ADCMCTL0 &= ~ADCINCH_11; 
           ADCMCTL0 = ADCINCH_2; 
           ADC_V3v3 = ADCMEM0; 
           ADC_V3v3 = ADC_V3v3 >> 2; 
           //HEXtoBCD(ADC_V3v3,3); 
+          ADCCTL0 |= ADCSC;
+          break; 
+        case 0x04:
+          ADCMCTL0 &= ~ADCINCH_2; 
+          ADCMCTL0 = ADCINCH_3; 
+          ADC_Left_Detect = ADCMEM0; 
+          ADC_Left_Detect = ADC_Left_Detect >> 2; 
+          ADCCTL0 |= ADCSC;
+          break; 
+        case 0x05:
+          ADCMCTL0 &= ~ADCINCH_3; 
+          ADCMCTL0 = ADCINCH_5; 
+          ADC_Right_Detect = ADCMEM0; 
+          ADC_Right_Detect = ADC_Right_Detect >> 2; 
           break; 
         case 0x06:
-          ADCIE &= ~ADCIE0;
-          //P6OUT &= ~IR_LED;
-          //P6OUT &= ~GRN_LED;
+          adcUpdated = 1;
+          //ADCIE &= ~ADCIE0;
           ADC_Channel=0;
           break; 
         default: break;
         }
         ADCCTL0 |= ADCENC; 
-        ADCCTL0 |= ADCSC;
+        
     default: break;
   }
 }
@@ -185,3 +186,4 @@ void HEXtoBCD(int hex_value, int line, int start){
   adc_char[4] = 0;
   display_changed=1;
 }
+
