@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Feb/2022  11:43:49
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          02/Mar/2022  10:30:35
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\led.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW14FC.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW5169.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\led.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -34,12 +34,12 @@
 C:\Users\saad\Documents\ece-306\Project 06\led.c
       1          //==============================================================================
       2          // File Name : led.c
-      3          // 
+      3          //
       4          // Description: This file contains mission code
-      5          // 
+      5          //
       6          // Author: Ibrahim Moghul
-      7          // Date: Feb 2022 
-      8          // Compiler: Built with IAR Embedded Workbench Version: 7.21.1 
+      7          // Date: Feb 2022
+      8          // Compiler: Built with IAR Embedded Workbench Version: 7.21.1
       9          //==============================================================================
      10          
      11          #include "led.h"
@@ -84,53 +84,54 @@ C:\Users\saad\Documents\ece-306\Project 06\led.c
      40          //===========================================================================
 
    \                                 In  segment CODE, align 2
-     41          void Display_Process(void){
+     41          void Display_Process(void) {
    \                     Display_Process:
-     42            if(update_display){
+     42              if(update_display) {
    \   000000   C293....     CMP.B   #0x0, &update_display
    \   000004   0D24         JEQ     ??Display_Process_0
-     43              update_display = 0;
+     43                  update_display = 0;
    \   000006   C243....     MOV.B   #0x0, &update_display
-     44              if(display_changed){
+     44          
+     45                  if(display_changed) {
    \   00000A   C293....     CMP.B   #0x0, &display_changed
    \   00000E   0824         JEQ     ??Display_Process_0
-     45                display_changed = 0;
+     46                      display_changed = 0;
    \   000010   C243....     MOV.B   #0x0, &display_changed
-     46                Display_Update(0,0,0,0);
+     47                      Display_Update(0, 0, 0, 0);
    \   000014   4F43         MOV.B   #0x0, R15
    \   000016   4E43         MOV.B   #0x0, R14
    \   000018   4D43         MOV.B   #0x0, R13
    \   00001A   4C43         MOV.B   #0x0, R12
    \   00001C   ........     CALLA   #Display_Update
-     47              }
-     48            }
-     49          }
+     48                  }
+     49              }
+     50          }
    \                     ??Display_Process_0:
    \   000020   1001         RETA
-     50          
      51          
-     52          //===========================================================================
-     53          // Function name: Carlson_StateMachine
-     54          //
-     55          // Description: Toggle LEDs
-     56          //
-     57          // Passed : no variables passed
-     58          // Locals: no variables declared
-     59          // Returned: no values returned
-     60          // Globals: one_time
-     61          // Time_Sequence
-     62          // display_changed
-     63          //
-     64          // Author: Ibrahim Moghul
-     65          // Date: Feb 2022
-     66          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
-     67          //===========================================================================
+     52          
+     53          //===========================================================================
+     54          // Function name: Carlson_StateMachine
+     55          //
+     56          // Description: Toggle LEDs
+     57          //
+     58          // Passed : no variables passed
+     59          // Locals: no variables declared
+     60          // Returned: no values returned
+     61          // Globals: one_time
+     62          // Time_Sequence
+     63          // display_changed
+     64          //
+     65          // Author: Ibrahim Moghul
+     66          // Date: Feb 2022
+     67          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     68          //===========================================================================
 
    \                                 In  segment CODE, align 2
-     68          void Carlson_StateMachine(void){
+     69          void Carlson_StateMachine(void) {
    \                     Carlson_StateMachine:
-     69            
-     70              switch(Time_Sequence){
+     70          
+     71              switch(Time_Sequence) {
    \   000000   1F42....     MOV.W   &Time_Sequence, R15
    \   000004   3F803200     SUB.W   #0x32, R15
    \   000008   3B24         JEQ     ??Carlson_StateMachine_6
@@ -142,84 +143,95 @@ C:\Users\saad\Documents\ece-306\Project 06\led.c
    \   00001A   1124         JEQ     ??Carlson_StateMachine_9
    \   00001C   3F803200     SUB.W   #0x32, R15
    \   000020   3920         JNE     ??Carlson_StateMachine_5
-     71                case 250:                        //
-     72                  if(one_time){
+     72                  case 250:                        //
+     73                      if(one_time) {
    \   000022   C293....     CMP.B   #0x0, &one_time
    \   000026   0824         JEQ     ??Carlson_StateMachine_10
-     73                    Init_LEDs();
+     74                          Init_LEDs();
    \   000028   ........     CALLA   #Init_LEDs
-     74                    lcd_BIG_mid();
+     75                          lcd_BIG_mid();
    \   00002C   ........     CALLA   #lcd_BIG_mid
-     75                    display_changed = 1;
+     76                          display_changed = 1;
    \   000030   D243....     MOV.B   #0x1, &display_changed
-     76                    one_time = 0;
+     77                          one_time = 0;
    \   000034   C243....     MOV.B   #0x0, &one_time
-     77                  }
-     78                  Time_Sequence = 0;             //
+     78                      }
+     79          
+     80                      Time_Sequence = 0;             //
    \                     ??Carlson_StateMachine_10:
    \   000038   8243....     MOV.W   #0x0, &Time_Sequence
-     79                  break;
+     81                      break;
    \   00003C   1001         RETA
-     80                case 200:                        //
-     81                  if(one_time){
+     82          
+     83                  case 200:                        //
+     84                      if(one_time) {
    \                     ??Carlson_StateMachine_9:
    \   00003E   C293....     CMP.B   #0x0, &one_time
    \   000042   2824         JEQ     ??Carlson_StateMachine_5
-     82                    P6OUT |= GRN_LED;            // Change State of LED 5
+     85                          P6OUT |= GRN_LED;            // Change State of LED 5
    \   000044   F2D040004302 BIS.B   #0x40, &0x243
-     83                    one_time = 0;
+     86                          one_time = 0;
    \   00004A   C243....     MOV.B   #0x0, &one_time
-     84                  }
-     85                  break;
+     87                      }
+     88          
+     89                      break;
    \   00004E   1001         RETA
-     86                case 150:                         //
-     87                  if(one_time){
+     90          
+     91                  case 150:                         //
+     92                      if(one_time) {
    \                     ??Carlson_StateMachine_8:
    \   000050   C293....     CMP.B   #0x0, &one_time
    \   000054   1F24         JEQ     ??Carlson_StateMachine_5
-     88                    P1OUT |= RED_LED;            // Change State of LED 4
+     93                          P1OUT |= RED_LED;            // Change State of LED 4
    \   000056   D2D30202     BIS.B   #0x1, &0x202
-     89                    P6OUT &= ~GRN_LED;           // Change State of LED 5
+     94                          P6OUT &= ~GRN_LED;           // Change State of LED 5
    \   00005A   F2C040004302 BIC.B   #0x40, &0x243
-     90                    one_time = 0;
+     95                          one_time = 0;
    \   000060   C243....     MOV.B   #0x0, &one_time
-     91                  }
-     92                  break;
+     96                      }
+     97          
+     98                      break;
    \   000064   1001         RETA
-     93                case 100:                         //
-     94                  if(one_time){
+     99          
+    100                  case 100:                         //
+    101                      if(one_time) {
    \                     ??Carlson_StateMachine_7:
    \   000066   C293....     CMP.B   #0x0, &one_time
    \   00006A   1424         JEQ     ??Carlson_StateMachine_5
-     95          //          lcd_4line();
-     96                    lcd_BIG_bot();
+    102                          //          lcd_4line();
+    103                          lcd_BIG_bot();
    \   00006C   ........     CALLA   #lcd_BIG_bot
-     97                    P6OUT |= GRN_LED;            // Change State of LED 5
+    104                          P6OUT |= GRN_LED;            // Change State of LED 5
    \   000070   F2D040004302 BIS.B   #0x40, &0x243
-     98                    display_changed = 1;
+    105                          display_changed = 1;
    \   000076   D243....     MOV.B   #0x1, &display_changed
-     99                    one_time = 0;
+    106                          one_time = 0;
    \   00007A   C243....     MOV.B   #0x0, &one_time
-    100                  }
-    101                  break;
+    107                      }
+    108          
+    109                      break;
    \   00007E   1001         RETA
-    102                case  50:                        //
-    103                  if(one_time){
+    110          
+    111                  case  50:                        //
+    112                      if(one_time) {
    \                     ??Carlson_StateMachine_6:
    \   000080   C293....     CMP.B   #0x0, &one_time
    \   000084   0724         JEQ     ??Carlson_StateMachine_5
-    104                    P1OUT &= ~RED_LED;           // Change State of LED 4
+    113                          P1OUT &= ~RED_LED;           // Change State of LED 4
    \   000086   D2C30202     BIC.B   #0x1, &0x202
-    105                    P6OUT &= ~GRN_LED;           // Change State of LED 5
+    114                          P6OUT &= ~GRN_LED;           // Change State of LED 5
    \   00008A   F2C040004302 BIC.B   #0x40, &0x243
-    106                    one_time = 0;
+    115                          one_time = 0;
    \   000090   C243....     MOV.B   #0x0, &one_time
-    107                  }
-    108                  break;                         //
-    109                default: break;
-    110              }
-    111              
-    112          }
+    116                      }
+    117          
+    118                      break;                         //
+    119          
+    120                  default:
+    121                      break;
+    122              }
+    123          
+    124          }
    \                     ??Carlson_StateMachine_5:
    \   000094   1001         RETA
    \   000096                REQUIRE _A_PCOUT_L

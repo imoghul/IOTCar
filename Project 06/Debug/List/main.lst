@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          28/Feb/2022  10:26:09
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          02/Mar/2022  10:30:36
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW8AA8.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW559E.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -70,7 +70,7 @@ C:\Users\saad\Documents\ece-306\Project 06\main.c
      26          
      27          
      28          // Global Variables
-     29            // Global Variables
+     29          // Global Variables
 
    \                                 In  segment DATA16_Z, align 1, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
@@ -135,7 +135,7 @@ C:\Users\saad\Documents\ece-306\Project 06\main.c
    \   000000                DS8 2
      47          extern volatile unsigned int right_tick, left_tick;
      48          extern char adc_char[5];
-     49          extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
+     49          extern volatile unsigned int ADC_Left_Detect, ADC_Right_Detect;
      50          extern char movingDirection;
      51          extern char enteringDirection;
      52          //===========================================================================
@@ -160,107 +160,108 @@ C:\Users\saad\Documents\ece-306\Project 06\main.c
      71          
 
    \                                 In  segment CODE, align 2
-     72          void main(void){
+     72          void main(void) {
    \                     main:
-     73          //------------------------------------------------------------------------------
-     74          // Main Program
-     75          // This is the main routine for the program. Execution of code starts here.
-     76          // The operating system is Back Ground Fore Ground.
-     77          //
-     78          //------------------------------------------------------------------------------
-     79            PM5CTL0 &= ~LOCKLPM5;
+     73              //------------------------------------------------------------------------------
+     74              // Main Program
+     75              // This is the main routine for the program. Execution of code starts here.
+     76              // The operating system is Back Ground Fore Ground.
+     77              //
+     78              //------------------------------------------------------------------------------
+     79              PM5CTL0 &= ~LOCKLPM5;
    \   000000   92C33001     BIC.W   #0x1, &0x130
-     80          // Disable the GPIO power-on default high-impedance mode to activate
-     81          // previously configured port settings
-     82            
-     83            Init_Ports();                        // Initialize Ports
+     80              // Disable the GPIO power-on default high-impedance mode to activate
+     81              // previously configured port settings
+     82          
+     83              Init_Ports();                        // Initialize Ports
    \   000004   ........     CALLA   #Init_Ports
-     84            Init_Clocks();                       // Initialize Clock System
+     84              Init_Clocks();                       // Initialize Clock System
    \   000008   ........     CALLA   #Init_Clocks
-     85            Init_Conditions();                   // Initialize Variables and Initial Conditions
+     85              Init_Conditions();                   // Initialize Variables and Initial Conditions
    \   00000C   ........     CALLA   #Init_Conditions
-     86            Init_Timers();                       // Initialize Timers
+     86              Init_Timers();                       // Initialize Timers
    \   000010   ........     CALLA   #Init_Timers
-     87            Init_LCD();                          // Initialize LCD
+     87              Init_LCD();                          // Initialize LCD
    \   000014   ........     CALLA   #Init_LCD
-     88            Init_ADC();
+     88              Init_ADC();
    \   000018   ........     CALLA   #Init_ADC
-     89            Init_REF();
+     89              Init_REF();
    \   00001C   ........     CALLA   #Init_REF
-     90            Init_DAC();
+     90              Init_DAC();
    \   000020   ........     CALLA   #Init_DAC
-     91            
-     92            // Place the contents of what you want on the display, in between the quotes
-     93          // Limited to 10 characters per line
-     94            strcpy(display_line[0], "WAITING...");
+     91          
+     92              // Place the contents of what you want on the display, in between the quotes
+     93              // Limited to 10 characters per line
+     94              strcpy(display_line[0], "WAITING...");
    \   000024   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
    \   000028   3C40....     MOV.W   #display_line, R12
    \   00002C   ........     CALLA   #strcpy
-     95            strcpy(display_line[1], "          ");
+     95              strcpy(display_line[1], "          ");
    \   000030   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   000034   3C40....     MOV.W   #display_line + 11, R12
    \   000038   ........     CALLA   #strcpy
-     96            strcpy(display_line[2], "          ");
+     96              strcpy(display_line[2], "          ");
    \   00003C   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   000040   3C40....     MOV.W   #display_line + 22, R12
    \   000044   ........     CALLA   #strcpy
-     97            strcpy(display_line[3], "          ");
+     97              strcpy(display_line[3], "          ");
    \   000048   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   00004C   3C40....     MOV.W   #display_line + 33, R12
    \   000050   ........     CALLA   #strcpy
-     98            display_changed = TRUE;
+     98              display_changed = TRUE;
    \   000054   D243....     MOV.B   #0x1, &display_changed
-     99            
-    100          //------------------------------------------------------------------------------
-    101          // Begining of the "While" Operating System
-    102          //------------------------------------------------------------------------------
-    103            while(ALWAYS) {                       // Can the Operating system run
-    104              Display_Process();                  // Update Display
+     99          
+    100              //------------------------------------------------------------------------------
+    101              // Begining of the "While" Operating System
+    102              //------------------------------------------------------------------------------
+    103              while(ALWAYS) {                       // Can the Operating system run
+    104                  Display_Process();                  // Update Display
    \                     ??main_0:
    \   000058   ........     CALLA   #Display_Process
-    105              DetectMovement();
+    105                  DetectMovement();
    \   00005C   ........     CALLA   #DetectMovement
-    106              StateMachine();                     // Run wheels state machine
+    106                  StateMachine();                     // Run wheels state machine
    \   000060   ........     CALLA   #StateMachine
-    107              MotorSafety();
+    107                  MotorSafety();
    \   000064   ........     CALLA   #MotorSafety
-    108              P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+    108                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
    \   000068   D2E32202     XOR.B   #0x1, &0x222
-    109              /*if(enteringDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
-    110              else if(enteringDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
-    111              else if (enteringDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
-    112              else if (enteringDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
-    113              
-    114              if(Last_Time_Sequence!=Time_Sequence){ 
-                     ^
+    109                  /*if(enteringDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
+    110                  else if(enteringDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
+    111                  else if (enteringDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
+    112                  else if (enteringDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
+    113          
+    114                  if(Last_Time_Sequence != Time_Sequence) {
+                         ^
 Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
    \   00006C   1F42....     MOV.W   &Last_Time_Sequence, R15
    \   000070   1F92....     CMP.W   &Time_Sequence, R15
    \   000074   F127         JEQ     ??main_0
-    115                Last_Time_Sequence=Time_Sequence;
+    115                      Last_Time_Sequence = Time_Sequence;
    \   000076   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
-    116                cycle_count++;
+    116                      cycle_count++;
    \   00007C   9253....     ADD.W   #0x1, &cycle_count
-    117                time_change = 1;
+    117                      time_change = 1;
    \   000080   9243....     MOV.W   #0x1, &time_change
-    118                if(cycle_count == TIME_SEQUENCE_MAX){
+    118          
+    119                      if(cycle_count == TIME_SEQUENCE_MAX) {
    \   000084   B290FA00.... CMP.W   #0xfa, &cycle_count
    \   00008A   E623         JNE     ??main_0
-    119                  cycle_count = 0;
+    120                          cycle_count = 0;
    \   00008C   8243....     MOV.W   #0x0, &cycle_count
-    120                  stopwatch_seconds++;
+    121                          stopwatch_seconds++;
    \   000090   9253....     ADD.W   #0x1, &stopwatch_seconds
    \   000094   E13F         JMP     ??main_0
    \   000096   0343         NOP
    \   000098                REQUIRE _A_PM5CTL0_L
    \   000098                REQUIRE _A_PBOUT_L
-    121                }
-    122              }
-    123             }
-    124              
-    125          //------------------------------------------------------------------------------
-    126          }
+    122                      }
+    123                  }
+    124              }
+    125          
+    126              //------------------------------------------------------------------------------
+    127          }
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "WAITING...">`:
@@ -271,7 +272,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
-    127          
+    128          
 
    Maximum stack usage in bytes:
 

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          28/Feb/2022  10:24:33
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          02/Mar/2022  10:30:33
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\detectors.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW16B2.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW4A84.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\detectors.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -56,7 +56,7 @@ C:\Users\saad\Documents\ece-306\Project 06\detectors.c
       9          int rightVals[MEMORY_LEN];
    \                     rightVals:
    \   000000                DS8 200
-     10          extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
+     10          extern volatile unsigned int ADC_Left_Detect, ADC_Right_Detect;
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
@@ -79,17 +79,17 @@ C:\Users\saad\Documents\ece-306\Project 06\detectors.c
      15          
 
    \                                 In  segment CODE, align 2
-     16          void EmitterOn(void){
+     16          void EmitterOn(void) {
    \                     EmitterOn:
-     17            P6OUT |= IR_LED;
+     17              P6OUT |= IR_LED;
    \   000000   F2D010004302 BIS.B   #0x10, &0x243
-     18            P6OUT |= GRN_LED;
+     18              P6OUT |= GRN_LED;
    \   000006   F2D040004302 BIS.B   #0x40, &0x243
-     19            strcpy(display_line[0], "EMITTER ON");
+     19              strcpy(display_line[0], "EMITTER ON");
    \   00000C   3D40....     MOV.W   #`?<Constant "EMITTER ON">`, R13
    \   000010   3C40....     MOV.W   #display_line, R12
    \   000014   ........     CALLA   #strcpy
-     20            display_changed = 1;
+     20              display_changed = 1;
    \   000018   D243....     MOV.B   #0x1, &display_changed
      21          }
    \   00001C   1001         RETA
@@ -97,25 +97,25 @@ C:\Users\saad\Documents\ece-306\Project 06\detectors.c
      22          
 
    \                                 In  segment CODE, align 2
-     23          void EmitterOff(void){
+     23          void EmitterOff(void) {
    \                     EmitterOff:
-     24            P6OUT &= ~IR_LED;
+     24              P6OUT &= ~IR_LED;
    \   000000   F2C010004302 BIC.B   #0x10, &0x243
-     25            P6OUT &= ~GRN_LED;
+     25              P6OUT &= ~GRN_LED;
    \   000006   F2C040004302 BIC.B   #0x40, &0x243
-     26            strcpy(display_line[0], "EMITER OFF");
+     26              strcpy(display_line[0], "EMITER OFF");
    \   00000C   3D40....     MOV.W   #`?<Constant "EMITER OFF">`, R13
    \   000010   3C40....     MOV.W   #display_line, R12
    \   000014   ........     CALLA   #strcpy
-     27            strcpy(display_line[2], "          ");
+     27              strcpy(display_line[2], "          ");
    \   000018   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   00001C   3C40....     MOV.W   #display_line + 22, R12
    \   000020   ........     CALLA   #strcpy
-     28            strcpy(display_line[3], "          ");
+     28              strcpy(display_line[3], "          ");
    \   000024   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   000028   3C40....     MOV.W   #display_line + 33, R12
    \   00002C   ........     CALLA   #strcpy
-     29            display_changed = 1;
+     29              display_changed = 1;
    \   000030   D243....     MOV.B   #0x1, &display_changed
      30          }
    \   000034   1001         RETA
@@ -123,44 +123,46 @@ C:\Users\saad\Documents\ece-306\Project 06\detectors.c
      31          
 
    \                                 In  segment CODE, align 2
-     32          void DetectMovement(void){
+     32          void DetectMovement(void) {
    \                     DetectMovement:
    \   000000   5B15         PUSHM.W #0x6, R11
-     33            if(adcUpdated==0) return;
+     33              if(adcUpdated == 0) return;
    \   000002   8293....     CMP.W   #0x0, &adcUpdated
    \   000006   5224         JEQ     ??DetectMovement_0
-     34            adcUpdated = 0;
+     34          
+     35              adcUpdated = 0;
    \   000008   8243....     MOV.W   #0x0, &adcUpdated
-     35            int currLeft = ADC_Left_Detect;
+     36              int currLeft = ADC_Left_Detect;
    \   00000C   1A42....     MOV.W   &ADC_Left_Detect, R10
-     36            int currRight = ADC_Right_Detect;
+     37              int currRight = ADC_Right_Detect;
    \   000010   1B42....     MOV.W   &ADC_Right_Detect, R11
-     37            int leftDiff = currLeft-lastLeft;
+     38              int leftDiff = currLeft - lastLeft;
    \   000014   084A         MOV.W   R10, R8
    \   000016   1882....     SUB.W   &lastLeft, R8
-     38            int rightDiff = currRight-lastRight;
+     39              int rightDiff = currRight - lastRight;
    \   00001A   094B         MOV.W   R11, R9
    \   00001C   1982....     SUB.W   &lastRight, R9
-     39            lastLeft = currLeft;
+     40              lastLeft = currLeft;
    \   000020   824A....     MOV.W   R10, &lastLeft
-     40            lastRight = currRight;
+     41              lastRight = currRight;
    \   000024   824B....     MOV.W   R11, &lastRight
-     41            
-     42            if(abs(rightDiff)<10) rightDiff = 0;
+     42          
+     43              if(abs(rightDiff) < 10) rightDiff = 0;
    \   000028   0C49         MOV.W   R9, R12
    \   00002A   ........     CALLA   #abs
    \   00002E   3C900A00     CMP.W   #0xa, R12
    \   000032   0134         JGE     ??DetectMovement_4
    \   000034   0943         MOV.W   #0x0, R9
-     43            if(abs(leftDiff)<10) leftDiff = 0;
+     44          
+     45              if(abs(leftDiff) < 10) leftDiff = 0;
    \                     ??DetectMovement_4:
    \   000036   0C48         MOV.W   R8, R12
    \   000038   ........     CALLA   #abs
    \   00003C   3C900A00     CMP.W   #0xa, R12
    \   000040   0134         JGE     ??DetectMovement_5
    \   000042   0843         MOV.W   #0x0, R8
-     44            
-     45            if(leftDiff)push(leftVals,currLeft);
+     46          
+     47              if(leftDiff)push(leftVals, currLeft);
    \                     ??DetectMovement_5:
    \   000044   0893         CMP.W   #0x0, R8
    \   000046   0624         JEQ     ??DetectMovement_6
@@ -168,11 +170,12 @@ C:\Users\saad\Documents\ece-306\Project 06\detectors.c
    \   00004A   3C40....     MOV.W   #leftVals, R12
    \   00004E   ........     CALLA   #`push`
    \   000052   043C         JMP     ??DetectMovement_2
-     46            else clearList(leftVals);
+     48              else clearList(leftVals);
    \                     ??DetectMovement_6:
    \   000054   3C40....     MOV.W   #leftVals, R12
    \   000058   ........     CALLA   #clearList
-     47            if(rightDiff)push(rightVals,currRight);
+     49          
+     50              if(rightDiff)push(rightVals, currRight);
    \                     ??DetectMovement_2:
    \   00005C   0993         CMP.W   #0x0, R9
    \   00005E   0624         JEQ     ??DetectMovement_7
@@ -180,20 +183,21 @@ C:\Users\saad\Documents\ece-306\Project 06\detectors.c
    \   000062   3C40....     MOV.W   #rightVals, R12
    \   000066   ........     CALLA   #`push`
    \   00006A   043C         JMP     ??DetectMovement_3
-     48            else clearList(rightVals);
+     51              else clearList(rightVals);
    \                     ??DetectMovement_7:
    \   00006C   3C40....     MOV.W   #rightVals, R12
    \   000070   ........     CALLA   #clearList
-     49            
-     50            int avgLeft = average(leftVals);
+     52          
+     53              int avgLeft = average(leftVals);
    \                     ??DetectMovement_3:
    \   000074   3C40....     MOV.W   #leftVals, R12
    \   000078   ........     CALLA   #average
    \   00007C   064C         MOV.W   R12, R6
-     51            int avgRight = average(rightVals);
+     54              int avgRight = average(rightVals);
    \   00007E   3C40....     MOV.W   #rightVals, R12
    \   000082   ........     CALLA   #average
-     52            if((avgLeft != 0 && avgRight == 0) || avgLeft>avgRight) movingDirection = MOVING_LEFT;
+     55          
+     56              if((avgLeft != 0 && avgRight == 0) || avgLeft > avgRight) movingDirection = MOVING_LEFT;
    \   000086   0693         CMP.W   #0x0, R6
    \   000088   0224         JEQ     ??DetectMovement_8
    \   00008A   0C93         CMP.W   #0x0, R12
@@ -204,7 +208,7 @@ C:\Users\saad\Documents\ece-306\Project 06\detectors.c
    \                     ??DetectMovement_9:
    \   000092   F2404C00.... MOV.B   #0x4c, &movingDirection
    \   000098   093C         JMP     ??DetectMovement_0
-     53            else if((avgLeft == 0 && avgRight != 0) || avgLeft<avgRight) movingDirection = MOVING_RIGHT;
+     57              else if((avgLeft == 0 && avgRight != 0) || avgLeft < avgRight) movingDirection = MOVING_RIGHT;
    \                     ??DetectMovement_10:
    \   00009A   0693         CMP.W   #0x0, R6
    \   00009C   0220         JNE     ??DetectMovement_11
@@ -215,19 +219,20 @@ C:\Users\saad\Documents\ece-306\Project 06\detectors.c
    \   0000A4   0334         JGE     ??DetectMovement_0
    \                     ??DetectMovement_12:
    \   0000A6   F2405200.... MOV.B   #0x52, &movingDirection
-     54            //else if(avgLeft == 0 && avgRight == 0) movingDirection = NOT_MOVING;
-     55            //else movingDirection = MOVING_STRAIGHT;
-     56          }
+     58          
+     59              //else if(avgLeft == 0 && avgRight == 0) movingDirection = NOT_MOVING;
+     60              //else movingDirection = MOVING_STRAIGHT;
+     61          }
    \                     ??DetectMovement_0:
    \   0000AC   5617         POPM.W  #0x6, R11
    \   0000AE   1001         RETA
-     57          
+     62          
 
    \                                 In  segment CODE, align 2
-     58          void push(int list[], int val){
+     63          void push(int list[], int val) {
    \                     `push`:
    \   000000   1B15         PUSHM.W #0x2, R11
-     59            for(int i = MEMORY_LEN-1;i>0;--i) list[i] = list[i-1];
+     64              for(int i = MEMORY_LEN - 1; i > 0; --i) list[i] = list[i - 1];
    \   000002   3A406300     MOV.W   #0x63, R10
    \                     ??push_0:
    \   000006   1A93         CMP.W   #0x1, R10
@@ -243,18 +248,19 @@ C:\Users\saad\Documents\ece-306\Project 06\detectors.c
    \   00001A   9F4BFEFF0000 MOV.W   0xfffe(R11), 0(R15)
    \   000020   3A53         ADD.W   #0xffff, R10
    \   000022   F13F         JMP     ??push_0
-     60            list[0] = val;
+     65          
+     66              list[0] = val;
    \                     ??push_1:
    \   000024   8C4D0000     MOV.W   R13, 0(R12)
-     61          }
+     67          }
    \   000028   1A17         POPM.W  #0x2, R11
    \   00002A   1001         RETA
-     62          
+     68          
 
    \                                 In  segment CODE, align 2
-     63          void clearList(int list[]){
+     69          void clearList(int list[]) {
    \                     clearList:
-     64            for (int i = 0;list[i]!=0;++i) list[i]=0;
+     70              for (int i = 0; list[i] != 0; ++i) list[i] = 0;
    \   000000   0D43         MOV.W   #0x0, R13
    \                     ??clearList_0:
    \   000002   0F4D         MOV.W   R13, R15
@@ -270,50 +276,52 @@ C:\Users\saad\Documents\ece-306\Project 06\detectors.c
    \   000018   8F430000     MOV.W   #0x0, 0(R15)
    \   00001C   1D53         ADD.W   #0x1, R13
    \   00001E   F13F         JMP     ??clearList_0
-     65          }
+     71          }
    \                     ??clearList_1:
    \   000020   1001         RETA
-     66          
+     72          
 
    \                                 In  segment CODE, align 2
-     67          int average(int * list){
+     73          int average(int * list) {
    \                     average:
    \   000000   0A12         PUSH.W  R10
    \   000002   0D4C         MOV.W   R12, R13
-     68            int sum = 0;
+     74              int sum = 0;
    \   000004   0C43         MOV.W   #0x0, R12
-     69            for (int i = 0;i<MEMORY_LEN;++i){
+     75          
+     76              for (int i = 0; i < MEMORY_LEN; ++i) {
    \   000006   0A43         MOV.W   #0x0, R10
    \                     ??average_0:
    \   000008   3A906400     CMP.W   #0x64, R10
    \   00000C   0734         JGE     ??average_1
-     70              sum+=list[i];
+     77                  sum += list[i];
    \   00000E   0E4A         MOV.W   R10, R14
    \   000010   0E5E         RLA.W   R14
    \   000012   0F4D         MOV.W   R13, R15
    \   000014   0F5E         ADD.W   R14, R15
    \   000016   2C5F         ADD.W   @R15, R12
-     71            }
+     78              }
    \   000018   1A53         ADD.W   #0x1, R10
    \   00001A   F63F         JMP     ??average_0
-     72            return sum;
+     79          
+     80              return sum;
    \                     ??average_1:
    \   00001C   3A41         POP.W   R10
    \   00001E   1001         RETA
-     73          }
-     74          
+     81          }
+     82          
 
    \                                 In  segment CODE, align 2
-     75          int abs(int n){
+     83          int abs(int n) {
    \                     abs:
    \   000000   B1000400     SUBA    #0x4, SP
-     76            const int ret[2] = {n,-n};
+     84              const int ret[2] = {n, -n};
    \   000004   814C0000     MOV.W   R12, 0(SP)
    \   000008   0F4C         MOV.W   R12, R15
    \   00000A   3FE3         XOR.W   #0xffff, R15
    \   00000C   1F53         ADD.W   #0x1, R15
    \   00000E   814F0200     MOV.W   R15, 0x2(SP)
-     77            return ret [n<0];
+     85              return ret [n < 0];
    \   000012   0C93         CMP.W   #0x0, R12
    \   000014   0234         JGE     ??abs_1
    \   000016   5F43         MOV.B   #0x1, R15
@@ -327,7 +335,7 @@ C:\Users\saad\Documents\ece-306\Project 06\detectors.c
    \   000022   2C4F         MOV.W   @R15, R12
    \   000024   A1000400     ADDA    #0x4, SP
    \   000028   1001         RETA
-     78          }
+     86          }
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "EMITTER ON">`:

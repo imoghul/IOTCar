@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Feb/2022  11:43:49
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          02/Mar/2022  10:30:34
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 06\init.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW1134.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW4E5C.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 06\init.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 06\Debug\Obj" --no_cse
@@ -34,12 +34,12 @@
 C:\Users\saad\Documents\ece-306\Project 06\init.c
       1          //==============================================================================
       2          // File Name : init.c
-      3          // 
+      3          //
       4          // Description: This file contains initialization functions before mission code
-      5          // 
+      5          //
       6          // Author: Ibrahim Moghul
-      7          // Date: Feb 2022 
-      8          // Compiler: Built with IAR Embedded Workbench Version: 7.21.1 
+      7          // Date: Feb 2022
+      8          // Compiler: Built with IAR Embedded Workbench Version: 7.21.1
       9          //==============================================================================
      10          
      11          #include "init.h"
@@ -78,17 +78,17 @@ C:\Users\saad\Documents\ece-306\Project 06\init.c
      34          //===========================================================================
 
    \                                 In  segment CODE, align 2
-     35          void Init_LEDs(void){
+     35          void Init_LEDs(void) {
    \                     Init_LEDs:
-     36          //------------------------------------------------------------------------------
-     37          // LED Configurations
-     38          //------------------------------------------------------------------------------
-     39          // Turns on both LEDs
-     40            P1OUT &= ~RED_LED;
+     36              //------------------------------------------------------------------------------
+     37              // LED Configurations
+     38              //------------------------------------------------------------------------------
+     39              // Turns on both LEDs
+     40              P1OUT &= ~RED_LED;
    \   000000   D2C30202     BIC.B   #0x1, &0x202
-     41            P6OUT &= ~GRN_LED;
+     41              P6OUT &= ~GRN_LED;
    \   000004   F2C040004302 BIC.B   #0x40, &0x243
-     42          //------------------------------------------------------------------------------
+     42              //------------------------------------------------------------------------------
      43          }
    \   00000A   1001         RETA
    \   00000C                REQUIRE _A_PAOUT_L
@@ -111,55 +111,57 @@ C:\Users\saad\Documents\ece-306\Project 06\init.c
      59          //===========================================================================
 
    \                                 In  segment CODE, align 2
-     60          void Init_Conditions(void){
+     60          void Init_Conditions(void) {
    \                     Init_Conditions:
    \   000000   0A12         PUSH.W  R10
-     61          //------------------------------------------------------------------------------
+     61              //------------------------------------------------------------------------------
      62          
-     63            int i;
-     64            for(i=0;i<11;i++){
+     63              int i;
+     64          
+     65              for(i = 0; i < 11; i++) {
    \   000002   0A43         MOV.W   #0x0, R10
    \                     ??Init_Conditions_0:
    \   000004   3A900B00     CMP.W   #0xb, R10
    \   000008   0A34         JGE     ??Init_Conditions_1
-     65              display_line[0][i] = RESET_STATE;
+     66                  display_line[0][i] = RESET_STATE;
    \   00000A   CA43....     MOV.B   #0x0, display_line(R10)
-     66              display_line[1][i] = RESET_STATE;
+     67                  display_line[1][i] = RESET_STATE;
    \   00000E   CA43....     MOV.B   #0x0, display_line + 11(R10)
-     67              display_line[2][i] = RESET_STATE;
+     68                  display_line[2][i] = RESET_STATE;
    \   000012   CA43....     MOV.B   #0x0, display_line + 22(R10)
-     68              display_line[3][i] = RESET_STATE;
+     69                  display_line[3][i] = RESET_STATE;
    \   000016   CA43....     MOV.B   #0x0, display_line + 33(R10)
-     69            }
+     70              }
    \   00001A   1A53         ADD.W   #0x1, R10
    \   00001C   F33F         JMP     ??Init_Conditions_0
-     70            display_line[0][10] = 0;
+     71          
+     72              display_line[0][10] = 0;
    \                     ??Init_Conditions_1:
    \   00001E   C243....     MOV.B   #0x0, &display_line + 10
-     71            display_line[1][10] = 0;
+     73              display_line[1][10] = 0;
    \   000022   C243....     MOV.B   #0x0, &display_line + 21
-     72            display_line[2][10] = 0;
+     74              display_line[2][10] = 0;
    \   000026   C243....     MOV.B   #0x0, &display_line + 32
-     73            display_line[3][10] = 0;
+     75              display_line[3][10] = 0;
    \   00002A   C243....     MOV.B   #0x0, &display_line + 43
-     74          
-     75            display[0] = &display_line[0][0];
+     76          
+     77              display[0] = &display_line[0][0];
    \   00002E   B240........ MOV.W   #display_line, &display
-     76            display[1] = &display_line[1][0];
+     78              display[1] = &display_line[1][0];
    \   000034   B240........ MOV.W   #display_line + 11, &display + 2
-     77            display[2] = &display_line[2][0];
+     79              display[2] = &display_line[2][0];
    \   00003A   B240........ MOV.W   #display_line + 22, &display + 4
-     78            display[3] = &display_line[3][0];
+     80              display[3] = &display_line[3][0];
    \   000040   B240........ MOV.W   #display_line + 33, &display + 6
-     79            update_display = 0;
+     81              update_display = 0;
    \   000046   C243....     MOV.B   #0x0, &update_display
-     80          
-     81          
-     82          // Interrupts are disabled by default, enable them.
-     83            enable_interrupts();
+     82          
+     83          
+     84              // Interrupts are disabled by default, enable them.
+     85              enable_interrupts();
    \   00004A   ........     CALLA   #enable_interrupts
-     84          //------------------------------------------------------------------------------
-     85          }
+     86              //------------------------------------------------------------------------------
+     87          }
    \   00004E   3A41         POP.W   R10
    \   000050   1001         RETA
 
