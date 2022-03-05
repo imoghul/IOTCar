@@ -103,7 +103,7 @@ __interrupt void ADC_ISR(void){
           ADC_Thumb = ADCMEM0; 
           ADC_Thumb = ADC_Thumb >> 2; 
           ADCCTL0 |= ADCSC;
-          //HEXtoBCD(ADC_Thumb,3); 
+          HEXtoBCD(ADC_Thumb,1,0); 
           break; 
         case 0x01:
           ADCMCTL0 &= ~ADCINCH_9; 
@@ -133,18 +133,17 @@ __interrupt void ADC_ISR(void){
           ADCMCTL0 &= ~ADCINCH_2; 
           ADCMCTL0 = ADCINCH_3; 
           ADC_Left_Detect = ADCMEM0; 
-          ADC_Left_Detect = ADC_Left_Detect >> 2; 
+          ADC_Left_Detect = ADC_Left_Detect >> 7; 
           ADCCTL0 |= ADCSC;
           break; 
         case 0x05:
           ADCMCTL0 &= ~ADCINCH_3; 
           ADCMCTL0 = ADCINCH_5; 
           ADC_Right_Detect = ADCMEM0; 
-          ADC_Right_Detect = ADC_Right_Detect >> 2; 
+          ADC_Right_Detect = ADC_Right_Detect >> 7; 
           break; 
         case 0x06:
           adcUpdated = 1;
-          //ADCIE &= ~ADCIE0;
           ADC_Channel=0;
           break; 
         default: break;

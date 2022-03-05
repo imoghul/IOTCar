@@ -5,19 +5,19 @@
 #define RIGHT_REVERSE_SPEED     (TB3CCR3)
 #define LEFT_REVERSE_SPEED      (TB3CCR4)
 #define WHEEL_OFF               (0)
-#define WHEEL_PERIOD            (20000)
+#define WHEEL_PERIOD            (40000)
 #define RIGHT_MAX               (STRAIGHT_RIGHT)
 #define LEFT_MAX                (STRAIGHT_LEFT)
-#define RIGHT_MIN               (5000)
-#define LEFT_MIN                (4000)
+#define RIGHT_MIN               (7500)
+#define LEFT_MIN                (6000)
 // straight
-#define STRAIGHT_RIGHT          (20000)
-#define STRAIGHT_LEFT           (16000)
+#define STRAIGHT_RIGHT          (40000)
+#define STRAIGHT_LEFT           (32000)
 // circle
-#define LCIRC_RIGHT             (3000) 
-#define LCIRC_LEFT              (20000)
-#define RCIRC_RIGHT             (20000)
-#define RCIRC_LEFT              (3000) 
+#define LCIRC_RIGHT             (6000) 
+#define LCIRC_LEFT              (40000)
+#define RCIRC_RIGHT             (40000)
+#define RCIRC_LEFT              (6000) 
 #define MAX_RCIRCLE_TICK        (1285)//(75)
 #define MAX_LCIRCLE_TICK        (1180)//(72)
 // triangle
@@ -26,8 +26,8 @@
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
 // detectors
-#define LEFT_LINE_DETECT        (150)
-#define RIGHT_LINE_DETECT       (150)
+#define LEFT_LINE_DETECT        (3)
+#define RIGHT_LINE_DETECT       (3)
 // states
 #define START           ('S')
 #define WAIT            ('W')
@@ -47,4 +47,6 @@ void ShutoffMotors(void);
 void ShutoffRight(void);
 void ShutoffLeft(void);
 void MotorSafety(void);
-int LockMotors(int,int,int);
+int LockMotors(int,int);
+
+unsigned int getConstrained(unsigned int pin, unsigned int max, unsigned int min, int increment);

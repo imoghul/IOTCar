@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          02/Mar/2022  11:38:14
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Mar/2022  08:20:06
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\timers.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW47C5.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW55C.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\timers.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -326,7 +326,7 @@ C:\Users\saad\Documents\ece-306\Project 07\timers.c
    \   00000C   A2D24004     BIS.W   #0x4, &0x440
      59            
      60            TB3CCR0 = WHEEL_PERIOD;
-   \   000010   B240204E5204 MOV.W   #0x4e20, &0x452
+   \   000010   B240409C5204 MOV.W   #0x9c40, &0x452
      61            
      62            TB3CCTL1 = OUTMOD_7;
    \   000016   B240E0004404 MOV.W   #0xe0, &0x444
@@ -388,7 +388,7 @@ C:\Users\saad\Documents\ece-306\Project 07\timers.c
    \   000002   1F42....     MOV.W   &timer0Counter, R15
    \   000006   1F53         ADD.W   #0x1, R15
    \   000008   824F....     MOV.W   R15, &timer0Counter
-   \   00000C   3F905902     CMP.W   #0x259, R15
+   \   00000C   3F90BD02     CMP.W   #0x2bd, R15
    \   000010   0220         JNE     ??Timer0_B0_ISR_0
    \   000012   9243....     MOV.W   #0x1, &timer0Counter
      96            if(timer0Counter%TIME_SEQUENCE_TIMER_COUNT==0)
@@ -414,7 +414,7 @@ C:\Users\saad\Documents\ece-306\Project 07\timers.c
     100            if(timer0Counter%CHECK_ADC_TIMER_COUNT==0){
    \                     ??Timer0_B0_ISR_2:
    \   000044   1C42....     MOV.W   &timer0Counter, R12
-   \   000048   3E400C00     MOV.W   #0xc, R14
+   \   000048   3E400E00     MOV.W   #0xe, R14
    \   00004C   ........     CALLA   #?DivMod16u
    \   000050   0E93         CMP.W   #0x0, R14
    \   000052   0220         JNE     ??Timer0_B0_ISR_3

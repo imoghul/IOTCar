@@ -7,5 +7,12 @@ int GetOutput(PIDController* pidController, int setPoint, int current){
   int derivative = pidController->error-pidController->lastError;
   pidController->lastError = pidController->error;
   pidController->lastIntegral = integral;
-  return (int)(pidController->error*pidController->kP + derivative*pidController->kD + integral*pidController->kI);
+  int errorTerm = pidController->error*pidController->kP;
+  return (int)(errorTerm + derivative*pidController->kD + integral*pidController->kI);
+}
+
+void ClearController(PIDController* pidController){
+  pidController->error = 0;
+  pidController->lastError = 0;
+  pidController->lastIntegral = 0;
 }

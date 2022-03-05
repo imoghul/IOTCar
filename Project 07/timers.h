@@ -6,7 +6,7 @@
 #define TIME_SEQUENCE_MAX       (250)
 #define TIME_SEQUENCE_TIMER_COUNT     (1)
 #define UPDATE_DISPLAY_TIMER_COUNT     (50)
-#define CHECK_ADC_TIMER_COUNT          (12)
+#define CHECK_ADC_TIMER_COUNT          (14)
 
 void Init_Timers(void);
 void Init_Timer_B0(void);

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          02/Mar/2022  12:15:09
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Mar/2022  15:30:20
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\pid.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW18B6.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW89CA.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\pid.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -57,7 +57,9 @@ C:\Users\saad\Documents\ece-306\Project 07\pid.c
    \   000020   98480C000E00 MOV.W   0xc(R8), 0xe(R8)
       9            pidController->lastIntegral = integral;
    \   000026   88471000     MOV.W   R7, 0x10(R8)
-     10            return (int)(pidController->error*pidController->kP + derivative*pidController->kD + integral*pidController->kI);
+     10            int errorTerm = pidController->error*pidController->kP;
+                                   ^
+Warning[Pa093]: implicit conversion from floating point to integer
    \   00002A   1C480C00     MOV.W   0xc(R8), R12
    \   00002E   0D4C         MOV.W   R12, R13
    \   000030   0D5D         RLA.W   R13
@@ -67,43 +69,64 @@ C:\Users\saad\Documents\ece-306\Project 07\pid.c
    \   00003A   2E48         MOV.W   @R8, R14
    \   00003C   1F480200     MOV.W   0x2(R8), R15
    \   000040   ........     CALLA   #_Mul32f
-   \   000044   0A4C         MOV.W   R12, R10
-   \   000046   0B4D         MOV.W   R13, R11
-   \   000048   0C44         MOV.W   R4, R12
-   \   00004A   0D4C         MOV.W   R12, R13
-   \   00004C   0D5D         RLA.W   R13
-   \   00004E   0D7D         SUBC.W  R13, R13
-   \   000050   3DE3         XOR.W   #0xffff, R13
-   \   000052   ........     CALLA   #_Cast32sto32f
-   \   000056   1E480400     MOV.W   0x4(R8), R14
-   \   00005A   1F480600     MOV.W   0x6(R8), R15
-   \   00005E   ........     CALLA   #_Mul32f
-   \   000062   0E4A         MOV.W   R10, R14
-   \   000064   0F4B         MOV.W   R11, R15
-   \   000066   ........     CALLA   #_Add32f
-   \   00006A   0A4C         MOV.W   R12, R10
-   \   00006C   0B4D         MOV.W   R13, R11
-   \   00006E   0C47         MOV.W   R7, R12
-   \   000070   0D4C         MOV.W   R12, R13
-   \   000072   0D5D         RLA.W   R13
-   \   000074   0D7D         SUBC.W  R13, R13
-   \   000076   3DE3         XOR.W   #0xffff, R13
-   \   000078   ........     CALLA   #_Cast32sto32f
-   \   00007C   1E480800     MOV.W   0x8(R8), R14
-   \   000080   1F480A00     MOV.W   0xa(R8), R15
-   \   000084   ........     CALLA   #_Mul32f
-   \   000088   0E4A         MOV.W   R10, R14
-   \   00008A   0F4B         MOV.W   R11, R15
-   \   00008C   ........     CALLA   #_Add32f
-   \   000090   ........     CALLA   #_Cast32fto32s
-   \   000094   7417         POPM.W  #0x8, R11
-   \   000096   1001         RETA
-     11          }
+   \   000044   ........     CALLA   #_Cast32fto32s
+     11            return (int)(errorTerm + derivative*pidController->kD + integral*pidController->kI);
+   \   000048   0D4C         MOV.W   R12, R13
+   \   00004A   0D5D         RLA.W   R13
+   \   00004C   0D7D         SUBC.W  R13, R13
+   \   00004E   3DE3         XOR.W   #0xffff, R13
+   \   000050   ........     CALLA   #_Cast32sto32f
+   \   000054   0A4C         MOV.W   R12, R10
+   \   000056   0B4D         MOV.W   R13, R11
+   \   000058   0C44         MOV.W   R4, R12
+   \   00005A   0D4C         MOV.W   R12, R13
+   \   00005C   0D5D         RLA.W   R13
+   \   00005E   0D7D         SUBC.W  R13, R13
+   \   000060   3DE3         XOR.W   #0xffff, R13
+   \   000062   ........     CALLA   #_Cast32sto32f
+   \   000066   1E480400     MOV.W   0x4(R8), R14
+   \   00006A   1F480600     MOV.W   0x6(R8), R15
+   \   00006E   ........     CALLA   #_Mul32f
+   \   000072   0E4A         MOV.W   R10, R14
+   \   000074   0F4B         MOV.W   R11, R15
+   \   000076   ........     CALLA   #_Add32f
+   \   00007A   0A4C         MOV.W   R12, R10
+   \   00007C   0B4D         MOV.W   R13, R11
+   \   00007E   0C47         MOV.W   R7, R12
+   \   000080   0D4C         MOV.W   R12, R13
+   \   000082   0D5D         RLA.W   R13
+   \   000084   0D7D         SUBC.W  R13, R13
+   \   000086   3DE3         XOR.W   #0xffff, R13
+   \   000088   ........     CALLA   #_Cast32sto32f
+   \   00008C   1E480800     MOV.W   0x8(R8), R14
+   \   000090   1F480A00     MOV.W   0xa(R8), R15
+   \   000094   ........     CALLA   #_Mul32f
+   \   000098   0E4A         MOV.W   R10, R14
+   \   00009A   0F4B         MOV.W   R11, R15
+   \   00009C   ........     CALLA   #_Add32f
+   \   0000A0   ........     CALLA   #_Cast32fto32s
+   \   0000A4   7417         POPM.W  #0x8, R11
+   \   0000A6   1001         RETA
+     12          }
+     13          
+
+   \                                 In  segment CODE, align 2
+     14          void ClearController(PIDController* pidController){
+   \                     ClearController:
+     15            pidController->error = 0;
+   \   000000   8C430C00     MOV.W   #0x0, 0xc(R12)
+     16            pidController->lastError = 0;
+   \   000004   8C430E00     MOV.W   #0x0, 0xe(R12)
+     17            pidController->lastIntegral = 0;
+   \   000008   8C431000     MOV.W   #0x0, 0x10(R12)
+     18          }
+   \   00000C   1001         RETA
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
+      4   ClearController
      20   GetOutput
        20 _Add32f
        20 _Cast32fto32s
@@ -115,12 +138,13 @@ C:\Users\saad\Documents\ece-306\Project 07\pid.c
 
    Bytes  Function/Label
    -----  --------------
-     152  GetOutput
+      14  ClearController
+     168  GetOutput
 
  
- 152 bytes in segment CODE
+ 182 bytes in segment CODE
  
- 152 bytes of CODE memory
+ 182 bytes of CODE memory
 
 Errors: none
-Warnings: none
+Warnings: 1
