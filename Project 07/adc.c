@@ -39,7 +39,7 @@ void Init_ADC(void){
 // ADCCTL2 Register
   ADCCTL2 = 0;
   ADCCTL2 |= ADCPDIV0;
-  ADCCTL2 |= ADCRES_2;
+  ADCCTL2 |= ADCRES_1;
   ADCCTL2 &= ~ADCDF;
   ADCCTL2 &= ~ADCSR;
 // ADCMCTL0 Register
@@ -103,7 +103,7 @@ __interrupt void ADC_ISR(void){
           ADC_Thumb = ADCMEM0; 
           ADC_Thumb = ADC_Thumb >> 2; 
           ADCCTL0 |= ADCSC;
-          HEXtoBCD(ADC_Thumb,1,0); 
+          //HEXtoBCD(ADC_Thumb,2,0); 
           break; 
         case 0x01:
           ADCMCTL0 &= ~ADCINCH_9; 
@@ -133,14 +133,14 @@ __interrupt void ADC_ISR(void){
           ADCMCTL0 &= ~ADCINCH_2; 
           ADCMCTL0 = ADCINCH_3; 
           ADC_Left_Detect = ADCMEM0; 
-          ADC_Left_Detect = ADC_Left_Detect >> 7; 
+          ADC_Left_Detect = ADC_Left_Detect >> 4; 
           ADCCTL0 |= ADCSC;
           break; 
         case 0x05:
           ADCMCTL0 &= ~ADCINCH_3; 
           ADCMCTL0 = ADCINCH_5; 
           ADC_Right_Detect = ADCMEM0; 
-          ADC_Right_Detect = ADC_Right_Detect >> 7; 
+          ADC_Right_Detect = ADC_Right_Detect >> 4; 
           break; 
         case 0x06:
           adcUpdated = 1;

@@ -36,6 +36,7 @@
 #define TURN            ('T')        
 #define STRAIGHT        ('s')
 #define LINEFOLLOW      ('L')
+#define EXIT            ('e')
 
 int RunRightMotor( int val);
 int RunLeftMotor( int val);

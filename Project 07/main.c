@@ -106,11 +106,11 @@ void main(void){
     StateMachine();                     // Run wheels state machine
     MotorSafety();
     P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-    /*if(enteringDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
-    else if(enteringDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
-    else if (enteringDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
-    else if (enteringDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
-    
+    /*if(movingDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
+    else if(movingDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
+    else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
+    else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
+    display_changed = 1;
     if(Last_Time_Sequence!=Time_Sequence){ 
       Last_Time_Sequence=Time_Sequence;
       cycle_count++;

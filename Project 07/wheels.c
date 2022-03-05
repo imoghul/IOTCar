@@ -25,8 +25,8 @@ volatile unsigned int rightSwitchable=1, leftSwitchable=1;
 unsigned int temp;
 extern char movingDirection;
 char enteringDirection = NOT_MOVING;
-extern int leftVals[MEMORY_LEN];
-extern int rightVals[MEMORY_LEN];
+extern int leftVals[VALUES_TO_HOLD];
+extern int rightVals[VALUES_TO_HOLD];
 PIDController rightController = {
   .kP = 15,
   .kD = 0,
@@ -158,6 +158,8 @@ int Drive_Path(int speedR,int speedL, unsigned int ticksDuration){
 void Straight(void){
   
   if (stateCounter == 0) {
+    strcpy(display_line[0], "INTERCEPT ");
+    display_changed = 1;
     EmitterOn();
     stateCounter++;
   }
@@ -169,7 +171,7 @@ void Straight(void){
       int left = ADC_Left_Detect;
       int right = ADC_Right_Detect;
       if(left>right) enteringDirection = MOVING_LEFT;
-      else if(left<right) enteringDirection = MOVING_RIGHT;
+      else enteringDirection = MOVING_RIGHT;
       stateCounter++;
     }
   }
@@ -185,33 +187,34 @@ void Straight(void){
   else if (stateCounter==4) {
     ShutoffMotors();
     stateCounter = 0 ;
-    state = TURN;    
+    state = WAIT;    
     delayTime = 3;
     stopwatch_seconds = 0;
     cycle_count = 0;
     nextState = TURN;
     EmitterOff();
-    strcpy(display_line[1], "BLACK LINE");
-    strcpy(display_line[2], " DETECTED ");
-    display_changed = 1;
+    //strcpy(display_line[1], "BLACK LINE");
+    //strcpy(display_line[2], " DETECTED ");
+    //display_changed = 1;
   }
 }
 
 void Turn(){
   if (stateCounter == 0) {
     EmitterOn();
+    strcpy(display_line[0], "  TURNING ");
     strcpy(display_line[1], "          ");
     strcpy(display_line[2], "          ");
     display_changed = 1;
-    stateCounter=2;
+    stateCounter=1;
   }
-  /*if(stateCounter==1){if(enteringDirection == MOVING_LEFT){
+  if(stateCounter==1){if(enteringDirection == MOVING_LEFT){
       if(Drive_Path(STRAIGHT_RIGHT/2,-STRAIGHT_LEFT/2,20)) stateCounter++;
     }
     else if(enteringDirection == MOVING_RIGHT){
       if(Drive_Path(-STRAIGHT_RIGHT/2,STRAIGHT_LEFT/2,20)) stateCounter++;
     }
-  }*/
+  }
   if (stateCounter==2){
     if (((ADC_Left_Detect <= LEFT_LINE_DETECT || ADC_Right_Detect <= RIGHT_LINE_DETECT))){
       if(enteringDirection == MOVING_LEFT)Drive_Path(STRAIGHT_RIGHT/4,-STRAIGHT_LEFT/4,0);
@@ -222,7 +225,10 @@ void Turn(){
   else if (stateCounter==3) {
     ShutoffMotors();
     stateCounter = 0 ;
-    state = LINEFOLLOW;    
+    state = WAIT;    
+    delayTime = 3;
+    stopwatch_seconds = 0;
+    cycle_count = 0;
     nextState = LINEFOLLOW;
     EmitterOff();
   }
@@ -231,6 +237,11 @@ void Turn(){
 void LineFollow(){
   if (stateCounter == 0) {
     EmitterOn();
+    strcpy(display_line[0], " CIRCLING ");
+    display_changed = 1;
+    stopwatch_seconds = 0;
+    cycle_count = 0;
+    delayTime = 3;
     if(rightSwitchable && leftSwitchable)stateCounter++;
   }
   
@@ -240,8 +251,8 @@ void LineFollow(){
       return;
     }*/
     // METHOD 1
-    /*int leftPIDOut = GetOutput(&leftController, 8, ADC_Left_Detect);
-    int rightPIDOut = GetOutput(&rightController, 8, ADC_Right_Detect);
+    /*int leftPIDOut = GetOutput(&leftController, 10, ADC_Left_Detect);
+    int rightPIDOut = GetOutput(&rightController, 10, ADC_Right_Detect);
     int rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN,leftPIDOut);
     //rSpeed = additionSafe(rSpeed,RIGHT_MAX/2,-RIGHT_MAX/2,-rightPIDOut);
     int lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,RIGHT_MIN,rightPIDOut);
@@ -267,10 +278,11 @@ void LineFollow(){
     if(abs(rSpeed)<RIGHT_MIN) rSpeed = (rSpeed/abs(rSpeed))*RIGHT_MIN;
     if(abs(lSpeed)<LEFT_MIN) lSpeed = (lSpeed/abs(lSpeed))*LEFT_MIN;
     
-    
-    HEXtoBCD(LEFT_FORWARD_SPEED/10, 2,0);
-    HEXtoBCD(RIGHT_FORWARD_SPEED/10, 2,6);*/
+    */
+    if(delay(delayTime,0)) stateCounter = 5;
     Drive_Path(rSpeed,lSpeed,0);
+    //HEXtoBCD(LEFT_FORWARD_SPEED/10, 2,0);
+    //HEXtoBCD(RIGHT_FORWARD_SPEED/10, 2,6);
   }
   
   if(stateCounter == 2){
@@ -282,6 +294,7 @@ void LineFollow(){
   }
   
   if(stateCounter == 3){
+    if(delay(delayTime,0)) stateCounter = 5;
      if(ADC_Left_Detect<LEFT_LINE_DETECT)
        Drive_Path(RCIRC_RIGHT/4,-RCIRC_LEFT, 0);
      else if (ADC_Left_Detect>=LEFT_LINE_DETECT && ADC_Right_Detect>=RIGHT_LINE_DETECT) stateCounter = 1;
@@ -290,6 +303,7 @@ void LineFollow(){
   }
   
   if(stateCounter == 4){
+    if(delay(delayTime,0)) stateCounter = 5;
      if(ADC_Right_Detect<RIGHT_LINE_DETECT)
        Drive_Path(-LCIRC_RIGHT,LCIRC_LEFT/4, 0);
      else if (ADC_Left_Detect>=LEFT_LINE_DETECT && ADC_Right_Detect>=RIGHT_LINE_DETECT) stateCounter = 1;
@@ -297,13 +311,45 @@ void LineFollow(){
        stateCounter = 3;
   }
  
-  else if (stateCounter==7) {
+  else if (stateCounter==5) {
+    ShutoffMotors();
+    stateCounter = 0 ;
+    state = WAIT;    
+    stopwatch_seconds = 0;
+    cycle_count = 0;
+    nextState = EXIT;
+    EmitterOff();
+  }
+}
+
+void Exit(){
+  if (stateCounter == 0) {
+    EmitterOn();
+    strcpy(display_line[0], "  EXITING ");
+    display_changed = 1;
+    if(rightSwitchable && leftSwitchable)stateCounter++;
+  }
+  
+  if (stateCounter == 1){
+    if(enteringDirection == MOVING_LEFT){
+      if(Drive_Path(-STRAIGHT_RIGHT,STRAIGHT_LEFT,75)) stateCounter++;
+    }
+    else if (enteringDirection == MOVING_RIGHT){
+      if(Drive_Path(STRAIGHT_RIGHT,-STRAIGHT_LEFT,75)) stateCounter++;
+    }
+  }
+  
+  if (stateCounter == 2){
+    if(Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,150)) stateCounter++;
+  }
+ 
+  else if (stateCounter==3) {
     ShutoffMotors();
     stateCounter = 0 ;
     state = END;    
     stopwatch_seconds = 0;
     cycle_count = 0;
-    nextState = LINEFOLLOW;
+    nextState = END;
     EmitterOff();
   }
 }
@@ -313,8 +359,8 @@ void LineFollow(){
 // make sure nextState is set to desired vlaue before the end of delay
 int delay(int seconds,int cycles){
   if(stopwatch_seconds == 0 && cycle_count<=1) {
-    //strcpy(display_line[0], "WAITING...");
-    //display_changed = 1;
+    strcpy(display_line[0], "WAITING...");
+    display_changed = 1;
   }
   if(stopwatch_seconds>=seconds && cycle_count >= cycles) {
     stopwatch_seconds = 0;
@@ -347,8 +393,11 @@ void StateMachine(void){
     case (LINEFOLLOW):
       LineFollow();
       break;
+    case (EXIT):
+      Exit();
+      break;
     case (END):
-      strcpy(display_line[0], "    END   ");
+      strcpy(display_line[0], "  STOPPED ");
       display_changed = 1;
       break;
     default: break;  

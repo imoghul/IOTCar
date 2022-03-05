@@ -6,11 +6,11 @@
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 char movingDirection;
-int rightVals[MEMORY_LEN];
+int rightVals[VALUES_TO_HOLD];
 extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
 int lastLeft;
 int lastRight;
-int leftVals[MEMORY_LEN];
+int leftVals[VALUES_TO_HOLD];
 extern volatile unsigned int adcUpdated;
 
 void EmitterOn(void){
@@ -39,24 +39,27 @@ void DetectMovement(void){
   lastLeft = currLeft;
   lastRight = currRight;
   
-  if(abs(rightDiff)<10) rightDiff = 0;
-  if(abs(leftDiff)<10) leftDiff = 0;
+  if(abs(rightDiff)<2) rightDiff = 0;
+  if(abs(leftDiff)<2) leftDiff = 0;
   
   if(leftDiff)push(leftVals,currLeft);
   else clearList(leftVals);
   if(rightDiff)push(rightVals,currRight);
   else clearList(rightVals);
   
-  int avgLeft = average(leftVals);
-  int avgRight = average(rightVals);
-  if((avgLeft != 0 && avgRight == 0) || avgLeft>avgRight) movingDirection = MOVING_LEFT;
-  else if((avgLeft == 0 && avgRight != 0) || avgLeft<avgRight) movingDirection = MOVING_RIGHT;
-  //else if(avgLeft == 0 && avgRight == 0) movingDirection = NOT_MOVING;
-  //else movingDirection = MOVING_STRAIGHT;
+  if(validList(rightVals) || validList(leftVals)){
+    char dirR = getDirection(rightVals);
+    char dirL= getDirection(leftVals);
+    
+    if(dirR==INCREASING || dirL==DECREASING) movingDirection = MOVING_RIGHT;
+    else if(dirR==DECREASING || dirL==INCREASING) movingDirection = MOVING_LEFT;
+    else movingDirection = NOT_MOVING;
+  }
+  else movingDirection = NOT_MOVING;
 }
 
 void push(int list[], int val){
-  for(int i = MEMORY_LEN-1;i>0;--i) list[i] = list[i-1];
+  for(int i = VALUES_TO_HOLD-1;i>0;--i) list[i] = list[i-1];
   list[0] = val;
 }
 
@@ -64,12 +67,28 @@ void clearList(int list[]){
   for (int i = 0;list[i]!=0;++i) list[i]=0;
 }
 
-int average(int * list){
+int validList(int* list){
+  for(int i = 0;i<VALUES_TO_HOLD;++i) if(list[i]==0)return 0;
+  return 1;
+}
+
+int rollingSum(int * list){
   int sum = 0;
-  for (int i = 0;i<MEMORY_LEN;++i){
+  for (int i = 0;i<VALUES_TO_HOLD;++i){
     sum+=list[i];
   }
   return sum;
+}
+
+char getDirection(int* list){
+  int increasing = 0,decreasing = 0;
+  for(int i = 1;i<VALUES_TO_HOLD && list[i]!=0;++i){
+    if(abs(list[i]-list[i-1])>0){
+      if(list[i]>list[i-1]) decreasing++;
+      else increasing++;
+    }
+  }
+  return increasing>decreasing?INCREASING:(increasing==decreasing?NEUTRAL:DECREASING);
 }
 
 unsigned int abs(int n){
