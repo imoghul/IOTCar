@@ -11,7 +11,7 @@ extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
 int lastLeft;
 int lastRight;
 int leftVals[MEMORY_LEN];
-extern unsigned int adcUpdated;
+extern volatile unsigned int adcUpdated;
 
 void EmitterOn(void){
   P6OUT |= IR_LED;

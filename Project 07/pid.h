@@ -8,3 +8,6 @@ typedef struct PID PIDController;
 
 int GetOutput(PIDController* pidController, int setPoint, int current);
 void ClearController(PIDController* pidController);
+
+int additionSafe( int pin,  int max,  int min, int increment);
+double multSafe(double a, double b);

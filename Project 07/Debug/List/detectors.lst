@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Mar/2022  08:20:05
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Mar/2022  12:02:54
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\detectors.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW183.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW6C9.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\detectors.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -75,7 +75,7 @@ C:\Users\saad\Documents\ece-306\Project 07\detectors.c
      13          int leftVals[MEMORY_LEN];
    \                     leftVals:
    \   000000                DS8 200
-     14          extern unsigned int adcUpdated;
+     14          extern volatile unsigned int adcUpdated;
      15          
 
    \                                 In  segment CODE, align 2

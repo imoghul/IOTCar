@@ -28,7 +28,7 @@ char enteringDirection = NOT_MOVING;
 extern int leftVals[MEMORY_LEN];
 extern int rightVals[MEMORY_LEN];
 PIDController rightController = {
-  .kP = 7,
+  .kP = 15,
   .kD = 0,
   .kI = 0,
   .error = 0,
@@ -36,7 +36,7 @@ PIDController rightController = {
   .lastIntegral = 0
 };
 PIDController leftController = {
-  .kP = 7,
+  .kP = 15,
   .kD = 0,
   .kI = 0,
   .error = 0,
@@ -79,48 +79,48 @@ void MotorSafety(void){
   }
 }
 
-int RunRightMotor(unsigned int val, int polarity){
-  if(RIGHT_REVERSE_SPEED>0 && polarity>0 || RIGHT_FORWARD_SPEED>0 && polarity<0){
+int RunRightMotor(int val){
+  if(RIGHT_REVERSE_SPEED>0 && val>0 || RIGHT_FORWARD_SPEED>0 && val<0){
     ShutoffRight();
   }
-  if (polarity>0){
+  if (val>0){
     RIGHT_REVERSE_SPEED = WHEEL_OFF;
     if(rightSwitchable) RIGHT_FORWARD_SPEED = val;
     return P6IN&R_FORWARD;
   }
-  else if (polarity==0){
+  else if (val==0){
     ShutoffRight();
     return rightSwitchable;
   }
   else{
     RIGHT_FORWARD_SPEED = WHEEL_OFF;
     if(rightSwitchable) {
-      RIGHT_REVERSE_SPEED = val; 
+      RIGHT_REVERSE_SPEED = -val; 
     }
     return P6IN&R_REVERSE;
   }
   //MotorSafety();
 }
 
-int RunLeftMotor(unsigned int val, int polarity){
-  if(LEFT_REVERSE_SPEED>0 && polarity>0 || LEFT_FORWARD_SPEED>0 && polarity<0){
+int RunLeftMotor( int val){
+  if(LEFT_REVERSE_SPEED>0 && val>0 || LEFT_FORWARD_SPEED>0 && val<0){
     ShutoffLeft();
   }
-  if (polarity>0){
+  if (val>0){
     LEFT_REVERSE_SPEED = WHEEL_OFF;
     if(leftSwitchable) {
       LEFT_FORWARD_SPEED = val;
     }
     return P6IN&L_FORWARD;
   }
-  else if (polarity==0){
+  else if (val==0){
     ShutoffLeft();
     return leftSwitchable;
   }
   else{
     LEFT_FORWARD_SPEED = WHEEL_OFF;
     if(leftSwitchable) {
-      LEFT_REVERSE_SPEED = val;
+      LEFT_REVERSE_SPEED = -val;
     }
     return P6IN&L_REVERSE_2355;
   }
@@ -128,7 +128,7 @@ int RunLeftMotor(unsigned int val, int polarity){
 }
 
 int LockMotors(int polR,int polL){
-  return (Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,polR,polL, 5));
+  return (Drive_Path(polR*STRAIGHT_RIGHT,polL*STRAIGHT_LEFT, 5));
 }
 
 int Update_Ticks(int max_tick){
@@ -139,9 +139,9 @@ int Update_Ticks(int max_tick){
   return 0;
 }
 
-int Drive_Path(unsigned int speedR, unsigned int speedL,int polarR,int polarL, unsigned int ticksDuration){  
-  int successR = RunRightMotor(speedR,polarR); 
-  int successL = RunLeftMotor(speedL,polarL);
+int Drive_Path(int speedR,int speedL, unsigned int ticksDuration){  
+  int successR = RunRightMotor(speedR); 
+  int successL = RunLeftMotor(speedL);
   if(ticksDuration == 0) return successR && successL;
   if (time_change){
     time_change = 0;
@@ -153,25 +153,7 @@ int Drive_Path(unsigned int speedR, unsigned int speedL,int polarR,int polarL, u
   return 0;
 }
 
-unsigned int getConstrained(unsigned int val, unsigned int max, unsigned int min, int increment){
-    unsigned int out = abs(increment);
-    unsigned int speed = val;
-    
-    if (increment > 0) {
-      speed = val + out;
-      if(speed<val) speed = max;
-    }
-    if (increment < 0) {
-      speed = val - out;
-      if(speed>val) speed = min;
-    }
-    
-    
-    if(speed>max)speed = max;
-    if(speed<min)speed = min;
-    
-    return speed;
-}
+
 
 void Straight(void){
   
@@ -181,7 +163,7 @@ void Straight(void){
   }
   if(stateCounter==1){
     if ((ADC_Left_Detect <= LEFT_LINE_DETECT && ADC_Right_Detect <= RIGHT_LINE_DETECT)){
-      Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,1,1, 0);
+      Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, 0);
     }
     else{
       int left = ADC_Left_Detect;
@@ -196,7 +178,7 @@ void Straight(void){
   }
   if (stateCounter==3){
     if (((ADC_Left_Detect <= LEFT_LINE_DETECT && ADC_Right_Detect <= RIGHT_LINE_DETECT))){
-      Drive_Path(STRAIGHT_RIGHT/5,STRAIGHT_LEFT/5,-1,-1,0);
+      Drive_Path(-STRAIGHT_RIGHT/5,-STRAIGHT_LEFT/5,0);
     }
     else stateCounter++;
   }
@@ -221,19 +203,19 @@ void Turn(){
     strcpy(display_line[1], "          ");
     strcpy(display_line[2], "          ");
     display_changed = 1;
-    stateCounter++;
+    stateCounter=2;
   }
-  if(stateCounter==1){if(enteringDirection == MOVING_LEFT){
-      if(Drive_Path(STRAIGHT_RIGHT/2,STRAIGHT_LEFT/2,1,-1,20)) stateCounter++;
+  /*if(stateCounter==1){if(enteringDirection == MOVING_LEFT){
+      if(Drive_Path(STRAIGHT_RIGHT/2,-STRAIGHT_LEFT/2,20)) stateCounter++;
     }
     else if(enteringDirection == MOVING_RIGHT){
-      if(Drive_Path(STRAIGHT_RIGHT/2,STRAIGHT_LEFT/2,-1,1,20)) stateCounter++;
+      if(Drive_Path(-STRAIGHT_RIGHT/2,STRAIGHT_LEFT/2,20)) stateCounter++;
     }
-  }
+  }*/
   if (stateCounter==2){
     if (((ADC_Left_Detect <= LEFT_LINE_DETECT || ADC_Right_Detect <= RIGHT_LINE_DETECT))){
-      if(enteringDirection == MOVING_LEFT)Drive_Path(STRAIGHT_RIGHT/4,STRAIGHT_LEFT/4,1,-1,0);
-      if(enteringDirection == MOVING_RIGHT)Drive_Path(STRAIGHT_RIGHT/4,STRAIGHT_LEFT/4,-1,1,0);
+      if(enteringDirection == MOVING_LEFT)Drive_Path(STRAIGHT_RIGHT/4,-STRAIGHT_LEFT/4,0);
+      if(enteringDirection == MOVING_RIGHT)Drive_Path(-STRAIGHT_RIGHT/4,STRAIGHT_LEFT/4,0);
     }
     else stateCounter++;
   }
@@ -249,90 +231,79 @@ void Turn(){
 void LineFollow(){
   if (stateCounter == 0) {
     EmitterOn();
-    stateCounter++;
+    if(rightSwitchable && leftSwitchable)stateCounter++;
   }
   
   if(stateCounter == 1){
-    if(ADC_Right_Detect<RIGHT_LINE_DETECT && ADC_Left_Detect<LEFT_LINE_DETECT) {
-      stateCounter = 2;
+    /*if(ADC_Right_Detect<RIGHT_LINE_DETECT && ADC_Left_Detect<LEFT_LINE_DETECT) {
+      stateCounter = 3;
       return;
-    }
+    }*/
     // METHOD 1
-    int leftPIDOut = GetOutput(&leftController, 8, ADC_Left_Detect);
+    /*int leftPIDOut = GetOutput(&leftController, 8, ADC_Left_Detect);
     int rightPIDOut = GetOutput(&rightController, 8, ADC_Right_Detect);
-    unsigned int rSpeed = getConstrained(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN,leftPIDOut);
-    //rSpeed = getConstrained(rSpeed,RIGHT_MAX,RIGHT_MIN,-rightPIDOut);
-    unsigned int lSpeed = getConstrained(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN,rightPIDOut);
-    //lSpeed = getConstrained(lSpeed,LEFT_MAX,LEFT_MIN,-leftPIDOut);
-    
-    // METHOD 2
-    //int PIDOut = GetOutput(&leftController, ADC_Right_Detect, ADC_Left_Detect);
-    //unsigned int rSpeed = getConstrained(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN,PIDOut);
-    //unsigned int lSpeed = getConstrained(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN,-PIDOut);
-    
-    // METHOD 3 (Bang bang)
-    /*unsigned int rSpeed = RIGHT_MAX;
-    unsigned int lSpeed = LEFT_MAX;
-    if(ADC_Left_Detect<LEFT_LINE_DETECT || ADC_Right_Detect<RIGHT_LINE_DETECT) stateCounter = 2;
+    int rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN,leftPIDOut);
+    //rSpeed = additionSafe(rSpeed,RIGHT_MAX/2,-RIGHT_MAX/2,-rightPIDOut);
+    int lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,RIGHT_MIN,rightPIDOut);
+    //lSpeed = additionSafe(lSpeed,LEFT_MAX/2,-LEFT_MIN/2,-leftPIDOut);
     */
+    // METHOD 2
+    /*int PIDOut = GetOutput(&leftController, ADC_Right_Detect, ADC_Left_Detect);
+    unsigned int rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN,PIDOut);
+    unsigned int lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN,-PIDOut);
+    */
+    // METHOD 3 (Bang bang)
+    int rSpeed = RIGHT_MAX;
+    int lSpeed = LEFT_MAX;
+    if(ADC_Left_Detect<LEFT_LINE_DETECT || ADC_Right_Detect<RIGHT_LINE_DETECT) stateCounter = 2;
     
-    if(ADC_Left_Detect>=LEFT_LINE_DETECT && ADC_Right_Detect>=RIGHT_LINE_DETECT){
+    
+    /*if(ADC_Left_Detect>=LEFT_LINE_DETECT && ADC_Right_Detect>=RIGHT_LINE_DETECT){
       //rSpeed = RIGHT_MAX/2;
       //lSpeed = LEFT_MAX/2;
       ClearController(&rightController);
       ClearController(&leftController);
     }
+    if(abs(rSpeed)<RIGHT_MIN) rSpeed = (rSpeed/abs(rSpeed))*RIGHT_MIN;
+    if(abs(lSpeed)<LEFT_MIN) lSpeed = (lSpeed/abs(lSpeed))*LEFT_MIN;
     
-    Drive_Path(rSpeed,lSpeed, 1,1,0);
+    
     HEXtoBCD(LEFT_FORWARD_SPEED/10, 2,0);
-    HEXtoBCD(RIGHT_FORWARD_SPEED/10, 2,6);
+    HEXtoBCD(RIGHT_FORWARD_SPEED/10, 2,6);*/
+    Drive_Path(rSpeed,lSpeed,0);
   }
   
-  if(stateCounter==2){ // backup
-    if(ADC_Right_Detect<RIGHT_LINE_DETECT && ADC_Left_Detect<LEFT_LINE_DETECT) 
-      Drive_Path(STRAIGHT_RIGHT/3,STRAIGHT_LEFT/3,-1,-1,0);
-    else {
-      stateCounter = 1;
-      rightController.error = 0;
-      rightController.lastError = 0;
-      rightController.lastIntegral = 0;
-      leftController.error = 0;
-      leftController.lastError = 0;
-      leftController.lastIntegral = 0;
-    }
-  }
-  
-  /*if(stateCounter==3)
-    if (LockMotors(1,1)) stateCounter=4;
-  
-  if (stateCounter==4){ // turn 
-    if (((ADC_Left_Detect >= LEFT_LINE_DETECT && ADC_Right_Detect <= RIGHT_LINE_DETECT))){
-      stateCounter = 5;
-    } else if (((ADC_Left_Detect <= LEFT_LINE_DETECT && ADC_Right_Detect >= RIGHT_LINE_DETECT))){
-      stateCounter = 6;
-    }
-    else stateCounter=1;
-  }
-  
-  if (stateCounter == 5){
-    if (ADC_Left_Detect<LEFT_LINE_DETECT || ADC_Right_Detect<RIGHT_LINE_DETECT) 
-      Drive_Path(LCIRC_RIGHT/4,LCIRC_LEFT/4,1,1,0);
-    else
-      stateCounter = 1;
-  }
-  
-  if (stateCounter == 6){
-    if (ADC_Left_Detect<LEFT_LINE_DETECT  || ADC_Right_Detect<RIGHT_LINE_DETECT) 
-      Drive_Path(RCIRC_RIGHT/4,RCIRC_LEFT/4,1,1,0);
-    else
+  if(stateCounter == 2){
+    if(ADC_Left_Detect<LEFT_LINE_DETECT && ADC_Right_Detect>=RIGHT_LINE_DETECT) // RCIRC
       stateCounter = 3;
-  }*/
+    else if(ADC_Left_Detect>=LEFT_LINE_DETECT && ADC_Right_Detect<RIGHT_LINE_DETECT) // LCIRC
+      stateCounter = 4;
+    else stateCounter = 1;
+  }
   
+  if(stateCounter == 3){
+     if(ADC_Left_Detect<LEFT_LINE_DETECT)
+       Drive_Path(RCIRC_RIGHT/4,-RCIRC_LEFT, 0);
+     else if (ADC_Left_Detect>=LEFT_LINE_DETECT && ADC_Right_Detect>=RIGHT_LINE_DETECT) stateCounter = 1;
+     else 
+       stateCounter = 4;
+  }
+  
+  if(stateCounter == 4){
+     if(ADC_Right_Detect<RIGHT_LINE_DETECT)
+       Drive_Path(-LCIRC_RIGHT,LCIRC_LEFT/4, 0);
+     else if (ADC_Left_Detect>=LEFT_LINE_DETECT && ADC_Right_Detect>=RIGHT_LINE_DETECT) stateCounter = 1;
+     else 
+       stateCounter = 3;
+  }
+ 
   else if (stateCounter==7) {
     ShutoffMotors();
     stateCounter = 0 ;
-    state = START;    
-    nextState = END;
+    state = END;    
+    stopwatch_seconds = 0;
+    cycle_count = 0;
+    nextState = LINEFOLLOW;
     EmitterOff();
   }
 }
