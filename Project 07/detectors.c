@@ -1,7 +1,9 @@
 #include "msp430.h"
 #include "ports.h"
+#include "adc.h"
 #include "wheels.h"
 #include <string.h>
+#include "sm.h"
 #include "detectors.h"
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
@@ -11,22 +13,24 @@ extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
 int lastLeft;
 int lastRight;
 int leftVals[VALUES_TO_HOLD];
+unsigned int leftBlackVal, rightBlackVal, leftWhiteVal, rightWhiteVal;
 extern volatile unsigned int adcUpdated;
+extern volatile unsigned int calibratingMode;
 
 void EmitterOn(void){
   P6OUT |= IR_LED;
-  P6OUT |= GRN_LED;
-  strcpy(display_line[0], "EMITTER ON");
-  display_changed = 1;
+  //P6OUT |= GRN_LED;
+  //strcpy(display_line[0], "EMITTER ON");
+  //display_changed = 1;
 }
 
 void EmitterOff(void){
   P6OUT &= ~IR_LED;
-  P6OUT &= ~GRN_LED;
-  strcpy(display_line[0], "EMITER OFF");
-  strcpy(display_line[2], "          ");
-  strcpy(display_line[3], "          ");
-  display_changed = 1;
+  //P6OUT &= ~GRN_LED;
+  //strcpy(display_line[0], "EMITER OFF");
+  //strcpy(display_line[2], "          ");
+  //strcpy(display_line[3], "          ");
+  //display_changed = 1;
 }
 
 void DetectMovement(void){

@@ -28,14 +28,15 @@ build led.pbi : index led.xcl
 build main.pbi : index main.xcl
 build pid.pbi : index pid.xcl
 build ports.pbi : index ports.xcl
+build sm.pbi : index sm.xcl
 build switches.pbi : index switches.xcl
 build system.pbi : index system.xcl
 build timers.pbi : index timers.xcl
 build wheels.pbi : index wheels.xcl
-build Project$ 07$ simple_part0.pbi : link adc.pbi clocks.pbi detectors.pbi
-build Project$ 07$ simple_part1.pbi : link init.pbi led.pbi main.pbi
-build Project$ 07$ simple_part2.pbi : link pid.pbi ports.pbi switches.pbi
-build Project$ 07$ simple_part3.pbi : link system.pbi timers.pbi wheels.pbi
+build Project$ 07$ simple_part0.pbi : link adc.pbi clocks.pbi detectors.pbi init.pbi
+build Project$ 07$ simple_part1.pbi : link led.pbi main.pbi pid.pbi ports.pbi
+build Project$ 07$ simple_part2.pbi : link sm.pbi switches.pbi system.pbi timers.pbi
+build Project$ 07$ simple_part3.pbi : link wheels.pbi
 build Project$ 07$ simple.pbd : link Project$ 07$ simple_part0.pbi Project$ 07$ simple_part1.pbi Project$ 07$ simple_part2.pbi Project$ 07$ simple_part3.pbi
 build Project$ 07$ simple.pbw : browsedata Project$ 07$ simple.pbd
 

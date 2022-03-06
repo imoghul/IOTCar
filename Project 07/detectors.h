@@ -14,4 +14,5 @@ void clearList(int list[]);
 int rollingSum(int * list);
 char getDirection(int* list);
 int validList(int* list);
+void calibrate(void);
 unsigned int abs(int);

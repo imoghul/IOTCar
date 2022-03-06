@@ -26,24 +26,17 @@
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
 // detectors
-#define LEFT_LINE_DETECT        (10)
-#define RIGHT_LINE_DETECT       (10)
-// states
-#define START           ('S')
-#define WAIT            ('W')
-#define END             ('E')
-#define ARM             ('A')
-#define TURN            ('T')        
-#define STRAIGHT        ('s')
-#define LINEFOLLOW      ('L')
-#define EXIT            ('e')
+#define LEFT_BLACK_DETECT        10//(leftBlackVal)
+#define RIGHT_BLACK_DETECT       10//(rightBlackVal)
+#define LEFT_WHITE_DETECT        4//(leftWhiteVal)
+#define RIGHT_WHITE_DETECT       4//(rightWhiteVal)
+
 
 int RunRightMotor( int val);
 int RunLeftMotor( int val);
 int Update_Ticks(int);
 int Drive_Path( int, int,unsigned int);
 int delay(int seconds,int cycles);
-void StateMachine(void);
 void ShutoffMotors(void);
 void ShutoffRight(void);
 void ShutoffLeft(void);

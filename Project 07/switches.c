@@ -3,6 +3,7 @@
 #include "ports.h"
 #include "wheels.h"
 #include "macros.h"
+#include "sm.h"
 #include "timers.h"
 #include "detectors.h"
 #include <string.h>
@@ -18,6 +19,7 @@ extern volatile unsigned int debouncing1, debouncing2;
 extern volatile unsigned int backliteBlinking;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
+volatile unsigned int calibratingMode;
 
 //===========================================================================
 // Function name: switchP4_interrupt
@@ -76,16 +78,10 @@ __interrupt void switchP2_interrupt(void){
     P2IE &= ~SW2;
     P2IFG &= ~SW2;
     TB0CCTL2 &= ~CCIFG;
+    TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
     TB0CCTL2 |= CCIE; // CCR1 enable interrupt
     debouncing2 = TRUE;
-    
-    //debounce_count2 = 0;
-    TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
     // Actual Code
-    if(P6IN&IR_LED)
-      EmitterOff();
-    else 
-      EmitterOn();
   }
 }
 

@@ -1,0 +1,821 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          06/Mar/2022  17:26:31
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\sm.c
+#    Command line  =  
+#        -f C:\Users\saad\AppData\Local\Temp\EW860F.tmp
+#        ("C:\Users\saad\Documents\ece-306\Project 07\sm.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
+#        --core=430X --data_model=small -On --multiplier=32
+#        --hw_workaround=CPU40 --code_model=large)
+#    Locale        =  English_USA.1252
+#    List file     =  
+#        C:\Users\saad\Documents\ece-306\Project 07\Debug\List\sm.lst
+#    Object file   =  
+#        C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj\sm.r43
+#
+###############################################################################
+
+C:\Users\saad\Documents\ece-306\Project 07\sm.c
+      1          #include "msp430.h"
+      2          #include "ports.h"
+      3          #include "wheels.h"
+      4          #include "sm.h"
+      5          #include <string.h>
+      6          #include "adc.h"
+      7          #include "timers.h"
+      8          #include "detectors.h"
+      9          #include "pid.h"
+     10          
+     11          extern volatile unsigned int cycle_count;
+     12          extern volatile unsigned int stopwatch_milliseconds;
+     13          extern volatile unsigned int stopwatch_seconds;
+     14          extern volatile unsigned char display_changed;
+     15          extern char display_line[4][11];
+     16          extern volatile unsigned int wheel_periods;
+
+   \                                 In  segment DATA16_I, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     17          volatile char state = START;
+   \                     state:
+   \   000000                DS8 1
+   \   000001                REQUIRE `?<Initializer for state>`
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     18          volatile int stateCounter;
+   \                     stateCounter:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_I, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     19          volatile char nextState = STRAIGHT;
+   \                     nextState:
+   \   000000                DS8 1
+   \   000001                REQUIRE `?<Initializer for nextState>`
+     20          extern volatile unsigned int Time_Sequence;
+     21          extern volatile unsigned int Last_Time_Sequence;
+     22          extern volatile unsigned int time_change;
+
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     23          volatile unsigned int delayTime = 1;
+   \                     delayTime:
+   \   000000                DS8 2
+   \   000002                REQUIRE `?<Initializer for delayTime>`
+     24          extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
+     25          extern volatile unsigned int rightSwitchable, leftSwitchable;
+     26          extern unsigned int temp;
+     27          extern char movingDirection;
+
+   \                                 In  segment DATA16_I, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     28          char enteringDirection = NOT_MOVING;
+   \                     enteringDirection:
+   \   000000                DS8 1
+   \   000001                REQUIRE `?<Initializer for enteringDirection>`
+     29          extern int leftVals[VALUES_TO_HOLD];
+     30          extern int rightVals[VALUES_TO_HOLD];
+     31          extern unsigned int leftBlackVal, rightBlackVal, leftWhiteVal, rightWhiteVal;
+     32          extern volatile unsigned int calibratingMode;
+
+   \                                 In  segment CODE, align 2
+     33          void Straight(void){
+   \                     Straight:
+     34            
+     35            if (stateCounter == 0) {
+   \   000000   8293....     CMP.W   #0x0, &stateCounter
+   \   000004   0C20         JNE     ??Straight_2
+     36              strcpy(display_line[0], "INTERCEPT ");
+   \   000006   3D40....     MOV.W   #`?<Constant "INTERCEPT ">`, R13
+   \   00000A   3C40....     MOV.W   #display_line, R12
+   \   00000E   ........     CALLA   #strcpy
+     37              display_changed = 1;
+   \   000012   D243....     MOV.B   #0x1, &display_changed
+     38              EmitterOn();
+   \   000016   ........     CALLA   #EmitterOn
+     39              stateCounter++;
+   \   00001A   9253....     ADD.W   #0x1, &stateCounter
+     40            }
+     41            if(stateCounter==1){
+   \                     ??Straight_2:
+   \   00001E   9293....     CMP.W   #0x1, &stateCounter
+   \   000022   1F20         JNE     ??Straight_0
+     42              if ((ADC_Left_Detect <= LEFT_BLACK_DETECT || ADC_Right_Detect <= RIGHT_BLACK_DETECT)){
+   \   000024   B2900B00.... CMP.W   #0xb, &ADC_Left_Detect
+   \   00002A   0428         JNC     ??Straight_3
+   \   00002C   B2900B00.... CMP.W   #0xb, &ADC_Right_Detect
+   \   000032   082C         JC      ??Straight_4
+     43                Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, 0);
+   \                     ??Straight_3:
+   \   000034   0E43         MOV.W   #0x0, R14
+   \   000036   3D40803E     MOV.W   #0x3e80, R13
+   \   00003A   3C40204E     MOV.W   #0x4e20, R12
+   \   00003E   ........     CALLA   #Drive_Path
+   \   000042   0F3C         JMP     ??Straight_0
+     44              }
+     45              else{
+     46                int left = ADC_Left_Detect;
+   \                     ??Straight_4:
+   \   000044   1F42....     MOV.W   &ADC_Left_Detect, R15
+     47                int right = ADC_Right_Detect;
+   \   000048   1E42....     MOV.W   &ADC_Right_Detect, R14
+     48                if(left>right) enteringDirection = MOVING_LEFT;
+   \   00004C   0E9F         CMP.W   R15, R14
+   \   00004E   0434         JGE     ??Straight_5
+   \   000050   F2404C00.... MOV.B   #0x4c, &enteringDirection
+   \   000056   033C         JMP     ??Straight_1
+     49                else enteringDirection = MOVING_RIGHT;
+   \                     ??Straight_5:
+   \   000058   F2405200.... MOV.B   #0x52, &enteringDirection
+     50                stateCounter++;
+   \                     ??Straight_1:
+   \   00005E   9253....     ADD.W   #0x1, &stateCounter
+     51              }
+     52            }
+     53            if(stateCounter==2){
+   \                     ??Straight_0:
+   \   000062   A293....     CMP.W   #0x2, &stateCounter
+   \   000066   0920         JNE     ??Straight_6
+     54              if(LockMotors(-1,-1)) stateCounter++;
+   \   000068   3D43         MOV.W   #0xffff, R13
+   \   00006A   3C43         MOV.W   #0xffff, R12
+   \   00006C   ........     CALLA   #LockMotors
+   \   000070   0C93         CMP.W   #0x0, R12
+   \   000072   1A24         JEQ     ??Straight_7
+   \   000074   9253....     ADD.W   #0x1, &stateCounter
+   \   000078   1001         RETA
+     55            }
+     56            
+     57            else if (stateCounter==3) {
+   \                     ??Straight_6:
+   \   00007A   B2900300.... CMP.W   #0x3, &stateCounter
+   \   000080   1320         JNE     ??Straight_7
+     58              ShutoffMotors();
+   \   000082   ........     CALLA   #ShutoffMotors
+     59              stateCounter = 0 ;
+   \   000086   8243....     MOV.W   #0x0, &stateCounter
+     60              state = WAIT;    
+   \   00008A   F2405700.... MOV.B   #0x57, &state
+     61              delayTime = 3;
+   \   000090   B2400300.... MOV.W   #0x3, &delayTime
+     62              stopwatch_seconds = 0;
+   \   000096   8243....     MOV.W   #0x0, &stopwatch_seconds
+     63              cycle_count = 0;
+   \   00009A   8243....     MOV.W   #0x0, &cycle_count
+     64              nextState = TURN;
+   \   00009E   F2405400.... MOV.B   #0x54, &nextState
+     65              EmitterOff();
+   \   0000A4   ........     CALLA   #EmitterOff
+     66              //strcpy(display_line[1], "BLACK LINE");
+     67              //strcpy(display_line[2], " DETECTED ");
+     68              //display_changed = 1;
+     69            }
+     70          }
+   \                     ??Straight_7:
+   \   0000A8   1001         RETA
+     71          
+
+   \                                 In  segment CODE, align 2
+     72          void Turn(){
+   \                     Turn:
+     73            if (stateCounter == 0) {
+   \   000000   8293....     CMP.W   #0x0, &stateCounter
+   \   000004   1820         JNE     ??Turn_1
+     74              EmitterOn();
+   \   000006   ........     CALLA   #EmitterOn
+     75              strcpy(display_line[0], "  TURNING ");
+   \   00000A   3D40....     MOV.W   #`?<Constant "  TURNING ">`, R13
+   \   00000E   3C40....     MOV.W   #display_line, R12
+   \   000012   ........     CALLA   #strcpy
+     76              strcpy(display_line[1], "          ");
+   \   000016   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00001A   3C40....     MOV.W   #display_line + 11, R12
+   \   00001E   ........     CALLA   #strcpy
+     77              strcpy(display_line[2], "          ");
+   \   000022   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000026   3C40....     MOV.W   #display_line + 22, R12
+   \   00002A   ........     CALLA   #strcpy
+     78              display_changed = 1;
+   \   00002E   D243....     MOV.B   #0x1, &display_changed
+     79              stateCounter=1;
+   \   000032   9243....     MOV.W   #0x1, &stateCounter
+     80            }
+     81            if(stateCounter==1){
+   \                     ??Turn_1:
+   \   000036   9293....     CMP.W   #0x1, &stateCounter
+   \   00003A   2120         JNE     ??Turn_0
+     82              if(enteringDirection == MOVING_LEFT){
+   \   00003C   F2904C00.... CMP.B   #0x4c, &enteringDirection
+   \   000042   0D20         JNE     ??Turn_2
+     83                if(Drive_Path(STRAIGHT_RIGHT/2,-STRAIGHT_LEFT/2,20)) stateCounter++;
+   \   000044   3E401400     MOV.W   #0x14, R14
+   \   000048   3D40C0E0     MOV.W   #0xe0c0, R13
+   \   00004C   3C401027     MOV.W   #0x2710, R12
+   \   000050   ........     CALLA   #Drive_Path
+   \   000054   0C93         CMP.W   #0x0, R12
+   \   000056   1324         JEQ     ??Turn_0
+   \   000058   9253....     ADD.W   #0x1, &stateCounter
+   \   00005C   103C         JMP     ??Turn_0
+     84              }
+     85              else if(enteringDirection == MOVING_RIGHT){
+   \                     ??Turn_2:
+   \   00005E   F2905200.... CMP.B   #0x52, &enteringDirection
+   \   000064   0C20         JNE     ??Turn_0
+     86                if(Drive_Path(-STRAIGHT_RIGHT/2,STRAIGHT_LEFT/2,20)) stateCounter++;
+   \   000066   3E401400     MOV.W   #0x14, R14
+   \   00006A   3D40401F     MOV.W   #0x1f40, R13
+   \   00006E   3C40F0D8     MOV.W   #0xd8f0, R12
+   \   000072   ........     CALLA   #Drive_Path
+   \   000076   0C93         CMP.W   #0x0, R12
+   \   000078   0224         JEQ     ??Turn_0
+   \   00007A   9253....     ADD.W   #0x1, &stateCounter
+     87              }
+     88            }
+     89            if (stateCounter==2){
+   \                     ??Turn_0:
+   \   00007E   A293....     CMP.W   #0x2, &stateCounter
+   \   000082   2220         JNE     ??Turn_3
+     90              if (((ADC_Left_Detect < LEFT_BLACK_DETECT || ADC_Right_Detect < RIGHT_BLACK_DETECT))){
+   \   000084   B2900A00.... CMP.W   #0xa, &ADC_Left_Detect
+   \   00008A   0428         JNC     ??Turn_4
+   \   00008C   B2900A00.... CMP.W   #0xa, &ADC_Right_Detect
+   \   000092   172C         JC      ??Turn_5
+     91                if(enteringDirection == MOVING_LEFT)Drive_Path(STRAIGHT_RIGHT/4,-STRAIGHT_LEFT/4,0);
+   \                     ??Turn_4:
+   \   000094   F2904C00.... CMP.B   #0x4c, &enteringDirection
+   \   00009A   0720         JNE     ??Turn_6
+   \   00009C   0E43         MOV.W   #0x0, R14
+   \   00009E   3D4060F0     MOV.W   #0xf060, R13
+   \   0000A2   3C408813     MOV.W   #0x1388, R12
+   \   0000A6   ........     CALLA   #Drive_Path
+     92                if(enteringDirection == MOVING_RIGHT)Drive_Path(-STRAIGHT_RIGHT/4,STRAIGHT_LEFT/4,0);
+   \                     ??Turn_6:
+   \   0000AA   F2905200.... CMP.B   #0x52, &enteringDirection
+   \   0000B0   2220         JNE     ??Turn_7
+   \   0000B2   0E43         MOV.W   #0x0, R14
+   \   0000B4   3D40A00F     MOV.W   #0xfa0, R13
+   \   0000B8   3C4078EC     MOV.W   #0xec78, R12
+   \   0000BC   ........     CALLA   #Drive_Path
+   \   0000C0   1001         RETA
+     93              }
+     94              else stateCounter++;
+   \                     ??Turn_5:
+   \   0000C2   9253....     ADD.W   #0x1, &stateCounter
+   \   0000C6   1001         RETA
+     95            }
+     96            else if (stateCounter==3) {
+   \                     ??Turn_3:
+   \   0000C8   B2900300.... CMP.W   #0x3, &stateCounter
+   \   0000CE   1320         JNE     ??Turn_7
+     97              ShutoffMotors();
+   \   0000D0   ........     CALLA   #ShutoffMotors
+     98              stateCounter = 0 ;
+   \   0000D4   8243....     MOV.W   #0x0, &stateCounter
+     99              state = WAIT;    
+   \   0000D8   F2405700.... MOV.B   #0x57, &state
+    100              delayTime = 3;
+   \   0000DE   B2400300.... MOV.W   #0x3, &delayTime
+    101              stopwatch_seconds = 0;
+   \   0000E4   8243....     MOV.W   #0x0, &stopwatch_seconds
+    102              cycle_count = 0;
+   \   0000E8   8243....     MOV.W   #0x0, &cycle_count
+    103              nextState = LINEFOLLOW;
+   \   0000EC   F2404C00.... MOV.B   #0x4c, &nextState
+    104              EmitterOff();
+   \   0000F2   ........     CALLA   #EmitterOff
+    105            }
+    106          }
+   \                     ??Turn_7:
+   \   0000F6   1001         RETA
+    107          
+
+   \                                 In  segment CODE, align 2
+    108          void LineFollow(){
+   \                     LineFollow:
+   \   000000   1B15         PUSHM.W #0x2, R11
+    109            if (stateCounter == 0) {
+   \   000002   8293....     CMP.W   #0x0, &stateCounter
+   \   000006   1620         JNE     ??LineFollow_3
+    110              EmitterOn();
+   \   000008   ........     CALLA   #EmitterOn
+    111              strcpy(display_line[0], " CIRCLING ");
+   \   00000C   3D40....     MOV.W   #`?<Constant " CIRCLING ">`, R13
+   \   000010   3C40....     MOV.W   #display_line, R12
+   \   000014   ........     CALLA   #strcpy
+    112              display_changed = 1;
+   \   000018   D243....     MOV.B   #0x1, &display_changed
+    113              stopwatch_seconds = 0;
+   \   00001C   8243....     MOV.W   #0x0, &stopwatch_seconds
+    114              cycle_count = 0;
+   \   000020   8243....     MOV.W   #0x0, &cycle_count
+    115              if(rightSwitchable && leftSwitchable)stateCounter++;
+   \   000024   8293....     CMP.W   #0x0, &rightSwitchable
+   \   000028   0524         JEQ     ??LineFollow_3
+   \   00002A   8293....     CMP.W   #0x0, &leftSwitchable
+   \   00002E   0224         JEQ     ??LineFollow_3
+   \   000030   9253....     ADD.W   #0x1, &stateCounter
+    116            }
+    117            
+    118            if(stateCounter == 1){
+   \                     ??LineFollow_3:
+   \   000034   9293....     CMP.W   #0x1, &stateCounter
+   \   000038   1D20         JNE     ??LineFollow_4
+    119              
+    120              int rSpeed = RIGHT_MAX;
+   \   00003A   3A408813     MOV.W   #0x1388, R10
+    121              int lSpeed = LEFT_MAX;
+   \   00003E   3B40A00F     MOV.W   #0xfa0, R11
+    122              if(ADC_Left_Detect<LEFT_BLACK_DETECT || ADC_Right_Detect<RIGHT_BLACK_DETECT) stateCounter = 2;
+   \   000042   B2900A00.... CMP.W   #0xa, &ADC_Left_Detect
+   \   000048   0428         JNC     ??LineFollow_5
+   \   00004A   B2900A00.... CMP.W   #0xa, &ADC_Right_Detect
+   \   000050   022C         JC      ??LineFollow_6
+   \                     ??LineFollow_5:
+   \   000052   A243....     MOV.W   #0x2, &stateCounter
+    123              
+    124              if(delay(30,0)) stateCounter = 5;
+   \                     ??LineFollow_6:
+   \   000056   0D43         MOV.W   #0x0, R13
+   \   000058   3C401E00     MOV.W   #0x1e, R12
+   \   00005C   ........     CALLA   #delay
+   \   000060   0C93         CMP.W   #0x0, R12
+   \   000062   0324         JEQ     ??LineFollow_7
+   \   000064   B2400500.... MOV.W   #0x5, &stateCounter
+    125              Drive_Path(rSpeed,lSpeed,0);
+   \                     ??LineFollow_7:
+   \   00006A   0E43         MOV.W   #0x0, R14
+   \   00006C   0D4B         MOV.W   R11, R13
+   \   00006E   0C4A         MOV.W   R10, R12
+   \   000070   ........     CALLA   #Drive_Path
+    126            }
+    127            
+    128            if(stateCounter == 2){
+   \                     ??LineFollow_4:
+   \   000074   A293....     CMP.W   #0x2, &stateCounter
+   \   000078   1920         JNE     ??LineFollow_0
+    129              if(ADC_Left_Detect<LEFT_BLACK_DETECT && ADC_Right_Detect>=RIGHT_BLACK_DETECT) // RCIRC
+   \   00007A   B2900A00.... CMP.W   #0xa, &ADC_Left_Detect
+   \   000080   082C         JC      ??LineFollow_8
+   \   000082   B2900A00.... CMP.W   #0xa, &ADC_Right_Detect
+   \   000088   0428         JNC     ??LineFollow_8
+    130                stateCounter = 3;
+   \   00008A   B2400300.... MOV.W   #0x3, &stateCounter
+   \   000090   0D3C         JMP     ??LineFollow_0
+    131              else if(ADC_Left_Detect>=LEFT_BLACK_DETECT && ADC_Right_Detect<RIGHT_BLACK_DETECT) // LCIRC
+   \                     ??LineFollow_8:
+   \   000092   B2900A00.... CMP.W   #0xa, &ADC_Left_Detect
+   \   000098   0728         JNC     ??LineFollow_9
+   \   00009A   B2900A00.... CMP.W   #0xa, &ADC_Right_Detect
+   \   0000A0   032C         JC      ??LineFollow_9
+    132                stateCounter = 4;
+   \   0000A2   A242....     MOV.W   #0x4, &stateCounter
+   \   0000A6   023C         JMP     ??LineFollow_0
+    133              else stateCounter = 1;
+   \                     ??LineFollow_9:
+   \   0000A8   9243....     MOV.W   #0x1, &stateCounter
+    134            }
+    135            
+    136            if(stateCounter == 3){ // turn left ()
+   \                     ??LineFollow_0:
+   \   0000AC   B2900300.... CMP.W   #0x3, &stateCounter
+   \   0000B2   1720         JNE     ??LineFollow_1
+    137               if(ADC_Left_Detect<LEFT_BLACK_DETECT)Drive_Path(RCIRC_RIGHT/4,-RCIRC_LEFT, 0);
+   \   0000B4   B2900A00.... CMP.W   #0xa, &ADC_Left_Detect
+   \   0000BA   082C         JC      ??LineFollow_10
+   \   0000BC   0E43         MOV.W   #0x0, R14
+   \   0000BE   3D4048F4     MOV.W   #0xf448, R13
+   \   0000C2   3C408813     MOV.W   #0x1388, R12
+   \   0000C6   ........     CALLA   #Drive_Path
+   \   0000CA   0B3C         JMP     ??LineFollow_1
+    138               else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
+   \                     ??LineFollow_10:
+   \   0000CC   A292....     CMP.W   #0x4, &ADC_Left_Detect
+   \   0000D0   0628         JNC     ??LineFollow_11
+   \   0000D2   A292....     CMP.W   #0x4, &ADC_Right_Detect
+   \   0000D6   0328         JNC     ??LineFollow_11
+   \   0000D8   9243....     MOV.W   #0x1, &stateCounter
+   \   0000DC   023C         JMP     ??LineFollow_1
+    139               else stateCounter = 4;
+   \                     ??LineFollow_11:
+   \   0000DE   A242....     MOV.W   #0x4, &stateCounter
+    140            }
+    141            
+    142            if(stateCounter == 4){
+   \                     ??LineFollow_1:
+   \   0000E2   A292....     CMP.W   #0x4, &stateCounter
+   \   0000E6   1920         JNE     ??LineFollow_12
+    143               if(ADC_Right_Detect<RIGHT_BLACK_DETECT)Drive_Path(-LCIRC_RIGHT,LCIRC_LEFT/4, 0);
+   \   0000E8   B2900A00.... CMP.W   #0xa, &ADC_Right_Detect
+   \   0000EE   082C         JC      ??LineFollow_13
+   \   0000F0   0E43         MOV.W   #0x0, R14
+   \   0000F2   3D408813     MOV.W   #0x1388, R13
+   \   0000F6   3C4048F4     MOV.W   #0xf448, R12
+   \   0000FA   ........     CALLA   #Drive_Path
+   \   0000FE   213C         JMP     ??LineFollow_2
+    144               else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
+   \                     ??LineFollow_13:
+   \   000100   A292....     CMP.W   #0x4, &ADC_Left_Detect
+   \   000104   0628         JNC     ??LineFollow_14
+   \   000106   A292....     CMP.W   #0x4, &ADC_Right_Detect
+   \   00010A   0328         JNC     ??LineFollow_14
+   \   00010C   9243....     MOV.W   #0x1, &stateCounter
+   \   000110   183C         JMP     ??LineFollow_2
+    145               else stateCounter = 3;
+   \                     ??LineFollow_14:
+   \   000112   B2400300.... MOV.W   #0x3, &stateCounter
+   \   000118   143C         JMP     ??LineFollow_2
+    146            }
+    147           
+    148            else if (stateCounter==5) {
+   \                     ??LineFollow_12:
+   \   00011A   B2900500.... CMP.W   #0x5, &stateCounter
+   \   000120   1020         JNE     ??LineFollow_2
+    149              ShutoffMotors();
+   \   000122   ........     CALLA   #ShutoffMotors
+    150              stateCounter = 0 ;
+   \   000126   8243....     MOV.W   #0x0, &stateCounter
+    151              state = WAIT;    
+   \   00012A   F2405700.... MOV.B   #0x57, &state
+    152              stopwatch_seconds = 0;
+   \   000130   8243....     MOV.W   #0x0, &stopwatch_seconds
+    153              cycle_count = 0;
+   \   000134   8243....     MOV.W   #0x0, &cycle_count
+    154              nextState = EXIT;
+   \   000138   F2406500.... MOV.B   #0x65, &nextState
+    155              EmitterOff();
+   \   00013E   ........     CALLA   #EmitterOff
+    156            }
+    157          }
+   \                     ??LineFollow_2:
+   \   000142   1A17         POPM.W  #0x2, R11
+   \   000144   1001         RETA
+    158          
+
+   \                                 In  segment CODE, align 2
+    159          void Exit(){
+   \                     Exit:
+    160            if (stateCounter == 0) {
+   \   000000   8293....     CMP.W   #0x0, &stateCounter
+   \   000004   1220         JNE     ??Exit_1
+    161              EmitterOn();
+   \   000006   ........     CALLA   #EmitterOn
+    162              strcpy(display_line[0], "  EXITING ");
+   \   00000A   3D40....     MOV.W   #`?<Constant "  EXITING ">`, R13
+   \   00000E   3C40....     MOV.W   #display_line, R12
+   \   000012   ........     CALLA   #strcpy
+    163              display_changed = 1;
+   \   000016   D243....     MOV.B   #0x1, &display_changed
+    164              if(rightSwitchable && leftSwitchable)stateCounter++;
+   \   00001A   8293....     CMP.W   #0x0, &rightSwitchable
+   \   00001E   0524         JEQ     ??Exit_1
+   \   000020   8293....     CMP.W   #0x0, &leftSwitchable
+   \   000024   0224         JEQ     ??Exit_1
+   \   000026   9253....     ADD.W   #0x1, &stateCounter
+    165            }
+    166            
+    167            if (stateCounter == 1){
+   \                     ??Exit_1:
+   \   00002A   9293....     CMP.W   #0x1, &stateCounter
+   \   00002E   2120         JNE     ??Exit_0
+    168              if(enteringDirection == MOVING_LEFT){
+   \   000030   F2904C00.... CMP.B   #0x4c, &enteringDirection
+   \   000036   0D20         JNE     ??Exit_2
+    169                if(Drive_Path(-STRAIGHT_RIGHT,STRAIGHT_LEFT,75)) stateCounter++;
+   \   000038   3E404B00     MOV.W   #0x4b, R14
+   \   00003C   3D40803E     MOV.W   #0x3e80, R13
+   \   000040   3C40E0B1     MOV.W   #0xb1e0, R12
+   \   000044   ........     CALLA   #Drive_Path
+   \   000048   0C93         CMP.W   #0x0, R12
+   \   00004A   1324         JEQ     ??Exit_0
+   \   00004C   9253....     ADD.W   #0x1, &stateCounter
+   \   000050   103C         JMP     ??Exit_0
+    170              }
+    171              else if (enteringDirection == MOVING_RIGHT){
+   \                     ??Exit_2:
+   \   000052   F2905200.... CMP.B   #0x52, &enteringDirection
+   \   000058   0C20         JNE     ??Exit_0
+    172                if(Drive_Path(STRAIGHT_RIGHT,-STRAIGHT_LEFT,75)) stateCounter++;
+   \   00005A   3E404B00     MOV.W   #0x4b, R14
+   \   00005E   3D4080C1     MOV.W   #0xc180, R13
+   \   000062   3C40204E     MOV.W   #0x4e20, R12
+   \   000066   ........     CALLA   #Drive_Path
+   \   00006A   0C93         CMP.W   #0x0, R12
+   \   00006C   0224         JEQ     ??Exit_0
+   \   00006E   9253....     ADD.W   #0x1, &stateCounter
+    173              }
+    174            }
+    175            
+    176            if (stateCounter == 2){
+   \                     ??Exit_0:
+   \   000072   A293....     CMP.W   #0x2, &stateCounter
+   \   000076   0D20         JNE     ??Exit_3
+    177              if(Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,150)) stateCounter++;
+   \   000078   3E409600     MOV.W   #0x96, R14
+   \   00007C   3D40803E     MOV.W   #0x3e80, R13
+   \   000080   3C40204E     MOV.W   #0x4e20, R12
+   \   000084   ........     CALLA   #Drive_Path
+   \   000088   0C93         CMP.W   #0x0, R12
+   \   00008A   1724         JEQ     ??Exit_4
+   \   00008C   9253....     ADD.W   #0x1, &stateCounter
+   \   000090   1001         RETA
+    178            }
+    179           
+    180            else if (stateCounter==3) {
+   \                     ??Exit_3:
+   \   000092   B2900300.... CMP.W   #0x3, &stateCounter
+   \   000098   1020         JNE     ??Exit_4
+    181              ShutoffMotors();
+   \   00009A   ........     CALLA   #ShutoffMotors
+    182              stateCounter = 0 ;
+   \   00009E   8243....     MOV.W   #0x0, &stateCounter
+    183              state = END;    
+   \   0000A2   F2404500.... MOV.B   #0x45, &state
+    184              stopwatch_seconds = 0;
+   \   0000A8   8243....     MOV.W   #0x0, &stopwatch_seconds
+    185              cycle_count = 0;
+   \   0000AC   8243....     MOV.W   #0x0, &cycle_count
+    186              nextState = END;
+   \   0000B0   F2404500.... MOV.B   #0x45, &nextState
+    187              EmitterOff();
+   \   0000B6   ........     CALLA   #EmitterOff
+    188            }
+    189          }
+   \                     ??Exit_4:
+   \   0000BA   1001         RETA
+    190          
+    191          
+    192          // delays for a specified time and then switches state to global nextState
+    193          // make sure nextState is set to desired vlaue before the end of delay
+
+   \                                 In  segment CODE, align 2
+    194          int delay(int seconds,int cycles){
+   \                     delay:
+   \   000000   1B15         PUSHM.W #0x2, R11
+   \   000002   0A4C         MOV.W   R12, R10
+   \   000004   0B4D         MOV.W   R13, R11
+    195            if(stopwatch_seconds == 0 && cycle_count<=1) {
+   \   000006   8293....     CMP.W   #0x0, &stopwatch_seconds
+   \   00000A   0B20         JNE     ??delay_1
+   \   00000C   A293....     CMP.W   #0x2, &cycle_count
+   \   000010   082C         JC      ??delay_1
+    196              strcpy(display_line[0], "WAITING...");
+   \   000012   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
+   \   000016   3C40....     MOV.W   #display_line, R12
+   \   00001A   ........     CALLA   #strcpy
+    197              display_changed = 1;
+   \   00001E   D243....     MOV.B   #0x1, &display_changed
+    198            }
+    199            if(stopwatch_seconds>=seconds && cycle_count >= cycles) {
+   \                     ??delay_1:
+   \   000022   829A....     CMP.W   R10, &stopwatch_seconds
+   \   000026   0928         JNC     ??delay_2
+   \   000028   829B....     CMP.W   R11, &cycle_count
+   \   00002C   0628         JNC     ??delay_2
+    200              stopwatch_seconds = 0;
+   \   00002E   8243....     MOV.W   #0x0, &stopwatch_seconds
+    201              cycle_count = 0;
+   \   000032   8243....     MOV.W   #0x0, &cycle_count
+    202              return 1;
+   \   000036   1C43         MOV.W   #0x1, R12
+   \   000038   013C         JMP     ??delay_0
+    203            }
+    204            else return 0;
+   \                     ??delay_2:
+   \   00003A   0C43         MOV.W   #0x0, R12
+   \                     ??delay_0:
+   \   00003C   1A17         POPM.W  #0x2, R11
+   \   00003E   1001         RETA
+    205          }
+    206          
+    207          
+    208          
+
+   \                                 In  segment CODE, align 2
+    209          void StateMachine(void){
+   \                     StateMachine:
+    210            
+    211            switch(state){
+   \   000000   5E42....     MOV.B   &state, R14
+   \   000004   7E804500     SUB.B   #0x45, R14
+   \   000008   2E24         JEQ     ??StateMachine_2
+   \   00000A   7E800700     SUB.B   #0x7, R14
+   \   00000E   2524         JEQ     ??StateMachine_3
+   \   000010   7E800700     SUB.B   #0x7, R14
+   \   000014   0C24         JEQ     ??StateMachine_4
+   \   000016   5E83         SUB.B   #0x1, R14
+   \   000018   1D24         JEQ     ??StateMachine_5
+   \   00001A   7E800300     SUB.B   #0x3, R14
+   \   00001E   0C24         JEQ     ??StateMachine_6
+   \   000020   7E800E00     SUB.B   #0xe, R14
+   \   000024   1D24         JEQ     ??StateMachine_7
+   \   000026   7E800E00     SUB.B   #0xe, R14
+   \   00002A   1124         JEQ     ??StateMachine_8
+   \   00002C   1001         RETA
+    212              case (START):
+    213                //strcpy(display_line[0], "WAITING...");
+    214                //display_changed = 1;
+    215                stopwatch_seconds = 0;
+   \                     ??StateMachine_4:
+   \   00002E   8243....     MOV.W   #0x0, &stopwatch_seconds
+    216                cycle_count = 0;
+   \   000032   8243....     MOV.W   #0x0, &cycle_count
+    217                break;
+   \   000036   1001         RETA
+    218              case (WAIT):
+    219                if (delay(delayTime,0)) state = nextState;
+   \                     ??StateMachine_6:
+   \   000038   0D43         MOV.W   #0x0, R13
+   \   00003A   1C42....     MOV.W   &delayTime, R12
+   \   00003E   ........     CALLA   #delay
+   \   000042   0C93         CMP.W   #0x0, R12
+   \   000044   1824         JEQ     ??StateMachine_0
+   \   000046   D242........ MOV.B   &nextState, &state
+    220                break;
+   \   00004C   1001         RETA
+    221              case (STRAIGHT):
+    222                Straight();
+   \                     ??StateMachine_8:
+   \   00004E   ........     CALLA   #Straight
+    223                break;
+   \   000052   1001         RETA
+    224              case (TURN):
+    225                Turn();
+   \                     ??StateMachine_5:
+   \   000054   ........     CALLA   #Turn
+    226                break;
+   \   000058   1001         RETA
+    227              case (LINEFOLLOW):
+    228                LineFollow();
+   \                     ??StateMachine_3:
+   \   00005A   ........     CALLA   #LineFollow
+    229                break;
+   \   00005E   1001         RETA
+    230              case (EXIT):
+    231                Exit();
+   \                     ??StateMachine_7:
+   \   000060   ........     CALLA   #Exit
+    232                break;
+   \   000064   1001         RETA
+    233              case (END):
+    234                strcpy(display_line[0], "  STOPPED ");
+   \                     ??StateMachine_2:
+   \   000066   3D40....     MOV.W   #`?<Constant "  STOPPED ">`, R13
+   \   00006A   3C40....     MOV.W   #display_line, R12
+   \   00006E   ........     CALLA   #strcpy
+    235                display_changed = 1;
+   \   000072   D243....     MOV.B   #0x1, &display_changed
+    236                break;
+    237              default: break;  
+    238            }
+    239          }
+   \                     ??StateMachine_0:
+   \   000076   1001         RETA
+
+   \                                 In  segment DATA16_ID, align 1, align-sorted
+   \                     `?<Initializer for state>`:
+   \   000000   53           DC8 83
+
+   \                                 In  segment DATA16_ID, align 1, align-sorted
+   \                     `?<Initializer for nextState>`:
+   \   000000   73           DC8 115
+
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for delayTime>`:
+   \   000000   0100         DC16 1
+
+   \                                 In  segment DATA16_ID, align 1, align-sorted
+   \                     `?<Initializer for enteringDirection>`:
+   \   000000   4E           DC8 78
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "INTERCEPT ">`:
+   \   000000   494E54455243 DC8 "INTERCEPT "
+   \            4550542000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  TURNING ">`:
+   \   000000   20205455524E DC8 "  TURNING "
+   \            494E472000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "          ">`:
+   \   000000   202020202020 DC8 "          "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant " CIRCLING ">`:
+   \   000000   20434952434C DC8 " CIRCLING "
+   \            494E472000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  EXITING ">`:
+   \   000000   202045584954 DC8 "  EXITING "
+   \            494E472000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "WAITING...">`:
+   \   000000   57414954494E DC8 "WAITING..."
+   \            472E2E2E00  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  STOPPED ">`:
+   \   000000   202053544F50 DC8 "  STOPPED "
+   \            5045442000  
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   Exit
+        4   -> Drive_Path
+        4   -> EmitterOff
+        4   -> EmitterOn
+        4   -> ShutoffMotors
+        4   -> strcpy
+      8   LineFollow
+        8   -> Drive_Path
+        8   -> EmitterOff
+        8   -> EmitterOn
+        8   -> ShutoffMotors
+        8   -> delay
+        8   -> strcpy
+      4   StateMachine
+        4   -> Exit
+        4   -> LineFollow
+        4   -> Straight
+        4   -> Turn
+        4   -> delay
+        4   -> strcpy
+      4   Straight
+        4   -> Drive_Path
+        4   -> EmitterOff
+        4   -> EmitterOn
+        4   -> LockMotors
+        4   -> ShutoffMotors
+        4   -> strcpy
+      4   Turn
+        4   -> Drive_Path
+        4   -> EmitterOff
+        4   -> EmitterOn
+        4   -> ShutoffMotors
+        4   -> strcpy
+      8   delay
+        8   -> strcpy
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      11  ?<Constant "          ">
+      11  ?<Constant "  EXITING ">
+      11  ?<Constant "  STOPPED ">
+      11  ?<Constant "  TURNING ">
+      11  ?<Constant " CIRCLING ">
+      11  ?<Constant "INTERCEPT ">
+      11  ?<Constant "WAITING...">
+       2  ?<Initializer for delayTime>
+       1  ?<Initializer for enteringDirection>
+       1  ?<Initializer for nextState>
+       1  ?<Initializer for state>
+     188  Exit
+     326  LineFollow
+     120  StateMachine
+     170  Straight
+     248  Turn
+      64  delay
+       2  delayTime
+       1  enteringDirection
+       1  nextState
+       1  state
+       2  stateCounter
+
+ 
+ 1 116 bytes in segment CODE
+    77 bytes in segment DATA16_C
+     5 bytes in segment DATA16_I
+     5 bytes in segment DATA16_ID
+     2 bytes in segment DATA16_Z
+ 
+ 1 116 bytes of CODE  memory
+    82 bytes of CONST memory
+     7 bytes of DATA  memory
+
+Errors: none
+Warnings: none

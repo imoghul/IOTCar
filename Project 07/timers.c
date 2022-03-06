@@ -3,6 +3,7 @@
 #include "ports.h"
 #include "macros.h"
 #include "wheels.h"
+#include "sm.h"
 
 volatile unsigned int Time_Sequence;
 extern volatile unsigned char update_display;

@@ -5,6 +5,7 @@
 #include "wheels.h"
 #include "functions.h"
 #include "detectors.h"
+#include "sm.h"
 #include <string.h>
 
 volatile unsigned int ADC_Channel;
@@ -16,6 +17,8 @@ extern volatile unsigned char display_changed;
 extern volatile unsigned int checkAdc;
 extern volatile char state;
 volatile unsigned int adcUpdated;
+extern unsigned int leftBlackVal, rightBlackVal, leftWhiteVal, rightWhiteVal;
+extern volatile unsigned int calibratingMode;
 
 void Init_ADC(void){
 //------------------------------------------------------------------------------
@@ -134,6 +137,7 @@ __interrupt void ADC_ISR(void){
           ADCMCTL0 = ADCINCH_3; 
           ADC_Left_Detect = ADCMEM0; 
           ADC_Left_Detect = ADC_Left_Detect >> 4; 
+          
           ADCCTL0 |= ADCSC;
           break; 
         case 0x05:
@@ -141,6 +145,7 @@ __interrupt void ADC_ISR(void){
           ADCMCTL0 = ADCINCH_5; 
           ADC_Right_Detect = ADCMEM0; 
           ADC_Right_Detect = ADC_Right_Detect >> 4; 
+         
           break; 
         case 0x06:
           adcUpdated = 1;

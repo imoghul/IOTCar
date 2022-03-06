@@ -34,7 +34,7 @@ extern volatile unsigned int stopwatch_seconds;
 // Globals: display_changed
 // update_display
 //
-// Author: Ibrahim Moghul
+// Author: Jim Carlson
 // Date: Feb 2022
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
@@ -61,7 +61,7 @@ void Display_Process(void){
 // Time_Sequence
 // display_changed
 //
-// Author: Ibrahim Moghul
+// Author: Jim Carlson
 // Date: Feb 2022
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================

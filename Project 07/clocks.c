@@ -25,7 +25,7 @@ void Init_Clocks(void){
 //
 // Description: Configure ACLK = 32768Hz,
 //                        MCLK = DCO + XT1CLK REF = 8MHz,
-//                        SMCLK = MCLK/2 = 4MHz.
+//                        SMCLK = MCLK = 8MHz.
 // Toggle LED to indicate that the program is running.
 //
 // -----------------------------------------------------------------------------

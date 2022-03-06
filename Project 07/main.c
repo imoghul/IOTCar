@@ -21,6 +21,7 @@
 #include "timers.h"
 #include "adc.h"
 #include "detectors.h"
+#include "sm.h"
 // Function Prototypes
 void main(void);
 
@@ -40,7 +41,7 @@ extern volatile unsigned int wheel_tick;
 unsigned int test_value;
 char chosen_direction;
 char change;
-volatile unsigned int Last_Time_Sequence;
+unsigned int Last_Time_Sequence;
 volatile unsigned int cycle_count;
 volatile unsigned int stopwatch_seconds;
 volatile unsigned int time_change;
@@ -88,7 +89,7 @@ void main(void){
   Init_ADC();
   Init_REF();
   Init_DAC();
-  
+  EmitterOn();
   // Place the contents of what you want on the display, in between the quotes
 // Limited to 10 characters per line
   strcpy(display_line[0], "WAITING...");
