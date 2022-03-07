@@ -23,8 +23,7 @@ unsigned int temp;
 extern char movingDirection;
 extern int leftVals[VALUES_TO_HOLD];
 extern int rightVals[VALUES_TO_HOLD];
-extern unsigned int leftBlackVal, rightBlackVal, leftWhiteVal, rightWhiteVal;
-extern volatile unsigned int calibratingMode;
+
 
 PIDController rightController = {
   .kP = 15,

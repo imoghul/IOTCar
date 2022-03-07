@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          06/Mar/2022  17:24:24
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          06/Mar/2022  20:34:27
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW9401.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW9526.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -220,40 +220,39 @@ C:\Users\saad\Documents\ece-306\Project 07\main.c
     105              Display_Process();                  // Update Display
    \                     ??main_0:
    \   00005C   ........     CALLA   #Display_Process
-    106              DetectMovement();
-   \   000060   ........     CALLA   #DetectMovement
+    106              //DetectMovement();
     107              StateMachine();                     // Run wheels state machine
-   \   000064   ........     CALLA   #StateMachine
+   \   000060   ........     CALLA   #StateMachine
     108              MotorSafety();
-   \   000068   ........     CALLA   #MotorSafety
+   \   000064   ........     CALLA   #MotorSafety
     109              P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-   \   00006C   D2E32202     XOR.B   #0x1, &0x222
+   \   000068   D2E32202     XOR.B   #0x1, &0x222
     110              /*if(movingDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
     111              else if(movingDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
     112              else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
     113              else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
     114              display_changed = 1;
-   \   000070   D243....     MOV.B   #0x1, &display_changed
+   \   00006C   D243....     MOV.B   #0x1, &display_changed
     115              if(Last_Time_Sequence!=Time_Sequence){ 
-   \   000074   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
-   \   00007A   F027         JEQ     ??main_0
+   \   000070   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
+   \   000076   F227         JEQ     ??main_0
     116                Last_Time_Sequence=Time_Sequence;
-   \   00007C   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
+   \   000078   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
     117                cycle_count++;
-   \   000082   9253....     ADD.W   #0x1, &cycle_count
+   \   00007E   9253....     ADD.W   #0x1, &cycle_count
     118                time_change = 1;
-   \   000086   9243....     MOV.W   #0x1, &time_change
+   \   000082   9243....     MOV.W   #0x1, &time_change
     119                if(cycle_count == TIME_SEQUENCE_MAX){
-   \   00008A   B290FA00.... CMP.W   #0xfa, &cycle_count
-   \   000090   E523         JNE     ??main_0
+   \   000086   B290FA00.... CMP.W   #0xfa, &cycle_count
+   \   00008C   E723         JNE     ??main_0
     120                  cycle_count = 0;
-   \   000092   8243....     MOV.W   #0x0, &cycle_count
+   \   00008E   8243....     MOV.W   #0x0, &cycle_count
     121                  stopwatch_seconds++;
-   \   000096   9253....     ADD.W   #0x1, &stopwatch_seconds
-   \   00009A   E03F         JMP     ??main_0
-   \   00009C   0343         NOP
-   \   00009E                REQUIRE _A_PM5CTL0_L
-   \   00009E                REQUIRE _A_PBOUT_L
+   \   000092   9253....     ADD.W   #0x1, &stopwatch_seconds
+   \   000096   E23F         JMP     ??main_0
+   \   000098   0343         NOP
+   \   00009A                REQUIRE _A_PM5CTL0_L
+   \   00009A                REQUIRE _A_PBOUT_L
     122                }
     123              }
     124             }
@@ -277,7 +276,6 @@ C:\Users\saad\Documents\ece-306\Project 07\main.c
    CSTACK Function
    ------ --------
       4   main
-        4   -> DetectMovement
         4   -> Display_Process
         4   -> EmitterOn
         4   -> Init_ADC
@@ -306,19 +304,19 @@ C:\Users\saad\Documents\ece-306\Project 07\main.c
        1  chosen_direction
        2  cycle_count
        1  display_mode
-     158  main
+     154  main
        1  slow_input_down
        2  stopwatch_seconds
        2  test_value
        2  time_change
 
  
- 158 bytes in segment CODE
+ 154 bytes in segment CODE
    4 bytes in segment DATA16_AN
   22 bytes in segment DATA16_C
   14 bytes in segment DATA16_Z
  
- 158 bytes of CODE  memory
+ 154 bytes of CODE  memory
   22 bytes of CONST memory
   14 bytes of DATA  memory (+ 4 bytes shared)
 

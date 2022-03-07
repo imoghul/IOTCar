@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          06/Mar/2022  17:23:48
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          06/Mar/2022  20:34:28
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\timers.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW52E.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW9B12.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\timers.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -196,7 +196,7 @@ C:\Users\saad\Documents\ece-306\Project 07\timers.c
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-     12          volatile unsigned int debounce_count1, debounce_count2;
+     12          unsigned int debounce_count1, debounce_count2;
    \                     debounce_count1:
    \   000000                DS8 2
 
@@ -462,14 +462,14 @@ C:\Users\saad\Documents\ece-306\Project 07\timers.c
    \   000002   1F42AE03     MOV.W   &0x3ae, R15
    \   000006   E00F         ADDA    R15, PC
    \                     `?<Jumptable for TIMER0_B1_ISR>_0`:
-   \   000008   343C         JMP     ??TIMER0_B1_ISR_1
+   \   000008   323C         JMP     ??TIMER0_B1_ISR_1
    \   00000A   063C         JMP     ??TIMER0_B1_ISR_6
-   \   00000C   1C3C         JMP     ??TIMER0_B1_ISR_7
-   \   00000E   313C         JMP     ??TIMER0_B1_ISR_1
-   \   000010   303C         JMP     ??TIMER0_B1_ISR_1
-   \   000012   2F3C         JMP     ??TIMER0_B1_ISR_1
-   \   000014   2E3C         JMP     ??TIMER0_B1_ISR_1
-   \   000016   2D3C         JMP     ??TIMER0_B1_ISR_1
+   \   00000C   1B3C         JMP     ??TIMER0_B1_ISR_7
+   \   00000E   2F3C         JMP     ??TIMER0_B1_ISR_1
+   \   000010   2E3C         JMP     ??TIMER0_B1_ISR_1
+   \   000012   2D3C         JMP     ??TIMER0_B1_ISR_1
+   \   000014   2C3C         JMP     ??TIMER0_B1_ISR_1
+   \   000016   2B3C         JMP     ??TIMER0_B1_ISR_1
     131              case 0: break; // No interrupt
     132              case 2: // CCR1 not used
     133                if(debouncing1==TRUE) debounce_count1++;
@@ -478,54 +478,46 @@ C:\Users\saad\Documents\ece-306\Project 07\timers.c
    \   00001C   0220         JNE     ??TIMER0_B1_ISR_2
    \   00001E   9253....     ADD.W   #0x1, &debounce_count1
     134                if (debounce_count1 > debounce_thresh1){
-                       ^
-Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
-          in this statement
    \                     ??TIMER0_B1_ISR_2:
-   \   000022   1F42....     MOV.W   &debounce_thresh1, R15
-   \   000026   1F92....     CMP.W   &debounce_count1, R15
-   \   00002A   092C         JC      ??TIMER0_B1_ISR_3
+   \   000022   9292........ CMP.W   &debounce_count1, &debounce_thresh1
+   \   000028   092C         JC      ??TIMER0_B1_ISR_3
     135                  debounce_count1 = 0;
-   \   00002C   8243....     MOV.W   #0x0, &debounce_count1
+   \   00002A   8243....     MOV.W   #0x0, &debounce_count1
     136                  debouncing1 = FALSE;
-   \   000030   8243....     MOV.W   #0x0, &debouncing1
+   \   00002E   8243....     MOV.W   #0x0, &debouncing1
     137                  P4IE |= SW1;
-   \   000034   E2D33B02     BIS.B   #0x2, &0x23b
+   \   000032   E2D33B02     BIS.B   #0x2, &0x23b
     138                  TB0CCTL1 &= ~CCIE; 
-   \   000038   B2C010008403 BIC.W   #0x10, &0x384
+   \   000036   B2C010008403 BIC.W   #0x10, &0x384
     139                }
     140                TB0CCR1 += TB0CCR1_INTERVAL; // Add Offset to TBCCR1
    \                     ??TIMER0_B1_ISR_3:
-   \   00003E   B25050C39403 ADD.W   #0xc350, &0x394
+   \   00003C   B25050C39403 ADD.W   #0xc350, &0x394
     141                
     142                break;
-   \   000044   163C         JMP     ??TIMER0_B1_ISR_1
+   \   000042   153C         JMP     ??TIMER0_B1_ISR_1
     143              case 4: // CCR2 not used
     144                if(debouncing2==TRUE) debounce_count2++;
    \                     ??TIMER0_B1_ISR_7:
-   \   000046   9293....     CMP.W   #0x1, &debouncing2
-   \   00004A   0220         JNE     ??TIMER0_B1_ISR_4
-   \   00004C   9253....     ADD.W   #0x1, &debounce_count2
+   \   000044   9293....     CMP.W   #0x1, &debouncing2
+   \   000048   0220         JNE     ??TIMER0_B1_ISR_4
+   \   00004A   9253....     ADD.W   #0x1, &debounce_count2
     145                if (debounce_count2 > debounce_thresh2){
-                       ^
-Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
-          in this statement
    \                     ??TIMER0_B1_ISR_4:
-   \   000050   1F42....     MOV.W   &debounce_thresh2, R15
-   \   000054   1F92....     CMP.W   &debounce_count2, R15
-   \   000058   092C         JC      ??TIMER0_B1_ISR_5
+   \   00004E   9292........ CMP.W   &debounce_count2, &debounce_thresh2
+   \   000054   092C         JC      ??TIMER0_B1_ISR_5
     146                  debounce_count2 = 0;
-   \   00005A   8243....     MOV.W   #0x0, &debounce_count2
+   \   000056   8243....     MOV.W   #0x0, &debounce_count2
     147                  debouncing2 = FALSE;
-   \   00005E   8243....     MOV.W   #0x0, &debouncing2
+   \   00005A   8243....     MOV.W   #0x0, &debouncing2
     148                  P2IE |= SW2;
-   \   000062   F2D21B02     BIS.B   #0x8, &0x21b
+   \   00005E   F2D21B02     BIS.B   #0x8, &0x21b
     149                  TB0CCTL2 &= ~CCIE;
-   \   000066   B2C010008603 BIC.W   #0x10, &0x386
+   \   000062   B2C010008603 BIC.W   #0x10, &0x386
     150                }
     151                TB0CCR2 += TB0CCR2_INTERVAL; // Add Offset to TBCCR2
    \                     ??TIMER0_B1_ISR_5:
-   \   00006C   B25050C39603 ADD.W   #0xc350, &0x396
+   \   000068   B25050C39603 ADD.W   #0xc350, &0x396
     152                
     153                break;
     154              case 14: // overflow
@@ -536,15 +528,15 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
     159            //----------------------------------------------------------------------------
     160          }
    \                     ??TIMER0_B1_ISR_1:
-   \   000072   3F41         POP.W   R15
-   \   000074   0013         RETI
-   \   000076                REQUIRE _A_PBIE_L
-   \   000076                REQUIRE _A_TB0CCTL1_L
-   \   000076                REQUIRE _A_TB0CCR1_L
-   \   000076                REQUIRE _A_PAIE_L
-   \   000076                REQUIRE _A_TB0CCTL2_L
-   \   000076                REQUIRE _A_TB0CCR2_L
-   \   000076                REQUIRE _A_TB0IV_L
+   \   00006E   3F41         POP.W   R15
+   \   000070   0013         RETI
+   \   000072                REQUIRE _A_PBIE_L
+   \   000072                REQUIRE _A_TB0CCTL1_L
+   \   000072                REQUIRE _A_TB0CCR1_L
+   \   000072                REQUIRE _A_PAIE_L
+   \   000072                REQUIRE _A_TB0CCTL2_L
+   \   000072                REQUIRE _A_TB0CCR2_L
+   \   000072                REQUIRE _A_TB0IV_L
     161          
     162          #pragma vector = TIMER1_B0_VECTOR
 
@@ -665,7 +657,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
       38  Init_Timer_B1
       64  Init_Timer_B3
       14  Init_Timers
-     118  TIMER0_B1_ISR
+     114  TIMER0_B1_ISR
        2  TIMER0_B1_ISR::??INTVEC 84
       50  TIMER1_B1_ISR
        2  TIMER1_B1_ISR::??INTVEC 80
@@ -718,11 +710,11 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    4 bytes in segment DATA16_ID
   16 bytes in segment DATA16_Z
    8 bytes in segment INTVEC
- 268 bytes in segment ISR_CODE
+ 264 bytes in segment ISR_CODE
  
- 446 bytes of CODE  memory
+ 442 bytes of CODE  memory
    4 bytes of CONST memory (+  8 bytes shared)
   20 bytes of DATA  memory (+ 54 bytes shared)
 
 Errors: none
-Warnings: 2
+Warnings: none

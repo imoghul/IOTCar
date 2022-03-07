@@ -9,7 +9,7 @@ volatile unsigned int Time_Sequence;
 extern volatile unsigned char update_display;
 volatile unsigned int timer0Counter;
 volatile unsigned int backliteCounter;
-volatile unsigned int debounce_count1, debounce_count2;
+unsigned int debounce_count1, debounce_count2;
 volatile unsigned int debouncing1, debouncing2;
 volatile unsigned int debounce_thresh1=10, debounce_thresh2=10;
 volatile unsigned int checkAdc;

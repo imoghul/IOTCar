@@ -1,4 +1,5 @@
 // states
+#define CALIBRATE       ('C')
 #define START           ('S')
 #define WAIT            ('W')
 #define END             ('E')

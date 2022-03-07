@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          06/Mar/2022  17:23:42
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          06/Mar/2022  20:34:26
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\detectors.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWEFA7.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW9296.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\detectors.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -77,29 +77,29 @@ C:\Users\saad\Documents\ece-306\Project 07\detectors.c
      15          int leftVals[VALUES_TO_HOLD];
    \                     leftVals:
    \   000000                DS8 8
+     16          extern volatile unsigned int adcUpdated;
+     17          extern volatile unsigned int calibrationMode;
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-     16          unsigned int leftBlackVal, rightBlackVal, leftWhiteVal, rightWhiteVal;
-   \                     leftBlackVal:
+     18          unsigned int LBDetect, LWDetect, RBDetect, RWDetect;
+   \                     LBDetect:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-   \                     rightBlackVal:
+   \                     LWDetect:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-   \                     leftWhiteVal:
+   \                     RBDetect:
    \   000000                DS8 2
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-   \                     rightWhiteVal:
+   \                     RWDetect:
    \   000000                DS8 2
-     17          extern volatile unsigned int adcUpdated;
-     18          extern volatile unsigned int calibratingMode;
      19          
 
    \                                 In  segment CODE, align 2
@@ -448,6 +448,68 @@ C:\Users\saad\Documents\ece-306\Project 07\detectors.c
    \   000024   A1000400     ADDA    #0x4, SP
    \   000028   1001         RETA
     101          }
+    102          
+
+   \                                 In  segment CODE, align 2
+    103          void calibrate(void){
+   \                     calibrate:
+    104            if(calibrationMode==0){
+   \   000000   8293....     CMP.W   #0x0, &calibrationMode
+   \   000004   0F20         JNE     ??calibrate_1
+    105              unsigned int left = ADC_Left_Detect,right=ADC_Right_Detect;
+   \   000006   1F42....     MOV.W   &ADC_Left_Detect, R15
+   \   00000A   1E42....     MOV.W   &ADC_Right_Detect, R14
+    106              if (left>LBDetect) LBDetect = left;
+   \   00000E   829F....     CMP.W   R15, &LBDetect
+   \   000012   022C         JC      ??calibrate_2
+   \   000014   824F....     MOV.W   R15, &LBDetect
+    107              if (right>RBDetect) RBDetect = right;
+   \                     ??calibrate_2:
+   \   000018   829E....     CMP.W   R14, &RBDetect
+   \   00001C   142C         JC      ??calibrate_0
+   \   00001E   824E....     MOV.W   R14, &RBDetect
+   \   000022   113C         JMP     ??calibrate_0
+    108            }
+    109            else if(calibrationMode==1){
+   \                     ??calibrate_1:
+   \   000024   9293....     CMP.W   #0x1, &calibrationMode
+   \   000028   0E20         JNE     ??calibrate_0
+    110              unsigned int left = ADC_Left_Detect,right=ADC_Right_Detect;
+   \   00002A   1F42....     MOV.W   &ADC_Left_Detect, R15
+   \   00002E   1E42....     MOV.W   &ADC_Right_Detect, R14
+    111              if (left>LWDetect) LWDetect = left;
+   \   000032   829F....     CMP.W   R15, &LWDetect
+   \   000036   022C         JC      ??calibrate_3
+   \   000038   824F....     MOV.W   R15, &LWDetect
+    112              if (right>RWDetect) RWDetect = right;
+   \                     ??calibrate_3:
+   \   00003C   829E....     CMP.W   R14, &RWDetect
+   \   000040   022C         JC      ??calibrate_0
+   \   000042   824E....     MOV.W   R14, &RWDetect
+    113            }
+    114            HEXtoBCD(LBDetect,2,6);
+   \                     ??calibrate_0:
+   \   000046   3E400600     MOV.W   #0x6, R14
+   \   00004A   2D43         MOV.W   #0x2, R13
+   \   00004C   1C42....     MOV.W   &LBDetect, R12
+   \   000050   ........     CALLA   #HEXtoBCD
+    115            HEXtoBCD(RBDetect,2,0);
+   \   000054   0E43         MOV.W   #0x0, R14
+   \   000056   2D43         MOV.W   #0x2, R13
+   \   000058   1C42....     MOV.W   &RBDetect, R12
+   \   00005C   ........     CALLA   #HEXtoBCD
+    116            HEXtoBCD(LWDetect,1,6);
+   \   000060   3E400600     MOV.W   #0x6, R14
+   \   000064   1D43         MOV.W   #0x1, R13
+   \   000066   1C42....     MOV.W   &LWDetect, R12
+   \   00006A   ........     CALLA   #HEXtoBCD
+    117            HEXtoBCD(RWDetect,1,0);
+   \   00006E   0E43         MOV.W   #0x0, R14
+   \   000070   1D43         MOV.W   #0x1, R13
+   \   000072   1C42....     MOV.W   &RWDetect, R12
+   \   000076   ........     CALLA   #HEXtoBCD
+    118          }
+   \   00007A   1001         RETA
 
    Maximum stack usage in bytes:
 
@@ -462,6 +524,8 @@ C:\Users\saad\Documents\ece-306\Project 07\detectors.c
       4   EmitterOff
       4   EmitterOn
       8   abs
+      4   calibrate
+        4   -> HEXtoBCD
       4   clearList
      12   getDirection
        12   -> abs
@@ -477,29 +541,30 @@ C:\Users\saad\Documents\ece-306\Project 07\detectors.c
      212  DetectMovement
        8  EmitterOff
        8  EmitterOn
+       2  LBDetect
+       2  LWDetect
+       2  RBDetect
+       2  RWDetect
        2  _A_PCOUT_L
       42  abs
+     124  calibrate
       34  clearList
      118  getDirection
        2  lastLeft
        2  lastRight
-       2  leftBlackVal
        8  leftVals
-       2  leftWhiteVal
        1  movingDirection
       44  push
-       2  rightBlackVal
        8  rightVals
-       2  rightWhiteVal
       30  rollingSum
       34  validList
 
  
- 530 bytes in segment CODE
+ 654 bytes in segment CODE
    2 bytes in segment DATA16_AN
   29 bytes in segment DATA16_Z
  
- 530 bytes of CODE memory
+ 654 bytes of CODE memory
   29 bytes of DATA memory (+ 2 bytes shared)
 
 Errors: none

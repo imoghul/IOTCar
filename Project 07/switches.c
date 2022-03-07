@@ -19,7 +19,7 @@ extern volatile unsigned int debouncing1, debouncing2;
 extern volatile unsigned int backliteBlinking;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
-volatile unsigned int calibratingMode;
+volatile unsigned int calibrationMode;
 
 //===========================================================================
 // Function name: switchP4_interrupt
@@ -82,6 +82,7 @@ __interrupt void switchP2_interrupt(void){
     TB0CCTL2 |= CCIE; // CCR1 enable interrupt
     debouncing2 = TRUE;
     // Actual Code
+    calibrationMode++;
   }
 }
 

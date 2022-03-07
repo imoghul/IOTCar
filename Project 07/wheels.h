@@ -26,10 +26,10 @@
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
 // detectors
-#define LEFT_BLACK_DETECT        10//(leftBlackVal)
-#define RIGHT_BLACK_DETECT       10//(rightBlackVal)
-#define LEFT_WHITE_DETECT        4//(leftWhiteVal)
-#define RIGHT_WHITE_DETECT       4//(rightWhiteVal)
+#define LEFT_BLACK_DETECT        (2*LBDetect/5)
+#define RIGHT_BLACK_DETECT       (2*RBDetect/5)
+#define LEFT_WHITE_DETECT        (LWDetect)
+#define RIGHT_WHITE_DETECT       (RWDetect)
 
 
 int RunRightMotor( int val);

@@ -14,7 +14,7 @@ extern volatile unsigned int stopwatch_seconds;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 extern volatile unsigned int wheel_periods;
-volatile char state = START;
+volatile char state = CALIBRATE;
 volatile int stateCounter;
 volatile char nextState = STRAIGHT;
 extern volatile unsigned int Time_Sequence;
@@ -28,8 +28,9 @@ extern char movingDirection;
 char enteringDirection = NOT_MOVING;
 extern int leftVals[VALUES_TO_HOLD];
 extern int rightVals[VALUES_TO_HOLD];
-extern unsigned int leftBlackVal, rightBlackVal, leftWhiteVal, rightWhiteVal;
-extern volatile unsigned int calibratingMode;
+extern volatile unsigned int calibrationMode;
+extern unsigned int LBDetect, LWDetect, RBDetect, RWDetect;
+
 void Straight(void){
   
   if (stateCounter == 0) {
@@ -174,10 +175,23 @@ void Exit(){
   }
   
   if (stateCounter == 2){
+    if(enteringDirection == MOVING_LEFT){
+      if(LockMotors(1,-1)) stateCounter++;
+    }
+    else if (enteringDirection == MOVING_RIGHT){
+      if(LockMotors(-1,1)) stateCounter++;
+    }
+  }
+  
+  if (stateCounter == 3){
     if(Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,150)) stateCounter++;
   }
  
-  else if (stateCounter==3) {
+  if (stateCounter == 4){
+    if(LockMotors(-1,-1)) stateCounter++;
+  }
+  
+  else if (stateCounter==5) {
     ShutoffMotors();
     stateCounter = 0 ;
     state = END;    
@@ -207,8 +221,11 @@ int delay(int seconds,int cycles){
 
 
 void StateMachine(void){
-  
   switch(state){
+    case (CALIBRATE):
+      calibrate();
+      if(calibrationMode>=2) state=START;
+      break;
     case (START):
       //strcpy(display_line[0], "WAITING...");
       //display_changed = 1;
