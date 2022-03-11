@@ -15,6 +15,7 @@ volatile unsigned int debounce_thresh1=10, debounce_thresh2=10;
 volatile unsigned int checkAdc;
 extern volatile char state;
 extern volatile unsigned int rightSwitchable, leftSwitchable;
+float timeElapsed;
 void Init_Timers(void){
   Init_Timer_B0();
   Init_Timer_B1();
@@ -41,7 +42,7 @@ void Init_Timer_B1(void) {
   TB1CTL = TBSSEL__SMCLK; // SMCLK source
   TB1CTL |= TBCLR; // Resets TB0R, clock divider, count direction
   TB1CTL |= MC__CONTINOUS; // Continuous up
-  TB1CTL |= ID__4; // Divide clock by 2
+  TB1CTL |= ID__4; // Divide clock by 4
   TB1EX0 = TBIDEX__8; // Divide clock by an additional 8
   //TB1CCR0 = TB0CCR0_INTERVAL; // CCR0
   //TB1CCTL0 |= CCIE; // CCR0 enable interrupt
@@ -96,8 +97,10 @@ __interrupt void Timer0_B0_ISR(void){
   if(++timer0Counter==((UPDATE_DISPLAY_TIMER_COUNT*CHECK_ADC_TIMER_COUNT*TIME_SEQUENCE_TIMER_COUNT)+1)) timer0Counter = 1;
   if(timer0Counter%TIME_SEQUENCE_TIMER_COUNT==0)
     if(Time_Sequence++ == TIME_SEQUENCE_MAX) Time_Sequence = 0;
-  if(timer0Counter%UPDATE_DISPLAY_TIMER_COUNT==0)
+  if(timer0Counter%UPDATE_DISPLAY_TIMER_COUNT==0){
+    if(state!=END)timeElapsed+=.2;
     update_display=1;
+  }
   if(timer0Counter%CHECK_ADC_TIMER_COUNT==0){
     ADCCTL0 |= ADCSC;
   }

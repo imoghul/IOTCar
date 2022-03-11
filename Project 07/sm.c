@@ -40,7 +40,7 @@ void Straight(void){
     stateCounter++;
   }
   if(stateCounter==1){
-    if ((ADC_Left_Detect <= LEFT_BLACK_DETECT || ADC_Right_Detect <= RIGHT_BLACK_DETECT)){
+    if ((ADC_Left_Detect <= LEFT_BLACK_DETECT/2 || ADC_Right_Detect <= RIGHT_BLACK_DETECT/2)){
       Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, 0);
     }
     else{
@@ -88,7 +88,7 @@ void Turn(){
     }
   }
   if (stateCounter==2){
-    if (((ADC_Left_Detect < LEFT_BLACK_DETECT || ADC_Right_Detect < RIGHT_BLACK_DETECT))){
+    if (((ADC_Left_Detect <= LEFT_BLACK_DETECT/2 || ADC_Right_Detect <= RIGHT_BLACK_DETECT/2))){
       if(enteringDirection == MOVING_LEFT)Drive_Path(STRAIGHT_RIGHT/4,-STRAIGHT_LEFT/4,0);
       if(enteringDirection == MOVING_RIGHT)Drive_Path(-STRAIGHT_RIGHT/4,STRAIGHT_LEFT/4,0);
     }
@@ -122,7 +122,7 @@ void LineFollow(){
     int lSpeed = LEFT_MAX;
     if(ADC_Left_Detect<LEFT_BLACK_DETECT || ADC_Right_Detect<RIGHT_BLACK_DETECT) stateCounter = 2;
     
-    if(delay(30,0)) stateCounter = 5;
+    if(delay(70,0)) stateCounter = 5;
     Drive_Path(rSpeed,lSpeed,0);
   }
   
@@ -166,11 +166,11 @@ void Exit(){
   }
   
   if (stateCounter == 1){
-    if(enteringDirection == MOVING_LEFT){
-      if(Drive_Path(-STRAIGHT_RIGHT,STRAIGHT_LEFT,75)) stateCounter++;
+    if(enteringDirection == MOVING_RIGHT){
+      if(Drive_Path(-STRAIGHT_RIGHT,STRAIGHT_LEFT,90)) stateCounter++;
     }
-    else if (enteringDirection == MOVING_RIGHT){
-      if(Drive_Path(STRAIGHT_RIGHT,-STRAIGHT_LEFT,75)) stateCounter++;
+    else if (enteringDirection == MOVING_LEFT){
+      if(Drive_Path(STRAIGHT_RIGHT,-STRAIGHT_LEFT,90)) stateCounter++;
     }
   }
   
@@ -184,7 +184,7 @@ void Exit(){
   }
   
   if (stateCounter == 3){
-    if(Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,150)) stateCounter++;
+    if(Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT,300)) stateCounter++;
   }
  
   if (stateCounter == 4){
@@ -207,7 +207,6 @@ void Exit(){
 // make sure nextState is set to desired vlaue before the end of delay
 int delay(int seconds,int cycles){
   if(stopwatch_seconds == 0 && cycle_count<=1) {
-    strcpy(display_line[0], "WAITING...");
     display_changed = 1;
   }
   if(stopwatch_seconds>=seconds && cycle_count >= cycles) {
@@ -227,7 +226,7 @@ void StateMachine(void){
       if(calibrationMode>=2) state=START;
       break;
     case (START):
-      //strcpy(display_line[0], "WAITING...");
+      strcpy(display_line[0], "WAITING...");
       //display_changed = 1;
       stopwatch_seconds = 0;
       cycle_count = 0;

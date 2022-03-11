@@ -6,8 +6,8 @@
 #define LEFT_REVERSE_SPEED      (TB3CCR4)
 #define WHEEL_OFF               (0)
 #define WHEEL_PERIOD            (20000)
-#define RIGHT_MAX               (STRAIGHT_RIGHT/4)
-#define LEFT_MAX                (STRAIGHT_LEFT/4)
+#define RIGHT_MAX               (STRAIGHT_RIGHT/3)
+#define LEFT_MAX                (STRAIGHT_LEFT/3)
 #define RIGHT_MIN               (STRAIGHT_RIGHT/6)
 #define LEFT_MIN                (STRAIGHT_LEFT/6)
 // straight
@@ -26,8 +26,8 @@
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
 // detectors
-#define LEFT_BLACK_DETECT        (2*LBDetect/5)
-#define RIGHT_BLACK_DETECT       (2*RBDetect/5)
+#define LEFT_BLACK_DETECT        (7*LBDetect/10)
+#define RIGHT_BLACK_DETECT       (7*RBDetect/10)
 #define LEFT_WHITE_DETECT        (LWDetect)
 #define RIGHT_WHITE_DETECT       (RWDetect)
 

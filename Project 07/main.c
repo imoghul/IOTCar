@@ -50,6 +50,8 @@ extern char adc_char[5];
 extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
 extern char movingDirection;
 extern char enteringDirection;
+extern float timeElapsed;
+extern char state;
 //===========================================================================
 // Function name: Main
 //
@@ -111,7 +113,13 @@ void main(void){
     else if(movingDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
     else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
     else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
+    
+    HEXtoBCD((int)timeElapsed,3,0);
+    display_line[3][4]='.';
+    display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
     display_changed = 1;
+    
+    
     if(Last_Time_Sequence!=Time_Sequence){ 
       Last_Time_Sequence=Time_Sequence;
       cycle_count++;
