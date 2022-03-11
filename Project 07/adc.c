@@ -134,14 +134,14 @@ __interrupt void ADC_ISR(void){
           ADCMCTL0 &= ~ADCINCH_2; 
           ADCMCTL0 = ADCINCH_3; 
           ADC_Left_Detect = ADCMEM0; 
-          ADC_Left_Detect = ADC_Left_Detect >> 4; 
+          ADC_Left_Detect = ADC_Left_Detect >> 1; 
           ADCCTL0 |= ADCSC;
           break; 
         case 0x05:
           ADCMCTL0 &= ~ADCINCH_3; 
           ADCMCTL0 = ADCINCH_5; 
           ADC_Right_Detect = ADCMEM0; 
-          ADC_Right_Detect = ADC_Right_Detect >> 4; 
+          ADC_Right_Detect = ADC_Right_Detect >> 1; 
           break; 
         case 0x06:
           adcUpdated = 1;

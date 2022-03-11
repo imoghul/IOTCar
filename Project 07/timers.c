@@ -16,6 +16,7 @@ volatile unsigned int checkAdc;
 extern volatile char state;
 extern volatile unsigned int rightSwitchable, leftSwitchable;
 float timeElapsed;
+volatile unsigned int stopwatchUpdated;
 void Init_Timers(void){
   Init_Timer_B0();
   Init_Timer_B1();
@@ -98,7 +99,10 @@ __interrupt void Timer0_B0_ISR(void){
   if(timer0Counter%TIME_SEQUENCE_TIMER_COUNT==0)
     if(Time_Sequence++ == TIME_SEQUENCE_MAX) Time_Sequence = 0;
   if(timer0Counter%UPDATE_DISPLAY_TIMER_COUNT==0){
-    if(state!=END)timeElapsed+=.2;
+    if(state!=END){
+      stopwatchUpdated = 1;
+      timeElapsed+=.2;
+    }
     update_display=1;
   }
   if(timer0Counter%CHECK_ADC_TIMER_COUNT==0){

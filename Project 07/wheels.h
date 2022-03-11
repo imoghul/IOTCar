@@ -6,10 +6,10 @@
 #define LEFT_REVERSE_SPEED      (TB3CCR4)
 #define WHEEL_OFF               (0)
 #define WHEEL_PERIOD            (20000)
-#define RIGHT_MAX               (STRAIGHT_RIGHT/3)
-#define LEFT_MAX                (STRAIGHT_LEFT/3)
-#define RIGHT_MIN               (STRAIGHT_RIGHT/6)
-#define LEFT_MIN                (STRAIGHT_LEFT/6)
+#define RIGHT_MAX               (STRAIGHT_RIGHT>>1)
+#define LEFT_MAX                (STRAIGHT_LEFT>>1)
+#define RIGHT_MIN               (STRAIGHT_RIGHT>>2)
+#define LEFT_MIN                (STRAIGHT_LEFT>>2)
 // straight
 #define STRAIGHT_RIGHT          (20000)
 #define STRAIGHT_LEFT           (16000)
@@ -26,8 +26,8 @@
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
 // detectors
-#define LEFT_BLACK_DETECT        (7*LBDetect/10)
-#define RIGHT_BLACK_DETECT       (7*RBDetect/10)
+#define LEFT_BLACK_DETECT        (LBDetect)
+#define RIGHT_BLACK_DETECT       (RBDetect)
 #define LEFT_WHITE_DETECT        (LWDetect)
 #define RIGHT_WHITE_DETECT       (RWDetect)
 
@@ -42,3 +42,4 @@ void ShutoffRight(void);
 void ShutoffLeft(void);
 void MotorSafety(void);
 int LockMotors(int,int);
+int LockMotorsTime(int,int,int);

@@ -68,7 +68,7 @@ void push(int list[], int val){
 }
 
 void clearList(int list[]){
-  for (int i = 0;list[i]!=0;++i) list[i]=0;
+  for (int i = 0;i<VALUES_TO_HOLD;++i) list[i]=0;
 }
 
 int validList(int* list){

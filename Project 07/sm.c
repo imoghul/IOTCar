@@ -30,6 +30,8 @@ extern int leftVals[VALUES_TO_HOLD];
 extern int rightVals[VALUES_TO_HOLD];
 extern volatile unsigned int calibrationMode;
 extern unsigned int LBDetect, LWDetect, RBDetect, RWDetect;
+extern PIDController rightController;
+extern PIDController leftController;
 
 void Straight(void){
   
@@ -107,6 +109,7 @@ void Turn(){
 }
 
 void LineFollow(){
+  
   if (stateCounter == 0) {
     EmitterOn();
     strcpy(display_line[0], " CIRCLING ");
@@ -118,13 +121,24 @@ void LineFollow(){
   
   if(stateCounter == 1){
     
-    int rSpeed = RIGHT_MAX;
-    int lSpeed = LEFT_MAX;
-    if(ADC_Left_Detect<LEFT_BLACK_DETECT || ADC_Right_Detect<RIGHT_BLACK_DETECT) stateCounter = 2;
+    unsigned int rSpeed;
+    unsigned int lSpeed;
+    int leftPIDOut = GetOutput(&leftController,LEFT_BLACK_DETECT,ADC_Left_Detect);
+    int rightPIDOut = GetOutput(&rightController,RIGHT_BLACK_DETECT,ADC_Right_Detect);
+    rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN,leftPIDOut); // swapped b/c they are physically swapped
+    lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN,rightPIDOut); // swapped b/c they are physically swapped
+    if(ADC_Left_Detect<LEFT_BLACK_DETECT || ADC_Right_Detect<RIGHT_BLACK_DETECT) stateCounter = 1;
+    else {
+      ClearController(&rightController);
+      ClearController(&leftController);
+    }
     
     if(delay(70,0)) stateCounter = 5;
     Drive_Path(rSpeed,lSpeed,0);
   }
+  
+  if(stateCounter==10)
+    if(LockMotorsTime(-1,-1,1)) stateCounter = 2;
   
   if(stateCounter == 2){
     if(ADC_Left_Detect<LEFT_BLACK_DETECT && ADC_Right_Detect>=RIGHT_BLACK_DETECT) // RCIRC
@@ -134,14 +148,15 @@ void LineFollow(){
     else stateCounter = 1;
   }
   
+  
   if(stateCounter == 3){ // turn left ()
-     if(ADC_Left_Detect<LEFT_BLACK_DETECT)Drive_Path(RCIRC_RIGHT/4,-RCIRC_LEFT, 0);
+     if(ADC_Left_Detect<LEFT_BLACK_DETECT)Drive_Path(RIGHT_MIN,-LEFT_MIN, 0);
      else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
      else stateCounter = 4;
   }
   
   if(stateCounter == 4){
-     if(ADC_Right_Detect<RIGHT_BLACK_DETECT)Drive_Path(-LCIRC_RIGHT,LCIRC_LEFT/4, 0);
+     if(ADC_Right_Detect<RIGHT_BLACK_DETECT)Drive_Path(-RIGHT_MIN,LEFT_MIN, 0);
      else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
      else stateCounter = 3;
   }
@@ -223,7 +238,11 @@ void StateMachine(void){
   switch(state){
     case (CALIBRATE):
       calibrate();
-      if(calibrationMode>=2) state=START;
+      if(calibrationMode>=2) {
+        state=START;
+        LEFT_BLACK_DETECT >>= 1;
+        RIGHT_BLACK_DETECT >>= 1;
+      }
       break;
     case (START):
       strcpy(display_line[0], "WAITING...");

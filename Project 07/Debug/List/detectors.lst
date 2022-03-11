@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          07/Mar/2022  12:55:32
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          11/Mar/2022  17:53:42
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\detectors.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWCDF9.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW3E5A.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\detectors.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -274,25 +274,21 @@ C:\Users\saad\Documents\ece-306\Project 07\detectors.c
    \                                 In  segment CODE, align 2
      70          void clearList(int list[]){
    \                     clearList:
-     71            for (int i = 0;list[i]!=0;++i) list[i]=0;
+     71            for (int i = 0;i<VALUES_TO_HOLD;++i) list[i]=0;
    \   000000   0D43         MOV.W   #0x0, R13
    \                     ??clearList_0:
-   \   000002   0F4D         MOV.W   R13, R15
-   \   000004   0F5F         RLA.W   R15
-   \   000006   0E4C         MOV.W   R12, R14
-   \   000008   0E5F         ADD.W   R15, R14
-   \   00000A   8E930000     CMP.W   #0x0, 0(R14)
-   \   00000E   0824         JEQ     ??clearList_1
-   \   000010   0E4D         MOV.W   R13, R14
-   \   000012   0E5E         RLA.W   R14
-   \   000014   0F4C         MOV.W   R12, R15
-   \   000016   0F5E         ADD.W   R14, R15
-   \   000018   8F430000     MOV.W   #0x0, 0(R15)
-   \   00001C   1D53         ADD.W   #0x1, R13
-   \   00001E   F13F         JMP     ??clearList_0
+   \   000002   2D92         CMP.W   #0x4, R13
+   \   000004   0834         JGE     ??clearList_1
+   \   000006   0E4D         MOV.W   R13, R14
+   \   000008   0E5E         RLA.W   R14
+   \   00000A   0F4C         MOV.W   R12, R15
+   \   00000C   0F5E         ADD.W   R14, R15
+   \   00000E   8F430000     MOV.W   #0x0, 0(R15)
+   \   000012   1D53         ADD.W   #0x1, R13
+   \   000014   F63F         JMP     ??clearList_0
      72          }
    \                     ??clearList_1:
-   \   000020   1001         RETA
+   \   000016   1001         RETA
      73          
 
    \                                 In  segment CODE, align 2
@@ -548,7 +544,7 @@ C:\Users\saad\Documents\ece-306\Project 07\detectors.c
        2  _A_PCOUT_L
       42  abs
      124  calibrate
-      34  clearList
+      24  clearList
      118  getDirection
        2  lastLeft
        2  lastRight
@@ -560,11 +556,11 @@ C:\Users\saad\Documents\ece-306\Project 07\detectors.c
       34  validList
 
  
- 654 bytes in segment CODE
+ 644 bytes in segment CODE
    2 bytes in segment DATA16_AN
   29 bytes in segment DATA16_Z
  
- 654 bytes of CODE memory
+ 644 bytes of CODE memory
   29 bytes of DATA memory (+ 2 bytes shared)
 
 Errors: none

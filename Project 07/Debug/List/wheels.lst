@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          07/Mar/2022  12:55:34
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          11/Mar/2022  17:57:35
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWD6D4.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWCD18.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\wheels.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -141,11 +141,11 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
    \   000000                REQUIRE ?cstart_init_copy
      28          PIDController rightController = {
    \                     rightController:
-   \   000000                DS8 18
-   \   000012                REQUIRE `?<Initializer for rightController>`
-     29            .kP = 15,
+   \   000000                DS8 12
+   \   00000C                REQUIRE `?<Initializer for rightController>`
+     29            .kP = 1,
      30            .kD = 0,
-     31            .kI = 0,
+     31            .kI = 1,
      32            .error = 0,
      33            .lastError = 0,
      34            .lastIntegral = 0
@@ -155,11 +155,11 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
    \   000000                REQUIRE ?cstart_init_copy
      36          PIDController leftController = {
    \                     leftController:
-   \   000000                DS8 18
-   \   000012                REQUIRE `?<Initializer for leftController>`
-     37            .kP = 15,
+   \   000000                DS8 12
+   \   00000C                REQUIRE `?<Initializer for leftController>`
+     37            .kP = 1,
      38            .kD = 0,
-     39            .kI = 0,
+     39            .kI = 1,
      40            .error = 0,
      41            .lastError = 0,
      42            .lastIntegral = 0
@@ -464,44 +464,85 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
     131          
 
    \                                 In  segment CODE, align 2
-    132          int Update_Ticks(int max_tick){
+    132          int LockMotorsTime(int polR,int polL, int duration){
+   \                     LockMotorsTime:
+   \   000000   3B15         PUSHM.W #0x4, R11
+   \   000002   0A4C         MOV.W   R12, R10
+   \   000004   0B4D         MOV.W   R13, R11
+   \   000006   084E         MOV.W   R14, R8
+    133            return (Drive_Path(polR*STRAIGHT_RIGHT,polL*STRAIGHT_LEFT, duration));
+   \   000008   0E48         MOV.W   R8, R14
+   \   00000A   0D4B         MOV.W   R11, R13
+   \   00000C   5D0E         RLAM.W  #0x4, R13
+   \   00000E   5D0A         RLAM.W  #0x3, R13
+   \   000010   0F4D         MOV.W   R13, R15
+   \   000012   5D06         RLAM.W  #0x2, R13
+   \   000014   0F5D         ADD.W   R13, R15
+   \   000016   0D5D         RLA.W   R13
+   \   000018   0F5D         ADD.W   R13, R15
+   \   00001A   0D5D         RLA.W   R13
+   \   00001C   0F5D         ADD.W   R13, R15
+   \   00001E   0D5D         RLA.W   R13
+   \   000020   0F5D         ADD.W   R13, R15
+   \   000022   0D5D         RLA.W   R13
+   \   000024   0D5F         ADD.W   R15, R13
+   \   000026   0C4A         MOV.W   R10, R12
+   \   000028   5C0E         RLAM.W  #0x4, R12
+   \   00002A   5C02         RLAM.W  #0x1, R12
+   \   00002C   0F4C         MOV.W   R12, R15
+   \   00002E   5C0E         RLAM.W  #0x4, R12
+   \   000030   0F5C         ADD.W   R12, R15
+   \   000032   0C5C         RLA.W   R12
+   \   000034   0F5C         ADD.W   R12, R15
+   \   000036   0C5C         RLA.W   R12
+   \   000038   0F5C         ADD.W   R12, R15
+   \   00003A   5C0A         RLAM.W  #0x3, R12
+   \   00003C   0C5F         ADD.W   R15, R12
+   \   00003E   ........     CALLA   #Drive_Path
+   \   000042   3817         POPM.W  #0x4, R11
+   \   000044   1001         RETA
+    134          }
+    135          
+
+   \                                 In  segment CODE, align 2
+    136          int Update_Ticks(int max_tick){
    \                     Update_Ticks:
    \   000000   0F4C         MOV.W   R12, R15
-    133            if(++wheel_periods>max_tick){
+    137            if(++wheel_periods>max_tick){
    \   000002   1E42....     MOV.W   &wheel_periods, R14
    \   000006   1E53         ADD.W   #0x1, R14
    \   000008   824E....     MOV.W   R14, &wheel_periods
    \   00000C   0F9E         CMP.W   R14, R15
    \   00000E   042C         JC      ??Update_Ticks_0
-    134              wheel_periods=0; 
+    138              wheel_periods=0; 
    \   000010   8243....     MOV.W   #0x0, &wheel_periods
-    135              return 1;
+    139              return 1;
    \   000014   1C43         MOV.W   #0x1, R12
    \   000016   1001         RETA
-    136            }
-    137            return 0;
+    140            }
+    141            return 0;
    \                     ??Update_Ticks_0:
    \   000018   0C43         MOV.W   #0x0, R12
    \   00001A   1001         RETA
-    138          }
-    139          
+    142          }
+    143          
 
    \                                 In  segment CODE, align 2
-    140          int Drive_Path(int speedR,int speedL, unsigned int ticksDuration){  
+    144          int Drive_Path(int speedR,int speedL, unsigned int ticksDuration){  
    \                     Drive_Path:
    \   000000   5B15         PUSHM.W #0x6, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
    \   000006   084E         MOV.W   R14, R8
-    141            int successR = RunRightMotor(speedR); 
+    145            int successR = RunRightMotor(speedR); 
    \   000008   0C4A         MOV.W   R10, R12
    \   00000A   ........     CALLA   #RunRightMotor
    \   00000E   094C         MOV.W   R12, R9
-    142            int successL = RunLeftMotor(speedL);
+    146            int successL = RunLeftMotor(speedL);
    \   000010   0C4B         MOV.W   R11, R12
    \   000012   ........     CALLA   #RunLeftMotor
    \   000016   064C         MOV.W   R12, R6
-    143            if(ticksDuration == 0) return successR && successL;
+    147            if(ticksDuration == 0) return successR && successL;
    \   000018   0893         CMP.W   #0x0, R8
    \   00001A   0920         JNE     ??Drive_Path_2
    \   00001C   0993         CMP.W   #0x0, R9
@@ -515,13 +556,13 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
    \                     ??Drive_Path_0:
    \   00002A   4C4C         MOV.B   R12, R12
    \   00002C   133C         JMP     ??Drive_Path_1
-    144            if (time_change){
+    148            if (time_change){
    \                     ??Drive_Path_2:
    \   00002E   8293....     CMP.W   #0x0, &time_change
    \   000032   0F24         JEQ     ??Drive_Path_4
-    145              time_change = 0;
+    149              time_change = 0;
    \   000034   8243....     MOV.W   #0x0, &time_change
-    146              if (successR && successL && Update_Ticks(ticksDuration)){
+    150              if (successR && successL && Update_Ticks(ticksDuration)){
    \   000038   0993         CMP.W   #0x0, R9
    \   00003A   0B24         JEQ     ??Drive_Path_4
    \   00003C   0693         CMP.W   #0x0, R6
@@ -530,20 +571,20 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
    \   000042   ........     CALLA   #Update_Ticks
    \   000046   0C93         CMP.W   #0x0, R12
    \   000048   0424         JEQ     ??Drive_Path_4
-    147                ShutoffMotors();
+    151                ShutoffMotors();
    \   00004A   ........     CALLA   #ShutoffMotors
-    148                return 1;
+    152                return 1;
    \   00004E   1C43         MOV.W   #0x1, R12
    \   000050   013C         JMP     ??Drive_Path_1
-    149              }
-    150            }
-    151            return 0;
+    153              }
+    154            }
+    155            return 0;
    \                     ??Drive_Path_4:
    \   000052   0C43         MOV.W   #0x0, R12
    \                     ??Drive_Path_1:
    \   000054   5617         POPM.W  #0x6, R11
    \   000056   1001         RETA
-    152          }
+    156          }
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
    \                     `?<Initializer for rightSwitchable>`:
@@ -555,17 +596,15 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
    \                     `?<Initializer for rightController>`:
-   \   000000   000070410000 DC32 41700000H, 0H, 0H
+   \   000000   010000000100 DC16 1, 0, 1, 0, 0, 0
    \            000000000000
-   \   00000C   000000000000 DC16 0, 0, 0
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
    \                     `?<Initializer for leftController>`:
-   \   000000   000070410000 DC32 41700000H, 0H, 0H
+   \   000000   010000000100 DC16 1, 0, 1, 0, 0, 0
    \            000000000000
-   \   00000C   000000000000 DC16 0, 0, 0
-    153          
-    154          
+    157          
+    158          
 
    Maximum stack usage in bytes:
 
@@ -578,6 +617,8 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
        16   -> Update_Ticks
       8   LockMotors
         8   -> Drive_Path
+     12   LockMotorsTime
+       12   -> Drive_Path
       4   MotorSafety
         4   -> ShutoffMotors
       4   RunLeftMotor
@@ -596,12 +637,13 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
 
    Bytes  Function/Label
    -----  --------------
-      18  ?<Initializer for leftController>
+      12  ?<Initializer for leftController>
        2  ?<Initializer for leftSwitchable>
-      18  ?<Initializer for rightController>
+      12  ?<Initializer for rightController>
        2  ?<Initializer for rightSwitchable>
       88  Drive_Path
       70  LockMotors
+      70  LockMotorsTime
       64  MotorSafety
       98  RunLeftMotor
       96  RunRightMotor
@@ -620,23 +662,23 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
        2  _A_TB3CCR2_L
        2  _A_TB3CCR3_L
        2  _A_TB3CCR4_L
-      18  leftController
+      12  leftController
        2  leftSwitchable
-      18  rightController
+      12  rightController
        2  rightSwitchable
        2  temp
        2  wheel_periods
 
  
- 530 bytes in segment CODE
+ 600 bytes in segment CODE
   22 bytes in segment DATA16_AN
-  40 bytes in segment DATA16_I
-  40 bytes in segment DATA16_ID
+  28 bytes in segment DATA16_I
+  28 bytes in segment DATA16_ID
    4 bytes in segment DATA16_Z
  
- 530 bytes of CODE  memory
-  40 bytes of CONST memory
-  44 bytes of DATA  memory (+ 22 bytes shared)
+ 600 bytes of CODE  memory
+  28 bytes of CONST memory
+  32 bytes of DATA  memory (+ 22 bytes shared)
 
 Errors: none
 Warnings: none

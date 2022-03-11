@@ -26,17 +26,17 @@ extern int rightVals[VALUES_TO_HOLD];
 
 
 PIDController rightController = {
-  .kP = 15,
+  .kP = 1,
   .kD = 0,
-  .kI = 0,
+  .kI = 1,
   .error = 0,
   .lastError = 0,
   .lastIntegral = 0
 };
 PIDController leftController = {
-  .kP = 15,
+  .kP = 1,
   .kD = 0,
-  .kI = 0,
+  .kI = 1,
   .error = 0,
   .lastError = 0,
   .lastIntegral = 0
@@ -127,6 +127,10 @@ int RunLeftMotor( int val){
 
 int LockMotors(int polR,int polL){
   return (Drive_Path(polR*STRAIGHT_RIGHT,polL*STRAIGHT_LEFT, 5));
+}
+
+int LockMotorsTime(int polR,int polL, int duration){
+  return (Drive_Path(polR*STRAIGHT_RIGHT,polL*STRAIGHT_LEFT, duration));
 }
 
 int Update_Ticks(int max_tick){

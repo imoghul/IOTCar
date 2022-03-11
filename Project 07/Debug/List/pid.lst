@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          06/Mar/2022  17:17:29
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          11/Mar/2022  18:03:33
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\pid.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW4017.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW4205.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\pid.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -41,77 +41,61 @@ C:\Users\saad\Documents\ece-306\Project 07\pid.c
       5          int GetOutput(PIDController* pidController, int setPoint, int current){
    \                     GetOutput:
    \   000000   7B15         PUSHM.W #0x8, R11
-   \   000002   0D12         PUSH.W  R13
-   \   000004   0E12         PUSH.W  R14
-   \   000006   F103         SUBA    #0x2, SP
-   \   000008   084C         MOV.W   R12, R8
+   \   000002   0A4C         MOV.W   R12, R10
+   \   000004   0B4D         MOV.W   R13, R11
+   \   000006   084E         MOV.W   R14, R8
       6            pidController->error = setPoint-current;
-   \   00000A   1F410400     MOV.W   0x4(SP), R15
-   \   00000E   1F810200     SUB.W   0x2(SP), R15
-   \   000012   884F0C00     MOV.W   R15, 0xc(R8)
-      7            //if(abs(pidController->error)<=1) pidController->error = 0;
-      8            int integral = pidController->lastIntegral+pidController->error;
-   \   000016   19481000     MOV.W   0x10(R8), R9
-   \   00001A   19580C00     ADD.W   0xc(R8), R9
-      9            int derivative = pidController->error-pidController->lastError;
-   \   00001E   1F480C00     MOV.W   0xc(R8), R15
-   \   000022   1F880E00     SUB.W   0xe(R8), R15
-   \   000026   814F0000     MOV.W   R15, 0(SP)
+   \   000008   0F4B         MOV.W   R11, R15
+   \   00000A   0F88         SUB.W   R8, R15
+   \   00000C   8A4F0600     MOV.W   R15, 0x6(R10)
+      7            //if(abs(pidController->error)==1) pidController->error = 0;
+      8            int integral = additionSafe(pidController->lastIntegral,32767,-32768,pidController->error);
+   \   000010   1F4A0600     MOV.W   0x6(R10), R15
+   \   000014   3E400080     MOV.W   #0x8000, R14
+   \   000018   3D40FF7F     MOV.W   #0x7fff, R13
+   \   00001C   1C4A0A00     MOV.W   0xa(R10), R12
+   \   000020   ........     CALLA   #additionSafe
+   \   000024   094C         MOV.W   R12, R9
+      9            int derivative = additionSafe(pidController->error,32767,-32768,-pidController->lastError);
+   \   000026   1F4A0800     MOV.W   0x8(R10), R15
+   \   00002A   3FE3         XOR.W   #0xffff, R15
+   \   00002C   1F53         ADD.W   #0x1, R15
+   \   00002E   3E400080     MOV.W   #0x8000, R14
+   \   000032   3D40FF7F     MOV.W   #0x7fff, R13
+   \   000036   1C4A0600     MOV.W   0x6(R10), R12
+   \   00003A   ........     CALLA   #additionSafe
+   \   00003E   064C         MOV.W   R12, R6
      10            pidController->lastError = pidController->error;
-   \   00002A   98480C000E00 MOV.W   0xc(R8), 0xe(R8)
+   \   000040   9A4A06000800 MOV.W   0x6(R10), 0x8(R10)
      11            pidController->lastIntegral = integral;
-   \   000030   88491000     MOV.W   R9, 0x10(R8)
-     12            double errorTerm = multSafe(pidController->error,pidController->kP);
-   \   000034   2E48         MOV.W   @R8, R14
-   \   000036   1F480200     MOV.W   0x2(R8), R15
-   \   00003A   1C480C00     MOV.W   0xc(R8), R12
-   \   00003E   0D4C         MOV.W   R12, R13
-   \   000040   0D5D         RLA.W   R13
-   \   000042   0D7D         SUBC.W  R13, R13
-   \   000044   3DE3         XOR.W   #0xffff, R13
-   \   000046   ........     CALLA   #_Cast32sto32f
-   \   00004A   ........     CALLA   #multSafe
-   \   00004E   064C         MOV.W   R12, R6
-   \   000050   074D         MOV.W   R13, R7
-     13            double derivTerm = multSafe(derivative,pidController->kD);
-   \   000052   1E480400     MOV.W   0x4(R8), R14
-   \   000056   1F480600     MOV.W   0x6(R8), R15
-   \   00005A   2C41         MOV.W   @SP, R12
-   \   00005C   0D4C         MOV.W   R12, R13
-   \   00005E   0D5D         RLA.W   R13
-   \   000060   0D7D         SUBC.W  R13, R13
-   \   000062   3DE3         XOR.W   #0xffff, R13
-   \   000064   ........     CALLA   #_Cast32sto32f
+   \   000046   8A490A00     MOV.W   R9, 0xa(R10)
+     12            int errorTerm = multSafe(pidController->error,pidController->kP);
+   \   00004A   2D4A         MOV.W   @R10, R13
+   \   00004C   1C4A0600     MOV.W   0x6(R10), R12
+   \   000050   ........     CALLA   #multSafe
+   \   000054   074C         MOV.W   R12, R7
+     13            int derivTerm = multSafe(derivative,pidController->kD);
+   \   000056   1D4A0200     MOV.W   0x2(R10), R13
+   \   00005A   0C46         MOV.W   R6, R12
+   \   00005C   ........     CALLA   #multSafe
+   \   000060   044C         MOV.W   R12, R4
+     14            int intTerm = multSafe(integral,pidController->kI);
+   \   000062   1D4A0400     MOV.W   0x4(R10), R13
+   \   000066   0C49         MOV.W   R9, R12
    \   000068   ........     CALLA   #multSafe
-   \   00006C   0A4C         MOV.W   R12, R10
-   \   00006E   0B4D         MOV.W   R13, R11
-     14            double intTerm = multSafe(integral,pidController->kI);
-   \   000070   1E480800     MOV.W   0x8(R8), R14
-   \   000074   1F480A00     MOV.W   0xa(R8), R15
-   \   000078   0C49         MOV.W   R9, R12
-   \   00007A   0D4C         MOV.W   R12, R13
-   \   00007C   0D5D         RLA.W   R13
-   \   00007E   0D7D         SUBC.W  R13, R13
-   \   000080   3DE3         XOR.W   #0xffff, R13
-   \   000082   ........     CALLA   #_Cast32sto32f
-   \   000086   ........     CALLA   #multSafe
-   \   00008A   044C         MOV.W   R12, R4
-   \   00008C   054D         MOV.W   R13, R5
-     15            return (int)(errorTerm + derivTerm + intTerm);
-   \   00008E   0C46         MOV.W   R6, R12
-   \   000090   0D47         MOV.W   R7, R13
-   \   000092   0E4A         MOV.W   R10, R14
-   \   000094   0F4B         MOV.W   R11, R15
-   \   000096   ........     CALLA   #_Add32f
-   \   00009A   0E4C         MOV.W   R12, R14
-   \   00009C   0F4D         MOV.W   R13, R15
-   \   00009E   0C44         MOV.W   R4, R12
-   \   0000A0   0D45         MOV.W   R5, R13
-   \   0000A2   ........     CALLA   #_Add32f
-   \   0000A6   ........     CALLA   #_Cast32fto32s
-   \   0000AA   A1000600     ADDA    #0x6, SP
-   \   0000AE   7417         POPM.W  #0x8, R11
-   \   0000B0   1001         RETA
+   \   00006C   054C         MOV.W   R12, R5
+     15            return additionSafe(additionSafe(errorTerm,32767,-32768,derivTerm),32767,-32768,intTerm);
+   \   00006E   0F44         MOV.W   R4, R15
+   \   000070   3E400080     MOV.W   #0x8000, R14
+   \   000074   3D40FF7F     MOV.W   #0x7fff, R13
+   \   000078   0C47         MOV.W   R7, R12
+   \   00007A   ........     CALLA   #additionSafe
+   \   00007E   0F45         MOV.W   R5, R15
+   \   000080   3E400080     MOV.W   #0x8000, R14
+   \   000084   3D40FF7F     MOV.W   #0x7fff, R13
+   \   000088   ........     CALLA   #additionSafe
+   \   00008C   7417         POPM.W  #0x8, R11
+   \   00008E   1001         RETA
      16          }
      17          
 
@@ -119,11 +103,11 @@ C:\Users\saad\Documents\ece-306\Project 07\pid.c
      18          void ClearController(PIDController* pidController){
    \                     ClearController:
      19            pidController->error = 0;
-   \   000000   8C430C00     MOV.W   #0x0, 0xc(R12)
+   \   000000   8C430600     MOV.W   #0x0, 0x6(R12)
      20            pidController->lastError = 0;
-   \   000004   8C430E00     MOV.W   #0x0, 0xe(R12)
+   \   000004   8C430800     MOV.W   #0x0, 0x8(R12)
      21            pidController->lastIntegral = 0;
-   \   000008   8C431000     MOV.W   #0x0, 0x10(R12)
+   \   000008   8C430A00     MOV.W   #0x0, 0xa(R12)
      22          }
    \   00000C   1001         RETA
      23          
@@ -189,114 +173,73 @@ C:\Users\saad\Documents\ece-306\Project 07\pid.c
      43          
 
    \                                 In  segment CODE, align 2
-     44          double multSafe(double a, double b){
+     44          int multSafe(int a, int b){
    \                     multSafe:
-   \   000000   5B15         PUSHM.W #0x6, R11
+   \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
-   \   000006   084E         MOV.W   R14, R8
-   \   000008   094F         MOV.W   R15, R9
      45            if(a==0||b==0)return 0;
-   \   00000A   0C4A         MOV.W   R10, R12
-   \   00000C   0D4B         MOV.W   R11, R13
-   \   00000E   0E43         MOV.W   #0x0, R14
-   \   000010   0F43         MOV.W   #0x0, R15
-   \   000012   ........     CALLA   #?FLT_EQ
-   \   000016   0724         JEQ     ??multSafe_3
-   \   000018   0C48         MOV.W   R8, R12
-   \   00001A   0D49         MOV.W   R9, R13
-   \   00001C   0E43         MOV.W   #0x0, R14
-   \   00001E   0F43         MOV.W   #0x0, R15
-   \   000020   ........     CALLA   #?FLT_EQ
-   \   000024   0320         JNE     ??multSafe_4
+   \   000006   0A93         CMP.W   #0x0, R10
+   \   000008   0224         JEQ     ??multSafe_3
+   \   00000A   0B93         CMP.W   #0x0, R11
+   \   00000C   0220         JNE     ??multSafe_4
    \                     ??multSafe_3:
-   \   000026   0C43         MOV.W   #0x0, R12
-   \   000028   0D43         MOV.W   #0x0, R13
-   \   00002A   563C         JMP     ??multSafe_0
+   \   00000E   0C43         MOV.W   #0x0, R12
+   \   000010   353C         JMP     ??multSafe_0
      46            int res = a*b;
-                             ^
-Warning[Pa093]: implicit conversion from floating point to integer
    \                     ??multSafe_4:
-   \   00002C   0C4A         MOV.W   R10, R12
-   \   00002E   0D4B         MOV.W   R11, R13
-   \   000030   0E48         MOV.W   R8, R14
-   \   000032   0F49         MOV.W   R9, R15
-   \   000034   ........     CALLA   #_Mul32f
-   \   000038   ........     CALLA   #_Cast32fto32s
-   \   00003C   064C         MOV.W   R12, R6
+   \   000012   0212         PUSH.W  SR
+   \   000014   32C2         DINT
+   \   000016   0343         NOP
+   \   000018   824A....     MOV.W   R10, &__iar_HWMUL              // MPY
+   \   00001C   824B....     MOV.W   R11, &__iar_HWMUL + 8          // OP2
+   \   000020   1842....     MOV.W   &__iar_HWMUL + 10, R8          // RESLO
+   \   000024   0343         NOP
+   \   000026   3241         POP.W   SR
      47            if(a==res/b)return res;
-   \   00003E   0E4A         MOV.W   R10, R14
-   \   000040   0F4B         MOV.W   R11, R15
-   \   000042   0A4E         MOV.W   R14, R10
-   \   000044   0B4F         MOV.W   R15, R11
-   \   000046   0C46         MOV.W   R6, R12
-   \   000048   0D4C         MOV.W   R12, R13
-   \   00004A   0D5D         RLA.W   R13
-   \   00004C   0D7D         SUBC.W  R13, R13
-   \   00004E   3DE3         XOR.W   #0xffff, R13
-   \   000050   ........     CALLA   #_Cast32sto32f
-   \   000054   0E48         MOV.W   R8, R14
-   \   000056   0F49         MOV.W   R9, R15
-   \   000058   ........     CALLA   #_Div32f
-   \   00005C   0E4A         MOV.W   R10, R14
-   \   00005E   0F4B         MOV.W   R11, R15
-   \   000060   ........     CALLA   #?FLT_EQ
-   \   000064   0820         JNE     ??multSafe_5
-   \   000066   0C46         MOV.W   R6, R12
-   \   000068   0D4C         MOV.W   R12, R13
-   \   00006A   0D5D         RLA.W   R13
-   \   00006C   0D7D         SUBC.W  R13, R13
-   \   00006E   3DE3         XOR.W   #0xffff, R13
-   \   000070   ........     CALLA   #_Cast32sto32f
-   \   000074   313C         JMP     ??multSafe_0
-     48            else return 32765*(a<0?-1:1)*(b<0?-1:1);
+   \   000028   0C48         MOV.W   R8, R12
+   \   00002A   0E4B         MOV.W   R11, R14
+   \   00002C   ........     CALLA   #?DivMod16s
+   \   000030   0A9C         CMP.W   R12, R10
+   \   000032   0220         JNE     ??multSafe_5
+   \   000034   0C48         MOV.W   R8, R12
+   \   000036   223C         JMP     ??multSafe_0
+     48            else return 32767*(a<0?-1:1)*(b<0?-1:1);
    \                     ??multSafe_5:
-   \   000076   0C4A         MOV.W   R10, R12
-   \   000078   0D4B         MOV.W   R11, R13
-   \   00007A   0E43         MOV.W   #0x0, R14
-   \   00007C   0F43         MOV.W   #0x0, R15
-   \   00007E   ........     CALLA   #?FLT_LT
-   \   000082   0228         JNC     ??multSafe_6
-   \   000084   3B43         MOV.W   #0xffff, R11
-   \   000086   013C         JMP     ??multSafe_1
+   \   000038   0A93         CMP.W   #0x0, R10
+   \   00003A   0234         JGE     ??multSafe_6
+   \   00003C   3F43         MOV.W   #0xffff, R15
+   \   00003E   013C         JMP     ??multSafe_1
    \                     ??multSafe_6:
-   \   000088   1B43         MOV.W   #0x1, R11
+   \   000040   1F43         MOV.W   #0x1, R15
    \                     ??multSafe_1:
-   \   00008A   0C48         MOV.W   R8, R12
-   \   00008C   0D49         MOV.W   R9, R13
-   \   00008E   0E43         MOV.W   #0x0, R14
-   \   000090   0F43         MOV.W   #0x0, R15
-   \   000092   ........     CALLA   #?FLT_LT
-   \   000096   0228         JNC     ??multSafe_7
-   \   000098   3F43         MOV.W   #0xffff, R15
-   \   00009A   013C         JMP     ??multSafe_2
+   \   000042   0B93         CMP.W   #0x0, R11
+   \   000044   0234         JGE     ??multSafe_7
+   \   000046   3B43         MOV.W   #0xffff, R11
+   \   000048   013C         JMP     ??multSafe_2
    \                     ??multSafe_7:
-   \   00009C   1F43         MOV.W   #0x1, R15
+   \   00004A   1B43         MOV.W   #0x1, R11
    \                     ??multSafe_2:
-   \   00009E   0212         PUSH.W  SR
-   \   0000A0   32C2         DINT
-   \   0000A2   0343         NOP
-   \   0000A4   824B....     MOV.W   R11, &__iar_HWMUL              // MPY
-   \   0000A8   824F....     MOV.W   R15, &__iar_HWMUL + 8          // OP2
-   \   0000AC   1F42....     MOV.W   &__iar_HWMUL + 10, R15         // RESLO
-   \   0000B0   0343         NOP
-   \   0000B2   3241         POP.W   SR
-   \   0000B4   0212         PUSH.W  SR
-   \   0000B6   32C2         DINT
-   \   0000B8   0343         NOP
-   \   0000BA   824F....     MOV.W   R15, &__iar_HWMUL              // MPY
-   \   0000BE   B240FD7F.... MOV.W   #0x7ffd, &__iar_HWMUL + 8      // OP2
-   \   0000C4   1C42....     MOV.W   &__iar_HWMUL + 10, R12         // RESLO
-   \   0000C8   0343         NOP
-   \   0000CA   3241         POP.W   SR
-   \   0000CC   0D4C         MOV.W   R12, R13
-   \   0000CE   0D5D         RLA.W   R13
-   \   0000D0   0D7D         SUBC.W  R13, R13
-   \   0000D2   3DE3         XOR.W   #0xffff, R13
-   \   0000D4   ........     CALLA   #_Cast32sto32f
+   \   00004C   0212         PUSH.W  SR
+   \   00004E   32C2         DINT
+   \   000050   0343         NOP
+   \   000052   824F....     MOV.W   R15, &__iar_HWMUL              // MPY
+   \   000056   824B....     MOV.W   R11, &__iar_HWMUL + 8          // OP2
+   \   00005A   1F42....     MOV.W   &__iar_HWMUL + 10, R15         // RESLO
+   \   00005E   0343         NOP
+   \   000060   3241         POP.W   SR
+   \   000062   0212         PUSH.W  SR
+   \   000064   32C2         DINT
+   \   000066   0343         NOP
+   \   000068   824F....     MOV.W   R15, &__iar_HWMUL              // MPY
+   \   00006C   B240FF7F.... MOV.W   #0x7fff, &__iar_HWMUL + 8      // OP2
+   \   000072   1C42....     MOV.W   &__iar_HWMUL + 10, R12         // RESLO
+   \   000076   0343         NOP
+   \   000078   3241         POP.W   SR
+   \   00007A   0343         NOP
    \                     ??multSafe_0:
-   \   0000D8   5617         POPM.W  #0x6, R11
-   \   0000DA   1001         RETA
+   \   00007C   3817         POPM.W  #0x4, R11
+   \   00007E   1001         RETA
      49          }
 
    Maximum stack usage in bytes:
@@ -304,20 +247,13 @@ Warning[Pa093]: implicit conversion from floating point to integer
    CSTACK Function
    ------ --------
       4   ClearController
-     26   GetOutput
-       26   -> multSafe
-       26 _Add32f
-       26 _Cast32fto32s
-       26 _Cast32sto32f
+     20   GetOutput
+       20   -> additionSafe
+       20   -> multSafe
      12   additionSafe
        12   -> abs
-     18   multSafe
-       16 ?FLT_EQ
-       16 ?FLT_LT
-       16 _Cast32fto32s
-       16 _Cast32sto32f
-       16 _Div32f
-       16 _Mul32f
+     14   multSafe
+       12 ?DivMod16s
 
 
    Segment part sizes:
@@ -325,14 +261,14 @@ Warning[Pa093]: implicit conversion from floating point to integer
    Bytes  Function/Label
    -----  --------------
       14  ClearController
-     178  GetOutput
+     144  GetOutput
       68  additionSafe
-     220  multSafe
+     128  multSafe
 
  
- 480 bytes in segment CODE
+ 354 bytes in segment CODE
  
- 480 bytes of CODE memory
+ 354 bytes of CODE memory
 
 Errors: none
-Warnings: 1
+Warnings: none

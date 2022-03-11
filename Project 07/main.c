@@ -52,6 +52,7 @@ extern char movingDirection;
 extern char enteringDirection;
 extern float timeElapsed;
 extern char state;
+extern volatile unsigned int stopwatchUpdated;
 //===========================================================================
 // Function name: Main
 //
@@ -89,8 +90,8 @@ void main(void){
   Init_Timers();                       // Initialize Timers
   Init_LCD();                          // Initialize LCD
   Init_ADC();
-  Init_REF();
-  Init_DAC();
+  //Init_REF();
+  //Init_DAC();
   EmitterOn();
   // Place the contents of what you want on the display, in between the quotes
 // Limited to 10 characters per line
@@ -114,10 +115,13 @@ void main(void){
     else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
     else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
     
-    HEXtoBCD((int)timeElapsed,3,0);
-    display_line[3][4]='.';
-    display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
-    display_changed = 1;
+    if(stopwatchUpdated){
+      stopwatchUpdated = 0;
+      HEXtoBCD((int)timeElapsed,3,0);
+      display_line[3][4]='.';
+      display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
+      display_changed = 1;
+    }
     
     
     if(Last_Time_Sequence!=Time_Sequence){ 

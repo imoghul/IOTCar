@@ -1,6 +1,6 @@
 #define SET_POINT        (20)
 struct PID{
-  double kP,kD,kI;
+  int kP,kD,kI;
   int error, lastError, lastIntegral;
 };
 
@@ -10,4 +10,4 @@ int GetOutput(PIDController* pidController, int setPoint, int current);
 void ClearController(PIDController* pidController);
 
 int additionSafe( int pin,  int max,  int min, int increment);
-double multSafe(double a, double b);
+int multSafe(int a, int b);
