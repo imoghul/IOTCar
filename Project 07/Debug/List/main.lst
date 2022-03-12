@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Mar/2022  11:37:54
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Mar/2022  17:48:28
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW8EED.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWD510.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -241,33 +241,38 @@ C:\Users\saad\Documents\ece-306\Project 07\main.c
     123                display_changed = 1;
     124              }*/
     125              
-    126              
-    127              if(Last_Time_Sequence!=Time_Sequence){ 
+    126              //if(ADC_Channel==0 && P6IN&IR_LED/* && (state == STRAIGHT || state==TURN || state==LINEFOLLOW)*/){
+    127              //  HEXtoBCD(ADC_Right_Detect,3,0); 
+    128              //  HEXtoBCD(ADC_Left_Detect,3,6); 
+    129              //}
+    130              
+    131              
+    132              if(Last_Time_Sequence!=Time_Sequence){ 
    \   000064   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
    \   00006A   F427         JEQ     ??main_0
-    128                Last_Time_Sequence=Time_Sequence;
+    133                Last_Time_Sequence=Time_Sequence;
    \   00006C   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
-    129                cycle_count++;
+    134                cycle_count++;
    \   000072   9253....     ADD.W   #0x1, &cycle_count
-    130                time_change = 1;
+    135                time_change = 1;
    \   000076   9243....     MOV.W   #0x1, &time_change
-    131                if(cycle_count == TIME_SEQUENCE_MAX){
+    136                if(cycle_count == TIME_SEQUENCE_MAX){
    \   00007A   B290FA00.... CMP.W   #0xfa, &cycle_count
    \   000080   E923         JNE     ??main_0
-    132                  cycle_count = 0;
+    137                  cycle_count = 0;
    \   000082   8243....     MOV.W   #0x0, &cycle_count
-    133                  stopwatch_seconds++;
+    138                  stopwatch_seconds++;
    \   000086   9253....     ADD.W   #0x1, &stopwatch_seconds
    \   00008A   E43F         JMP     ??main_0
    \   00008C   0343         NOP
    \   00008E                REQUIRE _A_PM5CTL0_L
    \   00008E                REQUIRE _A_PBOUT_L
-    134                }
-    135              }
-    136             }
-    137              
-    138          //------------------------------------------------------------------------------
-    139          }
+    139                }
+    140              }
+    141             }
+    142              
+    143          //------------------------------------------------------------------------------
+    144          }
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "WAITING...">`:
@@ -278,7 +283,7 @@ C:\Users\saad\Documents\ece-306\Project 07\main.c
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
-    140          
+    145          
 
    Maximum stack usage in bytes:
 

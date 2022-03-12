@@ -119,18 +119,19 @@ void LineFollow(){
     stopwatch_seconds = 0;
     cycle_count = 0;
     if(rightSwitchable && leftSwitchable)stateCounter++;
+    else return;
   }
   
   int rSpeed;
   int lSpeed;
-  int leftPIDOut = GetOutput(&leftController,LEFT_GRAY_DETECT,ADC_Left_Detect);
-  int rightPIDOut = GetOutput(&rightController,RIGHT_GRAY_DETECT,ADC_Right_Detect);
+  int leftPIDOut = GetOutput(&leftController,LEFT_BLACK_DETECT,ADC_Left_Detect);
+  int rightPIDOut = GetOutput(&rightController,RIGHT_BLACK_DETECT,ADC_Right_Detect);
   rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MIN,RIGHT_MIN>>1,leftPIDOut); // swapped b/c they are physically swapped
   lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MIN,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped
   
   if(stateCounter == 1){
-    if(ADC_Left_Detect<(LEFT_GRAY_DETECT>>1) ^ ADC_Right_Detect<(RIGHT_GRAY_DETECT>>1)) stateCounter = 2;
-    else if (ADC_Left_Detect<(LEFT_GRAY_DETECT>>1) && ADC_Right_Detect<(RIGHT_GRAY_DETECT>>1)){
+    if(ADC_Left_Detect<(LEFT_WHITE_DETECT) ^ ADC_Right_Detect<(RIGHT_WHITE_DETECT)) stateCounter = 2;
+    else if (ADC_Left_Detect<(LEFT_WHITE_DETECT) && ADC_Right_Detect<(RIGHT_WHITE_DETECT)){
       rSpeed = -RIGHT_MIN;
       lSpeed = -LEFT_MIN;
     }
@@ -255,6 +256,7 @@ void StateMachine(void){
       cycle_count = 0;
       break;
     case (WAIT):
+      strcpy(display_line[0], "WAITING...");
       if (delay(delayTime,0)) state = nextState;
       break;
     case (STRAIGHT):

@@ -9,7 +9,6 @@
 #include <string.h>
 
 extern volatile unsigned int cycle_count;
-extern volatile unsigned int stopwatch_milliseconds;
 extern volatile unsigned int stopwatch_seconds;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
