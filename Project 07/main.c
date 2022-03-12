@@ -115,13 +115,13 @@ void main(void){
     else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
     else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
     
-    if(stopwatchUpdated){
+    /*if(stopwatchUpdated){
       stopwatchUpdated = 0;
       HEXtoBCD((int)timeElapsed,3,0);
       display_line[3][4]='.';
       display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
       display_changed = 1;
-    }
+    }*/
     
     
     if(Last_Time_Sequence!=Time_Sequence){ 

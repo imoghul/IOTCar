@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          11/Mar/2022  17:53:43
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Mar/2022  11:37:54
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW401F.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW8EED.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -233,72 +233,35 @@ C:\Users\saad\Documents\ece-306\Project 07\main.c
     115              else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
     116              else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
     117              
-    118              if(stopwatchUpdated){
-   \   000064   8293....     CMP.W   #0x0, &stopwatchUpdated
-   \   000068   3724         JEQ     ??main_1
+    118              /*if(stopwatchUpdated){
     119                stopwatchUpdated = 0;
-   \   00006A   8243....     MOV.W   #0x0, &stopwatchUpdated
     120                HEXtoBCD((int)timeElapsed,3,0);
-   \   00006E   0E43         MOV.W   #0x0, R14
-   \   000070   3D400300     MOV.W   #0x3, R13
-   \   000074   0F4D         MOV.W   R13, R15
-   \   000076   1C42....     MOV.W   &timeElapsed, R12
-   \   00007A   1D42....     MOV.W   &timeElapsed + 2, R13
-   \   00007E   ........     CALLA   #_Cast32fto32s
-   \   000082   0D4F         MOV.W   R15, R13
-   \   000084   ........     CALLA   #HEXtoBCD
     121                display_line[3][4]='.';
-   \   000088   F2402E00.... MOV.B   #0x2e, &display_line + 37
     122                display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
-   \   00008E   1C42....     MOV.W   &timeElapsed, R12
-   \   000092   1D42....     MOV.W   &timeElapsed + 2, R13
-   \   000096   0A4C         MOV.W   R12, R10
-   \   000098   0B4D         MOV.W   R13, R11
-   \   00009A   1C42....     MOV.W   &timeElapsed, R12
-   \   00009E   1D42....     MOV.W   &timeElapsed + 2, R13
-   \   0000A2   ........     CALLA   #_Cast32fto32s
-   \   0000A6   0D4C         MOV.W   R12, R13
-   \   0000A8   0D5D         RLA.W   R13
-   \   0000AA   0D7D         SUBC.W  R13, R13
-   \   0000AC   3DE3         XOR.W   #0xffff, R13
-   \   0000AE   ........     CALLA   #_Cast32sto32f
-   \   0000B2   0E4C         MOV.W   R12, R14
-   \   0000B4   0F4D         MOV.W   R13, R15
-   \   0000B6   0C4A         MOV.W   R10, R12
-   \   0000B8   0D4B         MOV.W   R11, R13
-   \   0000BA   ........     CALLA   #_Sub32f
-   \   0000BE   0E43         MOV.W   #0x0, R14
-   \   0000C0   3F402041     MOV.W   #0x4120, R15
-   \   0000C4   ........     CALLA   #_Mul32f
-   \   0000C8   ........     CALLA   #_Cast32fto32s
-   \   0000CC   7C503000     ADD.B   #0x30, R12
-   \   0000D0   C24C....     MOV.B   R12, &display_line + 38
     123                display_changed = 1;
-   \   0000D4   D243....     MOV.B   #0x1, &display_changed
-    124              }
+    124              }*/
     125              
     126              
     127              if(Last_Time_Sequence!=Time_Sequence){ 
-   \                     ??main_1:
-   \   0000D8   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
-   \   0000DE   BA27         JEQ     ??main_0
+   \   000064   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
+   \   00006A   F427         JEQ     ??main_0
     128                Last_Time_Sequence=Time_Sequence;
-   \   0000E0   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
+   \   00006C   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
     129                cycle_count++;
-   \   0000E6   9253....     ADD.W   #0x1, &cycle_count
+   \   000072   9253....     ADD.W   #0x1, &cycle_count
     130                time_change = 1;
-   \   0000EA   9243....     MOV.W   #0x1, &time_change
+   \   000076   9243....     MOV.W   #0x1, &time_change
     131                if(cycle_count == TIME_SEQUENCE_MAX){
-   \   0000EE   B290FA00.... CMP.W   #0xfa, &cycle_count
-   \   0000F4   AF23         JNE     ??main_0
+   \   00007A   B290FA00.... CMP.W   #0xfa, &cycle_count
+   \   000080   E923         JNE     ??main_0
     132                  cycle_count = 0;
-   \   0000F6   8243....     MOV.W   #0x0, &cycle_count
+   \   000082   8243....     MOV.W   #0x0, &cycle_count
     133                  stopwatch_seconds++;
-   \   0000FA   9253....     ADD.W   #0x1, &stopwatch_seconds
-   \   0000FE   AA3F         JMP     ??main_0
-   \   000100   0343         NOP
-   \   000102                REQUIRE _A_PM5CTL0_L
-   \   000102                REQUIRE _A_PBOUT_L
+   \   000086   9253....     ADD.W   #0x1, &stopwatch_seconds
+   \   00008A   E43F         JMP     ??main_0
+   \   00008C   0343         NOP
+   \   00008E                REQUIRE _A_PM5CTL0_L
+   \   00008E                REQUIRE _A_PBOUT_L
     134                }
     135              }
     136             }
@@ -324,7 +287,6 @@ C:\Users\saad\Documents\ece-306\Project 07\main.c
       4   main
         4   -> Display_Process
         4   -> EmitterOn
-        4   -> HEXtoBCD
         4   -> Init_ADC
         4   -> Init_Clocks
         4   -> Init_Conditions
@@ -334,10 +296,6 @@ C:\Users\saad\Documents\ece-306\Project 07\main.c
         4   -> MotorSafety
         4   -> StateMachine
         4   -> strcpy
-        4 _Cast32fto32s
-        4 _Cast32sto32f
-        4 _Mul32f
-        4 _Sub32f
 
 
    Segment part sizes:
@@ -353,19 +311,19 @@ C:\Users\saad\Documents\ece-306\Project 07\main.c
        1  chosen_direction
        2  cycle_count
        1  display_mode
-     258  main
+     142  main
        1  slow_input_down
        2  stopwatch_seconds
        2  test_value
        2  time_change
 
  
- 258 bytes in segment CODE
+ 142 bytes in segment CODE
    4 bytes in segment DATA16_AN
   22 bytes in segment DATA16_C
   14 bytes in segment DATA16_Z
  
- 258 bytes of CODE  memory
+ 142 bytes of CODE  memory
   22 bytes of CONST memory
   14 bytes of DATA  memory (+ 4 bytes shared)
 

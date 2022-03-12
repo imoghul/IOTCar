@@ -42,7 +42,7 @@ void Straight(void){
     stateCounter++;
   }
   if(stateCounter==1){
-    if ((ADC_Left_Detect <= LEFT_BLACK_DETECT/2 || ADC_Right_Detect <= RIGHT_BLACK_DETECT/2)){
+    if ((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)){
       Drive_Path(STRAIGHT_RIGHT,STRAIGHT_LEFT, 0);
     }
     else{
@@ -90,7 +90,7 @@ void Turn(){
     }
   }
   if (stateCounter==2){
-    if (((ADC_Left_Detect <= LEFT_BLACK_DETECT/2 || ADC_Right_Detect <= RIGHT_BLACK_DETECT/2))){
+    if (((ADC_Left_Detect <= LEFT_GRAY_DETECT/2 || ADC_Right_Detect <= RIGHT_GRAY_DETECT/2))){
       if(enteringDirection == MOVING_LEFT)Drive_Path(STRAIGHT_RIGHT/4,-STRAIGHT_LEFT/4,0);
       if(enteringDirection == MOVING_RIGHT)Drive_Path(-STRAIGHT_RIGHT/4,STRAIGHT_LEFT/4,0);
     }
@@ -109,6 +109,8 @@ void Turn(){
 }
 
 void LineFollow(){
+  if(stateCounter==1) P6OUT|=GRN_LED;
+  else P6OUT&=~GRN_LED;
   
   if (stateCounter == 0) {
     EmitterOn();
@@ -119,15 +121,19 @@ void LineFollow(){
     if(rightSwitchable && leftSwitchable)stateCounter++;
   }
   
+  int rSpeed;
+  int lSpeed;
+  int leftPIDOut = GetOutput(&leftController,LEFT_GRAY_DETECT,ADC_Left_Detect);
+  int rightPIDOut = GetOutput(&rightController,RIGHT_GRAY_DETECT,ADC_Right_Detect);
+  rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MIN,RIGHT_MIN>>1,leftPIDOut); // swapped b/c they are physically swapped
+  lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MIN,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped
+  
   if(stateCounter == 1){
-    
-    unsigned int rSpeed;
-    unsigned int lSpeed;
-    int leftPIDOut = GetOutput(&leftController,LEFT_BLACK_DETECT,ADC_Left_Detect);
-    int rightPIDOut = GetOutput(&rightController,RIGHT_BLACK_DETECT,ADC_Right_Detect);
-    rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN,leftPIDOut); // swapped b/c they are physically swapped
-    lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN,rightPIDOut); // swapped b/c they are physically swapped
-    if(ADC_Left_Detect<LEFT_BLACK_DETECT || ADC_Right_Detect<RIGHT_BLACK_DETECT) stateCounter = 1;
+    if(ADC_Left_Detect<(LEFT_GRAY_DETECT>>1) ^ ADC_Right_Detect<(RIGHT_GRAY_DETECT>>1)) stateCounter = 2;
+    else if (ADC_Left_Detect<(LEFT_GRAY_DETECT>>1) && ADC_Right_Detect<(RIGHT_GRAY_DETECT>>1)){
+      rSpeed = -RIGHT_MIN;
+      lSpeed = -LEFT_MIN;
+    }
     else {
       ClearController(&rightController);
       ClearController(&leftController);
@@ -141,22 +147,22 @@ void LineFollow(){
     if(LockMotorsTime(-1,-1,1)) stateCounter = 2;
   
   if(stateCounter == 2){
-    if(ADC_Left_Detect<LEFT_BLACK_DETECT && ADC_Right_Detect>=RIGHT_BLACK_DETECT) // RCIRC
+    if(ADC_Left_Detect<LEFT_GRAY_DETECT && ADC_Right_Detect>=RIGHT_GRAY_DETECT) // 
       stateCounter = 3;
-    else if(ADC_Left_Detect>=LEFT_BLACK_DETECT && ADC_Right_Detect<RIGHT_BLACK_DETECT) // LCIRC
+    else if(ADC_Left_Detect>=LEFT_GRAY_DETECT && ADC_Right_Detect<RIGHT_GRAY_DETECT) // LCIRC
       stateCounter = 4;
     else stateCounter = 1;
   }
   
   
   if(stateCounter == 3){ // turn left ()
-     if(ADC_Left_Detect<LEFT_BLACK_DETECT)Drive_Path(RIGHT_MIN,-LEFT_MIN, 0);
+     if(ADC_Left_Detect<LEFT_GRAY_DETECT)Drive_Path((RIGHT_MIN-2000),-(LEFT_MIN-2000), 0);
      else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
      else stateCounter = 4;
   }
   
   if(stateCounter == 4){
-     if(ADC_Right_Detect<RIGHT_BLACK_DETECT)Drive_Path(-RIGHT_MIN,LEFT_MIN, 0);
+     if(ADC_Right_Detect<RIGHT_GRAY_DETECT)Drive_Path(-(RIGHT_MIN-2000),(LEFT_MIN-2000), 0);
      else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
      else stateCounter = 3;
   }
@@ -240,8 +246,6 @@ void StateMachine(void){
       calibrate();
       if(calibrationMode>=2) {
         state=START;
-        LEFT_BLACK_DETECT >>= 1;
-        RIGHT_BLACK_DETECT >>= 1;
       }
       break;
     case (START):

@@ -79,8 +79,8 @@ void Init_DAC(void){
 #pragma vector=ADC_VECTOR 
 __interrupt void ADC_ISR(void){
   if(ADC_Channel==0 && P6IN&IR_LED/* && (state == STRAIGHT || state==TURN || state==LINEFOLLOW)*/){
-    //HEXtoBCD(ADC_Right_Detect,3,0); 
-    //HEXtoBCD(ADC_Left_Detect,3,6); 
+    HEXtoBCD(ADC_Right_Detect,3,0); 
+    HEXtoBCD(ADC_Left_Detect,3,6); 
   }
   switch(__even_in_range(ADCIV,ADCIV_ADCIFG)){ 
     case ADCIV_NONE:

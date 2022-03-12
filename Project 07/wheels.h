@@ -6,10 +6,10 @@
 #define LEFT_REVERSE_SPEED      (TB3CCR4)
 #define WHEEL_OFF               (0)
 #define WHEEL_PERIOD            (20000)
-#define RIGHT_MAX               (STRAIGHT_RIGHT>>1)
-#define LEFT_MAX                (STRAIGHT_LEFT>>1)
-#define RIGHT_MIN               (STRAIGHT_RIGHT>>2)
-#define LEFT_MIN                (STRAIGHT_LEFT>>2)
+#define RIGHT_MAX               (8000)
+#define LEFT_MAX                (8000)
+#define RIGHT_MIN               (6500)
+#define LEFT_MIN                (6500)
 // straight
 #define STRAIGHT_RIGHT          (20000)
 #define STRAIGHT_LEFT           (16000)
@@ -26,10 +26,12 @@
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
 // detectors
-#define LEFT_BLACK_DETECT        (LBDetect)
-#define RIGHT_BLACK_DETECT       (RBDetect)
-#define LEFT_WHITE_DETECT        (LWDetect)
-#define RIGHT_WHITE_DETECT       (RWDetect)
+#define LEFT_BLACK_DETECT        (LBDetect-75)
+#define RIGHT_BLACK_DETECT       (RBDetect-75)
+#define LEFT_GRAY_DETECT        (LBDetect>>1)
+#define RIGHT_GRAY_DETECT       (RBDetect>>1)
+#define LEFT_WHITE_DETECT        (LWDetect+20)
+#define RIGHT_WHITE_DETECT       (RWDetect+20)
 
 
 int RunRightMotor( int val);

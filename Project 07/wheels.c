@@ -26,17 +26,17 @@ extern int rightVals[VALUES_TO_HOLD];
 
 
 PIDController rightController = {
-  .kP = 1,
+  .kP = 10,
   .kD = 0,
-  .kI = 1,
+  .kI = 5,
   .error = 0,
   .lastError = 0,
   .lastIntegral = 0
 };
 PIDController leftController = {
-  .kP = 1,
+  .kP = 10,
   .kD = 0,
-  .kI = 1,
+  .kI = 5,
   .error = 0,
   .lastError = 0,
   .lastIntegral = 0
