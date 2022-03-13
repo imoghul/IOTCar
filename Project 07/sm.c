@@ -126,8 +126,10 @@ void LineFollow(){
   int lSpeed;
   int leftPIDOut = GetOutput(&leftController,LEFT_BLACK_DETECT,ADC_Left_Detect);
   int rightPIDOut = GetOutput(&rightController,RIGHT_BLACK_DETECT,ADC_Right_Detect);
-  rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MIN,RIGHT_MIN>>1,leftPIDOut); // swapped b/c they are physically swapped
-  lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MIN,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped
+  rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN>>1,leftPIDOut); // swapped b/c they are physically swapped
+  rSpeed = additionSafe(rSpeed,RIGHT_MIN,RIGHT_MIN>>1,-rightPIDOut);
+  lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped
+  lSpeed = additionSafe(lSpeed,LEFT_MIN,LEFT_MIN>>1,-leftPIDOut);
   
   if(stateCounter == 1){
     if(ADC_Left_Detect<(LEFT_WHITE_DETECT) ^ ADC_Right_Detect<(RIGHT_WHITE_DETECT)) stateCounter = 2;

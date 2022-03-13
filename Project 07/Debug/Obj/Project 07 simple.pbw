@@ -126224,7 +126224,7 @@
     "scope": null
   },
   {
-    "ID": "c:pid.c@248@F@GetOutput@integral",
+    "ID": "c:pid.c@246@F@GetOutput@integral",
     "What": "Variable",
     "defdec": "Def",
     "display": "integral",
@@ -126238,7 +126238,7 @@
     "scope": null
   },
   {
-    "ID": "c:pid.c@343@F@GetOutput@derivative",
+    "ID": "c:pid.c@341@F@GetOutput@derivative",
     "What": "Variable",
     "defdec": "Def",
     "display": "derivative",
@@ -126252,7 +126252,7 @@
     "scope": null
   },
   {
-    "ID": "c:pid.c@533@F@GetOutput@errorTerm",
+    "ID": "c:pid.c@531@F@GetOutput@errorTerm",
     "What": "Variable",
     "defdec": "Def",
     "display": "errorTerm",
@@ -126266,7 +126266,7 @@
     "scope": null
   },
   {
-    "ID": "c:pid.c@602@F@GetOutput@derivTerm",
+    "ID": "c:pid.c@600@F@GetOutput@derivTerm",
     "What": "Variable",
     "defdec": "Def",
     "display": "derivTerm",
@@ -126280,7 +126280,7 @@
     "scope": null
   },
   {
-    "ID": "c:pid.c@661@F@GetOutput@intTerm",
+    "ID": "c:pid.c@659@F@GetOutput@intTerm",
     "What": "Variable",
     "defdec": "Def",
     "display": "intTerm",
@@ -126322,7 +126322,7 @@
     "scope": null
   },
   {
-    "ID": "c:pid.c@1033@F@additionSafe@out",
+    "ID": "c:pid.c@1031@F@additionSafe@out",
     "What": "Variable",
     "defdec": "Def",
     "display": "out",
@@ -126336,7 +126336,7 @@
     "scope": null
   },
   {
-    "ID": "c:pid.c@1064@F@additionSafe@speed",
+    "ID": "c:pid.c@1062@F@additionSafe@speed",
     "What": "Variable",
     "defdec": "Def",
     "display": "speed",
@@ -126364,7 +126364,7 @@
     "scope": null
   },
   {
-    "ID": "c:pid.c@1436@F@multSafe@res",
+    "ID": "c:pid.c@1434@F@multSafe@res",
     "What": "Variable",
     "defdec": "Def",
     "display": "res",
@@ -126375,246 +126375,6 @@
     },
     "name": "res",
     "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:pid.h@8@macro@SET_POINT",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "SET_POINT",
-    "location": {
-      "column": "9",
-      "line": "1",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-    },
-    "name": "SET_POINT",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@S@PID",
-    "What": "Struct",
-    "defdec": "Def",
-    "display": "PID",
-    "location": {
-      "column": "8",
-      "line": "2",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-    },
-    "members": [
-      {
-        "ID": "c:@S@PID@FI@kP",
-        "What": "FieldDecl",
-        "defdec": "Def",
-        "display": "kP",
-        "location": {
-          "column": "7",
-          "line": "3",
-          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-        },
-        "name": "kP",
-        "origin": "user_include",
-        "scope": "PID"
-      },
-      {
-        "ID": "c:@S@PID@FI@kD",
-        "What": "FieldDecl",
-        "defdec": "Def",
-        "display": "kD",
-        "location": {
-          "column": "10",
-          "line": "3",
-          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-        },
-        "name": "kD",
-        "origin": "user_include",
-        "scope": "PID"
-      },
-      {
-        "ID": "c:@S@PID@FI@kI",
-        "What": "FieldDecl",
-        "defdec": "Def",
-        "display": "kI",
-        "location": {
-          "column": "13",
-          "line": "3",
-          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-        },
-        "name": "kI",
-        "origin": "user_include",
-        "scope": "PID"
-      },
-      {
-        "ID": "c:@S@PID@FI@error",
-        "What": "FieldDecl",
-        "defdec": "Def",
-        "display": "error",
-        "location": {
-          "column": "7",
-          "line": "4",
-          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-        },
-        "name": "error",
-        "origin": "user_include",
-        "scope": "PID"
-      },
-      {
-        "ID": "c:@S@PID@FI@lastError",
-        "What": "FieldDecl",
-        "defdec": "Def",
-        "display": "lastError",
-        "location": {
-          "column": "14",
-          "line": "4",
-          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-        },
-        "name": "lastError",
-        "origin": "user_include",
-        "scope": "PID"
-      },
-      {
-        "ID": "c:@S@PID@FI@lastIntegral",
-        "What": "FieldDecl",
-        "defdec": "Def",
-        "display": "lastIntegral",
-        "location": {
-          "column": "25",
-          "line": "4",
-          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-        },
-        "name": "lastIntegral",
-        "origin": "user_include",
-        "scope": "PID"
-      }
-    ],
-    "name": "PID",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:pid.h@T@PIDController",
-    "What": "Typedef",
-    "defdec": "Def",
-    "display": "struct PID",
-    "location": {
-      "column": "20",
-      "line": "7",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-    },
-    "name": "PIDController",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@GetOutput",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "int GetOutput(PIDController *, int, int)",
-    "location": {
-      "column": "5",
-      "line": "9",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-    },
-    "name": "GetOutput",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@GetOutput",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "int GetOutput(PIDController *, int, int)",
-    "location": {
-      "column": "5",
-      "line": "9",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-    },
-    "name": "GetOutput",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@ClearController",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void ClearController(PIDController *)",
-    "location": {
-      "column": "6",
-      "line": "10",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-    },
-    "name": "ClearController",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@ClearController",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void ClearController(PIDController *)",
-    "location": {
-      "column": "6",
-      "line": "10",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-    },
-    "name": "ClearController",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@additionSafe",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "int additionSafe(int, int, int, int)",
-    "location": {
-      "column": "5",
-      "line": "12",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-    },
-    "name": "additionSafe",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@additionSafe",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "int additionSafe(int, int, int, int)",
-    "location": {
-      "column": "5",
-      "line": "12",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-    },
-    "name": "additionSafe",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@multSafe",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "int multSafe(int, int)",
-    "location": {
-      "column": "5",
-      "line": "13",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-    },
-    "name": "multSafe",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@multSafe",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "int multSafe(int, int)",
-    "location": {
-      "column": "5",
-      "line": "13",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
-    },
-    "name": "multSafe",
-    "origin": "user_include",
     "scope": null
   },
   {
@@ -127122,156 +126882,242 @@
     "scope": null
   },
   {
-    "ID": "c:@F@Display_Process",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Display_Process(void)",
-    "location": {
-      "column": "6",
-      "line": "10",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\led.h"
-    },
-    "name": "Display_Process",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Display_Process",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Display_Process(void)",
-    "location": {
-      "column": "6",
-      "line": "10",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\led.h"
-    },
-    "name": "Display_Process",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Carlson_StateMachine",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Carlson_StateMachine(void)",
-    "location": {
-      "column": "6",
-      "line": "11",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\led.h"
-    },
-    "name": "Carlson_StateMachine",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Carlson_StateMachine",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Carlson_StateMachine(void)",
-    "location": {
-      "column": "6",
-      "line": "11",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\led.h"
-    },
-    "name": "Carlson_StateMachine",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@RunMotors",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void RunMotors(void)",
-    "location": {
-      "column": "6",
-      "line": "12",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\led.h"
-    },
-    "name": "RunMotors",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:switches.h@8@macro@PRESSED",
+    "ID": "c:pid.h@8@macro@SET_POINT",
     "What": "MacroDef",
     "defdec": "Def",
-    "display": "PRESSED",
+    "display": "SET_POINT",
     "location": {
       "column": "9",
       "line": "1",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
     },
-    "name": "PRESSED",
+    "name": "SET_POINT",
     "origin": "user_include",
     "scope": null
   },
   {
-    "ID": "c:switches.h@45@macro@RELEASED",
-    "What": "MacroDef",
+    "ID": "c:@S@PID",
+    "What": "Struct",
     "defdec": "Def",
-    "display": "RELEASED",
+    "display": "PID",
     "location": {
-      "column": "9",
+      "column": "8",
       "line": "2",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
     },
-    "name": "RELEASED",
+    "members": [
+      {
+        "ID": "c:@S@PID@FI@kP",
+        "What": "FieldDecl",
+        "defdec": "Def",
+        "display": "kP",
+        "location": {
+          "column": "7",
+          "line": "3",
+          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
+        },
+        "name": "kP",
+        "origin": "user_include",
+        "scope": "PID"
+      },
+      {
+        "ID": "c:@S@PID@FI@kD",
+        "What": "FieldDecl",
+        "defdec": "Def",
+        "display": "kD",
+        "location": {
+          "column": "10",
+          "line": "3",
+          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
+        },
+        "name": "kD",
+        "origin": "user_include",
+        "scope": "PID"
+      },
+      {
+        "ID": "c:@S@PID@FI@kI",
+        "What": "FieldDecl",
+        "defdec": "Def",
+        "display": "kI",
+        "location": {
+          "column": "13",
+          "line": "3",
+          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
+        },
+        "name": "kI",
+        "origin": "user_include",
+        "scope": "PID"
+      },
+      {
+        "ID": "c:@S@PID@FI@error",
+        "What": "FieldDecl",
+        "defdec": "Def",
+        "display": "error",
+        "location": {
+          "column": "7",
+          "line": "4",
+          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
+        },
+        "name": "error",
+        "origin": "user_include",
+        "scope": "PID"
+      },
+      {
+        "ID": "c:@S@PID@FI@lastError",
+        "What": "FieldDecl",
+        "defdec": "Def",
+        "display": "lastError",
+        "location": {
+          "column": "14",
+          "line": "4",
+          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
+        },
+        "name": "lastError",
+        "origin": "user_include",
+        "scope": "PID"
+      },
+      {
+        "ID": "c:@S@PID@FI@lastIntegral",
+        "What": "FieldDecl",
+        "defdec": "Def",
+        "display": "lastIntegral",
+        "location": {
+          "column": "25",
+          "line": "4",
+          "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
+        },
+        "name": "lastIntegral",
+        "origin": "user_include",
+        "scope": "PID"
+      }
+    ],
+    "name": "PID",
     "origin": "user_include",
     "scope": null
   },
   {
-    "ID": "c:switches.h@82@macro@OKAY",
-    "What": "MacroDef",
+    "ID": "c:pid.h@T@PIDController",
+    "What": "Typedef",
     "defdec": "Def",
-    "display": "OKAY",
+    "display": "struct PID",
     "location": {
-      "column": "9",
-      "line": "3",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+      "column": "20",
+      "line": "7",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
     },
-    "name": "OKAY",
+    "name": "PIDController",
     "origin": "user_include",
     "scope": null
   },
   {
-    "ID": "c:switches.h@119@macro@NOT_OKAY",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "NOT_OKAY",
+    "ID": "c:@F@GetOutput",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "int GetOutput(PIDController *, int, int)",
     "location": {
-      "column": "9",
-      "line": "4",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+      "column": "5",
+      "line": "9",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
     },
-    "name": "NOT_OKAY",
+    "name": "GetOutput",
     "origin": "user_include",
     "scope": null
   },
   {
-    "ID": "c:switches.h@156@macro@DEBOUNCE_RESTART",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "DEBOUNCE_RESTART",
+    "ID": "c:@F@GetOutput",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "int GetOutput(PIDController *, int, int)",
     "location": {
-      "column": "9",
-      "line": "5",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+      "column": "5",
+      "line": "9",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
     },
-    "name": "DEBOUNCE_RESTART",
+    "name": "GetOutput",
     "origin": "user_include",
     "scope": null
   },
   {
-    "ID": "c:switches.h@193@macro@DEBOUNCE_TIME",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "DEBOUNCE_TIME",
+    "ID": "c:@F@ClearController",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void ClearController(PIDController *)",
     "location": {
-      "column": "9",
-      "line": "6",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+      "column": "6",
+      "line": "10",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
     },
-    "name": "DEBOUNCE_TIME",
+    "name": "ClearController",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@ClearController",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void ClearController(PIDController *)",
+    "location": {
+      "column": "6",
+      "line": "10",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
+    },
+    "name": "ClearController",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@additionSafe",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "int additionSafe(int, int, int, int)",
+    "location": {
+      "column": "5",
+      "line": "12",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
+    },
+    "name": "additionSafe",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@additionSafe",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "int additionSafe(int, int, int, int)",
+    "location": {
+      "column": "5",
+      "line": "12",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
+    },
+    "name": "additionSafe",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@multSafe",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "int multSafe(int, int)",
+    "location": {
+      "column": "5",
+      "line": "13",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
+    },
+    "name": "multSafe",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@multSafe",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "int multSafe(int, int)",
+    "location": {
+      "column": "5",
+      "line": "13",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\pid.h"
+    },
+    "name": "multSafe",
     "origin": "user_include",
     "scope": null
   },
@@ -127510,6 +127356,160 @@
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\timers.h"
     },
     "name": "Init_Timer_B3",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:switches.h@8@macro@PRESSED",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "PRESSED",
+    "location": {
+      "column": "9",
+      "line": "1",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+    },
+    "name": "PRESSED",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:switches.h@45@macro@RELEASED",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "RELEASED",
+    "location": {
+      "column": "9",
+      "line": "2",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+    },
+    "name": "RELEASED",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:switches.h@82@macro@OKAY",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "OKAY",
+    "location": {
+      "column": "9",
+      "line": "3",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+    },
+    "name": "OKAY",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:switches.h@119@macro@NOT_OKAY",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "NOT_OKAY",
+    "location": {
+      "column": "9",
+      "line": "4",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+    },
+    "name": "NOT_OKAY",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:switches.h@156@macro@DEBOUNCE_RESTART",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "DEBOUNCE_RESTART",
+    "location": {
+      "column": "9",
+      "line": "5",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+    },
+    "name": "DEBOUNCE_RESTART",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:switches.h@193@macro@DEBOUNCE_TIME",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "DEBOUNCE_TIME",
+    "location": {
+      "column": "9",
+      "line": "6",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\switches.h"
+    },
+    "name": "DEBOUNCE_TIME",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Display_Process",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Display_Process(void)",
+    "location": {
+      "column": "6",
+      "line": "10",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\led.h"
+    },
+    "name": "Display_Process",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Display_Process",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Display_Process(void)",
+    "location": {
+      "column": "6",
+      "line": "10",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\led.h"
+    },
+    "name": "Display_Process",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Carlson_StateMachine",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Carlson_StateMachine(void)",
+    "location": {
+      "column": "6",
+      "line": "11",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\led.h"
+    },
+    "name": "Carlson_StateMachine",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Carlson_StateMachine",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Carlson_StateMachine(void)",
+    "location": {
+      "column": "6",
+      "line": "11",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\led.h"
+    },
+    "name": "Carlson_StateMachine",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@RunMotors",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void RunMotors(void)",
+    "location": {
+      "column": "6",
+      "line": "12",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\led.h"
+    },
+    "name": "RunMotors",
     "origin": "user_include",
     "scope": null
   },
@@ -128052,7 +128052,7 @@
     "display": "void Exit(void)",
     "location": {
       "column": "6",
-      "line": "182",
+      "line": "184",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
     "name": "Exit",
@@ -128066,7 +128066,7 @@
     "display": "int delay(int, int)",
     "location": {
       "column": "5",
-      "line": "230",
+      "line": "232",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
     "name": "delay",
@@ -128080,7 +128080,7 @@
     "display": "void StateMachine(void)",
     "location": {
       "column": "6",
-      "line": "244",
+      "line": "246",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
     "name": "StateMachine",
@@ -129110,7 +129110,7 @@
     "scope": null
   },
   {
-    "ID": "c:wheels.c@3346@F@Drive_Path@successR",
+    "ID": "c:wheels.c@3350@F@Drive_Path@successR",
     "What": "Variable",
     "defdec": "Def",
     "display": "successR",
@@ -129124,7 +129124,7 @@
     "scope": null
   },
   {
-    "ID": "c:wheels.c@3388@F@Drive_Path@successL",
+    "ID": "c:wheels.c@3392@F@Drive_Path@successL",
     "What": "Variable",
     "defdec": "Def",
     "display": "successL",
