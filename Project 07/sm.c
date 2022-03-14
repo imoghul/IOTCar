@@ -156,13 +156,13 @@ void LineFollow(){
   
   
   if(stateCounter == 3){ // turn left ()
-     if(ADC_Left_Detect<LEFT_GRAY_DETECT)Drive_Path((RIGHT_MIN-2000),-(LEFT_MIN-2000), 0);
+     if(ADC_Left_Detect<LEFT_GRAY_DETECT)Drive_Path((lSpeed>>1),-(rSpeed), 0);
      else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
      else stateCounter = 4;
   }
   
   if(stateCounter == 4){
-     if(ADC_Right_Detect<RIGHT_GRAY_DETECT)Drive_Path(-(RIGHT_MIN-2000),(LEFT_MIN-2000), 0);
+     if(ADC_Right_Detect<RIGHT_GRAY_DETECT)Drive_Path(-(lSpeed),(rSpeed>>1), 0);
      else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
      else stateCounter = 3;
   }

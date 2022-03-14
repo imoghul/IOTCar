@@ -6,8 +6,8 @@
 #define LEFT_REVERSE_SPEED      (TB3CCR4)
 #define WHEEL_OFF               (0)
 #define WHEEL_PERIOD            (20000)
-#define RIGHT_MAX               (STRAIGHT_RIGHT)
-#define LEFT_MAX                (STRAIGHT_LEFT)
+#define RIGHT_MAX               (10000)
+#define LEFT_MAX                (8000)
 #define RIGHT_MIN               (8500)
 #define LEFT_MIN                (8500)
 // straight

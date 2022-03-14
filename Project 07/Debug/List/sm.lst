@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Mar/2022  16:24:00
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Mar/2022  16:49:31
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,12 +12,12 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\testECE306\Project 07\sm.c
+#    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\sm.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW38A6.tmp
-#        ("C:\Users\saad\Documents\testECE306\Project 07\sm.c" -lC
-#        "C:\Users\saad\Documents\testECE306\Project 07\Debug\List" -o
-#        "C:\Users\saad\Documents\testECE306\Project 07\Debug\Obj" --no_cse
+#        -f C:\Users\saad\AppData\Local\Temp\EW96DC.tmp
+#        ("C:\Users\saad\Documents\ece-306\Project 07\sm.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
 #        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
@@ -25,13 +25,13 @@
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\testECE306\Project 07\Debug\List\sm.lst
+#        C:\Users\saad\Documents\ece-306\Project 07\Debug\List\sm.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\testECE306\Project 07\Debug\Obj\sm.r43
+#        C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj\sm.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\testECE306\Project 07\sm.c
+C:\Users\saad\Documents\ece-306\Project 07\sm.c
       1          #include "msp430.h"
 
    \                                 In  segment DATA16_AN, at 0x242
@@ -380,14 +380,14 @@ C:\Users\saad\Documents\testECE306\Project 07\sm.c
     127            rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN>>1,leftPIDOut); // swapped b/c they are physically swapped
    \   00005C   0F48         MOV.W   R8, R15
    \   00005E   3E409A10     MOV.W   #0x109a, R14
-   \   000062   3D40204E     MOV.W   #0x4e20, R13
+   \   000062   3D401027     MOV.W   #0x2710, R13
    \   000066   1C425404     MOV.W   &0x454, R12
    \   00006A   ........     CALLA   #additionSafe
    \   00006E   0A4C         MOV.W   R12, R10
     128            lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped
    \   000070   0F49         MOV.W   R9, R15
    \   000072   3E409A10     MOV.W   #0x109a, R14
-   \   000076   3D40803E     MOV.W   #0x3e80, R13
+   \   000076   3D40401F     MOV.W   #0x1f40, R13
    \   00007A   1C425604     MOV.W   &0x456, R12
    \   00007E   ........     CALLA   #additionSafe
    \   000082   0B4C         MOV.W   R12, R11
@@ -525,92 +525,98 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
     158            if(stateCounter == 3){ // turn left ()
    \                     ??LineFollow_4:
    \   000184   B2900300.... CMP.W   #0x3, &stateCounter
-   \   00018A   2120         JNE     ??LineFollow_5
-    159               if(ADC_Left_Detect<LEFT_GRAY_DETECT)Drive_Path((RIGHT_MIN-2000),-(LEFT_MIN-2000), 0);
+   \   00018A   2220         JNE     ??LineFollow_5
+    159               if(ADC_Left_Detect<LEFT_GRAY_DETECT)Drive_Path((lSpeed>>1),-(rSpeed), 0);
    \   00018C   1F42....     MOV.W   &LBDetect, R15
    \   000190   5F03         RRUM.W  #0x1, R15
    \   000192   829F....     CMP.W   R15, &ADC_Left_Detect
-   \   000196   082C         JC      ??LineFollow_18
+   \   000196   092C         JC      ??LineFollow_18
    \   000198   0E43         MOV.W   #0x0, R14
-   \   00019A   3D409CE6     MOV.W   #0xe69c, R13
-   \   00019E   3C406419     MOV.W   #0x1964, R12
-   \   0001A2   ........     CALLA   #Drive_Path
-   \   0001A6   133C         JMP     ??LineFollow_5
+   \   00019A   0D4A         MOV.W   R10, R13
+   \   00019C   3DE3         XOR.W   #0xffff, R13
+   \   00019E   1D53         ADD.W   #0x1, R13
+   \   0001A0   0C4B         MOV.W   R11, R12
+   \   0001A2   0C11         RRA.W   R12
+   \   0001A4   ........     CALLA   #Drive_Path
+   \   0001A8   133C         JMP     ??LineFollow_5
     160               else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
    \                     ??LineFollow_18:
-   \   0001A8   1F42....     MOV.W   &LWDetect, R15
-   \   0001AC   3F501400     ADD.W   #0x14, R15
-   \   0001B0   829F....     CMP.W   R15, &ADC_Left_Detect
-   \   0001B4   0A28         JNC     ??LineFollow_19
-   \   0001B6   1F42....     MOV.W   &RWDetect, R15
-   \   0001BA   3F501400     ADD.W   #0x14, R15
-   \   0001BE   829F....     CMP.W   R15, &ADC_Right_Detect
-   \   0001C2   0328         JNC     ??LineFollow_19
-   \   0001C4   9243....     MOV.W   #0x1, &stateCounter
-   \   0001C8   023C         JMP     ??LineFollow_5
+   \   0001AA   1F42....     MOV.W   &LWDetect, R15
+   \   0001AE   3F501400     ADD.W   #0x14, R15
+   \   0001B2   829F....     CMP.W   R15, &ADC_Left_Detect
+   \   0001B6   0A28         JNC     ??LineFollow_19
+   \   0001B8   1F42....     MOV.W   &RWDetect, R15
+   \   0001BC   3F501400     ADD.W   #0x14, R15
+   \   0001C0   829F....     CMP.W   R15, &ADC_Right_Detect
+   \   0001C4   0328         JNC     ??LineFollow_19
+   \   0001C6   9243....     MOV.W   #0x1, &stateCounter
+   \   0001CA   023C         JMP     ??LineFollow_5
     161               else stateCounter = 4;
    \                     ??LineFollow_19:
-   \   0001CA   A242....     MOV.W   #0x4, &stateCounter
+   \   0001CC   A242....     MOV.W   #0x4, &stateCounter
     162            }
     163            
     164            if(stateCounter == 4){
    \                     ??LineFollow_5:
-   \   0001CE   A292....     CMP.W   #0x4, &stateCounter
-   \   0001D2   2320         JNE     ??LineFollow_20
-    165               if(ADC_Right_Detect<RIGHT_GRAY_DETECT)Drive_Path(-(RIGHT_MIN-2000),(LEFT_MIN-2000), 0);
-   \   0001D4   1F42....     MOV.W   &RBDetect, R15
-   \   0001D8   5F03         RRUM.W  #0x1, R15
-   \   0001DA   829F....     CMP.W   R15, &ADC_Right_Detect
-   \   0001DE   082C         JC      ??LineFollow_21
-   \   0001E0   0E43         MOV.W   #0x0, R14
-   \   0001E2   3D406419     MOV.W   #0x1964, R13
-   \   0001E6   3C409CE6     MOV.W   #0xe69c, R12
-   \   0001EA   ........     CALLA   #Drive_Path
-   \   0001EE   293C         JMP     ??LineFollow_6
+   \   0001D0   A292....     CMP.W   #0x4, &stateCounter
+   \   0001D4   2420         JNE     ??LineFollow_20
+    165               if(ADC_Right_Detect<RIGHT_GRAY_DETECT)Drive_Path(-(lSpeed),(rSpeed>>1), 0);
+   \   0001D6   1F42....     MOV.W   &RBDetect, R15
+   \   0001DA   5F03         RRUM.W  #0x1, R15
+   \   0001DC   829F....     CMP.W   R15, &ADC_Right_Detect
+   \   0001E0   092C         JC      ??LineFollow_21
+   \   0001E2   0E43         MOV.W   #0x0, R14
+   \   0001E4   0D4A         MOV.W   R10, R13
+   \   0001E6   0D11         RRA.W   R13
+   \   0001E8   0C4B         MOV.W   R11, R12
+   \   0001EA   3CE3         XOR.W   #0xffff, R12
+   \   0001EC   1C53         ADD.W   #0x1, R12
+   \   0001EE   ........     CALLA   #Drive_Path
+   \   0001F2   293C         JMP     ??LineFollow_6
     166               else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
    \                     ??LineFollow_21:
-   \   0001F0   1F42....     MOV.W   &LWDetect, R15
-   \   0001F4   3F501400     ADD.W   #0x14, R15
-   \   0001F8   829F....     CMP.W   R15, &ADC_Left_Detect
-   \   0001FC   0A28         JNC     ??LineFollow_22
-   \   0001FE   1F42....     MOV.W   &RWDetect, R15
-   \   000202   3F501400     ADD.W   #0x14, R15
-   \   000206   829F....     CMP.W   R15, &ADC_Right_Detect
-   \   00020A   0328         JNC     ??LineFollow_22
-   \   00020C   9243....     MOV.W   #0x1, &stateCounter
-   \   000210   183C         JMP     ??LineFollow_6
+   \   0001F4   1F42....     MOV.W   &LWDetect, R15
+   \   0001F8   3F501400     ADD.W   #0x14, R15
+   \   0001FC   829F....     CMP.W   R15, &ADC_Left_Detect
+   \   000200   0A28         JNC     ??LineFollow_22
+   \   000202   1F42....     MOV.W   &RWDetect, R15
+   \   000206   3F501400     ADD.W   #0x14, R15
+   \   00020A   829F....     CMP.W   R15, &ADC_Right_Detect
+   \   00020E   0328         JNC     ??LineFollow_22
+   \   000210   9243....     MOV.W   #0x1, &stateCounter
+   \   000214   183C         JMP     ??LineFollow_6
     167               else stateCounter = 3;
    \                     ??LineFollow_22:
-   \   000212   B2400300.... MOV.W   #0x3, &stateCounter
-   \   000218   143C         JMP     ??LineFollow_6
+   \   000216   B2400300.... MOV.W   #0x3, &stateCounter
+   \   00021C   143C         JMP     ??LineFollow_6
     168            }
     169           
     170            else if (stateCounter==5) {
    \                     ??LineFollow_20:
-   \   00021A   B2900500.... CMP.W   #0x5, &stateCounter
-   \   000220   1020         JNE     ??LineFollow_6
+   \   00021E   B2900500.... CMP.W   #0x5, &stateCounter
+   \   000224   1020         JNE     ??LineFollow_6
     171              ShutoffMotors();
-   \   000222   ........     CALLA   #ShutoffMotors
+   \   000226   ........     CALLA   #ShutoffMotors
     172              stateCounter = 0 ;
-   \   000226   8243....     MOV.W   #0x0, &stateCounter
+   \   00022A   8243....     MOV.W   #0x0, &stateCounter
     173              state = WAIT;    
-   \   00022A   F2405700.... MOV.B   #0x57, &state
+   \   00022E   F2405700.... MOV.B   #0x57, &state
     174              stopwatch_seconds = 0;
-   \   000230   8243....     MOV.W   #0x0, &stopwatch_seconds
+   \   000234   8243....     MOV.W   #0x0, &stopwatch_seconds
     175              cycle_count = 0;
-   \   000234   8243....     MOV.W   #0x0, &cycle_count
+   \   000238   8243....     MOV.W   #0x0, &cycle_count
     176              nextState = EXIT;
-   \   000238   F2406500.... MOV.B   #0x65, &nextState
+   \   00023C   F2406500.... MOV.B   #0x65, &nextState
     177              EmitterOff();
-   \   00023E   ........     CALLA   #EmitterOff
+   \   000242   ........     CALLA   #EmitterOff
     178            }
     179          }
    \                     ??LineFollow_6:
-   \   000242   3817         POPM.W  #0x4, R11
-   \   000244   1001         RETA
-   \   000246                REQUIRE _A_TB3CCR1_L
-   \   000246                REQUIRE _A_TB3CCR2_L
-   \   000246                REQUIRE _A_PCOUT_L
+   \   000246   3817         POPM.W  #0x4, R11
+   \   000248   1001         RETA
+   \   00024A                REQUIRE _A_TB3CCR1_L
+   \   00024A                REQUIRE _A_TB3CCR2_L
+   \   00024A                REQUIRE _A_PCOUT_L
     180          
 
    \                                 In  segment CODE, align 2
@@ -997,7 +1003,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
        1  ?<Initializer for nextState>
        1  ?<Initializer for state>
      268  Exit
-     582  LineFollow
+     586  LineFollow
      154  StateMachine
      182  Straight
      256  Turn
@@ -1012,14 +1018,14 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
        2  stateCounter
 
  
- 1 488 bytes in segment CODE
+ 1 492 bytes in segment CODE
      6 bytes in segment DATA16_AN
     77 bytes in segment DATA16_C
      5 bytes in segment DATA16_I
      5 bytes in segment DATA16_ID
      2 bytes in segment DATA16_Z
  
- 1 488 bytes of CODE  memory
+ 1 492 bytes of CODE  memory
     82 bytes of CONST memory
      7 bytes of DATA  memory (+ 6 bytes shared)
 
