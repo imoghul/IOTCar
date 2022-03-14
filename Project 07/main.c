@@ -123,11 +123,6 @@ void main(void){
       display_changed = 1;
     }*/
     
-    //if(ADC_Channel==0 && P6IN&IR_LED/* && (state == STRAIGHT || state==TURN || state==LINEFOLLOW)*/){
-    //  HEXtoBCD(ADC_Right_Detect,3,0); 
-    //  HEXtoBCD(ADC_Left_Detect,3,6); 
-    //}
-    
     
     if(Last_Time_Sequence!=Time_Sequence){ 
       Last_Time_Sequence=Time_Sequence;

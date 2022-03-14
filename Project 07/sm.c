@@ -109,8 +109,7 @@ void Turn(){
 }
 
 void LineFollow(){
-  if(stateCounter==1) P6OUT|=GRN_LED;
-  else P6OUT&=~GRN_LED;
+  
   
   if (stateCounter == 0) {
     EmitterOn();
@@ -119,21 +118,19 @@ void LineFollow(){
     stopwatch_seconds = 0;
     cycle_count = 0;
     if(rightSwitchable && leftSwitchable)stateCounter++;
-    else return;
   }
   
   int rSpeed;
   int lSpeed;
-  int leftPIDOut = GetOutput(&leftController,LEFT_BLACK_DETECT,ADC_Left_Detect);
-  int rightPIDOut = GetOutput(&rightController,RIGHT_BLACK_DETECT,ADC_Right_Detect);
+  int leftPIDOut = GetOutput(&leftController,LEFT_GRAY_DETECT,ADC_Left_Detect);
+  int rightPIDOut = GetOutput(&rightController,RIGHT_GRAY_DETECT,ADC_Right_Detect);
   rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN>>1,leftPIDOut); // swapped b/c they are physically swapped
-  rSpeed = additionSafe(rSpeed,RIGHT_MIN,RIGHT_MIN>>1,-rightPIDOut);
   lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped
-  lSpeed = additionSafe(lSpeed,LEFT_MIN,LEFT_MIN>>1,-leftPIDOut);
-  
+  if(stateCounter==1 && rSpeed != lSpeed) P6OUT|=GRN_LED;
+  else P6OUT&=~GRN_LED;
   if(stateCounter == 1){
-    if(ADC_Left_Detect<(LEFT_WHITE_DETECT) ^ ADC_Right_Detect<(RIGHT_WHITE_DETECT)) stateCounter = 2;
-    else if (ADC_Left_Detect<(LEFT_WHITE_DETECT) && ADC_Right_Detect<(RIGHT_WHITE_DETECT)){
+    if(ADC_Left_Detect<(LEFT_GRAY_DETECT>>1) ^ ADC_Right_Detect<(RIGHT_GRAY_DETECT>>1)) stateCounter = 2;
+    else if (ADC_Left_Detect<(LEFT_GRAY_DETECT>>1) && ADC_Right_Detect<(RIGHT_GRAY_DETECT>>1)){
       rSpeed = -RIGHT_MIN;
       lSpeed = -LEFT_MIN;
     }
@@ -258,7 +255,6 @@ void StateMachine(void){
       cycle_count = 0;
       break;
     case (WAIT):
-      strcpy(display_line[0], "WAITING...");
       if (delay(delayTime,0)) state = nextState;
       break;
     case (STRAIGHT):

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          13/Mar/2022  13:07:08
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Mar/2022  15:44:16
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,12 +12,12 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\pid.c
+#    Source file   =  C:\Users\saad\Documents\testECE306\Project 07\pid.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWB5F8.tmp
-#        ("C:\Users\saad\Documents\ece-306\Project 07\pid.c" -lC
-#        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
+#        -f C:\Users\saad\AppData\Local\Temp\EWDBA0.tmp
+#        ("C:\Users\saad\Documents\testECE306\Project 07\pid.c" -lC
+#        "C:\Users\saad\Documents\testECE306\Project 07\Debug\List" -o
+#        "C:\Users\saad\Documents\testECE306\Project 07\Debug\Obj" --no_cse
 #        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
@@ -25,13 +25,13 @@
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece-306\Project 07\Debug\List\pid.lst
+#        C:\Users\saad\Documents\testECE306\Project 07\Debug\List\pid.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj\pid.r43
+#        C:\Users\saad\Documents\testECE306\Project 07\Debug\Obj\pid.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece-306\Project 07\pid.c
+C:\Users\saad\Documents\testECE306\Project 07\pid.c
       1          #include "pid.h"
       2          #include "msp430.h"
       3          #include "detectors.h"
@@ -48,60 +48,54 @@ C:\Users\saad\Documents\ece-306\Project 07\pid.c
    \   000008   0F4B         MOV.W   R11, R15
    \   00000A   0F88         SUB.W   R8, R15
    \   00000C   8A4F0600     MOV.W   R15, 0x6(R10)
-      7            if(abs(pidController->error)<=3) pidController->error = 0;
-   \   000010   1C4A0600     MOV.W   0x6(R10), R12
-   \   000014   ........     CALLA   #abs
-   \   000018   2C92         CMP.W   #0x4, R12
-   \   00001A   022C         JC      ??GetOutput_0
-   \   00001C   8A430600     MOV.W   #0x0, 0x6(R10)
+      7            //if(abs(pidController->error)==1) pidController->error = 0;
       8            int integral = additionSafe(pidController->lastIntegral,32767,-32768,pidController->error);
-   \                     ??GetOutput_0:
-   \   000020   1F4A0600     MOV.W   0x6(R10), R15
-   \   000024   3E400080     MOV.W   #0x8000, R14
-   \   000028   3D40FF7F     MOV.W   #0x7fff, R13
-   \   00002C   1C4A0A00     MOV.W   0xa(R10), R12
-   \   000030   ........     CALLA   #additionSafe
-   \   000034   094C         MOV.W   R12, R9
+   \   000010   1F4A0600     MOV.W   0x6(R10), R15
+   \   000014   3E400080     MOV.W   #0x8000, R14
+   \   000018   3D40FF7F     MOV.W   #0x7fff, R13
+   \   00001C   1C4A0A00     MOV.W   0xa(R10), R12
+   \   000020   ........     CALLA   #additionSafe
+   \   000024   094C         MOV.W   R12, R9
       9            int derivative = additionSafe(pidController->error,32767,-32768,-pidController->lastError);
-   \   000036   1F4A0800     MOV.W   0x8(R10), R15
-   \   00003A   3FE3         XOR.W   #0xffff, R15
-   \   00003C   1F53         ADD.W   #0x1, R15
-   \   00003E   3E400080     MOV.W   #0x8000, R14
-   \   000042   3D40FF7F     MOV.W   #0x7fff, R13
-   \   000046   1C4A0600     MOV.W   0x6(R10), R12
-   \   00004A   ........     CALLA   #additionSafe
-   \   00004E   064C         MOV.W   R12, R6
+   \   000026   1F4A0800     MOV.W   0x8(R10), R15
+   \   00002A   3FE3         XOR.W   #0xffff, R15
+   \   00002C   1F53         ADD.W   #0x1, R15
+   \   00002E   3E400080     MOV.W   #0x8000, R14
+   \   000032   3D40FF7F     MOV.W   #0x7fff, R13
+   \   000036   1C4A0600     MOV.W   0x6(R10), R12
+   \   00003A   ........     CALLA   #additionSafe
+   \   00003E   064C         MOV.W   R12, R6
      10            pidController->lastError = pidController->error;
-   \   000050   9A4A06000800 MOV.W   0x6(R10), 0x8(R10)
+   \   000040   9A4A06000800 MOV.W   0x6(R10), 0x8(R10)
      11            pidController->lastIntegral = integral;
-   \   000056   8A490A00     MOV.W   R9, 0xa(R10)
+   \   000046   8A490A00     MOV.W   R9, 0xa(R10)
      12            int errorTerm = multSafe(pidController->error,pidController->kP);
-   \   00005A   2D4A         MOV.W   @R10, R13
-   \   00005C   1C4A0600     MOV.W   0x6(R10), R12
-   \   000060   ........     CALLA   #multSafe
-   \   000064   074C         MOV.W   R12, R7
+   \   00004A   2D4A         MOV.W   @R10, R13
+   \   00004C   1C4A0600     MOV.W   0x6(R10), R12
+   \   000050   ........     CALLA   #multSafe
+   \   000054   074C         MOV.W   R12, R7
      13            int derivTerm = multSafe(derivative,pidController->kD);
-   \   000066   1D4A0200     MOV.W   0x2(R10), R13
-   \   00006A   0C46         MOV.W   R6, R12
-   \   00006C   ........     CALLA   #multSafe
-   \   000070   044C         MOV.W   R12, R4
+   \   000056   1D4A0200     MOV.W   0x2(R10), R13
+   \   00005A   0C46         MOV.W   R6, R12
+   \   00005C   ........     CALLA   #multSafe
+   \   000060   044C         MOV.W   R12, R4
      14            int intTerm = multSafe(integral,pidController->kI);
-   \   000072   1D4A0400     MOV.W   0x4(R10), R13
-   \   000076   0C49         MOV.W   R9, R12
-   \   000078   ........     CALLA   #multSafe
-   \   00007C   054C         MOV.W   R12, R5
+   \   000062   1D4A0400     MOV.W   0x4(R10), R13
+   \   000066   0C49         MOV.W   R9, R12
+   \   000068   ........     CALLA   #multSafe
+   \   00006C   054C         MOV.W   R12, R5
      15            return additionSafe(additionSafe(errorTerm,32767,-32768,derivTerm),32767,-32768,intTerm);
-   \   00007E   0F44         MOV.W   R4, R15
+   \   00006E   0F44         MOV.W   R4, R15
+   \   000070   3E400080     MOV.W   #0x8000, R14
+   \   000074   3D40FF7F     MOV.W   #0x7fff, R13
+   \   000078   0C47         MOV.W   R7, R12
+   \   00007A   ........     CALLA   #additionSafe
+   \   00007E   0F45         MOV.W   R5, R15
    \   000080   3E400080     MOV.W   #0x8000, R14
    \   000084   3D40FF7F     MOV.W   #0x7fff, R13
-   \   000088   0C47         MOV.W   R7, R12
-   \   00008A   ........     CALLA   #additionSafe
-   \   00008E   0F45         MOV.W   R5, R15
-   \   000090   3E400080     MOV.W   #0x8000, R14
-   \   000094   3D40FF7F     MOV.W   #0x7fff, R13
-   \   000098   ........     CALLA   #additionSafe
-   \   00009C   7417         POPM.W  #0x8, R11
-   \   00009E   1001         RETA
+   \   000088   ........     CALLA   #additionSafe
+   \   00008C   7417         POPM.W  #0x8, R11
+   \   00008E   1001         RETA
      16          }
      17          
 
@@ -254,7 +248,6 @@ C:\Users\saad\Documents\ece-306\Project 07\pid.c
    ------ --------
       4   ClearController
      20   GetOutput
-       20   -> abs
        20   -> additionSafe
        20   -> multSafe
      12   additionSafe
@@ -268,14 +261,14 @@ C:\Users\saad\Documents\ece-306\Project 07\pid.c
    Bytes  Function/Label
    -----  --------------
       14  ClearController
-     160  GetOutput
+     144  GetOutput
       68  additionSafe
      128  multSafe
 
  
- 370 bytes in segment CODE
+ 354 bytes in segment CODE
  
- 370 bytes of CODE memory
+ 354 bytes of CODE memory
 
 Errors: none
 Warnings: none

@@ -9,6 +9,7 @@
 #include <string.h>
 
 extern volatile unsigned int cycle_count;
+extern volatile unsigned int stopwatch_milliseconds;
 extern volatile unsigned int stopwatch_seconds;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
@@ -26,7 +27,7 @@ extern int rightVals[VALUES_TO_HOLD];
 
 PIDController rightController = {
   .kP = 10,
-  .kD = -50,
+  .kD = 0,
   .kI = 5,
   .error = 0,
   .lastError = 0,
@@ -34,7 +35,7 @@ PIDController rightController = {
 };
 PIDController leftController = {
   .kP = 10,
-  .kD = -50,
+  .kD = 0,
   .kI = 5,
   .error = 0,
   .lastError = 0,

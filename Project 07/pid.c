@@ -4,7 +4,7 @@
 
 int GetOutput(PIDController* pidController, int setPoint, int current){
   pidController->error = setPoint-current;
-  if(abs(pidController->error)<=3) pidController->error = 0;
+  //if(abs(pidController->error)==1) pidController->error = 0;
   int integral = additionSafe(pidController->lastIntegral,32767,-32768,pidController->error);
   int derivative = additionSafe(pidController->error,32767,-32768,-pidController->lastError);
   pidController->lastError = pidController->error;
