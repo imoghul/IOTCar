@@ -127906,30 +127906,58 @@
     "scope": null
   },
   {
-    "ID": "c:@rightController",
+    "ID": "c:@rightFollowController",
     "What": "Variable",
     "defdec": "Dec",
-    "display": "rightController",
+    "display": "rightFollowController",
     "location": {
       "column": "22",
       "line": "33",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
-    "name": "rightController",
+    "name": "rightFollowController",
     "origin": "project_file",
     "scope": null
   },
   {
-    "ID": "c:@leftController",
+    "ID": "c:@rightAdjustController",
     "What": "Variable",
     "defdec": "Dec",
-    "display": "leftController",
+    "display": "rightAdjustController",
+    "location": {
+      "column": "44",
+      "line": "33",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
+    },
+    "name": "rightAdjustController",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@leftFollowController",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "leftFollowController",
     "location": {
       "column": "22",
       "line": "34",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
-    "name": "leftController",
+    "name": "leftFollowController",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@leftAdjustController",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "leftAdjustController",
+    "location": {
+      "column": "43",
+      "line": "34",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
+    },
+    "name": "leftAdjustController",
     "origin": "project_file",
     "scope": null
   },
@@ -127948,7 +127976,7 @@
     "scope": null
   },
   {
-    "ID": "c:sm.c@1575@F@Straight@left",
+    "ID": "c:sm.c@1630@F@Straight@left",
     "What": "Variable",
     "defdec": "Def",
     "display": "left",
@@ -127962,7 +127990,7 @@
     "scope": null
   },
   {
-    "ID": "c:sm.c@1610@F@Straight@right",
+    "ID": "c:sm.c@1665@F@Straight@right",
     "What": "Variable",
     "defdec": "Def",
     "display": "right",
@@ -128004,41 +128032,69 @@
     "scope": null
   },
   {
-    "ID": "c:sm.c@3561@F@LineFollow@rSpeed",
+    "ID": "c:sm.c@3616@F@LineFollow@rFollowSpeed",
     "What": "Variable",
     "defdec": "Def",
-    "display": "rSpeed",
+    "display": "rFollowSpeed",
     "location": {
       "column": "7",
       "line": "123",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
-    "name": "rSpeed",
+    "name": "rFollowSpeed",
     "origin": "project_file",
     "scope": null
   },
   {
-    "ID": "c:sm.c@3576@F@LineFollow@lSpeed",
+    "ID": "c:sm.c@3616@F@LineFollow@rAdjustSpeed",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "rAdjustSpeed",
+    "location": {
+      "column": "20",
+      "line": "123",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
+    },
+    "name": "rAdjustSpeed",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:sm.c@3650@F@LineFollow@lFollowSpeed",
     "What": "Variable",
     "defdec": "Def",
-    "display": "lSpeed",
+    "display": "lFollowSpeed",
     "location": {
       "column": "7",
       "line": "124",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
-    "name": "lSpeed",
+    "name": "lFollowSpeed",
     "origin": "project_file",
     "scope": null
   },
   {
-    "ID": "c:sm.c@3591@F@LineFollow@leftPIDOut",
+    "ID": "c:sm.c@3650@F@LineFollow@lAdjustSpeed",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "lAdjustSpeed",
+    "location": {
+      "column": "20",
+      "line": "124",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
+    },
+    "name": "lAdjustSpeed",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:sm.c@3688@F@LineFollow@leftPIDOut",
     "What": "Variable",
     "defdec": "Def",
     "display": "leftPIDOut",
     "location": {
       "column": "7",
-      "line": "125",
+      "line": "126",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
     "name": "leftPIDOut",
@@ -128046,13 +128102,13 @@
     "scope": null
   },
   {
-    "ID": "c:sm.c@3672@F@LineFollow@rightPIDOut",
+    "ID": "c:sm.c@3776@F@LineFollow@rightPIDOut",
     "What": "Variable",
     "defdec": "Def",
     "display": "rightPIDOut",
     "location": {
       "column": "7",
-      "line": "126",
+      "line": "127",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
     "name": "rightPIDOut",
@@ -128066,7 +128122,7 @@
     "display": "void Exit(void)",
     "location": {
       "column": "6",
-      "line": "181",
+      "line": "188",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
     "name": "Exit",
@@ -128080,7 +128136,7 @@
     "display": "int delay(int, int)",
     "location": {
       "column": "5",
-      "line": "229",
+      "line": "236",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
     "name": "delay",
@@ -128094,7 +128150,7 @@
     "display": "void StateMachine(void)",
     "location": {
       "column": "6",
-      "line": "243",
+      "line": "250",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\sm.c"
     },
     "name": "StateMachine",
@@ -128970,30 +129026,58 @@
     "scope": null
   },
   {
-    "ID": "c:@rightController",
+    "ID": "c:@rightFollowController",
     "What": "Variable",
     "defdec": "Def",
-    "display": "rightController",
+    "display": "rightFollowController",
     "location": {
       "column": "15",
       "line": "28",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
-    "name": "rightController",
+    "name": "rightFollowController",
     "origin": "project_file",
     "scope": null
   },
   {
-    "ID": "c:@leftController",
+    "ID": "c:@leftFollowController",
     "What": "Variable",
     "defdec": "Def",
-    "display": "leftController",
+    "display": "leftFollowController",
     "location": {
       "column": "15",
       "line": "36",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
-    "name": "leftController",
+    "name": "leftFollowController",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@rightAdjustController",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "rightAdjustController",
+    "location": {
+      "column": "15",
+      "line": "45",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
+    },
+    "name": "rightAdjustController",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@leftAdjustController",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "leftAdjustController",
+    "location": {
+      "column": "15",
+      "line": "53",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
+    },
+    "name": "leftAdjustController",
     "origin": "project_file",
     "scope": null
   },
@@ -129004,7 +129088,7 @@
     "display": "void ShutoffMotors(void)",
     "location": {
       "column": "6",
-      "line": "46",
+      "line": "63",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "ShutoffMotors",
@@ -129018,7 +129102,7 @@
     "display": "void ShutoffRight(void)",
     "location": {
       "column": "6",
-      "line": "51",
+      "line": "68",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "ShutoffRight",
@@ -129032,7 +129116,7 @@
     "display": "void ShutoffLeft(void)",
     "location": {
       "column": "6",
-      "line": "59",
+      "line": "76",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "ShutoffLeft",
@@ -129046,7 +129130,7 @@
     "display": "void MotorSafety(void)",
     "location": {
       "column": "6",
-      "line": "67",
+      "line": "84",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "MotorSafety",
@@ -129060,7 +129144,7 @@
     "display": "int RunRightMotor(int)",
     "location": {
       "column": "5",
-      "line": "80",
+      "line": "97",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "RunRightMotor",
@@ -129074,7 +129158,7 @@
     "display": "int RunLeftMotor(int)",
     "location": {
       "column": "5",
-      "line": "103",
+      "line": "120",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "RunLeftMotor",
@@ -129088,7 +129172,7 @@
     "display": "int LockMotors(int, int)",
     "location": {
       "column": "5",
-      "line": "128",
+      "line": "145",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "LockMotors",
@@ -129102,7 +129186,7 @@
     "display": "int LockMotorsTime(int, int, int)",
     "location": {
       "column": "5",
-      "line": "132",
+      "line": "149",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "LockMotorsTime",
@@ -129116,7 +129200,7 @@
     "display": "int Update_Ticks(int)",
     "location": {
       "column": "5",
-      "line": "136",
+      "line": "153",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "Update_Ticks",
@@ -129130,7 +129214,7 @@
     "display": "int Drive_Path(int, int, unsigned int)",
     "location": {
       "column": "5",
-      "line": "144",
+      "line": "161",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "Drive_Path",
@@ -129138,13 +129222,13 @@
     "scope": null
   },
   {
-    "ID": "c:wheels.c@3400@F@Drive_Path@successR",
+    "ID": "c:wheels.c@3687@F@Drive_Path@successR",
     "What": "Variable",
     "defdec": "Def",
     "display": "successR",
     "location": {
       "column": "7",
-      "line": "145",
+      "line": "162",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "successR",
@@ -129152,13 +129236,13 @@
     "scope": null
   },
   {
-    "ID": "c:wheels.c@3442@F@Drive_Path@successL",
+    "ID": "c:wheels.c@3729@F@Drive_Path@successL",
     "What": "Variable",
     "defdec": "Def",
     "display": "successL",
     "location": {
       "column": "7",
-      "line": "146",
+      "line": "163",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 07\\wheels.c"
     },
     "name": "successL",

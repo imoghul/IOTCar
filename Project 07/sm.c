@@ -30,8 +30,8 @@ extern int leftVals[VALUES_TO_HOLD];
 extern int rightVals[VALUES_TO_HOLD];
 extern volatile unsigned int calibrationMode;
 extern unsigned int LBDetect, LWDetect, RBDetect, RWDetect;
-extern PIDController rightController;
-extern PIDController leftController;
+extern PIDController rightFollowController,rightAdjustController;
+extern PIDController leftFollowController,leftAdjustController;
 
 void Straight(void){
   
@@ -120,27 +120,34 @@ void LineFollow(){
     if(rightSwitchable && leftSwitchable)stateCounter++;
   }
   
-  int rSpeed;
-  int lSpeed;
-  int leftPIDOut = GetOutput(&leftController,LEFT_GRAY_DETECT,ADC_Left_Detect);
-  int rightPIDOut = GetOutput(&rightController,RIGHT_GRAY_DETECT,ADC_Right_Detect);
-  rSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN>>1,leftPIDOut); // swapped b/c they are physically swapped
-  lSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped
-  if(stateCounter==1 && rSpeed != lSpeed) P6OUT|=GRN_LED;
+  int rFollowSpeed,rAdjustSpeed;
+  int lFollowSpeed,lAdjustSpeed;
+  
+  int leftPIDOut = GetOutput(&leftFollowController,LEFT_BLACK_DETECT,ADC_Left_Detect);
+  int rightPIDOut = GetOutput(&rightFollowController,RIGHT_BLACK_DETECT,ADC_Right_Detect);
+  rFollowSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN>>1,leftPIDOut); // swapped b/c they are physically swapped
+  lFollowSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped
+  
+  leftPIDOut = GetOutput(&leftAdjustController,LEFT_GRAY_DETECT,ADC_Left_Detect);
+  rightPIDOut = GetOutput(&rightAdjustController,RIGHT_GRAY_DETECT,ADC_Right_Detect);
+  rAdjustSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN>>1,leftPIDOut); // swapped b/c they are physically swapped
+  lAdjustSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped
+  
+  if(stateCounter==1 && rFollowSpeed != lFollowSpeed) P6OUT|=GRN_LED;
   else P6OUT&=~GRN_LED;
   if(stateCounter == 1){
     if(ADC_Left_Detect<(LEFT_GRAY_DETECT>>1) ^ ADC_Right_Detect<(RIGHT_GRAY_DETECT>>1)) stateCounter = 2;
     else if (ADC_Left_Detect<(LEFT_GRAY_DETECT>>1) && ADC_Right_Detect<(RIGHT_GRAY_DETECT>>1)){
-      rSpeed = -RIGHT_MIN;
-      lSpeed = -LEFT_MIN;
+      rFollowSpeed = -RIGHT_MIN;
+      lFollowSpeed = -LEFT_MIN;
     }
     else {
-      ClearController(&rightController);
-      ClearController(&leftController);
+      ClearController(&rightFollowController);
+      ClearController(&leftFollowController);
     }
     
     if(delay(70,0)) stateCounter = 5;
-    Drive_Path(rSpeed,lSpeed,0);
+    Drive_Path(rFollowSpeed,lFollowSpeed,0);
   }
   
   if(stateCounter==10)
@@ -156,13 +163,13 @@ void LineFollow(){
   
   
   if(stateCounter == 3){ // turn left ()
-     if(ADC_Left_Detect<LEFT_GRAY_DETECT)Drive_Path((lSpeed>>1),-(rSpeed), 0);
+     if(ADC_Left_Detect<LEFT_GRAY_DETECT)Drive_Path((lAdjustSpeed>>1),-(rAdjustSpeed), 0);
      else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
      else stateCounter = 4;
   }
   
   if(stateCounter == 4){
-     if(ADC_Right_Detect<RIGHT_GRAY_DETECT)Drive_Path(-(lSpeed),(rSpeed>>1), 0);
+     if(ADC_Right_Detect<RIGHT_GRAY_DETECT)Drive_Path(-(lAdjustSpeed),(rAdjustSpeed>>1), 0);
      else if (ADC_Left_Detect>=LEFT_WHITE_DETECT && ADC_Right_Detect>=RIGHT_WHITE_DETECT) stateCounter = 1;
      else stateCounter = 3;
   }

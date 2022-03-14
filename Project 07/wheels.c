@@ -25,7 +25,7 @@ extern int leftVals[VALUES_TO_HOLD];
 extern int rightVals[VALUES_TO_HOLD];
 
 
-PIDController rightController = {
+PIDController rightFollowController = {
   .kP = 10,
   .kD = 0,
   .kI = 5,
@@ -33,7 +33,24 @@ PIDController rightController = {
   .lastError = 0,
   .lastIntegral = 0
 };
-PIDController leftController = {
+PIDController leftFollowController = {
+  .kP = 10,
+  .kD = 0,
+  .kI = 5,
+  .error = 0,
+  .lastError = 0,
+  .lastIntegral = 0
+};
+
+PIDController rightAdjustController = {
+  .kP = 10,
+  .kD = 0,
+  .kI = 5,
+  .error = 0,
+  .lastError = 0,
+  .lastIntegral = 0
+};
+PIDController leftAdjustController = {
   .kP = 10,
   .kD = 0,
   .kI = 5,
