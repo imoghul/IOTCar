@@ -43,7 +43,7 @@ PIDController leftFollowController = {
 };
 
 PIDController rightAdjustController = {
-  .kP = 10,
+  .kP = 20,
   .kD = 0,
   .kI = 5,
   .error = 0,
@@ -51,7 +51,7 @@ PIDController rightAdjustController = {
   .lastIntegral = 0
 };
 PIDController leftAdjustController = {
-  .kP = 10,
+  .kP = 20,
   .kD = 0,
   .kI = 5,
   .error = 0,

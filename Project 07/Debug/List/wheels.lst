@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Mar/2022  17:50:46
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          15/Mar/2022  15:03:22
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWAB7C.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWC0A8.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 07\wheels.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
@@ -172,7 +172,7 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
    \                     rightAdjustController:
    \   000000                DS8 12
    \   00000C                REQUIRE `?<Initializer for rightAdjustController>`
-     46            .kP = 10,
+     46            .kP = 20,
      47            .kD = 0,
      48            .kI = 5,
      49            .error = 0,
@@ -186,7 +186,7 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
    \                     leftAdjustController:
    \   000000                DS8 12
    \   00000C                REQUIRE `?<Initializer for leftAdjustController>`
-     54            .kP = 10,
+     54            .kP = 20,
      55            .kD = 0,
      56            .kI = 5,
      57            .error = 0,
@@ -635,12 +635,12 @@ C:\Users\saad\Documents\ece-306\Project 07\wheels.c
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
    \                     `?<Initializer for rightAdjustController>`:
-   \   000000   0A0000000500 DC16 10, 0, 5, 0, 0, 0
+   \   000000   140000000500 DC16 20, 0, 5, 0, 0, 0
    \            000000000000
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
    \                     `?<Initializer for leftAdjustController>`:
-   \   000000   0A0000000500 DC16 10, 0, 5, 0, 0, 0
+   \   000000   140000000500 DC16 20, 0, 5, 0, 0, 0
    \            000000000000
     174          
     175          

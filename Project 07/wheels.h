@@ -7,7 +7,7 @@
 #define WHEEL_OFF               (0)
 #define WHEEL_PERIOD            (20000)
 #define RIGHT_MAX               (10000)
-#define LEFT_MAX                (8000)
+#define LEFT_MAX                (10000)
 #define RIGHT_MIN               (8500)
 #define LEFT_MIN                (8500)
 // straight
