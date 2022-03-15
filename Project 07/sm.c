@@ -123,15 +123,15 @@ void LineFollow(){
   int rFollowSpeed,rAdjustSpeed;
   int lFollowSpeed,lAdjustSpeed;
   
-  int leftPIDOut = GetOutput(&leftFollowController,LEFT_BLACK_DETECT+50,ADC_Left_Detect);
-  int rightPIDOut = GetOutput(&rightFollowController,RIGHT_BLACK_DETECT+50,ADC_Right_Detect);
+  int leftPIDOut = GetOutput(&leftFollowController,LEFT_WHITE_DETECT,ADC_Left_Detect);
+  int rightPIDOut = GetOutput(&rightFollowController,RIGHT_WHITE_DETECT,ADC_Right_Detect);
   rFollowSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN>>1,leftPIDOut); // swapped b/c they are physically swapped
   lFollowSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped
   
-  leftPIDOut = GetOutput(&leftAdjustController,LEFT_GRAY_DETECT,ADC_Left_Detect);
+  /*leftPIDOut = GetOutput(&leftAdjustController,LEFT_GRAY_DETECT,ADC_Left_Detect);
   rightPIDOut = GetOutput(&rightAdjustController,RIGHT_GRAY_DETECT,ADC_Right_Detect);
   rAdjustSpeed = additionSafe(RIGHT_FORWARD_SPEED,RIGHT_MAX,RIGHT_MIN>>1,leftPIDOut); // swapped b/c they are physically swapped
-  lAdjustSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped
+  lAdjustSpeed = additionSafe(LEFT_FORWARD_SPEED,LEFT_MAX,LEFT_MIN>>1,rightPIDOut); // swapped b/c they are physically swapped*/
   
   if(stateCounter==1 && rFollowSpeed != lFollowSpeed) P6OUT|=GRN_LED;
   else P6OUT&=~GRN_LED;
@@ -147,7 +147,7 @@ void LineFollow(){
       ClearController(&leftFollowController);
     }
     
-    /*if(ADC_Left_Detect<(LEFT_BLACK_DETECT+50) && ADC_Right_Detect<(RIGHT_BLACK_DETECT+50)){
+    /*if(ADC_Left_Detect>(LEFT_BLACK_DETECT+50) && ADC_Right_Detect>(RIGHT_BLACK_DETECT+50)){
       rFollowSpeed = RIGHT_MIN;
       lFollowSpeed = LEFT_MIN;
     }*/
