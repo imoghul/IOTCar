@@ -27,7 +27,7 @@ void main(void);
 
 
 // Global Variables
-  // Global Variables
+// Global Variables
 volatile char slow_input_down;
 extern char display_line[4][11];
 extern char *display[4];
@@ -47,7 +47,7 @@ volatile unsigned int stopwatch_seconds;
 volatile unsigned int time_change;
 extern volatile unsigned int right_tick, left_tick;
 extern char adc_char[5];
-extern volatile unsigned int ADC_Left_Detect,ADC_Right_Detect;
+extern volatile unsigned int ADC_Left_Detect, ADC_Right_Detect;
 extern char movingDirection;
 extern char enteringDirection;
 extern float timeElapsed;
@@ -73,68 +73,69 @@ extern volatile unsigned int stopwatchUpdated;
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
 
-void main(void){
-//------------------------------------------------------------------------------
-// Main Program
-// This is the main routine for the program. Execution of code starts here.
-// The operating system is Back Ground Fore Ground.
-//
-//------------------------------------------------------------------------------
-  PM5CTL0 &= ~LOCKLPM5;
-// Disable the GPIO power-on default high-impedance mode to activate
-// previously configured port settings
-  
-  Init_Ports();                        // Initialize Ports
-  Init_Clocks();                       // Initialize Clock System
-  Init_Conditions();                   // Initialize Variables and Initial Conditions
-  Init_Timers();                       // Initialize Timers
-  Init_LCD();                          // Initialize LCD
-  Init_ADC();
-  //Init_REF();
-  //Init_DAC();
-  EmitterOn();
-  // Place the contents of what you want on the display, in between the quotes
-// Limited to 10 characters per line
-  strcpy(display_line[0], "WAITING...");
-  strcpy(display_line[1], "          ");
-  strcpy(display_line[2], "          ");
-  strcpy(display_line[3], "          ");
-  display_changed = TRUE;
-  
-//------------------------------------------------------------------------------
-// Begining of the "While" Operating System
-//------------------------------------------------------------------------------
-  while(ALWAYS) {                       // Can the Operating system run
-    Display_Process();                  // Update Display
-    //DetectMovement();
-    StateMachine();                     // Run wheels state machine
-    MotorSafety();
-    P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-    /*if(movingDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
-    else if(movingDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
-    else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
-    else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
-    
-    /*if(stopwatchUpdated){
-      stopwatchUpdated = 0;
-      HEXtoBCD((int)timeElapsed,3,0);
-      display_line[3][4]='.';
-      display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
-      display_changed = 1;
-    }*/
-    
-    
-    if(Last_Time_Sequence!=Time_Sequence){ 
-      Last_Time_Sequence=Time_Sequence;
-      cycle_count++;
-      time_change = 1;
-      if(cycle_count == TIME_SEQUENCE_MAX){
-        cycle_count = 0;
-        stopwatch_seconds++;
-      }
+void main(void) {
+    //------------------------------------------------------------------------------
+    // Main Program
+    // This is the main routine for the program. Execution of code starts here.
+    // The operating system is Back Ground Fore Ground.
+    //
+    //------------------------------------------------------------------------------
+    PM5CTL0 &= ~LOCKLPM5;
+    // Disable the GPIO power-on default high-impedance mode to activate
+    // previously configured port settings
+
+    Init_Ports();                        // Initialize Ports
+    Init_Clocks();                       // Initialize Clock System
+    Init_Conditions();                   // Initialize Variables and Initial Conditions
+    Init_Timers();                       // Initialize Timers
+    Init_LCD();                          // Initialize LCD
+    Init_ADC();
+    //Init_REF();
+    //Init_DAC();
+    EmitterOn();
+    // Place the contents of what you want on the display, in between the quotes
+    // Limited to 10 characters per line
+    strcpy(display_line[0], "WAITING...");
+    strcpy(display_line[1], "          ");
+    strcpy(display_line[2], "          ");
+    strcpy(display_line[3], "          ");
+    display_changed = TRUE;
+
+    //------------------------------------------------------------------------------
+    // Begining of the "While" Operating System
+    //------------------------------------------------------------------------------
+    while(ALWAYS) {                       // Can the Operating system run
+        Display_Process();                  // Update Display
+        //DetectMovement();
+        StateMachine();                     // Run wheels state machine
+        MotorSafety();
+        P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+        /*if(movingDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
+        else if(movingDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
+        else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
+        else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
+
+        /*if(stopwatchUpdated){
+          stopwatchUpdated = 0;
+          HEXtoBCD((int)timeElapsed,3,0);
+          display_line[3][4]='.';
+          display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
+          display_changed = 1;
+        }*/
+
+
+        if(Last_Time_Sequence != Time_Sequence) {
+            Last_Time_Sequence = Time_Sequence;
+            cycle_count++;
+            time_change = 1;
+
+            if(cycle_count == TIME_SEQUENCE_MAX) {
+                cycle_count = 0;
+                stopwatch_seconds++;
+            }
+        }
     }
-   }
-    
-//------------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------------
 }
 

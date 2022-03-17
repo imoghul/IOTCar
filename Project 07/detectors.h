@@ -1,6 +1,6 @@
 #define MOVING_RIGHT    ('R')
 #define MOVING_LEFT     ('L')
-#define MOVING_STRAIGHT ('S')        
+#define MOVING_STRAIGHT ('S')
 #define NOT_MOVING      ('N')
 #define VALUES_TO_HOLD  (4)
 #define INCREASING      ('I')

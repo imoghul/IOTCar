@@ -4,7 +4,7 @@
 #define WAIT            ('W')
 #define END             ('E')
 #define ARM             ('A')
-#define TURN            ('T')        
+#define TURN            ('T')
 #define STRAIGHT        ('s')
 #define LINEFOLLOW      ('L')
 #define EXIT            ('e')
@@ -14,4 +14,4 @@ void Straight();
 void Turn();
 void LineFollow();
 void Exit();
-int delay(int seconds,int cycles);
+int delay(int seconds, int cycles);
