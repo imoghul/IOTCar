@@ -95,9 +95,9 @@ void Turn() {
 
     if (stateCounter == 2) {
         if (((ADC_Left_Detect <= LEFT_GRAY_DETECT || ADC_Right_Detect <= RIGHT_GRAY_DETECT))) {
-            if(enteringDirection == MOVING_LEFT)Drive_Path(STRAIGHT_RIGHT >> 1, -STRAIGHT_LEFT >> 1, 0);
+            if(enteringDirection == MOVING_LEFT)Drive_Path(STRAIGHT_RIGHT >> 2, -STRAIGHT_LEFT >> 2, 0);
 
-            if(enteringDirection == MOVING_RIGHT)Drive_Path(-STRAIGHT_RIGHT >> 1, STRAIGHT_LEFT >> 1, 0);
+            if(enteringDirection == MOVING_RIGHT)Drive_Path(-STRAIGHT_RIGHT >> 2, STRAIGHT_LEFT >> 2, 0);
         } else stateCounter++;
     } else if (stateCounter == 3) {
         ShutoffMotors();
@@ -141,8 +141,8 @@ void LineFollow() {
     else P6OUT &= ~GRN_LED;
 
     if(stateCounter == 1) {
-        if(ADC_Left_Detect < (LEFT_BLACK_DETECT) ^ ADC_Right_Detect < (RIGHT_BLACK_DETECT)) stateCounter = 2;
-        else if (ADC_Left_Detect < (LEFT_BLACK_DETECT) && ADC_Right_Detect < (RIGHT_BLACK_DETECT)) {
+        if(ADC_Left_Detect < (LEFT_GRAY_DETECT) ^ ADC_Right_Detect < (RIGHT_GRAY_DETECT)) stateCounter = 2;
+        else if (ADC_Left_Detect < (LEFT_GRAY_DETECT) && ADC_Right_Detect < (RIGHT_GRAY_DETECT)) {
             rFollowSpeed = -RIGHT_MIN;
             lFollowSpeed = -LEFT_MIN;
         } else {

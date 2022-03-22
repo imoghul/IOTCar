@@ -26,10 +26,10 @@
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
 // detectors
-#define LEFT_BLACK_DETECT        (LBDetect-75)
-#define RIGHT_BLACK_DETECT       (RBDetect-75)
-#define LEFT_GRAY_DETECT        (LBDetect>>1)
-#define RIGHT_GRAY_DETECT       (RBDetect>>1)
+#define LEFT_BLACK_DETECT        (LBDetect>>1)
+#define RIGHT_BLACK_DETECT       (RBDetect>>1)
+#define LEFT_GRAY_DETECT        (LBDetect*3/10)
+#define RIGHT_GRAY_DETECT       (RBDetec*3/10)
 #define LEFT_WHITE_DETECT        (LWDetect+20)
 #define RIGHT_WHITE_DETECT       (RWDetect+20)
 

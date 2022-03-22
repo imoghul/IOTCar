@@ -89,9 +89,9 @@ void main(void) {
     Init_Conditions();                   // Initialize Variables and Initial Conditions
     Init_Timers();                       // Initialize Timers
     Init_LCD();                          // Initialize LCD
+    Init_REF();
+    Init_DAC();
     Init_ADC();
-    //Init_REF();
-    //Init_DAC();
     EmitterOn();
     // Place the contents of what you want on the display, in between the quotes
     // Limited to 10 characters per line
