@@ -1,0 +1,43 @@
+#Generating source browse information for project Homework 08 simple
+
+
+#Abbreviations
+cc = C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 8.5\common\bin\SourceIndexer.exe
+ll = C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 8.5\common\bin\PbdLink.exe
+bd = C$:\Program$ Files\IAR$ Systems\Embedded$ Workbench$ 8.5\common\bin\makeBrowseData.exe
+
+
+
+#Rules
+rule index
+  depfile = $out.dep
+  command = $cc -out=$out -f $in
+rule link
+  command = $ll -M $out $in
+rule browsedata
+  command = $bd $in -output  $out
+
+
+
+#Build steps
+build adc.pbi : index adc.xcl
+build clocks.pbi : index clocks.xcl
+build detectors.pbi : index detectors.xcl
+build init.pbi : index init.xcl
+build led.pbi : index led.xcl
+build main.pbi : index main.xcl
+build pid.pbi : index pid.xcl
+build ports.pbi : index ports.xcl
+build sm.pbi : index sm.xcl
+build switches.pbi : index switches.xcl
+build system.pbi : index system.xcl
+build timers.pbi : index timers.xcl
+build wheels.pbi : index wheels.xcl
+build Homework$ 08$ simple_part0.pbi : link adc.pbi clocks.pbi detectors.pbi init.pbi
+build Homework$ 08$ simple_part1.pbi : link led.pbi main.pbi pid.pbi ports.pbi
+build Homework$ 08$ simple_part2.pbi : link sm.pbi switches.pbi system.pbi timers.pbi
+build Homework$ 08$ simple_part3.pbi : link wheels.pbi
+build Homework$ 08$ simple.pbd : link Homework$ 08$ simple_part0.pbi Homework$ 08$ simple_part1.pbi Homework$ 08$ simple_part2.pbi Homework$ 08$ simple_part3.pbi
+build Homework$ 08$ simple.pbw : browsedata Homework$ 08$ simple.pbd
+
+
