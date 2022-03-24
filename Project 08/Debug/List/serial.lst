@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          24/Mar/2022  15:05:25
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          24/Mar/2022  16:10:29
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,12 +12,12 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece-306\Homework 08\serial.c
+#    Source file   =  C:\Users\saad\Documents\ece-306\Project 08\serial.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW5D.tmp
-#        ("C:\Users\saad\Documents\ece-306\Homework 08\serial.c" -lC
-#        "C:\Users\saad\Documents\ece-306\Homework 08\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Homework 08\Debug\Obj" --no_cse
+#        -f C:\Users\saad\AppData\Local\Temp\EW884F.tmp
+#        ("C:\Users\saad\Documents\ece-306\Project 08\serial.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Project 08\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Project 08\Debug\Obj" --no_cse
 #        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
@@ -25,13 +25,13 @@
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece-306\Homework 08\Debug\List\serial.lst
+#        C:\Users\saad\Documents\ece-306\Project 08\Debug\List\serial.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece-306\Homework 08\Debug\Obj\serial.r43
+#        C:\Users\saad\Documents\ece-306\Project 08\Debug\Obj\serial.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece-306\Homework 08\serial.c
+C:\Users\saad\Documents\ece-306\Project 08\serial.c
       1          #include "serial.h"
       2          #include <string.h>
       3          #include "msp430.h"
@@ -149,12 +149,12 @@ C:\Users\saad\Documents\ece-306\Homework 08\serial.c
    \   000000                REQUIRE ?cstart_init_zero
       8          volatile char USB0_Char_Tx[LARGE_RING_SIZE],USB1_Char_Tx[LARGE_RING_SIZE];
    \                     USB0_Char_Tx:
-   \   000000                DS8 10
+   \   000000                DS8 20
 
    \                                 In  segment DATA16_Z, align 1, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
    \                     USB1_Char_Tx:
-   \   000000                DS8 10
+   \   000000                DS8 20
 
    \                                 In  segment DATA16_I, align 1, align-sorted
    \   000000                REQUIRE ?cstart_init_copy
@@ -234,7 +234,7 @@ C:\Users\saad\Documents\ece-306\Homework 08\serial.c
      33              for(i = 0; i < LARGE_RING_SIZE; i++) {
    \   000024   0F43         MOV.W   #0x0, R15
    \                     ??Init_Serial_UCA_1:
-   \   000026   3F900A00     CMP.W   #0xa, R15
+   \   000026   3F901400     CMP.W   #0x14, R15
    \   00002A   0634         JGE     ??Init_Serial_UCA_3
      34                  USB0_Char_Tx[i] = 0x00;
    \   00002C   CF43....     MOV.B   #0x0, USB0_Char_Tx(R15)
@@ -302,21 +302,21 @@ C:\Users\saad\Documents\ece-306\Homework 08\serial.c
      65              switch(__even_in_range(UCA0IV, 0x08)) {
                      ^
 Warning[Pe546]: transfer of control bypasses initialization of:
-            variable "i" (declared at line 79)
+            variable "i" (declared at line 84)
    \   000002   1F421E05     MOV.W   &0x51e, R15
    \   000006   E00F         ADDA    R15, PC
    \                     `?<Jumptable for eUSCI_A0_ISR>_0`:
-   \   000008   6D3C         JMP     ??eUSCI_A0_ISR_3
-   \   00000A   033C         JMP     ??eUSCI_A0_ISR_11
-   \   00000C   3C3C         JMP     ??eUSCI_A0_ISR_12
-   \   00000E   6A3C         JMP     ??eUSCI_A0_ISR_3
-   \   000010   693C         JMP     ??eUSCI_A0_ISR_3
+   \   000008   883C         JMP     ??eUSCI_A0_ISR_5
+   \   00000A   033C         JMP     ??eUSCI_A0_ISR_14
+   \   00000C   4F3C         JMP     ??eUSCI_A0_ISR_15
+   \   00000E   853C         JMP     ??eUSCI_A0_ISR_5
+   \   000010   843C         JMP     ??eUSCI_A0_ISR_5
      66                  case 0:
      67                      break;
      68          
      69                  case 2: // RXIFG
      70                      temp = usb0_rx_ring_wr++;
-   \                     ??eUSCI_A0_ISR_11:
+   \                     ??eUSCI_A0_ISR_14:
    \   000012   1F42....     MOV.W   &usb0_rx_ring_wr, R15
    \   000016   0E4F         MOV.W   R15, R14
    \   000018   1E53         ADD.W   #0x1, R14
@@ -328,285 +328,334 @@ Warning[Pe546]: transfer of control bypasses initialization of:
      72                      
      73                      if (usb0_rx_ring_wr >= (sizeof(USB0_Char_Rx)) || (temp>=1 && USB0_Char_Rx[temp]=='\n' && USB0_Char_Rx[temp-1]=='\r')) {
    \   000028   B2901000.... CMP.W   #0x10, &usb0_rx_ring_wr
-   \   00002E   0A2C         JC      ??eUSCI_A0_ISR_5
+   \   00002E   0A2C         JC      ??eUSCI_A0_ISR_7
    \   000030   0A93         CMP.W   #0x0, R10
-   \   000032   0C24         JEQ     ??eUSCI_A0_ISR_6
+   \   000032   0C24         JEQ     ??eUSCI_A0_ISR_8
    \   000034   FA900A00.... CMP.B   #0xa, USB0_Char_Rx(R10)
-   \   00003A   0820         JNE     ??eUSCI_A0_ISR_6
+   \   00003A   0820         JNE     ??eUSCI_A0_ISR_8
    \   00003C   FA900D00.... CMP.B   #0xd, LWRD(USB0_Char_Rx + 65535)(R10)
-   \   000042   0420         JNE     ??eUSCI_A0_ISR_6
+   \   000042   0420         JNE     ??eUSCI_A0_ISR_8
      74                          usb0_rx_ring_wr = BEGINNING;
-   \                     ??eUSCI_A0_ISR_5:
+   \                     ??eUSCI_A0_ISR_7:
    \   000044   8243....     MOV.W   #0x0, &usb0_rx_ring_wr
      75                          UCA0_index = 0;
    \   000048   8243....     MOV.W   #0x0, &UCA0_index
      76                      }
-     77                      
-     78                      strcpy(display_line[3], "          ");
-   \                     ??eUSCI_A0_ISR_6:
-   \   00004C   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000050   3C40....     MOV.W   #display_line + 33, R12
-   \   000054   ........     CALLA   #strcpy
-     79                      int i = 0;
-   \   000058   0E43         MOV.W   #0x0, R14
-     80                      for(;i<10 && USB0_Char_Rx[i]!=0;++i)
-   \                     ??eUSCI_A0_ISR_0:
-   \   00005A   3E900A00     CMP.W   #0xa, R14
-   \   00005E   0834         JGE     ??eUSCI_A0_ISR_1
-   \   000060   CE93....     CMP.B   #0x0, USB0_Char_Rx(R14)
-   \   000064   0524         JEQ     ??eUSCI_A0_ISR_1
-     81                        display_line[3][i] = USB0_Char_Rx[i];
-   \   000066   DE4E........ MOV.B   USB0_Char_Rx(R14), display_line + 33(R14)
-   \   00006C   1E53         ADD.W   #0x1, R14
-   \   00006E   F53F         JMP     ??eUSCI_A0_ISR_0
-     82                      for(;i<10;++i) display_line[0][i]=' ';
-   \                     ??eUSCI_A0_ISR_1:
-   \   000070   3E900A00     CMP.W   #0xa, R14
-   \   000074   0534         JGE     ??eUSCI_A0_ISR_7
-   \   000076   FE402000.... MOV.B   #0x20, display_line(R14)
-   \   00007C   1E53         ADD.W   #0x1, R14
-   \   00007E   F83F         JMP     ??eUSCI_A0_ISR_1
-     83                      display_line[3][10] = 0;
-   \                     ??eUSCI_A0_ISR_7:
-   \   000080   C243....     MOV.B   #0x0, &display_line + 43
-     84          
-     85                      break;
-   \   000084   2F3C         JMP     ??eUSCI_A0_ISR_3
-     86          
-     87                  case 4: // TXIFG
-     88                    switch(UCA0_index++){
-   \                     ??eUSCI_A0_ISR_12:
-   \   000086   1F42....     MOV.W   &UCA0_index, R15
-   \   00008A   0D4F         MOV.W   R15, R13
-   \   00008C   1D53         ADD.W   #0x1, R13
-   \   00008E   824D....     MOV.W   R13, &UCA0_index
-   \   000092   0F83         SUB.W   #0x0, R15
-   \   000094   1524         JEQ     ??eUSCI_A0_ISR_8
-   \   000096   1F83         SUB.W   #0x1, R15
-   \   000098   1324         JEQ     ??eUSCI_A0_ISR_8
-   \   00009A   1F83         SUB.W   #0x1, R15
-   \   00009C   1124         JEQ     ??eUSCI_A0_ISR_8
-   \   00009E   1F83         SUB.W   #0x1, R15
-   \   0000A0   0F24         JEQ     ??eUSCI_A0_ISR_8
-   \   0000A2   1F83         SUB.W   #0x1, R15
-   \   0000A4   0D24         JEQ     ??eUSCI_A0_ISR_8
-   \   0000A6   1F83         SUB.W   #0x1, R15
-   \   0000A8   0B24         JEQ     ??eUSCI_A0_ISR_8
-   \   0000AA   1F83         SUB.W   #0x1, R15
-   \   0000AC   0924         JEQ     ??eUSCI_A0_ISR_8
-   \   0000AE   1F83         SUB.W   #0x1, R15
-   \   0000B0   0724         JEQ     ??eUSCI_A0_ISR_8
-   \   0000B2   1F83         SUB.W   #0x1, R15
-   \   0000B4   0524         JEQ     ??eUSCI_A0_ISR_8
-   \   0000B6   1F83         SUB.W   #0x1, R15
-   \   0000B8   0B24         JEQ     ??eUSCI_A0_ISR_9
-   \   0000BA   1F83         SUB.W   #0x1, R15
-   \   0000BC   0D24         JEQ     ??eUSCI_A0_ISR_10
-   \   0000BE   103C         JMP     ??eUSCI_A0_ISR_4
-     89                      case 0:
-     90                      case 1:
-     91                      case 2:
-     92                      case 3:
-     93                      case 4:
-     94                      case 5:
-     95                      case 6:
-     96                      case 7:
-     97                      case 8:
-     98                        UCA0TXBUF = USB0_Char_Tx[UCA0_index];
+     77                      if((temp>=1 && USB0_Char_Rx[temp]=='\n' && USB0_Char_Rx[temp-1]=='\r')){
    \                     ??eUSCI_A0_ISR_8:
-   \   0000C0   1F42....     MOV.W   &UCA0_index, R15
-   \   0000C4   5F4F....     MOV.B   USB0_Char_Tx(R15), R15
-   \   0000C8   4F4F         MOV.B   R15, R15
-   \   0000CA   824F0E05     MOV.W   R15, &0x50e
-     99                        break;
-   \   0000CE   0A3C         JMP     ??eUSCI_A0_ISR_3
-    100                      case 9:
-    101                        UCA0TXBUF = 0x0D;
+   \   00004C   0A93         CMP.W   #0x0, R10
+   \   00004E   1124         JEQ     ??eUSCI_A0_ISR_9
+   \   000050   FA900A00.... CMP.B   #0xa, USB0_Char_Rx(R10)
+   \   000056   0D20         JNE     ??eUSCI_A0_ISR_9
+   \   000058   FA900D00.... CMP.B   #0xd, LWRD(USB0_Char_Rx + 65535)(R10)
+   \   00005E   0920         JNE     ??eUSCI_A0_ISR_9
+     78                        for(int j = temp+1;j<sizeof(USB0_Char_Rx);++j)
+   \   000060   0F4A         MOV.W   R10, R15
+   \   000062   1F53         ADD.W   #0x1, R15
+   \                     ??eUSCI_A0_ISR_0:
+   \   000064   3F901000     CMP.W   #0x10, R15
+   \   000068   042C         JC      ??eUSCI_A0_ISR_9
+     79                            USB0_Char_Rx[j] = 0;
+   \   00006A   CF43....     MOV.B   #0x0, USB0_Char_Rx(R15)
+   \   00006E   1F53         ADD.W   #0x1, R15
+   \   000070   F93F         JMP     ??eUSCI_A0_ISR_0
+     80                      }
+     81                      
+     82                      
+     83                      strcpy(display_line[3], "          ");
    \                     ??eUSCI_A0_ISR_9:
-   \   0000D0   B2400D000E05 MOV.W   #0xd, &0x50e
-    102                        break;
-   \   0000D6   063C         JMP     ??eUSCI_A0_ISR_3
-    103                      case 10:
-    104                        UCA0TXBUF = 0x0A;
+   \   000072   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000076   3C40....     MOV.W   #display_line + 33, R12
+   \   00007A   ........     CALLA   #strcpy
+     84                      int i = 0;
+   \   00007E   0E43         MOV.W   #0x0, R14
+     85                      for(;i<10 && USB0_Char_Rx[i]!=0;++i)
+   \                     ??eUSCI_A0_ISR_1:
+   \   000080   3E900A00     CMP.W   #0xa, R14
+   \   000084   0834         JGE     ??eUSCI_A0_ISR_2
+   \   000086   CE93....     CMP.B   #0x0, USB0_Char_Rx(R14)
+   \   00008A   0524         JEQ     ??eUSCI_A0_ISR_2
+     86                        display_line[3][i] = USB0_Char_Rx[i];
+   \   00008C   DE4E........ MOV.B   USB0_Char_Rx(R14), display_line + 33(R14)
+   \   000092   1E53         ADD.W   #0x1, R14
+   \   000094   F53F         JMP     ??eUSCI_A0_ISR_1
+     87                      for(;i<10;++i) display_line[0][i]=' ';
+   \                     ??eUSCI_A0_ISR_2:
+   \   000096   3E900A00     CMP.W   #0xa, R14
+   \   00009A   0534         JGE     ??eUSCI_A0_ISR_10
+   \   00009C   FE402000.... MOV.B   #0x20, display_line(R14)
+   \   0000A2   1E53         ADD.W   #0x1, R14
+   \   0000A4   F83F         JMP     ??eUSCI_A0_ISR_2
+     88                      display_line[3][10] = 0;
    \                     ??eUSCI_A0_ISR_10:
-   \   0000D8   B2400A000E05 MOV.W   #0xa, &0x50e
+   \   0000A6   C243....     MOV.B   #0x0, &display_line + 43
+     89          
+     90                      break;
+   \   0000AA   373C         JMP     ??eUSCI_A0_ISR_5
+     91          
+     92                  case 4: // TXIFG
+     93                    switch(UCA0_index++){
+   \                     ??eUSCI_A0_ISR_15:
+   \   0000AC   1F42....     MOV.W   &UCA0_index, R15
+   \   0000B0   0D4F         MOV.W   R15, R13
+   \   0000B2   1D53         ADD.W   #0x1, R13
+   \   0000B4   824D....     MOV.W   R13, &UCA0_index
+   \   0000B8   0F83         SUB.W   #0x0, R15
+   \   0000BA   1524         JEQ     ??eUSCI_A0_ISR_11
+   \   0000BC   1F83         SUB.W   #0x1, R15
+   \   0000BE   1324         JEQ     ??eUSCI_A0_ISR_11
+   \   0000C0   1F83         SUB.W   #0x1, R15
+   \   0000C2   1124         JEQ     ??eUSCI_A0_ISR_11
+   \   0000C4   1F83         SUB.W   #0x1, R15
+   \   0000C6   0F24         JEQ     ??eUSCI_A0_ISR_11
+   \   0000C8   1F83         SUB.W   #0x1, R15
+   \   0000CA   0D24         JEQ     ??eUSCI_A0_ISR_11
+   \   0000CC   1F83         SUB.W   #0x1, R15
+   \   0000CE   0B24         JEQ     ??eUSCI_A0_ISR_11
+   \   0000D0   1F83         SUB.W   #0x1, R15
+   \   0000D2   0924         JEQ     ??eUSCI_A0_ISR_11
+   \   0000D4   1F83         SUB.W   #0x1, R15
+   \   0000D6   0724         JEQ     ??eUSCI_A0_ISR_11
+   \   0000D8   1F83         SUB.W   #0x1, R15
+   \   0000DA   0524         JEQ     ??eUSCI_A0_ISR_11
+   \   0000DC   1F83         SUB.W   #0x1, R15
+   \   0000DE   1324         JEQ     ??eUSCI_A0_ISR_12
+   \   0000E0   1F83         SUB.W   #0x1, R15
+   \   0000E2   1524         JEQ     ??eUSCI_A0_ISR_13
+   \   0000E4   183C         JMP     ??eUSCI_A0_ISR_6
+     94                      case 0:
+     95                      case 1:
+     96                      case 2:
+     97                      case 3:
+     98                      case 4:
+     99                      case 5:
+    100                      case 6:
+    101                      case 7:
+    102                      case 8:
+    103                        UCA0TXBUF = USB0_Char_Tx[UCA0_index];
+   \                     ??eUSCI_A0_ISR_11:
+   \   0000E6   1F42....     MOV.W   &UCA0_index, R15
+   \   0000EA   5F4F....     MOV.B   USB0_Char_Tx(R15), R15
+   \   0000EE   4F4F         MOV.B   R15, R15
+   \   0000F0   824F0E05     MOV.W   R15, &0x50e
+    104                        if(USB0_Char_Tx[UCA0_index]==0) UCA0_index=9;
+   \   0000F4   1F42....     MOV.W   &UCA0_index, R15
+   \   0000F8   CF93....     CMP.B   #0x0, USB0_Char_Tx(R15)
+   \   0000FC   0E20         JNE     ??eUSCI_A0_ISR_5
+   \   0000FE   B2400900.... MOV.W   #0x9, &UCA0_index
     105                        break;
-   \   0000DE   023C         JMP     ??eUSCI_A0_ISR_3
-    106                      default:
-    107                        UCA0IE &= ~UCTXIE;
-   \                     ??eUSCI_A0_ISR_4:
-   \   0000E0   A2C31A05     BIC.W   #0x2, &0x51a
+   \   000104   0A3C         JMP     ??eUSCI_A0_ISR_5
+    106                      case 9:
+    107                        UCA0TXBUF = 0x0D;
+   \                     ??eUSCI_A0_ISR_12:
+   \   000106   B2400D000E05 MOV.W   #0xd, &0x50e
     108                        break;
-    109                      
-    110                    }
-    111                    break;
-    112          
-    113                  default:
-    114                      break;
-    115              }
-    116          }
-   \                     ??eUSCI_A0_ISR_3:
-   \   0000E4   5A17         POPM.W  #0x6, R15
-   \   0000E6   0013         RETI
-   \   0000E8                REQUIRE _A_UCA0RXBUF_L
-   \   0000E8                REQUIRE _A_UCA0TXBUF_L
-   \   0000E8                REQUIRE _A_UCA0IE_L
-   \   0000E8                REQUIRE _A_UCA0IV_L
-    117          
-    118          #pragma vector=EUSCI_A1_VECTOR
+   \   00010C   063C         JMP     ??eUSCI_A0_ISR_5
+    109                      case 10:
+    110                        UCA0TXBUF = 0x0A;
+   \                     ??eUSCI_A0_ISR_13:
+   \   00010E   B2400A000E05 MOV.W   #0xa, &0x50e
+    111                        break;
+   \   000114   023C         JMP     ??eUSCI_A0_ISR_5
+    112                      default:
+    113                        UCA0IE &= ~UCTXIE;
+   \                     ??eUSCI_A0_ISR_6:
+   \   000116   A2C31A05     BIC.W   #0x2, &0x51a
+    114                        break;
+    115                      
+    116                    }
+    117                    break;
+    118          
+    119                  default:
+    120                      break;
+    121              }
+    122          }
+   \                     ??eUSCI_A0_ISR_5:
+   \   00011A   5A17         POPM.W  #0x6, R15
+   \   00011C   0013         RETI
+   \   00011E                REQUIRE _A_UCA0RXBUF_L
+   \   00011E                REQUIRE _A_UCA0TXBUF_L
+   \   00011E                REQUIRE _A_UCA0IE_L
+   \   00011E                REQUIRE _A_UCA0IV_L
+    123          
+    124          #pragma vector=EUSCI_A1_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-    119          __interrupt void eUSCI_A1_ISR(void) {
+    125          __interrupt void eUSCI_A1_ISR(void) {
    \                     eUSCI_A1_ISR:
    \   000000   2F15         PUSHM.W #0x3, R15
-    120              unsigned int temp;
-    121          
-    122              switch(__even_in_range(UCA1IV, 0x08)) {
+    126              unsigned int temp;
+    127          
+    128              switch(__even_in_range(UCA1IV, 0x08)) {
    \   000002   1F429E05     MOV.W   &0x59e, R15
    \   000006   E00F         ADDA    R15, PC
    \                     `?<Jumptable for eUSCI_A1_ISR>_0`:
-   \   000008   513C         JMP     ??eUSCI_A1_ISR_2
-   \   00000A   033C         JMP     ??eUSCI_A1_ISR_8
-   \   00000C   203C         JMP     ??eUSCI_A1_ISR_9
-   \   00000E   4E3C         JMP     ??eUSCI_A1_ISR_2
-   \   000010   4D3C         JMP     ??eUSCI_A1_ISR_2
-    123                  case 0:
-    124                      break;
-    125          
-    126                  case 2: // RXIFG
-    127                      temp = usb1_rx_ring_wr++;
-   \                     ??eUSCI_A1_ISR_8:
+   \   000008   6B3C         JMP     ??eUSCI_A1_ISR_4
+   \   00000A   033C         JMP     ??eUSCI_A1_ISR_11
+   \   00000C   323C         JMP     ??eUSCI_A1_ISR_12
+   \   00000E   683C         JMP     ??eUSCI_A1_ISR_4
+   \   000010   673C         JMP     ??eUSCI_A1_ISR_4
+    129                  case 0:
+    130                      break;
+    131          
+    132                  case 2: // RXIFG
+    133                      temp = usb1_rx_ring_wr++;
+   \                     ??eUSCI_A1_ISR_11:
    \   000012   1F42....     MOV.W   &usb1_rx_ring_wr, R15
    \   000016   0E4F         MOV.W   R15, R14
    \   000018   1E53         ADD.W   #0x1, R14
    \   00001A   824E....     MOV.W   R14, &usb1_rx_ring_wr
    \   00001E   0D4F         MOV.W   R15, R13
-    128                      USB1_Char_Rx[temp] = UCA1RXBUF;
+    134                      USB1_Char_Rx[temp] = UCA1RXBUF;
    \   000020   1E428C05     MOV.W   &0x58c, R14
    \   000024   CD4E....     MOV.B   R14, USB1_Char_Rx(R13)
-    129                      
-    130                      if (usb1_rx_ring_wr >= (sizeof(USB1_Char_Rx)) || (temp>=1 && USB1_Char_Rx[temp]=='\n' && USB1_Char_Rx[temp-1]=='\r')) {
+    135                      
+    136                      if (usb1_rx_ring_wr >= (sizeof(USB1_Char_Rx)) || (temp>=1 && USB1_Char_Rx[temp]=='\n' && USB1_Char_Rx[temp-1]=='\r')) {
    \   000028   B2901000.... CMP.W   #0x10, &usb1_rx_ring_wr
-   \   00002E   0A2C         JC      ??eUSCI_A1_ISR_4
+   \   00002E   0A2C         JC      ??eUSCI_A1_ISR_6
    \   000030   0D93         CMP.W   #0x0, R13
-   \   000032   3C24         JEQ     ??eUSCI_A1_ISR_2
+   \   000032   0C24         JEQ     ??eUSCI_A1_ISR_7
    \   000034   FD900A00.... CMP.B   #0xa, USB1_Char_Rx(R13)
-   \   00003A   3820         JNE     ??eUSCI_A1_ISR_2
+   \   00003A   0820         JNE     ??eUSCI_A1_ISR_7
    \   00003C   FD900D00.... CMP.B   #0xd, LWRD(USB1_Char_Rx + 65535)(R13)
-   \   000042   3420         JNE     ??eUSCI_A1_ISR_2
-    131                          usb1_rx_ring_wr = BEGINNING;
-   \                     ??eUSCI_A1_ISR_4:
-   \   000044   8243....     MOV.W   #0x0, &usb1_rx_ring_wr
-    132                          UCA1_index = 0;
-   \   000048   8243....     MOV.W   #0x0, &UCA1_index
-    133                      }
-    134                      
-    135                      /*int i = 0;
-    136                      for(;i<10 && USB1_Char_Rx[i]!=0;++i)
-    137                        display_line[1][i] = USB1_Char_Rx[i];
-    138                      for(;i<10;++i) display_line[1][i]=' ';
-    139                      display_line[1][10] = 0;*/
-    140                  
-    141          
-    142                      break;
-   \   00004C   2F3C         JMP     ??eUSCI_A1_ISR_2
-    143          
-    144                  case 4: // TXIFG
-    145                    switch(UCA1_index++){
-   \                     ??eUSCI_A1_ISR_9:
-   \   00004E   1F42....     MOV.W   &UCA1_index, R15
-   \   000052   0E4F         MOV.W   R15, R14
-   \   000054   1E53         ADD.W   #0x1, R14
-   \   000056   824E....     MOV.W   R14, &UCA1_index
-   \   00005A   0F83         SUB.W   #0x0, R15
-   \   00005C   1524         JEQ     ??eUSCI_A1_ISR_5
-   \   00005E   1F83         SUB.W   #0x1, R15
-   \   000060   1324         JEQ     ??eUSCI_A1_ISR_5
-   \   000062   1F83         SUB.W   #0x1, R15
-   \   000064   1124         JEQ     ??eUSCI_A1_ISR_5
-   \   000066   1F83         SUB.W   #0x1, R15
-   \   000068   0F24         JEQ     ??eUSCI_A1_ISR_5
-   \   00006A   1F83         SUB.W   #0x1, R15
-   \   00006C   0D24         JEQ     ??eUSCI_A1_ISR_5
-   \   00006E   1F83         SUB.W   #0x1, R15
-   \   000070   0B24         JEQ     ??eUSCI_A1_ISR_5
-   \   000072   1F83         SUB.W   #0x1, R15
-   \   000074   0924         JEQ     ??eUSCI_A1_ISR_5
-   \   000076   1F83         SUB.W   #0x1, R15
-   \   000078   0724         JEQ     ??eUSCI_A1_ISR_5
-   \   00007A   1F83         SUB.W   #0x1, R15
-   \   00007C   0524         JEQ     ??eUSCI_A1_ISR_5
-   \   00007E   1F83         SUB.W   #0x1, R15
-   \   000080   0B24         JEQ     ??eUSCI_A1_ISR_6
-   \   000082   1F83         SUB.W   #0x1, R15
-   \   000084   0D24         JEQ     ??eUSCI_A1_ISR_7
-   \   000086   103C         JMP     ??eUSCI_A1_ISR_3
-    146                      case 0:
-    147                      case 1:
-    148                      case 2:
-    149                      case 3:
-    150                      case 4:
-    151                      case 5:
-    152                      case 6:
-    153                      case 7:
-    154                      case 8:
-    155                        UCA1TXBUF = USB1_Char_Tx[UCA1_index];
-   \                     ??eUSCI_A1_ISR_5:
-   \   000088   1F42....     MOV.W   &UCA1_index, R15
-   \   00008C   5F4F....     MOV.B   USB1_Char_Tx(R15), R15
-   \   000090   4F4F         MOV.B   R15, R15
-   \   000092   824F8E05     MOV.W   R15, &0x58e
-    156                        break;
-   \   000096   0A3C         JMP     ??eUSCI_A1_ISR_2
-    157                      case 9:
-    158                        UCA1TXBUF = 0x0D;
+   \   000042   0420         JNE     ??eUSCI_A1_ISR_7
+    137                          usb1_rx_ring_wr = BEGINNING;
    \                     ??eUSCI_A1_ISR_6:
-   \   000098   B2400D008E05 MOV.W   #0xd, &0x58e
-    159                        break;
-   \   00009E   063C         JMP     ??eUSCI_A1_ISR_2
-    160                      case 10:
-    161                        UCA1TXBUF = 0x0A;
+   \   000044   8243....     MOV.W   #0x0, &usb1_rx_ring_wr
+    138                          UCA1_index = 0;
+   \   000048   8243....     MOV.W   #0x0, &UCA1_index
+    139                      }
+    140                      
+    141                      if((temp>=1 && USB1_Char_Rx[temp]=='\n' && USB1_Char_Rx[temp-1]=='\r')){
    \                     ??eUSCI_A1_ISR_7:
-   \   0000A0   B2400A008E05 MOV.W   #0xa, &0x58e
-    162                        break;
-   \   0000A6   023C         JMP     ??eUSCI_A1_ISR_2
-    163                      default:
-    164                        UCA1IE &= ~UCTXIE;
-   \                     ??eUSCI_A1_ISR_3:
-   \   0000A8   A2C39A05     BIC.W   #0x2, &0x59a
-    165                        break;
-    166                      
-    167                    }
-    168                    break;
-    169          
-    170                  default:
-    171                      break;
-    172              }
-    173          }
-   \                     ??eUSCI_A1_ISR_2:
-   \   0000AC   2D17         POPM.W  #0x3, R15
-   \   0000AE   0013         RETI
-   \   0000B0                REQUIRE _A_UCA1RXBUF_L
-   \   0000B0                REQUIRE _A_UCA1TXBUF_L
-   \   0000B0                REQUIRE _A_UCA1IE_L
-   \   0000B0                REQUIRE _A_UCA1IV_L
-    174          
+   \   00004C   0D93         CMP.W   #0x0, R13
+   \   00004E   4824         JEQ     ??eUSCI_A1_ISR_4
+   \   000050   FD900A00.... CMP.B   #0xa, USB1_Char_Rx(R13)
+   \   000056   4420         JNE     ??eUSCI_A1_ISR_4
+   \   000058   FD900D00.... CMP.B   #0xd, LWRD(USB1_Char_Rx + 65535)(R13)
+   \   00005E   4020         JNE     ??eUSCI_A1_ISR_4
+    142                        for(int j = temp+1;j<sizeof(USB1_Char_Rx);++j)
+   \   000060   0F4D         MOV.W   R13, R15
+   \   000062   1F53         ADD.W   #0x1, R15
+   \                     ??eUSCI_A1_ISR_0:
+   \   000064   3F901000     CMP.W   #0x10, R15
+   \   000068   3B2C         JC      ??eUSCI_A1_ISR_4
+    143                            USB1_Char_Rx[j] = 0;
+   \   00006A   CF43....     MOV.B   #0x0, USB1_Char_Rx(R15)
+   \   00006E   1F53         ADD.W   #0x1, R15
+   \   000070   F93F         JMP     ??eUSCI_A1_ISR_0
+    144                      }
+    145                      
+    146                      //int i = 0;
+    147                      //for(;i<10 && USB1_Char_Rx[i]!=0;++i)
+    148                      //  display_line[1][i] = USB1_Char_Rx[i];
+    149                      //for(;i<10;++i) display_line[1][i]=' ';
+    150                      //display_line[1][10] = 0;
+    151                  
+    152          
+    153                      break;
+    154          
+    155                  case 4: // TXIFG
+    156                    switch(UCA1_index++){
+   \                     ??eUSCI_A1_ISR_12:
+   \   000072   1F42....     MOV.W   &UCA1_index, R15
+   \   000076   0E4F         MOV.W   R15, R14
+   \   000078   1E53         ADD.W   #0x1, R14
+   \   00007A   824E....     MOV.W   R14, &UCA1_index
+   \   00007E   0F83         SUB.W   #0x0, R15
+   \   000080   1524         JEQ     ??eUSCI_A1_ISR_8
+   \   000082   1F83         SUB.W   #0x1, R15
+   \   000084   1324         JEQ     ??eUSCI_A1_ISR_8
+   \   000086   1F83         SUB.W   #0x1, R15
+   \   000088   1124         JEQ     ??eUSCI_A1_ISR_8
+   \   00008A   1F83         SUB.W   #0x1, R15
+   \   00008C   0F24         JEQ     ??eUSCI_A1_ISR_8
+   \   00008E   1F83         SUB.W   #0x1, R15
+   \   000090   0D24         JEQ     ??eUSCI_A1_ISR_8
+   \   000092   1F83         SUB.W   #0x1, R15
+   \   000094   0B24         JEQ     ??eUSCI_A1_ISR_8
+   \   000096   1F83         SUB.W   #0x1, R15
+   \   000098   0924         JEQ     ??eUSCI_A1_ISR_8
+   \   00009A   1F83         SUB.W   #0x1, R15
+   \   00009C   0724         JEQ     ??eUSCI_A1_ISR_8
+   \   00009E   1F83         SUB.W   #0x1, R15
+   \   0000A0   0524         JEQ     ??eUSCI_A1_ISR_8
+   \   0000A2   1F83         SUB.W   #0x1, R15
+   \   0000A4   1324         JEQ     ??eUSCI_A1_ISR_9
+   \   0000A6   1F83         SUB.W   #0x1, R15
+   \   0000A8   1524         JEQ     ??eUSCI_A1_ISR_10
+   \   0000AA   183C         JMP     ??eUSCI_A1_ISR_5
+    157                      case 0:
+    158                      case 1:
+    159                      case 2:
+    160                      case 3:
+    161                      case 4:
+    162                      case 5:
+    163                      case 6:
+    164                      case 7:
+    165                      case 8:
+    166                        UCA1TXBUF = USB1_Char_Tx[UCA1_index];
+   \                     ??eUSCI_A1_ISR_8:
+   \   0000AC   1F42....     MOV.W   &UCA1_index, R15
+   \   0000B0   5F4F....     MOV.B   USB1_Char_Tx(R15), R15
+   \   0000B4   4F4F         MOV.B   R15, R15
+   \   0000B6   824F8E05     MOV.W   R15, &0x58e
+    167                        if(USB1_Char_Tx[UCA1_index]==0) UCA1_index=9;
+   \   0000BA   1F42....     MOV.W   &UCA1_index, R15
+   \   0000BE   CF93....     CMP.B   #0x0, USB1_Char_Tx(R15)
+   \   0000C2   0E20         JNE     ??eUSCI_A1_ISR_4
+   \   0000C4   B2400900.... MOV.W   #0x9, &UCA1_index
+    168                        break;
+   \   0000CA   0A3C         JMP     ??eUSCI_A1_ISR_4
+    169                      case 9:
+    170                        UCA1TXBUF = 0x0D;
+   \                     ??eUSCI_A1_ISR_9:
+   \   0000CC   B2400D008E05 MOV.W   #0xd, &0x58e
+    171                        break;
+   \   0000D2   063C         JMP     ??eUSCI_A1_ISR_4
+    172                      case 10:
+    173                        UCA1TXBUF = 0x0A;
+   \                     ??eUSCI_A1_ISR_10:
+   \   0000D4   B2400A008E05 MOV.W   #0xa, &0x58e
+    174                        break;
+   \   0000DA   023C         JMP     ??eUSCI_A1_ISR_4
+    175                      default:
+    176                        UCA1IE &= ~UCTXIE;
+   \                     ??eUSCI_A1_ISR_5:
+   \   0000DC   A2C39A05     BIC.W   #0x2, &0x59a
+    177                        break;
+    178                      
+    179                    }
+    180                    break;
+    181          
+    182                  default:
+    183                      break;
+    184              }
+    185          }
+   \                     ??eUSCI_A1_ISR_4:
+   \   0000E0   2D17         POPM.W  #0x3, R15
+   \   0000E2   0013         RETI
+   \   0000E4                REQUIRE _A_UCA1RXBUF_L
+   \   0000E4                REQUIRE _A_UCA1TXBUF_L
+   \   0000E4                REQUIRE _A_UCA1IE_L
+   \   0000E4                REQUIRE _A_UCA1IV_L
+    186          
 
    \                                 In  segment CODE, align 2
-    175          void out_character(char character) {
+    187          void out_character(char character) {
    \                     out_character:
    \                     ??out_character_0:
-    176              //------------------------------------------------------------------------------
-    177              // The while loop will stall as long as the Flag is not set [port is busy]
-    178              while (!(UCA0IFG & UCTXIFG)); // USCI_A0 TX buffer ready?
+    188              //------------------------------------------------------------------------------
+    189              // The while loop will stall as long as the Flag is not set [port is busy]
+    190              while (!(UCA0IFG & UCTXIFG)); // USCI_A0 TX buffer ready?
    \   000000   A2B31C05     BIT.W   #0x2, &0x51c
    \   000004   FD2B         JNC     ??out_character_0
-    179          
-    180              UCA0TXBUF = character;
+    191          
+    192              UCA0TXBUF = character;
    \   000006   4C4C         MOV.B   R12, R12
    \   000008   824C0E05     MOV.W   R12, &0x50e
-    181              //------------------------------------------------------------------------------
-    182          }
+    193              //------------------------------------------------------------------------------
+    194          }
    \   00000C   1001         RETA
    \   00000E                REQUIRE _A_UCA0IFG_L
    \   00000E                REQUIRE _A_UCA0TXBUF_L
@@ -653,6 +702,8 @@ Warning[Pe546]: transfer of control bypasses initialization of:
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
+    195          
+    196          
 
    Maximum stack usage in bytes:
 
@@ -684,9 +735,9 @@ Warning[Pe546]: transfer of control bypasses initialization of:
       11  String5
       11  String6
       16  USB0_Char_Rx
-      10  USB0_Char_Tx
+      20  USB0_Char_Tx
       16  USB1_Char_Rx
-      10  USB1_Char_Tx
+      20  USB1_Char_Tx
        2  _A_UCA0BRW_L
        2  _A_UCA0CTLW0_L
        2  _A_UCA0IE_L
@@ -702,9 +753,9 @@ Warning[Pe546]: transfer of control bypasses initialization of:
        2  _A_UCA1MCTLW_L
        2  _A_UCA1RXBUF_L
        2  _A_UCA1TXBUF_L
-     232  eUSCI_A0_ISR
+     286  eUSCI_A0_ISR
        2  eUSCI_A0_ISR::??INTVEC 66
-     176  eUSCI_A1_ISR
+     228  eUSCI_A1_ISR
        2  eUSCI_A1_ISR::??INTVEC 64
       14  out_character
        2  usb0_rx_ring_rd
@@ -718,13 +769,13 @@ Warning[Pe546]: transfer of control bypasses initialization of:
   11 bytes in segment DATA16_C
   66 bytes in segment DATA16_I
   66 bytes in segment DATA16_ID
-  60 bytes in segment DATA16_Z
+  80 bytes in segment DATA16_Z
    4 bytes in segment INTVEC
- 408 bytes in segment ISR_CODE
+ 514 bytes in segment ISR_CODE
  
- 544 bytes of CODE  memory
+ 650 bytes of CODE  memory
   77 bytes of CONST memory (+  4 bytes shared)
- 126 bytes of DATA  memory (+ 30 bytes shared)
+ 146 bytes of DATA  memory (+ 30 bytes shared)
 
 Errors: none
 Warnings: 1

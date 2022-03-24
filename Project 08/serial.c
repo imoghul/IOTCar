@@ -74,6 +74,11 @@ __interrupt void eUSCI_A0_ISR(void) {
                 usb0_rx_ring_wr = BEGINNING;
                 UCA0_index = 0;
             }
+            if((temp>=1 && USB0_Char_Rx[temp]=='\n' && USB0_Char_Rx[temp-1]=='\r')){
+              for(int j = temp+1;j<sizeof(USB0_Char_Rx);++j)
+                  USB0_Char_Rx[j] = 0;
+            }
+            
             
             strcpy(display_line[3], "          ");
             int i = 0;
@@ -96,6 +101,7 @@ __interrupt void eUSCI_A0_ISR(void) {
             case 7:
             case 8:
               UCA0TXBUF = USB0_Char_Tx[UCA0_index];
+              if(USB0_Char_Tx[UCA0_index]==0) UCA0_index=9;
               break;
             case 9:
               UCA0TXBUF = 0x0D;
@@ -132,11 +138,16 @@ __interrupt void eUSCI_A1_ISR(void) {
                 UCA1_index = 0;
             }
             
-            /*int i = 0;
-            for(;i<10 && USB1_Char_Rx[i]!=0;++i)
-              display_line[1][i] = USB1_Char_Rx[i];
-            for(;i<10;++i) display_line[1][i]=' ';
-            display_line[1][10] = 0;*/
+            if((temp>=1 && USB1_Char_Rx[temp]=='\n' && USB1_Char_Rx[temp-1]=='\r')){
+              for(int j = temp+1;j<sizeof(USB1_Char_Rx);++j)
+                  USB1_Char_Rx[j] = 0;
+            }
+            
+            //int i = 0;
+            //for(;i<10 && USB1_Char_Rx[i]!=0;++i)
+            //  display_line[1][i] = USB1_Char_Rx[i];
+            //for(;i<10;++i) display_line[1][i]=' ';
+            //display_line[1][10] = 0;
         
 
             break;
@@ -153,6 +164,7 @@ __interrupt void eUSCI_A1_ISR(void) {
             case 7:
             case 8:
               UCA1TXBUF = USB1_Char_Tx[UCA1_index];
+              if(USB1_Char_Tx[UCA1_index]==0) UCA1_index=9;
               break;
             case 9:
               UCA1TXBUF = 0x0D;
@@ -180,3 +192,5 @@ void out_character(char character) {
     UCA0TXBUF = character;
     //------------------------------------------------------------------------------
 }
+
+
