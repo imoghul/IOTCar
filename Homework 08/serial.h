@@ -1,5 +1,6 @@
 #define BEGINNING       (0)
-#define SMALL_RING_SIZE (16)
+#define SMALL_RING_SIZE (12)
 
-Init_Serial_UCA0();
+void Init_Serial_UCA(void);
+void out_character(char character);
 

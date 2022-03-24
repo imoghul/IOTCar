@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          22/Mar/2022  18:58:53
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          23/Mar/2022  12:00:28
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,12 +12,12 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\switches.c
+#    Source file   =  C:\Users\saad\Documents\ece-306\Homework 08\switches.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWFE80.tmp
-#        ("C:\Users\saad\Documents\ece-306\Project 07\switches.c" -lC
-#        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
+#        -f C:\Users\saad\AppData\Local\Temp\EW496A.tmp
+#        ("C:\Users\saad\Documents\ece-306\Homework 08\switches.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Homework 08\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Homework 08\Debug\Obj" --no_cse
 #        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
@@ -25,13 +25,13 @@
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece-306\Project 07\Debug\List\switches.lst
+#        C:\Users\saad\Documents\ece-306\Homework 08\Debug\List\switches.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj\switches.r43
+#        C:\Users\saad\Documents\ece-306\Homework 08\Debug\Obj\switches.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece-306\Project 07\switches.c
+C:\Users\saad\Documents\ece-306\Homework 08\switches.c
       1          #include "msp430.h"
 
    \                                 In  segment DATA16_AN, at 0x21a
@@ -77,6 +77,46 @@ C:\Users\saad\Documents\ece-306\Project 07\switches.c
    \                                 In  segment DATA16_AN, at 0x396
    \   union <unnamed> _A_TB0CCR2_L
    \                     _A_TB0CCR2_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x506
+   \   union <unnamed> _A_UCA0BRW_L
+   \                     _A_UCA0BRW_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x508
+   \   union <unnamed> _A_UCA0MCTLW_L
+   \                     _A_UCA0MCTLW_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x50e
+   \   union <unnamed> _A_UCA0TXBUF_L
+   \                     _A_UCA0TXBUF_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x51a
+   \   union <unnamed> _A_UCA0IE_L
+   \                     _A_UCA0IE_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x586
+   \   union <unnamed> _A_UCA1BRW_L
+   \                     _A_UCA1BRW_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x588
+   \   union <unnamed> _A_UCA1MCTLW_L
+   \                     _A_UCA1MCTLW_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x58e
+   \   union <unnamed> _A_UCA1TXBUF_L
+   \                     _A_UCA1TXBUF_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x59a
+   \   union <unnamed> _A_UCA1IE_L
+   \                     _A_UCA1IE_L:
    \   000000                DS8 2
       2          #include "switches.h"
       3          #include "ports.h"
@@ -134,125 +174,193 @@ C:\Users\saad\Documents\ece-306\Project 07\switches.c
      22          volatile unsigned int calibrationMode;
    \                     calibrationMode:
    \   000000                DS8 2
-     23          
-     24          //===========================================================================
-     25          // Function name: switchP4_interrupt
-     26          //
-     27          // Description: This is the switch 1 interrupt, turns off LCD_BACKLITE and its
-     28          // blinking timer
-     29          //
-     30          // Passed : no variables passed
-     31          // Locals: no variables declared
-     32          // Returned: no values returned
-     33          // Globals: no global values
-     34          //
-     35          // Author: Ibrahim Moghul
-     36          // Date: Feb 2022
-     37          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
-     38          //===========================================================================
-     39          
-     40          #pragma vector=PORT4_VECTOR
+     23          extern char* test_command;
+     24          extern unsigned volatile UCA0_index,UCA1_index;
+     25          
+     26          //===========================================================================
+     27          // Function name: switchP4_interrupt
+     28          //
+     29          // Description: This is the switch 1 interrupt, turns off LCD_BACKLITE and its
+     30          // blinking timer
+     31          //
+     32          // Passed : no variables passed
+     33          // Locals: no variables declared
+     34          // Returned: no values returned
+     35          // Globals: no global values
+     36          //
+     37          // Author: Ibrahim Moghul
+     38          // Date: Feb 2022
+     39          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     40          //===========================================================================
+     41          
+     42          #pragma vector=PORT4_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-     41          __interrupt void switchP4_interrupt(void) {
+     43          __interrupt void switchP4_interrupt(void) {
    \                     switchP4_interrupt:
-   \   000000   0F12         PUSH.W  R15
-     42              if(P4IFG & SW1 && debouncing1 == FALSE) {
+   \   000000   3F15         PUSHM.W #0x4, R15
+     44              if(P4IFG & SW1 && debouncing1 == FALSE) {
    \   000002   E2B33D02     BIT.B   #0x2, &0x23d
-   \   000006   1F28         JNC     ??switchP4_interrupt_0
+   \   000006   3828         JNC     ??switchP4_interrupt_0
    \   000008   8293....     CMP.W   #0x0, &debouncing1
-   \   00000C   1C20         JNE     ??switchP4_interrupt_0
-     43                  P4IE &= ~SW1;
+   \   00000C   3520         JNE     ??switchP4_interrupt_0
+     45                  P4IE &= ~SW1;
    \   00000E   E2C33B02     BIC.B   #0x2, &0x23b
-     44                  P4IFG &= ~SW1;
+     46                  P4IFG &= ~SW1;
    \   000012   E2C33D02     BIC.B   #0x2, &0x23d
-     45                  TB0CCTL1 &= ~CCIFG;
+     47                  TB0CCTL1 &= ~CCIFG;
    \   000016   92C38403     BIC.W   #0x1, &0x384
-     46                  TB0CCR1 = TB0R + TB0CCR1_INTERVAL;
+     48                  TB0CCR1 = TB0R + TB0CCR1_INTERVAL;
    \   00001A   1F429003     MOV.W   &0x390, R15
    \   00001E   3F5050C3     ADD.W   #0xc350, R15
    \   000022   824F9403     MOV.W   R15, &0x394
-     47                  TB0CCTL1 |= CCIE; // CCR1 enable interrupt
+     49                  TB0CCTL1 |= CCIE; // CCR1 enable interrupt
    \   000026   B2D010008403 BIS.W   #0x10, &0x384
-     48                  debouncing1 = TRUE;
+     50                  debouncing1 = TRUE;
    \   00002C   9243....     MOV.W   #0x1, &debouncing1
-     49                  //debounce_count1 = 0;
-     50          
-     51                  // Actual Code
-     52                  if (state == START) {
-   \   000030   F2905300.... CMP.B   #0x53, &state
-   \   000036   0720         JNE     ??switchP4_interrupt_0
-     53                      stopwatch_seconds = 0;
-   \   000038   8243....     MOV.W   #0x0, &stopwatch_seconds
-     54                      cycle_count = 0;
-   \   00003C   8243....     MOV.W   #0x0, &cycle_count
-     55                      state = WAIT;
-   \   000040   F2405700.... MOV.B   #0x57, &state
-     56                  }
-     57              }
-     58          }
+     51                  //debounce_count1 = 0;
+     52          
+     53                  // Actual Code
+     54                  UCA0BRW = 4;
+   \   000030   A2420605     MOV.W   #0x4, &0x506
+     55                  UCA0MCTLW = 0x5551;
+   \   000034   B24051550805 MOV.W   #0x5551, &0x508
+     56                  UCA1BRW = 4;
+   \   00003A   A2428605     MOV.W   #0x4, &0x586
+     57                  UCA1MCTLW = 0x5551;
+   \   00003E   B24051558805 MOV.W   #0x5551, &0x588
+     58                  
+     59                  strcpy(display_line[0], "          ");
+   \   000044   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000048   3C40....     MOV.W   #display_line, R12
+   \   00004C   ........     CALLA   #strcpy
+     60                  UCA0_index = 0;
+   \   000050   8243....     MOV.W   #0x0, &UCA0_index
+     61                  UCA0IE |= UCTXIE;
+   \   000054   A2D31A05     BIS.W   #0x2, &0x51a
+     62                  UCA0TXBUF = test_command[0];
+   \   000058   1F42....     MOV.W   &test_command, R15
+   \   00005C   6F4F         MOV.B   @R15, R15
+   \   00005E   4F4F         MOV.B   R15, R15
+   \   000060   824F0E05     MOV.W   R15, &0x50e
+     63                  UCA1_index = 0;
+   \   000064   8243....     MOV.W   #0x0, &UCA1_index
+     64                  UCA1IE |= UCTXIE;
+   \   000068   A2D39A05     BIS.W   #0x2, &0x59a
+     65                  UCA1TXBUF = test_command[0];
+   \   00006C   1F42....     MOV.W   &test_command, R15
+   \   000070   6F4F         MOV.B   @R15, R15
+   \   000072   4F4F         MOV.B   R15, R15
+   \   000074   824F8E05     MOV.W   R15, &0x58e
+     66              }
+     67          }
    \                     ??switchP4_interrupt_0:
-   \   000046   3F41         POP.W   R15
-   \   000048   0013         RETI
-   \   00004A                REQUIRE _A_PBIFG_L
-   \   00004A                REQUIRE _A_PBIE_L
-   \   00004A                REQUIRE _A_TB0CCTL1_L
-   \   00004A                REQUIRE _A_TB0CCR1_L
-   \   00004A                REQUIRE _A_TB0R_L
-     59          
-     60          //===========================================================================
-     61          // Function name: switchP4_interrupt
-     62          //
-     63          // Description: This is the switch 2 interrupt, turns off LCD_BACKLITE and its
-     64          // blinking timer
-     65          //
-     66          // Passed : no variables passed
-     67          // Locals: no variables declared
-     68          // Returned: no values returned
-     69          // Globals: no global values
-     70          //
-     71          // Author: Ibrahim Moghul
-     72          // Date: Feb 2022
-     73          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
-     74          //===========================================================================
-     75          #pragma vector=PORT2_VECTOR
+   \   000078   3C17         POPM.W  #0x4, R15
+   \   00007A   0013         RETI
+   \   00007C                REQUIRE _A_PBIFG_L
+   \   00007C                REQUIRE _A_PBIE_L
+   \   00007C                REQUIRE _A_TB0CCTL1_L
+   \   00007C                REQUIRE _A_TB0CCR1_L
+   \   00007C                REQUIRE _A_TB0R_L
+   \   00007C                REQUIRE _A_UCA0BRW_L
+   \   00007C                REQUIRE _A_UCA0MCTLW_L
+   \   00007C                REQUIRE _A_UCA1BRW_L
+   \   00007C                REQUIRE _A_UCA1MCTLW_L
+   \   00007C                REQUIRE _A_UCA0IE_L
+   \   00007C                REQUIRE _A_UCA0TXBUF_L
+   \   00007C                REQUIRE _A_UCA1IE_L
+   \   00007C                REQUIRE _A_UCA1TXBUF_L
+     68          
+     69          //===========================================================================
+     70          // Function name: switchP4_interrupt
+     71          //
+     72          // Description: This is the switch 2 interrupt, turns off LCD_BACKLITE and its
+     73          // blinking timer
+     74          //
+     75          // Passed : no variables passed
+     76          // Locals: no variables declared
+     77          // Returned: no values returned
+     78          // Globals: no global values
+     79          //
+     80          // Author: Ibrahim Moghul
+     81          // Date: Feb 2022
+     82          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     83          //===========================================================================
+     84          #pragma vector=PORT2_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-     76          __interrupt void switchP2_interrupt(void) {
+     85          __interrupt void switchP2_interrupt(void) {
    \                     switchP2_interrupt:
-   \   000000   0F12         PUSH.W  R15
-     77              if(P2IFG & SW2 && debouncing2 == FALSE) {
+   \   000000   3F15         PUSHM.W #0x4, R15
+     86              if(P2IFG & SW2 && debouncing2 == FALSE) {
    \   000002   F2B21D02     BIT.B   #0x8, &0x21d
-   \   000006   1628         JNC     ??switchP2_interrupt_0
+   \   000006   3828         JNC     ??switchP2_interrupt_0
    \   000008   8293....     CMP.W   #0x0, &debouncing2
-   \   00000C   1320         JNE     ??switchP2_interrupt_0
-     78                  P2IE &= ~SW2;
+   \   00000C   3520         JNE     ??switchP2_interrupt_0
+     87                  P2IE &= ~SW2;
    \   00000E   F2C21B02     BIC.B   #0x8, &0x21b
-     79                  P2IFG &= ~SW2;
+     88                  P2IFG &= ~SW2;
    \   000012   F2C21D02     BIC.B   #0x8, &0x21d
-     80                  TB0CCTL2 &= ~CCIFG;
+     89                  TB0CCTL2 &= ~CCIFG;
    \   000016   92C38603     BIC.W   #0x1, &0x386
-     81                  TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
+     90                  TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
    \   00001A   1F429003     MOV.W   &0x390, R15
    \   00001E   3F5050C3     ADD.W   #0xc350, R15
    \   000022   824F9603     MOV.W   R15, &0x396
-     82                  TB0CCTL2 |= CCIE; // CCR1 enable interrupt
+     91                  TB0CCTL2 |= CCIE; // CCR1 enable interrupt
    \   000026   B2D010008603 BIS.W   #0x10, &0x386
-     83                  debouncing2 = TRUE;
+     92                  debouncing2 = TRUE;
    \   00002C   9243....     MOV.W   #0x1, &debouncing2
-     84                  // Actual Code
-     85                  calibrationMode++;
-   \   000030   9253....     ADD.W   #0x1, &calibrationMode
-     86              }
-     87          }
+     93                  // Actual Code
+     94                  UCA0BRW = 1;
+   \   000030   92430605     MOV.W   #0x1, &0x506
+     95                  UCA0MCTLW = 0x4A11;
+   \   000034   B240114A0805 MOV.W   #0x4a11, &0x508
+     96                  UCA1BRW = 1;
+   \   00003A   92438605     MOV.W   #0x1, &0x586
+     97                  UCA1MCTLW = 0x4A11;
+   \   00003E   B240114A8805 MOV.W   #0x4a11, &0x588
+     98                  
+     99                  strcpy(display_line[1], "          ");
+   \   000044   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000048   3C40....     MOV.W   #display_line + 11, R12
+   \   00004C   ........     CALLA   #strcpy
+    100                  UCA0_index = 0;
+   \   000050   8243....     MOV.W   #0x0, &UCA0_index
+    101                  UCA0IE |= UCTXIE;
+   \   000054   A2D31A05     BIS.W   #0x2, &0x51a
+    102                  UCA0TXBUF = test_command[0];
+   \   000058   1F42....     MOV.W   &test_command, R15
+   \   00005C   6F4F         MOV.B   @R15, R15
+   \   00005E   4F4F         MOV.B   R15, R15
+   \   000060   824F0E05     MOV.W   R15, &0x50e
+    103                  UCA1_index = 0;
+   \   000064   8243....     MOV.W   #0x0, &UCA1_index
+    104                  UCA1IE |= UCTXIE;
+   \   000068   A2D39A05     BIS.W   #0x2, &0x59a
+    105                  UCA1TXBUF = test_command[0];
+   \   00006C   1F42....     MOV.W   &test_command, R15
+   \   000070   6F4F         MOV.B   @R15, R15
+   \   000072   4F4F         MOV.B   R15, R15
+   \   000074   824F8E05     MOV.W   R15, &0x58e
+    106              }
+    107          }
    \                     ??switchP2_interrupt_0:
-   \   000034   3F41         POP.W   R15
-   \   000036   0013         RETI
-   \   000038                REQUIRE _A_PAIFG_L
-   \   000038                REQUIRE _A_PAIE_L
-   \   000038                REQUIRE _A_TB0CCTL2_L
-   \   000038                REQUIRE _A_TB0CCR2_L
-   \   000038                REQUIRE _A_TB0R_L
+   \   000078   3C17         POPM.W  #0x4, R15
+   \   00007A   0013         RETI
+   \   00007C                REQUIRE _A_PAIFG_L
+   \   00007C                REQUIRE _A_PAIE_L
+   \   00007C                REQUIRE _A_TB0CCTL2_L
+   \   00007C                REQUIRE _A_TB0CCR2_L
+   \   00007C                REQUIRE _A_TB0R_L
+   \   00007C                REQUIRE _A_UCA0BRW_L
+   \   00007C                REQUIRE _A_UCA0MCTLW_L
+   \   00007C                REQUIRE _A_UCA1BRW_L
+   \   00007C                REQUIRE _A_UCA1MCTLW_L
+   \   00007C                REQUIRE _A_UCA0IE_L
+   \   00007C                REQUIRE _A_UCA0TXBUF_L
+   \   00007C                REQUIRE _A_UCA1IE_L
+   \   00007C                REQUIRE _A_UCA1TXBUF_L
 
    \                                 In  segment INTVEC, offset 0x2c, root
    \                     `??switchP4_interrupt::??INTVEC 44`:
@@ -261,20 +369,28 @@ C:\Users\saad\Documents\ece-306\Project 07\switches.c
    \                                 In  segment INTVEC, offset 0x30, root
    \                     `??switchP2_interrupt::??INTVEC 48`:
    \   000030   ....         DC16    switchP2_interrupt
-     88          
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "          ">`:
+   \   000000   202020202020 DC8 "          "
+   \            2020202000  
+    108          
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
-      6   switchP2_interrupt
-      6   switchP4_interrupt
+     12   switchP2_interrupt
+       12   -> strcpy
+     12   switchP4_interrupt
+       12   -> strcpy
 
 
    Segment part sizes:
 
    Bytes  Function/Label
    -----  --------------
+      11  ?<Constant "          ">
        2  _A_PAIE_L
        2  _A_PAIFG_L
        2  _A_PBIE_L
@@ -284,6 +400,14 @@ C:\Users\saad\Documents\ece-306\Project 07\switches.c
        2  _A_TB0CCTL1_L
        2  _A_TB0CCTL2_L
        2  _A_TB0R_L
+       2  _A_UCA0BRW_L
+       2  _A_UCA0IE_L
+       2  _A_UCA0MCTLW_L
+       2  _A_UCA0TXBUF_L
+       2  _A_UCA1BRW_L
+       2  _A_UCA1IE_L
+       2  _A_UCA1MCTLW_L
+       2  _A_UCA1TXBUF_L
        2  calibrationMode
        2  count_debounce_SW1
        2  count_debounce_SW2
@@ -291,20 +415,21 @@ C:\Users\saad\Documents\ece-306\Project 07\switches.c
        2  sw1_pos
        2  sw2Okay
        2  sw2_pos
-      56  switchP2_interrupt
+     124  switchP2_interrupt
        2  switchP2_interrupt::??INTVEC 48
-      74  switchP4_interrupt
+     124  switchP4_interrupt
        2  switchP4_interrupt::??INTVEC 44
 
  
-  18 bytes in segment DATA16_AN
+  34 bytes in segment DATA16_AN
+  11 bytes in segment DATA16_C
   14 bytes in segment DATA16_Z
    4 bytes in segment INTVEC
- 130 bytes in segment ISR_CODE
+ 248 bytes in segment ISR_CODE
  
- 130 bytes of CODE  memory
-   0 bytes of CONST memory (+  4 bytes shared)
-  14 bytes of DATA  memory (+ 18 bytes shared)
+ 248 bytes of CODE  memory
+  11 bytes of CONST memory (+  4 bytes shared)
+  14 bytes of DATA  memory (+ 34 bytes shared)
 
 Errors: none
 Warnings: none

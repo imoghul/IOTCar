@@ -20,6 +20,8 @@ extern volatile unsigned int backliteBlinking;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 volatile unsigned int calibrationMode;
+extern char* test_command;
+extern unsigned volatile UCA0_index,UCA1_index;
 
 //===========================================================================
 // Function name: switchP4_interrupt
@@ -49,11 +51,18 @@ __interrupt void switchP4_interrupt(void) {
         //debounce_count1 = 0;
 
         // Actual Code
-        if (state == START) {
-            stopwatch_seconds = 0;
-            cycle_count = 0;
-            state = WAIT;
-        }
+        UCA0BRW = 4;
+        UCA0MCTLW = 0x5551;
+        UCA1BRW = 4;
+        UCA1MCTLW = 0x5551;
+        
+        strcpy(display_line[0], "          ");
+        UCA0_index = 0;
+        UCA0IE |= UCTXIE;
+        UCA0TXBUF = test_command[0];
+        UCA1_index = 0;
+        UCA1IE |= UCTXIE;
+        UCA1TXBUF = test_command[0];
     }
 }
 
@@ -82,7 +91,18 @@ __interrupt void switchP2_interrupt(void) {
         TB0CCTL2 |= CCIE; // CCR1 enable interrupt
         debouncing2 = TRUE;
         // Actual Code
-        calibrationMode++;
+        UCA0BRW = 1;
+        UCA0MCTLW = 0x4A11;
+        UCA1BRW = 1;
+        UCA1MCTLW = 0x4A11;
+        
+        strcpy(display_line[1], "          ");
+        UCA0_index = 0;
+        UCA0IE |= UCTXIE;
+        UCA0TXBUF = test_command[0];
+        UCA1_index = 0;
+        UCA1IE |= UCTXIE;
+        UCA1TXBUF = test_command[0];
     }
 }
 
