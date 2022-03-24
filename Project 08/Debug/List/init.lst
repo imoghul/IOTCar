@@ -1,0 +1,194 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          22/Mar/2022  18:58:52
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  C:\Users\saad\Documents\ece-306\Project 07\init.c
+#    Command line  =  
+#        -f C:\Users\saad\AppData\Local\Temp\EWF6FB.tmp
+#        ("C:\Users\saad\Documents\ece-306\Project 07\init.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Project 07\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
+#        --core=430X --data_model=small -On --multiplier=32
+#        --hw_workaround=CPU40 --code_model=large)
+#    Locale        =  English_USA.1252
+#    List file     =  
+#        C:\Users\saad\Documents\ece-306\Project 07\Debug\List\init.lst
+#    Object file   =  
+#        C:\Users\saad\Documents\ece-306\Project 07\Debug\Obj\init.r43
+#
+###############################################################################
+
+C:\Users\saad\Documents\ece-306\Project 07\init.c
+      1          //==============================================================================
+      2          // File Name : init.c
+      3          //
+      4          // Description: This file contains initialization functions before mission code
+      5          //
+      6          // Author: Ibrahim Moghul
+      7          // Date: Feb 2022
+      8          // Compiler: Built with IAR Embedded Workbench Version: 7.21.1
+      9          //==============================================================================
+     10          
+     11          #include "init.h"
+
+   \                                 In  segment DATA16_AN, at 0x202
+   \   union <unnamed> _A_PAOUT_L
+   \                     _A_PAOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x242
+   \   union <unnamed> _A_PCOUT_L
+   \                     _A_PCOUT_L:
+   \   000000                DS8 2
+     12          #include "msp430.h"
+     13          #include "macros.h"
+     14          #include "functions.h"
+     15          #include "ports.h"
+     16          
+     17          extern char display_line[4][11];
+     18          extern char *display[4];
+     19          extern volatile unsigned char update_display;
+     20          
+     21          //===========================================================================
+     22          // Function name: Init_LEDs
+     23          //
+     24          // Description: Initialize LED ports
+     25          //
+     26          // Passed : no variables passed
+     27          // Locals: no variables declared
+     28          // Returned: no values returned
+     29          // Globals: no values
+     30          //
+     31          // Author: Ibrahim Moghul
+     32          // Date: Feb 2022
+     33          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     34          //===========================================================================
+
+   \                                 In  segment CODE, align 2
+     35          void Init_LEDs(void) {
+   \                     Init_LEDs:
+     36              //------------------------------------------------------------------------------
+     37              // LED Configurations
+     38              //------------------------------------------------------------------------------
+     39              // Turns on both LEDs
+     40              P1OUT &= ~RED_LED;
+   \   000000   D2C30202     BIC.B   #0x1, &0x202
+     41              P6OUT &= ~GRN_LED;
+   \   000004   F2C040004302 BIC.B   #0x40, &0x243
+     42              //------------------------------------------------------------------------------
+     43          }
+   \   00000A   1001         RETA
+   \   00000C                REQUIRE _A_PAOUT_L
+   \   00000C                REQUIRE _A_PCOUT_L
+     44          
+     45          //===========================================================================
+     46          // Function name: Init_Conditions
+     47          //
+     48          // Description: Initialize values for mission code
+     49          //
+     50          // Passed : no variables passed
+     51          // Locals: no variables declared
+     52          // Returned: no values returned
+     53          // Globals: display_line
+     54          // update_display
+     55          //
+     56          // Author: Ibrahim Moghul
+     57          // Date: Feb 2022
+     58          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     59          //===========================================================================
+
+   \                                 In  segment CODE, align 2
+     60          void Init_Conditions(void) {
+   \                     Init_Conditions:
+   \   000000   0A12         PUSH.W  R10
+     61              //------------------------------------------------------------------------------
+     62          
+     63              int i;
+     64          
+     65              for(i = 0; i < 11; i++) {
+   \   000002   0A43         MOV.W   #0x0, R10
+   \                     ??Init_Conditions_0:
+   \   000004   3A900B00     CMP.W   #0xb, R10
+   \   000008   0A34         JGE     ??Init_Conditions_1
+     66                  display_line[0][i] = RESET_STATE;
+   \   00000A   CA43....     MOV.B   #0x0, display_line(R10)
+     67                  display_line[1][i] = RESET_STATE;
+   \   00000E   CA43....     MOV.B   #0x0, display_line + 11(R10)
+     68                  display_line[2][i] = RESET_STATE;
+   \   000012   CA43....     MOV.B   #0x0, display_line + 22(R10)
+     69                  display_line[3][i] = RESET_STATE;
+   \   000016   CA43....     MOV.B   #0x0, display_line + 33(R10)
+     70              }
+   \   00001A   1A53         ADD.W   #0x1, R10
+   \   00001C   F33F         JMP     ??Init_Conditions_0
+     71          
+     72              display_line[0][10] = 0;
+   \                     ??Init_Conditions_1:
+   \   00001E   C243....     MOV.B   #0x0, &display_line + 10
+     73              display_line[1][10] = 0;
+   \   000022   C243....     MOV.B   #0x0, &display_line + 21
+     74              display_line[2][10] = 0;
+   \   000026   C243....     MOV.B   #0x0, &display_line + 32
+     75              display_line[3][10] = 0;
+   \   00002A   C243....     MOV.B   #0x0, &display_line + 43
+     76          
+     77              display[0] = &display_line[0][0];
+   \   00002E   B240........ MOV.W   #display_line, &display
+     78              display[1] = &display_line[1][0];
+   \   000034   B240........ MOV.W   #display_line + 11, &display + 2
+     79              display[2] = &display_line[2][0];
+   \   00003A   B240........ MOV.W   #display_line + 22, &display + 4
+     80              display[3] = &display_line[3][0];
+   \   000040   B240........ MOV.W   #display_line + 33, &display + 6
+     81              update_display = 0;
+   \   000046   C243....     MOV.B   #0x0, &update_display
+     82          
+     83          
+     84              // Interrupts are disabled by default, enable them.
+     85              enable_interrupts();
+   \   00004A   ........     CALLA   #enable_interrupts
+     86              //------------------------------------------------------------------------------
+     87          }
+   \   00004E   3A41         POP.W   R10
+   \   000050   1001         RETA
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      6   Init_Conditions
+        6   -> enable_interrupts
+      4   Init_LEDs
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      82  Init_Conditions
+      12  Init_LEDs
+       2  _A_PAOUT_L
+       2  _A_PCOUT_L
+
+ 
+ 94 bytes in segment CODE
+  4 bytes in segment DATA16_AN
+ 
+ 94 bytes of CODE memory
+  0 bytes of DATA memory (+ 4 bytes shared)
+
+Errors: none
+Warnings: none
