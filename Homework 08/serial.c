@@ -5,14 +5,8 @@
 // global variables
 volatile unsigned int usb0_rx_ring_wr,usb0_rx_ring_rd,usb1_rx_ring_wr,usb1_rx_ring_rd ;
 volatile char USB0_Char_Rx[SMALL_RING_SIZE],USB1_Char_Rx[SMALL_RING_SIZE];
-volatile char USB0_Char_Tx[LARGE_RING_SIZE],USB1_Char_Tx[LARGE_RING_SIZE];
-volatile char String1[] = "STRINGNUM1";
-volatile char String2[] = "STRINGNUM2";
-volatile char String3[] = "STRINGNUM3";
-volatile char String4[] = "STRINGNUM4";
-volatile char String5[] = "STRINGNUM5";
-volatile char String6[] = "STRINGNUM6";
 extern unsigned volatile UCA0_index,UCA1_index;
+extern char* test_command;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 
@@ -30,15 +24,12 @@ void Init_Serial_UCA(void) {
     usb1_rx_ring_wr = BEGINNING;
     usb1_rx_ring_rd = BEGINNING;
 
-    for(i = 0; i < LARGE_RING_SIZE; i++) {
-        USB0_Char_Tx[i] = 0x00;
-        USB1_Char_Tx[i] = 0x00;
-    }
+    //for(i = 0; i < LARGE_RING_SIZE; i++) {
+    //    USB_Char_Tx[i] = 0x00;
+    //}
 
-    //usb0_tx_ring_wr = BEGINNING;
-    //usb0_tx_ring_rd = BEGINNING;
-    //usb1_tx_ring_wr = BEGINNING;
-    //usb1_tx_ring_rd = BEGINNING;
+    //usb_tx_ring_wr = BEGINNING;
+    //usb_tx_ring_rd = BEGINNING;
     
     // Configure UART 0
     UCA0CTLW0 = 0;
@@ -70,17 +61,16 @@ __interrupt void eUSCI_A0_ISR(void) {
             temp = usb0_rx_ring_wr++;
             USB0_Char_Rx[temp] = UCA0RXBUF;
             
-            if (usb0_rx_ring_wr >= (sizeof(USB0_Char_Rx)) || (temp>=1 && USB0_Char_Rx[temp]=='\n' && USB0_Char_Rx[temp-1]=='\r')) {
+            if (usb0_rx_ring_wr >= (sizeof(USB0_Char_Rx))) {
                 usb0_rx_ring_wr = BEGINNING;
-                UCA0_index = 0;
             }
             
-            strcpy(display_line[3], "          ");
+            strcpy(display_line[1], "          ");
             int i = 0;
             for(;i<10 && USB0_Char_Rx[i]!=0;++i)
-              display_line[3][i] = USB0_Char_Rx[i];
+              display_line[0][i] = USB0_Char_Rx[i];
             for(;i<10;++i) display_line[0][i]=' ';
-            display_line[3][10] = 0;
+            display_line[0][10] = 0;
 
             break;
 
@@ -95,7 +85,7 @@ __interrupt void eUSCI_A0_ISR(void) {
             case 6:
             case 7:
             case 8:
-              UCA0TXBUF = USB0_Char_Tx[UCA0_index];
+              UCA0TXBUF = test_command[UCA0_index];
               break;
             case 9:
               UCA0TXBUF = 0x0D;
@@ -124,20 +114,19 @@ __interrupt void eUSCI_A1_ISR(void) {
             break;
 
         case 2: // RXIFG
-            temp = usb1_rx_ring_wr++;
+            /*temp = usb1_rx_ring_wr++;
             USB1_Char_Rx[temp] = UCA1RXBUF;
             
-            if (usb1_rx_ring_wr >= (sizeof(USB1_Char_Rx)) || (temp>=1 && USB1_Char_Rx[temp]=='\n' && USB1_Char_Rx[temp-1]=='\r')) {
+            if (usb1_rx_ring_wr >= (sizeof(USB1_Char_Rx))) {
                 usb1_rx_ring_wr = BEGINNING;
-                UCA1_index = 0;
             }
             
-            /*int i = 0;
+            strcpy(display_line[1], "          ");
+            int i = 0;
             for(;i<10 && USB1_Char_Rx[i]!=0;++i)
               display_line[1][i] = USB1_Char_Rx[i];
             for(;i<10;++i) display_line[1][i]=' ';
             display_line[1][10] = 0;*/
-        
 
             break;
 
@@ -152,7 +141,7 @@ __interrupt void eUSCI_A1_ISR(void) {
             case 6:
             case 7:
             case 8:
-              UCA1TXBUF = USB1_Char_Tx[UCA1_index];
+              UCA1TXBUF = test_command[UCA1_index];
               break;
             case 9:
               UCA1TXBUF = 0x0D;

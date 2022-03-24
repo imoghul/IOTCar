@@ -20,8 +20,7 @@ extern volatile unsigned int backliteBlinking;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 volatile unsigned int calibrationMode;
-extern volatile char USB0_Char_Tx[],USB1_Char_Tx[];
-extern volatile char USB0_Char_Rx[],USB1_Char_Rx[];
+extern char* test_command;
 extern unsigned volatile UCA0_index,UCA1_index;
 
 //===========================================================================
@@ -52,19 +51,18 @@ __interrupt void switchP4_interrupt(void) {
         //debounce_count1 = 0;
 
         // Actual Code
+        UCA0BRW = 4;
+        UCA0MCTLW = 0x5551;
+        UCA1BRW = 4;
+        UCA1MCTLW = 0x5551;
         
-        strcpy((char*)USB0_Char_Tx,(char*)USB0_Char_Rx);
-        strcpy((char*)USB1_Char_Tx,(char*)USB1_Char_Rx);
-        strcpy(display_line[1],display_line[3]);
-        strcpy(display_line[3], "          ");
-        
+        strcpy(display_line[0], "          ");
         UCA0_index = 0;
         UCA0IE |= UCTXIE;
-        UCA0TXBUF = USB0_Char_Tx[0];
-        
+        UCA0TXBUF = test_command[0];
         UCA1_index = 0;
         UCA1IE |= UCTXIE;
-        UCA1TXBUF = USB1_Char_Tx[0];
+        UCA1TXBUF = test_command[0];
     }
 }
 
@@ -93,19 +91,18 @@ __interrupt void switchP2_interrupt(void) {
         TB0CCTL2 |= CCIE; // CCR1 enable interrupt
         debouncing2 = TRUE;
         // Actual Code
-        // 460800
-        if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){ // if is 11520 change to 460800
-          UCA0BRW = 1;
-          UCA0MCTLW = 0x4A11;
-          UCA1BRW = 1;
-          UCA1MCTLW = 0x4A11;
-        }
-        else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11){ // if is 460800 change to 115200
-          UCA0BRW = 4;
-          UCA0MCTLW = 0x5551;
-          UCA1BRW = 4;
-          UCA1MCTLW = 0x5551;
-        }
+        UCA0BRW = 1;
+        UCA0MCTLW = 0x4A11;
+        UCA1BRW = 1;
+        UCA1MCTLW = 0x4A11;
+        
+        strcpy(display_line[1], "          ");
+        UCA0_index = 0;
+        UCA0IE |= UCTXIE;
+        UCA0TXBUF = test_command[0];
+        UCA1_index = 0;
+        UCA1IE |= UCTXIE;
+        UCA1TXBUF = test_command[0];
     }
 }
 

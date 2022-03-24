@@ -14,29 +14,6 @@
             <file>$PROJ_DIR$\led.c</file>
             <file>$PROJ_DIR$\macros.h</file>
             <file>$PROJ_DIR$\main.c</file>
-            <file>$PROJ_DIR$\Debug\Obj\init.xcl</file>
-            <file>$PROJ_DIR$\Debug\Obj\led.xcl</file>
-            <file>$PROJ_DIR$\Debug\Obj\main.xcl</file>
-            <file>$PROJ_DIR$\Debug\Obj\pid.xcl</file>
-            <file>$PROJ_DIR$\Debug\Obj\ports.xcl</file>
-            <file>$PROJ_DIR$\Debug\Obj\sm.xcl</file>
-            <file>$TOOLKIT_DIR$\inc\msp430.h</file>
-            <file>$TOOLKIT_DIR$\inc\msp430fr2355.h</file>
-            <file>$TOOLKIT_DIR$\inc\in430.h</file>
-            <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
-            <file>$TOOLKIT_DIR$\inc\legacy.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\string.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\ycheck.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\yvals.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Defaults.h</file>
-            <file>$TOOLKIT_DIR$\lib\dlib\dl430xlsfn.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Product.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\xencoding_limits.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Threads.h</file>
-            <file>$TOOLKIT_DIR$\inc\dlib\c\ysizet.h</file>
-            <file>$PROJ_DIR$\init.h</file>
-            <file>$PROJ_DIR$\led.h</file>
-            <file>$PROJ_DIR$\wheels.h</file>
             <file>$PROJ_DIR$\ports.h</file>
             <file>$PROJ_DIR$\switches.h</file>
             <file>$PROJ_DIR$\timers.h</file>
@@ -56,15 +33,6 @@
             <file>$TOOLKIT_DIR$\lib\dlib\dl430xlsfn.r43</file>
             <file>$PROJ_DIR$\Debug\List\Homework 08 simple.map</file>
             <file>$PROJ_DIR$\Debug\Obj\serial.xcl</file>
-            <file>$PROJ_DIR$\..\Project 07\wheels.c</file>
-            <file>$PROJ_DIR$\pid.c</file>
-            <file>$PROJ_DIR$\ports.c</file>
-            <file>$PROJ_DIR$\serial.c</file>
-            <file>$PROJ_DIR$\sm.c</file>
-            <file>$PROJ_DIR$\switches.c</file>
-            <file>$PROJ_DIR$\system.c</file>
-            <file>$PROJ_DIR$\timers.c</file>
-            <file>$PROJ_DIR$\wheels.c</file>
             <file>$PROJ_DIR$\Debug\Obj\switches.xcl</file>
             <file>$PROJ_DIR$\Debug\Obj\system.xcl</file>
             <file>$PROJ_DIR$\Debug\Obj\timers.xcl</file>
@@ -88,18 +56,48 @@
             <file>$PROJ_DIR$\Debug\Obj\adc.xcl</file>
             <file>$PROJ_DIR$\Debug\Obj\clocks.xcl</file>
             <file>$PROJ_DIR$\Debug\Obj\detectors.xcl</file>
-            <file>$PROJ_DIR$\..\Project 07\led.c</file>
+            <file>$PROJ_DIR$\pid.c</file>
+            <file>$PROJ_DIR$\ports.c</file>
+            <file>$PROJ_DIR$\serial.c</file>
+            <file>$PROJ_DIR$\sm.c</file>
+            <file>$PROJ_DIR$\switches.c</file>
+            <file>$PROJ_DIR$\system.c</file>
+            <file>$PROJ_DIR$\timers.c</file>
+            <file>$PROJ_DIR$\wheels.c</file>
+            <file>$PROJ_DIR$\Debug\Obj\init.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\led.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\pid.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\ports.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\sm.xcl</file>
+            <file>$TOOLKIT_DIR$\inc\msp430.h</file>
+            <file>$TOOLKIT_DIR$\inc\msp430fr2355.h</file>
+            <file>$TOOLKIT_DIR$\inc\in430.h</file>
+            <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
+            <file>$TOOLKIT_DIR$\inc\legacy.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\string.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\ycheck.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\yvals.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Defaults.h</file>
+            <file>$TOOLKIT_DIR$\lib\dlib\dl430xlsfn.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Product.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\xencoding_limits.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Threads.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\ysizet.h</file>
+            <file>$PROJ_DIR$\init.h</file>
+            <file>$PROJ_DIR$\led.h</file>
+            <file>$PROJ_DIR$\wheels.h</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
             <outputs>
                 <tool>
                     <name>XLINK</name>
-                    <file> 64 49</file>
+                    <file> 32 26</file>
                 </tool>
                 <tool>
                     <name>ULP430</name>
-                    <file> 65</file>
+                    <file> 33</file>
                 </tool>
             </outputs>
         </file>
@@ -108,17 +106,17 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 80</file>
+                    <file> 48</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 44 67</file>
+                    <file> 21 35</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 15 16 17 18 19 32 35 7 31 4 36 37 20 21 22 23 24 25 26 27 28</file>
+                    <file> 65 66 67 68 69 9 12 7 81 4 13 14 70 71 72 73 74 75 76 77 78</file>
                 </tool>
             </inputs>
         </file>
@@ -127,11 +125,11 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 81</file>
+                    <file> 49</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 68</file>
+                    <file> 36</file>
                 </tool>
             </outputs>
         </file>
@@ -140,11 +138,11 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 82</file>
+                    <file> 50</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 69</file>
+                    <file> 37</file>
                 </tool>
             </outputs>
         </file>
@@ -153,11 +151,11 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 9</file>
+                    <file> 59</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 70</file>
+                    <file> 38</file>
                 </tool>
             </outputs>
         </file>
@@ -166,11 +164,11 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 10</file>
+                    <file> 60</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 71</file>
+                    <file> 39</file>
                 </tool>
             </outputs>
         </file>
@@ -179,17 +177,32 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 11</file>
+                    <file> 61</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 38 72</file>
+                    <file> 15 40</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 4 15 16 17 18 19 20 21 22 23 24 25 26 27 28 7 29 30 31 32 33 34 35 36 37</file>
+                    <file> 4 65 66 67 68 69 70 71 72 73 74 75 76 77 78 7 79 80 81 9 10 11 12 13 14</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\Debug\Exe\Homework 08 simple.d43</name>
+            <outputs>
+                <tool>
+                    <name>XLINK</name>
+                    <file> 26</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>XLINK</name>
+                    <file> 24 23 35 36 37 38 0 39 40 41 42 22 43 44 45 46 47 25</file>
                 </tool>
             </inputs>
         </file>
@@ -198,11 +211,11 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 12</file>
+                    <file> 62</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 73</file>
+                    <file> 41</file>
                 </tool>
             </outputs>
         </file>
@@ -211,11 +224,11 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 13</file>
+                    <file> 63</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 74</file>
+                    <file> 42</file>
                 </tool>
             </outputs>
         </file>
@@ -224,17 +237,17 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 50</file>
+                    <file> 27</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 43 45</file>
+                    <file> 20 22</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 42 20 21 22 23 24 25 26 27 28 15 16 17 18 19</file>
+                    <file> 19 70 71 72 73 74 75 76 77 78 65 66 67 68 69</file>
                 </tool>
             </inputs>
         </file>
@@ -243,17 +256,17 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 14</file>
+                    <file> 64</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 40 75</file>
+                    <file> 17 43</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 15 16 17 18 19 32 31 37 20 21 22 23 24 25 26 27 28 35 34 36 39</file>
+                    <file> 65 66 67 68 69 9 81 14 70 71 72 73 74 75 76 77 78 12 11 13 16</file>
                 </tool>
             </inputs>
         </file>
@@ -262,17 +275,17 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 60</file>
+                    <file> 28</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 41 76</file>
+                    <file> 18 44</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICC430</name>
-                    <file> 15 16 17 18 19 33 32 31 7 37 34 36 20 21 22 23 24 25 26 27 28</file>
+                    <file> 65 66 67 68 69 10 9 81 7 14 11 13 70 71 72 73 74 75 76 77 78</file>
                 </tool>
             </inputs>
         </file>
@@ -281,11 +294,11 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 61</file>
+                    <file> 29</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 77</file>
+                    <file> 45</file>
                 </tool>
             </outputs>
         </file>
@@ -294,11 +307,11 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 62</file>
+                    <file> 30</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 78</file>
+                    <file> 46</file>
                 </tool>
             </outputs>
         </file>
@@ -307,28 +320,13 @@
             <outputs>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 63</file>
+                    <file> 31</file>
                 </tool>
                 <tool>
                     <name>ICC430</name>
-                    <file> 79</file>
+                    <file> 47</file>
                 </tool>
             </outputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\Debug\Exe\Homework 08 simple.d43</name>
-            <outputs>
-                <tool>
-                    <name>XLINK</name>
-                    <file> 49</file>
-                </tool>
-            </outputs>
-            <inputs>
-                <tool>
-                    <name>XLINK</name>
-                    <file> 47 46 67 68 69 70 0 71 72 73 74 45 75 76 77 78 79 48</file>
-                </tool>
-            </inputs>
         </file>
     </configuration>
     <configuration>

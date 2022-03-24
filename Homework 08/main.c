@@ -54,7 +54,8 @@ extern float timeElapsed;
 extern char state;
 extern volatile unsigned int stopwatchUpdated;
 unsigned volatile UCA0_index,UCA1_index;
-extern volatile char USB1_Char_Rx[];
+char* test_command = "NCSU  #1";
+extern volatile char USB_Char_Rx[];
 //===========================================================================
 // Function name: Main
 //
@@ -126,15 +127,15 @@ void main(void) {
           display_changed = 1;
         }*/
         
-        //strcpy(display_line[2], "   Baud   ");
+        strcpy(display_line[2], "   Baud   ");
         
         
         if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
-          strcpy(display_line[2], "  115200  ");
+          strcpy(display_line[3], "  115200  ");
           display_changed=1;
         }
         else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11){
-          strcpy(display_line[2], "  460800  ");
+          strcpy(display_line[3], "  460800  ");
           display_changed=1;
         }
         
