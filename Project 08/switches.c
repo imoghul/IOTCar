@@ -6,6 +6,7 @@
 #include "sm.h"
 #include "timers.h"
 #include "detectors.h"
+#include "serial.h"
 #include <string.h>
 
 volatile unsigned int sw1Okay, sw2Okay;
@@ -21,8 +22,8 @@ extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 volatile unsigned int calibrationMode;
 extern volatile char USB0_Char_Tx[],USB1_Char_Tx[];
-extern volatile char USB0_Char_Rx[],USB1_Char_Rx[];
-extern unsigned volatile UCA0_index,UCA1_index;
+extern volatile char USB0_Char_Rx_Ring[],USB1_Char_Rx_Ring[];
+extern unsigned volatile int tx0_index,tx1_index;
 
 //===========================================================================
 // Function name: switchP4_interrupt
@@ -53,18 +54,13 @@ __interrupt void switchP4_interrupt(void) {
 
         // Actual Code
         
-        strcpy((char*)USB0_Char_Tx,(char*)USB0_Char_Rx);
-        strcpy((char*)USB1_Char_Tx,(char*)USB1_Char_Rx);
+        //strcpy((char*)USB0_Char_Tx,(char*)USB0_Char_Rx_Ring);
+        //strcpy((char*)USB1_Char_Tx,(char*)USB1_Char_Rx_Ring);
         strcpy(display_line[1],display_line[3]);
         strcpy(display_line[3], "          ");
-        
-        UCA0_index = 0;
+        tx0_index=0;
+        //loadRingtoPB_0();
         UCA0IE |= UCTXIE;
-        UCA0TXBUF = USB0_Char_Tx[0];
-        
-        UCA1_index = 0;
-        UCA1IE |= UCTXIE;
-        UCA1TXBUF = USB1_Char_Tx[0];
     }
 }
 

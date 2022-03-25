@@ -22,6 +22,7 @@
 #include "adc.h"
 #include "detectors.h"
 #include "sm.h"
+#include "serial.h"
 // Function Prototypes
 void main(void);
 
@@ -54,7 +55,8 @@ extern float timeElapsed;
 extern char state;
 extern volatile unsigned int stopwatchUpdated;
 unsigned volatile UCA0_index,UCA1_index;
-extern volatile char USB1_Char_Rx[];
+extern volatile char USB0_Char_Tx[];
+extern volatile unsigned int pb0_buffered;
 //===========================================================================
 // Function name: Main
 //
@@ -109,6 +111,8 @@ void main(void) {
     //------------------------------------------------------------------------------
     while(ALWAYS) {                       // Can the Operating system run
         Display_Process();                  // Update Display
+        loadRingtoPB_0();
+        copyPBtoTx_0();
         //DetectMovement();
         //StateMachine();                     // Run wheels state machine
         MotorSafety();
