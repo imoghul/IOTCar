@@ -111,8 +111,7 @@ void main(void) {
     //------------------------------------------------------------------------------
     while(ALWAYS) {                       // Can the Operating system run
         Display_Process();                  // Update Display
-        loadRingtoPB_0();
-        copyPBtoTx_0();
+        SerialProcess();
         //DetectMovement();
         //StateMachine();                     // Run wheels state machine
         MotorSafety();

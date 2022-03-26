@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          25/Mar/2022  14:43:31
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          26/Mar/2022  12:42:04
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 08\switches.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW4BA7.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW77B3.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 08\switches.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 08\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 08\Debug\Obj" --no_cse
@@ -185,12 +185,12 @@ C:\Users\saad\Documents\ece-306\Project 08\switches.c
    \                                 In  segment ISR_CODE, align 2
      45          __interrupt void switchP4_interrupt(void) {
    \                     switchP4_interrupt:
-   \   000000   3F15         PUSHM.W #0x4, R15
+   \   000000   5F15         PUSHM.W #0x6, R15
      46              if(P4IFG & SW1 && debouncing1 == FALSE) {
    \   000002   E2B33D02     BIT.B   #0x2, &0x23d
-   \   000006   2428         JNC     ??switchP4_interrupt_0
+   \   000006   3D28         JNC     ??switchP4_interrupt_3
    \   000008   8293....     CMP.W   #0x0, &debouncing1
-   \   00000C   2120         JNE     ??switchP4_interrupt_0
+   \   00000C   3A20         JNE     ??switchP4_interrupt_3
      47                  P4IE &= ~SW1;
    \   00000E   E2C33B02     BIC.B   #0x2, &0x23b
      48                  P4IFG &= ~SW1;
@@ -211,105 +211,135 @@ C:\Users\saad\Documents\ece-306\Project 08\switches.c
      56                  
      57                  //strcpy((char*)USB0_Char_Tx,(char*)USB0_Char_Rx_Ring);
      58                  //strcpy((char*)USB1_Char_Tx,(char*)USB1_Char_Rx_Ring);
-     59                  strcpy(display_line[1],display_line[3]);
-   \   000030   3D40....     MOV.W   #display_line + 33, R13
-   \   000034   3C40....     MOV.W   #display_line + 11, R12
-   \   000038   ........     CALLA   #strcpy
-     60                  strcpy(display_line[3], "          ");
-   \   00003C   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000040   3C40....     MOV.W   #display_line + 33, R12
-   \   000044   ........     CALLA   #strcpy
-     61                  tx0_index=0;
-   \   000048   8243....     MOV.W   #0x0, &tx0_index
-     62                  //loadRingtoPB_0();
-     63                  UCA0IE |= UCTXIE;
-   \   00004C   A2D31A05     BIS.W   #0x2, &0x51a
-     64              }
-     65          }
+     59                  for(int i = 0;i<10;++i)
+   \   000030   0F43         MOV.W   #0x0, R15
    \                     ??switchP4_interrupt_0:
-   \   000050   3C17         POPM.W  #0x4, R15
-   \   000052   0013         RETI
-   \   000054                REQUIRE _A_PBIFG_L
-   \   000054                REQUIRE _A_PBIE_L
-   \   000054                REQUIRE _A_TB0CCTL1_L
-   \   000054                REQUIRE _A_TB0CCR1_L
-   \   000054                REQUIRE _A_TB0R_L
-   \   000054                REQUIRE _A_UCA0IE_L
-     66          
-     67          //===========================================================================
-     68          // Function name: switchP4_interrupt
-     69          //
-     70          // Description: This is the switch 2 interrupt, turns off LCD_BACKLITE and its
-     71          // blinking timer
-     72          //
-     73          // Passed : no variables passed
-     74          // Locals: no variables declared
-     75          // Returned: no values returned
-     76          // Globals: no global values
+   \   000032   3F900A00     CMP.W   #0xa, R15
+   \   000036   0534         JGE     ??switchP4_interrupt_4
+     60                    display_line[1][i] = ' ';
+   \   000038   FF402000.... MOV.B   #0x20, display_line + 11(R15)
+   \   00003E   1F53         ADD.W   #0x1, R15
+   \   000040   F83F         JMP     ??switchP4_interrupt_0
+     61                  
+     62                  int i;
+     63                  for(i = 0; i<10 && display_line[3][i]!=0;++i)
+   \                     ??switchP4_interrupt_4:
+   \   000042   0A43         MOV.W   #0x0, R10
+   \                     ??switchP4_interrupt_1:
+   \   000044   3A900A00     CMP.W   #0xa, R10
+   \   000048   0834         JGE     ??switchP4_interrupt_2
+   \   00004A   CA93....     CMP.B   #0x0, display_line + 33(R10)
+   \   00004E   0524         JEQ     ??switchP4_interrupt_2
+     64                     display_line[1][i] = display_line[3][i];
+   \   000050   DA4A........ MOV.B   display_line + 33(R10), display_line + 11(R10)
+   \   000056   1A53         ADD.W   #0x1, R10
+   \   000058   F53F         JMP     ??switchP4_interrupt_1
+     65                  for(;i<10;++i)
+   \                     ??switchP4_interrupt_2:
+   \   00005A   3A900A00     CMP.W   #0xa, R10
+   \   00005E   0534         JGE     ??switchP4_interrupt_5
+     66                     display_line[1][i] = ' ';
+   \   000060   FA402000.... MOV.B   #0x20, display_line + 11(R10)
+   \   000066   1A53         ADD.W   #0x1, R10
+   \   000068   F83F         JMP     ??switchP4_interrupt_2
+     67                  display_line[1][10] = 0;
+   \                     ??switchP4_interrupt_5:
+   \   00006A   C243....     MOV.B   #0x0, &display_line + 21
+     68                  
+     69                  strcpy(display_line[3], "          ");
+   \   00006E   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000072   3C40....     MOV.W   #display_line + 33, R12
+   \   000076   ........     CALLA   #strcpy
+     70                  tx0_index=0;
+   \   00007A   8243....     MOV.W   #0x0, &tx0_index
+     71                  UCA0IE |= UCTXIE;
+   \   00007E   A2D31A05     BIS.W   #0x2, &0x51a
+     72              }
+     73          }
+   \                     ??switchP4_interrupt_3:
+   \   000082   5A17         POPM.W  #0x6, R15
+   \   000084   0013         RETI
+   \   000086                REQUIRE _A_PBIFG_L
+   \   000086                REQUIRE _A_PBIE_L
+   \   000086                REQUIRE _A_TB0CCTL1_L
+   \   000086                REQUIRE _A_TB0CCR1_L
+   \   000086                REQUIRE _A_TB0R_L
+   \   000086                REQUIRE _A_UCA0IE_L
+     74          
+     75          //===========================================================================
+     76          // Function name: switchP4_interrupt
      77          //
-     78          // Author: Ibrahim Moghul
-     79          // Date: Feb 2022
-     80          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
-     81          //===========================================================================
-     82          #pragma vector=PORT2_VECTOR
+     78          // Description: This is the switch 2 interrupt, turns off LCD_BACKLITE and its
+     79          // blinking timer
+     80          //
+     81          // Passed : no variables passed
+     82          // Locals: no variables declared
+     83          // Returned: no values returned
+     84          // Globals: no global values
+     85          //
+     86          // Author: Ibrahim Moghul
+     87          // Date: Feb 2022
+     88          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     89          //===========================================================================
+     90          #pragma vector=PORT2_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-     83          __interrupt void switchP2_interrupt(void) {
+     91          __interrupt void switchP2_interrupt(void) {
    \                     switchP2_interrupt:
    \   000000   0F12         PUSH.W  R15
-     84              if(P2IFG & SW2 && debouncing2 == FALSE) {
+     92              if(P2IFG & SW2 && debouncing2 == FALSE) {
    \   000002   F2B21D02     BIT.B   #0x8, &0x21d
    \   000006   3728         JNC     ??switchP2_interrupt_0
    \   000008   8293....     CMP.W   #0x0, &debouncing2
    \   00000C   3420         JNE     ??switchP2_interrupt_0
-     85                  P2IE &= ~SW2;
+     93                  P2IE &= ~SW2;
    \   00000E   F2C21B02     BIC.B   #0x8, &0x21b
-     86                  P2IFG &= ~SW2;
+     94                  P2IFG &= ~SW2;
    \   000012   F2C21D02     BIC.B   #0x8, &0x21d
-     87                  TB0CCTL2 &= ~CCIFG;
+     95                  TB0CCTL2 &= ~CCIFG;
    \   000016   92C38603     BIC.W   #0x1, &0x386
-     88                  TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
+     96                  TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
    \   00001A   1F429003     MOV.W   &0x390, R15
    \   00001E   3F5050C3     ADD.W   #0xc350, R15
    \   000022   824F9603     MOV.W   R15, &0x396
-     89                  TB0CCTL2 |= CCIE; // CCR1 enable interrupt
+     97                  TB0CCTL2 |= CCIE; // CCR1 enable interrupt
    \   000026   B2D010008603 BIS.W   #0x10, &0x386
-     90                  debouncing2 = TRUE;
+     98                  debouncing2 = TRUE;
    \   00002C   9243....     MOV.W   #0x1, &debouncing2
-     91                  // Actual Code
-     92                  // 460800
-     93                  if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){ // if is 11520 change to 460800
+     99                  // Actual Code
+    100                  // 460800
+    101                  if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){ // if is 11520 change to 460800
    \   000030   A2920605     CMP.W   #0x4, &0x506
    \   000034   0F20         JNE     ??switchP2_interrupt_1
    \   000036   B29051550805 CMP.W   #0x5551, &0x508
    \   00003C   0B20         JNE     ??switchP2_interrupt_1
-     94                    UCA0BRW = 1;
+    102                    UCA0BRW = 1;
    \   00003E   92430605     MOV.W   #0x1, &0x506
-     95                    UCA0MCTLW = 0x4A11;
+    103                    UCA0MCTLW = 0x4A11;
    \   000042   B240114A0805 MOV.W   #0x4a11, &0x508
-     96                    UCA1BRW = 1;
+    104                    UCA1BRW = 1;
    \   000048   92438605     MOV.W   #0x1, &0x586
-     97                    UCA1MCTLW = 0x4A11;
+    105                    UCA1MCTLW = 0x4A11;
    \   00004C   B240114A8805 MOV.W   #0x4a11, &0x588
    \   000052   113C         JMP     ??switchP2_interrupt_0
-     98                  }
-     99                  else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11){ // if is 460800 change to 115200
+    106                  }
+    107                  else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11){ // if is 460800 change to 115200
    \                     ??switchP2_interrupt_1:
    \   000054   92930605     CMP.W   #0x1, &0x506
    \   000058   0E20         JNE     ??switchP2_interrupt_0
    \   00005A   B290114A0805 CMP.W   #0x4a11, &0x508
    \   000060   0A20         JNE     ??switchP2_interrupt_0
-    100                    UCA0BRW = 4;
+    108                    UCA0BRW = 4;
    \   000062   A2420605     MOV.W   #0x4, &0x506
-    101                    UCA0MCTLW = 0x5551;
+    109                    UCA0MCTLW = 0x5551;
    \   000066   B24051550805 MOV.W   #0x5551, &0x508
-    102                    UCA1BRW = 4;
+    110                    UCA1BRW = 4;
    \   00006C   A2428605     MOV.W   #0x4, &0x586
-    103                    UCA1MCTLW = 0x5551;
+    111                    UCA1MCTLW = 0x5551;
    \   000070   B24051558805 MOV.W   #0x5551, &0x588
-    104                  }
-    105              }
-    106          }
+    112                  }
+    113              }
+    114          }
    \                     ??switchP2_interrupt_0:
    \   000076   3F41         POP.W   R15
    \   000078   0013         RETI
@@ -335,15 +365,15 @@ C:\Users\saad\Documents\ece-306\Project 08\switches.c
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
-    107          
+    115          
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
       6   switchP2_interrupt
-     12   switchP4_interrupt
-       12   -> strcpy
+     16   switchP4_interrupt
+       16   -> strcpy
 
 
    Segment part sizes:
@@ -374,7 +404,7 @@ C:\Users\saad\Documents\ece-306\Project 08\switches.c
        2  sw2_pos
      122  switchP2_interrupt
        2  switchP2_interrupt::??INTVEC 48
-      84  switchP4_interrupt
+     134  switchP4_interrupt
        2  switchP4_interrupt::??INTVEC 44
 
  
@@ -382,9 +412,9 @@ C:\Users\saad\Documents\ece-306\Project 08\switches.c
   11 bytes in segment DATA16_C
   14 bytes in segment DATA16_Z
    4 bytes in segment INTVEC
- 206 bytes in segment ISR_CODE
+ 256 bytes in segment ISR_CODE
  
- 206 bytes of CODE  memory
+ 256 bytes of CODE  memory
   11 bytes of CONST memory (+  4 bytes shared)
   14 bytes of DATA  memory (+ 28 bytes shared)
 

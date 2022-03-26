@@ -56,10 +56,18 @@ __interrupt void switchP4_interrupt(void) {
         
         //strcpy((char*)USB0_Char_Tx,(char*)USB0_Char_Rx_Ring);
         //strcpy((char*)USB1_Char_Tx,(char*)USB1_Char_Rx_Ring);
-        strcpy(display_line[1],display_line[3]);
+        for(int i = 0;i<10;++i)
+          display_line[1][i] = ' ';
+        
+        int i;
+        for(i = 0; i<10 && display_line[3][i]!=0;++i)
+           display_line[1][i] = display_line[3][i];
+        for(;i<10;++i)
+           display_line[1][i] = ' ';
+        display_line[1][10] = 0;
+        
         strcpy(display_line[3], "          ");
         tx0_index=0;
-        //loadRingtoPB_0();
         UCA0IE |= UCTXIE;
     }
 }

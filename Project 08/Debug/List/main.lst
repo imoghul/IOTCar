@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          25/Mar/2022  15:55:10
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          26/Mar/2022  12:07:17
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 08\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWE48E.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW9E85.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 08\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 08\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 08\Debug\Obj" --no_cse
@@ -249,97 +249,95 @@ C:\Users\saad\Documents\ece-306\Project 08\main.c
     113                  Display_Process();                  // Update Display
    \                     ??main_0:
    \   000060   ........     CALLA   #Display_Process
-    114                  loadRingtoPB_0();
-   \   000064   ........     CALLA   #loadRingtoPB_0
-    115                  copyPBtoTx_0();
-   \   000068   ........     CALLA   #copyPBtoTx_0
-    116                  //DetectMovement();
-    117                  //StateMachine();                     // Run wheels state machine
-    118                  MotorSafety();
-   \   00006C   ........     CALLA   #MotorSafety
-    119                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-   \   000070   D2E32202     XOR.B   #0x1, &0x222
-    120                  /*if(movingDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
-    121                  else if(movingDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
-    122                  else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
-    123                  else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
-    124          
-    125                  /*if(stopwatchUpdated){
-    126                    stopwatchUpdated = 0;
-    127                    HEXtoBCD((int)timeElapsed,3,0);
-    128                    display_line[3][4]='.';
-    129                    display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
-    130                    display_changed = 1;
-    131                  }*/
-    132                  
-    133                  //strcpy(display_line[2], "   Baud   ");
+    114                  SerialProcess();
+   \   000064   ........     CALLA   #SerialProcess
+    115                  //DetectMovement();
+    116                  //StateMachine();                     // Run wheels state machine
+    117                  MotorSafety();
+   \   000068   ........     CALLA   #MotorSafety
+    118                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+   \   00006C   D2E32202     XOR.B   #0x1, &0x222
+    119                  /*if(movingDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
+    120                  else if(movingDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
+    121                  else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
+    122                  else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
+    123          
+    124                  /*if(stopwatchUpdated){
+    125                    stopwatchUpdated = 0;
+    126                    HEXtoBCD((int)timeElapsed,3,0);
+    127                    display_line[3][4]='.';
+    128                    display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
+    129                    display_changed = 1;
+    130                  }*/
+    131                  
+    132                  //strcpy(display_line[2], "   Baud   ");
+    133                  
     134                  
-    135                  
-    136                  if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
-   \   000074   A2920605     CMP.W   #0x4, &0x506
-   \   000078   0D20         JNE     ??main_2
-   \   00007A   B29051550805 CMP.W   #0x5551, &0x508
-   \   000080   0920         JNE     ??main_2
-    137                    strcpy(display_line[2], "  115200  ");
-   \   000082   3D40....     MOV.W   #`?<Constant "  115200  ">`, R13
-   \   000086   3C40....     MOV.W   #display_line + 22, R12
-   \   00008A   ........     CALLA   #strcpy
-    138                    display_changed=1;
-   \   00008E   D243....     MOV.B   #0x1, &display_changed
-   \   000092   0F3C         JMP     ??main_1
-    139                  }
-    140                  else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11){
+    135                  if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
+   \   000070   A2920605     CMP.W   #0x4, &0x506
+   \   000074   0D20         JNE     ??main_2
+   \   000076   B29051550805 CMP.W   #0x5551, &0x508
+   \   00007C   0920         JNE     ??main_2
+    136                    strcpy(display_line[2], "  115200  ");
+   \   00007E   3D40....     MOV.W   #`?<Constant "  115200  ">`, R13
+   \   000082   3C40....     MOV.W   #display_line + 22, R12
+   \   000086   ........     CALLA   #strcpy
+    137                    display_changed=1;
+   \   00008A   D243....     MOV.B   #0x1, &display_changed
+   \   00008E   0F3C         JMP     ??main_1
+    138                  }
+    139                  else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11){
    \                     ??main_2:
-   \   000094   92930605     CMP.W   #0x1, &0x506
-   \   000098   0C20         JNE     ??main_1
-   \   00009A   B290114A0805 CMP.W   #0x4a11, &0x508
-   \   0000A0   0820         JNE     ??main_1
-    141                    strcpy(display_line[2], "  460800  ");
-   \   0000A2   3D40....     MOV.W   #`?<Constant "  460800  ">`, R13
-   \   0000A6   3C40....     MOV.W   #display_line + 22, R12
-   \   0000AA   ........     CALLA   #strcpy
-    142                    display_changed=1;
-   \   0000AE   D243....     MOV.B   #0x1, &display_changed
-    143                  }
-    144                  
-    145                  if(cycle_count==0){
+   \   000090   92930605     CMP.W   #0x1, &0x506
+   \   000094   0C20         JNE     ??main_1
+   \   000096   B290114A0805 CMP.W   #0x4a11, &0x508
+   \   00009C   0820         JNE     ??main_1
+    140                    strcpy(display_line[2], "  460800  ");
+   \   00009E   3D40....     MOV.W   #`?<Constant "  460800  ">`, R13
+   \   0000A2   3C40....     MOV.W   #display_line + 22, R12
+   \   0000A6   ........     CALLA   #strcpy
+    141                    display_changed=1;
+   \   0000AA   D243....     MOV.B   #0x1, &display_changed
+    142                  }
+    143                  
+    144                  if(cycle_count==0){
    \                     ??main_1:
-   \   0000B2   8293....     CMP.W   #0x0, &cycle_count
-   \   0000B6   0220         JNE     ??main_3
-    146                    display_changed = 1;
-   \   0000B8   D243....     MOV.B   #0x1, &display_changed
-    147                  }
-    148          
-    149                  if(Last_Time_Sequence != Time_Sequence) {
+   \   0000AE   8293....     CMP.W   #0x0, &cycle_count
+   \   0000B2   0220         JNE     ??main_3
+    145                    display_changed = 1;
+   \   0000B4   D243....     MOV.B   #0x1, &display_changed
+    146                  }
+    147          
+    148                  if(Last_Time_Sequence != Time_Sequence) {
    \                     ??main_3:
-   \   0000BC   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
-   \   0000C2   CE27         JEQ     ??main_0
-    150                      Last_Time_Sequence = Time_Sequence;
-   \   0000C4   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
-    151                      cycle_count++;
-   \   0000CA   9253....     ADD.W   #0x1, &cycle_count
-    152                      time_change = 1;
-   \   0000CE   9243....     MOV.W   #0x1, &time_change
-    153          
-    154                      if(cycle_count == TIME_SEQUENCE_MAX) {
-   \   0000D2   B290FA00.... CMP.W   #0xfa, &cycle_count
-   \   0000D8   C323         JNE     ??main_0
-    155                          cycle_count = 0;
-   \   0000DA   8243....     MOV.W   #0x0, &cycle_count
-    156                          stopwatch_seconds++;
-   \   0000DE   9253....     ADD.W   #0x1, &stopwatch_seconds
-   \   0000E2   BE3F         JMP     ??main_0
-   \   0000E4   0343         NOP
-   \   0000E6                REQUIRE _A_PM5CTL0_L
-   \   0000E6                REQUIRE _A_PBOUT_L
-   \   0000E6                REQUIRE _A_UCA0BRW_L
-   \   0000E6                REQUIRE _A_UCA0MCTLW_L
-    157                      }
-    158                  }
-    159              }
-    160          
-    161              //------------------------------------------------------------------------------
-    162          }
+   \   0000B8   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
+   \   0000BE   D027         JEQ     ??main_0
+    149                      Last_Time_Sequence = Time_Sequence;
+   \   0000C0   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
+    150                      cycle_count++;
+   \   0000C6   9253....     ADD.W   #0x1, &cycle_count
+    151                      time_change = 1;
+   \   0000CA   9243....     MOV.W   #0x1, &time_change
+    152          
+    153                      if(cycle_count == TIME_SEQUENCE_MAX) {
+   \   0000CE   B290FA00.... CMP.W   #0xfa, &cycle_count
+   \   0000D4   C523         JNE     ??main_0
+    154                          cycle_count = 0;
+   \   0000D6   8243....     MOV.W   #0x0, &cycle_count
+    155                          stopwatch_seconds++;
+   \   0000DA   9253....     ADD.W   #0x1, &stopwatch_seconds
+   \   0000DE   C03F         JMP     ??main_0
+   \   0000E0   0343         NOP
+   \   0000E2                REQUIRE _A_PM5CTL0_L
+   \   0000E2                REQUIRE _A_PBOUT_L
+   \   0000E2                REQUIRE _A_UCA0BRW_L
+   \   0000E2                REQUIRE _A_UCA0MCTLW_L
+    156                      }
+    157                  }
+    158              }
+    159          
+    160              //------------------------------------------------------------------------------
+    161          }
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "          ">`:
@@ -355,7 +353,7 @@ C:\Users\saad\Documents\ece-306\Project 08\main.c
    \                     `?<Constant "  460800  ">`:
    \   000000   202034363038 DC8 "  460800  "
    \            3030202000  
-    163          
+    162          
 
    Maximum stack usage in bytes:
 
@@ -374,8 +372,7 @@ C:\Users\saad\Documents\ece-306\Project 08\main.c
         4   -> Init_Serial_UCA
         4   -> Init_Timers
         4   -> MotorSafety
-        4   -> copyPBtoTx_0
-        4   -> loadRingtoPB_0
+        4   -> SerialProcess
         4   -> strcpy
 
 
@@ -397,19 +394,19 @@ C:\Users\saad\Documents\ece-306\Project 08\main.c
        1  chosen_direction
        2  cycle_count
        1  display_mode
-     230  main
+     226  main
        1  slow_input_down
        2  stopwatch_seconds
        2  test_value
        2  time_change
 
  
- 230 bytes in segment CODE
+ 226 bytes in segment CODE
    8 bytes in segment DATA16_AN
   33 bytes in segment DATA16_C
   18 bytes in segment DATA16_Z
  
- 230 bytes of CODE  memory
+ 226 bytes of CODE  memory
   33 bytes of CONST memory
   18 bytes of DATA  memory (+ 8 bytes shared)
 

@@ -3,7 +3,8 @@
 #include "msp430.h"
 
 // global variables
-volatile unsigned int usb0_rx_wr,usb0_rx_rd,usb1_rx_wr,usb1_rx_rd ;
+volatile unsigned int usb0_rx_wr,usb1_rx_wr;
+unsigned int usb0_rx_rd,usb1_rx_rd;
 volatile char USB0_Char_Rx_Ring[SMALL_RING_SIZE],USB0_Char_Rx_Process[LARGE_RING_SIZE];
 volatile char USB1_Char_Rx_Ring[SMALL_RING_SIZE],USB1_Char_Rx_Process[LARGE_RING_SIZE];
 volatile char USB0_Char_Tx[LARGE_RING_SIZE],USB1_Char_Tx[LARGE_RING_SIZE];
@@ -78,7 +79,7 @@ __interrupt void eUSCI_A0_ISR(void) {
           USB0_Char_Tx[tx0_index++] = 0;
           if(USB0_Char_Tx[tx0_index] == 0) {
             UCA0IE &= ~UCTXIE;
-            clearProcessBuff0();
+            clearProcessBuff_0();
           }
           break;
 
@@ -87,12 +88,48 @@ __interrupt void eUSCI_A0_ISR(void) {
     }
 }
 
+#pragma vector=EUSCI_A1_VECTOR
+__interrupt void eUSCI_A1_ISR(void) {
+    unsigned int temp;
 
+    switch(__even_in_range(UCA1IV, 0x08)) {
+        case 0:
+            break;
 
-void clearProcessBuff0(){
-  for(int i = 0;i<sizeof(USB0_Char_Rx_Process);++i)USB0_Char_Rx_Process[i]=0;
-  pb0_index=0;
-  pb0_buffered=0;
+        case 2: // RXIFG
+            temp = usb1_rx_wr++;
+            USB1_Char_Rx_Ring[temp] = UCA1RXBUF;
+            
+            if (usb1_rx_wr >= (sizeof(USB1_Char_Rx_Ring))) {
+                usb1_rx_wr = BEGINNING;
+            }
+
+            break;
+
+        case 4: // TXIFG
+          UCA1TXBUF = USB1_Char_Tx[tx1_index];
+          USB1_Char_Tx[tx1_index++] = 0;
+          if(USB1_Char_Tx[tx1_index] == 0) {
+            UCA1IE &= ~UCTXIE;
+            clearProcessBuff_1();
+          }
+          break;
+
+        default:
+            break;
+    }
+}
+
+void clearProcessBuff(volatile char* pb,volatile unsigned int* pb_index,volatile unsigned int* pb_buffered){
+  for(int i = 0;i<LARGE_RING_SIZE;++i)pb[i]=0;
+  *pb_index=0;
+  *pb_buffered=0;
+}
+void clearProcessBuff_0(void){
+  clearProcessBuff(USB0_Char_Rx_Process,&pb0_index,&pb0_buffered);
+}
+void clearProcessBuff_1(void){
+  clearProcessBuff(USB1_Char_Rx_Process,&pb1_index,&pb1_buffered);
 }
 
 void out_character(char character) {
@@ -113,16 +150,23 @@ void USCI_A1_transmit(void){
   UCA1IE |= UCTXIE;
 }
 
+void loadRingtoPB(volatile unsigned int* rx_wr,unsigned int* rx_rd,volatile char* Rx_Process,volatile char* Rx_Ring,volatile unsigned int* pb_index,volatile unsigned int* pb_buffered){
+  if(*rx_wr != *rx_rd){
+    Rx_Process[pb0_index] = Rx_Ring[*rx_rd];
+    if((*rx_rd)++ >= SMALL_RING_SIZE-1) *rx_rd = BEGINNING;
+    if((*pb_index)++ >= LARGE_RING_SIZE-1) *pb_index=BEGINNING;
+  }
+  if(*pb_index>=2 && Rx_Process[(*pb_index)-1]=='\n' && Rx_Process[(*pb_index)-2]=='\r') {
+    *pb_buffered = 1;
+    *pb_index = BEGINNING;
+  }
+}
+
 void loadRingtoPB_0(void){
-  if(usb0_rx_wr != usb0_rx_rd){
-    USB0_Char_Rx_Process[pb0_index] = USB0_Char_Rx_Ring[usb0_rx_rd];
-    if(usb0_rx_rd++ >= SMALL_RING_SIZE-1) usb0_rx_rd = BEGINNING;
-    if(pb0_index++ >= LARGE_RING_SIZE-1) pb0_index=BEGINNING;
-  }
-  if(pb0_index>=2 && USB0_Char_Rx_Process[pb0_index-1]=='\n' && USB0_Char_Rx_Process[pb0_index-2]=='\r') {
-    pb0_buffered = 1;
-    pb0_index = BEGINNING;
-  }
+  loadRingtoPB(&usb0_rx_wr,&usb0_rx_rd,USB0_Char_Rx_Process,USB0_Char_Rx_Ring,&pb0_index,&pb0_buffered);
+}
+void loadRingtoPB_1(void){
+  loadRingtoPB(&usb1_rx_wr,&usb1_rx_rd,USB1_Char_Rx_Process,USB1_Char_Rx_Ring,&pb1_index,&pb1_buffered);
 }
 
 void copyPBtoTx_0(void){
@@ -131,14 +175,12 @@ void copyPBtoTx_0(void){
   strcpy(display_line[3],(char*)USB0_Char_Tx);
   for(int i = 0;i<10;++i)
     if(display_line[3][i] == '\r' || display_line[3][i]=='\n') display_line[3][i]=0;
-  clearProcessBuff0();
+  clearProcessBuff_0();
 }
 
 
-
-//int i = 0;
-            //for(;i<10 && USB1_Char_Rx[i]!=0;++i)
-            //  display_line[1][i] = USB1_Char_Rx[i];
-            //for(;i<10;++i) display_line[1][i]=' ';
-            //display_line[1][10] = 0;
-        
+void SerialProcess(void){
+  loadRingtoPB_0();
+  loadRingtoPB_1();
+  copyPBtoTx_0();
+}
