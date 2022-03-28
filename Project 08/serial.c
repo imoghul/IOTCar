@@ -13,6 +13,7 @@ unsigned volatile int tx0_index,tx1_index;
 unsigned volatile int pb0_buffered,pb1_buffered;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
+unsigned volatile int serialState;
 
 //----------------------------------------------------------------------------
 void Init_Serial_UCA(void) {
@@ -71,6 +72,9 @@ __interrupt void eUSCI_A0_ISR(void) {
             if (usb0_rx_wr >= (sizeof(USB0_Char_Rx_Ring))) {
                 usb0_rx_wr = BEGINNING;
             }
+            
+            serialState = 2;
+            
 
             break;
 
@@ -81,6 +85,8 @@ __interrupt void eUSCI_A0_ISR(void) {
             UCA0IE &= ~UCTXIE;
             clearProcessBuff_0();
           }
+          serialState = 1;
+          
           break;
 
         default:

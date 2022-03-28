@@ -126098,132 +126098,6 @@
     "scope": null
   },
   {
-    "ID": "c:@update_display",
-    "What": "Variable",
-    "defdec": "Dec",
-    "display": "update_display",
-    "location": {
-      "column": "31",
-      "line": "17",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
-    },
-    "name": "update_display",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@display_changed",
-    "What": "Variable",
-    "defdec": "Dec",
-    "display": "display_changed",
-    "location": {
-      "column": "31",
-      "line": "18",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
-    },
-    "name": "display_changed",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@Time_Sequence",
-    "What": "Variable",
-    "defdec": "Dec",
-    "display": "Time_Sequence",
-    "location": {
-      "column": "30",
-      "line": "19",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
-    },
-    "name": "Time_Sequence",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@one_time",
-    "What": "Variable",
-    "defdec": "Dec",
-    "display": "one_time",
-    "location": {
-      "column": "22",
-      "line": "20",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
-    },
-    "name": "one_time",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@cycle_count",
-    "What": "Variable",
-    "defdec": "Dec",
-    "display": "cycle_count",
-    "location": {
-      "column": "30",
-      "line": "21",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
-    },
-    "name": "cycle_count",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@stopwatch_milliseconds",
-    "What": "Variable",
-    "defdec": "Dec",
-    "display": "stopwatch_milliseconds",
-    "location": {
-      "column": "30",
-      "line": "22",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
-    },
-    "name": "stopwatch_milliseconds",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@stopwatch_seconds",
-    "What": "Variable",
-    "defdec": "Dec",
-    "display": "stopwatch_seconds",
-    "location": {
-      "column": "30",
-      "line": "23",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
-    },
-    "name": "stopwatch_seconds",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Display_Process",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "void Display_Process(void)",
-    "location": {
-      "column": "6",
-      "line": "41",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
-    },
-    "name": "Display_Process",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Carlson_StateMachine",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "void Carlson_StateMachine(void)",
-    "location": {
-      "column": "6",
-      "line": "69",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
-    },
-    "name": "Carlson_StateMachine",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
     "ID": "c:@F@GetOutput",
     "What": "Function",
     "defdec": "Def",
@@ -127080,13 +126954,55 @@
     "scope": null
   },
   {
+    "ID": "c:@usb0_rx_wr",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "usb0_rx_wr",
+    "location": {
+      "column": "30",
+      "line": "60",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\main.c"
+    },
+    "name": "usb0_rx_wr",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@usb0_rx_rd",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "usb0_rx_rd",
+    "location": {
+      "column": "41",
+      "line": "60",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\main.c"
+    },
+    "name": "usb0_rx_rd",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@serialState",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "serialState",
+    "location": {
+      "column": "30",
+      "line": "61",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\main.c"
+    },
+    "name": "serialState",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
     "ID": "c:@F@main",
     "What": "Function",
     "defdec": "Def",
     "display": "void main(void)",
     "location": {
       "column": "6",
-      "line": "80",
+      "line": "82",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\main.c"
     },
     "name": "main",
@@ -127430,73 +127346,129 @@
     "scope": null
   },
   {
-    "ID": "c:@F@Display_Process",
-    "What": "Function",
+    "ID": "c:@update_display",
+    "What": "Variable",
     "defdec": "Dec",
-    "display": "void Display_Process(void)",
+    "display": "update_display",
     "location": {
-      "column": "6",
-      "line": "10",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.h"
+      "column": "31",
+      "line": "17",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
     },
-    "name": "Display_Process",
-    "origin": "user_include",
+    "name": "update_display",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@display_changed",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "display_changed",
+    "location": {
+      "column": "31",
+      "line": "18",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
+    },
+    "name": "display_changed",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@Time_Sequence",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "Time_Sequence",
+    "location": {
+      "column": "30",
+      "line": "19",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
+    },
+    "name": "Time_Sequence",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@one_time",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "one_time",
+    "location": {
+      "column": "22",
+      "line": "20",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
+    },
+    "name": "one_time",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@cycle_count",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "cycle_count",
+    "location": {
+      "column": "30",
+      "line": "21",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
+    },
+    "name": "cycle_count",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@stopwatch_milliseconds",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "stopwatch_milliseconds",
+    "location": {
+      "column": "30",
+      "line": "22",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
+    },
+    "name": "stopwatch_milliseconds",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@stopwatch_seconds",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "stopwatch_seconds",
+    "location": {
+      "column": "30",
+      "line": "23",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
+    },
+    "name": "stopwatch_seconds",
+    "origin": "project_file",
     "scope": null
   },
   {
     "ID": "c:@F@Display_Process",
     "What": "Function",
-    "defdec": "Dec",
+    "defdec": "Def",
     "display": "void Display_Process(void)",
     "location": {
       "column": "6",
-      "line": "10",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.h"
+      "line": "41",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
     },
     "name": "Display_Process",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
     "ID": "c:@F@Carlson_StateMachine",
     "What": "Function",
-    "defdec": "Dec",
+    "defdec": "Def",
     "display": "void Carlson_StateMachine(void)",
     "location": {
       "column": "6",
-      "line": "11",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.h"
+      "line": "69",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.c"
     },
     "name": "Carlson_StateMachine",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Carlson_StateMachine",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void Carlson_StateMachine(void)",
-    "location": {
-      "column": "6",
-      "line": "11",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.h"
-    },
-    "name": "Carlson_StateMachine",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@RunMotors",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "void RunMotors(void)",
-    "location": {
-      "column": "6",
-      "line": "12",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.h"
-    },
-    "name": "RunMotors",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
@@ -127874,6 +127846,76 @@
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.h"
     },
     "name": "SerialProcess",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Display_Process",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Display_Process(void)",
+    "location": {
+      "column": "6",
+      "line": "10",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.h"
+    },
+    "name": "Display_Process",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Display_Process",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Display_Process(void)",
+    "location": {
+      "column": "6",
+      "line": "10",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.h"
+    },
+    "name": "Display_Process",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Carlson_StateMachine",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Carlson_StateMachine(void)",
+    "location": {
+      "column": "6",
+      "line": "11",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.h"
+    },
+    "name": "Carlson_StateMachine",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Carlson_StateMachine",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void Carlson_StateMachine(void)",
+    "location": {
+      "column": "6",
+      "line": "11",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.h"
+    },
+    "name": "Carlson_StateMachine",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@RunMotors",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void RunMotors(void)",
+    "location": {
+      "column": "6",
+      "line": "12",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\led.h"
+    },
+    "name": "RunMotors",
     "origin": "user_include",
     "scope": null
   },
@@ -128844,13 +128886,27 @@
     "scope": null
   },
   {
+    "ID": "c:@serialState",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "serialState",
+    "location": {
+      "column": "23",
+      "line": "16",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
+    },
+    "name": "serialState",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
     "ID": "c:@F@Init_Serial_UCA",
     "What": "Function",
     "defdec": "Def",
     "display": "void Init_Serial_UCA(void)",
     "location": {
       "column": "6",
-      "line": "18",
+      "line": "19",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "Init_Serial_UCA",
@@ -128858,13 +128914,13 @@
     "scope": null
   },
   {
-    "ID": "c:serial.c@759@F@Init_Serial_UCA@i",
+    "ID": "c:serial.c@795@F@Init_Serial_UCA@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "9",
-      "line": "19",
+      "line": "20",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "i",
@@ -128878,7 +128934,7 @@
     "display": "void eUSCI_A0_ISR(void)",
     "location": {
       "column": "18",
-      "line": "60",
+      "line": "61",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "eUSCI_A0_ISR",
@@ -128886,13 +128942,13 @@
     "scope": null
   },
   {
-    "ID": "c:serial.c@1843@F@eUSCI_A0_ISR@temp",
+    "ID": "c:serial.c@1879@F@eUSCI_A0_ISR@temp",
     "What": "Variable",
     "defdec": "Def",
     "display": "temp",
     "location": {
       "column": "18",
-      "line": "61",
+      "line": "62",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "temp",
@@ -128906,7 +128962,7 @@
     "display": "void eUSCI_A1_ISR(void)",
     "location": {
       "column": "18",
-      "line": "92",
+      "line": "98",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "eUSCI_A1_ISR",
@@ -128914,13 +128970,13 @@
     "scope": null
   },
   {
-    "ID": "c:serial.c@2602@F@eUSCI_A1_ISR@temp",
+    "ID": "c:serial.c@2736@F@eUSCI_A1_ISR@temp",
     "What": "Variable",
     "defdec": "Def",
     "display": "temp",
     "location": {
       "column": "18",
-      "line": "93",
+      "line": "99",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "temp",
@@ -128934,7 +128990,7 @@
     "display": "void clearProcessBuff(volatile char *, volatile unsigned int *, volatile unsigned int *)",
     "location": {
       "column": "6",
-      "line": "123",
+      "line": "129",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "clearProcessBuff",
@@ -128942,13 +128998,13 @@
     "scope": null
   },
   {
-    "ID": "c:serial.c@3402@F@clearProcessBuff@i",
+    "ID": "c:serial.c@3536@F@clearProcessBuff@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "11",
-      "line": "124",
+      "line": "130",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "i",
@@ -128962,7 +129018,7 @@
     "display": "void clearProcessBuff_0(void)",
     "location": {
       "column": "6",
-      "line": "128",
+      "line": "134",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "clearProcessBuff_0",
@@ -128976,7 +129032,7 @@
     "display": "void clearProcessBuff_1(void)",
     "location": {
       "column": "6",
-      "line": "131",
+      "line": "137",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "clearProcessBuff_1",
@@ -128990,7 +129046,7 @@
     "display": "void out_character(char)",
     "location": {
       "column": "6",
-      "line": "135",
+      "line": "141",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "out_character",
@@ -129004,7 +129060,7 @@
     "display": "void USCI_A0_transmit(void)",
     "location": {
       "column": "6",
-      "line": "144",
+      "line": "150",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "USCI_A0_transmit",
@@ -129018,7 +129074,7 @@
     "display": "void USCI_A1_transmit(void)",
     "location": {
       "column": "6",
-      "line": "148",
+      "line": "154",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "USCI_A1_transmit",
@@ -129032,7 +129088,7 @@
     "display": "void loadRingtoPB(volatile unsigned int *, unsigned int *, volatile char *, volatile char *, volatile unsigned int *, volatile unsigned int *)",
     "location": {
       "column": "6",
-      "line": "153",
+      "line": "159",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "loadRingtoPB",
@@ -129046,7 +129102,7 @@
     "display": "void loadRingtoPB_0(void)",
     "location": {
       "column": "6",
-      "line": "165",
+      "line": "171",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "loadRingtoPB_0",
@@ -129060,7 +129116,7 @@
     "display": "void loadRingtoPB_1(void)",
     "location": {
       "column": "6",
-      "line": "168",
+      "line": "174",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "loadRingtoPB_1",
@@ -129074,7 +129130,7 @@
     "display": "void copyPBtoTx_0(void)",
     "location": {
       "column": "6",
-      "line": "172",
+      "line": "178",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "copyPBtoTx_0",
@@ -129082,13 +129138,13 @@
     "scope": null
   },
   {
-    "ID": "c:serial.c@5097@F@copyPBtoTx_0@i",
+    "ID": "c:serial.c@5231@F@copyPBtoTx_0@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "11",
-      "line": "174",
+      "line": "180",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "i",
@@ -129096,13 +129152,13 @@
     "scope": null
   },
   {
-    "ID": "c:serial.c@5241@F@copyPBtoTx_0@i",
+    "ID": "c:serial.c@5375@F@copyPBtoTx_0@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "11",
-      "line": "176",
+      "line": "182",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "i",
@@ -129116,7 +129172,7 @@
     "display": "void SerialProcess(void)",
     "location": {
       "column": "6",
-      "line": "182",
+      "line": "188",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 08\\serial.c"
     },
     "name": "SerialProcess",

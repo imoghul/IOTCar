@@ -57,6 +57,8 @@ extern volatile unsigned int stopwatchUpdated;
 unsigned volatile UCA0_index,UCA1_index;
 extern volatile char USB0_Char_Tx[];
 extern volatile unsigned int pb0_buffered;
+extern volatile unsigned int usb0_rx_wr,usb0_rx_rd;
+extern volatile unsigned int serialState;
 //===========================================================================
 // Function name: Main
 //
@@ -100,7 +102,7 @@ void main(void) {
     EmitterOn();
     // Place the contents of what you want on the display, in between the quotes
     // Limited to 10 characters per line
-    strcpy(display_line[0], "          ");
+    strcpy(display_line[0], "WAITING...");
     strcpy(display_line[1], "          ");
     strcpy(display_line[2], "          ");
     strcpy(display_line[3], "          ");
@@ -140,6 +142,16 @@ void main(void) {
           strcpy(display_line[2], "  460800  ");
           display_changed=1;
         }
+        
+        if(serialState==1){
+          strcpy(display_line[0], " TRANSMIT ");
+          display_changed=1;
+        }
+        else if(serialState==2) {
+          strcpy(display_line[0], " RECIEVED ");
+          display_changed=1;
+        }
+          
         
         if(cycle_count==0){
           display_changed = 1;
