@@ -143,14 +143,14 @@ void main(void) {
           display_changed=1;
         }
         
-        if(serialState==1){
+        /*if(serialState==1){
           strcpy(display_line[0], " TRANSMIT ");
           display_changed=1;
         }
         else if(serialState==2) {
           strcpy(display_line[0], " RECIEVED ");
           display_changed=1;
-        }
+        }*/
           
         
         if(cycle_count==0){

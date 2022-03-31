@@ -1,0 +1,929 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          31/Mar/2022  14:50:16
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  C:\Users\saad\Documents\ece-306\Homework 09\menu.c
+#    Command line  =  
+#        -f C:\Users\saad\AppData\Local\Temp\EW2092.tmp
+#        ("C:\Users\saad\Documents\ece-306\Homework 09\menu.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Homework 09\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
+#        --core=430X --data_model=small -On --multiplier=32
+#        --hw_workaround=CPU40 --code_model=large)
+#    Locale        =  English_USA.1252
+#    List file     =  
+#        C:\Users\saad\Documents\ece-306\Homework 09\Debug\List\menu.lst
+#    Object file   =  
+#        C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\menu.r43
+#
+###############################################################################
+
+C:\Users\saad\Documents\ece-306\Homework 09\menu.c
+      1          #include "menu.h"
+      2          #include "msp430.h"
+      3          #include "adc.h"
+      4          #include "functions.h"
+      5          #include <string.h>
+      6          extern volatile unsigned int ADC_Thumb;
+      7          extern volatile unsigned char display_changed;
+      8          extern char display_line[4][11];
+
+   \                                 In  segment DATA16_I, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+      9          char menuState = START_MENU;
+   \                     menuState:
+   \   000000                DS8 1
+   \   000001                REQUIRE `?<Initializer for menuState>`
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     10          unsigned int lastThumb;
+   \                     lastThumb:
+   \   000000                DS8 2
+     11          
+
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     12          menu resistors= {
+   \                     resistors:
+   \   000000                DS8 64
+   \   000040                REQUIRE `?<Initializer for resistors>`
+     13            .length = 10,
+     14            .current = 0,
+     15            .name = RESISTOR,
+     16            .headers = {"   Black  ","   Brown  ","   Red    ","  Orange  ","  Yellow  ","   Green  ","   Blue   ","  Violet  ","   Gray   ","   White  "},
+     17            .values = {"    1     ","    2     ","    3     ","    4     ","    5     ","    6     ","    7     ","    8     ","    9     ","    10    "},
+     18            .transitions = {&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors}
+     19          };
+     20          
+
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     21          menu shape= {
+   \                     shape:
+   \   000000                DS8 64
+   \   000040                REQUIRE `?<Initializer for shape>`
+     22            .length = 10,
+     23            .current = 0,
+     24            .name = SHAPE,
+     25            .headers = {"  Circle  ","  Square  "," Triangle ","  Octagon "," Pentagon ","  Hexagon ","   Cube   ","   Oval   ","  Sphere  "," Cylinder "},
+     26            .values = {""},
+     27            .transitions = {&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape}
+     28          };
+     29          
+
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     30          menu song= {
+   \                     song:
+   \   000000                DS8 64
+   \   000040                REQUIRE `?<Initializer for song>`
+     31            .length = 1,
+     32            .current = 0,
+     33            .name = SONG,
+     34            .headers = {""},
+     35            .values = {"We're the Red and Whie from State And we know we are the best. A hand behind our back, we can take on all the rest. Come over the hill, Carolina. Devils and Deacs stand in line. The Red and White from N.C. State. Go State!"},
+     36            .transitions = {&song}
+     37          };
+     38          
+
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     39          menu mainMenu  = {
+   \                     mainMenu:
+   \   000000                DS8 64
+   \   000040                REQUIRE `?<Initializer for mainMenu>`
+     40            .length = 3,
+     41            .current = 0,
+     42            .name = MAIN,
+     43            .headers = {"Resistors ","  Shapes  ","   Song   "},
+     44            .values = {""},
+     45            .transitions = {&resistors,&shape,&song}
+     46          };
+
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     47          menu start  = {
+   \                     start:
+   \   000000                DS8 64
+   \   000040                REQUIRE `?<Initializer for start>`
+     48            .length = 1,
+     49            .current = 0,
+     50            .name = START_MENU,
+     51            .headers = {""},
+     52            .values = {""},
+     53            .transitions = {&mainMenu}
+     54          };
+     55          
+
+   \                                 In  segment DATA16_I, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_copy
+     56          menu* currMenu = &start;
+   \                     currMenu:
+   \   000000                DS8 2
+   \   000002                REQUIRE `?<Initializer for currMenu>`
+     57          
+
+   \                                 In  segment CODE, align 2
+     58          void displayStartMenu(){
+   \                     displayStartMenu:
+     59            lcd_BIG_mid();
+   \   000000   ........     CALLA   #lcd_BIG_mid
+     60            strcpy(display_line[0],"  Ibrahim ");
+   \   000004   3D40....     MOV.W   #`?<Constant "  Ibrahim ">`, R13
+   \   000008   3C40....     MOV.W   #display_line, R12
+   \   00000C   ........     CALLA   #strcpy
+     61            strcpy(display_line[1],"Homework 9");
+   \   000010   3D40....     MOV.W   #`?<Constant "Homework 9">`, R13
+   \   000014   3C40....     MOV.W   #display_line + 11, R12
+   \   000018   ........     CALLA   #strcpy
+     62            strcpy(display_line[2],"  Moghul  ");
+   \   00001C   3D40....     MOV.W   #`?<Constant "  Moghul  ">`, R13
+   \   000020   3C40....     MOV.W   #display_line + 22, R12
+   \   000024   ........     CALLA   #strcpy
+     63            display_changed = 1;
+   \   000028   D243....     MOV.B   #0x1, &display_changed
+     64          }  
+   \   00002C   1001         RETA
+     65          
+
+   \                                 In  segment CODE, align 2
+     66          void displayMainMenu(){
+   \                     displayMainMenu:
+     67            lcd_4line();
+   \   000000   ........     CALLA   #lcd_4line
+     68            strcpy(display_line[0],mainMenu.headers[mainMenu.current]);
+   \   000004   5F42....     MOV.B   &mainMenu + 1, R15
+   \   000008   4F4F         MOV.B   R15, R15
+   \   00000A   0F5F         RLA.W   R15
+   \   00000C   1D4F....     MOV.W   mainMenu + 4(R15), R13
+   \   000010   3C40....     MOV.W   #display_line, R12
+   \   000014   ........     CALLA   #strcpy
+     69            strcpy(display_line[1], "          ");
+   \   000018   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00001C   3C40....     MOV.W   #display_line + 11, R12
+   \   000020   ........     CALLA   #strcpy
+     70            strcpy(display_line[2], "          ");
+   \   000024   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000028   3C40....     MOV.W   #display_line + 22, R12
+   \   00002C   ........     CALLA   #strcpy
+     71            strcpy(display_line[3], "          ");
+   \   000030   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000034   3C40....     MOV.W   #display_line + 33, R12
+   \   000038   ........     CALLA   #strcpy
+     72            display_changed = 1;
+   \   00003C   D243....     MOV.B   #0x1, &display_changed
+     73            //HEXtoBCD(mainMenu.current,3,0);
+     74          }
+   \   000040   1001         RETA
+
+   \                                 In  segment CODE, align 2
+     75          void displayResistorsMenu(){
+   \                     displayResistorsMenu:
+     76            lcd_4line();
+   \   000000   ........     CALLA   #lcd_4line
+     77            strcpy(display_line[0],resistors.headers[resistors.current]);
+   \   000004   5F42....     MOV.B   &resistors + 1, R15
+   \   000008   4F4F         MOV.B   R15, R15
+   \   00000A   0F5F         RLA.W   R15
+   \   00000C   1D4F....     MOV.W   resistors + 4(R15), R13
+   \   000010   3C40....     MOV.W   #display_line, R12
+   \   000014   ........     CALLA   #strcpy
+     78            strcpy(display_line[1],resistors.values[resistors.current]);
+   \   000018   5F42....     MOV.B   &resistors + 1, R15
+   \   00001C   4F4F         MOV.B   R15, R15
+   \   00001E   0F5F         RLA.W   R15
+   \   000020   1D4F....     MOV.W   resistors + 24(R15), R13
+   \   000024   3C40....     MOV.W   #display_line + 11, R12
+   \   000028   ........     CALLA   #strcpy
+     79            display_changed = 1;
+   \   00002C   D243....     MOV.B   #0x1, &display_changed
+     80            //HEXtoBCD(resistors.current,3,0);
+     81          }
+   \   000030   1001         RETA
+     82          
+
+   \                                 In  segment CODE, align 2
+     83          void displayShapesMenu(){
+   \                     displayShapesMenu:
+     84            lcd_BIG_mid();
+   \   000000   ........     CALLA   #lcd_BIG_mid
+     85            strcpy(display_line[0],shape.current>=1?shape.headers[shape.current-1]:"          ");
+   \   000004   C293....     CMP.B   #0x0, &shape + 1
+   \   000008   0724         JEQ     ??displayShapesMenu_2
+   \   00000A   5F42....     MOV.B   &shape + 1, R15
+   \   00000E   4F4F         MOV.B   R15, R15
+   \   000010   0F5F         RLA.W   R15
+   \   000012   1D4F....     MOV.W   shape + 2(R15), R13
+   \   000016   023C         JMP     ??displayShapesMenu_0
+   \                     ??displayShapesMenu_2:
+   \   000018   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \                     ??displayShapesMenu_0:
+   \   00001C   3C40....     MOV.W   #display_line, R12
+   \   000020   ........     CALLA   #strcpy
+     86            strcpy(display_line[1],shape.headers[shape.current]);
+   \   000024   5F42....     MOV.B   &shape + 1, R15
+   \   000028   4F4F         MOV.B   R15, R15
+   \   00002A   0F5F         RLA.W   R15
+   \   00002C   1D4F....     MOV.W   shape + 4(R15), R13
+   \   000030   3C40....     MOV.W   #display_line + 11, R12
+   \   000034   ........     CALLA   #strcpy
+     87            strcpy(display_line[2],shape.current<shape.length-1?shape.headers[shape.current+1]:"          ");
+   \   000038   5E42....     MOV.B   &shape + 1, R14
+   \   00003C   4E4E         MOV.B   R14, R14
+   \   00003E   5F42....     MOV.B   &shape, R15
+   \   000042   4F4F         MOV.B   R15, R15
+   \   000044   3F53         ADD.W   #0xffff, R15
+   \   000046   0E9F         CMP.W   R15, R14
+   \   000048   0734         JGE     ??displayShapesMenu_3
+   \   00004A   5F42....     MOV.B   &shape + 1, R15
+   \   00004E   4F4F         MOV.B   R15, R15
+   \   000050   0F5F         RLA.W   R15
+   \   000052   1D4F....     MOV.W   shape + 6(R15), R13
+   \   000056   023C         JMP     ??displayShapesMenu_1
+   \                     ??displayShapesMenu_3:
+   \   000058   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \                     ??displayShapesMenu_1:
+   \   00005C   3C40....     MOV.W   #display_line + 22, R12
+   \   000060   ........     CALLA   #strcpy
+     88            display_changed = 1;
+   \   000064   D243....     MOV.B   #0x1, &display_changed
+     89            //HEXtoBCD(shape.current,3,0);
+     90          }
+   \   000068   1001         RETA
+     91          
+
+   \                                 In  segment CODE, align 2
+     92          void displaySongMenu(){
+   \                     displaySongMenu:
+     93            if(ADC_Thumb-lastThumb<SONG_SCROLL_THRESH){
+   \   000000   1F42....     MOV.W   &ADC_Thumb, R15
+   \   000004   1F82....     SUB.W   &lastThumb, R15
+   \   000008   2F93         CMP.W   #0x2, R15
+   \   00000A   202C         JC      ??displaySongMenu_0
+     94              lcd_BIG_mid();
+   \   00000C   ........     CALLA   #lcd_BIG_mid
+     95              song.current++;
+   \   000010   D253....     ADD.B   #0x1, &song + 1
+     96              if(song.current<strlen(song.values[0])-10){
+   \   000014   1C42....     MOV.W   &song + 24, R12
+   \   000018   ........     CALLA   #strlen
+   \   00001C   5F42....     MOV.B   &song + 1, R15
+   \   000020   4F4F         MOV.B   R15, R15
+   \   000022   3C50F6FF     ADD.W   #0xfff6, R12
+   \   000026   0F9C         CMP.W   R12, R15
+   \   000028   0C2C         JC      ??displaySongMenu_1
+     97                strncpy(display_line[1],song.values[song.current],10);
+   \   00002A   3E400A00     MOV.W   #0xa, R14
+   \   00002E   5F42....     MOV.B   &song + 1, R15
+   \   000032   4F4F         MOV.B   R15, R15
+   \   000034   0F5F         RLA.W   R15
+   \   000036   1D4F....     MOV.W   song + 24(R15), R13
+   \   00003A   3C40....     MOV.W   #display_line + 11, R12
+   \   00003E   ........     CALLA   #strncpy
+     98              }
+     99              display_changed = 1;
+   \                     ??displaySongMenu_1:
+   \   000042   D243....     MOV.B   #0x1, &display_changed
+    100              lastThumb = ADC_Thumb;
+   \   000046   9242........ MOV.W   &ADC_Thumb, &lastThumb
+    101            }
+    102            //HEXtoBCD(shape.current,3,0);
+    103          }
+   \                     ??displaySongMenu_0:
+   \   00004C   1001         RETA
+    104          
+
+   \                                 In  segment CODE, align 2
+    105          void updateMenuPos(menu* m){
+   \                     updateMenuPos:
+    106            unsigned int val = (ADC_Thumb*m->length)>>THUMB_RES;
+   \   000000   0212         PUSH.W  SR
+   \   000002   32C2         DINT
+   \   000004   0343         NOP
+   \   000006   E24C....     MOV.B   @R12, &__iar_HWMUL             // MPY
+   \   00000A   9242........ MOV.W   &ADC_Thumb, &__iar_HWMUL + 8   // OP2
+   \   000010   1F42....     MOV.W   &__iar_HWMUL + 10, R15         // RESLO
+   \   000014   0343         NOP
+   \   000016   3241         POP.W   SR
+   \   000018   5F0F         RRUM.W  #0x4, R15
+    107            m->current  = val<m->length?val:m->length-1;
+   \   00001A   6E4C         MOV.B   @R12, R14
+   \   00001C   4E4E         MOV.B   R14, R14
+   \   00001E   0F9E         CMP.W   R14, R15
+   \   000020   052C         JC      ??updateMenuPos_1
+   \   000022   0E12         PUSH.W  R14
+   \   000024   C14F0000     MOV.B   R15, 0(SP)
+   \   000028   3E41         POP.W   R14
+   \   00002A   023C         JMP     ??updateMenuPos_0
+   \                     ??updateMenuPos_1:
+   \   00002C   6E4C         MOV.B   @R12, R14
+   \   00002E   7E53         ADD.B   #0xff, R14
+   \                     ??updateMenuPos_0:
+   \   000030   CC4E0100     MOV.B   R14, 0x1(R12)
+    108          }
+   \   000034   1001         RETA
+    109          
+
+   \                                 In  segment CODE, align 2
+    110          void trainsitionMenu(void){
+   \                     trainsitionMenu:
+    111            currMenu = currMenu->transitions[currMenu->current];
+   \   000000   1E42....     MOV.W   &currMenu, R14
+   \   000004   1F42....     MOV.W   &currMenu, R15
+   \   000008   5F4F0100     MOV.B   0x1(R15), R15
+   \   00000C   4F4F         MOV.B   R15, R15
+   \   00000E   0F5F         RLA.W   R15
+   \   000010   0E5F         ADD.W   R15, R14
+   \   000012   924E2C00.... MOV.W   0x2c(R14), &currMenu
+    112            menuState = currMenu->name;
+   \   000018   1F42....     MOV.W   &currMenu, R15
+   \   00001C   D24F0200.... MOV.B   0x2(R15), &menuState
+    113            if(menuState == SONG) song.current = 0;
+   \   000022   F2907300.... CMP.B   #0x73, &menuState
+   \   000028   0220         JNE     ??trainsitionMenu_0
+   \   00002A   C243....     MOV.B   #0x0, &song + 1
+    114            strcpy(display_line[0], "          ");
+   \                     ??trainsitionMenu_0:
+   \   00002E   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000032   3C40....     MOV.W   #display_line, R12
+   \   000036   ........     CALLA   #strcpy
+    115            strcpy(display_line[1], "          ");
+   \   00003A   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00003E   3C40....     MOV.W   #display_line + 11, R12
+   \   000042   ........     CALLA   #strcpy
+    116            strcpy(display_line[2], "          ");
+   \   000046   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00004A   3C40....     MOV.W   #display_line + 22, R12
+   \   00004E   ........     CALLA   #strcpy
+    117            strcpy(display_line[3], "          ");
+   \   000052   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000056   3C40....     MOV.W   #display_line + 33, R12
+   \   00005A   ........     CALLA   #strcpy
+    118            display_changed = 1;
+   \   00005E   D243....     MOV.B   #0x1, &display_changed
+    119          }
+   \   000062   1001         RETA
+    120          
+
+   \                                 In  segment CODE, align 2
+    121          void resetMenu(void){
+   \                     resetMenu:
+    122            currMenu = &mainMenu;
+   \   000000   B240........ MOV.W   #mainMenu, &currMenu
+    123            menuState = MAIN;
+   \   000006   F2404D00.... MOV.B   #0x4d, &menuState
+    124            strcpy(display_line[0], "          ");
+   \   00000C   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000010   3C40....     MOV.W   #display_line, R12
+   \   000014   ........     CALLA   #strcpy
+    125            strcpy(display_line[1], "          ");
+   \   000018   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00001C   3C40....     MOV.W   #display_line + 11, R12
+   \   000020   ........     CALLA   #strcpy
+    126            strcpy(display_line[2], "          ");
+   \   000024   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000028   3C40....     MOV.W   #display_line + 22, R12
+   \   00002C   ........     CALLA   #strcpy
+    127            strcpy(display_line[3], "          ");
+   \   000030   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000034   3C40....     MOV.W   #display_line + 33, R12
+   \   000038   ........     CALLA   #strcpy
+    128            display_changed = 1;
+   \   00003C   D243....     MOV.B   #0x1, &display_changed
+    129          }
+   \   000040   1001         RETA
+    130          
+
+   \                                 In  segment CODE, align 2
+    131          void MenuProcess(void){
+   \                     MenuProcess:
+    132            //updateMenuPos(&song);
+    133            switch(menuState){
+   \   000000   5E42....     MOV.B   &menuState, R14
+   \   000004   7E804D00     SUB.B   #0x4d, R14
+   \   000008   1224         JEQ     ??MenuProcess_1
+   \   00000A   7E800500     SUB.B   #0x5, R14
+   \   00000E   1624         JEQ     ??MenuProcess_2
+   \   000010   5E83         SUB.B   #0x1, R14
+   \   000012   1B24         JEQ     ??MenuProcess_3
+   \   000014   5E83         SUB.B   #0x1, R14
+   \   000016   0424         JEQ     ??MenuProcess_4
+   \   000018   7E801F00     SUB.B   #0x1f, R14
+   \   00001C   1D24         JEQ     ??MenuProcess_5
+   \   00001E   1001         RETA
+    134              case START_MENU:
+    135                updateMenuPos(&start);
+   \                     ??MenuProcess_4:
+   \   000020   3C40....     MOV.W   #start, R12
+   \   000024   ........     CALLA   #updateMenuPos
+    136                displayStartMenu();
+   \   000028   ........     CALLA   #displayStartMenu
+    137                break;
+   \   00002C   1001         RETA
+    138              case MAIN:
+    139                updateMenuPos(&mainMenu);
+   \                     ??MenuProcess_1:
+   \   00002E   3C40....     MOV.W   #mainMenu, R12
+   \   000032   ........     CALLA   #updateMenuPos
+    140                displayMainMenu();
+   \   000036   ........     CALLA   #displayMainMenu
+    141                break;
+   \   00003A   1001         RETA
+    142              case RESISTOR:
+    143                updateMenuPos(&resistors);
+   \                     ??MenuProcess_2:
+   \   00003C   3C40....     MOV.W   #resistors, R12
+   \   000040   ........     CALLA   #updateMenuPos
+    144                displayResistorsMenu();
+   \   000044   ........     CALLA   #displayResistorsMenu
+    145                break;
+   \   000048   1001         RETA
+    146              case SHAPE:
+    147                updateMenuPos(&shape);
+   \                     ??MenuProcess_3:
+   \   00004A   3C40....     MOV.W   #shape, R12
+   \   00004E   ........     CALLA   #updateMenuPos
+    148                displayShapesMenu();
+   \   000052   ........     CALLA   #displayShapesMenu
+    149                break;
+   \   000056   1001         RETA
+    150              case SONG:
+    151                displaySongMenu();
+   \                     ??MenuProcess_5:
+   \   000058   ........     CALLA   #displaySongMenu
+    152                break;
+    153              default: break;
+    154            }
+    155          }
+   \   00005C   1001         RETA
+
+   \                                 In  segment DATA16_ID, align 1, align-sorted
+   \                     `?<Initializer for menuState>`:
+   \   000000   54           DC8 84
+
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for resistors>`:
+   \   000000   0A005200     DC8 10, 0, 82, 0
+   \   000004   ........     DC16 `?<Constant "   Black  ">`, `?<Constant "   Brown  ">`
+   \   000008   ........     DC16 `?<Constant "   Red    ">`, `?<Constant "  Orange  ">`
+   \   00000C   ........     DC16 `?<Constant "  Yellow  ">`, `?<Constant "   Green  ">`
+   \   000010   ........     DC16 `?<Constant "   Blue   ">`, `?<Constant "  Violet  ">`
+   \   000014   ........     DC16 `?<Constant "   Gray   ">`, `?<Constant "   White  ">`
+   \   000018   ........     DC16 `?<Constant "    1     ">`, `?<Constant "    2     ">`
+   \   00001C   ........     DC16 `?<Constant "    3     ">`, `?<Constant "    4     ">`
+   \   000020   ........     DC16 `?<Constant "    5     ">`, `?<Constant "    6     ">`
+   \   000024   ........     DC16 `?<Constant "    7     ">`, `?<Constant "    8     ">`
+   \   000028   ............ DC16 `?<Constant "    9     ">`, `?<Constant "    10    ">`, resistors
+   \   00002E   ............ DC16 resistors, resistors, resistors, resistors, resistors, resistors
+   \            ............
+   \   00003A   ............ DC16 resistors, resistors, resistors
+
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for shape>`:
+   \   000000   0A005300     DC8 10, 0, 83, 0
+   \   000004   ........     DC16 `?<Constant "  Circle  ">`, `?<Constant "  Square  ">`
+   \   000008   ........     DC16 `?<Constant " Triangle ">`, `?<Constant "  Octagon ">`
+   \   00000C   ........     DC16 `?<Constant " Pentagon ">`, `?<Constant "  Hexagon ">`
+   \   000010   ........     DC16 `?<Constant "   Cube   ">`, `?<Constant "   Oval   ">`
+   \   000014   ........     DC16 `?<Constant "  Sphere  ">`, `?<Constant " Cylinder ">`
+   \   000018   ....         DC16 `?<Constant "">`
+   \   00001A   000000000000 DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \            000000000000
+   \            000000000000
+   \   00002C   ............ DC16 shape, shape, shape, shape, shape, shape, shape, shape, shape
+   \            ............
+   \            ............
+   \   00003E   ....         DC16 shape
+
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for song>`:
+   \   000000   01007300     DC8 1, 0, 115, 0
+   \   000004   ....         DC16 `?<Constant "">`
+   \   000006   000000000000 DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \            000000000000
+   \            000000000000
+   \   000018   ....         DC16 `?<Constant "We\\'re the Red and Whi...">`
+   \   00001A   000000000000 DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \            000000000000
+   \            000000000000
+   \   00002C   ....         DC16 song
+   \   00002E   000000000000 DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \            000000000000
+   \            000000000000
+
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for mainMenu>`:
+   \   000000   03004D00     DC8 3, 0, 77, 0
+   \   000004   ........     DC16 `?<Constant "Resistors ">`, `?<Constant "  Shapes  ">`
+   \   000008   ....         DC16 `?<Constant "   Song   ">`
+   \   00000A   000000000000 DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \            000000000000
+   \            0000        
+   \   000018   ....         DC16 `?<Constant "">`
+   \   00001A   000000000000 DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \            000000000000
+   \            000000000000
+   \   00002C   ............ DC16 resistors, shape, song
+   \   000032   000000000000 DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \            000000000000
+   \            0000        
+
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for start>`:
+   \   000000   01005400     DC8 1, 0, 84, 0
+   \   000004   ....         DC16 `?<Constant "">`
+   \   000006   000000000000 DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \            000000000000
+   \            000000000000
+   \   000018   ....         DC16 `?<Constant "">`
+   \   00001A   000000000000 DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \            000000000000
+   \            000000000000
+   \   00002C   ....         DC16 mainMenu
+   \   00002E   000000000000 DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \            000000000000
+   \            000000000000
+
+   \                                 In  segment DATA16_ID, align 2, align-sorted
+   \                     `?<Initializer for currMenu>`:
+   \   000000   ....         DC16 start
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   Black  ">`:
+   \   000000   202020426C61 DC8 "   Black  "
+   \            636B202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   Brown  ">`:
+   \   000000   20202042726F DC8 "   Brown  "
+   \            776E202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   Red    ">`:
+   \   000000   202020526564 DC8 "   Red    "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  Orange  ">`:
+   \   000000   20204F72616E DC8 "  Orange  "
+   \            6765202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  Yellow  ">`:
+   \   000000   202059656C6C DC8 "  Yellow  "
+   \            6F77202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   Green  ">`:
+   \   000000   202020477265 DC8 "   Green  "
+   \            656E202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   Blue   ">`:
+   \   000000   202020426C75 DC8 "   Blue   "
+   \            6520202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  Violet  ">`:
+   \   000000   202056696F6C DC8 "  Violet  "
+   \            6574202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   Gray   ">`:
+   \   000000   202020477261 DC8 "   Gray   "
+   \            7920202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   White  ">`:
+   \   000000   202020576869 DC8 "   White  "
+   \            7465202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "    1     ">`:
+   \   000000   202020203120 DC8 "    1     "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "    2     ">`:
+   \   000000   202020203220 DC8 "    2     "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "    3     ">`:
+   \   000000   202020203320 DC8 "    3     "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "    4     ">`:
+   \   000000   202020203420 DC8 "    4     "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "    5     ">`:
+   \   000000   202020203520 DC8 "    5     "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "    6     ">`:
+   \   000000   202020203620 DC8 "    6     "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "    7     ">`:
+   \   000000   202020203720 DC8 "    7     "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "    8     ">`:
+   \   000000   202020203820 DC8 "    8     "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "    9     ">`:
+   \   000000   202020203920 DC8 "    9     "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "    10    ">`:
+   \   000000   202020203130 DC8 "    10    "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  Circle  ">`:
+   \   000000   202043697263 DC8 "  Circle  "
+   \            6C65202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  Square  ">`:
+   \   000000   202053717561 DC8 "  Square  "
+   \            7265202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant " Triangle ">`:
+   \   000000   20547269616E DC8 " Triangle "
+   \            676C652000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  Octagon ">`:
+   \   000000   20204F637461 DC8 "  Octagon "
+   \            676F6E2000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant " Pentagon ">`:
+   \   000000   2050656E7461 DC8 " Pentagon "
+   \            676F6E2000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  Hexagon ">`:
+   \   000000   202048657861 DC8 "  Hexagon "
+   \            676F6E2000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   Cube   ">`:
+   \   000000   202020437562 DC8 "   Cube   "
+   \            6520202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   Oval   ">`:
+   \   000000   2020204F7661 DC8 "   Oval   "
+   \            6C20202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  Sphere  ">`:
+   \   000000   202053706865 DC8 "  Sphere  "
+   \            7265202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant " Cylinder ">`:
+   \   000000   2043796C696E DC8 " Cylinder "
+   \            6465722000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "">`:
+   \   000000   00           DC8 ""
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "We\\'re the Red and Whi...">`:
+   \   000000   576527726520 DC8 57H, 65H, 27H, 72H, 65H, 20H, 74H, 68H
+   \            7468        
+   \   000008   652052656420 DC8 65H, 20H, 52H, 65H, 64H, 20H, 61H, 6EH
+   \            616E        
+   \   000010   642057686965 DC8 64H, 20H, 57H, 68H, 69H, 65H, 20H, 66H
+   \            2066        
+   \   000018   726F6D205374 DC8 72H, 6FH, 6DH, 20H, 53H, 74H, 61H, 74H
+   \            6174        
+   \   000020   6520416E6420 DC8 65H, 20H, 41H, 6EH, 64H, 20H, 77H, 65H
+   \            7765        
+   \   000028   206B6E6F7720 DC8 20H, 6BH, 6EH, 6FH, 77H, 20H, 77H, 65H
+   \            7765        
+   \   000030   206172652074 DC8 20H, 61H, 72H, 65H, 20H, 74H, 68H, 65H
+   \            6865        
+   \   000038   20626573742E DC8 20H, 62H, 65H, 73H, 74H, 2EH, 20H, 41H
+   \            2041        
+   \   000040   2068616E6420 DC8 20H, 68H, 61H, 6EH, 64H, 20H, 62H, 65H
+   \            6265        
+   \   000048   68696E64206F DC8 68H, 69H, 6EH, 64H, 20H, 6FH, 75H, 72H
+   \            7572        
+   \   000050   206261636B2C DC8 20H, 62H, 61H, 63H, 6BH, 2CH, 20H, 77H
+   \            2077        
+   \   000058   652063616E20 DC8 65H, 20H, 63H, 61H, 6EH, 20H, 74H, 61H
+   \            7461        
+   \   000060   6B65206F6E20 DC8 6BH, 65H, 20H, 6FH, 6EH, 20H, 61H, 6CH
+   \            616C        
+   \   000068   6C2074686520 DC8 6CH, 20H, 74H, 68H, 65H, 20H, 72H, 65H
+   \            7265        
+   \   000070   73742E20436F DC8 73H, 74H, 2EH, 20H, 43H, 6FH, 6DH, 65H
+   \            6D65        
+   \   000078   206F76657220 DC8 20H, 6FH, 76H, 65H, 72H, 20H, 74H, 68H
+   \            7468        
+   \   000080   652068696C6C DC8 65H, 20H, 68H, 69H, 6CH, 6CH, 2CH, 20H
+   \            2C20        
+   \   000088   4361726F6C69 DC8 43H, 61H, 72H, 6FH, 6CH, 69H, 6EH, 61H
+   \            6E61        
+   \   000090   2E2044657669 DC8 2EH, 20H, 44H, 65H, 76H, 69H, 6CH, 73H
+   \            6C73        
+   \   000098   20616E642044 DC8 20H, 61H, 6EH, 64H, 20H, 44H, 65H, 61H
+   \            6561        
+   \   0000A0   637320737461 DC8 63H, 73H, 20H, 73H, 74H, 61H, 6EH, 64H
+   \            6E64        
+   \   0000A8   20696E206C69 DC8 20H, 69H, 6EH, 20H, 6CH, 69H, 6EH, 65H
+   \            6E65        
+   \   0000B0   2E2054686520 DC8 2EH, 20H, 54H, 68H, 65H, 20H, 52H, 65H
+   \            5265        
+   \   0000B8   6420616E6420 DC8 64H, 20H, 61H, 6EH, 64H, 20H, 57H, 68H
+   \            5768        
+   \   0000C0   697465206672 DC8 69H, 74H, 65H, 20H, 66H, 72H, 6FH, 6DH
+   \            6F6D        
+   \   0000C8   204E2E432E20 DC8 20H, 4EH, 2EH, 43H, 2EH, 20H, 53H, 74H
+   \            5374        
+   \   0000D0   6174652E2047 DC8 61H, 74H, 65H, 2EH, 20H, 47H, 6FH, 20H
+   \            6F20        
+   \   0000D8   537461746521 DC8 53H, 74H, 61H, 74H, 65H, 21H, 0
+   \            00          
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "Resistors ">`:
+   \   000000   526573697374 DC8 "Resistors "
+   \            6F72732000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  Shapes  ">`:
+   \   000000   202053686170 DC8 "  Shapes  "
+   \            6573202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   Song   ">`:
+   \   000000   202020536F6E DC8 "   Song   "
+   \            6720202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  Ibrahim ">`:
+   \   000000   202049627261 DC8 "  Ibrahim "
+   \            68696D2000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "Homework 9">`:
+   \   000000   486F6D65776F DC8 "Homework 9"
+   \            726B203900  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "  Moghul  ">`:
+   \   000000   20204D6F6768 DC8 "  Moghul  "
+   \            756C202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "          ">`:
+   \   000000   202020202020 DC8 "          "
+   \            2020202000  
+    156          
+    157          
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   MenuProcess
+        4   -> displayMainMenu
+        4   -> displayResistorsMenu
+        4   -> displayShapesMenu
+        4   -> displaySongMenu
+        4   -> displayStartMenu
+        4   -> updateMenuPos
+      4   displayMainMenu
+        4   -> lcd_4line
+        4   -> strcpy
+      4   displayResistorsMenu
+        4   -> lcd_4line
+        4   -> strcpy
+      4   displayShapesMenu
+        4   -> lcd_BIG_mid
+        4   -> strcpy
+      4   displaySongMenu
+        4   -> lcd_BIG_mid
+        4   -> strlen
+        4   -> strncpy
+      4   displayStartMenu
+        4   -> lcd_BIG_mid
+        4   -> strcpy
+      4   resetMenu
+        4   -> strcpy
+      4   trainsitionMenu
+        4   -> strcpy
+      6   updateMenuPos
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      11  ?<Constant "          ">
+      11  ?<Constant "    1     ">
+      11  ?<Constant "    10    ">
+      11  ?<Constant "    2     ">
+      11  ?<Constant "    3     ">
+      11  ?<Constant "    4     ">
+      11  ?<Constant "    5     ">
+      11  ?<Constant "    6     ">
+      11  ?<Constant "    7     ">
+      11  ?<Constant "    8     ">
+      11  ?<Constant "    9     ">
+      11  ?<Constant "   Black  ">
+      11  ?<Constant "   Blue   ">
+      11  ?<Constant "   Brown  ">
+      11  ?<Constant "   Cube   ">
+      11  ?<Constant "   Gray   ">
+      11  ?<Constant "   Green  ">
+      11  ?<Constant "   Oval   ">
+      11  ?<Constant "   Red    ">
+      11  ?<Constant "   Song   ">
+      11  ?<Constant "   White  ">
+      11  ?<Constant "  Circle  ">
+      11  ?<Constant "  Hexagon ">
+      11  ?<Constant "  Ibrahim ">
+      11  ?<Constant "  Moghul  ">
+      11  ?<Constant "  Octagon ">
+      11  ?<Constant "  Orange  ">
+      11  ?<Constant "  Shapes  ">
+      11  ?<Constant "  Sphere  ">
+      11  ?<Constant "  Square  ">
+      11  ?<Constant "  Violet  ">
+      11  ?<Constant "  Yellow  ">
+      11  ?<Constant " Cylinder ">
+      11  ?<Constant " Pentagon ">
+      11  ?<Constant " Triangle ">
+       1  ?<Constant "">
+      11  ?<Constant "Homework 9">
+      11  ?<Constant "Resistors ">
+     223  ?<Constant "We\'re the Red and Whi...">
+       2  ?<Initializer for currMenu>
+      64  ?<Initializer for mainMenu>
+       1  ?<Initializer for menuState>
+      64  ?<Initializer for resistors>
+      64  ?<Initializer for shape>
+      64  ?<Initializer for song>
+      64  ?<Initializer for start>
+      94  MenuProcess
+       2  currMenu
+      66  displayMainMenu
+      50  displayResistorsMenu
+     106  displayShapesMenu
+      78  displaySongMenu
+      46  displayStartMenu
+       2  lastThumb
+      64  mainMenu
+       1  menuState
+      66  resetMenu
+      64  resistors
+      64  shape
+      64  song
+      64  start
+     100  trainsitionMenu
+      54  updateMenuPos
+
+ 
+ 660 bytes in segment CODE
+ 631 bytes in segment DATA16_C
+ 323 bytes in segment DATA16_I
+ 323 bytes in segment DATA16_ID
+   2 bytes in segment DATA16_Z
+ 
+ 660 bytes of CODE  memory
+ 954 bytes of CONST memory
+ 325 bytes of DATA  memory
+
+Errors: none
+Warnings: none

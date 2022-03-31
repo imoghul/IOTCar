@@ -1,0 +1,780 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          24/Mar/2022  15:20:32
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  C:\Users\saad\Documents\ece-306\Project 08\ports.c
+#    Command line  =  
+#        -f C:\Users\saad\AppData\Local\Temp\EWCC42.tmp
+#        ("C:\Users\saad\Documents\ece-306\Project 08\ports.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Project 08\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Project 08\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
+#        --core=430X --data_model=small -On --multiplier=32
+#        --hw_workaround=CPU40 --code_model=large)
+#    Locale        =  English_USA.1252
+#    List file     =  
+#        C:\Users\saad\Documents\ece-306\Project 08\Debug\List\ports.lst
+#    Object file   =  
+#        C:\Users\saad\Documents\ece-306\Project 08\Debug\Obj\ports.r43
+#
+###############################################################################
+
+C:\Users\saad\Documents\ece-306\Project 08\ports.c
+      1          //==============================================================================
+      2          // File Name : ports.c
+      3          //
+      4          // Description: This file contains the Initialization for all port pins
+      5          //
+      6          // Author: Ibrahim Moghul
+      7          // Date: Feb 2022
+      8          // Compiler: Built with IAR Embedded Workbench Version: 7.21.1
+      9          //==============================================================================
+     10          #include "ports.h"
+     11          #include "msp430.h"
+
+   \                                 In  segment DATA16_AN, at 0x202
+   \   union <unnamed> _A_PAOUT_L
+   \                     _A_PAOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x204
+   \   union <unnamed> _A_PADIR_L
+   \                     _A_PADIR_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x206
+   \   union <unnamed> _A_PAREN_L
+   \                     _A_PAREN_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x20a
+   \   union <unnamed> _A_PASEL0_L
+   \                     _A_PASEL0_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x20c
+   \   union <unnamed> _A_PASEL1_L
+   \                     _A_PASEL1_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x216
+   \   union <unnamed> _A_PASELC_L
+   \                     _A_PASELC_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x218
+   \   union <unnamed> _A_PAIES_L
+   \                     _A_PAIES_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x21a
+   \   union <unnamed> _A_PAIE_L
+   \                     _A_PAIE_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x21c
+   \   union <unnamed> _A_PAIFG_L
+   \                     _A_PAIFG_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x222
+   \   union <unnamed> _A_PBOUT_L
+   \                     _A_PBOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x224
+   \   union <unnamed> _A_PBDIR_L
+   \                     _A_PBDIR_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x226
+   \   union <unnamed> _A_PBREN_L
+   \                     _A_PBREN_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x22a
+   \   union <unnamed> _A_PBSEL0_L
+   \                     _A_PBSEL0_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x22c
+   \   union <unnamed> _A_PBSEL1_L
+   \                     _A_PBSEL1_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x238
+   \   union <unnamed> _A_PBIES_L
+   \                     _A_PBIES_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x23a
+   \   union <unnamed> _A_PBIE_L
+   \                     _A_PBIE_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x23c
+   \   union <unnamed> _A_PBIFG_L
+   \                     _A_PBIFG_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x242
+   \   union <unnamed> _A_PCOUT_L
+   \                     _A_PCOUT_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x244
+   \   union <unnamed> _A_PCDIR_L
+   \                     _A_PCDIR_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x24a
+   \   union <unnamed> _A_PCSEL0_L
+   \                     _A_PCSEL0_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x24c
+   \   union <unnamed> _A_PCSEL1_L
+   \                     _A_PCSEL1_L:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_AN, at 0x256
+   \   union <unnamed> _A_PCSELC_L
+   \                     _A_PCSELC_L:
+   \   000000                DS8 2
+     12          
+     13          //===========================================================================
+     14          // Function name: Init_Ports
+     15          //
+     16          // Description: Initialize all ports
+     17          //
+     18          // Passed : no variables passed
+     19          // Locals: no variables declared
+     20          // Returned: no values returned
+     21          // Globals: no global variables used
+     22          //
+     23          // Author: Ibrahim Moghul
+     24          // Date: Feb 2022
+     25          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     26          //===========================================================================
+
+   \                                 In  segment CODE, align 2
+     27          void Init_Ports(void) {
+   \                     Init_Ports:
+     28              Init_Port1();
+   \   000000   ........     CALLA   #Init_Port1
+     29              Init_Port2();
+   \   000004   ........     CALLA   #Init_Port2
+     30              Init_Port3(USE_GPIO);
+   \   000008   4C43         MOV.B   #0x0, R12
+   \   00000A   ........     CALLA   #Init_Port3
+     31              Init_Port4();
+   \   00000E   ........     CALLA   #Init_Port4
+     32              Init_Port5();
+   \   000012   ........     CALLA   #Init_Port5
+     33              Init_Port6();
+   \   000016   ........     CALLA   #Init_Port6
+     34          }
+   \   00001A   1001         RETA
+     35          
+     36          //===========================================================================
+     37          // Function name: Init_Port1
+     38          //
+     39          // Description: Initialize all pins on port 1
+     40          //
+     41          // Passed : no variables passed
+     42          // Locals: no variables declared
+     43          // Returned: no values returned
+     44          // Globals: no global variables used
+     45          //
+     46          // Author: Ibrahim Moghul
+     47          // Date: Feb 2022
+     48          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     49          //===========================================================================
+
+   \                                 In  segment CODE, align 2
+     50          void Init_Port1() {
+   \                     Init_Port1:
+     51              P1OUT = 0x00;
+   \   000000   C2430202     MOV.B   #0x0, &0x202
+     52              P1DIR = 0x00;
+   \   000004   C2430402     MOV.B   #0x0, &0x204
+     53          
+     54              P1SEL0 &= ~RED_LED;
+   \   000008   D2C30A02     BIC.B   #0x1, &0x20a
+     55              P1SEL1 &= ~RED_LED;
+   \   00000C   D2C30C02     BIC.B   #0x1, &0x20c
+     56              P1DIR |= RED_LED;
+   \   000010   D2D30402     BIS.B   #0x1, &0x204
+     57              P1OUT &= ~RED_LED;
+   \   000014   D2C30202     BIC.B   #0x1, &0x202
+     58          
+     59              //P1SEL0 |= A1_SEEED;
+     60              //P1SEL1 |= A1_SEEED;
+     61              P1SELC |= A1_SEEED;
+   \   000018   E2D31602     BIS.B   #0x2, &0x216
+     62          
+     63              //P1SEL0 |= V_DETECT_L;
+     64              //P1SEL1 |= V_DETECT_L;
+     65              P1SELC |= V_DETECT_L;
+   \   00001C   E2D21602     BIS.B   #0x4, &0x216
+     66          
+     67              //P1SEL0 |= V_DETECT_R;
+     68              //P1SEL1 |= V_DETECT_R;
+     69              P1SELC |= V_DETECT_R;
+   \   000020   F2D21602     BIS.B   #0x8, &0x216
+     70          
+     71              P1SEL0 &= ~SMCLK_2476;
+   \   000024   F2C010000A02 BIC.B   #0x10, &0x20a
+     72              P1SEL1 &= ~SMCLK_2476;
+   \   00002A   F2C010000C02 BIC.B   #0x10, &0x20c
+     73              P1DIR &= ~SMCLK_2476;
+   \   000030   F2C010000402 BIC.B   #0x10, &0x204
+     74          
+     75              P1SEL0 |= V_THUMB;
+   \   000036   F2D020000A02 BIS.B   #0x20, &0x20a
+     76              P1SEL1 |= V_THUMB;
+   \   00003C   F2D020000C02 BIS.B   #0x20, &0x20c
+     77          
+     78              P1SEL0 &= ~UCA0RXD;
+   \   000042   F2C040000A02 BIC.B   #0x40, &0x20a
+     79              P1SEL0 |= UCA0RXD;
+   \   000048   F2D040000A02 BIS.B   #0x40, &0x20a
+     80          
+     81              P1SEL0 &= ~UCA0TXD;
+   \   00004E   F2C080000A02 BIC.B   #0x80, &0x20a
+     82              P1SEL0 |= UCA0TXD;
+   \   000054   F2D080000A02 BIS.B   #0x80, &0x20a
+     83          }
+   \   00005A   1001         RETA
+   \   00005C                REQUIRE _A_PAOUT_L
+   \   00005C                REQUIRE _A_PADIR_L
+   \   00005C                REQUIRE _A_PASEL0_L
+   \   00005C                REQUIRE _A_PASEL1_L
+   \   00005C                REQUIRE _A_PASELC_L
+     84          
+     85          //===========================================================================
+     86          // Function name: Init_Port2
+     87          //
+     88          // Description: Initialize all pins on port 2
+     89          //
+     90          // Passed : no variables passed
+     91          // Locals: no variables declared
+     92          // Returned: no values returned
+     93          // Globals: no global variables used
+     94          //
+     95          // Author: Ibrahim Moghul
+     96          // Date: Feb 2022
+     97          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     98          //===========================================================================
+
+   \                                 In  segment CODE, align 2
+     99          void Init_Port2() {
+   \                     Init_Port2:
+    100              P2OUT = 0x00;
+   \   000000   C2430302     MOV.B   #0x0, &0x203
+    101              P2DIR = 0x00;
+   \   000004   C2430502     MOV.B   #0x0, &0x205
+    102          
+    103              P2SEL0 &= ~RESET_LCD;
+   \   000008   D2C30B02     BIC.B   #0x1, &0x20b
+    104              P2SEL1 &= ~RESET_LCD;
+   \   00000C   D2C30D02     BIC.B   #0x1, &0x20d
+    105              P2OUT &= ~RESET_LCD;
+   \   000010   D2C30302     BIC.B   #0x1, &0x203
+    106              P2DIR |= RESET_LCD;
+   \   000014   D2D30502     BIS.B   #0x1, &0x205
+    107          
+    108              P2SEL0 &= ~L_REVERSE_2476;
+   \   000018   E2C30B02     BIC.B   #0x2, &0x20b
+    109              P2SEL1 &= ~L_REVERSE_2476;
+   \   00001C   E2C30D02     BIC.B   #0x2, &0x20d
+    110              P2DIR &= ~L_REVERSE_2476;
+   \   000020   E2C30502     BIC.B   #0x2, &0x205
+    111          
+    112              P2SEL0 &= ~P2_2;
+   \   000024   E2C20B02     BIC.B   #0x4, &0x20b
+    113              P2SEL1 &= ~P2_2;
+   \   000028   E2C20D02     BIC.B   #0x4, &0x20d
+    114              P2DIR &= ~P2_2;
+   \   00002C   E2C20502     BIC.B   #0x4, &0x205
+    115          
+    116              P2SEL0 &= ~SW2;
+   \   000030   F2C20B02     BIC.B   #0x8, &0x20b
+    117              P2SEL1 &= ~SW2;
+   \   000034   F2C20D02     BIC.B   #0x8, &0x20d
+    118              P2OUT |= SW2;
+   \   000038   F2D20302     BIS.B   #0x8, &0x203
+    119              P2DIR &= ~SW2;
+   \   00003C   F2C20502     BIC.B   #0x8, &0x205
+    120              P2REN |= SW2;
+   \   000040   F2D20702     BIS.B   #0x8, &0x207
+    121              P2IES |= SW2;
+   \   000044   F2D21902     BIS.B   #0x8, &0x219
+    122              P2IFG &= ~SW2;
+   \   000048   F2C21D02     BIC.B   #0x8, &0x21d
+    123              P2IE |= SW2;
+   \   00004C   F2D21B02     BIS.B   #0x8, &0x21b
+    124          
+    125              P2SEL0 &= ~IOT_RUN_CPU;
+   \   000050   F2C010000B02 BIC.B   #0x10, &0x20b
+    126              P2SEL1 &= ~IOT_RUN_CPU;
+   \   000056   F2C010000D02 BIC.B   #0x10, &0x20d
+    127              P2OUT &= ~IOT_RUN_CPU;
+   \   00005C   F2C010000302 BIC.B   #0x10, &0x203
+    128              P2DIR |= IOT_RUN_CPU;
+   \   000062   F2D010000502 BIS.B   #0x10, &0x205
+    129          
+    130              P2SEL0 &= ~DAC_ENB;
+   \   000068   F2C020000B02 BIC.B   #0x20, &0x20b
+    131              P2SEL1 &= -DAC_ENB;
+   \   00006E   F2F0E0000D02 AND.B   #0xe0, &0x20d
+    132              P2OUT |= DAC_ENB;
+   \   000074   F2D020000302 BIS.B   #0x20, &0x203
+    133              P2DIR |= DAC_ENB;
+   \   00007A   F2D020000502 BIS.B   #0x20, &0x205
+    134          
+    135              P2SEL0 &= ~LFXOUT;
+   \   000080   F2C040000B02 BIC.B   #0x40, &0x20b
+    136              P2SEL1 |= LFXOUT;
+   \   000086   F2D040000D02 BIS.B   #0x40, &0x20d
+    137          
+    138              P2SEL0 &= ~LFXIN;
+   \   00008C   F2C080000B02 BIC.B   #0x80, &0x20b
+    139              P2SEL1 |= LFXIN;
+   \   000092   F2D080000D02 BIS.B   #0x80, &0x20d
+    140          }
+   \   000098   1001         RETA
+   \   00009A                REQUIRE _A_PAOUT_L
+   \   00009A                REQUIRE _A_PADIR_L
+   \   00009A                REQUIRE _A_PASEL0_L
+   \   00009A                REQUIRE _A_PASEL1_L
+   \   00009A                REQUIRE _A_PAREN_L
+   \   00009A                REQUIRE _A_PAIES_L
+   \   00009A                REQUIRE _A_PAIFG_L
+   \   00009A                REQUIRE _A_PAIE_L
+    141          
+    142          //===========================================================================
+    143          // Function name: Init_Port3
+    144          //
+    145          // Description: Initialize all pins on port 3
+    146          //
+    147          // Passed : no variables passed
+    148          // Locals: no variables declared
+    149          // Returned: no values returned
+    150          // Globals: no global variables used
+    151          //
+    152          // Author: Ibrahim Moghul
+    153          // Date: Feb 2022
+    154          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+    155          //===========================================================================
+
+   \                                 In  segment CODE, align 2
+    156          void Init_Port3(char smclk) {
+   \                     Init_Port3:
+    157              P3OUT = 0x00;
+   \   000000   C2432202     MOV.B   #0x0, &0x222
+    158              P3DIR = 0x00;
+   \   000004   C2432402     MOV.B   #0x0, &0x224
+    159          
+    160              P3SEL0 &= ~TEST_PROBE;
+   \   000008   D2C32A02     BIC.B   #0x1, &0x22a
+    161              P3SEL1 &= ~TEST_PROBE;
+   \   00000C   D2C32C02     BIC.B   #0x1, &0x22c
+    162              P3DIR &= ~TEST_PROBE;
+   \   000010   D2C32402     BIC.B   #0x1, &0x224
+    163          
+    164              P3SEL0 &= ~DAC_CNTL1;
+   \   000014   E2C32A02     BIC.B   #0x2, &0x22a
+    165              P3SEL1 &= ~DAC_CNTL1;
+   \   000018   E2C32C02     BIC.B   #0x2, &0x22c
+    166              P3DIR &= ~DAC_CNTL1;
+   \   00001C   E2C32402     BIC.B   #0x2, &0x224
+    167          
+    168              P3SEL0 |= OA2N;
+   \   000020   E2D22A02     BIS.B   #0x4, &0x22a
+    169              P3SEL1 |= OA2N;
+   \   000024   E2D22C02     BIS.B   #0x4, &0x22c
+    170          
+    171              P3SEL0 &= ~LCD_BACKLITE;
+   \   000028   F2C22A02     BIC.B   #0x8, &0x22a
+    172              P3SEL1 &= ~LCD_BACKLITE;
+   \   00002C   F2C22C02     BIC.B   #0x8, &0x22c
+    173              P3DIR |= LCD_BACKLITE;
+   \   000030   F2D22402     BIS.B   #0x8, &0x224
+    174              P3OUT |= LCD_BACKLITE;
+   \   000034   F2D22202     BIS.B   #0x8, &0x222
+    175          
+    176              switch(smclk) {
+   \   000038   4E4C         MOV.B   R12, R14
+   \   00003A   4E83         SUB.B   #0x0, R14
+   \   00003C   0C24         JEQ     ??Init_Port3_2
+   \   00003E   5E83         SUB.B   #0x1, R14
+   \   000040   1320         JNE     ??Init_Port3_0
+    177                  case(USE_SMCLK):
+    178                      P3SEL0 |= SMCLK_2355;
+   \   000042   F2D010002A02 BIS.B   #0x10, &0x22a
+    179                      P3SEL1 &= ~SMCLK_2355;
+   \   000048   F2C010002C02 BIC.B   #0x10, &0x22c
+    180                      P3DIR |= SMCLK_2355;
+   \   00004E   F2D010002402 BIS.B   #0x10, &0x224
+    181                      break;
+   \   000054   093C         JMP     ??Init_Port3_0
+    182          
+    183                  case(USE_GPIO):
+    184                      P3SEL0 &= ~SMCLK_2355;
+   \                     ??Init_Port3_2:
+   \   000056   F2C010002A02 BIC.B   #0x10, &0x22a
+    185                      P3SEL1 &= ~SMCLK_2355;
+   \   00005C   F2C010002C02 BIC.B   #0x10, &0x22c
+    186                      P3DIR &= ~SMCLK_2355;
+   \   000062   F2C010002402 BIC.B   #0x10, &0x224
+    187                      break;
+    188          
+    189                  default:
+    190                      break;
+    191              }
+    192          
+    193              P3SEL0 &= ~DAC_CNTL;
+   \                     ??Init_Port3_0:
+   \   000068   F2C020002A02 BIC.B   #0x20, &0x22a
+    194              P3SEL1 &= ~DAC_CNTL;
+   \   00006E   F2C020002C02 BIC.B   #0x20, &0x22c
+    195              P3DIR &= ~DAC_CNTL;
+   \   000074   F2C020002402 BIC.B   #0x20, &0x224
+    196          
+    197              P3SEL0 &= ~IOT_LINK_CPU;
+   \   00007A   F2C040002A02 BIC.B   #0x40, &0x22a
+    198              P3SEL1 &= ~IOT_LINK_CPU;
+   \   000080   F2C040002C02 BIC.B   #0x40, &0x22c
+    199              P3DIR &= ~IOT_LINK_CPU;
+   \   000086   F2C040002402 BIC.B   #0x40, &0x224
+    200              //P3OUT &= ~IOT_LINK_CPU;
+    201          
+    202              P3SEL0 &= ~IOT_EN_CPU;
+   \   00008C   F2C080002A02 BIC.B   #0x80, &0x22a
+    203              P3SEL1 &= ~IOT_EN_CPU;
+   \   000092   F2C080002C02 BIC.B   #0x80, &0x22c
+    204              P3DIR &= ~IOT_EN_CPU;
+   \   000098   F2C080002402 BIC.B   #0x80, &0x224
+    205              //P3OUT &= ~IOT_EN_CPU;
+    206          }
+   \   00009E   1001         RETA
+   \   0000A0                REQUIRE _A_PBOUT_L
+   \   0000A0                REQUIRE _A_PBDIR_L
+   \   0000A0                REQUIRE _A_PBSEL0_L
+   \   0000A0                REQUIRE _A_PBSEL1_L
+    207          
+    208          //===========================================================================
+    209          // Function name: Init_Port4
+    210          //
+    211          // Description: Initialize all pins on port 4
+    212          //
+    213          // Passed : no variables passed
+    214          // Locals: no variables declared
+    215          // Returned: no values returned
+    216          // Globals: no global variables used
+    217          //
+    218          // Author: Ibrahim Moghul
+    219          // Date: Feb 2022
+    220          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+    221          //===========================================================================
+
+   \                                 In  segment CODE, align 2
+    222          void Init_Port4() {
+   \                     Init_Port4:
+    223              P4OUT = 0x00;
+   \   000000   C2432302     MOV.B   #0x0, &0x223
+    224              P4DIR = 0x00;
+   \   000004   C2432502     MOV.B   #0x0, &0x225
+    225          
+    226              P4SEL0 &= ~_4_0;
+   \   000008   D2C32B02     BIC.B   #0x1, &0x22b
+    227              P4SEL1 &= ~_4_0;
+   \   00000C   D2C32D02     BIC.B   #0x1, &0x22d
+    228              P4DIR &= ~_4_0;
+   \   000010   D2C32502     BIC.B   #0x1, &0x225
+    229          
+    230              P4SEL0 &= ~SW1;
+   \   000014   E2C32B02     BIC.B   #0x2, &0x22b
+    231              P4SEL1 &= ~SW1;
+   \   000018   E2C32D02     BIC.B   #0x2, &0x22d
+    232              P4OUT |= SW1;
+   \   00001C   E2D32302     BIS.B   #0x2, &0x223
+    233              P4DIR &= ~SW1;
+   \   000020   E2C32502     BIC.B   #0x2, &0x225
+    234              P4REN |= SW1;
+   \   000024   E2D32702     BIS.B   #0x2, &0x227
+    235              P4IES |= SW1;
+   \   000028   E2D33902     BIS.B   #0x2, &0x239
+    236              P4IFG &= ~SW1;
+   \   00002C   E2C33D02     BIC.B   #0x2, &0x23d
+    237              P4IE |= SW1;
+   \   000030   E2D33B02     BIS.B   #0x2, &0x23b
+    238          
+    239              P4SEL0 |= UCA1TXD;
+   \   000034   F2D22B02     BIS.B   #0x8, &0x22b
+    240              P4SEL1 &= ~UCA1TXD;
+   \   000038   F2C22D02     BIC.B   #0x8, &0x22d
+    241          
+    242              P4SEL0 |= UCA1RXD;
+   \   00003C   E2D22B02     BIS.B   #0x4, &0x22b
+    243              P4SEL1 &= UCA1RXD;
+   \   000040   E2F22D02     AND.B   #0x4, &0x22d
+    244          
+    245              P4SEL0 &= ~UCB1_CS_LCD;
+   \   000044   F2C010002B02 BIC.B   #0x10, &0x22b
+    246              P4SEL1 &= ~UCB1_CS_LCD;
+   \   00004A   F2C010002D02 BIC.B   #0x10, &0x22d
+    247              P4OUT |= UCB1_CS_LCD;
+   \   000050   F2D010002302 BIS.B   #0x10, &0x223
+    248              P4DIR |= UCB1_CS_LCD;
+   \   000056   F2D010002502 BIS.B   #0x10, &0x225
+    249          
+    250              P4SEL0 |= UCB1CLK;
+   \   00005C   F2D020002B02 BIS.B   #0x20, &0x22b
+    251              P4SEL1 &= ~UCB1CLK;
+   \   000062   F2C020002D02 BIC.B   #0x20, &0x22d
+    252          
+    253              P4SEL0 |= UCB1SIMO;
+   \   000068   F2D040002B02 BIS.B   #0x40, &0x22b
+    254              P4SEL1 &= ~UCB1SIMO;
+   \   00006E   F2C040002D02 BIC.B   #0x40, &0x22d
+    255          
+    256              P4SEL0 |= UCB1SOMI;
+   \   000074   F2D080002B02 BIS.B   #0x80, &0x22b
+    257              P4SEL1 &= UCB1SOMI;
+   \   00007A   F2F080002D02 AND.B   #0x80, &0x22d
+    258          }
+   \   000080   1001         RETA
+   \   000082                REQUIRE _A_PBOUT_L
+   \   000082                REQUIRE _A_PBDIR_L
+   \   000082                REQUIRE _A_PBSEL0_L
+   \   000082                REQUIRE _A_PBSEL1_L
+   \   000082                REQUIRE _A_PBREN_L
+   \   000082                REQUIRE _A_PBIES_L
+   \   000082                REQUIRE _A_PBIFG_L
+   \   000082                REQUIRE _A_PBIE_L
+    259          
+    260          
+    261          //===========================================================================
+    262          // Function name: Init_Port5
+    263          //
+    264          // Description: Initialize all pins on port 5
+    265          //
+    266          // Passed : no variables passed
+    267          // Locals: no variables declared
+    268          // Returned: no values returned
+    269          // Globals: no global variables used
+    270          //
+    271          // Author: Ibrahim Moghul
+    272          // Date: Feb 2022
+    273          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+    274          //===========================================================================
+
+   \                                 In  segment CODE, align 2
+    275          void Init_Port5() {
+   \                     Init_Port5:
+    276              P5OUT = 0x00;
+   \   000000   C2434202     MOV.B   #0x0, &0x242
+    277              P5DIR = 0x00;
+   \   000004   C2434402     MOV.B   #0x0, &0x244
+    278          
+    279              P5SEL0 &= ~CHECK_BAT;
+   \   000008   D2C34A02     BIC.B   #0x1, &0x24a
+    280              P5SEL1 &= ~CHECK_BAT;
+   \   00000C   D2C34C02     BIC.B   #0x1, &0x24c
+    281              P5DIR &= ~CHECK_BAT;
+   \   000010   D2C34402     BIC.B   #0x1, &0x244
+    282          
+    283              //P5SEL0 |= V_BAT;
+    284              //P5SEL1 |= V_BAT;
+    285              P5SELC |= V_BAT;
+   \   000014   E2D35602     BIS.B   #0x2, &0x256
+    286              //P5DIR &= ~V_BAT;
+    287          
+    288              //P5SEL0 |= V_DAC;
+    289              //P5SEL1 |= V_DAC;
+    290              P5SELC |= V_DAC;
+   \   000018   E2D25602     BIS.B   #0x4, &0x256
+    291              //P5DIR &= ~V_DAC;
+    292          
+    293              //P5SEL0 |= V_3_3;
+    294              //P5SEL1 |= V_3_3;
+    295              P5SELC |= V_3_3;
+   \   00001C   F2D25602     BIS.B   #0x8, &0x256
+    296              //P5DIR &= ~V_3_3;
+    297          
+    298              P5SEL0 &= ~IOT_BOOT_CPU;
+   \   000020   F2C010004A02 BIC.B   #0x10, &0x24a
+    299              P5SEL1 &= ~IOT_BOOT_CPU;
+   \   000026   F2C010004C02 BIC.B   #0x10, &0x24c
+    300              P5DIR &= ~IOT_BOOT_CPU;
+   \   00002C   F2C010004402 BIC.B   #0x10, &0x244
+    301          }
+   \   000032   1001         RETA
+   \   000034                REQUIRE _A_PCOUT_L
+   \   000034                REQUIRE _A_PCDIR_L
+   \   000034                REQUIRE _A_PCSEL0_L
+   \   000034                REQUIRE _A_PCSEL1_L
+   \   000034                REQUIRE _A_PCSELC_L
+    302          
+    303          //===========================================================================
+    304          // Function name: Init_Port6
+    305          //
+    306          // Description: Initialize all pins on port 6
+    307          //
+    308          // Passed : no variables passed
+    309          // Locals: no variables declared
+    310          // Returned: no values returned
+    311          // Globals: no global variables used
+    312          //
+    313          // Author: Ibrahim Moghul
+    314          // Date: Feb 2022
+    315          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+    316          //===========================================================================
+
+   \                                 In  segment CODE, align 2
+    317          void Init_Port6() {
+   \                     Init_Port6:
+    318              P6OUT = 0x00;
+   \   000000   C2434302     MOV.B   #0x0, &0x243
+    319              P6DIR = 0x00;
+   \   000004   C2434502     MOV.B   #0x0, &0x245
+    320          
+    321              P6SEL0 |= R_FORWARD;
+   \   000008   D2D34B02     BIS.B   #0x1, &0x24b
+    322              P6SEL1 &= ~R_FORWARD;
+   \   00000C   D2C34D02     BIC.B   #0x1, &0x24d
+    323              P6DIR |= R_FORWARD;
+   \   000010   D2D34502     BIS.B   #0x1, &0x245
+    324              //P6OUT &= ~R_FORWARD;
+    325          
+    326              P6SEL0 |= L_FORWARD;
+   \   000014   E2D34B02     BIS.B   #0x2, &0x24b
+    327              P6SEL1 &= ~L_FORWARD;
+   \   000018   E2C34D02     BIC.B   #0x2, &0x24d
+    328              P6DIR |= L_FORWARD;
+   \   00001C   E2D34502     BIS.B   #0x2, &0x245
+    329              //P6OUT &= ~L_FORWARD;
+    330          
+    331              P6SEL0 |= R_REVERSE;
+   \   000020   E2D24B02     BIS.B   #0x4, &0x24b
+    332              P6SEL1 &= ~R_REVERSE;
+   \   000024   E2C24D02     BIC.B   #0x4, &0x24d
+    333              P6DIR |= R_REVERSE;
+   \   000028   E2D24502     BIS.B   #0x4, &0x245
+    334              //P6OUT &= ~R_REVERSE;
+    335          
+    336              P6SEL0 |= L_REVERSE_2355;
+   \   00002C   F2D24B02     BIS.B   #0x8, &0x24b
+    337              P6SEL1 &= ~L_REVERSE_2355;
+   \   000030   F2C24D02     BIC.B   #0x8, &0x24d
+    338              P6DIR |= L_REVERSE_2355;
+   \   000034   F2D24502     BIS.B   #0x8, &0x245
+    339              //P6OUT &= ~L_REVERSE_2355;
+    340          
+    341              P6SEL0 &= ~IR_LED;
+   \   000038   F2C010004B02 BIC.B   #0x10, &0x24b
+    342              P6SEL1 &= ~IR_LED;
+   \   00003E   F2C010004D02 BIC.B   #0x10, &0x24d
+    343              P6DIR |= IR_LED;
+   \   000044   F2D010004502 BIS.B   #0x10, &0x245
+    344              P6OUT |= IR_LED;
+   \   00004A   F2D010004302 BIS.B   #0x10, &0x243
+    345          
+    346              P6SEL0 &= ~P6_5;
+   \   000050   F2C020004B02 BIC.B   #0x20, &0x24b
+    347              P6SEL1 &= ~P6_5;
+   \   000056   F2C020004D02 BIC.B   #0x20, &0x24d
+    348              P6DIR &= ~P6_5;
+   \   00005C   F2C020004502 BIC.B   #0x20, &0x245
+    349          
+    350              P6SEL0 &= ~GRN_LED;
+   \   000062   F2C040004B02 BIC.B   #0x40, &0x24b
+    351              P6SEL1 &= ~GRN_LED;
+   \   000068   F2C040004D02 BIC.B   #0x40, &0x24d
+    352              P6DIR |= GRN_LED;
+   \   00006E   F2D040004502 BIS.B   #0x40, &0x245
+    353              P6OUT &= ~GRN_LED;
+   \   000074   F2C040004302 BIC.B   #0x40, &0x243
+    354          }
+   \   00007A   1001         RETA
+   \   00007C                REQUIRE _A_PCOUT_L
+   \   00007C                REQUIRE _A_PCDIR_L
+   \   00007C                REQUIRE _A_PCSEL0_L
+   \   00007C                REQUIRE _A_PCSEL1_L
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   Init_Port1
+      4   Init_Port2
+      4   Init_Port3
+      4   Init_Port4
+      4   Init_Port5
+      4   Init_Port6
+      4   Init_Ports
+        4   -> Init_Port1
+        4   -> Init_Port2
+        4   -> Init_Port3
+        4   -> Init_Port4
+        4   -> Init_Port5
+        4   -> Init_Port6
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      92  Init_Port1
+     154  Init_Port2
+     160  Init_Port3
+     130  Init_Port4
+      52  Init_Port5
+     124  Init_Port6
+      28  Init_Ports
+       2  _A_PADIR_L
+       2  _A_PAIES_L
+       2  _A_PAIE_L
+       2  _A_PAIFG_L
+       2  _A_PAOUT_L
+       2  _A_PAREN_L
+       2  _A_PASEL0_L
+       2  _A_PASEL1_L
+       2  _A_PASELC_L
+       2  _A_PBDIR_L
+       2  _A_PBIES_L
+       2  _A_PBIE_L
+       2  _A_PBIFG_L
+       2  _A_PBOUT_L
+       2  _A_PBREN_L
+       2  _A_PBSEL0_L
+       2  _A_PBSEL1_L
+       2  _A_PCDIR_L
+       2  _A_PCOUT_L
+       2  _A_PCSEL0_L
+       2  _A_PCSEL1_L
+       2  _A_PCSELC_L
+
+ 
+ 740 bytes in segment CODE
+  44 bytes in segment DATA16_AN
+ 
+ 740 bytes of CODE memory
+   0 bytes of DATA memory (+ 44 bytes shared)
+
+Errors: none
+Warnings: none
