@@ -32,7 +32,7 @@ menu song= {
   .current = 0,
   .name = SONG,
   .headers = {""},
-  .values = {"We're the Red and Whie from State And we know we are the best. A hand behind our back, we can take on all the rest. Come over the hill, Carolina. Devils and Deacs stand in line. The Red and White from N.C. State. Go State!"},
+  .values = {"We're the Red and White from State And we know we are the best. A hand behind our back, we can take on all the rest. Come over the hill, Carolina. Devils and Deacs stand in line. The Red and White from N.C. State. Go State!"},
   .transitions = {&song}
 };
 
@@ -90,16 +90,19 @@ void displayShapesMenu(){
 }
 
 void displaySongMenu(){
-  if(ADC_Thumb-lastThumb<SONG_SCROLL_THRESH){
+  strcpy(display_line[0], "          ");
+  if(ADC_Thumb<lastThumb || song.current == 0){
     lcd_BIG_mid();
-    song.current++;
-    if(song.current<strlen(song.values[0])-10){
-      strncpy(display_line[1],song.values[song.current],10);
+    if(song.current<strlen(song.values[0])-9){
+      strncpy(display_line[1],&song.values[0][song.current++],10);
+      display_line[1][10] = 0;
     }
+    else song.current--;
+    //HEXtoBCD(song.current,2,0);
     display_changed = 1;
-    lastThumb = ADC_Thumb;
   }
-  //HEXtoBCD(shape.current,3,0);
+  lastThumb = ADC_Thumb;
+  
 }
 
 void updateMenuPos(menu* m){
@@ -108,9 +111,16 @@ void updateMenuPos(menu* m){
 }
 
 void trainsitionMenu(void){
+  if(menuState == SONG) {
+    song.current = 0;
+    lastThumb = ADC_Thumb;
+  }
   currMenu = currMenu->transitions[currMenu->current];
   menuState = currMenu->name;
-  if(menuState == SONG) song.current = 0;
+  if(menuState == SONG) {
+    song.current = 0;
+    lastThumb = ADC_Thumb;
+  }
   strcpy(display_line[0], "          ");
   strcpy(display_line[1], "          ");
   strcpy(display_line[2], "          ");

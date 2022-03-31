@@ -4,7 +4,7 @@
 #define SHAPE                   ('S')
 #define START_MENU              ('T')
 #define SONG                    ('s')
-#define SONG_SCROLL_THRESH      (2)
+//#define SONG_SCROLL_THRESH      (2)
 typedef struct menuStruct{
   char length;
   char current;

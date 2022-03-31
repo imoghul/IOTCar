@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          31/Mar/2022  14:50:16
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          31/Mar/2022  15:30:03
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Homework 09\menu.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW2092.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW81D6.tmp
 #        ("C:\Users\saad\Documents\ece-306\Homework 09\menu.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Homework 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj" --no_cse
@@ -95,7 +95,7 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
      32            .current = 0,
      33            .name = SONG,
      34            .headers = {""},
-     35            .values = {"We're the Red and Whie from State And we know we are the best. A hand behind our back, we can take on all the rest. Come over the hill, Carolina. Devils and Deacs stand in line. The Red and White from N.C. State. Go State!"},
+     35            .values = {"We're the Red and White from State And we know we are the best. A hand behind our back, we can take on all the rest. Come over the hill, Carolina. Devils and Deacs stand in line. The Red and White from N.C. State. Go State!"},
      36            .transitions = {&song}
      37          };
      38          
@@ -269,48 +269,61 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \                                 In  segment CODE, align 2
      92          void displaySongMenu(){
    \                     displaySongMenu:
-     93            if(ADC_Thumb-lastThumb<SONG_SCROLL_THRESH){
-   \   000000   1F42....     MOV.W   &ADC_Thumb, R15
-   \   000004   1F82....     SUB.W   &lastThumb, R15
-   \   000008   2F93         CMP.W   #0x2, R15
-   \   00000A   202C         JC      ??displaySongMenu_0
-     94              lcd_BIG_mid();
-   \   00000C   ........     CALLA   #lcd_BIG_mid
-     95              song.current++;
-   \   000010   D253....     ADD.B   #0x1, &song + 1
-     96              if(song.current<strlen(song.values[0])-10){
-   \   000014   1C42....     MOV.W   &song + 24, R12
-   \   000018   ........     CALLA   #strlen
-   \   00001C   5F42....     MOV.B   &song + 1, R15
-   \   000020   4F4F         MOV.B   R15, R15
-   \   000022   3C50F6FF     ADD.W   #0xfff6, R12
-   \   000026   0F9C         CMP.W   R12, R15
-   \   000028   0C2C         JC      ??displaySongMenu_1
-     97                strncpy(display_line[1],song.values[song.current],10);
-   \   00002A   3E400A00     MOV.W   #0xa, R14
-   \   00002E   5F42....     MOV.B   &song + 1, R15
-   \   000032   4F4F         MOV.B   R15, R15
-   \   000034   0F5F         RLA.W   R15
-   \   000036   1D4F....     MOV.W   song + 24(R15), R13
-   \   00003A   3C40....     MOV.W   #display_line + 11, R12
-   \   00003E   ........     CALLA   #strncpy
-     98              }
-     99              display_changed = 1;
+     93            strcpy(display_line[0], "          ");
+   \   000000   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000004   3C40....     MOV.W   #display_line, R12
+   \   000008   ........     CALLA   #strcpy
+     94            if(ADC_Thumb<lastThumb || song.current == 0){
+   \   00000C   9292........ CMP.W   &lastThumb, &ADC_Thumb
+   \   000012   0328         JNC     ??displaySongMenu_1
+   \   000014   C293....     CMP.B   #0x0, &song + 1
+   \   000018   2420         JNE     ??displaySongMenu_2
+     95              lcd_BIG_mid();
    \                     ??displaySongMenu_1:
-   \   000042   D243....     MOV.B   #0x1, &display_changed
-    100              lastThumb = ADC_Thumb;
-   \   000046   9242........ MOV.W   &ADC_Thumb, &lastThumb
-    101            }
-    102            //HEXtoBCD(shape.current,3,0);
-    103          }
+   \   00001A   ........     CALLA   #lcd_BIG_mid
+     96              if(song.current<strlen(song.values[0])-9){
+   \   00001E   1C42....     MOV.W   &song + 24, R12
+   \   000022   ........     CALLA   #strlen
+   \   000026   5F42....     MOV.B   &song + 1, R15
+   \   00002A   4F4F         MOV.B   R15, R15
+   \   00002C   3C50F7FF     ADD.W   #0xfff7, R12
+   \   000030   0F9C         CMP.W   R12, R15
+   \   000032   132C         JC      ??displaySongMenu_3
+     97                strncpy(display_line[1],&song.values[0][song.current++],10);
+   \   000034   5F42....     MOV.B   &song + 1, R15
+   \   000038   4E4F         MOV.B   R15, R14
+   \   00003A   5E53         ADD.B   #0x1, R14
+   \   00003C   C24E....     MOV.B   R14, &song + 1
+   \   000040   3E400A00     MOV.W   #0xa, R14
+   \   000044   1D42....     MOV.W   &song + 24, R13
+   \   000048   4F4F         MOV.B   R15, R15
+   \   00004A   0D5F         ADD.W   R15, R13
+   \   00004C   3C40....     MOV.W   #display_line + 11, R12
+   \   000050   ........     CALLA   #strncpy
+     98                display_line[1][10] = 0;
+   \   000054   C243....     MOV.B   #0x0, &display_line + 21
+   \   000058   023C         JMP     ??displaySongMenu_0
+     99              }
+    100              else song.current--;
+   \                     ??displaySongMenu_3:
+   \   00005A   F253....     ADD.B   #0xff, &song + 1
+    101              //HEXtoBCD(song.current,2,0);
+    102              display_changed = 1;
    \                     ??displaySongMenu_0:
-   \   00004C   1001         RETA
-    104          
+   \   00005E   D243....     MOV.B   #0x1, &display_changed
+    103            }
+    104            lastThumb = ADC_Thumb;
+   \                     ??displaySongMenu_2:
+   \   000062   9242........ MOV.W   &ADC_Thumb, &lastThumb
+    105            
+    106          }
+   \   000068   1001         RETA
+    107          
 
    \                                 In  segment CODE, align 2
-    105          void updateMenuPos(menu* m){
+    108          void updateMenuPos(menu* m){
    \                     updateMenuPos:
-    106            unsigned int val = (ADC_Thumb*m->length)>>THUMB_RES;
+    109            unsigned int val = (ADC_Thumb*m->length)>>THUMB_RES;
    \   000000   0212         PUSH.W  SR
    \   000002   32C2         DINT
    \   000004   0343         NOP
@@ -320,99 +333,113 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \   000014   0343         NOP
    \   000016   3241         POP.W   SR
    \   000018   5F0F         RRUM.W  #0x4, R15
-    107            m->current  = val<m->length?val:m->length-1;
-   \   00001A   6E4C         MOV.B   @R12, R14
-   \   00001C   4E4E         MOV.B   R14, R14
-   \   00001E   0F9E         CMP.W   R14, R15
-   \   000020   052C         JC      ??updateMenuPos_1
-   \   000022   0E12         PUSH.W  R14
-   \   000024   C14F0000     MOV.B   R15, 0(SP)
-   \   000028   3E41         POP.W   R14
-   \   00002A   023C         JMP     ??updateMenuPos_0
+   \   00001A   5F0B         RRUM.W  #0x3, R15
+    110            m->current  = val<m->length?val:m->length-1;
+   \   00001C   6E4C         MOV.B   @R12, R14
+   \   00001E   4E4E         MOV.B   R14, R14
+   \   000020   0F9E         CMP.W   R14, R15
+   \   000022   052C         JC      ??updateMenuPos_1
+   \   000024   0E12         PUSH.W  R14
+   \   000026   C14F0000     MOV.B   R15, 0(SP)
+   \   00002A   3E41         POP.W   R14
+   \   00002C   023C         JMP     ??updateMenuPos_0
    \                     ??updateMenuPos_1:
-   \   00002C   6E4C         MOV.B   @R12, R14
-   \   00002E   7E53         ADD.B   #0xff, R14
+   \   00002E   6E4C         MOV.B   @R12, R14
+   \   000030   7E53         ADD.B   #0xff, R14
    \                     ??updateMenuPos_0:
-   \   000030   CC4E0100     MOV.B   R14, 0x1(R12)
-    108          }
-   \   000034   1001         RETA
-    109          
+   \   000032   CC4E0100     MOV.B   R14, 0x1(R12)
+    111          }
+   \   000036   1001         RETA
+    112          
 
    \                                 In  segment CODE, align 2
-    110          void trainsitionMenu(void){
+    113          void trainsitionMenu(void){
    \                     trainsitionMenu:
-    111            currMenu = currMenu->transitions[currMenu->current];
-   \   000000   1E42....     MOV.W   &currMenu, R14
-   \   000004   1F42....     MOV.W   &currMenu, R15
-   \   000008   5F4F0100     MOV.B   0x1(R15), R15
-   \   00000C   4F4F         MOV.B   R15, R15
-   \   00000E   0F5F         RLA.W   R15
-   \   000010   0E5F         ADD.W   R15, R14
-   \   000012   924E2C00.... MOV.W   0x2c(R14), &currMenu
-    112            menuState = currMenu->name;
-   \   000018   1F42....     MOV.W   &currMenu, R15
-   \   00001C   D24F0200.... MOV.B   0x2(R15), &menuState
-    113            if(menuState == SONG) song.current = 0;
-   \   000022   F2907300.... CMP.B   #0x73, &menuState
-   \   000028   0220         JNE     ??trainsitionMenu_0
-   \   00002A   C243....     MOV.B   #0x0, &song + 1
-    114            strcpy(display_line[0], "          ");
+    114            if(menuState == SONG) {
+   \   000000   F2907300.... CMP.B   #0x73, &menuState
+   \   000006   0520         JNE     ??trainsitionMenu_0
+    115              song.current = 0;
+   \   000008   C243....     MOV.B   #0x0, &song + 1
+    116              lastThumb = ADC_Thumb;
+   \   00000C   9242........ MOV.W   &ADC_Thumb, &lastThumb
+    117            }
+    118            currMenu = currMenu->transitions[currMenu->current];
    \                     ??trainsitionMenu_0:
-   \   00002E   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000032   3C40....     MOV.W   #display_line, R12
-   \   000036   ........     CALLA   #strcpy
-    115            strcpy(display_line[1], "          ");
-   \   00003A   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   00003E   3C40....     MOV.W   #display_line + 11, R12
-   \   000042   ........     CALLA   #strcpy
-    116            strcpy(display_line[2], "          ");
-   \   000046   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   00004A   3C40....     MOV.W   #display_line + 22, R12
-   \   00004E   ........     CALLA   #strcpy
-    117            strcpy(display_line[3], "          ");
-   \   000052   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000056   3C40....     MOV.W   #display_line + 33, R12
-   \   00005A   ........     CALLA   #strcpy
-    118            display_changed = 1;
-   \   00005E   D243....     MOV.B   #0x1, &display_changed
-    119          }
-   \   000062   1001         RETA
-    120          
-
-   \                                 In  segment CODE, align 2
-    121          void resetMenu(void){
-   \                     resetMenu:
-    122            currMenu = &mainMenu;
-   \   000000   B240........ MOV.W   #mainMenu, &currMenu
-    123            menuState = MAIN;
-   \   000006   F2404D00.... MOV.B   #0x4d, &menuState
+   \   000012   1E42....     MOV.W   &currMenu, R14
+   \   000016   1F42....     MOV.W   &currMenu, R15
+   \   00001A   5F4F0100     MOV.B   0x1(R15), R15
+   \   00001E   4F4F         MOV.B   R15, R15
+   \   000020   0F5F         RLA.W   R15
+   \   000022   0E5F         ADD.W   R15, R14
+   \   000024   924E2C00.... MOV.W   0x2c(R14), &currMenu
+    119            menuState = currMenu->name;
+   \   00002A   1F42....     MOV.W   &currMenu, R15
+   \   00002E   D24F0200.... MOV.B   0x2(R15), &menuState
+    120            if(menuState == SONG) {
+   \   000034   F2907300.... CMP.B   #0x73, &menuState
+   \   00003A   0520         JNE     ??trainsitionMenu_1
+    121              song.current = 0;
+   \   00003C   C243....     MOV.B   #0x0, &song + 1
+    122              lastThumb = ADC_Thumb;
+   \   000040   9242........ MOV.W   &ADC_Thumb, &lastThumb
+    123            }
     124            strcpy(display_line[0], "          ");
-   \   00000C   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000010   3C40....     MOV.W   #display_line, R12
-   \   000014   ........     CALLA   #strcpy
+   \                     ??trainsitionMenu_1:
+   \   000046   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00004A   3C40....     MOV.W   #display_line, R12
+   \   00004E   ........     CALLA   #strcpy
     125            strcpy(display_line[1], "          ");
-   \   000018   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   00001C   3C40....     MOV.W   #display_line + 11, R12
-   \   000020   ........     CALLA   #strcpy
+   \   000052   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000056   3C40....     MOV.W   #display_line + 11, R12
+   \   00005A   ........     CALLA   #strcpy
     126            strcpy(display_line[2], "          ");
-   \   000024   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000028   3C40....     MOV.W   #display_line + 22, R12
-   \   00002C   ........     CALLA   #strcpy
+   \   00005E   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000062   3C40....     MOV.W   #display_line + 22, R12
+   \   000066   ........     CALLA   #strcpy
     127            strcpy(display_line[3], "          ");
-   \   000030   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000034   3C40....     MOV.W   #display_line + 33, R12
-   \   000038   ........     CALLA   #strcpy
+   \   00006A   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00006E   3C40....     MOV.W   #display_line + 33, R12
+   \   000072   ........     CALLA   #strcpy
     128            display_changed = 1;
-   \   00003C   D243....     MOV.B   #0x1, &display_changed
+   \   000076   D243....     MOV.B   #0x1, &display_changed
     129          }
-   \   000040   1001         RETA
+   \   00007A   1001         RETA
     130          
 
    \                                 In  segment CODE, align 2
-    131          void MenuProcess(void){
+    131          void resetMenu(void){
+   \                     resetMenu:
+    132            currMenu = &mainMenu;
+   \   000000   B240........ MOV.W   #mainMenu, &currMenu
+    133            menuState = MAIN;
+   \   000006   F2404D00.... MOV.B   #0x4d, &menuState
+    134            strcpy(display_line[0], "          ");
+   \   00000C   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000010   3C40....     MOV.W   #display_line, R12
+   \   000014   ........     CALLA   #strcpy
+    135            strcpy(display_line[1], "          ");
+   \   000018   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00001C   3C40....     MOV.W   #display_line + 11, R12
+   \   000020   ........     CALLA   #strcpy
+    136            strcpy(display_line[2], "          ");
+   \   000024   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000028   3C40....     MOV.W   #display_line + 22, R12
+   \   00002C   ........     CALLA   #strcpy
+    137            strcpy(display_line[3], "          ");
+   \   000030   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000034   3C40....     MOV.W   #display_line + 33, R12
+   \   000038   ........     CALLA   #strcpy
+    138            display_changed = 1;
+   \   00003C   D243....     MOV.B   #0x1, &display_changed
+    139          }
+   \   000040   1001         RETA
+    140          
+
+   \                                 In  segment CODE, align 2
+    141          void MenuProcess(void){
    \                     MenuProcess:
-    132            //updateMenuPos(&song);
-    133            switch(menuState){
+    142            //updateMenuPos(&song);
+    143            switch(menuState){
    \   000000   5E42....     MOV.B   &menuState, R14
    \   000004   7E804D00     SUB.B   #0x4d, R14
    \   000008   1224         JEQ     ??MenuProcess_1
@@ -425,50 +452,50 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \   000018   7E801F00     SUB.B   #0x1f, R14
    \   00001C   1D24         JEQ     ??MenuProcess_5
    \   00001E   1001         RETA
-    134              case START_MENU:
-    135                updateMenuPos(&start);
+    144              case START_MENU:
+    145                updateMenuPos(&start);
    \                     ??MenuProcess_4:
    \   000020   3C40....     MOV.W   #start, R12
    \   000024   ........     CALLA   #updateMenuPos
-    136                displayStartMenu();
+    146                displayStartMenu();
    \   000028   ........     CALLA   #displayStartMenu
-    137                break;
+    147                break;
    \   00002C   1001         RETA
-    138              case MAIN:
-    139                updateMenuPos(&mainMenu);
+    148              case MAIN:
+    149                updateMenuPos(&mainMenu);
    \                     ??MenuProcess_1:
    \   00002E   3C40....     MOV.W   #mainMenu, R12
    \   000032   ........     CALLA   #updateMenuPos
-    140                displayMainMenu();
+    150                displayMainMenu();
    \   000036   ........     CALLA   #displayMainMenu
-    141                break;
+    151                break;
    \   00003A   1001         RETA
-    142              case RESISTOR:
-    143                updateMenuPos(&resistors);
+    152              case RESISTOR:
+    153                updateMenuPos(&resistors);
    \                     ??MenuProcess_2:
    \   00003C   3C40....     MOV.W   #resistors, R12
    \   000040   ........     CALLA   #updateMenuPos
-    144                displayResistorsMenu();
+    154                displayResistorsMenu();
    \   000044   ........     CALLA   #displayResistorsMenu
-    145                break;
+    155                break;
    \   000048   1001         RETA
-    146              case SHAPE:
-    147                updateMenuPos(&shape);
+    156              case SHAPE:
+    157                updateMenuPos(&shape);
    \                     ??MenuProcess_3:
    \   00004A   3C40....     MOV.W   #shape, R12
    \   00004E   ........     CALLA   #updateMenuPos
-    148                displayShapesMenu();
+    158                displayShapesMenu();
    \   000052   ........     CALLA   #displayShapesMenu
-    149                break;
+    159                break;
    \   000056   1001         RETA
-    150              case SONG:
-    151                displaySongMenu();
+    160              case SONG:
+    161                displaySongMenu();
    \                     ??MenuProcess_5:
    \   000058   ........     CALLA   #displaySongMenu
-    152                break;
-    153              default: break;
-    154            }
-    155          }
+    162                break;
+    163              default: break;
+    164            }
+    165          }
    \   00005C   1001         RETA
 
    \                                 In  segment DATA16_ID, align 1, align-sorted
@@ -722,58 +749,58 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \            7468        
    \   000008   652052656420 DC8 65H, 20H, 52H, 65H, 64H, 20H, 61H, 6EH
    \            616E        
-   \   000010   642057686965 DC8 64H, 20H, 57H, 68H, 69H, 65H, 20H, 66H
-   \            2066        
-   \   000018   726F6D205374 DC8 72H, 6FH, 6DH, 20H, 53H, 74H, 61H, 74H
-   \            6174        
-   \   000020   6520416E6420 DC8 65H, 20H, 41H, 6EH, 64H, 20H, 77H, 65H
-   \            7765        
-   \   000028   206B6E6F7720 DC8 20H, 6BH, 6EH, 6FH, 77H, 20H, 77H, 65H
-   \            7765        
-   \   000030   206172652074 DC8 20H, 61H, 72H, 65H, 20H, 74H, 68H, 65H
-   \            6865        
-   \   000038   20626573742E DC8 20H, 62H, 65H, 73H, 74H, 2EH, 20H, 41H
-   \            2041        
-   \   000040   2068616E6420 DC8 20H, 68H, 61H, 6EH, 64H, 20H, 62H, 65H
-   \            6265        
-   \   000048   68696E64206F DC8 68H, 69H, 6EH, 64H, 20H, 6FH, 75H, 72H
-   \            7572        
-   \   000050   206261636B2C DC8 20H, 62H, 61H, 63H, 6BH, 2CH, 20H, 77H
-   \            2077        
-   \   000058   652063616E20 DC8 65H, 20H, 63H, 61H, 6EH, 20H, 74H, 61H
+   \   000010   642057686974 DC8 64H, 20H, 57H, 68H, 69H, 74H, 65H, 20H
+   \            6520        
+   \   000018   66726F6D2053 DC8 66H, 72H, 6FH, 6DH, 20H, 53H, 74H, 61H
    \            7461        
-   \   000060   6B65206F6E20 DC8 6BH, 65H, 20H, 6FH, 6EH, 20H, 61H, 6CH
-   \            616C        
-   \   000068   6C2074686520 DC8 6CH, 20H, 74H, 68H, 65H, 20H, 72H, 65H
-   \            7265        
-   \   000070   73742E20436F DC8 73H, 74H, 2EH, 20H, 43H, 6FH, 6DH, 65H
-   \            6D65        
-   \   000078   206F76657220 DC8 20H, 6FH, 76H, 65H, 72H, 20H, 74H, 68H
+   \   000020   746520416E64 DC8 74H, 65H, 20H, 41H, 6EH, 64H, 20H, 77H
+   \            2077        
+   \   000028   65206B6E6F77 DC8 65H, 20H, 6BH, 6EH, 6FH, 77H, 20H, 77H
+   \            2077        
+   \   000030   652061726520 DC8 65H, 20H, 61H, 72H, 65H, 20H, 74H, 68H
    \            7468        
-   \   000080   652068696C6C DC8 65H, 20H, 68H, 69H, 6CH, 6CH, 2CH, 20H
+   \   000038   652062657374 DC8 65H, 20H, 62H, 65H, 73H, 74H, 2EH, 20H
+   \            2E20        
+   \   000040   412068616E64 DC8 41H, 20H, 68H, 61H, 6EH, 64H, 20H, 62H
+   \            2062        
+   \   000048   6568696E6420 DC8 65H, 68H, 69H, 6EH, 64H, 20H, 6FH, 75H
+   \            6F75        
+   \   000050   72206261636B DC8 72H, 20H, 62H, 61H, 63H, 6BH, 2CH, 20H
    \            2C20        
-   \   000088   4361726F6C69 DC8 43H, 61H, 72H, 6FH, 6CH, 69H, 6EH, 61H
-   \            6E61        
-   \   000090   2E2044657669 DC8 2EH, 20H, 44H, 65H, 76H, 69H, 6CH, 73H
-   \            6C73        
-   \   000098   20616E642044 DC8 20H, 61H, 6EH, 64H, 20H, 44H, 65H, 61H
-   \            6561        
-   \   0000A0   637320737461 DC8 63H, 73H, 20H, 73H, 74H, 61H, 6EH, 64H
-   \            6E64        
-   \   0000A8   20696E206C69 DC8 20H, 69H, 6EH, 20H, 6CH, 69H, 6EH, 65H
-   \            6E65        
-   \   0000B0   2E2054686520 DC8 2EH, 20H, 54H, 68H, 65H, 20H, 52H, 65H
-   \            5265        
-   \   0000B8   6420616E6420 DC8 64H, 20H, 61H, 6EH, 64H, 20H, 57H, 68H
-   \            5768        
-   \   0000C0   697465206672 DC8 69H, 74H, 65H, 20H, 66H, 72H, 6FH, 6DH
+   \   000058   77652063616E DC8 77H, 65H, 20H, 63H, 61H, 6EH, 20H, 74H
+   \            2074        
+   \   000060   616B65206F6E DC8 61H, 6BH, 65H, 20H, 6FH, 6EH, 20H, 61H
+   \            2061        
+   \   000068   6C6C20746865 DC8 6CH, 6CH, 20H, 74H, 68H, 65H, 20H, 72H
+   \            2072        
+   \   000070   6573742E2043 DC8 65H, 73H, 74H, 2EH, 20H, 43H, 6FH, 6DH
    \            6F6D        
-   \   0000C8   204E2E432E20 DC8 20H, 4EH, 2EH, 43H, 2EH, 20H, 53H, 74H
-   \            5374        
-   \   0000D0   6174652E2047 DC8 61H, 74H, 65H, 2EH, 20H, 47H, 6FH, 20H
-   \            6F20        
-   \   0000D8   537461746521 DC8 53H, 74H, 61H, 74H, 65H, 21H, 0
-   \            00          
+   \   000078   65206F766572 DC8 65H, 20H, 6FH, 76H, 65H, 72H, 20H, 74H
+   \            2074        
+   \   000080   68652068696C DC8 68H, 65H, 20H, 68H, 69H, 6CH, 6CH, 2CH
+   \            6C2C        
+   \   000088   204361726F6C DC8 20H, 43H, 61H, 72H, 6FH, 6CH, 69H, 6EH
+   \            696E        
+   \   000090   612E20446576 DC8 61H, 2EH, 20H, 44H, 65H, 76H, 69H, 6CH
+   \            696C        
+   \   000098   7320616E6420 DC8 73H, 20H, 61H, 6EH, 64H, 20H, 44H, 65H
+   \            4465        
+   \   0000A0   616373207374 DC8 61H, 63H, 73H, 20H, 73H, 74H, 61H, 6EH
+   \            616E        
+   \   0000A8   6420696E206C DC8 64H, 20H, 69H, 6EH, 20H, 6CH, 69H, 6EH
+   \            696E        
+   \   0000B0   652E20546865 DC8 65H, 2EH, 20H, 54H, 68H, 65H, 20H, 52H
+   \            2052        
+   \   0000B8   656420616E64 DC8 65H, 64H, 20H, 61H, 6EH, 64H, 20H, 57H
+   \            2057        
+   \   0000C0   686974652066 DC8 68H, 69H, 74H, 65H, 20H, 66H, 72H, 6FH
+   \            726F        
+   \   0000C8   6D204E2E432E DC8 6DH, 20H, 4EH, 2EH, 43H, 2EH, 20H, 53H
+   \            2053        
+   \   0000D0   746174652E20 DC8 74H, 61H, 74H, 65H, 2EH, 20H, 47H, 6FH
+   \            476F        
+   \   0000D8   205374617465 DC8 20H, 53H, 74H, 61H, 74H, 65H, 21H, 0
+   \            2100        
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "Resistors ">`:
@@ -809,8 +836,8 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
-    156          
-    157          
+    166          
+    167          
 
    Maximum stack usage in bytes:
 
@@ -834,6 +861,7 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
         4   -> strcpy
       4   displaySongMenu
         4   -> lcd_BIG_mid
+        4   -> strcpy
         4   -> strlen
         4   -> strncpy
       4   displayStartMenu
@@ -888,7 +916,7 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
        1  ?<Constant "">
       11  ?<Constant "Homework 9">
       11  ?<Constant "Resistors ">
-     223  ?<Constant "We\'re the Red and Whi...">
+     224  ?<Constant "We\'re the Red and Whi...">
        2  ?<Initializer for currMenu>
       64  ?<Initializer for mainMenu>
        1  ?<Initializer for menuState>
@@ -901,7 +929,7 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
       66  displayMainMenu
       50  displayResistorsMenu
      106  displayShapesMenu
-      78  displaySongMenu
+     106  displaySongMenu
       46  displayStartMenu
        2  lastThumb
       64  mainMenu
@@ -911,18 +939,18 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
       64  shape
       64  song
       64  start
-     100  trainsitionMenu
-      54  updateMenuPos
+     124  trainsitionMenu
+      56  updateMenuPos
 
  
- 660 bytes in segment CODE
- 631 bytes in segment DATA16_C
+ 714 bytes in segment CODE
+ 632 bytes in segment DATA16_C
  323 bytes in segment DATA16_I
  323 bytes in segment DATA16_ID
    2 bytes in segment DATA16_Z
  
- 660 bytes of CODE  memory
- 954 bytes of CONST memory
+ 714 bytes of CODE  memory
+ 955 bytes of CONST memory
  325 bytes of DATA  memory
 
 Errors: none
