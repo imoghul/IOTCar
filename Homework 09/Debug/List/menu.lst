@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          31/Mar/2022  15:30:03
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          31/Mar/2022  16:09:41
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Homework 09\menu.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW81D6.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWCD05.tmp
 #        ("C:\Users\saad\Documents\ece-306\Homework 09\menu.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Homework 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj" --no_cse
@@ -68,160 +68,156 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
      17            .values = {"    1     ","    2     ","    3     ","    4     ","    5     ","    6     ","    7     ","    8     ","    9     ","    10    "},
      18            .transitions = {&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors}
      19          };
-     20          
 
    \                                 In  segment DATA16_I, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_copy
-     21          menu shape= {
+     20          menu shape= {
    \                     shape:
    \   000000                DS8 64
    \   000040                REQUIRE `?<Initializer for shape>`
-     22            .length = 10,
-     23            .current = 0,
-     24            .name = SHAPE,
-     25            .headers = {"  Circle  ","  Square  "," Triangle ","  Octagon "," Pentagon ","  Hexagon ","   Cube   ","   Oval   ","  Sphere  "," Cylinder "},
-     26            .values = {""},
-     27            .transitions = {&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape}
-     28          };
-     29          
+     21            .length = 10,
+     22            .current = 0,
+     23            .name = SHAPE,
+     24            .headers = {"  Circle  ","  Square  "," Triangle ","  Octagon "," Pentagon ","  Hexagon ","   Cube   ","   Oval   ","  Sphere  "," Cylinder "},
+     25            .values = {""},
+     26            .transitions = {&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape}
+     27          };
 
    \                                 In  segment DATA16_I, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_copy
-     30          menu song= {
+     28          menu song= {
    \                     song:
    \   000000                DS8 64
    \   000040                REQUIRE `?<Initializer for song>`
-     31            .length = 1,
-     32            .current = 0,
-     33            .name = SONG,
-     34            .headers = {""},
-     35            .values = {"We're the Red and White from State And we know we are the best. A hand behind our back, we can take on all the rest. Come over the hill, Carolina. Devils and Deacs stand in line. The Red and White from N.C. State. Go State!"},
-     36            .transitions = {&song}
-     37          };
-     38          
+     29            .length = 1,
+     30            .current = 0,
+     31            .name = SONG,
+     32            .headers = {""},
+     33            .values = {"We're the Red and White from State And we know we are the best. A hand behind our back, we can take on all the rest. Come over the hill, Carolina. Devils and Deacs stand in line. The Red and White from N.C. State. Go State!"},
+     34            .transitions = {&song}
+     35          };
 
    \                                 In  segment DATA16_I, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_copy
-     39          menu mainMenu  = {
+     36          menu mainMenu  = {
    \                     mainMenu:
    \   000000                DS8 64
    \   000040                REQUIRE `?<Initializer for mainMenu>`
-     40            .length = 3,
-     41            .current = 0,
-     42            .name = MAIN,
-     43            .headers = {"Resistors ","  Shapes  ","   Song   "},
-     44            .values = {""},
-     45            .transitions = {&resistors,&shape,&song}
-     46          };
+     37            .length = 3,
+     38            .current = 0,
+     39            .name = MAIN,
+     40            .headers = {"Resistors ","  Shapes  ","   Song   "},
+     41            .values = {""},
+     42            .transitions = {&resistors,&shape,&song}
+     43          };
 
    \                                 In  segment DATA16_I, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_copy
-     47          menu start  = {
+     44          menu start  = {
    \                     start:
    \   000000                DS8 64
    \   000040                REQUIRE `?<Initializer for start>`
-     48            .length = 1,
-     49            .current = 0,
-     50            .name = START_MENU,
-     51            .headers = {""},
-     52            .values = {""},
-     53            .transitions = {&mainMenu}
-     54          };
-     55          
+     45            .length = 1,
+     46            .current = 0,
+     47            .name = START_MENU,
+     48            .headers = {""},
+     49            .values = {""},
+     50            .transitions = {&mainMenu}
+     51          };
+     52          
 
    \                                 In  segment DATA16_I, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_copy
-     56          menu* currMenu = &start;
+     53          menu* currMenu = &start;
    \                     currMenu:
    \   000000                DS8 2
    \   000002                REQUIRE `?<Initializer for currMenu>`
-     57          
+     54          
+     55          
+     56          
 
    \                                 In  segment CODE, align 2
-     58          void displayStartMenu(){
+     57          void displayStartMenu(){
    \                     displayStartMenu:
-     59            lcd_BIG_mid();
+     58            lcd_BIG_mid();
    \   000000   ........     CALLA   #lcd_BIG_mid
-     60            strcpy(display_line[0],"  Ibrahim ");
+     59            strcpy(display_line[0],"  Ibrahim ");
    \   000004   3D40....     MOV.W   #`?<Constant "  Ibrahim ">`, R13
    \   000008   3C40....     MOV.W   #display_line, R12
    \   00000C   ........     CALLA   #strcpy
-     61            strcpy(display_line[1],"Homework 9");
+     60            strcpy(display_line[1],"Homework 9");
    \   000010   3D40....     MOV.W   #`?<Constant "Homework 9">`, R13
    \   000014   3C40....     MOV.W   #display_line + 11, R12
    \   000018   ........     CALLA   #strcpy
-     62            strcpy(display_line[2],"  Moghul  ");
+     61            strcpy(display_line[2],"  Moghul  ");
    \   00001C   3D40....     MOV.W   #`?<Constant "  Moghul  ">`, R13
    \   000020   3C40....     MOV.W   #display_line + 22, R12
    \   000024   ........     CALLA   #strcpy
-     63            display_changed = 1;
+     62            display_changed = 1;
    \   000028   D243....     MOV.B   #0x1, &display_changed
-     64          }  
+     63          }  
    \   00002C   1001         RETA
-     65          
+     64          
 
    \                                 In  segment CODE, align 2
-     66          void displayMainMenu(){
+     65          void displayMainMenu(){
    \                     displayMainMenu:
-     67            lcd_4line();
-   \   000000   ........     CALLA   #lcd_4line
-     68            strcpy(display_line[0],mainMenu.headers[mainMenu.current]);
+     66            lcd_BIG_mid();
+   \   000000   ........     CALLA   #lcd_BIG_mid
+     67            strcpy(display_line[1],mainMenu.headers[mainMenu.current]);
    \   000004   5F42....     MOV.B   &mainMenu + 1, R15
    \   000008   4F4F         MOV.B   R15, R15
    \   00000A   0F5F         RLA.W   R15
    \   00000C   1D4F....     MOV.W   mainMenu + 4(R15), R13
-   \   000010   3C40....     MOV.W   #display_line, R12
+   \   000010   3C40....     MOV.W   #display_line + 11, R12
    \   000014   ........     CALLA   #strcpy
-     69            strcpy(display_line[1], "          ");
+     68            strcpy(display_line[0], "          ");
    \   000018   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   00001C   3C40....     MOV.W   #display_line + 11, R12
+   \   00001C   3C40....     MOV.W   #display_line, R12
    \   000020   ........     CALLA   #strcpy
-     70            strcpy(display_line[2], "          ");
+     69            strcpy(display_line[2], "          ");
    \   000024   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   000028   3C40....     MOV.W   #display_line + 22, R12
    \   00002C   ........     CALLA   #strcpy
-     71            strcpy(display_line[3], "          ");
-   \   000030   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000034   3C40....     MOV.W   #display_line + 33, R12
-   \   000038   ........     CALLA   #strcpy
-     72            display_changed = 1;
-   \   00003C   D243....     MOV.B   #0x1, &display_changed
-     73            //HEXtoBCD(mainMenu.current,3,0);
-     74          }
-   \   000040   1001         RETA
+     70            //strcpy(display_line[3], "          ");
+     71            display_changed = 1;
+   \   000030   D243....     MOV.B   #0x1, &display_changed
+     72            //HEXtoBCD(mainMenu.current,3,0);
+     73          }
+   \   000034   1001         RETA
 
    \                                 In  segment CODE, align 2
-     75          void displayResistorsMenu(){
+     74          void displayResistorsMenu(){
    \                     displayResistorsMenu:
-     76            lcd_4line();
+     75            lcd_4line();
    \   000000   ........     CALLA   #lcd_4line
-     77            strcpy(display_line[0],resistors.headers[resistors.current]);
+     76            strcpy(display_line[0],resistors.headers[resistors.current]);
    \   000004   5F42....     MOV.B   &resistors + 1, R15
    \   000008   4F4F         MOV.B   R15, R15
    \   00000A   0F5F         RLA.W   R15
    \   00000C   1D4F....     MOV.W   resistors + 4(R15), R13
    \   000010   3C40....     MOV.W   #display_line, R12
    \   000014   ........     CALLA   #strcpy
-     78            strcpy(display_line[1],resistors.values[resistors.current]);
+     77            strcpy(display_line[1],resistors.values[resistors.current]);
    \   000018   5F42....     MOV.B   &resistors + 1, R15
    \   00001C   4F4F         MOV.B   R15, R15
    \   00001E   0F5F         RLA.W   R15
    \   000020   1D4F....     MOV.W   resistors + 24(R15), R13
    \   000024   3C40....     MOV.W   #display_line + 11, R12
    \   000028   ........     CALLA   #strcpy
-     79            display_changed = 1;
+     78            display_changed = 1;
    \   00002C   D243....     MOV.B   #0x1, &display_changed
-     80            //HEXtoBCD(resistors.current,3,0);
-     81          }
+     79            //HEXtoBCD(resistors.current,3,0);
+     80          }
    \   000030   1001         RETA
-     82          
+     81          
 
    \                                 In  segment CODE, align 2
-     83          void displayShapesMenu(){
+     82          void displayShapesMenu(){
    \                     displayShapesMenu:
-     84            lcd_BIG_mid();
+     83            lcd_BIG_mid();
    \   000000   ........     CALLA   #lcd_BIG_mid
-     85            strcpy(display_line[0],shape.current>=1?shape.headers[shape.current-1]:"          ");
+     84            strcpy(display_line[0],shape.current>=1?shape.headers[shape.current-1]:"          ");
    \   000004   C293....     CMP.B   #0x0, &shape + 1
    \   000008   0724         JEQ     ??displayShapesMenu_2
    \   00000A   5F42....     MOV.B   &shape + 1, R15
@@ -234,14 +230,14 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \                     ??displayShapesMenu_0:
    \   00001C   3C40....     MOV.W   #display_line, R12
    \   000020   ........     CALLA   #strcpy
-     86            strcpy(display_line[1],shape.headers[shape.current]);
+     85            strcpy(display_line[1],shape.headers[shape.current]);
    \   000024   5F42....     MOV.B   &shape + 1, R15
    \   000028   4F4F         MOV.B   R15, R15
    \   00002A   0F5F         RLA.W   R15
    \   00002C   1D4F....     MOV.W   shape + 4(R15), R13
    \   000030   3C40....     MOV.W   #display_line + 11, R12
    \   000034   ........     CALLA   #strcpy
-     87            strcpy(display_line[2],shape.current<shape.length-1?shape.headers[shape.current+1]:"          ");
+     86            strcpy(display_line[2],shape.current<shape.length-1?shape.headers[shape.current+1]:"          ");
    \   000038   5E42....     MOV.B   &shape + 1, R14
    \   00003C   4E4E         MOV.B   R14, R14
    \   00003E   5F42....     MOV.B   &shape, R15
@@ -259,29 +255,29 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \                     ??displayShapesMenu_1:
    \   00005C   3C40....     MOV.W   #display_line + 22, R12
    \   000060   ........     CALLA   #strcpy
-     88            display_changed = 1;
+     87            display_changed = 1;
    \   000064   D243....     MOV.B   #0x1, &display_changed
-     89            //HEXtoBCD(shape.current,3,0);
-     90          }
+     88            //HEXtoBCD(shape.current,3,0);
+     89          }
    \   000068   1001         RETA
-     91          
+     90          
 
    \                                 In  segment CODE, align 2
-     92          void displaySongMenu(){
+     91          void displaySongMenu(){
    \                     displaySongMenu:
-     93            strcpy(display_line[0], "          ");
+     92            strcpy(display_line[0], "          ");
    \   000000   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   000004   3C40....     MOV.W   #display_line, R12
    \   000008   ........     CALLA   #strcpy
-     94            if(ADC_Thumb<lastThumb || song.current == 0){
+     93            if(ADC_Thumb<lastThumb || song.current == 0){
    \   00000C   9292........ CMP.W   &lastThumb, &ADC_Thumb
    \   000012   0328         JNC     ??displaySongMenu_1
    \   000014   C293....     CMP.B   #0x0, &song + 1
    \   000018   2420         JNE     ??displaySongMenu_2
-     95              lcd_BIG_mid();
+     94              lcd_BIG_mid();
    \                     ??displaySongMenu_1:
    \   00001A   ........     CALLA   #lcd_BIG_mid
-     96              if(song.current<strlen(song.values[0])-9){
+     95              if(song.current<strlen(song.values[0])-9){
    \   00001E   1C42....     MOV.W   &song + 24, R12
    \   000022   ........     CALLA   #strlen
    \   000026   5F42....     MOV.B   &song + 1, R15
@@ -289,7 +285,7 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \   00002C   3C50F7FF     ADD.W   #0xfff7, R12
    \   000030   0F9C         CMP.W   R12, R15
    \   000032   132C         JC      ??displaySongMenu_3
-     97                strncpy(display_line[1],&song.values[0][song.current++],10);
+     96                strncpy(display_line[1],&song.values[0][song.current++],10);
    \   000034   5F42....     MOV.B   &song + 1, R15
    \   000038   4E4F         MOV.B   R15, R14
    \   00003A   5E53         ADD.B   #0x1, R14
@@ -300,30 +296,30 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \   00004A   0D5F         ADD.W   R15, R13
    \   00004C   3C40....     MOV.W   #display_line + 11, R12
    \   000050   ........     CALLA   #strncpy
-     98                display_line[1][10] = 0;
+     97                display_line[1][10] = 0;
    \   000054   C243....     MOV.B   #0x0, &display_line + 21
    \   000058   023C         JMP     ??displaySongMenu_0
-     99              }
-    100              else song.current--;
+     98              }
+     99              else song.current--;
    \                     ??displaySongMenu_3:
    \   00005A   F253....     ADD.B   #0xff, &song + 1
-    101              //HEXtoBCD(song.current,2,0);
-    102              display_changed = 1;
+    100              //HEXtoBCD(song.current,2,0);
+    101              display_changed = 1;
    \                     ??displaySongMenu_0:
    \   00005E   D243....     MOV.B   #0x1, &display_changed
-    103            }
-    104            lastThumb = ADC_Thumb;
+    102            }
+    103            lastThumb = ADC_Thumb;
    \                     ??displaySongMenu_2:
    \   000062   9242........ MOV.W   &ADC_Thumb, &lastThumb
-    105            
-    106          }
+    104            
+    105          }
    \   000068   1001         RETA
-    107          
+    106          
 
    \                                 In  segment CODE, align 2
-    108          void updateMenuPos(menu* m){
+    107          void updateMenuPos(menu* m){
    \                     updateMenuPos:
-    109            unsigned int val = (ADC_Thumb*m->length)>>THUMB_RES;
+    108            unsigned int val = (ADC_Thumb*m->length)>>THUMB_RES;
    \   000000   0212         PUSH.W  SR
    \   000002   32C2         DINT
    \   000004   0343         NOP
@@ -333,8 +329,8 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \   000014   0343         NOP
    \   000016   3241         POP.W   SR
    \   000018   5F0F         RRUM.W  #0x4, R15
-   \   00001A   5F0B         RRUM.W  #0x3, R15
-    110            m->current  = val<m->length?val:m->length-1;
+   \   00001A   5F03         RRUM.W  #0x1, R15
+    109            m->current  = val<m->length?val:m->length-1;
    \   00001C   6E4C         MOV.B   @R12, R14
    \   00001E   4E4E         MOV.B   R14, R14
    \   000020   0F9E         CMP.W   R14, R15
@@ -348,98 +344,88 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \   000030   7E53         ADD.B   #0xff, R14
    \                     ??updateMenuPos_0:
    \   000032   CC4E0100     MOV.B   R14, 0x1(R12)
-    111          }
+    110          }
    \   000036   1001         RETA
-    112          
+    111          
 
    \                                 In  segment CODE, align 2
-    113          void trainsitionMenu(void){
+    112          void trainsitionMenu(void){
    \                     trainsitionMenu:
-    114            if(menuState == SONG) {
-   \   000000   F2907300.... CMP.B   #0x73, &menuState
-   \   000006   0520         JNE     ??trainsitionMenu_0
-    115              song.current = 0;
-   \   000008   C243....     MOV.B   #0x0, &song + 1
-    116              lastThumb = ADC_Thumb;
-   \   00000C   9242........ MOV.W   &ADC_Thumb, &lastThumb
-    117            }
-    118            currMenu = currMenu->transitions[currMenu->current];
+    113            currMenu = currMenu->transitions[currMenu->current];
+   \   000000   1E42....     MOV.W   &currMenu, R14
+   \   000004   1F42....     MOV.W   &currMenu, R15
+   \   000008   5F4F0100     MOV.B   0x1(R15), R15
+   \   00000C   4F4F         MOV.B   R15, R15
+   \   00000E   0F5F         RLA.W   R15
+   \   000010   0E5F         ADD.W   R15, R14
+   \   000012   924E2C00.... MOV.W   0x2c(R14), &currMenu
+    114            menuState = currMenu->name;
+   \   000018   1F42....     MOV.W   &currMenu, R15
+   \   00001C   D24F0200.... MOV.B   0x2(R15), &menuState
+    115            if(menuState == SONG) {
+   \   000022   F2907300.... CMP.B   #0x73, &menuState
+   \   000028   0520         JNE     ??trainsitionMenu_0
+    116              song.current = 0;
+   \   00002A   C243....     MOV.B   #0x0, &song + 1
+    117              lastThumb = ADC_Thumb;
+   \   00002E   9242........ MOV.W   &ADC_Thumb, &lastThumb
+    118            }
+    119            strcpy(display_line[0], "          ");
    \                     ??trainsitionMenu_0:
-   \   000012   1E42....     MOV.W   &currMenu, R14
-   \   000016   1F42....     MOV.W   &currMenu, R15
-   \   00001A   5F4F0100     MOV.B   0x1(R15), R15
-   \   00001E   4F4F         MOV.B   R15, R15
-   \   000020   0F5F         RLA.W   R15
-   \   000022   0E5F         ADD.W   R15, R14
-   \   000024   924E2C00.... MOV.W   0x2c(R14), &currMenu
-    119            menuState = currMenu->name;
-   \   00002A   1F42....     MOV.W   &currMenu, R15
-   \   00002E   D24F0200.... MOV.B   0x2(R15), &menuState
-    120            if(menuState == SONG) {
-   \   000034   F2907300.... CMP.B   #0x73, &menuState
-   \   00003A   0520         JNE     ??trainsitionMenu_1
-    121              song.current = 0;
-   \   00003C   C243....     MOV.B   #0x0, &song + 1
-    122              lastThumb = ADC_Thumb;
-   \   000040   9242........ MOV.W   &ADC_Thumb, &lastThumb
-    123            }
-    124            strcpy(display_line[0], "          ");
-   \                     ??trainsitionMenu_1:
-   \   000046   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   00004A   3C40....     MOV.W   #display_line, R12
-   \   00004E   ........     CALLA   #strcpy
-    125            strcpy(display_line[1], "          ");
-   \   000052   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000056   3C40....     MOV.W   #display_line + 11, R12
-   \   00005A   ........     CALLA   #strcpy
-    126            strcpy(display_line[2], "          ");
-   \   00005E   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000062   3C40....     MOV.W   #display_line + 22, R12
-   \   000066   ........     CALLA   #strcpy
-    127            strcpy(display_line[3], "          ");
-   \   00006A   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   00006E   3C40....     MOV.W   #display_line + 33, R12
-   \   000072   ........     CALLA   #strcpy
-    128            display_changed = 1;
-   \   000076   D243....     MOV.B   #0x1, &display_changed
-    129          }
-   \   00007A   1001         RETA
-    130          
+   \   000034   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000038   3C40....     MOV.W   #display_line, R12
+   \   00003C   ........     CALLA   #strcpy
+    120            strcpy(display_line[1], "          ");
+   \   000040   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000044   3C40....     MOV.W   #display_line + 11, R12
+   \   000048   ........     CALLA   #strcpy
+    121            strcpy(display_line[2], "          ");
+   \   00004C   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000050   3C40....     MOV.W   #display_line + 22, R12
+   \   000054   ........     CALLA   #strcpy
+    122            strcpy(display_line[3], "          ");
+   \   000058   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00005C   3C40....     MOV.W   #display_line + 33, R12
+   \   000060   ........     CALLA   #strcpy
+    123            display_changed = 1;
+   \   000064   D243....     MOV.B   #0x1, &display_changed
+    124          }
+   \   000068   1001         RETA
+    125          
 
    \                                 In  segment CODE, align 2
-    131          void resetMenu(void){
+    126          void resetMenu(void){
    \                     resetMenu:
-    132            currMenu = &mainMenu;
+    127            currMenu = &mainMenu;
    \   000000   B240........ MOV.W   #mainMenu, &currMenu
-    133            menuState = MAIN;
+    128            menuState = MAIN;
    \   000006   F2404D00.... MOV.B   #0x4d, &menuState
-    134            strcpy(display_line[0], "          ");
+    129            strcpy(display_line[0], "          ");
    \   00000C   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   000010   3C40....     MOV.W   #display_line, R12
    \   000014   ........     CALLA   #strcpy
-    135            strcpy(display_line[1], "          ");
+    130            strcpy(display_line[1], "          ");
    \   000018   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   00001C   3C40....     MOV.W   #display_line + 11, R12
    \   000020   ........     CALLA   #strcpy
-    136            strcpy(display_line[2], "          ");
+    131            strcpy(display_line[2], "          ");
    \   000024   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   000028   3C40....     MOV.W   #display_line + 22, R12
    \   00002C   ........     CALLA   #strcpy
-    137            strcpy(display_line[3], "          ");
+    132            strcpy(display_line[3], "          ");
    \   000030   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   000034   3C40....     MOV.W   #display_line + 33, R12
    \   000038   ........     CALLA   #strcpy
-    138            display_changed = 1;
+    133            display_changed = 1;
    \   00003C   D243....     MOV.B   #0x1, &display_changed
-    139          }
+    134          }
    \   000040   1001         RETA
-    140          
+    135          
 
    \                                 In  segment CODE, align 2
-    141          void MenuProcess(void){
+    136          void MenuProcess(void){
    \                     MenuProcess:
-    142            //updateMenuPos(&song);
-    143            switch(menuState){
+    137            switch(menuState){
    \   000000   5E42....     MOV.B   &menuState, R14
    \   000004   7E804D00     SUB.B   #0x4d, R14
    \   000008   1224         JEQ     ??MenuProcess_1
@@ -452,50 +438,50 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \   000018   7E801F00     SUB.B   #0x1f, R14
    \   00001C   1D24         JEQ     ??MenuProcess_5
    \   00001E   1001         RETA
-    144              case START_MENU:
-    145                updateMenuPos(&start);
+    138              case START_MENU:
+    139                updateMenuPos(&start);
    \                     ??MenuProcess_4:
    \   000020   3C40....     MOV.W   #start, R12
    \   000024   ........     CALLA   #updateMenuPos
-    146                displayStartMenu();
+    140                displayStartMenu();
    \   000028   ........     CALLA   #displayStartMenu
-    147                break;
+    141                break;
    \   00002C   1001         RETA
-    148              case MAIN:
-    149                updateMenuPos(&mainMenu);
+    142              case MAIN:
+    143                updateMenuPos(&mainMenu);
    \                     ??MenuProcess_1:
    \   00002E   3C40....     MOV.W   #mainMenu, R12
    \   000032   ........     CALLA   #updateMenuPos
-    150                displayMainMenu();
+    144                displayMainMenu();
    \   000036   ........     CALLA   #displayMainMenu
-    151                break;
+    145                break;
    \   00003A   1001         RETA
-    152              case RESISTOR:
-    153                updateMenuPos(&resistors);
+    146              case RESISTOR:
+    147                updateMenuPos(&resistors);
    \                     ??MenuProcess_2:
    \   00003C   3C40....     MOV.W   #resistors, R12
    \   000040   ........     CALLA   #updateMenuPos
-    154                displayResistorsMenu();
+    148                displayResistorsMenu();
    \   000044   ........     CALLA   #displayResistorsMenu
-    155                break;
+    149                break;
    \   000048   1001         RETA
-    156              case SHAPE:
-    157                updateMenuPos(&shape);
+    150              case SHAPE:
+    151                updateMenuPos(&shape);
    \                     ??MenuProcess_3:
    \   00004A   3C40....     MOV.W   #shape, R12
    \   00004E   ........     CALLA   #updateMenuPos
-    158                displayShapesMenu();
+    152                displayShapesMenu();
    \   000052   ........     CALLA   #displayShapesMenu
-    159                break;
+    153                break;
    \   000056   1001         RETA
-    160              case SONG:
-    161                displaySongMenu();
+    154              case SONG:
+    155                displaySongMenu();
    \                     ??MenuProcess_5:
    \   000058   ........     CALLA   #displaySongMenu
-    162                break;
-    163              default: break;
-    164            }
-    165          }
+    156                break;
+    157              default: break;
+    158            }
+    159          }
    \   00005C   1001         RETA
 
    \                                 In  segment DATA16_ID, align 1, align-sorted
@@ -836,8 +822,8 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
-    166          
-    167          
+    160          
+    161          
 
    Maximum stack usage in bytes:
 
@@ -851,7 +837,7 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
         4   -> displayStartMenu
         4   -> updateMenuPos
       4   displayMainMenu
-        4   -> lcd_4line
+        4   -> lcd_BIG_mid
         4   -> strcpy
       4   displayResistorsMenu
         4   -> lcd_4line
@@ -926,7 +912,7 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
       64  ?<Initializer for start>
       94  MenuProcess
        2  currMenu
-      66  displayMainMenu
+      54  displayMainMenu
       50  displayResistorsMenu
      106  displayShapesMenu
      106  displaySongMenu
@@ -939,17 +925,17 @@ C:\Users\saad\Documents\ece-306\Homework 09\menu.c
       64  shape
       64  song
       64  start
-     124  trainsitionMenu
+     106  trainsitionMenu
       56  updateMenuPos
 
  
- 714 bytes in segment CODE
+ 684 bytes in segment CODE
  632 bytes in segment DATA16_C
  323 bytes in segment DATA16_I
  323 bytes in segment DATA16_ID
    2 bytes in segment DATA16_Z
  
- 714 bytes of CODE  memory
+ 684 bytes of CODE  memory
  955 bytes of CONST memory
  325 bytes of DATA  memory
 

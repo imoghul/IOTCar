@@ -17,7 +17,6 @@ menu resistors= {
   .values = {"    1     ","    2     ","    3     ","    4     ","    5     ","    6     ","    7     ","    8     ","    9     ","    10    "},
   .transitions = {&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors,&resistors}
 };
-
 menu shape= {
   .length = 10,
   .current = 0,
@@ -26,7 +25,6 @@ menu shape= {
   .values = {""},
   .transitions = {&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape,&shape}
 };
-
 menu song= {
   .length = 1,
   .current = 0,
@@ -35,7 +33,6 @@ menu song= {
   .values = {"We're the Red and White from State And we know we are the best. A hand behind our back, we can take on all the rest. Come over the hill, Carolina. Devils and Deacs stand in line. The Red and White from N.C. State. Go State!"},
   .transitions = {&song}
 };
-
 menu mainMenu  = {
   .length = 3,
   .current = 0,
@@ -55,6 +52,8 @@ menu start  = {
 
 menu* currMenu = &start;
 
+
+
 void displayStartMenu(){
   lcd_BIG_mid();
   strcpy(display_line[0],"  Ibrahim ");
@@ -64,11 +63,11 @@ void displayStartMenu(){
 }  
 
 void displayMainMenu(){
-  lcd_4line();
-  strcpy(display_line[0],mainMenu.headers[mainMenu.current]);
-  strcpy(display_line[1], "          ");
+  lcd_BIG_mid();
+  strcpy(display_line[1],mainMenu.headers[mainMenu.current]);
+  strcpy(display_line[0], "          ");
   strcpy(display_line[2], "          ");
-  strcpy(display_line[3], "          ");
+  //strcpy(display_line[3], "          ");
   display_changed = 1;
   //HEXtoBCD(mainMenu.current,3,0);
 }
@@ -111,10 +110,6 @@ void updateMenuPos(menu* m){
 }
 
 void trainsitionMenu(void){
-  if(menuState == SONG) {
-    song.current = 0;
-    lastThumb = ADC_Thumb;
-  }
   currMenu = currMenu->transitions[currMenu->current];
   menuState = currMenu->name;
   if(menuState == SONG) {
@@ -139,7 +134,6 @@ void resetMenu(void){
 }
 
 void MenuProcess(void){
-  //updateMenuPos(&song);
   switch(menuState){
     case START_MENU:
       updateMenuPos(&start);
