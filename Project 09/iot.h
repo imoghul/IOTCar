@@ -1,0 +1,11 @@
+#define ALLOW_MULTIPLE_CONNECTIONS      ("AT+CIPMUX=1\r\n")
+#define START_SERVER                    ("AT+CIPSERVER=1,4666\r\n")
+#define OK_RESPONSE                     ("OK\r\n")
+#define BOOT_RESPONSE                   ("WIFI GOT IP\r\n")
+#define BOOT_UP                         ('B')
+#define CIPMUX_Tx                       ('M')
+#define CIPMUX_Rx                       ('m')
+#define CIPSERVER_Tx                    ('S')
+#define CIPSERVER_Rx                    ('s')
+#define IOT_SETUP_FINISHED              ('F')
+void Init_IOT(void);

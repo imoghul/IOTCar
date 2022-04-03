@@ -1,0 +1,1175 @@
+################################################################################
+#                                                                              #
+#      IAR Universal Linker V6.6.2.104                                         #
+#                                                                              #
+#           Link time     =  31/Mar/2022  16:09:41                             #
+#           Target CPU    =  MSP430                                            #
+#           List file     =  "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\List\Homework 09 simple.map"                    #
+#           Output file 1 =  "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Exe\Homework 09 simple.d43"                     #
+#                            Format: ubrof10                                   #
+#                            UBROF version 10.0.6                              #
+#                            Using library modules for C-SPY (-rt)             #
+#           Command line  =  -f C:\Users\saad\AppData\Local\Temp\EWD022.tmp    #
+#                            ("C:\Users\saad\Documents\ece-306\Homework 09\Deb #
+#                            ug\Obj\adc.r43"                                   #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\clocks.r43"                                 #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\detectors.r43"                              #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\init.r43"                                   #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Comp #
+#                            iled\LCD.r43"                                     #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\led.r43"                                    #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\main.r43"                                   #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\menu.r43"                                   #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\pid.r43"                                    #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\ports.r43"                                  #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\serial.r43"                                 #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\sm.r43"                                     #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\switches.r43"                               #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\system.r43"                                 #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\timers.r43"                                 #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Obj\wheels.r43"                                 #
+#                            -o                                                #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\Exe\Homework 09 simple.d43"                     #
+#                            -l                                                #
+#                            "C:\Users\saad\Documents\ece-306\Homework 09\Debu #
+#                            g\List\Homework 09 simple.map"                    #
+#                            -xesni                                            #
+#                            "-IC:\Program Files\IAR Systems\Embedded Workbenc #
+#                            h 8.5\430\LIB\\"                                  #
+#                            -f                                                #
+#                            "C:\Program Files\IAR Systems\Embedded Workbench  #
+#                            8.5\430\config\linker\lnk430fr2355.xcl"           #
+#                            (-cmsp430 -QCODE_I=CODE_ID -QTLS16_I=TLS16_ID     #
+#                            -D__iar_HWMUL=4C0 -Z(CONST)INFO=1800-19FF         #
+#                            -Z(DATA)TINYRAM=0006-001F                         #
+#                            -Z(DATA)DATA16_I,DATA16_Z,DATA16_N,TLS16_I=2000-2 #
+#                            FFF                                               #
+#                            -Z(DATA)CODE_I                                    #
+#                            -Z(DATA)DATA20_I,DATA20_Z,DATA20_N                #
+#                            -Z(DATA)CSTACK+_STACK_SIZE#                       #
+#                            -Z(CONST)FRWP_B1,DATA16_P,DATA20_P=8000-FF7F      #
+#                            -Z(DATA)DATA16_HEAP+_DATA16_HEAP_SIZE,DATA20_HEAP #
+#                            +_DATA20_HEAP_SIZE,FRWP_B2                        #
+#                            -Z(CONST)DATA16_C,DATA16_ID,TLS16_ID,DIFUNCT,CHEC #
+#                            KSUM=8000-FF7F                                    #
+#                            -Z(CONST)DATA20_C,DATA20_ID                       #
+#                            -Z(CODE)CSTART,ISR_CODE,CODE_ID=8000-FF7F         #
+#                            -P(CODE)CODE,CODE16=8000-FF7F                     #
+#                            -Z(CONST)BSLCONFIGURATIONSIGNATURE=FF88-FF89      #
+#                            -Z(CONST)BSLCONFIGURATION=FF8A-FF8B               #
+#                            -Z(CONST)BSLI2CADDRESS=FFA0-FFA1                  #
+#                            -Z(CONST)JTAGSIGNATURE=FF80-FF83                  #
+#                            -Z(CONST)BSLSIGNATURE=FF84-FF87                   #
+#                            -Z(CODE)INTVEC=FFA2-FFFF                          #
+#                            -Z(CODE)RESET=FFFE-FFFF) -f                       #
+#                            "C:\Program Files\IAR Systems\Embedded Workbench  #
+#                            8.5\430\config\linker\multiplier32.xcl"           #
+#                            (-e?Mul8Hw=?Mul8 -e?Mul16Hw=?Mul16                #
+#                            -e?Mul16to32uHw=?Mul16to32u                       #
+#                            -e?Mul16to32sHw=?Mul16to32s -e?Mul32Hw32=?Mul32   #
+#                            -e?Mul64Hw32=_Mul64i                              #
+#                            -e?Mul32u32uto64iHw32=_Mul32u32uto64i             #
+#                            -e?Mul32fHw32=_Mul32f                             #
+#                            -e_Mul64fHw32Ptr=_Mul64fPtr) -D_STACK_SIZE=A0     #
+#                            -rt                                               #
+#                            "C:\Program Files\IAR Systems\Embedded Workbench  #
+#                            8.5\430\lib\dlib\dl430xlsfn.r43"                  #
+#                            -e_PrintfLarge=_Printf -e_ScanfLarge=_Scanf       #
+#                            -D_DATA16_HEAP_SIZE=A0 -s __program_start         #
+#                            -D_DATA20_HEAP_SIZE=50)                           #
+#                                                                              #
+#                           Copyright (C) 1987-2019 IAR Systems AB.            #
+################################################################################
+
+
+
+
+
+                ****************************************
+                *                                      *
+                *           CROSS REFERENCE            *
+                *                                      *
+                ****************************************
+
+       Program entry at :           83D0  Relocatable, from module : ?cstart
+
+
+
+
+                ****************************************
+                *                                      *
+                *            RUNTIME MODEL             *
+                *                                      *
+                ****************************************
+
+  __Heap_Handler             = Basic
+  __SystemLibrary            = DLib
+  __code_model               = large
+  __core                     = 430X
+  __data_model               = small
+  __dlib_file_descriptor     = 0
+  __dlib_full_locale_support = 0
+  __double_size              = 32
+  __pic                      = no
+  __reg_r4                   = free
+  __reg_r5                   = free
+  __rt_version               = 3
+
+                ****************************************
+                *                                      *
+                *    AUTOMATIC SYMBOL REDIRECTIONS     *
+                *                                      *
+                ****************************************
+
+                  There are no automatic symbol redirections.
+
+                ****************************************
+                *                                      *
+                *              ENTRY LIST              *
+                *                                      *
+                ****************************************
+
+Module  Entry                              Address
+------  -----                              -------
+?FILLER_BYTES
+?ABS_ENTRY_MOD
+        _DATA20_HEAP_SIZE                   0050
+        _DATA16_HEAP_SIZE                   00A0
+        _STACK_SIZE                         00A0
+        __iar_HWMUL                         04C0
+adc ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\adc.r43 )
+        _A_ADCCTL0_L                        0700
+        _A_ADCCTL1_L                        0702
+        _A_ADCCTL2_L                        0704
+        _A_ADCMCTL0_L                       070A
+        _A_ADCMEM0_L                        0712
+        _A_ADCIE_L                          071A
+        _A_ADCIV_L                          071E
+        _A_PMMCTL0_L                        0120
+        _A_PMMCTL2_L                        0124
+        _A_SAC3OA_L                         0CB0
+        _A_SAC3PGA_L                        0CB2
+        _A_SAC3DAC_L                        0CB4
+        _A_SAC3DAT_L                        0CB6
+        ADC_Channel                         214C
+        ADC_Left_Detect                     214E
+        ADC_Right_Detect                    2150
+        ADC_Thumb                           2152
+        ADC_Vbat                            2154
+        ADC_Vdac                            2156
+        ADC_V3v3                            2158
+        DAC_data                            215A
+        adc_char                            NOT NEEDED
+        adcUpdated                          215C
+        Init_ADC                            8DBA
+        Init_REF                            954A
+        Init_DAC                            90DA
+        ADC_ISR                             83F8
+        HEXtoBCD                            NOT NEEDED
+        ADC_ISR::??INTVEC 58                FFDC
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        ADCCTL0                             0700
+        ADCCTL0_H                           0701
+        ADCCTL0_L                           0700
+        ADCCTL1                             0702
+        ADCCTL1_H                           0703
+        ADCCTL1_L                           0702
+        ADCCTL2                             0704
+        ADCCTL2_H                           0705
+        ADCCTL2_L                           0704
+        ADCMCTL0                            070A
+        ADCMCTL0_H                          070B
+        ADCMCTL0_L                          070A
+        ADCMEM0                             0712
+        ADCMEM0_H                           0713
+        ADCMEM0_L                           0712
+        ADCIE                               071A
+        ADCIE_H                             071B
+        ADCIE_L                             071A
+        ADCIV                               071E
+        ADCIV_H                             071F
+        ADCIV_L                             071E
+        PMMCTL0                             0120
+        PMMCTL0_H                           0121
+        PMMCTL0_L                           0120
+        PMMCTL2                             0124
+        PMMCTL2_H                           0125
+        PMMCTL2_L                           0124
+        SAC3OA                              0CB0
+        SAC3OA_H                            0CB1
+        SAC3OA_L                            0CB0
+        SAC3PGA                             0CB2
+        SAC3PGA_H                           0CB3
+        SAC3PGA_L                           0CB2
+        SAC3DAC                             0CB4
+        SAC3DAC_H                           0CB5
+        SAC3DAC_L                           0CB4
+        SAC3DAT                             0CB6
+        SAC3DAT_H                           0CB7
+        SAC3DAT_L                           0CB6
+clocks ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\clocks.r43 )
+        _A_CSCTL0_L                         0180
+        _A_CSCTL1_L                         0182
+        _A_CSCTL2_L                         0184
+        _A_CSCTL3_L                         0186
+        _A_CSCTL4_L                         0188
+        _A_CSCTL5_L                         018A
+        _A_CSCTL7_L                         018E
+        _A_PM5CTL0_L                        0130
+        _A_SFRIFG1_L                        0102
+        _A_WDTCTL_L                         01CC
+        Init_Clocks                         8F68
+        Software_Trim                       88EE
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        CSCTL0                              0180
+        CSCTL0_H                            0181
+        CSCTL0_L                            0180
+        CSCTL1                              0182
+        CSCTL1_H                            0183
+        CSCTL1_L                            0182
+        CSCTL2                              0184
+        CSCTL2_H                            0185
+        CSCTL2_L                            0184
+        CSCTL3                              0186
+        CSCTL3_H                            0187
+        CSCTL3_L                            0186
+        CSCTL4                              0188
+        CSCTL4_H                            0189
+        CSCTL4_L                            0188
+        CSCTL5                              018A
+        CSCTL5_H                            018B
+        CSCTL5_L                            018A
+        CSCTL7                              018E
+        CSCTL7_H                            018F
+        CSCTL7_L                            018E
+        PM5CTL0                             0130
+        PM5CTL0_H                           0131
+        PM5CTL0_L                           0130
+        SFRIFG1                             0102
+        SFRIFG1_H                           0103
+        SFRIFG1_L                           0102
+        WDTCTL                              01CC
+        WDTCTL_H                            01CD
+        WDTCTL_L                            01CC
+detectors ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\detectors.r43 )
+        _A_PCOUT_L                          0242
+        movingDirection                     NOT NEEDED
+        rightVals                           NOT NEEDED
+        lastLeft                            NOT NEEDED
+        lastRight                           NOT NEEDED
+        leftVals                            NOT NEEDED
+        LBDetect                            NOT NEEDED
+        LWDetect                            NOT NEEDED
+        RBDetect                            NOT NEEDED
+        RWDetect                            NOT NEEDED
+        EmitterOn                           96B6
+        EmitterOff                          NOT NEEDED
+        DetectMovement                      NOT NEEDED
+        push                                NOT NEEDED
+        clearList                           NOT NEEDED
+        validList                           NOT NEEDED
+        rollingSum                          NOT NEEDED
+        getDirection                        NOT NEEDED
+        abs                                 NOT NEEDED
+        calibrate                           NOT NEEDED
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        PCOUT                               0242
+        PCOUT_H                             0243
+        PCOUT_L                             0242
+init ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\init.r43 )
+        _A_PAOUT_L                          0202
+        _A_PCOUT_L                          NOT NEEDED
+        Init_LEDs                           NOT NEEDED
+        Init_Conditions                     9088
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        PAOUT                               0202
+        PAOUT_H                             0203
+        PAOUT_L                             0202
+        PCOUT                               0242
+        PCOUT_H                             0243
+        PCOUT_L                             0242
+LCD ( C:\Users\saad\Documents\ece-306\Homework 09\Compiled\LCD.r43 )
+        _A_PAOUT_L                          NOT NEEDED
+        _A_PBOUT_L                          0222
+        _A_TB0CCTL2_L                       0386
+        _A_TB0CCR2_L                        0396
+        _A_UCB1CTLW0_L                      05C0
+        _A_UCB1BRW_L                        05C6
+        _A_UCB1RXBUF_L                      05CC
+        _A_UCB1TXBUF_L                      05CE
+        _A_UCB1IFG_L                        05EC
+        current_character                   2198
+        update_display_count                NOT NEEDED
+        display_update_time                 NOT NEEDED
+        update_display                      2199
+        display_changed                     219A
+        lcd_control                         NOT NEEDED
+        display_line                        219B
+        display                             215E
+        posi_L1                             NOT NEEDED
+        posi_L2                             NOT NEEDED
+        posi_L3                             NOT NEEDED
+        posi_L4                             NOT NEEDED
+        lcd_orient                          NOT NEEDED
+        char_count                          NOT NEEDED
+        current_line                        NOT NEEDED
+        LCD_test                            NOT NEEDED
+        spi_chipselect_idle                 9640
+        spi_chipselect_active               96A0
+        spi_reset_idle                      96C4
+        spi_reset_active                    96CA
+        Display_Update                      9122
+        enable_display_update               NOT NEEDED
+        update_string                       NOT NEEDED
+        Init_LCD                            8B0C
+        lcd_4line                           9692
+        lcd_BIG_mid                         94F4
+        lcd_BIG_bot                         NOT NEEDED
+        lcd_180                             NOT NEEDED
+        lcd_out                             946A
+        lcd_puts                            NOT NEEDED
+        WriteIns                            93D0
+        WriteData                           93A8
+        CheckBusy                           NOT NEEDED
+        ClrDisplay                          957C
+        ClrDisplay_Buffer_0                 9592
+        ClrDisplay_Buffer_1                 95BA
+        ClrDisplay_Buffer_2                 95CE
+        ClrDisplay_Buffer_3                 95F6
+        SetPostion                          NOT NEEDED
+        DisplayOnOff                        95A6
+        Init_SPI_B1                         922A
+        SPI_B1_write                        9512
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        PAOUT                               0202
+        PAOUT_H                             0203
+        PAOUT_L                             0202
+        PBOUT                               0222
+        PBOUT_H                             0223
+        PBOUT_L                             0222
+        TB0CCTL2                            0386
+        TB0CCTL2_H                          0387
+        TB0CCTL2_L                          0386
+        TB0CCR2                             0396
+        TB0CCR2_H                           0397
+        TB0CCR2_L                           0396
+        UCB1CTLW0                           05C0
+        UCB1CTLW0_H                         05C1
+        UCB1CTLW0_L                         05C0
+        UCB1BRW                             05C6
+        UCB1BRW_H                           05C7
+        UCB1BRW_L                           05C6
+        UCB1RXBUF                           05CC
+        UCB1RXBUF_H                         05CD
+        UCB1RXBUF_L                         05CC
+        UCB1TXBUF                           05CE
+        UCB1TXBUF_H                         05CF
+        UCB1TXBUF_L                         05CE
+        UCB1IFG                             05EC
+        UCB1IFG_H                           05ED
+        UCB1IFG_L                           05EC
+led ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\led.r43 )
+        _A_PAOUT_L                          NOT NEEDED
+        _A_PCOUT_L                          NOT NEEDED
+        Display_Process                     94D2
+        Carlson_StateMachine                NOT NEEDED
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        PAOUT                               0202
+        PAOUT_H                             0203
+        PAOUT_L                             0202
+        PCOUT                               0242
+        PCOUT_H                             0243
+        PCOUT_L                             0242
+main ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\main.r43 )
+        _A_PBOUT_L                          NOT NEEDED
+        _A_PM5CTL0_L                        NOT NEEDED
+        slow_input_down                     NOT NEEDED
+        display_mode                        NOT NEEDED
+        test_value                          NOT NEEDED
+        chosen_direction                    NOT NEEDED
+        change                              NOT NEEDED
+        Last_Time_Sequence                  2166
+        cycle_count                         2168
+        stopwatch_seconds                   216A
+        time_change                         216C
+        UCA0_index                          NOT NEEDED
+        UCA1_index                          NOT NEEDED
+        main                                89C8
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        PBOUT                               0222
+        PBOUT_H                             0223
+        PBOUT_L                             0222
+        PM5CTL0                             0130
+        PM5CTL0_H                           0131
+        PM5CTL0_L                           0130
+menu ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\menu.r43 )
+        menuState                           214A
+        lastThumb                           216E
+        resistors                           2000
+        shape                               2040
+        song                                2080
+        mainMenu                            20C0
+        start                               2100
+        currMenu                            2140
+        displayStartMenu                    937A
+        displayMainMenu                     92DE
+        displayResistorsMenu                9348
+        displayShapesMenu                   8E2A
+        displaySongMenu                     8E94
+        updateMenuPos                       92A6
+        trainsitionMenu                     8EFE
+        resetMenu                           9168
+        MenuProcess                         8FCE
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+pid ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\pid.r43 )
+        GetOutput                           NOT NEEDED
+        ClearController                     NOT NEEDED
+        additionSafe                        NOT NEEDED
+        multSafe                            NOT NEEDED
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+ports ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\ports.r43 )
+        _A_PAOUT_L                          NOT NEEDED
+        _A_PADIR_L                          0204
+        _A_PAREN_L                          0206
+        _A_PASEL0_L                         020A
+        _A_PASEL1_L                         020C
+        _A_PASELC_L                         0216
+        _A_PAIES_L                          0218
+        _A_PAIE_L                           021A
+        _A_PAIFG_L                          021C
+        _A_PBOUT_L                          NOT NEEDED
+        _A_PBDIR_L                          0224
+        _A_PBREN_L                          0226
+        _A_PBSEL0_L                         022A
+        _A_PBSEL1_L                         022C
+        _A_PBIES_L                          0238
+        _A_PBIE_L                           023A
+        _A_PBIFG_L                          023C
+        _A_PCOUT_L                          NOT NEEDED
+        _A_PCDIR_L                          0244
+        _A_PCSEL0_L                         024A
+        _A_PCSEL1_L                         024C
+        _A_PCSELC_L                         0256
+        Init_Ports                          952E
+        Init_Port1                          902C
+        Init_Port2                          8BA8
+        Init_Port3                          8A6C
+        Init_Port4                          8C42
+        Init_Port5                          9314
+        Init_Port6                          8CC4
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        PAOUT                               0202
+        PAOUT_H                             0203
+        PAOUT_L                             0202
+        PADIR                               0204
+        PADIR_H                             0205
+        PADIR_L                             0204
+        PAREN                               0206
+        PAREN_H                             0207
+        PAREN_L                             0206
+        PASEL0                              020A
+        PASEL0_H                            020B
+        PASEL0_L                            020A
+        PASEL1                              020C
+        PASEL1_H                            020D
+        PASEL1_L                            020C
+        PASELC                              0216
+        PASELC_H                            0217
+        PASELC_L                            0216
+        PAIES                               0218
+        PAIES_H                             0219
+        PAIES_L                             0218
+        PAIE                                021A
+        PAIE_H                              021B
+        PAIE_L                              021A
+        PAIFG                               021C
+        PAIFG_H                             021D
+        PAIFG_L                             021C
+        PBOUT                               0222
+        PBOUT_H                             0223
+        PBOUT_L                             0222
+        PBDIR                               0224
+        PBDIR_H                             0225
+        PBDIR_L                             0224
+        PBREN                               0226
+        PBREN_H                             0227
+        PBREN_L                             0226
+        PBSEL0                              022A
+        PBSEL0_H                            022B
+        PBSEL0_L                            022A
+        PBSEL1                              022C
+        PBSEL1_H                            022D
+        PBSEL1_L                            022C
+        PBIES                               0238
+        PBIES_H                             0239
+        PBIES_L                             0238
+        PBIE                                023A
+        PBIE_H                              023B
+        PBIE_L                              023A
+        PBIFG                               023C
+        PBIFG_H                             023D
+        PBIFG_L                             023C
+        PCOUT                               0242
+        PCOUT_H                             0243
+        PCOUT_L                             0242
+        PCDIR                               0244
+        PCDIR_H                             0245
+        PCDIR_L                             0244
+        PCSEL0                              024A
+        PCSEL0_H                            024B
+        PCSEL0_L                            024A
+        PCSEL1                              024C
+        PCSEL1_H                            024D
+        PCSEL1_L                            024C
+        PCSELC                              0256
+        PCSELC_H                            0257
+        PCSELC_L                            0256
+serial ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\serial.r43 )
+        _A_UCA0CTLW0_L                      0500
+        _A_UCA0BRW_L                        0506
+        _A_UCA0MCTLW_L                      0508
+        _A_UCA0RXBUF_L                      050C
+        _A_UCA0TXBUF_L                      050E
+        _A_UCA0IE_L                         051A
+        _A_UCA0IFG_L                        051C
+        _A_UCA0IV_L                         051E
+        _A_UCA1CTLW0_L                      0580
+        _A_UCA1BRW_L                        0586
+        _A_UCA1MCTLW_L                      0588
+        _A_UCA1RXBUF_L                      058C
+        _A_UCA1TXBUF_L                      058E
+        _A_UCA1IE_L                         059A
+        _A_UCA1IV_L                         059E
+        usb0_rx_wr                          2170
+        usb1_rx_wr                          2172
+        usb0_rx_rd                          2174
+        usb1_rx_rd                          2176
+        USB0_Char_Rx_Ring                   21C7
+        USB0_Char_Rx_Process                21D7
+        USB1_Char_Rx_Ring                   21F0
+        USB1_Char_Rx_Process                2200
+        USB0_Char_Tx                        2219
+        USB1_Char_Tx                        2232
+        pb0_index                           2178
+        pb1_index                           217A
+        tx0_index                           217C
+        tx1_index                           217E
+        pb0_buffered                        2180
+        pb1_buffered                        2182
+        serialState                         2184
+        Init_Serial_UCA                     8D40
+        eUSCI_A0_ISR                        8512
+        eUSCI_A1_ISR                        8584
+        clearProcessBuff                    94B0
+        clearProcessBuff_0                  961C
+        clearProcessBuff_1                  960A
+        out_character                       NOT NEEDED
+        USCI_A0_transmit                    NOT NEEDED
+        USCI_A1_transmit                    NOT NEEDED
+        loadRingtoPB                        NOT NEEDED
+        loadRingtoPB_0                      NOT NEEDED
+        loadRingtoPB_1                      NOT NEEDED
+        copyPBtoTx_0                        NOT NEEDED
+        SerialProcess                       NOT NEEDED
+        eUSCI_A1_ISR::??INTVEC 64           FFE2
+        eUSCI_A0_ISR::??INTVEC 66           FFE4
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        UCA0CTLW0                           0500
+        UCA0CTLW0_H                         0501
+        UCA0CTLW0_L                         0500
+        UCA0BRW                             0506
+        UCA0BRW_H                           0507
+        UCA0BRW_L                           0506
+        UCA0MCTLW                           0508
+        UCA0MCTLW_H                         0509
+        UCA0MCTLW_L                         0508
+        UCA0RXBUF                           050C
+        UCA0RXBUF_H                         050D
+        UCA0RXBUF_L                         050C
+        UCA0TXBUF                           050E
+        UCA0TXBUF_H                         050F
+        UCA0TXBUF_L                         050E
+        UCA0IE                              051A
+        UCA0IE_H                            051B
+        UCA0IE_L                            051A
+        UCA0IFG                             051C
+        UCA0IFG_H                           051D
+        UCA0IFG_L                           051C
+        UCA0IV                              051E
+        UCA0IV_H                            051F
+        UCA0IV_L                            051E
+        UCA1CTLW0                           0580
+        UCA1CTLW0_H                         0581
+        UCA1CTLW0_L                         0580
+        UCA1BRW                             0586
+        UCA1BRW_H                           0587
+        UCA1BRW_L                           0586
+        UCA1MCTLW                           0588
+        UCA1MCTLW_H                         0589
+        UCA1MCTLW_L                         0588
+        UCA1RXBUF                           058C
+        UCA1RXBUF_H                         058D
+        UCA1RXBUF_L                         058C
+        UCA1TXBUF                           058E
+        UCA1TXBUF_H                         058F
+        UCA1TXBUF_L                         058E
+        UCA1IE                              059A
+        UCA1IE_H                            059B
+        UCA1IE_L                            059A
+        UCA1IV                              059E
+        UCA1IV_H                            059F
+        UCA1IV_L                            059E
+sm ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\sm.r43 )
+        _A_PCOUT_L                          NOT NEEDED
+        _A_TB3CCR1_L                        0454
+        _A_TB3CCR2_L                        0456
+        state                               214B
+        stateCounter                        NOT NEEDED
+        nextState                           NOT NEEDED
+        delayTime                           NOT NEEDED
+        enteringDirection                   NOT NEEDED
+        Straight                            NOT NEEDED
+        Turn                                NOT NEEDED
+        LineFollow                          NOT NEEDED
+        Exit                                NOT NEEDED
+        delay                               NOT NEEDED
+        StateMachine                        NOT NEEDED
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        PCOUT                               0242
+        PCOUT_H                             0243
+        PCOUT_L                             0242
+        TB3CCR1                             0454
+        TB3CCR1_H                           0455
+        TB3CCR1_L                           0454
+        TB3CCR2                             0456
+        TB3CCR2_H                           0457
+        TB3CCR2_L                           0456
+switches ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\switches.r43 )
+        _A_PAIE_L                           NOT NEEDED
+        _A_PAIFG_L                          NOT NEEDED
+        _A_PBIE_L                           NOT NEEDED
+        _A_PBIFG_L                          NOT NEEDED
+        _A_TB0CCTL1_L                       0384
+        _A_TB0CCTL2_L                       NOT NEEDED
+        _A_TB0R_L                           0390
+        _A_TB0CCR1_L                        0394
+        _A_TB0CCR2_L                        NOT NEEDED
+        sw1Okay                             NOT NEEDED
+        sw2Okay                             NOT NEEDED
+        count_debounce_SW1                  NOT NEEDED
+        count_debounce_SW2                  NOT NEEDED
+        sw1_pos                             NOT NEEDED
+        sw2_pos                             NOT NEEDED
+        calibrationMode                     NOT NEEDED
+        switchP4_interrupt                  85EE
+        switchP2_interrupt                  8626
+        switchP4_interrupt::??INTVEC 44     FFCE
+        switchP2_interrupt::??INTVEC 48     FFD2
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        PAIE                                021A
+        PAIE_H                              021B
+        PAIE_L                              021A
+        PAIFG                               021C
+        PAIFG_H                             021D
+        PAIFG_L                             021C
+        PBIE                                023A
+        PBIE_H                              023B
+        PBIE_L                              023A
+        PBIFG                               023C
+        PBIFG_H                             023D
+        PBIFG_L                             023C
+        TB0CCTL1                            0384
+        TB0CCTL1_H                          0385
+        TB0CCTL1_L                          0384
+        TB0CCTL2                            0386
+        TB0CCTL2_H                          0387
+        TB0CCTL2_L                          0386
+        TB0R                                0390
+        TB0R_H                              0391
+        TB0R_L                              0390
+        TB0CCR1                             0394
+        TB0CCR1_H                           0395
+        TB0CCR1_L                           0394
+        TB0CCR2                             0396
+        TB0CCR2_H                           0397
+        TB0CCR2_L                           0396
+system ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\system.r43 )
+        enable_interrupts                   96BE
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+timers ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\timers.r43 )
+        _A_ADCCTL0_L                        NOT NEEDED
+        _A_PAIE_L                           NOT NEEDED
+        _A_PBIE_L                           NOT NEEDED
+        _A_TB0CTL_L                         0380
+        _A_TB0CCTL0_L                       0382
+        _A_TB0CCTL1_L                       NOT NEEDED
+        _A_TB0CCTL2_L                       NOT NEEDED
+        _A_TB0CCR0_L                        0392
+        _A_TB0CCR1_L                        NOT NEEDED
+        _A_TB0CCR2_L                        NOT NEEDED
+        _A_TB0EX0_L                         03A0
+        _A_TB0IV_L                          03AE
+        _A_TB1CTL_L                         03C0
+        _A_TB1CCTL1_L                       03C4
+        _A_TB1CCTL2_L                       03C6
+        _A_TB1EX0_L                         03E0
+        _A_TB1IV_L                          03EE
+        _A_TB3CTL_L                         0440
+        _A_TB3CCTL1_L                       0444
+        _A_TB3CCTL2_L                       0446
+        _A_TB3CCTL3_L                       0448
+        _A_TB3CCTL4_L                       044A
+        _A_TB3CCR0_L                        0452
+        _A_TB3CCR1_L                        NOT NEEDED
+        _A_TB3CCR2_L                        NOT NEEDED
+        _A_TB3CCR3_L                        0458
+        _A_TB3CCR4_L                        045A
+        Time_Sequence                       2186
+        timer0Counter                       2188
+        backliteCounter                     NOT NEEDED
+        debounce_count1                     218A
+        debounce_count2                     218C
+        debouncing1                         218E
+        debouncing2                         2190
+        debounce_thresh1                    2142
+        debounce_thresh2                    2144
+        checkAdc                            NOT NEEDED
+        timeElapsed                         2192
+        stopwatchUpdated                    2196
+        Init_Timers                         9684
+        Init_Timer_B0                       9268
+        Init_Timer_B1                       941E
+        Init_Timer_B3                       91AA
+        Timer0_B0_ISR                       865E
+        TIMER0_B1_ISR                       86E8
+        Timer1_B0_ISR                       875A
+        TIMER1_B1_ISR                       875C
+        TIMER1_B1_ISR::??INTVEC 80          FFF2
+        Timer1_B0_ISR::??INTVEC 82          FFF4
+        TIMER0_B1_ISR::??INTVEC 84          FFF6
+        Timer0_B0_ISR::??INTVEC 86          FFF8
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        ADCCTL0                             0700
+        ADCCTL0_H                           0701
+        ADCCTL0_L                           0700
+        PAIE                                021A
+        PAIE_H                              021B
+        PAIE_L                              021A
+        PBIE                                023A
+        PBIE_H                              023B
+        PBIE_L                              023A
+        TB0CTL                              0380
+        TB0CTL_H                            0381
+        TB0CTL_L                            0380
+        TB0CCTL0                            0382
+        TB0CCTL0_H                          0383
+        TB0CCTL0_L                          0382
+        TB0CCTL1                            0384
+        TB0CCTL1_H                          0385
+        TB0CCTL1_L                          0384
+        TB0CCTL2                            0386
+        TB0CCTL2_H                          0387
+        TB0CCTL2_L                          0386
+        TB0CCR0                             0392
+        TB0CCR0_H                           0393
+        TB0CCR0_L                           0392
+        TB0CCR1                             0394
+        TB0CCR1_H                           0395
+        TB0CCR1_L                           0394
+        TB0CCR2                             0396
+        TB0CCR2_H                           0397
+        TB0CCR2_L                           0396
+        TB0EX0                              03A0
+        TB0EX0_H                            03A1
+        TB0EX0_L                            03A0
+        TB0IV                               03AE
+        TB0IV_H                             03AF
+        TB0IV_L                             03AE
+        TB1CTL                              03C0
+        TB1CTL_H                            03C1
+        TB1CTL_L                            03C0
+        TB1CCTL1                            03C4
+        TB1CCTL1_H                          03C5
+        TB1CCTL1_L                          03C4
+        TB1CCTL2                            03C6
+        TB1CCTL2_H                          03C7
+        TB1CCTL2_L                          03C6
+        TB1EX0                              03E0
+        TB1EX0_H                            03E1
+        TB1EX0_L                            03E0
+        TB1IV                               03EE
+        TB1IV_H                             03EF
+        TB1IV_L                             03EE
+        TB3CTL                              0440
+        TB3CTL_H                            0441
+        TB3CTL_L                            0440
+        TB3CCTL1                            0444
+        TB3CCTL1_H                          0445
+        TB3CCTL1_L                          0444
+        TB3CCTL2                            0446
+        TB3CCTL2_H                          0447
+        TB3CCTL2_L                          0446
+        TB3CCTL3                            0448
+        TB3CCTL3_H                          0449
+        TB3CCTL3_L                          0448
+        TB3CCTL4                            044A
+        TB3CCTL4_H                          044B
+        TB3CCTL4_L                          044A
+        TB3CCR0                             0452
+        TB3CCR0_H                           0453
+        TB3CCR0_L                           0452
+        TB3CCR1                             0454
+        TB3CCR1_H                           0455
+        TB3CCR1_L                           0454
+        TB3CCR2                             0456
+        TB3CCR2_H                           0457
+        TB3CCR2_L                           0456
+        TB3CCR3                             0458
+        TB3CCR3_H                           0459
+        TB3CCR3_L                           0458
+        TB3CCR4                             045A
+        TB3CCR4_H                           045B
+        TB3CCR4_L                           045A
+wheels ( C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj\wheels.r43 )
+        _A_PAOUT_L                          NOT NEEDED
+        _A_PCIN_L                           0240
+        _A_TB1CCTL1_L                       NOT NEEDED
+        _A_TB1CCTL2_L                       NOT NEEDED
+        _A_TB1R_L                           03D0
+        _A_TB1CCR1_L                        03D4
+        _A_TB1CCR2_L                        03D6
+        _A_TB3CCR1_L                        NOT NEEDED
+        _A_TB3CCR2_L                        NOT NEEDED
+        _A_TB3CCR3_L                        NOT NEEDED
+        _A_TB3CCR4_L                        NOT NEEDED
+        wheel_periods                       NOT NEEDED
+        rightSwitchable                     2146
+        leftSwitchable                      2148
+        temp                                NOT NEEDED
+        rightFollowController               NOT NEEDED
+        leftFollowController                NOT NEEDED
+        rightAdjustController               NOT NEEDED
+        leftAdjustController                NOT NEEDED
+        ShutoffMotors                       96AC
+        ShutoffRight                        93F8
+        ShutoffLeft                         9444
+        MotorSafety                         91EA
+        RunRightMotor                       NOT NEEDED
+        RunLeftMotor                        NOT NEEDED
+        LockMotors                          NOT NEEDED
+        LockMotorsTime                      NOT NEEDED
+        Update_Ticks                        NOT NEEDED
+        Drive_Path                          NOT NEEDED
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
+        PAOUT                               0202
+        PAOUT_H                             0203
+        PAOUT_L                             0202
+        PCIN                                0240
+        PCIN_H                              0241
+        PCIN_L                              0240
+        TB1CCTL1                            03C4
+        TB1CCTL1_H                          03C5
+        TB1CCTL1_L                          03C4
+        TB1CCTL2                            03C6
+        TB1CCTL2_H                          03C7
+        TB1CCTL2_L                          03C6
+        TB1R                                03D0
+        TB1R_H                              03D1
+        TB1R_L                              03D0
+        TB1CCR1                             03D4
+        TB1CCR1_H                           03D5
+        TB1CCR1_L                           03D4
+        TB1CCR2                             03D6
+        TB1CCR2_H                           03D7
+        TB1CCR2_L                           03D6
+        TB3CCR1                             0454
+        TB3CCR1_H                           0455
+        TB3CCR1_L                           0454
+        TB3CCR2                             0456
+        TB3CCR2_H                           0457
+        TB3CCR2_L                           0456
+        TB3CCR3                             0458
+        TB3CCR3_H                           0459
+        TB3CCR3_L                           0458
+        TB3CCR4                             045A
+        TB3CCR4_H                           045B
+        TB3CCR4_L                           045A
+?abort ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        abort                               NOT NEEDED
+?__dbg_break ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __DebugBreak                        96DC
+?__dwrite ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __dwrite                            NOT NEEDED
+?__exit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __exit                              95E2
+?__write ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __write                             NOT NEEDED
+?_exit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        _exit                               96D8
+        __cstart_call_dtors                 NOT NEEDED
+        __cstart_closeall                   NOT NEEDED
+        __cstart_clearlocks                 NOT NEEDED
+?cppinit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __call_ctors                        NOT NEEDED
+        __alloc_record_needed_destruction   NOT NEEDED
+        __record_needed_destruction         NOT NEEDED
+        __call_dtors                        NOT NEEDED
+        __data16_vec_cctor                  NOT NEEDED
+?cstart ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __program_start                     83D0
+        ?cstart_begin                       83D0
+        ?cstart_call_mpu_init               NOT NEEDED
+        ?cstart_call_frwp_init              NOT NEEDED
+        ?cstart_call_low_level_init         NOT NEEDED
+        ?cstart_init_copy_ramfunc           NOT NEEDED
+        ?cstart_init_zero                   83D4
+        ?cstart_init_copy                   83E0
+        ?cstart_init_zero20                 NOT NEEDED
+        ?cstart_init_copy20                 NOT NEEDED
+        __cstart_init_tls                   NOT NEEDED
+        ?cstart_call_ctors                  NOT NEEDED
+        ?cstart_call_main                   83F0
+        ?cstart_end                         83F8
+lowinit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __low_level_init                    NOT NEEDED
+?reset_vector ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        ?reset_vector                       FFFE
+?exit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        exit                                96D4
+?FrwpInit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __iar_430_frwp_init                 NOT NEEDED
+_Add32f ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        _Sub32f                             NOT NEEDED
+        _Add32f                             878E
+?malloc ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        malloc                              NOT NEEDED
+?DivMod816u ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        ?DivMod8u                           NOT NEEDED
+        ?DivMod16u                          9564
+?DivMod816s ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        ?DivMod8s                           NOT NEEDED
+        ?DivMod16s                          NOT NEEDED
+?memcpy ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        memcpy                              9652
+?memmove ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        memmove                             NOT NEEDED
+?memzero ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __data16_memzero                    9674
+        __data16_memcpy                     96D0
+        __data16_memmove                    NOT NEEDED
+?MpuInit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __iar_430_mpu_init                  NOT NEEDED
+        ?mpu1_4k_init                       NOT NEEDED
+        ?mpu1_8k_init                       NOT NEEDED
+        ?mpu1_16k_init                      NOT NEEDED
+        ?mpu2_init                          NOT NEEDED
+?setjmp ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        setjmp                              NOT NEEDED
+        ?setjmp_r5                          NOT NEEDED
+        ?setjmp_r4                          NOT NEEDED
+        ?setjmp_end                         NOT NEEDED
+?longjmp ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        longjmp                             NOT NEEDED
+        ?longjmp_r5                         NOT NEEDED
+        ?longjmp_r4                         NOT NEEDED
+        ?longjmp_end                        NOT NEEDED
+?IndCallR11 ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        ?IndCallR11                         NOT NEEDED
+?IndCallR15 ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        ?IndCallR15                         NOT NEEDED
+?strcpy ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        strcpy                              9664
+?strlen ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        strlen                              962E
+?strncpy ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        strncpy                             948E
+?xcloseall ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        _Close_all                          NOT NEEDED
+?xgetmemchunk ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __data16_GetMemChunk                NOT NEEDED
+?xxmemxfree ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __data16_free                       NOT NEEDED
+?xxmemxmalloc ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
+        __data16_Aldata                     NOT NEEDED
+        __data16_malloc                     NOT NEEDED
+        __data16_findmem                     LOCAL, NOT NEEDED
+
+
+                ****************************************
+                *                                      *
+                *            MODULE SUMMARY            *
+                *                                      *
+                ****************************************
+
+Module               CODE      DATA      CONST
+------               ----      ----      -----
+                    (Rel)  (Rel)  (Abs)  (Rel)
+?DivMod816u            24
+?__dbg_break            2
+?__exit                20
+?_exit                  4
+?cstart                40
+?exit                   4
+?memcpy                18
+?memzero               20
+?reset_vector           2
+?strcpy                16
+?strlen                18
+?strncpy               34
+LCD                   640     55     10
+  + shared                            6
+_Add32f               352
+adc                   492     18     24
+  + shared             60             2
+  + common
+clocks                320            18
+  + shared                            2
+detectors               8
+  + shared                            2
+init                   82
+  + shared                            2
+led                    34
+main                  164      8            11
+menu                  684    325           955
+ports                 740            30
+  + shared                            8
+serial                412    154     30
+  + common             68
+sm                             1             1
+  + shared                            4
+switches              112             2
+  + shared             50             4
+  + common
+system                  6
+timers                482     22     28      4
+  + shared             88             8
+  + common
+wheels                150      4      8      4
+N/A (command line)           160
+N/A (alignment)
+----------          -----    ---    ---    ---
+Total:              4 880    747    188    975
+  + common             88
+
+
+                ****************************************
+                *                                      *
+                *      SEGMENTS IN ADDRESS ORDER       *
+                *                                      *
+                ****************************************
+
+
+SEGMENT              SPACE    START ADDRESS   END ADDRESS     SIZE  TYPE  ALIGN
+=======              =====    =============   ===========     ====  ====  =====
+DATA16_AN                              0102 - 0103               2   rel    0
+                                       0120 - 0121               2 
+                                       0124 - 0125               2 
+                                       0130 - 0131               2 
+                                       0180 - 018B               C 
+                                       018E - 018F               2 
+                                       01CC - 01CD               2 
+                                       0202 - 0207               6 
+                                       020A - 020D               4 
+                                       0216 - 021D               8 
+                                       0222 - 0227               6 
+                                       022A - 022D               4 
+                                       0238 - 023D               6 
+                                       0240 - 0245               6 
+                                       024A - 024D               4 
+                                       0256 - 0257               2 
+                                       0380 - 0387               8 
+                                       0390 - 0397               8 
+                                       03A0 - 03A1               2 
+                                       03AE - 03AF               2 
+                                       03C0 - 03C1               2 
+                                       03C4 - 03C7               4 
+                                       03D0 - 03D1               2 
+                                       03D4 - 03D7               4 
+                                       03E0 - 03E1               2 
+                                       03EE - 03EF               2 
+                                       0440 - 0441               2 
+                                       0444 - 044B               8 
+                                       0452 - 045B               A 
+                                       0500 - 0501               2 
+                                       0506 - 0509               4 
+                                       050C - 050F               4 
+                                       051A - 051F               6 
+                                       0580 - 0581               2 
+                                       0586 - 0589               4 
+                                       058C - 058F               4 
+                                       059A - 059B               2 
+                                       059E - 059F               2 
+                                       05C0 - 05C1               2 
+                                       05C6 - 05C7               2 
+                                       05CC - 05CF               4 
+                                       05EC - 05ED               2 
+                                       0700 - 0705               6 
+                                       070A - 070B               2 
+                                       0712 - 0713               2 
+                                       071A - 071B               2 
+                                       071E - 071F               2 
+                                       0CB0 - 0CB7               8 
+DATA16_I                               2000 - 214B             14C   rel    1
+DATA16_Z                               214C - 224A              FF   rel    1
+CODE_I                                    224C                       rel    1
+DATA20_Z                                  224C                       rel    1
+DATA20_N                                  224C                       rel    1
+DATA20_I                                  224C                       rel    1
+CSTACK                                 2F60 - 2FFF              A0   rel    1
+DATA16_C                               8000 - 8282             283   rel    0
+DATA16_ID                              8284 - 83CF             14C   rel    1
+DATA20_ID                                 83D0                       rel    1
+DATA20_C                                  83D0                       rel    1
+CSTART                                 83D0 - 83F7              28   rel    1
+ISR_CODE                               83F8 - 878D             396   rel    1
+CODE_ID                                   878E                       rel    1
+<CODE> 1                               878E - 96DD             F50   rel    1
+INTVEC                                 FFA2 - FFF9              58   com    1
+RESET                                  FFFE - FFFF               2   rel    1
+
+                ****************************************
+                *                                      *
+                *        END OF CROSS REFERENCE        *
+                *                                      *
+                ****************************************
+
+ 4 968 bytes of CODE  memory
+   747 bytes of DATA  memory (+ 188 absolute )
+   975 bytes of CONST memory
+
+Errors: none
+Warnings: none
+
