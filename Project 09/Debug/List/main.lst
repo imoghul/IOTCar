@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          02/Apr/2022  23:10:50
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          03/Apr/2022  19:10:50
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW2298.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW870B.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -54,16 +54,6 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
    \                                 In  segment DATA16_AN, at 0x130
    \   union <unnamed> _A_PM5CTL0_L
    \                     _A_PM5CTL0_L:
-   \   000000                DS8 2
-
-   \                                 In  segment DATA16_AN, at 0x506
-   \   union <unnamed> _A_UCA0BRW_L
-   \                     _A_UCA0BRW_L:
-   \   000000                DS8 2
-
-   \                                 In  segment DATA16_AN, at 0x508
-   \   union <unnamed> _A_UCA0MCTLW_L
-   \                     _A_UCA0MCTLW_L:
    \   000000                DS8 2
      14          #include <string.h>
      15          #include "macros.h"
@@ -281,32 +271,14 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
     139                  //strcpy(display_line[2], "   Baud   ");
     140                  
     141                  
-    142                  if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
-   \   000074   A2920605     CMP.W   #0x4, &0x506
-   \   000078   0D20         JNE     ??main_2
-   \   00007A   B29051550805 CMP.W   #0x5551, &0x508
-   \   000080   0920         JNE     ??main_2
+    142                  /*if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
     143                    strcpy(display_line[2], "  115200  ");
-   \   000082   3D40....     MOV.W   #`?<Constant "  115200  ">`, R13
-   \   000086   3C40....     MOV.W   #display_line + 22, R12
-   \   00008A   ........     CALLA   #strcpy
     144                    display_changed=1;
-   \   00008E   D243....     MOV.B   #0x1, &display_changed
-   \   000092   103C         JMP     ??main_1
     145                  }
     146                  else if(UCA0BRW == 52 && UCA0MCTLW == 0x4911){
-   \                     ??main_2:
-   \   000094   B29034000605 CMP.W   #0x34, &0x506
-   \   00009A   0C20         JNE     ??main_1
-   \   00009C   B29011490805 CMP.W   #0x4911, &0x508
-   \   0000A2   0820         JNE     ??main_1
     147                    strcpy(display_line[2], "   9600   ");
-   \   0000A4   3D40....     MOV.W   #`?<Constant "   9600   ">`, R13
-   \   0000A8   3C40....     MOV.W   #display_line + 22, R12
-   \   0000AC   ........     CALLA   #strcpy
     148                    display_changed=1;
-   \   0000B0   D243....     MOV.B   #0x1, &display_changed
-    149                  }
+    149                  }*/
     150                  
     151                  /*if(serialState==1){
     152                    strcpy(display_line[0], " TRANSMIT ");
@@ -319,37 +291,34 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
     159                    
     160                  
     161                  if(cycle_count==0){
-   \                     ??main_1:
-   \   0000B4   8293....     CMP.W   #0x0, &cycle_count
-   \   0000B8   0220         JNE     ??main_3
+   \   000074   8293....     CMP.W   #0x0, &cycle_count
+   \   000078   0220         JNE     ??main_1
     162                    display_changed = 1;
-   \   0000BA   D243....     MOV.B   #0x1, &display_changed
+   \   00007A   D243....     MOV.B   #0x1, &display_changed
     163                  }
     164          
     165                  if(Last_Time_Sequence != Time_Sequence) {
-   \                     ??main_3:
-   \   0000BE   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
-   \   0000C4   CD27         JEQ     ??main_0
+   \                     ??main_1:
+   \   00007E   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
+   \   000084   ED27         JEQ     ??main_0
     166                      Last_Time_Sequence = Time_Sequence;
-   \   0000C6   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
+   \   000086   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
     167                      cycle_count++;
-   \   0000CC   9253....     ADD.W   #0x1, &cycle_count
+   \   00008C   9253....     ADD.W   #0x1, &cycle_count
     168                      time_change = 1;
-   \   0000D0   9243....     MOV.W   #0x1, &time_change
+   \   000090   9243....     MOV.W   #0x1, &time_change
     169          
     170                      if(cycle_count == TIME_SEQUENCE_MAX) {
-   \   0000D4   B290FA00.... CMP.W   #0xfa, &cycle_count
-   \   0000DA   C223         JNE     ??main_0
+   \   000094   B290FA00.... CMP.W   #0xfa, &cycle_count
+   \   00009A   E223         JNE     ??main_0
     171                          cycle_count = 0;
-   \   0000DC   8243....     MOV.W   #0x0, &cycle_count
+   \   00009C   8243....     MOV.W   #0x0, &cycle_count
     172                          stopwatch_seconds++;
-   \   0000E0   9253....     ADD.W   #0x1, &stopwatch_seconds
-   \   0000E4   BD3F         JMP     ??main_0
-   \   0000E6   0343         NOP
-   \   0000E8                REQUIRE _A_PM5CTL0_L
-   \   0000E8                REQUIRE _A_PBOUT_L
-   \   0000E8                REQUIRE _A_UCA0BRW_L
-   \   0000E8                REQUIRE _A_UCA0MCTLW_L
+   \   0000A0   9253....     ADD.W   #0x1, &stopwatch_seconds
+   \   0000A4   DD3F         JMP     ??main_0
+   \   0000A6   0343         NOP
+   \   0000A8                REQUIRE _A_PM5CTL0_L
+   \   0000A8                REQUIRE _A_PBOUT_L
     173                      }
     174                  }
     175              }
@@ -361,16 +330,6 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
-
-   \                                 In  segment DATA16_C, align 1, align-sorted
-   \                     `?<Constant "  115200  ">`:
-   \   000000   202031313532 DC8 "  115200  "
-   \            3030202000  
-
-   \                                 In  segment DATA16_C, align 1, align-sorted
-   \                     `?<Constant "   9600   ">`:
-   \   000000   202020393630 DC8 "   9600   "
-   \            3020202000  
     179          
 
    Maximum stack usage in bytes:
@@ -400,34 +359,30 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
    Bytes  Function/Label
    -----  --------------
       11  ?<Constant "          ">
-      11  ?<Constant "   9600   ">
-      11  ?<Constant "  115200  ">
        2  Last_Time_Sequence
        2  UCA0_index
        2  UCA1_index
        2  _A_PBOUT_L
        2  _A_PM5CTL0_L
-       2  _A_UCA0BRW_L
-       2  _A_UCA0MCTLW_L
        1  change
        1  chosen_direction
        2  cycle_count
        1  display_mode
-     232  main
+     168  main
        1  slow_input_down
        2  stopwatch_seconds
        2  test_value
        2  time_change
 
  
- 232 bytes in segment CODE
-   8 bytes in segment DATA16_AN
-  33 bytes in segment DATA16_C
+ 168 bytes in segment CODE
+   4 bytes in segment DATA16_AN
+  11 bytes in segment DATA16_C
   18 bytes in segment DATA16_Z
  
- 232 bytes of CODE  memory
-  33 bytes of CONST memory
-  18 bytes of DATA  memory (+ 8 bytes shared)
+ 168 bytes of CODE  memory
+  11 bytes of CONST memory
+  18 bytes of DATA  memory (+ 4 bytes shared)
 
 Errors: none
 Warnings: none

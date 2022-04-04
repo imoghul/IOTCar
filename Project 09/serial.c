@@ -209,8 +209,8 @@ void copyPBtoTx_0(void){
 
 
 void SerialProcess(void){
-  loadRingtoPB_0();
-  loadRingtoPB_1();
+  if(!pb0_buffered)loadRingtoPB_0();
+  if(!pb1_buffered)loadRingtoPB_1();
   // copyPBtoTx_0();
   /*if(pb0_buffered){
     if(USB0_Char_Rx_Process[0]=='^'){

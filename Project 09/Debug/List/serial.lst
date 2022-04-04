@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          02/Apr/2022  22:31:31
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          03/Apr/2022  19:00:26
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\serial.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW2183.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWBE.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\serial.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -154,7 +154,7 @@ C:\Users\saad\Documents\ece-306\Project 09\serial.c
    \                                 In  segment DATA16_Z, align 1, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
    \                     USB0_Char_Rx_Process:
-   \   000000                DS8 25
+   \   000000                DS8 100
 
    \                                 In  segment DATA16_Z, align 1, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
@@ -165,18 +165,18 @@ C:\Users\saad\Documents\ece-306\Project 09\serial.c
    \                                 In  segment DATA16_Z, align 1, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
    \                     USB1_Char_Rx_Process:
-   \   000000                DS8 25
+   \   000000                DS8 100
 
    \                                 In  segment DATA16_Z, align 1, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
      20          volatile char USB0_Char_Tx[LARGE_RING_SIZE],USB1_Char_Tx[LARGE_RING_SIZE];
    \                     USB0_Char_Tx:
-   \   000000                DS8 25
+   \   000000                DS8 100
 
    \                                 In  segment DATA16_Z, align 1, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
    \                     USB1_Char_Tx:
-   \   000000                DS8 25
+   \   000000                DS8 100
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
@@ -258,7 +258,7 @@ C:\Users\saad\Documents\ece-306\Project 09\serial.c
      43              for(i = 0; i < LARGE_RING_SIZE; i++) {
    \   000024   0F43         MOV.W   #0x0, R15
    \                     ??Init_Serial_UCA_1:
-   \   000026   3F901900     CMP.W   #0x19, R15
+   \   000026   3F906400     CMP.W   #0x64, R15
    \   00002A   0634         JGE     ??Init_Serial_UCA_3
      44                  USB0_Char_Tx[i] = 0x00;
    \   00002C   CF43....     MOV.B   #0x0, USB0_Char_Tx(R15)
@@ -526,7 +526,7 @@ Warning[Pe1072]: a declaration cannot have a label
     152            for(int i = 0;i<LARGE_RING_SIZE;++i)pb[i]=0;
    \   000002   0A43         MOV.W   #0x0, R10
    \                     ??clearProcessBuff_0:
-   \   000004   3A901900     CMP.W   #0x19, R10
+   \   000004   3A906400     CMP.W   #0x64, R10
    \   000008   0634         JGE     ??clearProcessBuff_1
    \   00000A   0F4C         MOV.W   R12, R15
    \   00000C   0F5A         ADD.W   R10, R15
@@ -642,7 +642,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000036   094A         MOV.W   R10, R9
    \   000038   1953         ADD.W   #0x1, R9
    \   00003A   8B490000     MOV.W   R9, 0(R11)
-   \   00003E   3A901800     CMP.W   #0x18, R10
+   \   00003E   3A906300     CMP.W   #0x63, R10
    \   000042   0228         JNC     ??loadRingtoPB_0
    \   000044   8B430000     MOV.W   #0x0, 0(R11)
     187            }
@@ -711,7 +711,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
     203            for(int i = 0;i<sizeof(USB0_Char_Rx_Process);++i) USB0_Char_Tx[i] = USB0_Char_Rx_Process[i];
    \   000006   0F43         MOV.W   #0x0, R15
    \                     ??copyPBtoTx_0_0:
-   \   000008   3F901900     CMP.W   #0x19, R15
+   \   000008   3F906400     CMP.W   #0x64, R15
    \   00000C   052C         JC      ??copyPBtoTx_0_3
    \   00000E   DF4F........ MOV.B   USB0_Char_Rx_Process(R15), USB0_Char_Tx(R15)
    \   000014   1F53         ADD.W   #0x1, R15
@@ -731,10 +731,15 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \                                 In  segment CODE, align 2
     211          void SerialProcess(void){
    \                     SerialProcess:
-    212            loadRingtoPB_0();
-   \   000000   ........     CALLA   #loadRingtoPB_0
-    213            loadRingtoPB_1();
-   \   000004   ........     CALLA   #loadRingtoPB_1
+    212            if(!pb0_buffered)loadRingtoPB_0();
+   \   000000   8293....     CMP.W   #0x0, &pb0_buffered
+   \   000004   0220         JNE     ??SerialProcess_0
+   \   000006   ........     CALLA   #loadRingtoPB_0
+    213            if(!pb1_buffered)loadRingtoPB_1();
+   \                     ??SerialProcess_0:
+   \   00000A   8293....     CMP.W   #0x0, &pb1_buffered
+   \   00000E   0220         JNE     ??SerialProcess_1
+   \   000010   ........     CALLA   #loadRingtoPB_1
     214            // copyPBtoTx_0();
     215            /*if(pb0_buffered){
     216              if(USB0_Char_Rx_Process[0]=='^'){
@@ -745,13 +750,14 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
     221              clearProcessBuff_0();
     222            }*/
     223            if(pb1_buffered) clearProcessBuff_1();
-   \   000008   8293....     CMP.W   #0x0, &pb1_buffered
-   \   00000C   0224         JEQ     ??SerialProcess_0
-   \   00000E   ........     CALLA   #clearProcessBuff_1
+   \                     ??SerialProcess_1:
+   \   000014   8293....     CMP.W   #0x0, &pb1_buffered
+   \   000018   0224         JEQ     ??SerialProcess_2
+   \   00001A   ........     CALLA   #clearProcessBuff_1
     224            
     225          }
-   \                     ??SerialProcess_0:
-   \   000012   1001         RETA
+   \                     ??SerialProcess_2:
+   \   00001E   1001         RETA
 
    \                                 In  segment INTVEC, offset 0x40, root
    \                     `??eUSCI_A1_ISR::??INTVEC 64`:
@@ -795,13 +801,13 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    Bytes  Function/Label
    -----  --------------
      122  Init_Serial_UCA
-      20  SerialProcess
-      25  USB0_Char_Rx_Process
+      32  SerialProcess
+     100  USB0_Char_Rx_Process
       16  USB0_Char_Rx_Ring
-      25  USB0_Char_Tx
-      25  USB1_Char_Rx_Process
+     100  USB0_Char_Tx
+     100  USB1_Char_Rx_Process
       16  USB1_Char_Rx_Ring
-      25  USB1_Char_Tx
+     100  USB1_Char_Tx
       10  USCI_A0_transmit
       10  USCI_A1_transmit
        2  _A_UCA0BRW_L
@@ -845,15 +851,15 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
        2  usb1_rx_wr
 
  
- 462 bytes in segment CODE
+ 474 bytes in segment CODE
   30 bytes in segment DATA16_AN
- 155 bytes in segment DATA16_Z
+ 455 bytes in segment DATA16_Z
    4 bytes in segment INTVEC
  260 bytes in segment ISR_CODE
  
- 722 bytes of CODE  memory
+ 734 bytes of CODE  memory
    0 bytes of CONST memory (+  4 bytes shared)
- 155 bytes of DATA  memory (+ 30 bytes shared)
+ 455 bytes of DATA  memory (+ 30 bytes shared)
 
 Errors: none
 Warnings: 3

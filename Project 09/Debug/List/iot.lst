@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          02/Apr/2022  23:10:50
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          03/Apr/2022  19:15:26
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\iot.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW217F.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWBE34.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\iot.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -53,132 +53,281 @@ C:\Users\saad\Documents\ece-306\Project 09\iot.c
       8          extern unsigned volatile int pb0_buffered;
       9          extern volatile char USB0_Char_Rx_Process[];
      10          extern volatile char receievedFromPC;
-     11          
-     12          
+
+   \                                 In  segment DATA16_Z, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     11          char SSID[SSID_LEN+1];
+   \                     SSID:
+   \   000000                DS8 11
+
+   \                                 In  segment DATA16_Z, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     12          char IP[IP_LEN+1];
+   \                     IP:
+   \   000000                DS8 14
+     13          extern volatile unsigned char display_changed;
+     14          extern char display_line[4][11];
+     15          
+     16          
 
    \                                 In  segment CODE, align 2
-     13          void Init_IOT(void){
+     17          int Init_IOT(void){
    \                     Init_IOT:
-     14            //if(!receievedFromPC) return;
-     15            
-     16            switch(iot_setup_state){
+     18            //if(!receievedFromPC) return;
+     19            
+     20            switch(iot_setup_state){
    \   000000   5E42....     MOV.B   &iot_setup_state, R14
    \   000004   7E804200     SUB.B   #0x42, R14
-   \   000008   0D24         JEQ     ??Init_IOT_8
-   \   00000A   7E800B00     SUB.B   #0xb, R14
-   \   00000E   1B24         JEQ     ??Init_IOT_9
-   \   000010   7E800600     SUB.B   #0x6, R14
-   \   000014   3C24         JEQ     ??Init_IOT_10
-   \   000016   7E801A00     SUB.B   #0x1a, R14
-   \   00001A   2124         JEQ     ??Init_IOT_11
-   \   00001C   7E800600     SUB.B   #0x6, R14
-   \   000020   4224         JEQ     ??Init_IOT_12
-   \   000022   1001         RETA
-     17              case BOOT_UP:
-     18                if(pb0_buffered){
-   \                     ??Init_IOT_8:
-   \   000024   8293....     CMP.W   #0x0, &pb0_buffered
-   \   000028   5524         JEQ     ??Init_IOT_5
-     19                  if(strcmp((char*)USB0_Char_Rx_Process,BOOT_RESPONSE) == 0){
-   \   00002A   3D40....     MOV.W   #`?<Constant "WIFI GOT IP\\r\\n">`, R13
-   \   00002E   3C40....     MOV.W   #USB0_Char_Rx_Process, R12
-   \   000032   ........     CALLA   #strcmp
-   \   000036   0C93         CMP.W   #0x0, R12
-   \   000038   0320         JNE     ??Init_IOT_13
-     20                    iot_setup_state=CIPMUX_Tx;
-   \   00003A   F2404D00.... MOV.B   #0x4d, &iot_setup_state
-     21                  }
-     22                clearProcessBuff_0();
+   \   000008   1524         JEQ     ??Init_IOT_17
+   \   00000A   7E800700     SUB.B   #0x7, R14
+   \   00000E   A424         JEQ     ??Init_IOT_18
+   \   000010   6E82         SUB.B   #0x4, R14
+   \   000012   2124         JEQ     ??Init_IOT_19
+   \   000014   5E83         SUB.B   #0x1, R14
+   \   000016   6724         JEQ     ??Init_IOT_20
+   \   000018   7E800500     SUB.B   #0x5, R14
+   \   00001C   4024         JEQ     ??Init_IOT_21
+   \   00001E   7E801600     SUB.B   #0x16, R14
+   \   000022   A624         JEQ     ??Init_IOT_22
+   \   000024   6E82         SUB.B   #0x4, R14
+   \   000026   2324         JEQ     ??Init_IOT_23
+   \   000028   5E83         SUB.B   #0x1, R14
+   \   00002A   6924         JEQ     ??Init_IOT_24
+   \   00002C   7E800500     SUB.B   #0x5, R14
+   \   000030   4224         JEQ     ??Init_IOT_25
+   \   000032   CF3C         JMP     ??Init_IOT_12
+     21              case BOOT_UP:
+     22                if(pb0_buffered){
+   \                     ??Init_IOT_17:
+   \   000034   8293....     CMP.W   #0x0, &pb0_buffered
+   \   000038   CE24         JEQ     ??Init_IOT_3
+     23                  if(strcmp((char*)USB0_Char_Rx_Process,BOOT_RESPONSE) == 0){
+   \   00003A   3D40....     MOV.W   #`?<Constant "WIFI GOT IP\\r\\n">`, R13
+   \   00003E   3C40....     MOV.W   #USB0_Char_Rx_Process, R12
+   \   000042   ........     CALLA   #strcmp
+   \   000046   0C93         CMP.W   #0x0, R12
+   \   000048   0320         JNE     ??Init_IOT_26
+     24                    iot_setup_state=CIPMUX_Tx;
+   \   00004A   F2404D00.... MOV.B   #0x4d, &iot_setup_state
+     25                  }
+     26                clearProcessBuff_0();
+   \                     ??Init_IOT_26:
+   \   000050   ........     CALLA   #clearProcessBuff_0
+     27                }
+     28                break;
+   \   000054   C03C         JMP     ??Init_IOT_3
+     29                
+     30              case CIPMUX_Tx:
+     31                strcpy((char*)USB0_Char_Tx,ALLOW_MULTIPLE_CONNECTIONS);
+   \                     ??Init_IOT_19:
+   \   000056   3D40....     MOV.W   #`?<Constant "AT+CIPMUX=1\\r\\n">`, R13
+   \   00005A   3C40....     MOV.W   #USB0_Char_Tx, R12
+   \   00005E   ........     CALLA   #strcpy
+     32                USCI_A0_transmit();
+   \   000062   ........     CALLA   #USCI_A0_transmit
+     33                iot_setup_state = CIPMUX_Rx;
+   \   000066   F2406D00.... MOV.B   #0x6d, &iot_setup_state
+     34                break;
+   \   00006C   B43C         JMP     ??Init_IOT_3
+     35              case CIPMUX_Rx:
+     36                if(UCA0IE & UCTXIE) break; // wait for the Tx to completely transmit
+   \                     ??Init_IOT_23:
+   \   00006E   A2B31A05     BIT.W   #0x2, &0x51a
+   \   000072   B12C         JC      ??Init_IOT_3
+     37                if(pb0_buffered){ // wait for pb to finish buffering
+   \   000074   8293....     CMP.W   #0x0, &pb0_buffered
+   \   000078   AE24         JEQ     ??Init_IOT_3
+     38                  if(strcmp((char*)USB0_Char_Rx_Process,OK_RESPONSE) == 0) { //  check if the response was "OK"
+   \   00007A   3D40....     MOV.W   #`?<Constant "OK\\r\\n">`, R13
+   \   00007E   3C40....     MOV.W   #USB0_Char_Rx_Process, R12
+   \   000082   ........     CALLA   #strcmp
+   \   000086   0C93         CMP.W   #0x0, R12
+   \   000088   0420         JNE     ??Init_IOT_27
+     39                    iot_setup_state = CIPSERVER_Tx;
+   \   00008A   F2405300.... MOV.B   #0x53, &iot_setup_state
+   \   000090   033C         JMP     ??Init_IOT_13
+     40                  }
+     41                  else iot_setup_state = CIPMUX_Tx;
+   \                     ??Init_IOT_27:
+   \   000092   F2404D00.... MOV.B   #0x4d, &iot_setup_state
+     42                  clearProcessBuff_0();
    \                     ??Init_IOT_13:
-   \   000040   ........     CALLA   #clearProcessBuff_0
-     23                }
-     24                break;
-   \   000044   1001         RETA
-     25              case CIPMUX_Tx:
-     26                strcpy((char*)USB0_Char_Tx,ALLOW_MULTIPLE_CONNECTIONS);
-   \                     ??Init_IOT_9:
-   \   000046   3D40....     MOV.W   #`?<Constant "AT+CIPMUX=1\\r\\n">`, R13
-   \   00004A   3C40....     MOV.W   #USB0_Char_Tx, R12
-   \   00004E   ........     CALLA   #strcpy
-     27                USCI_A0_transmit();
-   \   000052   ........     CALLA   #USCI_A0_transmit
-     28                iot_setup_state = CIPMUX_Rx;
-   \   000056   F2406D00.... MOV.B   #0x6d, &iot_setup_state
-     29                break;
-   \   00005C   1001         RETA
-     30              case CIPMUX_Rx:
-     31                if(UCA0IE & UCTXIE) break;
-   \                     ??Init_IOT_11:
-   \   00005E   A2B31A05     BIT.W   #0x2, &0x51a
-   \   000062   382C         JC      ??Init_IOT_5
-     32                if(pb0_buffered){
-   \   000064   8293....     CMP.W   #0x0, &pb0_buffered
-   \   000068   3524         JEQ     ??Init_IOT_5
-     33                  if(strcmp((char*)USB0_Char_Rx_Process,OK_RESPONSE) == 0) {
-   \   00006A   3D40....     MOV.W   #`?<Constant "OK\\r\\n">`, R13
-   \   00006E   3C40....     MOV.W   #USB0_Char_Rx_Process, R12
-   \   000072   ........     CALLA   #strcmp
-   \   000076   0C93         CMP.W   #0x0, R12
-   \   000078   0420         JNE     ??Init_IOT_14
-     34                    iot_setup_state = CIPSERVER_Tx;
-   \   00007A   F2405300.... MOV.B   #0x53, &iot_setup_state
-   \   000080   033C         JMP     ??Init_IOT_6
-     35                  }
-     36                  else iot_setup_state = CIPMUX_Tx;
-   \                     ??Init_IOT_14:
-   \   000082   F2404D00.... MOV.B   #0x4d, &iot_setup_state
-     37                  clearProcessBuff_0();
-   \                     ??Init_IOT_6:
-   \   000088   ........     CALLA   #clearProcessBuff_0
-     38                }
-     39                break;
-   \   00008C   1001         RETA
-     40              case CIPSERVER_Tx:
-     41                strcpy((char*)USB0_Char_Tx,START_SERVER);
-   \                     ??Init_IOT_10:
-   \   00008E   3D40....     MOV.W   #`?<Constant "AT+CIPSERVER=1,4666\\r\\n">`, R13
-   \   000092   3C40....     MOV.W   #USB0_Char_Tx, R12
-   \   000096   ........     CALLA   #strcpy
-     42                USCI_A0_transmit();
-   \   00009A   ........     CALLA   #USCI_A0_transmit
-     43                iot_setup_state = CIPSERVER_Rx;
-   \   00009E   F2407300.... MOV.B   #0x73, &iot_setup_state
+   \   000098   ........     CALLA   #clearProcessBuff_0
+     43                }
      44                break;
-   \   0000A4   1001         RETA
-     45              case CIPSERVER_Rx:
-     46                if(UCA0IE & UCTXIE) break;
-   \                     ??Init_IOT_12:
-   \   0000A6   A2B31A05     BIT.W   #0x2, &0x51a
-   \   0000AA   142C         JC      ??Init_IOT_5
-     47                if(pb0_buffered){
-   \   0000AC   8293....     CMP.W   #0x0, &pb0_buffered
-   \   0000B0   1124         JEQ     ??Init_IOT_5
-     48                  if(strcmp((char*)USB0_Char_Rx_Process,OK_RESPONSE) == 0) {
-   \   0000B2   3D40....     MOV.W   #`?<Constant "OK\\r\\n">`, R13
-   \   0000B6   3C40....     MOV.W   #USB0_Char_Rx_Process, R12
-   \   0000BA   ........     CALLA   #strcmp
-   \   0000BE   0C93         CMP.W   #0x0, R12
-   \   0000C0   0420         JNE     ??Init_IOT_15
-     49                    iot_setup_state = IOT_SETUP_FINISHED;
-   \   0000C2   F2404600.... MOV.B   #0x46, &iot_setup_state
-   \   0000C8   033C         JMP     ??Init_IOT_7
-     50                  }
-     51                  else iot_setup_state = CIPSERVER_Tx;
+   \   00009C   9C3C         JMP     ??Init_IOT_3
+     45                
+     46              case CIPSERVER_Tx:
+     47                strcpy((char*)USB0_Char_Tx,START_SERVER);
+   \                     ??Init_IOT_21:
+   \   00009E   3D40....     MOV.W   #`?<Constant "AT+CIPSERVER=1,4666\\r\\n">`, R13
+   \   0000A2   3C40....     MOV.W   #USB0_Char_Tx, R12
+   \   0000A6   ........     CALLA   #strcpy
+     48                USCI_A0_transmit();
+   \   0000AA   ........     CALLA   #USCI_A0_transmit
+     49                iot_setup_state = CIPSERVER_Rx;
+   \   0000AE   F2407300.... MOV.B   #0x73, &iot_setup_state
+     50                break;
+   \   0000B4   903C         JMP     ??Init_IOT_3
+     51              case CIPSERVER_Rx:
+     52                if(UCA0IE & UCTXIE) break;
+   \                     ??Init_IOT_25:
+   \   0000B6   A2B31A05     BIT.W   #0x2, &0x51a
+   \   0000BA   8D2C         JC      ??Init_IOT_3
+     53                if(pb0_buffered){
+   \   0000BC   8293....     CMP.W   #0x0, &pb0_buffered
+   \   0000C0   8A24         JEQ     ??Init_IOT_3
+     54                  if(strcmp((char*)USB0_Char_Rx_Process,OK_RESPONSE) == 0) {
+   \   0000C2   3D40....     MOV.W   #`?<Constant "OK\\r\\n">`, R13
+   \   0000C6   3C40....     MOV.W   #USB0_Char_Rx_Process, R12
+   \   0000CA   ........     CALLA   #strcmp
+   \   0000CE   0C93         CMP.W   #0x0, R12
+   \   0000D0   0420         JNE     ??Init_IOT_28
+     55                    iot_setup_state = GET_SSID_Tx;
+   \   0000D2   F2404E00.... MOV.B   #0x4e, &iot_setup_state
+   \   0000D8   033C         JMP     ??Init_IOT_14
+     56                  }
+     57                  else iot_setup_state = CIPSERVER_Tx;
+   \                     ??Init_IOT_28:
+   \   0000DA   F2405300.... MOV.B   #0x53, &iot_setup_state
+     58                  clearProcessBuff_0();
+   \                     ??Init_IOT_14:
+   \   0000E0   ........     CALLA   #clearProcessBuff_0
+     59                }
+     60                break;
+   \   0000E4   783C         JMP     ??Init_IOT_3
+     61                
+     62              case GET_SSID_Tx:
+     63                strcpy((char*)USB0_Char_Tx,SSID_COMMAND);
+   \                     ??Init_IOT_20:
+   \   0000E6   3D40....     MOV.W   #`?<Constant "AT+CWJAP?\\r\\n">`, R13
+   \   0000EA   3C40....     MOV.W   #USB0_Char_Tx, R12
+   \   0000EE   ........     CALLA   #strcpy
+     64                USCI_A0_transmit();
+   \   0000F2   ........     CALLA   #USCI_A0_transmit
+     65                iot_setup_state = GET_SSID_Rx;
+   \   0000F6   F2406E00.... MOV.B   #0x6e, &iot_setup_state
+     66                break;
+   \   0000FC   6C3C         JMP     ??Init_IOT_3
+     67              case GET_SSID_Rx:
+     68                if(UCA0IE & UCTXIE) break;
+   \                     ??Init_IOT_24:
+   \   0000FE   A2B31A05     BIT.W   #0x2, &0x51a
+   \   000102   692C         JC      ??Init_IOT_3
+     69                if(pb0_buffered){
+   \   000104   8293....     CMP.W   #0x0, &pb0_buffered
+   \   000108   6624         JEQ     ??Init_IOT_3
+     70                  if(strncmp(SSID_RESPONSE,(char*)USB0_Char_Rx_Process,SSID_RESPONSE_LEN) == 0) {
+   \   00010A   3E400700     MOV.W   #0x7, R14
+   \   00010E   3D40....     MOV.W   #USB0_Char_Rx_Process, R13
+   \   000112   3C40....     MOV.W   #`?<Constant "+CWJAP:">`, R12
+   \   000116   ........     CALLA   #strncmp
+   \   00011A   0C93         CMP.W   #0x0, R12
+   \   00011C   1720         JNE     ??Init_IOT_29
+     71                    for(int i = 0;i<=SSID_LEN;++i) SSID[i] = USB0_Char_Rx_Process[i+SSID_RESPONSE_LEN+1];
+   \   00011E   0F43         MOV.W   #0x0, R15
+   \                     ??Init_IOT_0:
+   \   000120   3F900B00     CMP.W   #0xb, R15
+   \   000124   0534         JGE     ??Init_IOT_30
+   \   000126   DF4F........ MOV.B   LWRD(USB0_Char_Rx_Process + 8)(R15), SSID(R15)
+   \   00012C   1F53         ADD.W   #0x1, R15
+   \   00012E   F83F         JMP     ??Init_IOT_0
+     72                    SSID[SSID_LEN] = 0;
+   \                     ??Init_IOT_30:
+   \   000130   C243....     MOV.B   #0x0, &SSID + 10
+     73                    strcpy(display_line[0],SSID);
+   \   000134   3D40....     MOV.W   #SSID, R13
+   \   000138   3C40....     MOV.W   #display_line, R12
+   \   00013C   ........     CALLA   #strcpy
+     74                    display_changed = 1;
+   \   000140   D243....     MOV.B   #0x1, &display_changed
+     75                    iot_setup_state = GET_IP_Tx;
+   \   000144   F2404900.... MOV.B   #0x49, &iot_setup_state
+   \   00014A   033C         JMP     ??Init_IOT_15
+     76                  }
+     77                  else iot_setup_state = GET_SSID_Tx;
+   \                     ??Init_IOT_29:
+   \   00014C   F2404E00.... MOV.B   #0x4e, &iot_setup_state
+     78                  clearProcessBuff_0();
    \                     ??Init_IOT_15:
-   \   0000CA   F2405300.... MOV.B   #0x53, &iot_setup_state
-     52                  clearProcessBuff_0();
-   \                     ??Init_IOT_7:
-   \   0000D0   ........     CALLA   #clearProcessBuff_0
-     53                }
-     54                break;
-     55              default:
-     56                break;
-     57            }
-     58            
-     59          }
-   \                     ??Init_IOT_5:
-   \   0000D4   1001         RETA
-   \   0000D6                REQUIRE _A_UCA0IE_L
+   \   000152   ........     CALLA   #clearProcessBuff_0
+     79                }
+     80                break;
+   \   000156   3F3C         JMP     ??Init_IOT_3
+     81                
+     82               case GET_IP_Tx:
+     83                strcpy((char*)USB0_Char_Tx,IP_COMMAND);
+   \                     ??Init_IOT_18:
+   \   000158   3D40....     MOV.W   #`?<Constant "AT+CIFSR\\r\\n">`, R13
+   \   00015C   3C40....     MOV.W   #USB0_Char_Tx, R12
+   \   000160   ........     CALLA   #strcpy
+     84                USCI_A0_transmit();
+   \   000164   ........     CALLA   #USCI_A0_transmit
+     85                iot_setup_state = GET_IP_Rx;
+   \   000168   F2406900.... MOV.B   #0x69, &iot_setup_state
+     86                break;
+   \   00016E   333C         JMP     ??Init_IOT_3
+     87              case GET_IP_Rx:
+     88                if(UCA0IE & UCTXIE) break;
+   \                     ??Init_IOT_22:
+   \   000170   A2B31A05     BIT.W   #0x2, &0x51a
+   \   000174   302C         JC      ??Init_IOT_3
+     89                if(pb0_buffered){
+   \   000176   8293....     CMP.W   #0x0, &pb0_buffered
+   \   00017A   2D24         JEQ     ??Init_IOT_3
+     90                  if(strncmp(IP_RESPONSE,(char*)USB0_Char_Rx_Process,IP_RESPONSE_LEN) == 0) {
+   \   00017C   3E400D00     MOV.W   #0xd, R14
+   \   000180   3D40....     MOV.W   #USB0_Char_Rx_Process, R13
+   \   000184   3C40....     MOV.W   #`?<Constant "+CIFSR:STAIP,">`, R12
+   \   000188   ........     CALLA   #strncmp
+   \   00018C   0C93         CMP.W   #0x0, R12
+   \   00018E   1B20         JNE     ??Init_IOT_31
+     91                    for(int i = 0;i<=IP_LEN && USB0_Char_Rx_Process[i+1]!='"';++i) IP[i] = USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1];
+   \   000190   0F43         MOV.W   #0x0, R15
+   \                     ??Init_IOT_1:
+   \   000192   3F900E00     CMP.W   #0xe, R15
+   \   000196   0934         JGE     ??Init_IOT_32
+   \   000198   FF902200.... CMP.B   #0x22, USB0_Char_Rx_Process + 1(R15)
+   \   00019E   0524         JEQ     ??Init_IOT_32
+   \   0001A0   DF4F........ MOV.B   LWRD(USB0_Char_Rx_Process + 14)(R15), IP(R15)
+   \   0001A6   1F53         ADD.W   #0x1, R15
+   \   0001A8   F43F         JMP     ??Init_IOT_1
+     92                    IP[IP_LEN] = 0;
+   \                     ??Init_IOT_32:
+   \   0001AA   C243....     MOV.B   #0x0, &IP + 13
+     93                    strcpy(display_line[0],IP);
+   \   0001AE   3D40....     MOV.W   #IP, R13
+   \   0001B2   3C40....     MOV.W   #display_line, R12
+   \   0001B6   ........     CALLA   #strcpy
+     94                    display_changed = 1;
+   \   0001BA   D243....     MOV.B   #0x1, &display_changed
+     95                    iot_setup_state = IOT_SETUP_FINISHED;
+   \   0001BE   F2404600.... MOV.B   #0x46, &iot_setup_state
+   \   0001C4   033C         JMP     ??Init_IOT_16
+     96                  }
+     97                  else iot_setup_state = GET_IP_Tx;
+   \                     ??Init_IOT_31:
+   \   0001C6   F2404900.... MOV.B   #0x49, &iot_setup_state
+     98                  clearProcessBuff_0();
+   \                     ??Init_IOT_16:
+   \   0001CC   ........     CALLA   #clearProcessBuff_0
+     99                }
+    100                break;
+   \   0001D0   023C         JMP     ??Init_IOT_3
+    101              
+    102              default:
+    103                return 1;
+   \                     ??Init_IOT_12:
+   \   0001D2   1C43         MOV.W   #0x1, R12
+   \   0001D4   1001         RETA
+    104                break;
+    105            }
+    106            return 0;
+   \                     ??Init_IOT_3:
+   \   0001D6   0C43         MOV.W   #0x0, R12
+   \   0001D8   1001         RETA
+   \   0001DA                REQUIRE _A_UCA0IE_L
+    107          }
 
    \                                 In  segment DATA16_ID, align 1, align-sorted
    \                     `?<Initializer for iot_setup_state>`:
@@ -207,6 +356,27 @@ C:\Users\saad\Documents\ece-306\Project 09\iot.c
    \            3D312C343636
    \            360D0A00    
 
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "AT+CWJAP?\\r\\n">`:
+   \   000000   41542B43574A DC8 "AT+CWJAP?\015\012"
+   \            41503F0D0A00
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "+CWJAP:">`:
+   \   000000   2B43574A4150 DC8 "+CWJAP:"
+   \            3A00        
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "AT+CIFSR\\r\\n">`:
+   \   000000   41542B434946 DC8 "AT+CIFSR\015\012"
+   \            53520D0A00  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "+CIFSR:STAIP,">`:
+   \   000000   2B4349465352 DC8 "+CIFSR:STAIP,"
+   \            3A5354414950
+   \            2C00        
+
    Maximum stack usage in bytes:
 
    CSTACK Function
@@ -216,31 +386,39 @@ C:\Users\saad\Documents\ece-306\Project 09\iot.c
         4   -> clearProcessBuff_0
         4   -> strcmp
         4   -> strcpy
+        4   -> strncmp
 
 
    Segment part sizes:
 
    Bytes  Function/Label
    -----  --------------
+      14  ?<Constant "+CIFSR:STAIP,">
+       8  ?<Constant "+CWJAP:">
+      11  ?<Constant "AT+CIFSR\r\n">
       14  ?<Constant "AT+CIPMUX=1\r\n">
       22  ?<Constant "AT+CIPSERVER=1,4666\r\n">
+      12  ?<Constant "AT+CWJAP?\r\n">
        5  ?<Constant "OK\r\n">
       14  ?<Constant "WIFI GOT IP\r\n">
        1  ?<Initializer for iot_setup_state>
-     214  Init_IOT
+      14  IP
+     474  Init_IOT
+      11  SSID
        2  _A_UCA0IE_L
        1  iot_setup_state
 
  
- 214 bytes in segment CODE
+ 474 bytes in segment CODE
    2 bytes in segment DATA16_AN
-  55 bytes in segment DATA16_C
+ 100 bytes in segment DATA16_C
    1 byte  in segment DATA16_I
    1 byte  in segment DATA16_ID
+  25 bytes in segment DATA16_Z
  
- 214 bytes of CODE  memory
-  56 bytes of CONST memory
-   1 byte  of DATA  memory (+ 2 bytes shared)
+ 474 bytes of CODE  memory
+ 101 bytes of CONST memory
+  26 bytes of DATA  memory (+ 2 bytes shared)
 
 Errors: none
 Warnings: none

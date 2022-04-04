@@ -139,14 +139,14 @@ void main(void) {
         //strcpy(display_line[2], "   Baud   ");
         
         
-        if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
+        /*if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
           strcpy(display_line[2], "  115200  ");
           display_changed=1;
         }
         else if(UCA0BRW == 52 && UCA0MCTLW == 0x4911){
           strcpy(display_line[2], "   9600   ");
           display_changed=1;
-        }
+        }*/
         
         /*if(serialState==1){
           strcpy(display_line[0], " TRANSMIT ");
