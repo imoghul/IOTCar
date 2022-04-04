@@ -195,9 +195,6 @@ void loadRingtoPB_1(void){
 void copyPBtoTx_0(void){
   if(!pb0_buffered)return;
   for(int i = 0;i<sizeof(USB0_Char_Rx_Process);++i) USB0_Char_Tx[i] = USB0_Char_Rx_Process[i];
-  //strcpy(display_line[3],(char*)USB0_Char_Tx);
-  //for(int i = 0;i<10;++i)
-  //  if(display_line[3][i] == '\r' || display_line[3][i]=='\n') display_line[3][i]=0;
   clearProcessBuff_0();
 }
 

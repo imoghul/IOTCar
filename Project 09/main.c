@@ -110,14 +110,15 @@ void main(void) {
     strcpy(display_line[2], "          ");
     strcpy(display_line[3], "          ");
     display_changed = TRUE;
-
+    
     //------------------------------------------------------------------------------
     // Begining of the "While" Operating System
     //------------------------------------------------------------------------------
     while(ALWAYS) {                       // Can the Operating system run
         Display_Process();                  // Update Display
         SerialProcess();
-        Init_IOT();
+        if(!Init_IOT()) continue;
+        IOTBufferCommands();
         //DetectMovement();
         //StateMachine();                     // Run wheels state machine
         //MenuProcess();

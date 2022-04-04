@@ -63,11 +63,9 @@ void Straight(void) {
     else if (stateCounter == 3) {
         ShutoffMotors();
         stateCounter = 0 ;
-        state = WAIT;
-        delayTime = 3;
+        state = START;
         stopwatch_seconds = 0;
         cycle_count = 0;
-        nextState = TURN;
         EmitterOff();
         //strcpy(display_line[1], "BLACK LINE");
         //strcpy(display_line[2], " DETECTED ");
@@ -102,11 +100,9 @@ void Turn() {
     } else if (stateCounter == 3) {
         ShutoffMotors();
         stateCounter = 0 ;
-        state = WAIT;
-        delayTime = 3;
+        state = START;
         stopwatch_seconds = 0;
         cycle_count = 0;
-        nextState = LINEFOLLOW;
         EmitterOff();
     }
 }
@@ -185,10 +181,9 @@ void LineFollow() {
     else if (stateCounter == 5) {
         ShutoffMotors();
         stateCounter = 0 ;
-        state = WAIT;
+        state = START;
         stopwatch_seconds = 0;
         cycle_count = 0;
-        nextState = EXIT;
         EmitterOff();
     }
 }
@@ -229,13 +224,40 @@ void Exit() {
     else if (stateCounter == 5) {
         ShutoffMotors();
         stateCounter = 0 ;
-        state = END;
+        state = START;
         stopwatch_seconds = 0;
         cycle_count = 0;
-        nextState = END;
         EmitterOff();
     }
 }
+
+void Drive(int polR,int polL,int time) {
+
+    if (stateCounter == 0) {
+        display_changed = 1;
+        EmitterOn();
+        stateCounter++;
+    }
+
+    if(stateCounter == 1) {
+       
+            Drive_Path(pol*STRAIGHT_RIGHT, ;pol*STRAIGHT_LEFT, time);
+    }
+
+    if(stateCounter == 2) {
+        if(LockMotors(-polR, -polL)) stateCounter++;
+    }
+
+    else if (stateCounter == 3) {
+        ShutoffMotors();
+        stateCounter = 0 ;
+        state = START;
+        stopwatch_seconds = 0;
+        cycle_count = 0;
+        EmitterOff();
+    }
+}
+
 
 
 // delays for a specified time and then switches state to global nextState

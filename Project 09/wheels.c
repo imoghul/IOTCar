@@ -157,10 +157,14 @@ int LockMotorsTime(int polR, int polL, int duration) {
     return (Drive_Path(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, duration));
 }
 
-int Update_Ticks(int max_tick) {
-    if(++wheel_periods > max_tick) {
+int Update_Ticks(int milliseconds) { // each tick is 4ms so 250*ticks = milliseconds
+    if(++wheel_periods > TIME_SEQUENCE_MAX) {
         wheel_periods = 0;
-        return 1;
+        stopwatch_milliseconds++;
+    }
+    if(stopwatch_milliseconds>=milliseconds){
+      stopwatch_milliseconds = 0;
+      return 1;
     }
 
     return 0;

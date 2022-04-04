@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  10:15:18
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  16:56:36
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW9975.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWF82C.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\wheels.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -541,46 +541,55 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
     159          
 
    \                                 In  segment CODE, align 2
-    160          int Update_Ticks(int max_tick) {
+    160          int Update_Ticks(int milliseconds) { // each tick is 4ms so 250*ticks = milliseconds
    \                     Update_Ticks:
    \   000000   0F4C         MOV.W   R12, R15
-    161              if(++wheel_periods > max_tick) {
+    161              if(++wheel_periods > TIME_SEQUENCE_MAX) {
    \   000002   1E42....     MOV.W   &wheel_periods, R14
    \   000006   1E53         ADD.W   #0x1, R14
    \   000008   824E....     MOV.W   R14, &wheel_periods
-   \   00000C   0F9E         CMP.W   R14, R15
-   \   00000E   042C         JC      ??Update_Ticks_0
+   \   00000C   3E90FB00     CMP.W   #0xfb, R14
+   \   000010   0428         JNC     ??Update_Ticks_0
     162                  wheel_periods = 0;
-   \   000010   8243....     MOV.W   #0x0, &wheel_periods
-    163                  return 1;
-   \   000014   1C43         MOV.W   #0x1, R12
-   \   000016   1001         RETA
+   \   000012   8243....     MOV.W   #0x0, &wheel_periods
+    163                  stopwatch_milliseconds++;
+   \   000016   9253....     ADD.W   #0x1, &stopwatch_milliseconds
     164              }
-    165          
-    166              return 0;
+    165              if(stopwatch_milliseconds>=milliseconds){
    \                     ??Update_Ticks_0:
-   \   000018   0C43         MOV.W   #0x0, R12
-   \   00001A   1001         RETA
-    167          }
-    168          
+   \   00001A   829F....     CMP.W   R15, &stopwatch_milliseconds
+   \   00001E   0428         JNC     ??Update_Ticks_1
+    166                stopwatch_milliseconds = 0;
+   \   000020   8243....     MOV.W   #0x0, &stopwatch_milliseconds
+    167                return 1;
+   \   000024   1C43         MOV.W   #0x1, R12
+   \   000026   1001         RETA
+    168              }
+    169          
+    170              return 0;
+   \                     ??Update_Ticks_1:
+   \   000028   0C43         MOV.W   #0x0, R12
+   \   00002A   1001         RETA
+    171          }
+    172          
 
    \                                 In  segment CODE, align 2
-    169          int Drive_Path(int speedR, int speedL, unsigned int ticksDuration) {
+    173          int Drive_Path(int speedR, int speedL, unsigned int ticksDuration) {
    \                     Drive_Path:
    \   000000   5B15         PUSHM.W #0x6, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
    \   000006   084E         MOV.W   R14, R8
-    170              int successR = RunRightMotor(speedR);
+    174              int successR = RunRightMotor(speedR);
    \   000008   0C4A         MOV.W   R10, R12
    \   00000A   ........     CALLA   #RunRightMotor
    \   00000E   094C         MOV.W   R12, R9
-    171              int successL = RunLeftMotor(speedL);
+    175              int successL = RunLeftMotor(speedL);
    \   000010   0C4B         MOV.W   R11, R12
    \   000012   ........     CALLA   #RunLeftMotor
    \   000016   064C         MOV.W   R12, R6
-    172          
-    173              if(ticksDuration == 0) return successR && successL;
+    176          
+    177              if(ticksDuration == 0) return successR && successL;
    \   000018   0893         CMP.W   #0x0, R8
    \   00001A   0920         JNE     ??Drive_Path_2
    \   00001C   0993         CMP.W   #0x0, R9
@@ -594,15 +603,15 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
    \                     ??Drive_Path_0:
    \   00002A   4C4C         MOV.B   R12, R12
    \   00002C   133C         JMP     ??Drive_Path_1
-    174          
-    175              if (time_change) {
+    178          
+    179              if (time_change) {
    \                     ??Drive_Path_2:
    \   00002E   8293....     CMP.W   #0x0, &time_change
    \   000032   0F24         JEQ     ??Drive_Path_4
-    176                  time_change = 0;
+    180                  time_change = 0;
    \   000034   8243....     MOV.W   #0x0, &time_change
-    177          
-    178                  if (successR && successL && Update_Ticks(ticksDuration)) {
+    181          
+    182                  if (successR && successL && Update_Ticks(ticksDuration)) {
    \   000038   0993         CMP.W   #0x0, R9
    \   00003A   0B24         JEQ     ??Drive_Path_4
    \   00003C   0693         CMP.W   #0x0, R6
@@ -611,21 +620,21 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
    \   000042   ........     CALLA   #Update_Ticks
    \   000046   0C93         CMP.W   #0x0, R12
    \   000048   0424         JEQ     ??Drive_Path_4
-    179                      ShutoffMotors();
+    183                      ShutoffMotors();
    \   00004A   ........     CALLA   #ShutoffMotors
-    180                      return 1;
+    184                      return 1;
    \   00004E   1C43         MOV.W   #0x1, R12
    \   000050   013C         JMP     ??Drive_Path_1
-    181                  }
-    182              }
-    183          
-    184              return 0;
+    185                  }
+    186              }
+    187          
+    188              return 0;
    \                     ??Drive_Path_4:
    \   000052   0C43         MOV.W   #0x0, R12
    \                     ??Drive_Path_1:
    \   000054   5617         POPM.W  #0x6, R11
    \   000056   1001         RETA
-    185          }
+    189          }
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
    \                     `?<Initializer for rightSwitchable>`:
@@ -654,8 +663,8 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
    \                     `?<Initializer for leftAdjustController>`:
    \   000000   140000000500 DC16 20, 0, 5, 0, 0, 0
    \            000000000000
-    186          
-    187          
+    190          
+    191          
 
    Maximum stack usage in bytes:
 
@@ -703,7 +712,7 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
       38  ShutoffLeft
       10  ShutoffMotors
       38  ShutoffRight
-      28  Update_Ticks
+      44  Update_Ticks
        2  _A_PAOUT_L
        2  _A_PCIN_L
        2  _A_TB1CCR1_L
@@ -725,13 +734,13 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
        2  wheel_periods
 
  
- 600 bytes in segment CODE
+ 616 bytes in segment CODE
   22 bytes in segment DATA16_AN
   52 bytes in segment DATA16_I
   52 bytes in segment DATA16_ID
    4 bytes in segment DATA16_Z
  
- 600 bytes of CODE  memory
+ 616 bytes of CODE  memory
   52 bytes of CONST memory
   56 bytes of DATA  memory (+ 22 bytes shared)
 

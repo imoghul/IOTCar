@@ -1,7 +1,10 @@
 #include "iot.h"
+#include <string.h>
 #include "msp430.h"
 #include <string.h>
 #include "serial.h"
+#include "sm.h"
+#include <stdlib.h>
 
 char iot_setup_state = BOOT_UP;
 extern volatile char USB0_Char_Tx[];
@@ -12,6 +15,17 @@ char SSID[SSID_LEN+1];
 char IP[IP_LEN+1];
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
+char dotFound;
+int midIndex;
+char midFound;
+command CommandBuffer[COMMAND_BUFFER_LEN];
+char cb_index;
+
+extern volatile char state;
+extern volatile int stateCounter;
+extern volatile char nextState;
+
+command emptyCommand = {0,0};
 
 
 int Init_IOT(void){
@@ -72,7 +86,7 @@ int Init_IOT(void){
           for(i = 0;i<=SSID_LEN && USB0_Char_Rx_Process[i+SSID_RESPONSE_LEN+1]!='\"';++i) SSID[i] = USB0_Char_Rx_Process[i+SSID_RESPONSE_LEN+1];
           SSID[i+SSID_RESPONSE_LEN+2] = 0;
           SSID[SSID_LEN] = 0;
-          strcpy(display_line[0],SSID);
+          centerStringToDisplay(0,SSID);
           display_changed = 1;
           iot_setup_state = GET_IP_Tx;
         }
@@ -91,15 +105,17 @@ int Init_IOT(void){
       if(pb0_buffered){
         if(strncmp(IP_RESPONSE,(char*)USB0_Char_Rx_Process,IP_RESPONSE_LEN) == 0) {
           int i;
-          char dotFound;
-          int midIndex;
+
           for(i = 0;i<=IP_LEN && USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1]!='"';++i) {
             IP[i] = USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1];
             if(USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1]=='.'){
               if(!dotFound)dotFound = 1;
               else {
                 dotFound = 0;
-                midIndex = i;
+                if(!midFound){
+                  midIndex = i;
+                  midFound = 1;
+                }
               }
             }
           }
@@ -124,7 +140,54 @@ int Init_IOT(void){
   return 0;
 }
 
-
 void centerStringToDisplay(unsigned int line,char * s){
-  strcpy(display_line[line]+((strlen(s)%2)?(strlen(s)>>1):((strlen(s)>>1) - 1)),s);
+  strcpy(display_line[line]+((10-strlen(s))>>1),s);
+}
+
+void IOTBufferCommands(void){
+  if(pb0_buffered) {
+    char * pos = strstr((char*)USB0_Char_Rx_Process,CARET_SECURITY_CODE);
+    while(pos){
+      pos+=CARET_SECURITY_CODE_LEN; // now should be on where the command actually is
+      char comm = *pos;
+      pos++;
+      char * end_caret = strchr(pos,'^');
+      char * end_null = strchr(pos,0);
+      char * end = end_caret?end_caret:end_null;
+      int time = strtol(pos,&end,10);
+      command c = {
+        .comm = comm,
+        .duration = time
+      };
+      pushCB(c);
+      pos = strstr(pos,CARET_SECURITY_CODE);
+    }
+    clearProcessBuff_0();
+  }
+  
+}
+
+command popCB(void){
+  command ret = CommandBuffer[0];
+  for(int i = 0;i<COMMAND_BUFFER_LEN-1;++i) CommandBuffer[i] = CommandBuffer[i+1];
+  CommandBuffer[COMMAND_BUFFER_LEN-1] = emptyCommand;
+  return ret;
+}
+void pushCB(command c){
+  int i;
+  for(i = 0;i<COMMAND_BUFFER_LEN;++i)
+    if(CommandBuffer[i].comm==0 && CommandBuffer[i].duration==0) break;
+  if(i==COMMAND_BUFFER_LEN) {
+    return;
+  }
+  CommandBuffer[i] = c;
+}
+
+void ProcessCommands(void){
+  if(state == START){
+    command c = popCB();
+    stopwatch_seconds = 0;
+    cycle_count = 0;
+    state = WAIT;
+  }
 }

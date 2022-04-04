@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  11:11:03
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  16:56:35
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW95E4.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWF51E.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -236,7 +236,7 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
    \   000058   ........     CALLA   #strcpy
     112              display_changed = TRUE;
    \   00005C   D243....     MOV.B   #0x1, &display_changed
-    113          
+    113              
     114              //------------------------------------------------------------------------------
     115              // Begining of the "While" Operating System
     116              //------------------------------------------------------------------------------
@@ -246,91 +246,95 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
    \   000060   ........     CALLA   #Display_Process
     119                  SerialProcess();
    \   000064   ........     CALLA   #SerialProcess
-    120                  Init_IOT();
+    120                  if(!Init_IOT()) continue;
    \   000068   ........     CALLA   #Init_IOT
-    121                  //DetectMovement();
-    122                  //StateMachine();                     // Run wheels state machine
-    123                  //MenuProcess();
-    124                  MotorSafety();
-   \   00006C   ........     CALLA   #MotorSafety
-    125                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-   \   000070   D2E32202     XOR.B   #0x1, &0x222
-    126                  /*if(movingDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
-    127                  else if(movingDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
-    128                  else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
-    129                  else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
-    130          
-    131                  /*if(stopwatchUpdated){
-    132                    stopwatchUpdated = 0;
-    133                    HEXtoBCD((int)timeElapsed,3,0);
-    134                    display_line[3][4]='.';
-    135                    display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
-    136                    display_changed = 1;
-    137                  }*/
-    138                  
-    139                  //strcpy(display_line[2], "   Baud   ");
-    140                  
+   \   00006C   0C93         CMP.W   #0x0, R12
+   \   00006E   F827         JEQ     ??main_0
+    121                  IOTBufferCommands();
+   \   000070   ........     CALLA   #IOTBufferCommands
+    122                  //DetectMovement();
+    123                  //StateMachine();                     // Run wheels state machine
+    124                  //MenuProcess();
+    125                  MotorSafety();
+   \   000074   ........     CALLA   #MotorSafety
+    126                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+   \   000078   D2E32202     XOR.B   #0x1, &0x222
+    127                  /*if(movingDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
+    128                  else if(movingDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
+    129                  else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
+    130                  else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
+    131          
+    132                  /*if(stopwatchUpdated){
+    133                    stopwatchUpdated = 0;
+    134                    HEXtoBCD((int)timeElapsed,3,0);
+    135                    display_line[3][4]='.';
+    136                    display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
+    137                    display_changed = 1;
+    138                  }*/
+    139                  
+    140                  //strcpy(display_line[2], "   Baud   ");
     141                  
-    142                  /*if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
-    143                    strcpy(display_line[2], "  115200  ");
-    144                    display_changed=1;
-    145                  }
-    146                  else if(UCA0BRW == 52 && UCA0MCTLW == 0x4911){
-    147                    strcpy(display_line[2], "   9600   ");
-    148                    display_changed=1;
-    149                  }*/
-    150                  
-    151                  /*if(serialState==1){
-    152                    strcpy(display_line[0], " TRANSMIT ");
-    153                    display_changed=1;
-    154                  }
-    155                  else if(serialState==2) {
-    156                    strcpy(display_line[0], " RECIEVED ");
-    157                    display_changed=1;
-    158                  }*/
-    159                    
-    160                  
-    161                  if(cycle_count==0){
-   \   000074   8293....     CMP.W   #0x0, &cycle_count
-   \   000078   0220         JNE     ??main_1
-    162                    display_changed = 1;
-   \   00007A   D243....     MOV.B   #0x1, &display_changed
-    163                  }
-    164          
-    165                  if(Last_Time_Sequence != Time_Sequence) {
-   \                     ??main_1:
-   \   00007E   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
-   \   000084   ED27         JEQ     ??main_0
-    166                      Last_Time_Sequence = Time_Sequence;
-   \   000086   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
-    167                      cycle_count++;
-   \   00008C   9253....     ADD.W   #0x1, &cycle_count
-    168                      time_change = 1;
-   \   000090   9243....     MOV.W   #0x1, &time_change
-    169          
-    170                      if(cycle_count == TIME_SEQUENCE_MAX) {
-   \   000094   B290FA00.... CMP.W   #0xfa, &cycle_count
-   \   00009A   E223         JNE     ??main_0
-    171                          cycle_count = 0;
-   \   00009C   8243....     MOV.W   #0x0, &cycle_count
-    172                          stopwatch_seconds++;
-   \   0000A0   9253....     ADD.W   #0x1, &stopwatch_seconds
-   \   0000A4   DD3F         JMP     ??main_0
-   \   0000A6   0343         NOP
-   \   0000A8                REQUIRE _A_PM5CTL0_L
-   \   0000A8                REQUIRE _A_PBOUT_L
-    173                      }
-    174                  }
-    175              }
-    176          
-    177              //------------------------------------------------------------------------------
-    178          }
+    142                  
+    143                  /*if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
+    144                    strcpy(display_line[2], "  115200  ");
+    145                    display_changed=1;
+    146                  }
+    147                  else if(UCA0BRW == 52 && UCA0MCTLW == 0x4911){
+    148                    strcpy(display_line[2], "   9600   ");
+    149                    display_changed=1;
+    150                  }*/
+    151                  
+    152                  /*if(serialState==1){
+    153                    strcpy(display_line[0], " TRANSMIT ");
+    154                    display_changed=1;
+    155                  }
+    156                  else if(serialState==2) {
+    157                    strcpy(display_line[0], " RECIEVED ");
+    158                    display_changed=1;
+    159                  }*/
+    160                    
+    161                  
+    162                  if(cycle_count==0){
+   \   00007C   8293....     CMP.W   #0x0, &cycle_count
+   \   000080   0220         JNE     ??main_2
+    163                    display_changed = 1;
+   \   000082   D243....     MOV.B   #0x1, &display_changed
+    164                  }
+    165          
+    166                  if(Last_Time_Sequence != Time_Sequence) {
+   \                     ??main_2:
+   \   000086   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
+   \   00008C   E927         JEQ     ??main_0
+    167                      Last_Time_Sequence = Time_Sequence;
+   \   00008E   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
+    168                      cycle_count++;
+   \   000094   9253....     ADD.W   #0x1, &cycle_count
+    169                      time_change = 1;
+   \   000098   9243....     MOV.W   #0x1, &time_change
+    170          
+    171                      if(cycle_count == TIME_SEQUENCE_MAX) {
+   \   00009C   B290FA00.... CMP.W   #0xfa, &cycle_count
+   \   0000A2   DE23         JNE     ??main_0
+    172                          cycle_count = 0;
+   \   0000A4   8243....     MOV.W   #0x0, &cycle_count
+    173                          stopwatch_seconds++;
+   \   0000A8   9253....     ADD.W   #0x1, &stopwatch_seconds
+   \   0000AC   D93F         JMP     ??main_0
+   \   0000AE   0343         NOP
+   \   0000B0                REQUIRE _A_PM5CTL0_L
+   \   0000B0                REQUIRE _A_PBOUT_L
+    174                      }
+    175                  }
+    176              }
+    177          
+    178              //------------------------------------------------------------------------------
+    179          }
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
-    179          
+    180          
 
    Maximum stack usage in bytes:
 
@@ -339,6 +343,7 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
       4   main
         4   -> Display_Process
         4   -> EmitterOn
+        4   -> IOTBufferCommands
         4   -> Init_ADC
         4   -> Init_Clocks
         4   -> Init_Conditions
@@ -368,19 +373,19 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
        1  chosen_direction
        2  cycle_count
        1  display_mode
-     168  main
+     176  main
        1  slow_input_down
        2  stopwatch_seconds
        2  test_value
        2  time_change
 
  
- 168 bytes in segment CODE
+ 176 bytes in segment CODE
    4 bytes in segment DATA16_AN
   11 bytes in segment DATA16_C
   18 bytes in segment DATA16_Z
  
- 168 bytes of CODE  memory
+ 176 bytes of CODE  memory
   11 bytes of CONST memory
   18 bytes of DATA  memory (+ 4 bytes shared)
 

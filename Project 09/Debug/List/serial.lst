@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  10:10:52
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  15:49:57
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\serial.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW88B1.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWEE79.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\serial.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -700,46 +700,43 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   00000E   DF4F........ MOV.B   USB0_Char_Rx_Process(R15), USB0_Char_Tx(R15)
    \   000014   1F53         ADD.W   #0x1, R15
    \   000016   F83F         JMP     ??copyPBtoTx_0_0
-    198            //strcpy(display_line[3],(char*)USB0_Char_Tx);
-    199            //for(int i = 0;i<10;++i)
-    200            //  if(display_line[3][i] == '\r' || display_line[3][i]=='\n') display_line[3][i]=0;
-    201            clearProcessBuff_0();
+    198            clearProcessBuff_0();
    \                     ??copyPBtoTx_0_3:
    \   000018   ........     CALLA   #clearProcessBuff_0
-    202          }
+    199          }
    \                     ??copyPBtoTx_0_2:
    \   00001C   1001         RETA
-    203          
-    204          
+    200          
+    201          
 
    \                                 In  segment CODE, align 2
-    205          void SerialProcess(void){
+    202          void SerialProcess(void){
    \                     SerialProcess:
-    206            if(!pb0_buffered)loadRingtoPB_0();
+    203            if(!pb0_buffered)loadRingtoPB_0();
    \   000000   8293....     CMP.W   #0x0, &pb0_buffered
    \   000004   0220         JNE     ??SerialProcess_0
    \   000006   ........     CALLA   #loadRingtoPB_0
-    207            if(!pb1_buffered)loadRingtoPB_1();
+    204            if(!pb1_buffered)loadRingtoPB_1();
    \                     ??SerialProcess_0:
    \   00000A   8293....     CMP.W   #0x0, &pb1_buffered
    \   00000E   0220         JNE     ??SerialProcess_1
    \   000010   ........     CALLA   #loadRingtoPB_1
-    208            // copyPBtoTx_0();
-    209            /*if(pb0_buffered){
-    210              if(USB0_Char_Rx_Process[0]=='^'){
-    211                if(USB0_Char_Rx_Process[1]=='F') SET_UCA0_115200;
-    212                if(USB0_Char_Rx_Process[1]=='S') SET_UCA0_9600;
-    213              }
-    214              
-    215              clearProcessBuff_0();
-    216            }*/
-    217            if(pb1_buffered) clearProcessBuff_1();
+    205            // copyPBtoTx_0();
+    206            /*if(pb0_buffered){
+    207              if(USB0_Char_Rx_Process[0]=='^'){
+    208                if(USB0_Char_Rx_Process[1]=='F') SET_UCA0_115200;
+    209                if(USB0_Char_Rx_Process[1]=='S') SET_UCA0_9600;
+    210              }
+    211              
+    212              clearProcessBuff_0();
+    213            }*/
+    214            if(pb1_buffered) clearProcessBuff_1();
    \                     ??SerialProcess_1:
    \   000014   8293....     CMP.W   #0x0, &pb1_buffered
    \   000018   0224         JEQ     ??SerialProcess_2
    \   00001A   ........     CALLA   #clearProcessBuff_1
-    218            
-    219          }
+    215            
+    216          }
    \                     ??SerialProcess_2:
    \   00001E   1001         RETA
 
