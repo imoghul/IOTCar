@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          03/Apr/2022  14:42:54
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  10:15:18
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\switches.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW38BA.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW9742.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\switches.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -161,12 +161,12 @@ C:\Users\saad\Documents\ece-306\Project 09\switches.c
    \                                 In  segment ISR_CODE, align 2
      46          __interrupt void switchP4_interrupt(void) {
    \                     switchP4_interrupt:
-   \   000000   3F15         PUSHM.W #0x4, R15
+   \   000000   0F12         PUSH.W  R15
      47              if(P4IFG & SW1 && debouncing1 == FALSE) {
    \   000002   E2B33D02     BIT.B   #0x2, &0x23d
-   \   000006   1628         JNC     ??switchP4_interrupt_0
+   \   000006   1428         JNC     ??switchP4_interrupt_0
    \   000008   8293....     CMP.W   #0x0, &debouncing1
-   \   00000C   1320         JNE     ??switchP4_interrupt_0
+   \   00000C   1120         JNE     ??switchP4_interrupt_0
      48                  P4IE &= ~SW1;
    \   00000E   E2C33B02     BIC.B   #0x2, &0x23b
      49                  P4IFG &= ~SW1;
@@ -185,18 +185,17 @@ C:\Users\saad\Documents\ece-306\Project 09\switches.c
      55          
      56                  // Actual Code
      57                  
-     58                  trainsitionMenu();
-   \   000030   ........     CALLA   #trainsitionMenu
+     58                  //trainsitionMenu();
      59              }
      60          }
    \                     ??switchP4_interrupt_0:
-   \   000034   3C17         POPM.W  #0x4, R15
-   \   000036   0013         RETI
-   \   000038                REQUIRE _A_PBIFG_L
-   \   000038                REQUIRE _A_PBIE_L
-   \   000038                REQUIRE _A_TB0CCTL1_L
-   \   000038                REQUIRE _A_TB0CCR1_L
-   \   000038                REQUIRE _A_TB0R_L
+   \   000030   3F41         POP.W   R15
+   \   000032   0013         RETI
+   \   000034                REQUIRE _A_PBIFG_L
+   \   000034                REQUIRE _A_PBIE_L
+   \   000034                REQUIRE _A_TB0CCTL1_L
+   \   000034                REQUIRE _A_TB0CCR1_L
+   \   000034                REQUIRE _A_TB0R_L
      61          
      62          //===========================================================================
      63          // Function name: switchP4_interrupt
@@ -218,12 +217,12 @@ C:\Users\saad\Documents\ece-306\Project 09\switches.c
    \                                 In  segment ISR_CODE, align 2
      78          __interrupt void switchP2_interrupt(void) {
    \                     switchP2_interrupt:
-   \   000000   3F15         PUSHM.W #0x4, R15
+   \   000000   0F12         PUSH.W  R15
      79              if(P2IFG & SW2 && debouncing2 == FALSE) {
    \   000002   F2B21D02     BIT.B   #0x8, &0x21d
-   \   000006   1628         JNC     ??switchP2_interrupt_0
+   \   000006   1428         JNC     ??switchP2_interrupt_0
    \   000008   8293....     CMP.W   #0x0, &debouncing2
-   \   00000C   1320         JNE     ??switchP2_interrupt_0
+   \   00000C   1120         JNE     ??switchP2_interrupt_0
      80                  P2IE &= ~SW2;
    \   00000E   F2C21B02     BIC.B   #0x8, &0x21b
      81                  P2IFG &= ~SW2;
@@ -239,18 +238,17 @@ C:\Users\saad\Documents\ece-306\Project 09\switches.c
      85                  debouncing2 = TRUE;
    \   00002C   9243....     MOV.W   #0x1, &debouncing2
      86                  // Actual Code
-     87                  resetMenu();
-   \   000030   ........     CALLA   #resetMenu
+     87                  //resetMenu();
      88              }
      89          }
    \                     ??switchP2_interrupt_0:
-   \   000034   3C17         POPM.W  #0x4, R15
-   \   000036   0013         RETI
-   \   000038                REQUIRE _A_PAIFG_L
-   \   000038                REQUIRE _A_PAIE_L
-   \   000038                REQUIRE _A_TB0CCTL2_L
-   \   000038                REQUIRE _A_TB0CCR2_L
-   \   000038                REQUIRE _A_TB0R_L
+   \   000030   3F41         POP.W   R15
+   \   000032   0013         RETI
+   \   000034                REQUIRE _A_PAIFG_L
+   \   000034                REQUIRE _A_PAIE_L
+   \   000034                REQUIRE _A_TB0CCTL2_L
+   \   000034                REQUIRE _A_TB0CCR2_L
+   \   000034                REQUIRE _A_TB0R_L
 
    \                                 In  segment INTVEC, offset 0x2c, root
    \                     `??switchP4_interrupt::??INTVEC 44`:
@@ -265,10 +263,8 @@ C:\Users\saad\Documents\ece-306\Project 09\switches.c
 
    CSTACK Function
    ------ --------
-     12   switchP2_interrupt
-       12   -> resetMenu
-     12   switchP4_interrupt
-       12   -> trainsitionMenu
+      6   switchP2_interrupt
+      6   switchP4_interrupt
 
 
    Segment part sizes:
@@ -291,18 +287,18 @@ C:\Users\saad\Documents\ece-306\Project 09\switches.c
        2  sw1_pos
        2  sw2Okay
        2  sw2_pos
-      56  switchP2_interrupt
+      52  switchP2_interrupt
        2  switchP2_interrupt::??INTVEC 48
-      56  switchP4_interrupt
+      52  switchP4_interrupt
        2  switchP4_interrupt::??INTVEC 44
 
  
   18 bytes in segment DATA16_AN
   14 bytes in segment DATA16_Z
    4 bytes in segment INTVEC
- 112 bytes in segment ISR_CODE
+ 104 bytes in segment ISR_CODE
  
- 112 bytes of CODE  memory
+ 104 bytes of CODE  memory
    0 bytes of CONST memory (+  4 bytes shared)
   14 bytes of DATA  memory (+ 18 bytes shared)
 

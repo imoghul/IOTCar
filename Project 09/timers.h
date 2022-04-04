@@ -2,14 +2,13 @@
 #define TB0CCR1_INTERVAL                (50000)         // 100 ms
 #define TB0CCR2_INTERVAL                (50000)         // 100 ms
 
-#define TB1CCR0_INTERVAL                (25000)         // 200 ms
+#define TB1CCR0_INTERVAL                (50000)         // 200 ms
 #define TB1CCR1_INTERVAL                (25000)         // 100 ms
 #define TB1CCR2_INTERVAL                (25000)         // 100 ms
 
 #define TIME_SEQUENCE_MAX               (250)
-#define TIME_SEQUENCE_TIMER_COUNT       (1)
-#define UPDATE_DISPLAY_TIMER_COUNT      (50)
 #define CHECK_ADC_TIMER_COUNT           (14)
+#define TIMER_COUNT_MAX                 (701) // multiply the other ones and add 1
 
 void Init_Timers(void);
 void Init_Timer_B0(void);

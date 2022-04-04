@@ -97,20 +97,10 @@ __interrupt void Timer0_B0_ISR(void) {
     //------------------------------------------------------------------------------
     // TimerB0 0 Interrupt handler
     //----------------------------------------------------------------------------
-    if(++timer0Counter == (unsigned long)((UPDATE_DISPLAY_TIMER_COUNT * CHECK_ADC_TIMER_COUNT * TIME_SEQUENCE_TIMER_COUNT) + 1)) timer0Counter = 1;
+    if(Time_Sequence++ == TIME_SEQUENCE_MAX) Time_Sequence = 0;
 
-    if(timer0Counter % TIME_SEQUENCE_TIMER_COUNT == 0) // 4ms
-        if(Time_Sequence++ == TIME_SEQUENCE_MAX) Time_Sequence = 0;
-
-    if(timer0Counter % UPDATE_DISPLAY_TIMER_COUNT == 0) { // 200 ms
-        if(state != END) {
-            stopwatchUpdated = 1;
-            timeElapsed += .2;
-        }
-        update_display = 1;
-    }
-
-    if(timer0Counter % CHECK_ADC_TIMER_COUNT == 0) { // 56 ms
+    if(timer0Counter >= CHECK_ADC_TIMER_COUNT ) { // 56 ms
+        timer0Counter = 0;
         ADCCTL0 |= ADCSC;
     }
 
@@ -188,7 +178,12 @@ __interrupt void Timer1_B0_ISR(void) {
     // TimerB0 0 Interrupt handler
     //----------------------------------------------------------------------------
     P3OUT |= IOT_EN_CPU;
-    TB1CCTL0 &= ~CCIE;
+    if(state != END) {
+            stopwatchUpdated = 1;
+            timeElapsed += .2;
+    }
+    update_display = 1;
+    TB1CCR0 += TB1CCR0_INTERVAL;
     //----------------------------------------------------------------------------
 }
 

@@ -77,16 +77,12 @@ __interrupt void eUSCI_A0_ISR(void) {
             break;
 
         case 2: // RXIFG
-          
             temp = usb0_rx_wr++;
             USB0_Char_Rx_Ring[temp] = UCA0RXBUF;
-            if(receievedFromPC) UCA1TXBUF=USB0_Char_Rx_Ring[temp];
-            if (usb0_rx_wr >= (sizeof(USB0_Char_Rx_Ring))) {
+            if (usb0_rx_wr >= (SMALL_RING_SIZE)) {
                 usb0_rx_wr = BEGINNING;
             }
-            
-            serialState = 2;
-          
+            if(receievedFromPC) UCA1TXBUF=USB0_Char_Rx_Ring[temp];
 
             break;
 
@@ -101,8 +97,6 @@ __interrupt void eUSCI_A0_ISR(void) {
             UCA0IE &= ~UCTXIE;
             //clearProcessBuff_0();
           }
-          serialState = 1;
-          
           break;
 
         default:
@@ -119,15 +113,14 @@ __interrupt void eUSCI_A1_ISR(void) {
             break;
 
         case 2: // RXIFG
-          char recieved = UCA1RXBUF;
+            if (!receievedFromPC)// && recieved=='\n')
+              receievedFromPC = ON;
             temp = usb1_rx_wr++;
-            USB1_Char_Rx_Ring[temp] = recieved;
+            USB1_Char_Rx_Ring[temp] = UCA1RXBUF;
             if(receievedFromPC)UCA0TXBUF = USB1_Char_Rx_Ring[temp];
-            if (usb1_rx_wr >= (sizeof(USB1_Char_Rx_Ring))) {
+            if (usb1_rx_wr >= (SMALL_RING_SIZE)) {
                 usb1_rx_wr = BEGINNING;
             }
-          //if (!receievedFromPC && recieved=='\n')
-            receievedFromPC = ON;
 
             break;
 
@@ -139,7 +132,8 @@ __interrupt void eUSCI_A1_ISR(void) {
           UCA1TXBUF = USB1_Char_Tx[tx1_index];
           USB1_Char_Tx[tx1_index++] = 0;
           if(USB1_Char_Tx[tx1_index] == 0) {
-            clearProcessBuff_1();
+            UCA1IE &= ~UCTXIE;
+            //clearProcessBuff_1();
           }
           break;
 

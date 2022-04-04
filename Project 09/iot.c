@@ -68,7 +68,9 @@ int Init_IOT(void){
       if(UCA0IE & UCTXIE) break;
       if(pb0_buffered){
         if(strncmp(SSID_RESPONSE,(char*)USB0_Char_Rx_Process,SSID_RESPONSE_LEN) == 0) {
-          for(int i = 0;i<=SSID_LEN;++i) SSID[i] = USB0_Char_Rx_Process[i+SSID_RESPONSE_LEN+1];
+          int i;
+          for(i = 0;i<=SSID_LEN && USB0_Char_Rx_Process[i+SSID_RESPONSE_LEN+1]!='\"';++i) SSID[i] = USB0_Char_Rx_Process[i+SSID_RESPONSE_LEN+1];
+          SSID[i+SSID_RESPONSE_LEN+2] = 0;
           SSID[SSID_LEN] = 0;
           strcpy(display_line[0],SSID);
           display_changed = 1;
@@ -88,10 +90,12 @@ int Init_IOT(void){
       if(UCA0IE & UCTXIE) break;
       if(pb0_buffered){
         if(strncmp(IP_RESPONSE,(char*)USB0_Char_Rx_Process,IP_RESPONSE_LEN) == 0) {
-          for(int i = 0;i<=IP_LEN && USB0_Char_Rx_Process[i+1]!='"';++i) IP[i] = USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1];
+          int i;
+          for(i = 0;i<=IP_LEN && USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1]!='"';++i) IP[i] = USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1];
+          IP[i+IP_RESPONSE_LEN+2] = 0;
           IP[IP_LEN] = 0;
-          strcpy(display_line[0],IP);
-          display_changed = 1;
+          //strcpy(display_line[1],IP);
+          //display_changed = 1;
           iot_setup_state = IOT_SETUP_FINISHED;
         }
         else iot_setup_state = GET_IP_Tx;

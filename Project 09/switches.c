@@ -55,7 +55,7 @@ __interrupt void switchP4_interrupt(void) {
 
         // Actual Code
         
-        trainsitionMenu();
+        //trainsitionMenu();
     }
 }
 
@@ -84,7 +84,7 @@ __interrupt void switchP2_interrupt(void) {
         TB0CCTL2 |= CCIE; // CCR1 enable interrupt
         debouncing2 = TRUE;
         // Actual Code
-        resetMenu();
+        //resetMenu();
     }
 }
 

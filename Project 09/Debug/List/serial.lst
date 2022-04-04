@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          03/Apr/2022  19:00:26
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  10:10:52
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\serial.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWBE.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW88B1.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\serial.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -327,203 +327,187 @@ C:\Users\saad\Documents\ece-306\Project 09\serial.c
    \   000002   1F421E05     MOV.W   &0x51e, R15
    \   000006   E00F         ADDA    R15, PC
    \                     `?<Jumptable for eUSCI_A0_ISR>_0`:
-   \   000008   383C         JMP     ??eUSCI_A0_ISR_0
+   \   000008   343C         JMP     ??eUSCI_A0_ISR_2
    \   00000A   033C         JMP     ??eUSCI_A0_ISR_4
-   \   00000C   1E3C         JMP     ??eUSCI_A0_ISR_5
-   \   00000E   353C         JMP     ??eUSCI_A0_ISR_0
-   \   000010   343C         JMP     ??eUSCI_A0_ISR_0
+   \   00000C   1C3C         JMP     ??eUSCI_A0_ISR_5
+   \   00000E   313C         JMP     ??eUSCI_A0_ISR_2
+   \   000010   303C         JMP     ??eUSCI_A0_ISR_2
      76                  case 0:
      77                      break;
      78          
      79                  case 2: // RXIFG
-     80                    
-     81                      temp = usb0_rx_wr++;
+     80                      temp = usb0_rx_wr++;
    \                     ??eUSCI_A0_ISR_4:
    \   000012   1F42....     MOV.W   &usb0_rx_wr, R15
    \   000016   0E4F         MOV.W   R15, R14
    \   000018   1E53         ADD.W   #0x1, R14
    \   00001A   824E....     MOV.W   R14, &usb0_rx_wr
    \   00001E   0D4F         MOV.W   R15, R13
-     82                      USB0_Char_Rx_Ring[temp] = UCA0RXBUF;
+     81                      USB0_Char_Rx_Ring[temp] = UCA0RXBUF;
    \   000020   1E420C05     MOV.W   &0x50c, R14
    \   000024   CD4E....     MOV.B   R14, USB0_Char_Rx_Ring(R13)
-     83                      if(receievedFromPC) UCA1TXBUF=USB0_Char_Rx_Ring[temp];
-   \   000028   C293....     CMP.B   #0x0, &receievedFromPC
-   \   00002C   0524         JEQ     ??eUSCI_A0_ISR_1
-   \   00002E   5F4D....     MOV.B   USB0_Char_Rx_Ring(R13), R15
-   \   000032   4F4F         MOV.B   R15, R15
-   \   000034   824F8E05     MOV.W   R15, &0x58e
-     84                      if (usb0_rx_wr >= (sizeof(USB0_Char_Rx_Ring))) {
-   \                     ??eUSCI_A0_ISR_1:
-   \   000038   B2901000.... CMP.W   #0x10, &usb0_rx_wr
-   \   00003E   0228         JNC     ??eUSCI_A0_ISR_2
-     85                          usb0_rx_wr = BEGINNING;
-   \   000040   8243....     MOV.W   #0x0, &usb0_rx_wr
-     86                      }
-     87                      
-     88                      serialState = 2;
-   \                     ??eUSCI_A0_ISR_2:
-   \   000044   A243....     MOV.W   #0x2, &serialState
-     89                    
-     90          
-     91                      break;
-   \   000048   183C         JMP     ??eUSCI_A0_ISR_0
-     92          
-     93                  case 4: // TXIFG
-     94                    //if(receievedFromPC==OFF) {
-     95                    //  UCA0IE &= ~UCTXIE;
-     96                    //  return;
-     97                    //}
-     98                    UCA0TXBUF = USB0_Char_Tx[tx0_index];
-   \                     ??eUSCI_A0_ISR_5:
-   \   00004A   1F42....     MOV.W   &tx0_index, R15
-   \   00004E   5F4F....     MOV.B   USB0_Char_Tx(R15), R15
-   \   000052   4F4F         MOV.B   R15, R15
-   \   000054   824F0E05     MOV.W   R15, &0x50e
-     99                    USB0_Char_Tx[tx0_index++] = 0;
-   \   000058   1F42....     MOV.W   &tx0_index, R15
-   \   00005C   0E4F         MOV.W   R15, R14
-   \   00005E   1E53         ADD.W   #0x1, R14
-   \   000060   824E....     MOV.W   R14, &tx0_index
-   \   000064   CF43....     MOV.B   #0x0, USB0_Char_Tx(R15)
-    100                    if(USB0_Char_Tx[tx0_index] == 0) {
-   \   000068   1F42....     MOV.W   &tx0_index, R15
-   \   00006C   CF93....     CMP.B   #0x0, USB0_Char_Tx(R15)
-   \   000070   0220         JNE     ??eUSCI_A0_ISR_3
-    101                      UCA0IE &= ~UCTXIE;
-   \   000072   A2C31A05     BIC.W   #0x2, &0x51a
-    102                      //clearProcessBuff_0();
-    103                    }
-    104                    serialState = 1;
+     82                      if (usb0_rx_wr >= (SMALL_RING_SIZE)) {
+   \   000028   B2901000.... CMP.W   #0x10, &usb0_rx_wr
+   \   00002E   0228         JNC     ??eUSCI_A0_ISR_3
+     83                          usb0_rx_wr = BEGINNING;
+   \   000030   8243....     MOV.W   #0x0, &usb0_rx_wr
+     84                      }
+     85                      if(receievedFromPC) UCA1TXBUF=USB0_Char_Rx_Ring[temp];
    \                     ??eUSCI_A0_ISR_3:
-   \   000076   9243....     MOV.W   #0x1, &serialState
-    105                    
-    106                    break;
-    107          
-    108                  default:
-    109                      break;
-    110              }
-    111          }
-   \                     ??eUSCI_A0_ISR_0:
-   \   00007A   2D17         POPM.W  #0x3, R15
-   \   00007C   0013         RETI
-   \   00007E                REQUIRE _A_UCA0RXBUF_L
-   \   00007E                REQUIRE _A_UCA1TXBUF_L
-   \   00007E                REQUIRE _A_UCA0TXBUF_L
-   \   00007E                REQUIRE _A_UCA0IE_L
-   \   00007E                REQUIRE _A_UCA0IV_L
-    112          
-    113          #pragma vector=EUSCI_A1_VECTOR
+   \   000034   C293....     CMP.B   #0x0, &receievedFromPC
+   \   000038   1C24         JEQ     ??eUSCI_A0_ISR_2
+   \   00003A   5F4D....     MOV.B   USB0_Char_Rx_Ring(R13), R15
+   \   00003E   4F4F         MOV.B   R15, R15
+   \   000040   824F8E05     MOV.W   R15, &0x58e
+     86          
+     87                      break;
+   \   000044   163C         JMP     ??eUSCI_A0_ISR_2
+     88          
+     89                  case 4: // TXIFG
+     90                    //if(receievedFromPC==OFF) {
+     91                    //  UCA0IE &= ~UCTXIE;
+     92                    //  return;
+     93                    //}
+     94                    UCA0TXBUF = USB0_Char_Tx[tx0_index];
+   \                     ??eUSCI_A0_ISR_5:
+   \   000046   1F42....     MOV.W   &tx0_index, R15
+   \   00004A   5F4F....     MOV.B   USB0_Char_Tx(R15), R15
+   \   00004E   4F4F         MOV.B   R15, R15
+   \   000050   824F0E05     MOV.W   R15, &0x50e
+     95                    USB0_Char_Tx[tx0_index++] = 0;
+   \   000054   1F42....     MOV.W   &tx0_index, R15
+   \   000058   0E4F         MOV.W   R15, R14
+   \   00005A   1E53         ADD.W   #0x1, R14
+   \   00005C   824E....     MOV.W   R14, &tx0_index
+   \   000060   CF43....     MOV.B   #0x0, USB0_Char_Tx(R15)
+     96                    if(USB0_Char_Tx[tx0_index] == 0) {
+   \   000064   1F42....     MOV.W   &tx0_index, R15
+   \   000068   CF93....     CMP.B   #0x0, USB0_Char_Tx(R15)
+   \   00006C   0220         JNE     ??eUSCI_A0_ISR_2
+     97                      UCA0IE &= ~UCTXIE;
+   \   00006E   A2C31A05     BIC.W   #0x2, &0x51a
+     98                      //clearProcessBuff_0();
+     99                    }
+    100                    break;
+    101          
+    102                  default:
+    103                      break;
+    104              }
+    105          }
+   \                     ??eUSCI_A0_ISR_2:
+   \   000072   2D17         POPM.W  #0x3, R15
+   \   000074   0013         RETI
+   \   000076                REQUIRE _A_UCA0RXBUF_L
+   \   000076                REQUIRE _A_UCA1TXBUF_L
+   \   000076                REQUIRE _A_UCA0TXBUF_L
+   \   000076                REQUIRE _A_UCA0IE_L
+   \   000076                REQUIRE _A_UCA0IV_L
+    106          
+    107          #pragma vector=EUSCI_A1_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-    114          __interrupt void eUSCI_A1_ISR(void) {
+    108          __interrupt void eUSCI_A1_ISR(void) {
    \                     eUSCI_A1_ISR:
-   \   000000   5F15         PUSHM.W #0x6, R15
-    115              unsigned int temp;
-    116          
-    117              switch(__even_in_range(UCA1IV, 0x08)) {
+   \   000000   2F15         PUSHM.W #0x3, R15
+    109              unsigned int temp;
+    110          
+    111              switch(__even_in_range(UCA1IV, 0x08)) {
    \   000002   1F429E05     MOV.W   &0x59e, R15
    \   000006   E00F         ADDA    R15, PC
    \                     `?<Jumptable for eUSCI_A1_ISR>_0`:
-   \   000008   3C3C         JMP     ??eUSCI_A1_ISR_1
-   \   00000A   033C         JMP     ??eUSCI_A1_ISR_5
-   \   00000C   1E3C         JMP     ??eUSCI_A1_ISR_6
-   \   00000E   393C         JMP     ??eUSCI_A1_ISR_1
-   \   000010   383C         JMP     ??eUSCI_A1_ISR_1
-    118                  case 0:
-    119                      break;
-    120          
-    121                  case 2: // RXIFG
-    122                    char recieved = UCA1RXBUF;
-                           ^
-Warning[Pe1072]: a declaration cannot have a label
-
-      switch(__even_in_range(UCA1IV, 0x08)) {
-      ^
-"C:\Users\saad\Documents\ece-306\Project 09\serial.c",117  Warning[Pe546]: 
-          transfer of control bypasses initialization of:
-            variable "recieved" (declared at line 122)
-   \                     ??eUSCI_A1_ISR_5:
-   \   000012   1A428C05     MOV.W   &0x58c, R10
-    123                      temp = usb1_rx_wr++;
-   \   000016   1F42....     MOV.W   &usb1_rx_wr, R15
-   \   00001A   0E4F         MOV.W   R15, R14
-   \   00001C   1E53         ADD.W   #0x1, R14
-   \   00001E   824E....     MOV.W   R14, &usb1_rx_wr
-   \   000022   0B4F         MOV.W   R15, R11
-    124                      USB1_Char_Rx_Ring[temp] = recieved;
-   \   000024   CB4A....     MOV.B   R10, USB1_Char_Rx_Ring(R11)
-    125                      if(receievedFromPC)UCA0TXBUF = USB1_Char_Rx_Ring[temp];
-   \   000028   C293....     CMP.B   #0x0, &receievedFromPC
-   \   00002C   0524         JEQ     ??eUSCI_A1_ISR_2
-   \   00002E   5F4B....     MOV.B   USB1_Char_Rx_Ring(R11), R15
-   \   000032   4F4F         MOV.B   R15, R15
-   \   000034   824F0E05     MOV.W   R15, &0x50e
-    126                      if (usb1_rx_wr >= (sizeof(USB1_Char_Rx_Ring))) {
-   \                     ??eUSCI_A1_ISR_2:
-   \   000038   B2901000.... CMP.W   #0x10, &usb1_rx_wr
-   \   00003E   0228         JNC     ??eUSCI_A1_ISR_3
-    127                          usb1_rx_wr = BEGINNING;
-   \   000040   8243....     MOV.W   #0x0, &usb1_rx_wr
-    128                      }
-    129                    //if (!receievedFromPC && recieved=='\n')
-    130                      receievedFromPC = ON;
-   \                     ??eUSCI_A1_ISR_3:
-   \   000044   D243....     MOV.B   #0x1, &receievedFromPC
-    131          
-    132                      break;
-   \   000048   1C3C         JMP     ??eUSCI_A1_ISR_1
-    133          
-    134                  case 4: // TXIFG
-    135                    if(receievedFromPC==OFF) {
+   \   000008   3F3C         JMP     ??eUSCI_A1_ISR_2
+   \   00000A   033C         JMP     ??eUSCI_A1_ISR_6
+   \   00000C   213C         JMP     ??eUSCI_A1_ISR_7
+   \   00000E   3C3C         JMP     ??eUSCI_A1_ISR_2
+   \   000010   3B3C         JMP     ??eUSCI_A1_ISR_2
+    112                  case 0:
+    113                      break;
+    114          
+    115                  case 2: // RXIFG
+    116                      if (!receievedFromPC)// && recieved=='\n')
    \                     ??eUSCI_A1_ISR_6:
-   \   00004A   C293....     CMP.B   #0x0, &receievedFromPC
-   \   00004E   0320         JNE     ??eUSCI_A1_ISR_4
-    136                      UCA1IE &= ~UCTXIE;
-   \   000050   A2C39A05     BIC.W   #0x2, &0x59a
-    137                      return;
-   \   000054   163C         JMP     ??eUSCI_A1_ISR_1
-    138                    }
-    139                    UCA1TXBUF = USB1_Char_Tx[tx1_index];
+   \   000012   C293....     CMP.B   #0x0, &receievedFromPC
+   \   000016   0220         JNE     ??eUSCI_A1_ISR_3
+    117                        receievedFromPC = ON;
+   \   000018   D243....     MOV.B   #0x1, &receievedFromPC
+    118                      temp = usb1_rx_wr++;
+   \                     ??eUSCI_A1_ISR_3:
+   \   00001C   1F42....     MOV.W   &usb1_rx_wr, R15
+   \   000020   0E4F         MOV.W   R15, R14
+   \   000022   1E53         ADD.W   #0x1, R14
+   \   000024   824E....     MOV.W   R14, &usb1_rx_wr
+   \   000028   0D4F         MOV.W   R15, R13
+    119                      USB1_Char_Rx_Ring[temp] = UCA1RXBUF;
+   \   00002A   1E428C05     MOV.W   &0x58c, R14
+   \   00002E   CD4E....     MOV.B   R14, USB1_Char_Rx_Ring(R13)
+    120                      if(receievedFromPC)UCA0TXBUF = USB1_Char_Rx_Ring[temp];
+   \   000032   C293....     CMP.B   #0x0, &receievedFromPC
+   \   000036   0524         JEQ     ??eUSCI_A1_ISR_4
+   \   000038   5F4D....     MOV.B   USB1_Char_Rx_Ring(R13), R15
+   \   00003C   4F4F         MOV.B   R15, R15
+   \   00003E   824F0E05     MOV.W   R15, &0x50e
+    121                      if (usb1_rx_wr >= (SMALL_RING_SIZE)) {
    \                     ??eUSCI_A1_ISR_4:
-   \   000056   1F42....     MOV.W   &tx1_index, R15
-   \   00005A   5F4F....     MOV.B   USB1_Char_Tx(R15), R15
-   \   00005E   4F4F         MOV.B   R15, R15
-   \   000060   824F8E05     MOV.W   R15, &0x58e
-    140                    USB1_Char_Tx[tx1_index++] = 0;
-   \   000064   1F42....     MOV.W   &tx1_index, R15
-   \   000068   0E4F         MOV.W   R15, R14
-   \   00006A   1E53         ADD.W   #0x1, R14
-   \   00006C   824E....     MOV.W   R14, &tx1_index
-   \   000070   CF43....     MOV.B   #0x0, USB1_Char_Tx(R15)
-    141                    if(USB1_Char_Tx[tx1_index] == 0) {
-   \   000074   1F42....     MOV.W   &tx1_index, R15
-   \   000078   CF93....     CMP.B   #0x0, USB1_Char_Tx(R15)
-   \   00007C   0220         JNE     ??eUSCI_A1_ISR_1
-    142                      clearProcessBuff_1();
-   \   00007E   ........     CALLA   #clearProcessBuff_1
-    143                    }
-    144                    break;
-    145          
-    146                  default:
-    147                      break;
-    148              }
-    149          }
-   \                     ??eUSCI_A1_ISR_1:
-   \   000082   5A17         POPM.W  #0x6, R15
-   \   000084   0013         RETI
-   \   000086                REQUIRE _A_UCA1RXBUF_L
-   \   000086                REQUIRE _A_UCA0TXBUF_L
-   \   000086                REQUIRE _A_UCA1IE_L
-   \   000086                REQUIRE _A_UCA1TXBUF_L
-   \   000086                REQUIRE _A_UCA1IV_L
-    150          
+   \   000042   B2901000.... CMP.W   #0x10, &usb1_rx_wr
+   \   000048   1F28         JNC     ??eUSCI_A1_ISR_2
+    122                          usb1_rx_wr = BEGINNING;
+   \   00004A   8243....     MOV.W   #0x0, &usb1_rx_wr
+    123                      }
+    124          
+    125                      break;
+   \   00004E   1C3C         JMP     ??eUSCI_A1_ISR_2
+    126          
+    127                  case 4: // TXIFG
+    128                    if(receievedFromPC==OFF) {
+   \                     ??eUSCI_A1_ISR_7:
+   \   000050   C293....     CMP.B   #0x0, &receievedFromPC
+   \   000054   0320         JNE     ??eUSCI_A1_ISR_5
+    129                      UCA1IE &= ~UCTXIE;
+   \   000056   A2C39A05     BIC.W   #0x2, &0x59a
+    130                      return;
+   \   00005A   163C         JMP     ??eUSCI_A1_ISR_2
+    131                    }
+    132                    UCA1TXBUF = USB1_Char_Tx[tx1_index];
+   \                     ??eUSCI_A1_ISR_5:
+   \   00005C   1F42....     MOV.W   &tx1_index, R15
+   \   000060   5F4F....     MOV.B   USB1_Char_Tx(R15), R15
+   \   000064   4F4F         MOV.B   R15, R15
+   \   000066   824F8E05     MOV.W   R15, &0x58e
+    133                    USB1_Char_Tx[tx1_index++] = 0;
+   \   00006A   1F42....     MOV.W   &tx1_index, R15
+   \   00006E   0E4F         MOV.W   R15, R14
+   \   000070   1E53         ADD.W   #0x1, R14
+   \   000072   824E....     MOV.W   R14, &tx1_index
+   \   000076   CF43....     MOV.B   #0x0, USB1_Char_Tx(R15)
+    134                    if(USB1_Char_Tx[tx1_index] == 0) {
+   \   00007A   1F42....     MOV.W   &tx1_index, R15
+   \   00007E   CF93....     CMP.B   #0x0, USB1_Char_Tx(R15)
+   \   000082   0220         JNE     ??eUSCI_A1_ISR_2
+    135                      UCA1IE &= ~UCTXIE;
+   \   000084   A2C39A05     BIC.W   #0x2, &0x59a
+    136                      //clearProcessBuff_1();
+    137                    }
+    138                    break;
+    139          
+    140                  default:
+    141                      break;
+    142              }
+    143          }
+   \                     ??eUSCI_A1_ISR_2:
+   \   000088   2D17         POPM.W  #0x3, R15
+   \   00008A   0013         RETI
+   \   00008C                REQUIRE _A_UCA1RXBUF_L
+   \   00008C                REQUIRE _A_UCA0TXBUF_L
+   \   00008C                REQUIRE _A_UCA1IE_L
+   \   00008C                REQUIRE _A_UCA1TXBUF_L
+   \   00008C                REQUIRE _A_UCA1IV_L
+    144          
 
    \                                 In  segment CODE, align 2
-    151          void clearProcessBuff(volatile char* pb,volatile unsigned int* pb_index,volatile unsigned int* pb_buffered){
+    145          void clearProcessBuff(volatile char* pb,volatile unsigned int* pb_index,volatile unsigned int* pb_buffered){
    \                     clearProcessBuff:
    \   000000   0A12         PUSH.W  R10
-    152            for(int i = 0;i<LARGE_RING_SIZE;++i)pb[i]=0;
+    146            for(int i = 0;i<LARGE_RING_SIZE;++i)pb[i]=0;
    \   000002   0A43         MOV.W   #0x0, R10
    \                     ??clearProcessBuff_0:
    \   000004   3A906400     CMP.W   #0x64, R10
@@ -533,92 +517,92 @@ Warning[Pe1072]: a declaration cannot have a label
    \   00000E   CF430000     MOV.B   #0x0, 0(R15)
    \   000012   1A53         ADD.W   #0x1, R10
    \   000014   F73F         JMP     ??clearProcessBuff_0
-    153            *pb_index=0;
+    147            *pb_index=0;
    \                     ??clearProcessBuff_1:
    \   000016   8D430000     MOV.W   #0x0, 0(R13)
-    154            *pb_buffered=0;
+    148            *pb_buffered=0;
    \   00001A   8E430000     MOV.W   #0x0, 0(R14)
-    155          }
+    149          }
    \   00001E   3A41         POP.W   R10
    \   000020   1001         RETA
 
    \                                 In  segment CODE, align 2
-    156          void clearProcessBuff_0(void){
+    150          void clearProcessBuff_0(void){
    \                     clearProcessBuff_0:
-    157            clearProcessBuff(USB0_Char_Rx_Process,&pb0_index,&pb0_buffered);
+    151            clearProcessBuff(USB0_Char_Rx_Process,&pb0_index,&pb0_buffered);
    \   000000   3E40....     MOV.W   #pb0_buffered, R14
    \   000004   3D40....     MOV.W   #pb0_index, R13
    \   000008   3C40....     MOV.W   #USB0_Char_Rx_Process, R12
    \   00000C   ........     CALLA   #clearProcessBuff
-    158          }
+    152          }
    \   000010   1001         RETA
 
    \                                 In  segment CODE, align 2
-    159          void clearProcessBuff_1(void){
+    153          void clearProcessBuff_1(void){
    \                     clearProcessBuff_1:
-    160            clearProcessBuff(USB1_Char_Rx_Process,&pb1_index,&pb1_buffered);
+    154            clearProcessBuff(USB1_Char_Rx_Process,&pb1_index,&pb1_buffered);
    \   000000   3E40....     MOV.W   #pb1_buffered, R14
    \   000004   3D40....     MOV.W   #pb1_index, R13
    \   000008   3C40....     MOV.W   #USB1_Char_Rx_Process, R12
    \   00000C   ........     CALLA   #clearProcessBuff
-    161          }
+    155          }
    \   000010   1001         RETA
-    162          
+    156          
 
    \                                 In  segment CODE, align 2
-    163          void out_character(char character) {
+    157          void out_character(char character) {
    \                     out_character:
    \                     ??out_character_0:
-    164              //------------------------------------------------------------------------------
-    165              // The while loop will stall as long as the Flag is not set [port is busy]
-    166              while (!(UCA0IFG & UCTXIFG)); // USCI_A0 TX buffer ready?
+    158              //------------------------------------------------------------------------------
+    159              // The while loop will stall as long as the Flag is not set [port is busy]
+    160              while (!(UCA0IFG & UCTXIFG)); // USCI_A0 TX buffer ready?
    \   000000   A2B31C05     BIT.W   #0x2, &0x51c
    \   000004   FD2B         JNC     ??out_character_0
-    167          
-    168              UCA0TXBUF = character;
+    161          
+    162              UCA0TXBUF = character;
    \   000006   4C4C         MOV.B   R12, R12
    \   000008   824C0E05     MOV.W   R12, &0x50e
-    169              //------------------------------------------------------------------------------
-    170          }
+    163              //------------------------------------------------------------------------------
+    164          }
    \   00000C   1001         RETA
    \   00000E                REQUIRE _A_UCA0IFG_L
    \   00000E                REQUIRE _A_UCA0TXBUF_L
-    171          
+    165          
 
    \                                 In  segment CODE, align 2
-    172          void USCI_A0_transmit(void){
+    166          void USCI_A0_transmit(void){
    \                     USCI_A0_transmit:
-    173            tx0_index=0;
+    167            tx0_index=0;
    \   000000   8243....     MOV.W   #0x0, &tx0_index
-    174            UCA0IE |= UCTXIE;
+    168            UCA0IE |= UCTXIE;
    \   000004   A2D31A05     BIS.W   #0x2, &0x51a
-    175          }
+    169          }
    \   000008   1001         RETA
    \   00000A                REQUIRE _A_UCA0IE_L
-    176          
+    170          
 
    \                                 In  segment CODE, align 2
-    177          void USCI_A1_transmit(void){
+    171          void USCI_A1_transmit(void){
    \                     USCI_A1_transmit:
-    178            tx1_index=0;
+    172            tx1_index=0;
    \   000000   8243....     MOV.W   #0x0, &tx1_index
-    179            UCA1IE |= UCTXIE;
+    173            UCA1IE |= UCTXIE;
    \   000004   A2D39A05     BIS.W   #0x2, &0x59a
-    180          }
+    174          }
    \   000008   1001         RETA
    \   00000A                REQUIRE _A_UCA1IE_L
-    181          
+    175          
 
    \                                 In  segment CODE, align 2
-    182          void loadRingtoPB(volatile unsigned int* rx_wr,unsigned int* rx_rd,volatile char* Rx_Process,volatile char* Rx_Ring,volatile unsigned int* pb_index,volatile unsigned int* pb_buffered){
+    176          void loadRingtoPB(volatile unsigned int* rx_wr,unsigned int* rx_rd,volatile char* Rx_Process,volatile char* Rx_Ring,volatile unsigned int* pb_index,volatile unsigned int* pb_buffered){
    \                     loadRingtoPB:
    \   000000   5B15         PUSHM.W #0x6, R11
    \   000002   1B411000     MOV.W   0x10(SP), R11
    \   000006   18411200     MOV.W   0x12(SP), R8
-    183            if(*rx_wr != *rx_rd){
+    177            if(*rx_wr != *rx_rd){
    \   00000A   AC9D0000     CMP.W   @R13, 0(R12)
    \   00000E   1C24         JEQ     ??loadRingtoPB_0
-    184              Rx_Process[pb0_index] = Rx_Ring[*rx_rd];
+    178              Rx_Process[pb0_index] = Rx_Ring[*rx_rd];
                      ^
 Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
@@ -628,7 +612,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000018   0A4E         MOV.W   R14, R10
    \   00001A   0A59         ADD.W   R9, R10
    \   00001C   EA460000     MOV.B   @R6, 0(R10)
-    185              if((*rx_rd)++ >= SMALL_RING_SIZE-1) *rx_rd = BEGINNING;
+    179              if((*rx_rd)++ >= SMALL_RING_SIZE-1) *rx_rd = BEGINNING;
    \   000020   2A4D         MOV.W   @R13, R10
    \   000022   094A         MOV.W   R10, R9
    \   000024   1953         ADD.W   #0x1, R9
@@ -636,7 +620,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   00002A   3A900F00     CMP.W   #0xf, R10
    \   00002E   0228         JNC     ??loadRingtoPB_1
    \   000030   8D430000     MOV.W   #0x0, 0(R13)
-    186              if((*pb_index)++ >= LARGE_RING_SIZE-1) *pb_index=BEGINNING;
+    180              if((*pb_index)++ >= LARGE_RING_SIZE-1) *pb_index=BEGINNING;
    \                     ??loadRingtoPB_1:
    \   000034   2A4B         MOV.W   @R11, R10
    \   000036   094A         MOV.W   R10, R9
@@ -645,8 +629,8 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   00003E   3A906300     CMP.W   #0x63, R10
    \   000042   0228         JNC     ??loadRingtoPB_0
    \   000044   8B430000     MOV.W   #0x0, 0(R11)
-    187            }
-    188            if(*pb_index>=2 && Rx_Process[(*pb_index)-1]=='\n' && Rx_Process[(*pb_index)-2]=='\r') {
+    181            }
+    182            if(*pb_index>=2 && Rx_Process[(*pb_index)-1]=='\n' && Rx_Process[(*pb_index)-2]=='\r') {
    \                     ??loadRingtoPB_0:
    \   000048   AB930000     CMP.W   #0x2, 0(R11)
    \   00004C   1228         JNC     ??loadRingtoPB_2
@@ -660,21 +644,21 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000060   095A         ADD.W   R10, R9
    \   000062   F9900D00FEFF CMP.B   #0xd, 0xfffe(R9)
    \   000068   0420         JNE     ??loadRingtoPB_2
-    189              *pb_buffered = 1;
+    183              *pb_buffered = 1;
    \   00006A   98430000     MOV.W   #0x1, 0(R8)
-    190              *pb_index = BEGINNING;
+    184              *pb_index = BEGINNING;
    \   00006E   8B430000     MOV.W   #0x0, 0(R11)
-    191            }
-    192          }
+    185            }
+    186          }
    \                     ??loadRingtoPB_2:
    \   000072   5617         POPM.W  #0x6, R11
    \   000074   1001         RETA
-    193          
+    187          
 
    \                                 In  segment CODE, align 2
-    194          void loadRingtoPB_0(void){
+    188          void loadRingtoPB_0(void){
    \                     loadRingtoPB_0:
-    195            loadRingtoPB(&usb0_rx_wr,&usb0_rx_rd,USB0_Char_Rx_Process,USB0_Char_Rx_Ring,&pb0_index,&pb0_buffered);
+    189            loadRingtoPB(&usb0_rx_wr,&usb0_rx_rd,USB0_Char_Rx_Process,USB0_Char_Rx_Ring,&pb0_index,&pb0_buffered);
    \   000000   3012....     PUSH.W  #pb0_buffered
    \   000004   3012....     PUSH.W  #pb0_index
    \   000008   3F40....     MOV.W   #USB0_Char_Rx_Ring, R15
@@ -682,14 +666,14 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000010   3D40....     MOV.W   #usb0_rx_rd, R13
    \   000014   3C40....     MOV.W   #usb0_rx_wr, R12
    \   000018   ........     CALLA   #loadRingtoPB
-    196          }
+    190          }
    \   00001C   A1000400     ADDA    #0x4, SP
    \   000020   1001         RETA
 
    \                                 In  segment CODE, align 2
-    197          void loadRingtoPB_1(void){
+    191          void loadRingtoPB_1(void){
    \                     loadRingtoPB_1:
-    198            loadRingtoPB(&usb1_rx_wr,&usb1_rx_rd,USB1_Char_Rx_Process,USB1_Char_Rx_Ring,&pb1_index,&pb1_buffered);
+    192            loadRingtoPB(&usb1_rx_wr,&usb1_rx_rd,USB1_Char_Rx_Process,USB1_Char_Rx_Ring,&pb1_index,&pb1_buffered);
    \   000000   3012....     PUSH.W  #pb1_buffered
    \   000004   3012....     PUSH.W  #pb1_index
    \   000008   3F40....     MOV.W   #USB1_Char_Rx_Ring, R15
@@ -697,18 +681,18 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000010   3D40....     MOV.W   #usb1_rx_rd, R13
    \   000014   3C40....     MOV.W   #usb1_rx_wr, R12
    \   000018   ........     CALLA   #loadRingtoPB
-    199          }
+    193          }
    \   00001C   A1000400     ADDA    #0x4, SP
    \   000020   1001         RETA
-    200          
+    194          
 
    \                                 In  segment CODE, align 2
-    201          void copyPBtoTx_0(void){
+    195          void copyPBtoTx_0(void){
    \                     copyPBtoTx_0:
-    202            if(!pb0_buffered)return;
+    196            if(!pb0_buffered)return;
    \   000000   8293....     CMP.W   #0x0, &pb0_buffered
    \   000004   0B24         JEQ     ??copyPBtoTx_0_2
-    203            for(int i = 0;i<sizeof(USB0_Char_Rx_Process);++i) USB0_Char_Tx[i] = USB0_Char_Rx_Process[i];
+    197            for(int i = 0;i<sizeof(USB0_Char_Rx_Process);++i) USB0_Char_Tx[i] = USB0_Char_Rx_Process[i];
    \   000006   0F43         MOV.W   #0x0, R15
    \                     ??copyPBtoTx_0_0:
    \   000008   3F906400     CMP.W   #0x64, R15
@@ -716,46 +700,46 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   00000E   DF4F........ MOV.B   USB0_Char_Rx_Process(R15), USB0_Char_Tx(R15)
    \   000014   1F53         ADD.W   #0x1, R15
    \   000016   F83F         JMP     ??copyPBtoTx_0_0
-    204            //strcpy(display_line[3],(char*)USB0_Char_Tx);
-    205            //for(int i = 0;i<10;++i)
-    206            //  if(display_line[3][i] == '\r' || display_line[3][i]=='\n') display_line[3][i]=0;
-    207            clearProcessBuff_0();
+    198            //strcpy(display_line[3],(char*)USB0_Char_Tx);
+    199            //for(int i = 0;i<10;++i)
+    200            //  if(display_line[3][i] == '\r' || display_line[3][i]=='\n') display_line[3][i]=0;
+    201            clearProcessBuff_0();
    \                     ??copyPBtoTx_0_3:
    \   000018   ........     CALLA   #clearProcessBuff_0
-    208          }
+    202          }
    \                     ??copyPBtoTx_0_2:
    \   00001C   1001         RETA
-    209          
-    210          
+    203          
+    204          
 
    \                                 In  segment CODE, align 2
-    211          void SerialProcess(void){
+    205          void SerialProcess(void){
    \                     SerialProcess:
-    212            if(!pb0_buffered)loadRingtoPB_0();
+    206            if(!pb0_buffered)loadRingtoPB_0();
    \   000000   8293....     CMP.W   #0x0, &pb0_buffered
    \   000004   0220         JNE     ??SerialProcess_0
    \   000006   ........     CALLA   #loadRingtoPB_0
-    213            if(!pb1_buffered)loadRingtoPB_1();
+    207            if(!pb1_buffered)loadRingtoPB_1();
    \                     ??SerialProcess_0:
    \   00000A   8293....     CMP.W   #0x0, &pb1_buffered
    \   00000E   0220         JNE     ??SerialProcess_1
    \   000010   ........     CALLA   #loadRingtoPB_1
-    214            // copyPBtoTx_0();
-    215            /*if(pb0_buffered){
-    216              if(USB0_Char_Rx_Process[0]=='^'){
-    217                if(USB0_Char_Rx_Process[1]=='F') SET_UCA0_115200;
-    218                if(USB0_Char_Rx_Process[1]=='S') SET_UCA0_9600;
-    219              }
-    220              
-    221              clearProcessBuff_0();
-    222            }*/
-    223            if(pb1_buffered) clearProcessBuff_1();
+    208            // copyPBtoTx_0();
+    209            /*if(pb0_buffered){
+    210              if(USB0_Char_Rx_Process[0]=='^'){
+    211                if(USB0_Char_Rx_Process[1]=='F') SET_UCA0_115200;
+    212                if(USB0_Char_Rx_Process[1]=='S') SET_UCA0_9600;
+    213              }
+    214              
+    215              clearProcessBuff_0();
+    216            }*/
+    217            if(pb1_buffered) clearProcessBuff_1();
    \                     ??SerialProcess_1:
    \   000014   8293....     CMP.W   #0x0, &pb1_buffered
    \   000018   0224         JEQ     ??SerialProcess_2
    \   00001A   ........     CALLA   #clearProcessBuff_1
-    224            
-    225          }
+    218            
+    219          }
    \                     ??SerialProcess_2:
    \   00001E   1001         RETA
 
@@ -786,8 +770,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
       4   copyPBtoTx_0
         4   -> clearProcessBuff_0
      10   eUSCI_A0_ISR
-     16   eUSCI_A1_ISR
-       16   -> clearProcessBuff_1
+     10   eUSCI_A1_ISR
      16   loadRingtoPB
       8   loadRingtoPB_0
         8   -> loadRingtoPB
@@ -829,9 +812,9 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
       18  clearProcessBuff_0
       18  clearProcessBuff_1
       30  copyPBtoTx_0
-     126  eUSCI_A0_ISR
+     118  eUSCI_A0_ISR
        2  eUSCI_A0_ISR::??INTVEC 66
-     134  eUSCI_A1_ISR
+     140  eUSCI_A1_ISR
        2  eUSCI_A1_ISR::??INTVEC 64
      118  loadRingtoPB
       34  loadRingtoPB_0
@@ -855,11 +838,11 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
   30 bytes in segment DATA16_AN
  455 bytes in segment DATA16_Z
    4 bytes in segment INTVEC
- 260 bytes in segment ISR_CODE
+ 258 bytes in segment ISR_CODE
  
- 734 bytes of CODE  memory
+ 732 bytes of CODE  memory
    0 bytes of CONST memory (+  4 bytes shared)
  455 bytes of DATA  memory (+ 30 bytes shared)
 
 Errors: none
-Warnings: 3
+Warnings: 1
