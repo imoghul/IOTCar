@@ -126308,6 +126308,48 @@
     "scope": null
   },
   {
+    "ID": "c:iot.c@2898@F@Init_IOT@dotFound",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "dotFound",
+    "location": {
+      "column": "16",
+      "line": "94",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.c"
+    },
+    "name": "dotFound",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.c@2924@F@Init_IOT@midIndex",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "midIndex",
+    "location": {
+      "column": "15",
+      "line": "95",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.c"
+    },
+    "name": "midIndex",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@centerStringToDisplay",
+    "What": "Function",
+    "defdec": "Def",
+    "display": "void centerStringToDisplay(unsigned int, char *)",
+    "location": {
+      "column": "6",
+      "line": "127",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.c"
+    },
+    "name": "centerStringToDisplay",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
     "ID": "c:@ADC_Thumb",
     "What": "Variable",
     "defdec": "Dec",
@@ -126599,6 +126641,370 @@
     },
     "name": "MenuProcess",
     "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@8@macro@ALLOW_MULTIPLE_CONNECTIONS",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "ALLOW_MULTIPLE_CONNECTIONS",
+    "location": {
+      "column": "9",
+      "line": "1",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "ALLOW_MULTIPLE_CONNECTIONS",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@69@macro@START_SERVER",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "START_SERVER",
+    "location": {
+      "column": "9",
+      "line": "2",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "START_SERVER",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@138@macro@SSID_COMMAND",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "SSID_COMMAND",
+    "location": {
+      "column": "9",
+      "line": "3",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "SSID_COMMAND",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@197@macro@IP_COMMAND",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "IP_COMMAND",
+    "location": {
+      "column": "9",
+      "line": "4",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "IP_COMMAND",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@255@macro@OK_RESPONSE",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "OK_RESPONSE",
+    "location": {
+      "column": "9",
+      "line": "5",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "OK_RESPONSE",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@307@macro@BOOT_RESPONSE",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BOOT_RESPONSE",
+    "location": {
+      "column": "9",
+      "line": "6",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "BOOT_RESPONSE",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@368@macro@SSID_RESPONSE",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "SSID_RESPONSE",
+    "location": {
+      "column": "9",
+      "line": "7",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "SSID_RESPONSE",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@421@macro@IP_RESPONSE",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "IP_RESPONSE",
+    "location": {
+      "column": "9",
+      "line": "8",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "IP_RESPONSE",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@480@macro@SSID_RESPONSE_LEN",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "SSID_RESPONSE_LEN",
+    "location": {
+      "column": "9",
+      "line": "9",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "SSID_RESPONSE_LEN",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@525@macro@IP_RESPONSE_LEN",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "IP_RESPONSE_LEN",
+    "location": {
+      "column": "9",
+      "line": "10",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "IP_RESPONSE_LEN",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@571@macro@BOOT_UP",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BOOT_UP",
+    "location": {
+      "column": "9",
+      "line": "11",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "BOOT_UP",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@618@macro@CIPMUX_Tx",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "CIPMUX_Tx",
+    "location": {
+      "column": "9",
+      "line": "12",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "CIPMUX_Tx",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@665@macro@CIPMUX_Rx",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "CIPMUX_Rx",
+    "location": {
+      "column": "9",
+      "line": "13",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "CIPMUX_Rx",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@712@macro@CIPSERVER_Tx",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "CIPSERVER_Tx",
+    "location": {
+      "column": "9",
+      "line": "14",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "CIPSERVER_Tx",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@759@macro@CIPSERVER_Rx",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "CIPSERVER_Rx",
+    "location": {
+      "column": "9",
+      "line": "15",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "CIPSERVER_Rx",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@806@macro@IOT_SETUP_FINISHED",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "IOT_SETUP_FINISHED",
+    "location": {
+      "column": "9",
+      "line": "16",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "IOT_SETUP_FINISHED",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@853@macro@GET_SSID_Tx",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "GET_SSID_Tx",
+    "location": {
+      "column": "9",
+      "line": "17",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "GET_SSID_Tx",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@900@macro@GET_SSID_Rx",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "GET_SSID_Rx",
+    "location": {
+      "column": "9",
+      "line": "18",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "GET_SSID_Rx",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@947@macro@GET_IP_Tx",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "GET_IP_Tx",
+    "location": {
+      "column": "9",
+      "line": "19",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "GET_IP_Tx",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@994@macro@GET_IP_Rx",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "GET_IP_Rx",
+    "location": {
+      "column": "9",
+      "line": "20",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "GET_IP_Rx",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@1041@macro@SSID_LEN",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "SSID_LEN",
+    "location": {
+      "column": "9",
+      "line": "21",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "SSID_LEN",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:iot.h@1087@macro@IP_LEN",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "IP_LEN",
+    "location": {
+      "column": "9",
+      "line": "22",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "IP_LEN",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Init_IOT",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "int Init_IOT(void)",
+    "location": {
+      "column": "5",
+      "line": "24",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "Init_IOT",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@Init_IOT",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "int Init_IOT(void)",
+    "location": {
+      "column": "5",
+      "line": "24",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "Init_IOT",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@centerStringToDisplay",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void centerStringToDisplay(unsigned int, char *)",
+    "location": {
+      "column": "6",
+      "line": "25",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "centerStringToDisplay",
+    "origin": "user_include",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@centerStringToDisplay",
+    "What": "Function",
+    "defdec": "Dec",
+    "display": "void centerStringToDisplay(unsigned int, char *)",
+    "location": {
+      "column": "6",
+      "line": "25",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
+    },
+    "name": "centerStringToDisplay",
+    "origin": "user_include",
     "scope": null
   },
   {
@@ -128112,342 +128518,6 @@
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\serial.h"
     },
     "name": "SerialProcess",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@8@macro@ALLOW_MULTIPLE_CONNECTIONS",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "ALLOW_MULTIPLE_CONNECTIONS",
-    "location": {
-      "column": "9",
-      "line": "1",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "ALLOW_MULTIPLE_CONNECTIONS",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@69@macro@START_SERVER",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "START_SERVER",
-    "location": {
-      "column": "9",
-      "line": "2",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "START_SERVER",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@138@macro@SSID_COMMAND",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "SSID_COMMAND",
-    "location": {
-      "column": "9",
-      "line": "3",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "SSID_COMMAND",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@197@macro@IP_COMMAND",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "IP_COMMAND",
-    "location": {
-      "column": "9",
-      "line": "4",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "IP_COMMAND",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@255@macro@OK_RESPONSE",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "OK_RESPONSE",
-    "location": {
-      "column": "9",
-      "line": "5",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "OK_RESPONSE",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@307@macro@BOOT_RESPONSE",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "BOOT_RESPONSE",
-    "location": {
-      "column": "9",
-      "line": "6",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "BOOT_RESPONSE",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@368@macro@SSID_RESPONSE",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "SSID_RESPONSE",
-    "location": {
-      "column": "9",
-      "line": "7",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "SSID_RESPONSE",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@421@macro@IP_RESPONSE",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "IP_RESPONSE",
-    "location": {
-      "column": "9",
-      "line": "8",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "IP_RESPONSE",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@480@macro@SSID_RESPONSE_LEN",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "SSID_RESPONSE_LEN",
-    "location": {
-      "column": "9",
-      "line": "9",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "SSID_RESPONSE_LEN",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@525@macro@IP_RESPONSE_LEN",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "IP_RESPONSE_LEN",
-    "location": {
-      "column": "9",
-      "line": "10",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "IP_RESPONSE_LEN",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@571@macro@BOOT_UP",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "BOOT_UP",
-    "location": {
-      "column": "9",
-      "line": "11",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "BOOT_UP",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@618@macro@CIPMUX_Tx",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "CIPMUX_Tx",
-    "location": {
-      "column": "9",
-      "line": "12",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "CIPMUX_Tx",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@665@macro@CIPMUX_Rx",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "CIPMUX_Rx",
-    "location": {
-      "column": "9",
-      "line": "13",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "CIPMUX_Rx",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@712@macro@CIPSERVER_Tx",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "CIPSERVER_Tx",
-    "location": {
-      "column": "9",
-      "line": "14",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "CIPSERVER_Tx",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@759@macro@CIPSERVER_Rx",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "CIPSERVER_Rx",
-    "location": {
-      "column": "9",
-      "line": "15",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "CIPSERVER_Rx",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@806@macro@IOT_SETUP_FINISHED",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "IOT_SETUP_FINISHED",
-    "location": {
-      "column": "9",
-      "line": "16",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "IOT_SETUP_FINISHED",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@853@macro@GET_SSID_Tx",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "GET_SSID_Tx",
-    "location": {
-      "column": "9",
-      "line": "17",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "GET_SSID_Tx",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@900@macro@GET_SSID_Rx",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "GET_SSID_Rx",
-    "location": {
-      "column": "9",
-      "line": "18",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "GET_SSID_Rx",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@947@macro@GET_IP_Tx",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "GET_IP_Tx",
-    "location": {
-      "column": "9",
-      "line": "19",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "GET_IP_Tx",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@994@macro@GET_IP_Rx",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "GET_IP_Rx",
-    "location": {
-      "column": "9",
-      "line": "20",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "GET_IP_Rx",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@1041@macro@SSID_LEN",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "SSID_LEN",
-    "location": {
-      "column": "9",
-      "line": "21",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "SSID_LEN",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:iot.h@1087@macro@IP_LEN",
-    "What": "MacroDef",
-    "defdec": "Def",
-    "display": "IP_LEN",
-    "location": {
-      "column": "9",
-      "line": "22",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "IP_LEN",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Init_IOT",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "int Init_IOT(void)",
-    "location": {
-      "column": "5",
-      "line": "24",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "Init_IOT",
-    "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@Init_IOT",
-    "What": "Function",
-    "defdec": "Dec",
-    "display": "int Init_IOT(void)",
-    "location": {
-      "column": "5",
-      "line": "24",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 09\\iot.h"
-    },
-    "name": "Init_IOT",
     "origin": "user_include",
     "scope": null
   },

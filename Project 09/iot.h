@@ -22,3 +22,4 @@
 #define IP_LEN                          (13)
 
 int Init_IOT(void);
+void centerStringToDisplay(unsigned int line,char * s);

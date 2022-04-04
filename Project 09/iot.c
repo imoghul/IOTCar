@@ -91,11 +91,25 @@ int Init_IOT(void){
       if(pb0_buffered){
         if(strncmp(IP_RESPONSE,(char*)USB0_Char_Rx_Process,IP_RESPONSE_LEN) == 0) {
           int i;
-          for(i = 0;i<=IP_LEN && USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1]!='"';++i) IP[i] = USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1];
+          char dotFound;
+          int midIndex;
+          for(i = 0;i<=IP_LEN && USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1]!='"';++i) {
+            IP[i] = USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1];
+            if(USB0_Char_Rx_Process[i+IP_RESPONSE_LEN+1]=='.'){
+              if(!dotFound)dotFound = 1;
+              else {
+                dotFound = 0;
+                midIndex = i;
+              }
+            }
+          }
           IP[i+IP_RESPONSE_LEN+2] = 0;
           IP[IP_LEN] = 0;
-          //strcpy(display_line[1],IP);
-          //display_changed = 1;
+          IP[midIndex] = 0;
+          strcpy(display_line[1],"IP ADDRESS");
+          centerStringToDisplay(2,IP);
+          centerStringToDisplay(3,IP+midIndex+1);
+          display_changed = 1;
           iot_setup_state = IOT_SETUP_FINISHED;
         }
         else iot_setup_state = GET_IP_Tx;
@@ -108,4 +122,9 @@ int Init_IOT(void){
       break;
   }
   return 0;
+}
+
+
+void centerStringToDisplay(unsigned int line,char * s){
+  strcpy(display_line[line]+((strlen(s)%2)?(strlen(s)>>1):((strlen(s)>>1) - 1)),s);
 }
