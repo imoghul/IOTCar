@@ -2,7 +2,9 @@
 #include <string.h>
 #include "msp430.h"
 #include <string.h>
+#include "adc.h"
 #include "serial.h"
+#include "ports.h"
 #include "sm.h"
 #include <stdlib.h>
 
@@ -21,9 +23,16 @@ char midFound;
 command CommandBuffer[COMMAND_BUFFER_LEN];
 char cb_index;
 
+extern volatile unsigned int cycle_count;
+extern volatile unsigned int stopwatch_milliseconds;
+extern volatile unsigned int stopwatch_seconds;
+
 extern volatile char state;
 extern volatile int stateCounter;
 extern volatile char nextState;
+
+extern int polarityRight, polarityLeft;
+extern unsigned int driveTime;
 
 command emptyCommand = {0,0};
 
@@ -154,7 +163,7 @@ void IOTBufferCommands(void){
       char * end_caret = strchr(pos,'^');
       char * end_null = strchr(pos,0);
       char * end = end_caret?end_caret:end_null;
-      int time = strtol(pos,&end,10);
+      int time = stoi(pos);//strtol(pos,&end,10);
       command c = {
         .comm = comm,
         .duration = time
@@ -165,6 +174,15 @@ void IOTBufferCommands(void){
     clearProcessBuff_0();
   }
   
+}
+
+int stoi(char* str){
+  
+  int num = 0;
+  int n = strlen(str);
+  for(int i =0;i<n && str[i]>=48 && str[i]<=57;++i)
+    num = num*10+(int)(str[i]-48);
+  return num;
 }
 
 command popCB(void){
@@ -185,9 +203,39 @@ void pushCB(command c){
 
 void ProcessCommands(void){
   if(state == START){
+    //strcpy(display_line[0], "          ");
+    //strcpy(display_line[1], "          ");
+    //strcpy(display_line[2], "          ");
     command c = popCB();
+    if(c.comm==0 && c.duration==0) return;
+    lcd_BIG_mid();
+    strcpy(display_line[0], "          ");
+    strcpy(display_line[1], "          ");
+    strcpy(display_line[2], "          ");
+    strcpy(display_line[3], "          ");
     stopwatch_seconds = 0;
     cycle_count = 0;
-    state = WAIT;
+    state = DRIVE;
+    display_line[1][2] = c.comm;
+    HEXtoBCD(c.duration,1,4);
+    driveTime = (int)(c.duration*(c.comm==RIGHT_COMMAND||c.comm==LEFT_COMMAND?TURN_CONSTANT:1));
+    switch(c.comm){
+      case (FORWARD_COMMAND):
+        polarityRight = 1;
+        polarityLeft = 1;
+        break;
+      case (REVERSE_COMMAND):
+        polarityRight = -1;
+        polarityLeft = -1;
+        break;
+      case (RIGHT_COMMAND):
+        polarityRight = 1;
+        polarityLeft = -1;
+        break;
+      case (LEFT_COMMAND):
+        polarityRight = -1;
+        polarityLeft = 1;
+        break;
+    }
   }
 }

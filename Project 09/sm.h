@@ -7,11 +7,12 @@
 #define TURN            ('T')
 #define STRAIGHT        ('s')
 #define LINEFOLLOW      ('L')
+#define DRIVE           ('D')
 #define EXIT            ('e')
 
 void StateMachine(void);
 void Straight();
 void Turn();
 void LineFollow();
-void Exit();
+void Drive(int polR,int polL,unsigned int time);
 int delay(int seconds, int cycles);

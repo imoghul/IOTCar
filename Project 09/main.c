@@ -47,6 +47,7 @@ char change;
 unsigned int Last_Time_Sequence;
 volatile unsigned int cycle_count;
 volatile unsigned int stopwatch_seconds;
+volatile unsigned int stopwatch_milliseconds;
 volatile unsigned int time_change;
 extern volatile unsigned int right_tick, left_tick;
 extern char adc_char[5];
@@ -119,8 +120,9 @@ void main(void) {
         SerialProcess();
         if(!Init_IOT()) continue;
         IOTBufferCommands();
+        ProcessCommands();
         //DetectMovement();
-        //StateMachine();                     // Run wheels state machine
+        StateMachine();                     // Run wheels state machine
         //MenuProcess();
         MotorSafety();
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF

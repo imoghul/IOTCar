@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  16:56:36
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  19:19:30
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWF82C.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWC7ED.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\wheels.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -263,47 +263,36 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
      84          void MotorSafety(void) {
    \                     MotorSafety:
      85          
-     86              if ((((P6IN & R_FORWARD) && (P6IN & R_REVERSE)) || ((P6IN & L_FORWARD) && (P6IN & L_REVERSE_2355)))
-     87                      ||
+     86              if (/*(((P6IN & R_FORWARD) && (P6IN & R_REVERSE)) || ((P6IN & L_FORWARD) && (P6IN & L_REVERSE_2355)))
+     87                      ||*/
      88                      ((RIGHT_FORWARD_SPEED != 0 && RIGHT_REVERSE_SPEED != 0) || (LEFT_FORWARD_SPEED != 0 && LEFT_REVERSE_SPEED != 0))) {
-   \   000000   D2B34102     BIT.B   #0x1, &0x241
-   \   000004   0328         JNC     ??MotorSafety_0
-   \   000006   E2B24102     BIT.B   #0x4, &0x241
-   \   00000A   122C         JC      ??MotorSafety_1
+   \   000000   82935404     CMP.W   #0x0, &0x454
+   \   000004   0324         JEQ     ??MotorSafety_0
+   \   000006   82935804     CMP.W   #0x0, &0x458
+   \   00000A   0620         JNE     ??MotorSafety_1
    \                     ??MotorSafety_0:
-   \   00000C   E2B34102     BIT.B   #0x2, &0x241
-   \   000010   0328         JNC     ??MotorSafety_2
-   \   000012   F2B24102     BIT.B   #0x8, &0x241
-   \   000016   0C2C         JC      ??MotorSafety_1
-   \                     ??MotorSafety_2:
-   \   000018   82935404     CMP.W   #0x0, &0x454
-   \   00001C   0324         JEQ     ??MotorSafety_3
-   \   00001E   82935804     CMP.W   #0x0, &0x458
-   \   000022   0620         JNE     ??MotorSafety_1
-   \                     ??MotorSafety_3:
-   \   000024   82935604     CMP.W   #0x0, &0x456
-   \   000028   0824         JEQ     ??MotorSafety_4
-   \   00002A   82935A04     CMP.W   #0x0, &0x45a
-   \   00002E   0524         JEQ     ??MotorSafety_4
+   \   00000C   82935604     CMP.W   #0x0, &0x456
+   \   000010   0824         JEQ     ??MotorSafety_2
+   \   000012   82935A04     CMP.W   #0x0, &0x45a
+   \   000016   0524         JEQ     ??MotorSafety_2
      89                  ShutoffMotors();
    \                     ??MotorSafety_1:
-   \   000030   ........     CALLA   #ShutoffMotors
+   \   000018   ........     CALLA   #ShutoffMotors
      90                  P1OUT |= RED_LED;
-   \   000034   D2D30202     BIS.B   #0x1, &0x202
-   \   000038   1001         RETA
+   \   00001C   D2D30202     BIS.B   #0x1, &0x202
+   \   000020   1001         RETA
      91              } else {
      92                  P1OUT &= ~RED_LED;
-   \                     ??MotorSafety_4:
-   \   00003A   D2C30202     BIC.B   #0x1, &0x202
+   \                     ??MotorSafety_2:
+   \   000022   D2C30202     BIC.B   #0x1, &0x202
      93              }
      94          }
-   \   00003E   1001         RETA
-   \   000040                REQUIRE _A_PCIN_L
-   \   000040                REQUIRE _A_TB3CCR1_L
-   \   000040                REQUIRE _A_TB3CCR3_L
-   \   000040                REQUIRE _A_TB3CCR2_L
-   \   000040                REQUIRE _A_TB3CCR4_L
-   \   000040                REQUIRE _A_PAOUT_L
+   \   000026   1001         RETA
+   \   000028                REQUIRE _A_TB3CCR1_L
+   \   000028                REQUIRE _A_TB3CCR3_L
+   \   000028                REQUIRE _A_TB3CCR2_L
+   \   000028                REQUIRE _A_TB3CCR4_L
+   \   000028                REQUIRE _A_PAOUT_L
      95          
 
    \                                 In  segment CODE, align 2
@@ -541,35 +530,28 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
     159          
 
    \                                 In  segment CODE, align 2
-    160          int Update_Ticks(int milliseconds) { // each tick is 4ms so 250*ticks = milliseconds
+    160          int Update_Ticks(int milliseconds) { // each tick is 4ms 
    \                     Update_Ticks:
    \   000000   0F4C         MOV.W   R12, R15
-    161              if(++wheel_periods > TIME_SEQUENCE_MAX) {
-   \   000002   1E42....     MOV.W   &wheel_periods, R14
-   \   000006   1E53         ADD.W   #0x1, R14
-   \   000008   824E....     MOV.W   R14, &wheel_periods
-   \   00000C   3E90FB00     CMP.W   #0xfb, R14
-   \   000010   0428         JNC     ??Update_Ticks_0
-    162                  wheel_periods = 0;
-   \   000012   8243....     MOV.W   #0x0, &wheel_periods
-    163                  stopwatch_milliseconds++;
-   \   000016   9253....     ADD.W   #0x1, &stopwatch_milliseconds
-    164              }
+    161              //if(++wheel_periods > TIME_SEQUENCE_MAX) {
+    162              //    wheel_periods = 0;
+    163                  stopwatch_milliseconds+=4;
+   \   000002   A252....     ADD.W   #0x4, &stopwatch_milliseconds
+    164              //}
     165              if(stopwatch_milliseconds>=milliseconds){
-   \                     ??Update_Ticks_0:
-   \   00001A   829F....     CMP.W   R15, &stopwatch_milliseconds
-   \   00001E   0428         JNC     ??Update_Ticks_1
+   \   000006   829F....     CMP.W   R15, &stopwatch_milliseconds
+   \   00000A   0428         JNC     ??Update_Ticks_0
     166                stopwatch_milliseconds = 0;
-   \   000020   8243....     MOV.W   #0x0, &stopwatch_milliseconds
+   \   00000C   8243....     MOV.W   #0x0, &stopwatch_milliseconds
     167                return 1;
-   \   000024   1C43         MOV.W   #0x1, R12
-   \   000026   1001         RETA
+   \   000010   1C43         MOV.W   #0x1, R12
+   \   000012   1001         RETA
     168              }
     169          
     170              return 0;
-   \                     ??Update_Ticks_1:
-   \   000028   0C43         MOV.W   #0x0, R12
-   \   00002A   1001         RETA
+   \                     ??Update_Ticks_0:
+   \   000014   0C43         MOV.W   #0x0, R12
+   \   000016   1001         RETA
     171          }
     172          
 
@@ -706,13 +688,13 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
       88  Drive_Path
       70  LockMotors
       70  LockMotorsTime
-      64  MotorSafety
+      40  MotorSafety
       98  RunLeftMotor
       96  RunRightMotor
       38  ShutoffLeft
       10  ShutoffMotors
       38  ShutoffRight
-      44  Update_Ticks
+      24  Update_Ticks
        2  _A_PAOUT_L
        2  _A_PCIN_L
        2  _A_TB1CCR1_L
@@ -734,13 +716,13 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
        2  wheel_periods
 
  
- 616 bytes in segment CODE
+ 572 bytes in segment CODE
   22 bytes in segment DATA16_AN
   52 bytes in segment DATA16_I
   52 bytes in segment DATA16_ID
    4 bytes in segment DATA16_Z
  
- 616 bytes of CODE  memory
+ 572 bytes of CODE  memory
   52 bytes of CONST memory
   56 bytes of DATA  memory (+ 22 bytes shared)
 

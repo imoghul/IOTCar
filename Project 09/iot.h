@@ -27,6 +27,12 @@
 
 #define COMMAND_BUFFER_LEN              (5)
 
+#define FORWARD_COMMAND                 ('F')
+#define REVERSE_COMMAND                 ('B')
+#define RIGHT_COMMAND                   ('R')
+#define LEFT_COMMAND                    ('L')
+#define TURN_CONSTANT                   (10/3)
+
 typedef struct {
   char comm;
   unsigned int duration;
@@ -37,5 +43,6 @@ void centerStringToDisplay(unsigned int line,char * s);
 void IOTBufferCommands(void);
 void ProcessCommands(void);
 void pushCB(command c);
+int stoi(char* str);
 command popCB(void);
 
