@@ -79,9 +79,9 @@ void Turn() {
 
         case 1: // gotta remove this
             if(enteringDirection == MOVING_LEFT)
-                if(Drive_Path(STRAIGHT_RIGHT / 2, -STRAIGHT_LEFT / 2, 20)) stateCounter++;
+                if(Drive_Path(STRAIGHT_RIGHT >> 1, -STRAIGHT_LEFT >> 1, 20)) stateCounter++;
                 else if(enteringDirection == MOVING_RIGHT)
-                    if(Drive_Path(-STRAIGHT_RIGHT / 2, STRAIGHT_LEFT / 2, 20)) stateCounter++;
+                    if(Drive_Path(-STRAIGHT_RIGHT >> 1, STRAIGHT_LEFT >> 1, 20)) stateCounter++;
 
             break;
 
@@ -260,6 +260,7 @@ void StateMachine(void) {
             Drive(polarityRight, polarityLeft, driveTime);
 
         //if(Drive_Path(polarityRight*STRAIGHT_RIGHT,polarityLeft*STRAIGHT_LEFT, driveTime))state = START;
+
         default:
             break;
     }

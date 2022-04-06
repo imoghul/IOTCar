@@ -1,5 +1,6 @@
 #include <string.h>
 #include "utils.h"
+#include "macros.h"
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 
@@ -82,3 +83,22 @@ void HEXtoBCD(int hex_value, int line, int start) {
     display_line[line][start + 3] = 0x30 + hex_value;
 }
 
+
+int additionSafe(int val, int max, int min, int increment) {
+    long res = val + increment;
+
+    if(res > (long)max) res = (long)max;
+
+    if(res < (long)min) res = (long)min;
+
+    return (int)res;
+}
+
+int multSafe(int a, int b) {
+    if(a == 0 || b == 0)return 0;
+
+    int res = a * b;
+
+    if(a == res / b)return res;
+    else return (INT_MAX) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
+}
