@@ -46,7 +46,7 @@ void Straight(void) {
 
         case 1:
             if ((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
-                Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT,0);
+                Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
             } else {
                 if(ADC_Left_Detect > ADC_Right_Detect) enteringDirection = MOVING_LEFT;
                 else enteringDirection = MOVING_RIGHT;
@@ -87,9 +87,9 @@ void Turn() {
 
         case 2:
             if (((ADC_Left_Detect <= LEFT_GRAY_DETECT || ADC_Right_Detect <= RIGHT_GRAY_DETECT))) {
-                if(enteringDirection == MOVING_LEFT)Drive_Path(STRAIGHT_RIGHT >> 2, -STRAIGHT_LEFT >> 2,0);
+                if(enteringDirection == MOVING_LEFT)Drive_Path(STRAIGHT_RIGHT >> 2, -STRAIGHT_LEFT >> 2, 0);
 
-                if(enteringDirection == MOVING_RIGHT)Drive_Path(-STRAIGHT_RIGHT >> 2, STRAIGHT_LEFT >> 2,0);
+                if(enteringDirection == MOVING_RIGHT)Drive_Path(-STRAIGHT_RIGHT >> 2, STRAIGHT_LEFT >> 2, 0);
             } else stateCounter++;
 
             break;
@@ -137,7 +137,7 @@ void LineFollow() {
 
             if(delay(70, 0)) stateCounter = 5;
 
-            Drive_Path(rFollowSpeed, lFollowSpeed,0);
+            Drive_Path(rFollowSpeed, lFollowSpeed, 0);
             break;
 
 
@@ -149,14 +149,14 @@ void LineFollow() {
             break;
 
         case 3:// turn left ()
-            if(ADC_Left_Detect < LEFT_BLACK_DETECT) Drive_Path((RIGHT_MIN - LF_TURN_DECREMENT), -(LEFT_MIN - LF_TURN_DECREMENT),0);
+            if(ADC_Left_Detect < LEFT_BLACK_DETECT) Drive_Path((RIGHT_MIN - LF_TURN_DECREMENT), -(LEFT_MIN - LF_TURN_DECREMENT), 0);
             else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
             else stateCounter = 4;
 
             break;
 
         case 4:
-            if(ADC_Right_Detect < RIGHT_BLACK_DETECT) Drive_Path(-(RIGHT_MIN - LF_TURN_DECREMENT), (LEFT_MIN - LF_TURN_DECREMENT),0);
+            if(ADC_Right_Detect < RIGHT_BLACK_DETECT) Drive_Path(-(RIGHT_MIN - LF_TURN_DECREMENT), (LEFT_MIN - LF_TURN_DECREMENT), 0);
             else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
             else stateCounter = 3;
 

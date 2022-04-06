@@ -184,7 +184,7 @@ int Drive_Path(int speedR, int speedL, unsigned int ticksDuration) {
     int successR = RunRightMotor(speedR);
     int successL = RunLeftMotor(speedL);
 
-    if(ticksDuration==0) return successR&&successL;
+    if(ticksDuration == 0) return successR && successL;
 
     if (time_change) {
         time_change = 0;

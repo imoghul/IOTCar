@@ -24,7 +24,7 @@ char* subStringPos(const char* str, const char * subString) {
             }
         }
 
-        if (exists) return str+i;
+        if (exists) return str + i;
 
         return -1;
     }
@@ -42,9 +42,10 @@ int stoi(char* str) {
     return num;
 }
 
-char* charInString(const char* str, char c){
-    for(int i = 0;i<strlen(str);i++)
-        if(str[i]==c) return str+i;
+char* charInString(const char* str, char c) {
+    for(int i = 0; i < strlen(str); i++)
+        if(str[i] == c) return str + i;
+
     return 0;
 }
 
