@@ -36,6 +36,30 @@ extern unsigned int driveTime;
 
 command emptyCommand = {0, 0};
 
+int subStringPos(const char* str, const char * subString) {
+
+    int i = 0;
+    int d = 0;
+
+    int lenSub = strlen(subString);
+
+    for (i = strlen(str) - lenSub; i >= 0; i--) {
+        int exists = 1;
+
+        for (d = 0; d < lenSub; d++) {
+            if (str[i + d] != subString[d]) {
+                exists = 0;
+                break;
+            }
+        }
+
+        if (exists) return i;
+
+        return -1;
+    }
+
+}
+
 
 int Init_IOT(void) {
     //if(!receievedFromPC) return;
@@ -94,7 +118,7 @@ int Init_IOT(void) {
             if(UCA0IE & UCTXIE) break;
 
             if(pb0_buffered) {
-                if(strncmp(SSID_RESPONSE, (char*)USB0_Char_Rx_Process, SSID_RESPONSE_LEN) == 0) {
+                if(subStringPos((char*)USB0_Char_Rx_Process, SSID_RESPONSE) != -1) {
                     int i;
 
                     for(i = 0; i <= SSID_LEN && USB0_Char_Rx_Process[i + SSID_RESPONSE_LEN + 1] != '\"'; ++i) SSID[i] = USB0_Char_Rx_Process[i + SSID_RESPONSE_LEN + 1];
@@ -105,6 +129,19 @@ int Init_IOT(void) {
                     display_changed = 1;
                     iot_setup_state = GET_IP_Tx;
                 } else iot_setup_state = GET_SSID_Tx;
+
+                // int pos = subStringPos((char*)USB0_Char_Rx_Process,SSID_RESPONSE_LEN);
+                // if(pos!=-1){
+                //     char* starting= (char*)USB0_Char_Rx_Process + pos+SSID_RESPONSE_LEN;
+                //     int i;
+                //     for(i = 0; i <= SSID_LEN && *starting != '\"'; ++i) SSID[i] = *(starting++);
+                //     SSID[i + SSID_RESPONSE_LEN + 2] = 0;
+                //     SSID[SSID_LEN] = 0;
+                //     centerStringToDisplay(0, SSID);
+                //     display_changed = 1;
+                //     iot_setup_state = GET_IP_Tx;
+                // }
+                // else iot_setup_state = GET_SSID_Tx;
 
                 clearProcessBuff_0();
             }
@@ -121,7 +158,7 @@ int Init_IOT(void) {
             if(UCA0IE & UCTXIE) break;
 
             if(pb0_buffered) {
-                if(strncmp(IP_RESPONSE, (char*)USB0_Char_Rx_Process, IP_RESPONSE_LEN) == 0) {
+                if(subStringPos((char*)USB0_Char_Rx_Process, IP_RESPONSE) != -1) {
                     int i;
 
                     for(i = 0; i <= IP_LEN && USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1] != '"'; ++i) {

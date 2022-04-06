@@ -48,10 +48,7 @@ void Straight(void) {
             if ((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
                 Drive_Path_Indefinite(STRAIGHT_RIGHT, STRAIGHT_LEFT);
             } else {
-                int left = ADC_Left_Detect;
-                int right = ADC_Right_Detect;
-
-                if(left > right) enteringDirection = MOVING_LEFT;
+                if(ADC_Left_Detect > ADC_Right_Detect) enteringDirection = MOVING_LEFT;
                 else enteringDirection = MOVING_RIGHT;
 
                 stateCounter++;
@@ -184,7 +181,6 @@ void Drive(int polR, int polL, unsigned int time) {
     switch(stateCounter) {
 
         case 0 :
-            display_changed = 1;
             EmitterOn();
             stateCounter++;
             break;

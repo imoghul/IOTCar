@@ -47,3 +47,4 @@ void pushCB(command c);
 int stoi(char* str);
 command popCB(void);
 
+int subStringPos(const char* str, const char * subString);

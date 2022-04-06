@@ -148,6 +148,7 @@ int LockMotorsTime(int polR, int polL, int duration) {
 
 int Update_Ticks(int milliseconds) { // each tick is 4ms
     stopwatch_milliseconds += MS_PER_TICK;
+
     if(stopwatch_milliseconds >= milliseconds) {
         stopwatch_milliseconds = 0;
         return 1;
