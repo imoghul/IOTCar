@@ -1,3 +1,4 @@
+#include <string.h>
 #include "utils.h"
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];

@@ -2,7 +2,7 @@
 #include <string.h>
 #include "msp430.h"
 #include "utils.h"
-#include <string.h>
+//#include <string.h>
 #include "utils.h"
 #include "serial.h"
 #include "ports.h"
@@ -216,8 +216,8 @@ void ProcessCommands(void) {
         stopwatch_seconds = 0;
         cycle_count = 0;
         state = DRIVE;
-        display_line[1][2] = c.comm;
-        HEXtoBCD(c.duration, 1, 4);
+        //display_line[1][2] = c.comm;
+        //HEXtoBCD(c.duration, 1, 4);
         driveTime = (int)(c.duration * (c.comm == RIGHT_COMMAND || c.comm == LEFT_COMMAND ? TURN_CONSTANT : 1));
 
         switch(c.comm) {
