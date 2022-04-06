@@ -116,24 +116,22 @@ void main(void) {
     // Begining of the "While" Operating System
     //------------------------------------------------------------------------------
     while(ALWAYS) {                       // Can the Operating system run
-        //Display_Process();                  // Update Display
-        //SerialProcess();
-        //if(!Init_IOT()) continue;
-        //IOTBufferCommands();
-        //ProcessCommands();
-        //DetectMovement();
+        Display_Process();                  // Update Display
+        SerialProcess();
+        if(!Init_IOT()) continue;
+        IOTBufferCommands();
+        ProcessCommands();
         StateMachine();                     // Run wheels state machine
-        //MenuProcess();
+        MenuProcess();
         MotorSafety();
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
 
 
         if(Last_Time_Sequence != Time_Sequence) {
             Last_Time_Sequence = Time_Sequence;
-            cycle_count++;
             time_change = 1;
 
-            if(cycle_count == TIME_SEQUENCE_MAX) {
+            if(++cycle_count == TIME_SEQUENCE_MAX) {
                 cycle_count = 0;
                 stopwatch_seconds++;
             }

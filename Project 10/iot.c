@@ -19,7 +19,6 @@ extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 char dotFound;
 int midIndex;
-char midFound;
 command CommandBuffer[COMMAND_BUFFER_LEN];
 char cb_index;
 
@@ -165,15 +164,7 @@ int Init_IOT(void) {
                         IP[i] = USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1];
 
                         if(USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1] == '.') {
-                            if(!dotFound)dotFound = 1;
-                            else {
-                                dotFound = 0;
-
-                                if(!midFound) {
-                                    midIndex = i;
-                                    midFound = 1;
-                                }
-                            }
+                            if(dotFound++ == 1) midIndex = i;
                         }
                     }
 
