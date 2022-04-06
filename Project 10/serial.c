@@ -207,8 +207,4 @@ void SerialProcess(void) {
 
     if(!pb1_buffered)loadRingtoPB_1();
 
-
-
-    if(pb1_buffered) clearProcessBuff_1();
-
 }

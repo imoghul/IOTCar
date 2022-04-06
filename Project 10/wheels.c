@@ -82,8 +82,7 @@ void ShutoffLeft(void) {
 }
 
 void MotorSafety(void) {
-
-    if (((RIGHT_FORWARD_SPEED != 0 && RIGHT_REVERSE_SPEED != 0) || (LEFT_FORWARD_SPEED != 0 && LEFT_REVERSE_SPEED != 0))) {
+    if ((RIGHT_FORWARD_SPEED != 0 && RIGHT_REVERSE_SPEED != 0) || (LEFT_FORWARD_SPEED != 0 && LEFT_REVERSE_SPEED != 0)) {
         ShutoffMotors();
         P1OUT |= RED_LED;
     } else {
@@ -140,7 +139,7 @@ int RunLeftMotor( int val) {
 }
 
 int LockMotors(int polR, int polL) {
-    return (Drive_Path_Definite(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, 25));
+    return (Drive_Path_Definite(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, LOCK_TIME));
 }
 
 int LockMotorsTime(int polR, int polL, int duration) {
@@ -148,11 +147,7 @@ int LockMotorsTime(int polR, int polL, int duration) {
 }
 
 int Update_Ticks(int milliseconds) { // each tick is 4ms
-    //if(++wheel_periods > TIME_SEQUENCE_MAX) {
-    //    wheel_periods = 0;
-    stopwatch_milliseconds += 4;
-
-    //}
+    stopwatch_milliseconds += MS_PER_TICK;
     if(stopwatch_milliseconds >= milliseconds) {
         stopwatch_milliseconds = 0;
         return 1;
