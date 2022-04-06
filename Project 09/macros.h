@@ -17,3 +17,5 @@
 #define FALSE                   (0x00) //
 #define MCLK_FREQ_MHZ 8                    // MCLK = 8MHz
 #define CLEAR_REGISTER     (0X0000)
+#define INT_MIN                 (-32768)
+#define INT_MAX                 (32767)

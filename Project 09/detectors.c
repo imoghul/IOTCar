@@ -34,7 +34,7 @@ void EmitterOff(void) {
 }
 
 void DetectMovement(void) {
-    if(adcUpdated == 0) return;
+    /*if(adcUpdated == 0) return;
 
     adcUpdated = 0;
     int currLeft = ADC_Left_Detect;
@@ -61,37 +61,37 @@ void DetectMovement(void) {
         if(dirR == INCREASING || dirL == DECREASING) movingDirection = MOVING_RIGHT;
         else if(dirR == DECREASING || dirL == INCREASING) movingDirection = MOVING_LEFT;
         else movingDirection = NOT_MOVING;
-    } else movingDirection = NOT_MOVING;
+    } else movingDirection = NOT_MOVING;*/
 }
 
 void push(int list[], int val) {
-    for(int i = VALUES_TO_HOLD - 1; i > 0; --i) list[i] = list[i - 1];
+    /*for(int i = VALUES_TO_HOLD - 1; i > 0; --i) list[i] = list[i - 1];
 
-    list[0] = val;
+    list[0] = val;*/
 }
 
 void clearList(int list[]) {
-    for (int i = 0; i < VALUES_TO_HOLD; ++i) list[i] = 0;
+    //for (int i = 0; i < VALUES_TO_HOLD; ++i) list[i] = 0;
 }
 
 int validList(int* list) {
-    for(int i = 0; i < VALUES_TO_HOLD; ++i) if(list[i] == 0)return 0;
+    //for(int i = 0; i < VALUES_TO_HOLD; ++i) if(list[i] == 0)return 0;
 
     return 1;
 }
 
 int rollingSum(int * list) {
-    int sum = 0;
+    /*int sum = 0;
 
     for (int i = 0; i < VALUES_TO_HOLD; ++i) {
         sum += list[i];
     }
 
-    return sum;
+    return sum;*/return 0;
 }
 
 char getDirection(int* list) {
-    int increasing = 0, decreasing = 0;
+    /*int increasing = 0, decreasing = 0;
 
     for(int i = 1; i < VALUES_TO_HOLD && list[i] != 0; ++i) {
         if(abs(list[i] - list[i - 1]) > 0) {
@@ -100,7 +100,8 @@ char getDirection(int* list) {
         }
     }
 
-    return increasing > decreasing ? INCREASING : (increasing == decreasing ? NEUTRAL : DECREASING);
+    return increasing > decreasing ? INCREASING : (increasing == decreasing ? NEUTRAL : DECREASING);*/
+  return 0;
 }
 
 unsigned int abs(int n) {

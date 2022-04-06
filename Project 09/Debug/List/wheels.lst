@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  19:19:30
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Apr/2022  21:46:32
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWC7ED.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWC71B.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\wheels.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -454,8 +454,8 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
    \   000000   1B15         PUSHM.W #0x2, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
-    153              return (Drive_Path(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, 5));
-   \   000006   3E400500     MOV.W   #0x5, R14
+    153              return (Drive_Path_Definite(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, 25));
+   \   000006   3E401900     MOV.W   #0x19, R14
    \   00000A   0D4B         MOV.W   R11, R13
    \   00000C   5D0E         RLAM.W  #0x4, R13
    \   00000E   5D0A         RLAM.W  #0x3, R13
@@ -482,7 +482,7 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
    \   000038   0F5C         ADD.W   R12, R15
    \   00003A   5C0A         RLAM.W  #0x3, R12
    \   00003C   0C5F         ADD.W   R15, R12
-   \   00003E   ........     CALLA   #Drive_Path
+   \   00003E   ........     CALLA   #Drive_Path_Definite
    \   000042   1A17         POPM.W  #0x2, R11
    \   000044   1001         RETA
     154          }
@@ -495,7 +495,7 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
    \   000006   084E         MOV.W   R14, R8
-    157              return (Drive_Path(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, duration));
+    157              return (Drive_Path_Definite(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, duration));
    \   000008   0E48         MOV.W   R8, R14
    \   00000A   0D4B         MOV.W   R11, R13
    \   00000C   5D0E         RLAM.W  #0x4, R13
@@ -523,7 +523,7 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
    \   000038   0F5C         ADD.W   R12, R15
    \   00003A   5C0A         RLAM.W  #0x3, R12
    \   00003C   0C5F         ADD.W   R15, R12
-   \   00003E   ........     CALLA   #Drive_Path
+   \   00003E   ........     CALLA   #Drive_Path_Definite
    \   000042   3817         POPM.W  #0x4, R11
    \   000044   1001         RETA
     158          }
@@ -556,8 +556,8 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
     172          
 
    \                                 In  segment CODE, align 2
-    173          int Drive_Path(int speedR, int speedL, unsigned int ticksDuration) {
-   \                     Drive_Path:
+    173          int Drive_Path_Definite(int speedR, int speedL, unsigned int ticksDuration) {
+   \                     Drive_Path_Definite:
    \   000000   5B15         PUSHM.W #0x6, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
@@ -571,52 +571,65 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
    \   000012   ........     CALLA   #RunLeftMotor
    \   000016   064C         MOV.W   R12, R6
     176          
-    177              if(ticksDuration == 0) return successR && successL;
-   \   000018   0893         CMP.W   #0x0, R8
-   \   00001A   0920         JNE     ??Drive_Path_2
-   \   00001C   0993         CMP.W   #0x0, R9
-   \   00001E   0424         JEQ     ??Drive_Path_3
-   \   000020   0693         CMP.W   #0x0, R6
-   \   000022   0224         JEQ     ??Drive_Path_3
-   \   000024   5C43         MOV.B   #0x1, R12
-   \   000026   013C         JMP     ??Drive_Path_0
-   \                     ??Drive_Path_3:
-   \   000028   4C43         MOV.B   #0x0, R12
-   \                     ??Drive_Path_0:
-   \   00002A   4C4C         MOV.B   R12, R12
-   \   00002C   133C         JMP     ??Drive_Path_1
-    178          
-    179              if (time_change) {
-   \                     ??Drive_Path_2:
-   \   00002E   8293....     CMP.W   #0x0, &time_change
-   \   000032   0F24         JEQ     ??Drive_Path_4
-    180                  time_change = 0;
-   \   000034   8243....     MOV.W   #0x0, &time_change
-    181          
-    182                  if (successR && successL && Update_Ticks(ticksDuration)) {
-   \   000038   0993         CMP.W   #0x0, R9
-   \   00003A   0B24         JEQ     ??Drive_Path_4
-   \   00003C   0693         CMP.W   #0x0, R6
-   \   00003E   0924         JEQ     ??Drive_Path_4
-   \   000040   0C48         MOV.W   R8, R12
-   \   000042   ........     CALLA   #Update_Ticks
-   \   000046   0C93         CMP.W   #0x0, R12
-   \   000048   0424         JEQ     ??Drive_Path_4
-    183                      ShutoffMotors();
-   \   00004A   ........     CALLA   #ShutoffMotors
-    184                      return 1;
-   \   00004E   1C43         MOV.W   #0x1, R12
-   \   000050   013C         JMP     ??Drive_Path_1
-    185                  }
-    186              }
-    187          
-    188              return 0;
-   \                     ??Drive_Path_4:
-   \   000052   0C43         MOV.W   #0x0, R12
-   \                     ??Drive_Path_1:
-   \   000054   5617         POPM.W  #0x6, R11
-   \   000056   1001         RETA
-    189          }
+    177              if (time_change) {
+   \   000018   8293....     CMP.W   #0x0, &time_change
+   \   00001C   0F24         JEQ     ??Drive_Path_Definite_1
+    178                  time_change = 0;
+   \   00001E   8243....     MOV.W   #0x0, &time_change
+    179          
+    180                  if (successR && successL && Update_Ticks(ticksDuration)) {
+   \   000022   0993         CMP.W   #0x0, R9
+   \   000024   0B24         JEQ     ??Drive_Path_Definite_1
+   \   000026   0693         CMP.W   #0x0, R6
+   \   000028   0924         JEQ     ??Drive_Path_Definite_1
+   \   00002A   0C48         MOV.W   R8, R12
+   \   00002C   ........     CALLA   #Update_Ticks
+   \   000030   0C93         CMP.W   #0x0, R12
+   \   000032   0424         JEQ     ??Drive_Path_Definite_1
+    181                      ShutoffMotors();
+   \   000034   ........     CALLA   #ShutoffMotors
+    182                      return 1;
+   \   000038   1C43         MOV.W   #0x1, R12
+   \   00003A   013C         JMP     ??Drive_Path_Definite_0
+    183                  }
+    184              }
+    185          
+    186              return 0;
+   \                     ??Drive_Path_Definite_1:
+   \   00003C   0C43         MOV.W   #0x0, R12
+   \                     ??Drive_Path_Definite_0:
+   \   00003E   5617         POPM.W  #0x6, R11
+   \   000040   1001         RETA
+    187          }
+    188          
+    189          
+
+   \                                 In  segment CODE, align 2
+    190          int Drive_Path_Indefinite(int speedR, int speedL) {
+   \                     Drive_Path_Indefinite:
+   \   000000   1B15         PUSHM.W #0x2, R11
+   \   000002   0A4C         MOV.W   R12, R10
+    191              int successR = RunRightMotor(speedR);
+   \   000004   0C4A         MOV.W   R10, R12
+   \   000006   ........     CALLA   #RunRightMotor
+   \   00000A   0B4C         MOV.W   R12, R11
+    192              int successL = RunLeftMotor(speedL);
+   \   00000C   0C4D         MOV.W   R13, R12
+   \   00000E   ........     CALLA   #RunLeftMotor
+    193              return successR && successL;
+   \   000012   0B93         CMP.W   #0x0, R11
+   \   000014   0424         JEQ     ??Drive_Path_Indefinite_1
+   \   000016   0C93         CMP.W   #0x0, R12
+   \   000018   0224         JEQ     ??Drive_Path_Indefinite_1
+   \   00001A   5C43         MOV.B   #0x1, R12
+   \   00001C   013C         JMP     ??Drive_Path_Indefinite_0
+   \                     ??Drive_Path_Indefinite_1:
+   \   00001E   4C43         MOV.B   #0x0, R12
+   \                     ??Drive_Path_Indefinite_0:
+   \   000020   4C4C         MOV.B   R12, R12
+   \   000022   1A17         POPM.W  #0x2, R11
+   \   000024   1001         RETA
+    194          }
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
    \                     `?<Initializer for rightSwitchable>`:
@@ -645,22 +658,25 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
    \                     `?<Initializer for leftAdjustController>`:
    \   000000   140000000500 DC16 20, 0, 5, 0, 0, 0
    \            000000000000
-    190          
-    191          
+    195          
+    196          
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
-     16   Drive_Path
+     16   Drive_Path_Definite
        16   -> RunLeftMotor
        16   -> RunRightMotor
        16   -> ShutoffMotors
        16   -> Update_Ticks
+      8   Drive_Path_Indefinite
+        8   -> RunLeftMotor
+        8   -> RunRightMotor
       8   LockMotors
-        8   -> Drive_Path
+        8   -> Drive_Path_Definite
      12   LockMotorsTime
-       12   -> Drive_Path
+       12   -> Drive_Path_Definite
       4   MotorSafety
         4   -> ShutoffMotors
       4   RunLeftMotor
@@ -685,7 +701,8 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
       12  ?<Initializer for rightAdjustController>
       12  ?<Initializer for rightFollowController>
        2  ?<Initializer for rightSwitchable>
-      88  Drive_Path
+      66  Drive_Path_Definite
+      38  Drive_Path_Indefinite
       70  LockMotors
       70  LockMotorsTime
       40  MotorSafety
@@ -716,13 +733,13 @@ C:\Users\saad\Documents\ece-306\Project 09\wheels.c
        2  wheel_periods
 
  
- 572 bytes in segment CODE
+ 588 bytes in segment CODE
   22 bytes in segment DATA16_AN
   52 bytes in segment DATA16_I
   52 bytes in segment DATA16_ID
    4 bytes in segment DATA16_Z
  
- 572 bytes of CODE  memory
+ 588 bytes of CODE  memory
   52 bytes of CONST memory
   56 bytes of DATA  memory (+ 22 bytes shared)
 

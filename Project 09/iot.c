@@ -58,10 +58,7 @@ int Init_IOT(void){
     case CIPMUX_Rx:
       if(UCA0IE & UCTXIE) break; // wait for the Tx to completely transmit
       if(pb0_buffered){ // wait for pb to finish buffering
-        if(strcmp((char*)USB0_Char_Rx_Process,OK_RESPONSE) == 0) { //  check if the response was "OK"
-          iot_setup_state = CIPSERVER_Tx;
-        }
-        else iot_setup_state = CIPMUX_Tx;
+        iot_setup_state = CIPSERVER_Tx;
         clearProcessBuff_0();
       }
       break;
@@ -74,10 +71,7 @@ int Init_IOT(void){
     case CIPSERVER_Rx:
       if(UCA0IE & UCTXIE) break;
       if(pb0_buffered){
-        if(strcmp((char*)USB0_Char_Rx_Process,OK_RESPONSE) == 0) {
-          iot_setup_state = GET_SSID_Tx;
-        }
-        else iot_setup_state = CIPSERVER_Tx;
+        iot_setup_state = GET_SSID_Tx;
         clearProcessBuff_0();
       }
       break;
@@ -202,17 +196,8 @@ void pushCB(command c){
 }
 
 void ProcessCommands(void){
-  if(state == START){
-    //strcpy(display_line[0], "          ");
-    //strcpy(display_line[1], "          ");
-    //strcpy(display_line[2], "          ");
+  if(state == START && (CommandBuffer[0].comm!=0 && CommandBuffer[0].duration!=0)){
     command c = popCB();
-    if(c.comm==0 && c.duration==0) return;
-    lcd_BIG_mid();
-    strcpy(display_line[0], "          ");
-    strcpy(display_line[1], "          ");
-    strcpy(display_line[2], "          ");
-    strcpy(display_line[3], "          ");
     stopwatch_seconds = 0;
     cycle_count = 0;
     state = DRIVE;
@@ -235,6 +220,12 @@ void ProcessCommands(void){
       case (LEFT_COMMAND):
         polarityRight = -1;
         polarityLeft = 1;
+        break;
+      case (LINEFOLLOW_COMMAND):
+        state = STRAIGHT;
+        break;
+      default:
+        state = START;
         break;
     }
   }

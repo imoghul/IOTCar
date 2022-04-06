@@ -31,6 +31,7 @@
 #define REVERSE_COMMAND                 ('B')
 #define RIGHT_COMMAND                   ('R')
 #define LEFT_COMMAND                    ('L')
+#define LINEFOLLOW_COMMAND              ('O')
 #define TURN_CONSTANT                   (10/3)
 
 typedef struct {

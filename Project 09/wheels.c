@@ -150,11 +150,11 @@ int RunLeftMotor( int val) {
 }
 
 int LockMotors(int polR, int polL) {
-    return (Drive_Path(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, 5));
+    return (Drive_Path_Definite(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, 25));
 }
 
 int LockMotorsTime(int polR, int polL, int duration) {
-    return (Drive_Path(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, duration));
+    return (Drive_Path_Definite(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, duration));
 }
 
 int Update_Ticks(int milliseconds) { // each tick is 4ms 
@@ -170,11 +170,9 @@ int Update_Ticks(int milliseconds) { // each tick is 4ms
     return 0;
 }
 
-int Drive_Path(int speedR, int speedL, unsigned int ticksDuration) {
+int Drive_Path_Definite(int speedR, int speedL, unsigned int ticksDuration) {
     int successR = RunRightMotor(speedR);
     int successL = RunLeftMotor(speedL);
-
-    if(ticksDuration == 0) return successR && successL;
 
     if (time_change) {
         time_change = 0;
@@ -186,6 +184,13 @@ int Drive_Path(int speedR, int speedL, unsigned int ticksDuration) {
     }
 
     return 0;
+}
+
+
+int Drive_Path_Indefinite(int speedR, int speedL) {
+    int successR = RunRightMotor(speedR);
+    int successL = RunLeftMotor(speedL);
+    return successR && successL;
 }
 
 

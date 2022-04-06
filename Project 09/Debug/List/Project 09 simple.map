@@ -1,15 +1,8 @@
-Warning[w6]: Type conflict for external/entry "lcd_BIG_mid", in module iot against external/entry in module LCD; prototyped function vs K&R function
-  /* In module iot: */
-  /* K&R Function, args 0, attr 0 */
-  int (__cc_version2 lcd_BIG_mid)();
-  /* In module LCD: */
-  /* Function, args 0, attr 0 */
-  void (__cc_version2 lcd_BIG_mid)(void);
 ################################################################################
 #                                                                              #
 #      IAR Universal Linker V6.6.2.104                                         #
 #                                                                              #
-#           Link time     =  05/Apr/2022  09:34:58                             #
+#           Link time     =  05/Apr/2022  21:53:34                             #
 #           Target CPU    =  MSP430                                            #
 #           List file     =  "C:\Users\saad\Documents\ece-306\Project 09\Debug #
 #                            \List\Project 09 simple.map"                      #
@@ -18,7 +11,7 @@ Warning[w6]: Type conflict for external/entry "lcd_BIG_mid", in module iot again
 #                            Format: ubrof10                                   #
 #                            UBROF version 10.0.6                              #
 #                            Using library modules for C-SPY (-rt)             #
-#           Command line  =  -f C:\Users\saad\AppData\Local\Temp\EWFEBC.tmp    #
+#           Command line  =  -f C:\Users\saad\AppData\Local\Temp\EW38BA.tmp    #
 #                            ("C:\Users\saad\Documents\ece-306\Project 09\Debu #
 #                            g\Obj\adc.r43"                                    #
 #                            "C:\Users\saad\Documents\ece-306\Project 09\Debug #
@@ -117,7 +110,7 @@ Warning[w6]: Type conflict for external/entry "lcd_BIG_mid", in module iot again
                 *                                      *
                 ****************************************
 
-       Program entry at :           80A0  Relocatable, from module : ?cstart
+       Program entry at :           803C  Relocatable, from module : ?cstart
 
 
 
@@ -177,21 +170,20 @@ adc ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\adc.r43 )
         _A_SAC3PGA_L                        0CB2
         _A_SAC3DAC_L                        0CB4
         _A_SAC3DAT_L                        0CB6
-        ADC_Channel                         200A
-        ADC_Left_Detect                     200C
-        ADC_Right_Detect                    200E
-        ADC_Thumb                           2010
-        ADC_Vbat                            2012
-        ADC_Vdac                            2014
-        ADC_V3v3                            2016
-        DAC_data                            2018
-        adc_char                            2078
-        adcUpdated                          201A
-        Init_ADC                            9094
-        Init_REF                            989E
-        Init_DAC                            93C8
-        ADC_ISR                             80C8
-        HEXtoBCD                            8800
+        ADC_Channel                         2026
+        ADC_Left_Detect                     2028
+        ADC_Right_Detect                    202A
+        ADC_Thumb                           202C
+        ADC_Vbat                            202E
+        ADC_Vdac                            2030
+        ADC_V3v3                            2032
+        DAC_data                            2034
+        adcUpdated                          2036
+        Init_ADC                            911A
+        Init_REF                            970E
+        Init_DAC                            93BE
+        ADC_ISR                             8064
+        HEXtoBCD                            8A8E
         ADC_ISR::??INTVEC 58                FFDC
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
@@ -245,8 +237,8 @@ clocks ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\clocks.r43 )
         _A_PM5CTL0_L                        0130
         _A_SFRIFG1_L                        0102
         _A_WDTCTL_L                         01CC
-        Init_Clocks                         9104
-        Software_Trim                       89FE
+        Init_Clocks                         918A
+        Software_Trim                       8868
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         CSCTL0                              0180
@@ -286,12 +278,12 @@ detectors ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\detectors.r43 )
         lastLeft                            NOT NEEDED
         lastRight                           NOT NEEDED
         leftVals                            NOT NEEDED
-        LBDetect                            NOT NEEDED
-        LWDetect                            NOT NEEDED
-        RBDetect                            NOT NEEDED
-        RWDetect                            NOT NEEDED
-        EmitterOn                           9A38
-        EmitterOff                          9A40
+        LBDetect                            2038
+        LWDetect                            203A
+        RBDetect                            203C
+        RWDetect                            203E
+        EmitterOn                           9864
+        EmitterOff                          985C
         DetectMovement                      NOT NEEDED
         push                                NOT NEEDED
         clearList                           NOT NEEDED
@@ -299,7 +291,7 @@ detectors ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\detectors.r43 )
         rollingSum                          NOT NEEDED
         getDirection                        NOT NEEDED
         abs                                 NOT NEEDED
-        calibrate                           NOT NEEDED
+        calibrate                           8FA8
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         PCOUT                               0242
@@ -309,7 +301,7 @@ init ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\init.r43 )
         _A_PAOUT_L                          0202
         _A_PCOUT_L                          NOT NEEDED
         Init_LEDs                           NOT NEEDED
-        Init_Conditions                     92E0
+        Init_Conditions                     936C
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         PAOUT                               0202
@@ -319,25 +311,25 @@ init ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\init.r43 )
         PCOUT_H                             0243
         PCOUT_L                             0242
 iot ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\iot.r43 )
-        strchr                              9994
-        strstr                              9982
+        strchr                              NOT NEEDED
+        strstr                              NOT NEEDED
         _A_UCA0IE_L                         051A
-        iot_setup_state                     2008
-        SSID                                207D
-        IP                                  2088
-        dotFound                            2096
-        midIndex                            201C
-        midFound                            2097
-        CommandBuffer                       201E
+        iot_setup_state                     NOT NEEDED
+        SSID                                NOT NEEDED
+        IP                                  NOT NEEDED
+        dotFound                            NOT NEEDED
+        midIndex                            NOT NEEDED
+        midFound                            NOT NEEDED
+        CommandBuffer                       NOT NEEDED
         cb_index                            NOT NEEDED
-        emptyCommand                        2032
-        Init_IOT                            846C
-        centerStringToDisplay               9630
-        IOTBufferCommands                   8EA8
-        stoi                                9380
-        popCB                               9332
-        pushCB                              9592
-        ProcessCommands                     8916
+        emptyCommand                        NOT NEEDED
+        Init_IOT                            NOT NEEDED
+        centerStringToDisplay               NOT NEEDED
+        IOTBufferCommands                   NOT NEEDED
+        stoi                                NOT NEEDED
+        popCB                               NOT NEEDED
+        pushCB                              NOT NEEDED
+        ProcessCommands                     NOT NEEDED
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         UCA0IE                              051A
@@ -353,14 +345,14 @@ LCD ( C:\Users\saad\Documents\ece-306\Project 09\Compiled\LCD.r43 )
         _A_UCB1RXBUF_L                      05CC
         _A_UCB1TXBUF_L                      05CE
         _A_UCB1IFG_L                        05EC
-        current_character                   2098
+        current_character                   207C
         update_display_count                NOT NEEDED
         display_update_time                 NOT NEEDED
-        update_display                      2099
-        display_changed                     209A
+        update_display                      207D
+        display_changed                     207E
         lcd_control                         NOT NEEDED
-        display_line                        209B
-        display                             2036
+        display_line                        207F
+        display                             2040
         posi_L1                             NOT NEEDED
         posi_L2                             NOT NEEDED
         posi_L3                             NOT NEEDED
@@ -369,32 +361,32 @@ LCD ( C:\Users\saad\Documents\ece-306\Project 09\Compiled\LCD.r43 )
         char_count                          NOT NEEDED
         current_line                        NOT NEEDED
         LCD_test                            NOT NEEDED
-        spi_chipselect_idle                 9970
-        spi_chipselect_active               9A18
-        spi_reset_idle                      9A54
-        spi_reset_active                    9A4E
-        Display_Update                      9410
+        spi_chipselect_idle                 97E6
+        spi_chipselect_active               9846
+        spi_reset_idle                      9878
+        spi_reset_active                    986C
+        Display_Update                      NOT NEEDED
         enable_display_update               NOT NEEDED
         update_string                       NOT NEEDED
-        Init_LCD                            8CF0
+        Init_LCD                            8B2C
         lcd_4line                           NOT NEEDED
-        lcd_BIG_mid                         982E
+        lcd_BIG_mid                         NOT NEEDED
         lcd_BIG_bot                         NOT NEEDED
         lcd_180                             NOT NEEDED
-        lcd_out                             9720
+        lcd_out                             NOT NEEDED
         lcd_puts                            NOT NEEDED
-        WriteIns                            96AC
-        WriteData                           965C
+        WriteIns                            963C
+        WriteData                           NOT NEEDED
         CheckBusy                           NOT NEEDED
-        ClrDisplay                          98D0
-        ClrDisplay_Buffer_0                 98FA
-        ClrDisplay_Buffer_1                 990E
-        ClrDisplay_Buffer_2                 9922
-        ClrDisplay_Buffer_3                 994A
+        ClrDisplay                          9758
+        ClrDisplay_Buffer_0                 976E
+        ClrDisplay_Buffer_1                 97AA
+        ClrDisplay_Buffer_2                 97BE
+        ClrDisplay_Buffer_3                 97D2
         SetPostion                          NOT NEEDED
-        DisplayOnOff                        98E6
-        Init_SPI_B1                         94DC
-        SPI_B1_write                        984C
+        DisplayOnOff                        9796
+        Init_SPI_B1                         94CE
+        SPI_B1_write                        96F2
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         PAOUT                               0202
@@ -427,7 +419,7 @@ LCD ( C:\Users\saad\Documents\ece-306\Project 09\Compiled\LCD.r43 )
 led ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\led.r43 )
         _A_PAOUT_L                          NOT NEEDED
         _A_PCOUT_L                          NOT NEEDED
-        Display_Process                     978A
+        Display_Process                     NOT NEEDED
         Carlson_StateMachine                NOT NEEDED
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
@@ -445,14 +437,14 @@ main ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\main.r43 )
         test_value                          NOT NEEDED
         chosen_direction                    NOT NEEDED
         change                              NOT NEEDED
-        Last_Time_Sequence                  203E
-        cycle_count                         2040
-        stopwatch_seconds                   2042
-        stopwatch_milliseconds              2044
-        time_change                         2046
+        Last_Time_Sequence                  2048
+        cycle_count                         204A
+        stopwatch_seconds                   204C
+        stopwatch_milliseconds              204E
+        time_change                         2050
         UCA0_index                          NOT NEEDED
         UCA1_index                          NOT NEEDED
-        main                                8AD8
+        main                                8C62
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         PBOUT                               0222
@@ -482,10 +474,10 @@ menu ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\menu.r43 )
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
 pid ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\pid.r43 )
-        GetOutput                           NOT NEEDED
-        ClearController                     NOT NEEDED
-        additionSafe                        NOT NEEDED
-        multSafe                            NOT NEEDED
+        GetOutput                           8D8A
+        ClearController                     9838
+        additionSafe                        92B2
+        multSafe                            8F28
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
 ports ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\ports.r43 )
@@ -511,13 +503,13 @@ ports ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\ports.r43 )
         _A_PCSEL0_L                         024A
         _A_PCSEL1_L                         024C
         _A_PCSELC_L                         0256
-        Init_Ports                          9868
-        Init_Port1                          922C
-        Init_Port2                          8D8C
-        Init_Port3                          8C44
-        Init_Port4                          8E26
-        Init_Port5                          9558
-        Init_Port6                          8F28
+        Init_Ports                          96D6
+        Init_Port1                          9310
+        Init_Port2                          8BC8
+        Init_Port3                          8942
+        Init_Port4                          8EA6
+        Init_Port5                          954A
+        Init_Port6                          9024
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         PAOUT                               0202
@@ -602,38 +594,38 @@ serial ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\serial.r43 )
         _A_UCA1TXBUF_L                      058E
         _A_UCA1IE_L                         059A
         _A_UCA1IV_L                         059E
-        usb0_rx_wr                          2048
-        usb1_rx_wr                          204A
-        usb0_rx_rd                          204C
-        usb1_rx_rd                          204E
-        USB0_Char_Rx_Ring                   20C7
-        USB0_Char_Rx_Process                20D7
-        USB1_Char_Rx_Ring                   213B
-        USB1_Char_Rx_Process                214B
-        USB0_Char_Tx                        21AF
-        USB1_Char_Tx                        2213
-        pb0_index                           2050
-        pb1_index                           2052
-        tx0_index                           2054
-        tx1_index                           2056
-        pb0_buffered                        2058
-        pb1_buffered                        205A
+        usb0_rx_wr                          2052
+        usb1_rx_wr                          2054
+        usb0_rx_rd                          2056
+        usb1_rx_rd                          2058
+        USB0_Char_Rx_Ring                   20AB
+        USB0_Char_Rx_Process                NOT NEEDED
+        USB1_Char_Rx_Ring                   20BB
+        USB1_Char_Rx_Process                NOT NEEDED
+        USB0_Char_Tx                        20CB
+        USB1_Char_Tx                        212F
+        pb0_index                           NOT NEEDED
+        pb1_index                           NOT NEEDED
+        tx0_index                           205A
+        tx1_index                           205C
+        pb0_buffered                        NOT NEEDED
+        pb1_buffered                        NOT NEEDED
         serialState                         NOT NEEDED
-        receievedFromPC                     2277
-        Init_Serial_UCA                     8FA4
-        eUSCI_A0_ISR                        81E2
-        eUSCI_A1_ISR                        8258
-        clearProcessBuff                    97AC
-        clearProcessBuff_0                  99A6
-        clearProcessBuff_1                  99B8
+        receievedFromPC                     2193
+        Init_Serial_UCA                     90A0
+        eUSCI_A0_ISR                        817E
+        eUSCI_A1_ISR                        81F4
+        clearProcessBuff                    NOT NEEDED
+        clearProcessBuff_0                  NOT NEEDED
+        clearProcessBuff_1                  NOT NEEDED
         out_character                       NOT NEEDED
-        USCI_A0_transmit                    9A24
+        USCI_A0_transmit                    NOT NEEDED
         USCI_A1_transmit                    NOT NEEDED
-        loadRingtoPB                        901E
-        loadRingtoPB_0                      97CE
-        loadRingtoPB_1                      9768
+        loadRingtoPB                        NOT NEEDED
+        loadRingtoPB_0                      NOT NEEDED
+        loadRingtoPB_1                      NOT NEEDED
         copyPBtoTx_0                        NOT NEEDED
-        SerialProcess                       97F0
+        SerialProcess                       NOT NEEDED
         eUSCI_A1_ISR::??INTVEC 64           FFE2
         eUSCI_A0_ISR::??INTVEC 66           FFE4
         ?setjmp_save_r4                     NOT NEEDED
@@ -684,28 +676,24 @@ serial ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\serial.r43 )
         UCA1IV_H                            059F
         UCA1IV_L                            059E
 sm ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\sm.r43 )
-        _A_PCOUT_L                          NOT NEEDED
         _A_TB3CCR1_L                        0454
         _A_TB3CCR2_L                        0456
-        state                               2009
-        stateCounter                        205C
-        nextState                           NOT NEEDED
-        delayTime                           NOT NEEDED
-        enteringDirection                   NOT NEEDED
-        polarityRight                       205E
-        polarityLeft                        2060
-        driveTime                           2062
-        Straight                            NOT NEEDED
-        Turn                                NOT NEEDED
-        LineFollow                          NOT NEEDED
-        Drive                               8B90
-        delay                               NOT NEEDED
-        StateMachine                        9884
+        state                               2022
+        stateCounter                        205E
+        nextState                           2023
+        delayTime                           2000
+        enteringDirection                   2024
+        polarityRight                       2060
+        polarityLeft                        2062
+        driveTime                           2064
+        Straight                            8CF8
+        Turn                                878A
+        LineFollow                          8408
+        Drive                               89EE
+        delay                               95E6
+        StateMachine                        8E1A
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
-        PCOUT                               0242
-        PCOUT_H                             0243
-        PCOUT_L                             0242
         TB3CCR1                             0454
         TB3CCR1_H                           0455
         TB3CCR1_L                           0454
@@ -728,9 +716,9 @@ switches ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\switches.r43 )
         count_debounce_SW2                  NOT NEEDED
         sw1_pos                             NOT NEEDED
         sw2_pos                             NOT NEEDED
-        calibrationMode                     NOT NEEDED
-        switchP4_interrupt                  82E4
-        switchP2_interrupt                  8318
+        calibrationMode                     2066
+        switchP4_interrupt                  8280
+        switchP2_interrupt                  82B4
         switchP4_interrupt::??INTVEC 44     FFCE
         switchP2_interrupt::??INTVEC 48     FFD2
         ?setjmp_save_r4                     NOT NEEDED
@@ -763,7 +751,7 @@ switches ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\switches.r43 )
         TB0CCR2_H                           0397
         TB0CCR2_L                           0396
 system ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\system.r43 )
-        enable_interrupts                   9A48
+        enable_interrupts                   9872
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
 timers ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\timers.r43 )
@@ -797,26 +785,26 @@ timers ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\timers.r43 )
         _A_TB3CCR2_L                        NOT NEEDED
         _A_TB3CCR3_L                        0458
         _A_TB3CCR4_L                        045A
-        Time_Sequence                       2064
-        timer0Counter                       2066
+        Time_Sequence                       2068
+        timer0Counter                       206A
         backliteCounter                     NOT NEEDED
-        debounce_count1                     206A
-        debounce_count2                     206C
-        debouncing1                         206E
-        debouncing2                         2070
-        debounce_thresh1                    2000
-        debounce_thresh2                    2002
+        debounce_count1                     206E
+        debounce_count2                     2070
+        debouncing1                         2072
+        debouncing2                         2074
+        debounce_thresh1                    2002
+        debounce_thresh2                    2004
         checkAdc                            NOT NEEDED
-        timeElapsed                         2072
-        stopwatchUpdated                    2076
-        Init_Timers                         99FC
-        Init_Timer_B0                       951A
-        Init_Timer_B1                       95FE
-        Init_Timer_B3                       949C
-        Timer0_B0_ISR                       834C
-        TIMER0_B1_ISR                       838A
-        Timer1_B0_ISR                       83FC
-        TIMER1_B1_ISR                       843A
+        timeElapsed                         2076
+        stopwatchUpdated                    207A
+        Init_Timers                         982A
+        Init_Timer_B0                       950C
+        Init_Timer_B1                       9584
+        Init_Timer_B3                       948E
+        Timer0_B0_ISR                       82E8
+        TIMER0_B1_ISR                       8326
+        Timer1_B0_ISR                       8398
+        TIMER1_B1_ISR                       83D6
         TIMER1_B1_ISR::??INTVEC 80          FFF2
         Timer1_B0_ISR::??INTVEC 82          FFF4
         TIMER0_B1_ISR::??INTVEC 84          FFF6
@@ -926,23 +914,24 @@ wheels ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\wheels.r43 )
         _A_TB3CCR3_L                        NOT NEEDED
         _A_TB3CCR4_L                        NOT NEEDED
         wheel_periods                       NOT NEEDED
-        rightSwitchable                     2004
-        leftSwitchable                      2006
+        rightSwitchable                     2006
+        leftSwitchable                      2008
         temp                                NOT NEEDED
-        rightFollowController               NOT NEEDED
-        leftFollowController                NOT NEEDED
+        rightFollowController               200A
+        leftFollowController                2016
         rightAdjustController               NOT NEEDED
         leftAdjustController                NOT NEEDED
-        ShutoffMotors                       9A2E
-        ShutoffRight                        96D4
-        ShutoffLeft                         96FA
-        MotorSafety                         9684
-        RunRightMotor                       91CC
-        RunLeftMotor                        916A
-        LockMotors                          9456
+        ShutoffMotors                       9852
+        ShutoffRight                        9664
+        ShutoffLeft                         968A
+        MotorSafety                         9614
+        RunRightMotor                       9252
+        RunLeftMotor                        91F0
+        LockMotors                          9406
         LockMotorsTime                      NOT NEEDED
-        Update_Ticks                        98B8
-        Drive_Path                          9288
+        Update_Ticks                        9740
+        Drive_Path_Definite                 944C
+        Drive_Path_Indefinite               96B0
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         PAOUT                               0202
@@ -981,15 +970,15 @@ wheels ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\wheels.r43 )
 ?abort ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         abort                               NOT NEEDED
 ?__dbg_break ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        __DebugBreak                        9A66
+        __DebugBreak                        988A
 ?__dwrite ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __dwrite                            NOT NEEDED
 ?__exit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        __exit                              9936
+        __exit                              9782
 ?__write ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __write                             NOT NEEDED
 ?_exit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        _exit                               9A62
+        _exit                               987E
         __cstart_call_dtors                 NOT NEEDED
         __cstart_closeall                   NOT NEEDED
         __cstart_clearlocks                 NOT NEEDED
@@ -1000,46 +989,46 @@ wheels ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\wheels.r43 )
         __call_dtors                        NOT NEEDED
         __data16_vec_cctor                  NOT NEEDED
 ?cstart ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        __program_start                     80A0
-        ?cstart_begin                       80A0
+        __program_start                     803C
+        ?cstart_begin                       803C
         ?cstart_call_mpu_init               NOT NEEDED
         ?cstart_call_frwp_init              NOT NEEDED
         ?cstart_call_low_level_init         NOT NEEDED
         ?cstart_init_copy_ramfunc           NOT NEEDED
-        ?cstart_init_zero                   80A4
-        ?cstart_init_copy                   80B0
+        ?cstart_init_zero                   8040
+        ?cstart_init_copy                   804C
         ?cstart_init_zero20                 NOT NEEDED
         ?cstart_init_copy20                 NOT NEEDED
         __cstart_init_tls                   NOT NEEDED
         ?cstart_call_ctors                  NOT NEEDED
-        ?cstart_call_main                   80C0
-        ?cstart_end                         80C8
+        ?cstart_call_main                   805C
+        ?cstart_end                         8064
 lowinit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __low_level_init                    NOT NEEDED
 ?reset_vector ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         ?reset_vector                       FFFE
 ?exit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        exit                                9A5A
+        exit                                9886
 ?FrwpInit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __iar_430_frwp_init                 NOT NEEDED
 _Add32f ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         _Sub32f                             NOT NEEDED
-        _Add32f                             86A0
+        _Add32f                             862A
 ?malloc ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         malloc                              NOT NEEDED
 ?DivMod816u ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         ?DivMod8u                           NOT NEEDED
-        ?DivMod16u                          NOT NEEDED
+        ?DivMod16u                          9728
 ?DivMod816s ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         ?DivMod8s                           NOT NEEDED
-        ?DivMod16s                          NOT NEEDED
+        ?DivMod16s                          95B6
 ?memcpy ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        memcpy                              99CA
+        memcpy                              97F8
 ?memmove ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         memmove                             NOT NEEDED
 ?memzero ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        __data16_memzero                    99EC
-        __data16_memcpy                     9A5E
+        __data16_memzero                    980A
+        __data16_memcpy                     9882
         __data16_memmove                    NOT NEEDED
 ?MpuInit ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         __iar_430_mpu_init                  NOT NEEDED
@@ -1063,20 +1052,20 @@ _Add32f ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430
         ?IndCallR15                         NOT NEEDED
 ?strchr ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         strchr                              NOT NEEDED
-        __iar_Strchr                        9A0A
+        __iar_Strchr                        NOT NEEDED
 ?strcmp ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        strcmp                              9810
+        strcmp                              NOT NEEDED
 ?strcpy ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        strcpy                              99DC
+        strcpy                              981A
 ?strlen ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        strlen                              995E
+        strlen                              NOT NEEDED
 ?strncmp ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
-        strncmp                             9744
+        strncmp                             NOT NEEDED
 ?strncpy ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         strncpy                             NOT NEEDED
 ?strstr ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         strstr                              NOT NEEDED
-        __iar_Strstr                        95CA
+        __iar_Strstr                        NOT NEEDED
 ?xcloseall ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
         _Close_all                          NOT NEEDED
 ?xgetmemchunk ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.r43 )
@@ -1098,6 +1087,8 @@ _Add32f ( C:\Program Files\IAR Systems\Embedded Workbench 8.5\430\lib\dlib\dl430
 Module               CODE      DATA      CONST
 ------               ----      ----      -----
                     (Rel)  (Rel)  (Abs)  (Rel)
+?DivMod816s            48
+?DivMod816u            24
 ?__dbg_break            2
 ?__exit                20
 ?_exit                  4
@@ -1106,46 +1097,41 @@ Module               CODE      DATA      CONST
 ?memcpy                18
 ?memzero               20
 ?reset_vector           2
-?strchr                14
-?strcmp                30
 ?strcpy                16
-?strlen                18
-?strncmp               36
-?strstr                52
-LCD                   626     55     10
+LCD                   450     55     10
   + shared                            6
 _Add32f               352
-adc                   770     23     24
+adc                   650     18     24
   + shared             60             2
   + common
 clocks                320            18
   + shared                            2
-detectors              16
+detectors             140      8
   + shared                            2
 init                   82
   + shared                            2
-iot                 1 174     54           129
-  + shared             36             2
-led                    34
-main                  184     10            11
+iot
+  + shared                            2
+main                  150     10            11
+pid                   380
 ports                 758            30
   + shared                            8
-serial                678    453     28
+serial                380    245     28
   + common             68
-sm                    206      9            12
+sm                  1 260     13            16
   + shared                            4
-switches              104             2
+switches              104      2      2
   + shared             50             4
   + common
 system                  6
 timers                478     24     32      4
   + shared             88             8
   + common
-wheels                502      4      8      4
+wheels                518     28      8     28
 N/A (command line)           160
 N/A (alignment)
-----------          -----    ---    ---    ---
-Total:              6 602    792    192    160
+----------          -----    ---    ---     --
+Total:              6 226    563    192     59
   + common             88
 
 
@@ -1204,21 +1190,21 @@ DATA16_AN                              0102 - 0103               2   rel    0
                                        071A - 071B               2 
                                        071E - 071F               2 
                                        0CB0 - 0CB7               8 
-DATA16_I                               2000 - 2009               A   rel    1
-DATA16_Z                               200A - 2277             26E   rel    1
-DATA20_Z                                  2278                       rel    1
-DATA20_N                                  2278                       rel    1
-CODE_I                                    2278                       rel    1
-DATA20_I                                  2278                       rel    1
+DATA16_I                               2000 - 2024              25   rel    1
+DATA16_Z                               2026 - 2193             16E   rel    1
+DATA20_Z                                  2194                       rel    1
+DATA20_N                                  2194                       rel    1
+CODE_I                                    2194                       rel    1
+DATA20_I                                  2194                       rel    1
 CSTACK                                 2F60 - 2FFF              A0   rel    1
-DATA16_C                               8000 - 8095              96   rel    0
-DATA16_ID                              8096 - 809F               A   rel    1
-DATA20_ID                                 80A0                       rel    1
-DATA20_C                                  80A0                       rel    1
-CSTART                                 80A0 - 80C7              28   rel    1
-ISR_CODE                               80C8 - 846B             3A4   rel    1
-CODE_ID                                   846C                       rel    1
-<CODE> 1                               846C - 9A67            15FC   rel    1
+DATA16_C                               8000 - 8015              16   rel    0
+DATA16_ID                              8016 - 803A              25   rel    1
+DATA20_ID                                 803C                       rel    1
+DATA20_C                                  803C                       rel    1
+CSTART                                 803C - 8063              28   rel    1
+ISR_CODE                               8064 - 8407             3A4   rel    1
+CODE_ID                                   8408                       rel    1
+<CODE> 1                               8408 - 988B            1484   rel    1
 INTVEC                                 FFA2 - FFF9              58   com    1
 RESET                                  FFFE - FFFF               2   rel    1
 
@@ -1228,10 +1214,10 @@ RESET                                  FFFE - FFFF               2   rel    1
                 *                                      *
                 ****************************************
 
- 6 690 bytes of CODE  memory
-   792 bytes of DATA  memory (+ 192 absolute )
-   160 bytes of CONST memory
+ 6 314 bytes of CODE  memory
+   563 bytes of DATA  memory (+ 192 absolute )
+    59 bytes of CONST memory
 
 Errors: none
-Warnings: 1
+Warnings: none
 

@@ -1,18 +1,19 @@
 #include "pid.h"
 #include "msp430.h"
+#include "macros.h"
 #include "detectors.h"
 
 int GetOutput(PIDController* pidController, int setPoint, int current) {
     pidController->error = setPoint - current;
     //if(abs(pidController->error)==1) pidController->error = 0;
-    int integral = additionSafe(pidController->lastIntegral, 32767, -32768, pidController->error);
-    int derivative = additionSafe(pidController->error, 32767, -32768, -pidController->lastError);
+    int integral = additionSafe(pidController->lastIntegral, INT_MAX, INT_MIN, pidController->error);
+    int derivative = additionSafe(pidController->error, INT_MAX, INT_MIN, -pidController->lastError);
     pidController->lastError = pidController->error;
     pidController->lastIntegral = integral;
     int errorTerm = multSafe(pidController->error, pidController->kP);
     int derivTerm = multSafe(derivative, pidController->kD);
     int intTerm = multSafe(integral, pidController->kI);
-    return additionSafe(additionSafe(errorTerm, 32767, -32768, derivTerm), 32767, -32768, intTerm);
+    return additionSafe(additionSafe(errorTerm, INT_MAX, INT_MIN, derivTerm), INT_MAX, INT_MIN, intTerm);
 }
 
 void ClearController(PIDController* pidController) {
@@ -22,7 +23,7 @@ void ClearController(PIDController* pidController) {
 }
 
 int additionSafe(int val, int max, int min, int increment) {
-    int out = abs(increment);
+    /*int out = abs(increment);
     int speed = val;
 
     if (increment > 0) {
@@ -40,9 +41,14 @@ int additionSafe(int val, int max, int min, int increment) {
 
     if(speed > max)speed = max;
 
-    if(speed < min)speed = min;
+    if(speed < min)speed = min;*/
+  
+    long res = val + increment;
+    
+    if(res>max) res = max;
+    if(res<min) res = min;
 
-    return speed;
+    return (int)res;
 }
 
 int multSafe(int a, int b) {
@@ -51,5 +57,5 @@ int multSafe(int a, int b) {
     int res = a * b;
 
     if(a == res / b)return res;
-    else return 32767 * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
+    else return (INT_MAX-1) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
 }

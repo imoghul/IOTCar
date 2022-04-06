@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          04/Apr/2022  20:52:10
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Apr/2022  21:46:31
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW9D09.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWC15D.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -247,125 +247,72 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
     116              // Begining of the "While" Operating System
     117              //------------------------------------------------------------------------------
     118              while(ALWAYS) {                       // Can the Operating system run
-    119                  Display_Process();                  // Update Display
-   \                     ??main_0:
-   \   000060   ........     CALLA   #Display_Process
-    120                  SerialProcess();
-   \   000064   ........     CALLA   #SerialProcess
-    121                  if(!Init_IOT()) continue;
-   \   000068   ........     CALLA   #Init_IOT
-   \   00006C   0C93         CMP.W   #0x0, R12
-   \   00006E   F827         JEQ     ??main_0
-    122                  IOTBufferCommands();
-   \   000070   ........     CALLA   #IOTBufferCommands
-    123                  ProcessCommands();
-   \   000074   ........     CALLA   #ProcessCommands
+    119                  //Display_Process();                  // Update Display
+    120                  //SerialProcess();
+    121                  //if(!Init_IOT()) continue;
+    122                  //IOTBufferCommands();
+    123                  //ProcessCommands();
     124                  //DetectMovement();
     125                  StateMachine();                     // Run wheels state machine
-   \   000078   ........     CALLA   #StateMachine
+   \                     ??main_0:
+   \   000060   ........     CALLA   #StateMachine
     126                  //MenuProcess();
     127                  MotorSafety();
-   \   00007C   ........     CALLA   #MotorSafety
+   \   000064   ........     CALLA   #MotorSafety
     128                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-   \   000080   D2E32202     XOR.B   #0x1, &0x222
-    129                  /*if(movingDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
-    130                  else if(movingDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
-    131                  else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
-    132                  else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
-    133          
-    134                  /*if(stopwatchUpdated){
-    135                    stopwatchUpdated = 0;
-    136                    HEXtoBCD((int)timeElapsed,3,0);
-    137                    display_line[3][4]='.';
-    138                    display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
-    139                    display_changed = 1;
-    140                  }*/
-    141                  
-    142                  //strcpy(display_line[2], "   Baud   ");
-    143                  
-    144                  
-    145                  /*if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
-    146                    strcpy(display_line[2], "  115200  ");
-    147                    display_changed=1;
-    148                  }
-    149                  else if(UCA0BRW == 52 && UCA0MCTLW == 0x4911){
-    150                    strcpy(display_line[2], "   9600   ");
-    151                    display_changed=1;
-    152                  }*/
-    153                  
-    154                  /*if(serialState==1){
-    155                    strcpy(display_line[0], " TRANSMIT ");
-    156                    display_changed=1;
-    157                  }
-    158                  else if(serialState==2) {
-    159                    strcpy(display_line[0], " RECIEVED ");
-    160                    display_changed=1;
-    161                  }*/
-    162                    
-    163                  
-    164                  if(cycle_count==0){
-   \   000084   8293....     CMP.W   #0x0, &cycle_count
-   \   000088   0220         JNE     ??main_2
-    165                    display_changed = 1;
-   \   00008A   D243....     MOV.B   #0x1, &display_changed
-    166                  }
-    167          
-    168                  if(Last_Time_Sequence != Time_Sequence) {
-   \                     ??main_2:
-   \   00008E   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
-   \   000094   E527         JEQ     ??main_0
-    169                      Last_Time_Sequence = Time_Sequence;
-   \   000096   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
-    170                      cycle_count++;
-   \   00009C   9253....     ADD.W   #0x1, &cycle_count
-    171                      time_change = 1;
-   \   0000A0   9243....     MOV.W   #0x1, &time_change
-    172          
-    173                      if(cycle_count == TIME_SEQUENCE_MAX) {
-   \   0000A4   B290FA00.... CMP.W   #0xfa, &cycle_count
-   \   0000AA   DA23         JNE     ??main_0
-    174                          cycle_count = 0;
-   \   0000AC   8243....     MOV.W   #0x0, &cycle_count
-    175                          stopwatch_seconds++;
-   \   0000B0   9253....     ADD.W   #0x1, &stopwatch_seconds
-   \   0000B4   D53F         JMP     ??main_0
-   \   0000B6   0343         NOP
-   \   0000B8                REQUIRE _A_PM5CTL0_L
-   \   0000B8                REQUIRE _A_PBOUT_L
-    176                      }
-    177                  }
-    178              }
-    179          
-    180              //------------------------------------------------------------------------------
-    181          }
+   \   000068   D2E32202     XOR.B   #0x1, &0x222
+    129                  
+    130          
+    131                  if(Last_Time_Sequence != Time_Sequence) {
+   \   00006C   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
+   \   000072   F627         JEQ     ??main_0
+    132                      Last_Time_Sequence = Time_Sequence;
+   \   000074   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
+    133                      cycle_count++;
+   \   00007A   9253....     ADD.W   #0x1, &cycle_count
+    134                      time_change = 1;
+   \   00007E   9243....     MOV.W   #0x1, &time_change
+    135          
+    136                      if(cycle_count == TIME_SEQUENCE_MAX) {
+   \   000082   B290FA00.... CMP.W   #0xfa, &cycle_count
+   \   000088   EB23         JNE     ??main_0
+    137                          cycle_count = 0;
+   \   00008A   8243....     MOV.W   #0x0, &cycle_count
+    138                          stopwatch_seconds++;
+   \   00008E   9253....     ADD.W   #0x1, &stopwatch_seconds
+   \   000092   E63F         JMP     ??main_0
+   \   000094   0343         NOP
+   \   000096                REQUIRE _A_PM5CTL0_L
+   \   000096                REQUIRE _A_PBOUT_L
+    139                      }
+    140                  }
+    141              }
+    142          
+    143              //------------------------------------------------------------------------------
+    144          }
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
-    182          
+    145          
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
       4   main
-        4   -> Display_Process
         4   -> EmitterOn
-        4   -> IOTBufferCommands
         4   -> Init_ADC
         4   -> Init_Clocks
         4   -> Init_Conditions
         4   -> Init_DAC
-        4   -> Init_IOT
         4   -> Init_LCD
         4   -> Init_Ports
         4   -> Init_REF
         4   -> Init_Serial_UCA
         4   -> Init_Timers
         4   -> MotorSafety
-        4   -> ProcessCommands
-        4   -> SerialProcess
         4   -> StateMachine
         4   -> strcpy
 
@@ -384,7 +331,7 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
        1  chosen_direction
        2  cycle_count
        1  display_mode
-     184  main
+     150  main
        1  slow_input_down
        2  stopwatch_milliseconds
        2  stopwatch_seconds
@@ -392,12 +339,12 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
        2  time_change
 
  
- 184 bytes in segment CODE
+ 150 bytes in segment CODE
    4 bytes in segment DATA16_AN
   11 bytes in segment DATA16_C
   20 bytes in segment DATA16_Z
  
- 184 bytes of CODE  memory
+ 150 bytes of CODE  memory
   11 bytes of CONST memory
   20 bytes of DATA  memory (+ 4 bytes shared)
 

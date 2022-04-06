@@ -116,54 +116,17 @@ void main(void) {
     // Begining of the "While" Operating System
     //------------------------------------------------------------------------------
     while(ALWAYS) {                       // Can the Operating system run
-        Display_Process();                  // Update Display
-        SerialProcess();
-        if(!Init_IOT()) continue;
-        IOTBufferCommands();
-        ProcessCommands();
+        //Display_Process();                  // Update Display
+        //SerialProcess();
+        //if(!Init_IOT()) continue;
+        //IOTBufferCommands();
+        //ProcessCommands();
         //DetectMovement();
         StateMachine();                     // Run wheels state machine
         //MenuProcess();
         MotorSafety();
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-        /*if(movingDirection == MOVING_RIGHT) strcpy(display_line[1], "  RIGHT   ");
-        else if(movingDirection == MOVING_STRAIGHT) strcpy(display_line[1], " STRAIGHT ");
-        else if (movingDirection == MOVING_LEFT) strcpy(display_line[1], "   LEFT   ");
-        else if (movingDirection == NOT_MOVING) strcpy(display_line[1], "NOT MOVING");*/
-
-        /*if(stopwatchUpdated){
-          stopwatchUpdated = 0;
-          HEXtoBCD((int)timeElapsed,3,0);
-          display_line[3][4]='.';
-          display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
-          display_changed = 1;
-        }*/
         
-        //strcpy(display_line[2], "   Baud   ");
-        
-        
-        /*if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
-          strcpy(display_line[2], "  115200  ");
-          display_changed=1;
-        }
-        else if(UCA0BRW == 52 && UCA0MCTLW == 0x4911){
-          strcpy(display_line[2], "   9600   ");
-          display_changed=1;
-        }*/
-        
-        /*if(serialState==1){
-          strcpy(display_line[0], " TRANSMIT ");
-          display_changed=1;
-        }
-        else if(serialState==2) {
-          strcpy(display_line[0], " RECIEVED ");
-          display_changed=1;
-        }*/
-          
-        
-        if(cycle_count==0){
-          display_changed = 1;
-        }
 
         if(Last_Time_Sequence != Time_Sequence) {
             Last_Time_Sequence = Time_Sequence;

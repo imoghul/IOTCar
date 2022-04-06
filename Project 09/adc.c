@@ -11,7 +11,6 @@
 volatile unsigned int ADC_Channel;
 volatile unsigned int ADC_Left_Detect, ADC_Right_Detect, ADC_Thumb, ADC_Vbat, ADC_Vdac, ADC_V3v3;
 volatile unsigned int DAC_data;
-char adc_char[5];
 extern char display_line[4][11];
 extern volatile unsigned char display_changed;
 extern volatile unsigned int checkAdc;
@@ -172,25 +171,19 @@ __interrupt void ADC_ISR(void) {
 
 void HEXtoBCD(int hex_value, int line, int start) {
     int value = 0;
-    adc_char[0] = '0';
 
     while(hex_value > 999) {
         hex_value -= 1000;
         value += 1;
     }
-
-    adc_char[0] = 0x30 + value;
     display_line[line][start] = 0x30 + value;
     value = 0;
 
     while(hex_value > 99) {
         hex_value -= 100;
         value += 1;
-        adc_char[1] = 0x30 + value;
-        display_line[line][start + 1] = 0x30 + value;
     }
 
-    adc_char[1] = 0x30 + value;
     display_line[line][start + 1] = 0x30 + value;
     value = 0;
 
@@ -199,11 +192,7 @@ void HEXtoBCD(int hex_value, int line, int start) {
         value += 1;
     }
 
-    adc_char[2] = 0x30 + value;
     display_line[line][start + 2] = 0x30 + value;
-    adc_char[3] = 0x30 + hex_value;
     display_line[line][start + 3] = 0x30 + hex_value;
-    adc_char[4] = 0;
-    display_changed = 1;
 }
 

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          01/Apr/2022  00:36:42
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Apr/2022  18:55:08
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\pid.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWFB19.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWD918.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\pid.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -34,29 +34,30 @@
 C:\Users\saad\Documents\ece-306\Project 09\pid.c
       1          #include "pid.h"
       2          #include "msp430.h"
-      3          #include "detectors.h"
-      4          
+      3          #include "macros.h"
+      4          #include "detectors.h"
+      5          
 
    \                                 In  segment CODE, align 2
-      5          int GetOutput(PIDController* pidController, int setPoint, int current) {
+      6          int GetOutput(PIDController* pidController, int setPoint, int current) {
    \                     GetOutput:
    \   000000   7B15         PUSHM.W #0x8, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
    \   000006   084E         MOV.W   R14, R8
-      6              pidController->error = setPoint - current;
+      7              pidController->error = setPoint - current;
    \   000008   0F4B         MOV.W   R11, R15
    \   00000A   0F88         SUB.W   R8, R15
    \   00000C   8A4F0600     MOV.W   R15, 0x6(R10)
-      7              //if(abs(pidController->error)==1) pidController->error = 0;
-      8              int integral = additionSafe(pidController->lastIntegral, 32767, -32768, pidController->error);
+      8              //if(abs(pidController->error)==1) pidController->error = 0;
+      9              int integral = additionSafe(pidController->lastIntegral, INT_MAX, INT_MIN, pidController->error);
    \   000010   1F4A0600     MOV.W   0x6(R10), R15
    \   000014   3E400080     MOV.W   #0x8000, R14
    \   000018   3D40FF7F     MOV.W   #0x7fff, R13
    \   00001C   1C4A0A00     MOV.W   0xa(R10), R12
    \   000020   ........     CALLA   #additionSafe
    \   000024   094C         MOV.W   R12, R9
-      9              int derivative = additionSafe(pidController->error, 32767, -32768, -pidController->lastError);
+     10              int derivative = additionSafe(pidController->error, INT_MAX, INT_MIN, -pidController->lastError);
    \   000026   1F4A0800     MOV.W   0x8(R10), R15
    \   00002A   3FE3         XOR.W   #0xffff, R15
    \   00002C   1F53         ADD.W   #0x1, R15
@@ -65,26 +66,26 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \   000036   1C4A0600     MOV.W   0x6(R10), R12
    \   00003A   ........     CALLA   #additionSafe
    \   00003E   064C         MOV.W   R12, R6
-     10              pidController->lastError = pidController->error;
+     11              pidController->lastError = pidController->error;
    \   000040   9A4A06000800 MOV.W   0x6(R10), 0x8(R10)
-     11              pidController->lastIntegral = integral;
+     12              pidController->lastIntegral = integral;
    \   000046   8A490A00     MOV.W   R9, 0xa(R10)
-     12              int errorTerm = multSafe(pidController->error, pidController->kP);
+     13              int errorTerm = multSafe(pidController->error, pidController->kP);
    \   00004A   2D4A         MOV.W   @R10, R13
    \   00004C   1C4A0600     MOV.W   0x6(R10), R12
    \   000050   ........     CALLA   #multSafe
    \   000054   074C         MOV.W   R12, R7
-     13              int derivTerm = multSafe(derivative, pidController->kD);
+     14              int derivTerm = multSafe(derivative, pidController->kD);
    \   000056   1D4A0200     MOV.W   0x2(R10), R13
    \   00005A   0C46         MOV.W   R6, R12
    \   00005C   ........     CALLA   #multSafe
    \   000060   044C         MOV.W   R12, R4
-     14              int intTerm = multSafe(integral, pidController->kI);
+     15              int intTerm = multSafe(integral, pidController->kI);
    \   000062   1D4A0400     MOV.W   0x4(R10), R13
    \   000066   0C49         MOV.W   R9, R12
    \   000068   ........     CALLA   #multSafe
    \   00006C   054C         MOV.W   R12, R5
-     15              return additionSafe(additionSafe(errorTerm, 32767, -32768, derivTerm), 32767, -32768, intTerm);
+     16              return additionSafe(additionSafe(errorTerm, INT_MAX, INT_MIN, derivTerm), INT_MAX, INT_MIN, intTerm);
    \   00006E   0F44         MOV.W   R4, R15
    \   000070   3E400080     MOV.W   #0x8000, R14
    \   000074   3D40FF7F     MOV.W   #0x7fff, R13
@@ -96,93 +97,112 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \   000088   ........     CALLA   #additionSafe
    \   00008C   7417         POPM.W  #0x8, R11
    \   00008E   1001         RETA
-     16          }
-     17          
+     17          }
+     18          
 
    \                                 In  segment CODE, align 2
-     18          void ClearController(PIDController* pidController) {
+     19          void ClearController(PIDController* pidController) {
    \                     ClearController:
-     19              pidController->error = 0;
+     20              pidController->error = 0;
    \   000000   8C430600     MOV.W   #0x0, 0x6(R12)
-     20              pidController->lastError = 0;
+     21              pidController->lastError = 0;
    \   000004   8C430800     MOV.W   #0x0, 0x8(R12)
-     21              pidController->lastIntegral = 0;
+     22              pidController->lastIntegral = 0;
    \   000008   8C430A00     MOV.W   #0x0, 0xa(R12)
-     22          }
+     23          }
    \   00000C   1001         RETA
-     23          
+     24          
 
    \                                 In  segment CODE, align 2
-     24          int additionSafe(int val, int max, int min, int increment) {
+     25          int additionSafe(int val, int max, int min, int increment) {
    \                     additionSafe:
-   \   000000   3B15         PUSHM.W #0x4, R11
-   \   000002   0A4C         MOV.W   R12, R10
-   \   000004   0B4D         MOV.W   R13, R11
-   \   000006   084E         MOV.W   R14, R8
-   \   000008   094F         MOV.W   R15, R9
-     25              int out = abs(increment);
-   \   00000A   0C49         MOV.W   R9, R12
-   \   00000C   ........     CALLA   #abs
-   \   000010   0F4C         MOV.W   R12, R15
-     26              int speed = val;
-   \   000012   0C4A         MOV.W   R10, R12
-     27          
-     28              if (increment > 0) {
-   \   000014   1993         CMP.W   #0x1, R9
-   \   000016   0638         JL      ??additionSafe_0
-     29                  speed = val + out;
-   \   000018   0E4A         MOV.W   R10, R14
-   \   00001A   0E5F         ADD.W   R15, R14
-   \   00001C   0C4E         MOV.W   R14, R12
-     30          
-     31                  if(speed < val) speed = max;
-   \   00001E   0C9A         CMP.W   R10, R12
-   \   000020   0134         JGE     ??additionSafe_0
-   \   000022   0C4B         MOV.W   R11, R12
-     32              }
-     33          
-     34              if (increment < 0) {
-   \                     ??additionSafe_0:
-   \   000024   0993         CMP.W   #0x0, R9
-   \   000026   0634         JGE     ??additionSafe_1
-     35                  speed = val - out;
-   \   000028   0E4A         MOV.W   R10, R14
-   \   00002A   0E8F         SUB.W   R15, R14
-   \   00002C   0C4E         MOV.W   R14, R12
-     36          
-     37                  if(speed > val) speed = min;
-   \   00002E   0A9C         CMP.W   R12, R10
-   \   000030   0134         JGE     ??additionSafe_1
-   \   000032   0C48         MOV.W   R8, R12
-     38              }
-     39          
+   \   000000   5B15         PUSHM.W #0x6, R11
+   \   000002   0B4C         MOV.W   R12, R11
+   \   000004   0A4E         MOV.W   R14, R10
+   \   000006   064F         MOV.W   R15, R6
+     26              /*int out = abs(increment);
+     27              int speed = val;
+     28          
+     29              if (increment > 0) {
+     30                  speed = val + out;
+     31          
+     32                  if(speed < val) speed = max;
+     33              }
+     34          
+     35              if (increment < 0) {
+     36                  speed = val - out;
+     37          
+     38                  if(speed > val) speed = min;
+     39              }
      40          
-     41              if(speed > max)speed = max;
+     41          
+     42              if(speed > max)speed = max;
+     43          
+     44              if(speed < min)speed = min;*/
+     45            
+     46              long res = val + increment;
+   \   000008   0E4B         MOV.W   R11, R14
+   \   00000A   0E56         ADD.W   R6, R14
+   \   00000C   0F4E         MOV.W   R14, R15
+   \   00000E   0F5F         RLA.W   R15
+   \   000010   0F7F         SUBC.W  R15, R15
+   \   000012   3FE3         XOR.W   #0xffff, R15
+     47              
+     48              if(res>max) res = max;
+   \   000014   084D         MOV.W   R13, R8
+   \   000016   0948         MOV.W   R8, R9
+   \   000018   0959         RLA.W   R9
+   \   00001A   0979         SUBC.W  R9, R9
+   \   00001C   39E3         XOR.W   #0xffff, R9
+   \   00001E   099F         CMP.W   R15, R9
+   \   000020   0338         JL      ??additionSafe_0
+   \   000022   0920         JNE     ??additionSafe_1
+   \   000024   089E         CMP.W   R14, R8
+   \   000026   072C         JC      ??additionSafe_1
+   \                     ??additionSafe_0:
+   \   000028   084D         MOV.W   R13, R8
+   \   00002A   0948         MOV.W   R8, R9
+   \   00002C   0959         RLA.W   R9
+   \   00002E   0979         SUBC.W  R9, R9
+   \   000030   39E3         XOR.W   #0xffff, R9
+   \   000032   0E48         MOV.W   R8, R14
+   \   000034   0F49         MOV.W   R9, R15
+     49              if(res<min) res = min;
    \                     ??additionSafe_1:
-   \   000034   0B9C         CMP.W   R12, R11
-   \   000036   0134         JGE     ??additionSafe_2
-   \   000038   0C4B         MOV.W   R11, R12
-     42          
-     43              if(speed < min)speed = min;
+   \   000036   084A         MOV.W   R10, R8
+   \   000038   0948         MOV.W   R8, R9
+   \   00003A   0959         RLA.W   R9
+   \   00003C   0979         SUBC.W  R9, R9
+   \   00003E   39E3         XOR.W   #0xffff, R9
+   \   000040   0F99         CMP.W   R9, R15
+   \   000042   0338         JL      ??additionSafe_2
+   \   000044   0920         JNE     ??additionSafe_3
+   \   000046   0E98         CMP.W   R8, R14
+   \   000048   072C         JC      ??additionSafe_3
    \                     ??additionSafe_2:
-   \   00003A   0C98         CMP.W   R8, R12
-   \   00003C   0134         JGE     ??additionSafe_3
-   \   00003E   0C48         MOV.W   R8, R12
-     44          
-     45              return speed;
+   \   00004A   084A         MOV.W   R10, R8
+   \   00004C   0948         MOV.W   R8, R9
+   \   00004E   0959         RLA.W   R9
+   \   000050   0979         SUBC.W  R9, R9
+   \   000052   39E3         XOR.W   #0xffff, R9
+   \   000054   0E48         MOV.W   R8, R14
+   \   000056   0F49         MOV.W   R9, R15
+     50          
+     51              return (int)res;
    \                     ??additionSafe_3:
-   \   000040   3817         POPM.W  #0x4, R11
-   \   000042   1001         RETA
-     46          }
-     47          
+   \   000058   0C4E         MOV.W   R14, R12
+   \   00005A   5617         POPM.W  #0x6, R11
+   \   00005C   1001         RETA
+     52          }
+     53          
 
    \                                 In  segment CODE, align 2
-     48          int multSafe(int a, int b) {
+     54          int multSafe(int a, int b) {
    \                     multSafe:
    \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
-     49              if(a == 0 || b == 0)return 0;
+     55              if(a == 0 || b == 0)return 0;
    \   000006   0A93         CMP.W   #0x0, R10
    \   000008   0224         JEQ     ??multSafe_3
    \   00000A   0B93         CMP.W   #0x0, R11
@@ -190,8 +210,8 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \                     ??multSafe_3:
    \   00000E   0C43         MOV.W   #0x0, R12
    \   000010   353C         JMP     ??multSafe_0
-     50          
-     51              int res = a * b;
+     56          
+     57              int res = a * b;
    \                     ??multSafe_4:
    \   000012   0212         PUSH.W  SR
    \   000014   32C2         DINT
@@ -201,8 +221,8 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \   000020   1842....     MOV.W   &__iar_HWMUL + 10, R8          // RESLO
    \   000024   0343         NOP
    \   000026   3241         POP.W   SR
-     52          
-     53              if(a == res / b)return res;
+     58          
+     59              if(a == res / b)return res;
    \   000028   0C48         MOV.W   R8, R12
    \   00002A   0E4B         MOV.W   R11, R14
    \   00002C   ........     CALLA   #?DivMod16s
@@ -210,7 +230,7 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \   000032   0220         JNE     ??multSafe_5
    \   000034   0C48         MOV.W   R8, R12
    \   000036   223C         JMP     ??multSafe_0
-     54              else return 32767 * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
+     60              else return (INT_MAX-1) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
    \                     ??multSafe_5:
    \   000038   0A93         CMP.W   #0x0, R10
    \   00003A   0234         JGE     ??multSafe_6
@@ -238,7 +258,7 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \   000064   32C2         DINT
    \   000066   0343         NOP
    \   000068   824F....     MOV.W   R15, &__iar_HWMUL              // MPY
-   \   00006C   B240FF7F.... MOV.W   #0x7fff, &__iar_HWMUL + 8      // OP2
+   \   00006C   B240FE7F.... MOV.W   #0x7ffe, &__iar_HWMUL + 8      // OP2
    \   000072   1C42....     MOV.W   &__iar_HWMUL + 10, R12         // RESLO
    \   000076   0343         NOP
    \   000078   3241         POP.W   SR
@@ -246,7 +266,7 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \                     ??multSafe_0:
    \   00007C   3817         POPM.W  #0x4, R11
    \   00007E   1001         RETA
-     55          }
+     61          }
 
    Maximum stack usage in bytes:
 
@@ -256,8 +276,7 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
      20   GetOutput
        20   -> additionSafe
        20   -> multSafe
-     12   additionSafe
-       12   -> abs
+     16   additionSafe
      14   multSafe
        12 ?DivMod16s
 
@@ -268,13 +287,13 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    -----  --------------
       14  ClearController
      144  GetOutput
-      68  additionSafe
+      94  additionSafe
      128  multSafe
 
  
- 354 bytes in segment CODE
+ 380 bytes in segment CODE
  
- 354 bytes of CODE memory
+ 380 bytes of CODE memory
 
 Errors: none
 Warnings: none
