@@ -105,7 +105,7 @@ __interrupt void ADC_ISR(void) {
                     ADCMCTL0 &= ~ADCINCH_5;
                     ADCMCTL0 = ADCINCH_9;
                     ADC_Thumb = ADCMEM0;
-                    ADC_Thumb = ADC_Thumb >> (10-THUMB_RES);
+                    ADC_Thumb = ADC_Thumb >> (10 - THUMB_RES);
                     ADCCTL0 |= ADCSC;
                     //HEXtoBCD(ADC_Thumb,0,0);
                     break;
@@ -176,6 +176,7 @@ void HEXtoBCD(int hex_value, int line, int start) {
         hex_value -= 1000;
         value += 1;
     }
+
     display_line[line][start] = 0x30 + value;
     value = 0;
 

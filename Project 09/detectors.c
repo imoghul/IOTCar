@@ -101,7 +101,7 @@ char getDirection(int* list) {
     }
 
     return increasing > decreasing ? INCREASING : (increasing == decreasing ? NEUTRAL : DECREASING);*/
-  return 0;
+    return 0;
 }
 
 unsigned int abs(int n) {

@@ -108,7 +108,7 @@ __interrupt void ADC_ISR(void) {
                     ADC_Thumb = ADCMEM0;
                     ADC_Thumb = ADC_Thumb >> 7;
                     ADCCTL0 |= ADCSC;
-                    HEXtoBCD(ADC_Thumb,0,0);
+                    HEXtoBCD(ADC_Thumb, 0, 0);
                     break;
 
                 case 0x01:

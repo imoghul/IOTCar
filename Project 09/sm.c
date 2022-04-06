@@ -38,72 +38,77 @@ unsigned int driveTime;
 
 
 void Straight(void) {
-  switch(stateCounter){
-  case 0:
-        EmitterOn();
-        stateCounter=1;
-        break;
-  case 1:
-        if ((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
-            Drive_Path_Indefinite(STRAIGHT_RIGHT, STRAIGHT_LEFT);
-        } else {
-            int left = ADC_Left_Detect;
-            int right = ADC_Right_Detect;
+    switch(stateCounter) {
+        case 0:
+            EmitterOn();
+            stateCounter = 1;
+            break;
 
-            if(left > right) enteringDirection = MOVING_LEFT;
-            else enteringDirection = MOVING_RIGHT;
+        case 1:
+            if ((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
+                Drive_Path_Indefinite(STRAIGHT_RIGHT, STRAIGHT_LEFT);
+            } else {
+                int left = ADC_Left_Detect;
+                int right = ADC_Right_Detect;
 
-            stateCounter++;
-        }
-    break;
+                if(left > right) enteringDirection = MOVING_LEFT;
+                else enteringDirection = MOVING_RIGHT;
 
-  case 2:
-        if(LockMotors(-1, -1)) stateCounter++;
-    break;
-  case 3:
-        stateCounter = 0 ;
-        state = WAIT;
-        nextState = TURN;
-        EmitterOff();
-    break;
-  }
+                stateCounter++;
+            }
+
+            break;
+
+        case 2:
+            if(LockMotors(-1, -1)) stateCounter++;
+
+            break;
+
+        case 3:
+            stateCounter = 0 ;
+            state = WAIT;
+            nextState = TURN;
+            EmitterOff();
+            break;
+    }
 }
 
 void Turn() {
-  switch(stateCounter){
-  case 0:
-        EmitterOn();
-        stateCounter = 1;
-        break;
+    switch(stateCounter) {
+        case 0:
+            EmitterOn();
+            stateCounter = 1;
+            break;
 
-  case 1: // gotta remove this
-        if(enteringDirection == MOVING_LEFT) 
-            if(Drive_Path_Definite(STRAIGHT_RIGHT / 2, -STRAIGHT_LEFT / 2, 20)) stateCounter++;
-        else if(enteringDirection == MOVING_RIGHT) 
-            if(Drive_Path_Definite(-STRAIGHT_RIGHT / 2, STRAIGHT_LEFT / 2, 20)) stateCounter++;
-        
-        break;
+        case 1: // gotta remove this
+            if(enteringDirection == MOVING_LEFT)
+                if(Drive_Path_Definite(STRAIGHT_RIGHT / 2, -STRAIGHT_LEFT / 2, 20)) stateCounter++;
+                else if(enteringDirection == MOVING_RIGHT)
+                    if(Drive_Path_Definite(-STRAIGHT_RIGHT / 2, STRAIGHT_LEFT / 2, 20)) stateCounter++;
 
-  case 2:
-        if (((ADC_Left_Detect <= LEFT_GRAY_DETECT || ADC_Right_Detect <= RIGHT_GRAY_DETECT))) {
-            if(enteringDirection == MOVING_LEFT)Drive_Path_Indefinite(STRAIGHT_RIGHT >> 2, -STRAIGHT_LEFT >> 2);
+            break;
 
-            if(enteringDirection == MOVING_RIGHT)Drive_Path_Indefinite(-STRAIGHT_RIGHT >> 2, STRAIGHT_LEFT >> 2);
-        } else stateCounter++;
-        break;
-        
-  case 3:
-        ShutoffMotors();
-        stateCounter = 0 ;
-        state = WAIT;
-        nextState = LINEFOLLOW;
-        EmitterOff();
-    break;
-  }
+        case 2:
+            if (((ADC_Left_Detect <= LEFT_GRAY_DETECT || ADC_Right_Detect <= RIGHT_GRAY_DETECT))) {
+                if(enteringDirection == MOVING_LEFT)Drive_Path_Indefinite(STRAIGHT_RIGHT >> 2, -STRAIGHT_LEFT >> 2);
+
+                if(enteringDirection == MOVING_RIGHT)Drive_Path_Indefinite(-STRAIGHT_RIGHT >> 2, STRAIGHT_LEFT >> 2);
+            } else stateCounter++;
+
+            break;
+
+        case 3:
+            ShutoffMotors();
+            stateCounter = 0 ;
+            state = WAIT;
+            nextState = LINEFOLLOW;
+            EmitterOff();
+            break;
+    }
 }
 
 void LineFollow() {
-  
+
     int rFollowSpeed, rAdjustSpeed;
     int lFollowSpeed, lAdjustSpeed;
 
@@ -111,85 +116,96 @@ void LineFollow() {
     int rightPIDOut = GetOutput(&rightFollowController, RIGHT_WHITE_DETECT, ADC_Right_Detect);
     rFollowSpeed = additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, RIGHT_MIN >> 1, leftPIDOut); // swapped b/c they are physically swapped
     lFollowSpeed = additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, LEFT_MIN >> 1, rightPIDOut); // swapped b/c they are physically swapped
-    
-    switch(stateCounter){
-      case 0:
-        EmitterOn();
-        stopwatch_seconds = 0;
-        cycle_count = 0;
-        if(rightSwitchable && leftSwitchable)stateCounter++;
-        else return;
-        break;
-      case 1:
-          if(ADC_Left_Detect < (LEFT_GRAY_DETECT) ^ ADC_Right_Detect < (RIGHT_GRAY_DETECT)) stateCounter = 2;
-          else if (ADC_Left_Detect < (LEFT_GRAY_DETECT) && ADC_Right_Detect < (RIGHT_GRAY_DETECT)) {
-              rFollowSpeed = -RIGHT_MIN;
-              lFollowSpeed = -LEFT_MIN;
-          } else {
-              ClearController(&rightFollowController);
-              ClearController(&leftFollowController);
-          }
-          if(delay(70, 0)) stateCounter = 5;
 
-          Drive_Path_Indefinite(rFollowSpeed, lFollowSpeed);
-          break;
+    switch(stateCounter) {
+        case 0:
+            EmitterOn();
+            stopwatch_seconds = 0;
+            cycle_count = 0;
 
-      
-      case 2:
-          if(ADC_Left_Detect < LEFT_BLACK_DETECT && ADC_Right_Detect >= RIGHT_BLACK_DETECT) stateCounter = 3;
-          else if(ADC_Left_Detect >= LEFT_BLACK_DETECT && ADC_Right_Detect < RIGHT_BLACK_DETECT) stateCounter = 4;
-          else stateCounter = 1;
-          break;
+            if(rightSwitchable && leftSwitchable)stateCounter++;
+            else return;
 
-      case 3:// turn left ()
-          if(ADC_Left_Detect < LEFT_BLACK_DETECT)Drive_Path_Indefinite((RIGHT_MIN - LF_TURN_DECREMENT), -(LEFT_MIN - LF_TURN_DECREMENT));
-          else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
-          else stateCounter = 4;
-          break;
-      case 4:
-          if(ADC_Right_Detect < RIGHT_BLACK_DETECT)Drive_Path_Indefinite(-(RIGHT_MIN - LF_TURN_DECREMENT), (LEFT_MIN - LF_TURN_DECREMENT));
-          else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
-          else stateCounter = 3;
-          break;
-      
-      //case 10:
-      //    if(LockMotorsTime(-1, -1, 1)) stateCounter = 2;
-      //    break;
+            break;
 
-      case 5:
-          ShutoffMotors();
-          stateCounter = 0 ;
-          state = START;
-          EmitterOff();
-          break;
+        case 1:
+            if(ADC_Left_Detect < (LEFT_GRAY_DETECT) ^ ADC_Right_Detect < (RIGHT_GRAY_DETECT)) stateCounter = 2;
+            else if (ADC_Left_Detect < (LEFT_GRAY_DETECT) && ADC_Right_Detect < (RIGHT_GRAY_DETECT)) {
+                rFollowSpeed = -RIGHT_MIN;
+                lFollowSpeed = -LEFT_MIN;
+            } else {
+                ClearController(&rightFollowController);
+                ClearController(&leftFollowController);
+            }
+
+            if(delay(70, 0)) stateCounter = 5;
+
+            Drive_Path_Indefinite(rFollowSpeed, lFollowSpeed);
+            break;
+
+
+        case 2:
+            if(ADC_Left_Detect < LEFT_BLACK_DETECT && ADC_Right_Detect >= RIGHT_BLACK_DETECT) stateCounter = 3;
+            else if(ADC_Left_Detect >= LEFT_BLACK_DETECT && ADC_Right_Detect < RIGHT_BLACK_DETECT) stateCounter = 4;
+            else stateCounter = 1;
+
+            break;
+
+        case 3:// turn left ()
+            if(ADC_Left_Detect < LEFT_BLACK_DETECT)Drive_Path_Indefinite((RIGHT_MIN - LF_TURN_DECREMENT), -(LEFT_MIN - LF_TURN_DECREMENT));
+            else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
+            else stateCounter = 4;
+
+            break;
+
+        case 4:
+            if(ADC_Right_Detect < RIGHT_BLACK_DETECT)Drive_Path_Indefinite(-(RIGHT_MIN - LF_TURN_DECREMENT), (LEFT_MIN - LF_TURN_DECREMENT));
+            else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
+            else stateCounter = 3;
+
+            break;
+
+        //case 10:
+        //    if(LockMotorsTime(-1, -1, 1)) stateCounter = 2;
+        //    break;
+
+        case 5:
+            ShutoffMotors();
+            stateCounter = 0 ;
+            state = START;
+            EmitterOff();
+            break;
     }
-  
-    
+
+
 }
 
-void Drive(int polR,int polL,unsigned int time) {
-  switch(stateCounter){
-  
-    case 0 :
-        display_changed = 1;
-        EmitterOn();
-        stateCounter++;
-        break;
-    case 1 :
-      if(Drive_Path_Definite(polR*STRAIGHT_RIGHT,polL*STRAIGHT_LEFT, time))stateCounter++;
-      break;
+void Drive(int polR, int polL, unsigned int time) {
+    switch(stateCounter) {
 
-    case 2 :
-        if(LockMotors(-polR, -polL)) stateCounter++;
-        break;
+        case 0 :
+            display_changed = 1;
+            EmitterOn();
+            stateCounter++;
+            break;
 
-    case 3 : 
-        ShutoffMotors();
-        stateCounter = 0 ;
-        state = START;
-        EmitterOff();
-        break;
-  }
+        case 1 :
+            if(Drive_Path_Definite(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, time))stateCounter++;
+
+            break;
+
+        case 2 :
+            if(LockMotors(-polR, -polL)) stateCounter++;
+
+            break;
+
+        case 3 :
+            ShutoffMotors();
+            stateCounter = 0 ;
+            state = START;
+            EmitterOff();
+            break;
+    }
 }
 
 
@@ -244,10 +260,11 @@ void StateMachine(void) {
         case (LINEFOLLOW):
             LineFollow();
             break;
-            
+
         case (DRIVE):
-            Drive(polarityRight,polarityLeft,driveTime);
-            //if(Drive_Path(polarityRight*STRAIGHT_RIGHT,polarityLeft*STRAIGHT_LEFT, driveTime))state = START;
+            Drive(polarityRight, polarityLeft, driveTime);
+
+        //if(Drive_Path(polarityRight*STRAIGHT_RIGHT,polarityLeft*STRAIGHT_LEFT, driveTime))state = START;
         default:
             break;
     }

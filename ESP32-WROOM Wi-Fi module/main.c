@@ -14,7 +14,7 @@
 
 void go(void);
 
-void main(void){
-  go();
+void main(void) {
+    go();
 }
 

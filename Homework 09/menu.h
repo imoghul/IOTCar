@@ -6,13 +6,13 @@
 #define SONG                    ('s')
 
 // an attempt to organize all the data that a menu necessitates
-typedef struct menuStruct{
-  char length;
-  char current;
-  char name;
-  char * headers[MENU_LEN];
-  char * values[MENU_LEN];
-  struct menuStruct * transitions[MENU_LEN];
+typedef struct menuStruct {
+    char length;
+    char current;
+    char name;
+    char * headers[MENU_LEN];
+    char * values[MENU_LEN];
+    struct menuStruct * transitions[MENU_LEN];
 } menu;
 
 

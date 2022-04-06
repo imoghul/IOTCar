@@ -22,9 +22,9 @@ extern volatile unsigned int backliteBlinking;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 volatile unsigned int calibrationMode;
-extern volatile char USB0_Char_Tx[],USB1_Char_Tx[];
-extern volatile char USB0_Char_Rx_Ring[],USB1_Char_Rx_Ring[];
-extern unsigned volatile int tx0_index,tx1_index;
+extern volatile char USB0_Char_Tx[], USB1_Char_Tx[];
+extern volatile char USB0_Char_Rx_Ring[], USB1_Char_Rx_Ring[];
+extern unsigned volatile int tx0_index, tx1_index;
 
 //===========================================================================
 // Function name: switchP4_interrupt
@@ -54,7 +54,7 @@ __interrupt void switchP4_interrupt(void) {
         //debounce_count1 = 0;
 
         // Actual Code
-        
+
         trainsitionMenu();
     }
 }

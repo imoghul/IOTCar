@@ -178,10 +178,12 @@ __interrupt void Timer1_B0_ISR(void) {
     // TimerB0 0 Interrupt handler
     //----------------------------------------------------------------------------
     P3OUT |= IOT_EN_CPU;
+
     if(state != END) {
-            stopwatchUpdated = 1;
-            timeElapsed += .2;
+        stopwatchUpdated = 1;
+        timeElapsed += .2;
     }
+
     update_display = 1;
     TB1CCR0 += TB1CCR0_INTERVAL;
     //----------------------------------------------------------------------------

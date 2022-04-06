@@ -53,7 +53,7 @@ extern char enteringDirection;
 extern float timeElapsed;
 extern char state;
 extern volatile unsigned int stopwatchUpdated;
-unsigned volatile UCA0_index,UCA1_index;
+unsigned volatile UCA0_index, UCA1_index;
 char* test_command = "NCSU  #1";
 extern volatile char USB_Char_Rx[];
 //===========================================================================
@@ -126,21 +126,20 @@ void main(void) {
           display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
           display_changed = 1;
         }*/
-        
+
         strcpy(display_line[2], "   Baud   ");
-        
-        
-        if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
-          strcpy(display_line[3], "  115200  ");
-          display_changed=1;
+
+
+        if(UCA0BRW == 4 && UCA0MCTLW == 0x5551) {
+            strcpy(display_line[3], "  115200  ");
+            display_changed = 1;
+        } else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11) {
+            strcpy(display_line[3], "  460800  ");
+            display_changed = 1;
         }
-        else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11){
-          strcpy(display_line[3], "  460800  ");
-          display_changed=1;
-        }
-        
-        if(cycle_count==0){
-          display_changed = 1;
+
+        if(cycle_count == 0) {
+            display_changed = 1;
         }
 
         if(Last_Time_Sequence != Time_Sequence) {

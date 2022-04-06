@@ -57,12 +57,12 @@ extern char enteringDirection;
 extern float timeElapsed;
 extern char state;
 extern volatile unsigned int stopwatchUpdated;
-unsigned volatile UCA0_index,UCA1_index;
+unsigned volatile UCA0_index, UCA1_index;
 extern volatile char USB0_Char_Tx[];
 extern volatile unsigned int pb0_buffered;
-extern volatile unsigned int usb0_rx_wr,usb0_rx_rd;
+extern volatile unsigned int usb0_rx_wr, usb0_rx_rd;
 extern volatile unsigned int serialState;
-extern menu resistor,mainMenu;
+extern menu resistor, mainMenu;
 //===========================================================================
 // Function name: Main
 //
@@ -111,7 +111,7 @@ void main(void) {
     strcpy(display_line[2], "          ");
     strcpy(display_line[3], "          ");
     display_changed = TRUE;
-    
+
     //------------------------------------------------------------------------------
     // Begining of the "While" Operating System
     //------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ void main(void) {
         //MenuProcess();
         MotorSafety();
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-        
+
 
         if(Last_Time_Sequence != Time_Sequence) {
             Last_Time_Sequence = Time_Sequence;

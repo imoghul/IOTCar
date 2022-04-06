@@ -55,12 +55,12 @@ extern char enteringDirection;
 extern float timeElapsed;
 extern char state;
 extern volatile unsigned int stopwatchUpdated;
-unsigned volatile UCA0_index,UCA1_index;
+unsigned volatile UCA0_index, UCA1_index;
 extern volatile char USB0_Char_Tx[];
 extern volatile unsigned int pb0_buffered;
-extern volatile unsigned int usb0_rx_wr,usb0_rx_rd;
+extern volatile unsigned int usb0_rx_wr, usb0_rx_rd;
 extern volatile unsigned int serialState;
-extern menu resistor,mainMenu;
+extern menu resistor, mainMenu;
 //===========================================================================
 // Function name: Main
 //
@@ -133,10 +133,10 @@ void main(void) {
           display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
           display_changed = 1;
         }*/
-        
+
         //strcpy(display_line[2], "   Baud   ");
-        
-        
+
+
         /*if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
           strcpy(display_line[2], "  115200  ");
           display_changed=1;
@@ -145,7 +145,7 @@ void main(void) {
           strcpy(display_line[2], "  460800  ");
           display_changed=1;
         }*/
-        
+
         /*if(serialState==1){
           strcpy(display_line[0], " TRANSMIT ");
           display_changed=1;
@@ -154,10 +154,10 @@ void main(void) {
           strcpy(display_line[0], " RECIEVED ");
           display_changed=1;
         }*/
-          
-        
-        if(cycle_count==0){
-          display_changed = 1;
+
+
+        if(cycle_count == 0) {
+            display_changed = 1;
         }
 
         if(Last_Time_Sequence != Time_Sequence) {

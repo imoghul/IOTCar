@@ -21,9 +21,9 @@ extern volatile unsigned int backliteBlinking;
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 volatile unsigned int calibrationMode;
-extern volatile char USB0_Char_Tx[],USB1_Char_Tx[];
-extern volatile char USB0_Char_Rx_Ring[],USB1_Char_Rx_Ring[];
-extern unsigned volatile int tx0_index,tx1_index;
+extern volatile char USB0_Char_Tx[], USB1_Char_Tx[];
+extern volatile char USB0_Char_Rx_Ring[], USB1_Char_Rx_Ring[];
+extern unsigned volatile int tx0_index, tx1_index;
 
 //===========================================================================
 // Function name: switchP4_interrupt
@@ -53,21 +53,24 @@ __interrupt void switchP4_interrupt(void) {
         //debounce_count1 = 0;
 
         // Actual Code
-        
+
         //strcpy((char*)USB0_Char_Tx,(char*)USB0_Char_Rx_Ring);
         //strcpy((char*)USB1_Char_Tx,(char*)USB1_Char_Rx_Ring);
-        for(int i = 0;i<10;++i)
-          display_line[1][i] = ' ';
-        
+        for(int i = 0; i < 10; ++i)
+            display_line[1][i] = ' ';
+
         int i;
-        for(i = 0; i<10 && display_line[3][i]!=0;++i)
-           display_line[1][i] = display_line[3][i];
-        for(;i<10;++i)
-           display_line[1][i] = ' ';
+
+        for(i = 0; i < 10 && display_line[3][i] != 0; ++i)
+            display_line[1][i] = display_line[3][i];
+
+        for(; i < 10; ++i)
+            display_line[1][i] = ' ';
+
         display_line[1][10] = 0;
-        
+
         strcpy(display_line[3], "          ");
-        tx0_index=0;
+        tx0_index = 0;
         UCA0IE |= UCTXIE;
     }
 }
@@ -96,19 +99,19 @@ __interrupt void switchP2_interrupt(void) {
         TB0CCR2 = TB0R + TB0CCR2_INTERVAL;
         TB0CCTL2 |= CCIE; // CCR1 enable interrupt
         debouncing2 = TRUE;
+
         // Actual Code
         // 460800
-        if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){ // if is 11520 change to 460800
-          UCA0BRW = 1;
-          UCA0MCTLW = 0x4A11;
-          UCA1BRW = 1;
-          UCA1MCTLW = 0x4A11;
-        }
-        else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11){ // if is 460800 change to 115200
-          UCA0BRW = 4;
-          UCA0MCTLW = 0x5551;
-          UCA1BRW = 4;
-          UCA1MCTLW = 0x5551;
+        if(UCA0BRW == 4 && UCA0MCTLW == 0x5551) { // if is 11520 change to 460800
+            UCA0BRW = 1;
+            UCA0MCTLW = 0x4A11;
+            UCA1BRW = 1;
+            UCA1MCTLW = 0x4A11;
+        } else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11) { // if is 460800 change to 115200
+            UCA0BRW = 4;
+            UCA0MCTLW = 0x5551;
+            UCA1BRW = 4;
+            UCA1MCTLW = 0x5551;
         }
     }
 }

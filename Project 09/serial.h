@@ -9,8 +9,8 @@ void out_character(char character);
 
 void USCI_A0_transmit(void);
 void USCI_A1_transmit(void);
-void clearProcessBuff(volatile char* pb,volatile unsigned int* pb_index,volatile unsigned int* pb_buffered);
-void loadRingtoPB(volatile unsigned int* rx_wr,unsigned int* rx_rd,volatile char* Rx_Process,volatile char* Rx_Ring,volatile unsigned int* pb_index,volatile unsigned int* pb_buffered);
+void clearProcessBuff(volatile char* pb, volatile unsigned int* pb_index, volatile unsigned int* pb_buffered);
+void loadRingtoPB(volatile unsigned int* rx_wr, unsigned int* rx_rd, volatile char* Rx_Process, volatile char* Rx_Ring, volatile unsigned int* pb_index, volatile unsigned int* pb_buffered);
 void copyPBtoTx_0(void);
 void loadRingtoPB_0(void);
 void loadRingtoPB_1(void);

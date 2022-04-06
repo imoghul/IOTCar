@@ -35,12 +35,12 @@
 #define TURN_CONSTANT                   (10/3)
 
 typedef struct {
-  char comm;
-  unsigned int duration;
+    char comm;
+    unsigned int duration;
 } command;
 
 int Init_IOT(void);
-void centerStringToDisplay(unsigned int line,char * s);
+void centerStringToDisplay(unsigned int line, char * s);
 void IOTBufferCommands(void);
 void ProcessCommands(void);
 void pushCB(command c);

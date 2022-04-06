@@ -21,7 +21,7 @@ extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 volatile unsigned int calibrationMode;
 extern char* test_command;
-extern unsigned volatile UCA0_index,UCA1_index;
+extern unsigned volatile UCA0_index, UCA1_index;
 
 //===========================================================================
 // Function name: switchP4_interrupt
@@ -55,7 +55,7 @@ __interrupt void switchP4_interrupt(void) {
         UCA0MCTLW = 0x5551;
         UCA1BRW = 4;
         UCA1MCTLW = 0x5551;
-        
+
         strcpy(display_line[0], "          ");
         UCA0_index = 0;
         UCA0IE |= UCTXIE;
@@ -95,7 +95,7 @@ __interrupt void switchP2_interrupt(void) {
         UCA0MCTLW = 0x4A11;
         UCA1BRW = 1;
         UCA1MCTLW = 0x4A11;
-        
+
         strcpy(display_line[1], "          ");
         UCA0_index = 0;
         UCA0IE |= UCTXIE;

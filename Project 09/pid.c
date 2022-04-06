@@ -42,11 +42,12 @@ int additionSafe(int val, int max, int min, int increment) {
     if(speed > max)speed = max;
 
     if(speed < min)speed = min;*/
-  
+
     long res = val + increment;
-    
-    if(res>max) res = max;
-    if(res<min) res = min;
+
+    if(res > max) res = max;
+
+    if(res < min) res = min;
 
     return (int)res;
 }
@@ -57,5 +58,5 @@ int multSafe(int a, int b) {
     int res = a * b;
 
     if(a == res / b)return res;
-    else return (INT_MAX-1) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
+    else return (INT_MAX - 1) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
 }
