@@ -38,8 +38,9 @@
 int RunRightMotor( int val);
 int RunLeftMotor( int val);
 int Update_Ticks(int);
-int Drive_Path_Definite(int speedR, int speedL, unsigned int ticksDuration) ;
-int Drive_Path_Indefinite(int speedR, int speedL);
+//int Drive_Path_Definite(int speedR, int speedL, unsigned int ticksDuration) ;
+//int Drive_Path_Indefinite(int speedR, int speedL);
+int Drive_Path(int speedR, int speedL, unsigned int ticksDuration);
 int delay(int seconds, int cycles);
 void ShutoffMotors(void);
 void ShutoffRight(void);

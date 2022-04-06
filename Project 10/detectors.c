@@ -25,10 +25,7 @@ void EmitterOff(void) {
     P6OUT &= ~IR_LED;
 }
 
-unsigned int abs(int n) {
-    const int ret[2] = {n, -n};
-    return (unsigned int)(ret [n < 0]);
-}
+
 
 void calibrate(void) {
     if(calibrationMode == 0) {

@@ -107,24 +107,21 @@ __interrupt void ADC_ISR(void) {
                     ADC_Thumb = ADCMEM0;
                     ADC_Thumb = ADC_Thumb >> (10 - THUMB_RES);
                     ADCCTL0 |= ADCSC;
-                    //HEXtoBCD(ADC_Thumb,0,0);
                     break;
 
                 case 0x01:
                     ADCMCTL0 &= ~ADCINCH_9;
                     ADCMCTL0 = ADCINCH_10;
                     ADC_Vbat = ADCMEM0;
-                    ADC_Vbat = ADC_Vbat >> 2;
+                    ADC_Vbat = ADC_Vbat;
                     ADCCTL0 |= ADCSC;
-                    //HEXtoBCD(ADC_Vbat,1);
                     break;
 
                 case 0x02:
                     ADCMCTL0 &= ~ADCINCH_10;
                     ADCMCTL0 = ADCINCH_11;
                     ADC_Vdac = ADCMEM0;
-                    ADC_Vdac = ADC_Vdac >> 2;
-                    //HEXtoBCD(ADC_Vdac,2);
+                    ADC_Vdac = ADC_Vdac;
                     ADCCTL0 |= ADCSC;
                     break;
 
@@ -132,8 +129,7 @@ __interrupt void ADC_ISR(void) {
                     ADCMCTL0 &= ~ADCINCH_11;
                     ADCMCTL0 = ADCINCH_2;
                     ADC_V3v3 = ADCMEM0;
-                    ADC_V3v3 = ADC_V3v3 >> 2;
-                    //HEXtoBCD(ADC_V3v3,3);
+                    ADC_V3v3 = ADC_V3v3;
                     ADCCTL0 |= ADCSC;
                     break;
 
@@ -166,34 +162,5 @@ __interrupt void ADC_ISR(void) {
         default:
             break;
     }
-}
-
-
-void HEXtoBCD(int hex_value, int line, int start) {
-    int value = 0;
-
-    while(hex_value > 999) {
-        hex_value -= 1000;
-        value += 1;
-    }
-
-    display_line[line][start] = 0x30 + value;
-    value = 0;
-
-    while(hex_value > 99) {
-        hex_value -= 100;
-        value += 1;
-    }
-
-    display_line[line][start + 1] = 0x30 + value;
-    value = 0;
-
-    while(hex_value > 9) {
-        hex_value -= 10;
-        value += 1;
-    }
-
-    display_line[line][start + 2] = 0x30 + value;
-    display_line[line][start + 3] = 0x30 + hex_value;
 }
 

@@ -118,7 +118,9 @@ void main(void) {
     while(ALWAYS) {                       // Can the Operating system run
         Display_Process();                  // Update Display
         SerialProcess();
+
         if(!Init_IOT()) continue;
+
         IOTBufferCommands();
         ProcessCommands();
         StateMachine();                     // Run wheels state machine

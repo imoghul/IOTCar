@@ -40,6 +40,10 @@ typedef struct {
 } command;
 
 int Init_IOT(void);
+void waitForRead(void);
+void SendIOTCommand(char* command, char nextState);
+void getSSID(void);
+void getIP(void);
 void centerStringToDisplay(unsigned int line, char * s);
 void IOTBufferCommands(void);
 void ProcessCommands(void);
