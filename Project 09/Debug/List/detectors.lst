@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Apr/2022  21:46:30
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:25:29
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\detectors.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWBE01.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWADBE.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\detectors.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -107,141 +107,32 @@ C:\Users\saad\Documents\ece-306\Project 09\detectors.c
    \                     EmitterOn:
      21              P6OUT |= IR_LED;
    \   000000   F2D010004302 BIS.B   #0x10, &0x243
-     22              //P6OUT |= GRN_LED;
-     23              //strcpy(display_line[0], "EMITTER ON");
-     24              //display_changed = 1;
-     25          }
+     22          }
    \   000006   1001         RETA
    \   000008                REQUIRE _A_PCOUT_L
-     26          
+     23          
 
    \                                 In  segment CODE, align 2
-     27          void EmitterOff(void) {
+     24          void EmitterOff(void) {
    \                     EmitterOff:
-     28              P6OUT &= ~IR_LED;
+     25              P6OUT &= ~IR_LED;
    \   000000   F2C010004302 BIC.B   #0x10, &0x243
-     29              //P6OUT &= ~GRN_LED;
-     30              //strcpy(display_line[0], "EMITER OFF");
-     31              //strcpy(display_line[2], "          ");
-     32              //strcpy(display_line[3], "          ");
-     33              //display_changed = 1;
-     34          }
+     26          }
    \   000006   1001         RETA
    \   000008                REQUIRE _A_PCOUT_L
-     35          
+     27          
 
    \                                 In  segment CODE, align 2
-     36          void DetectMovement(void) {
-   \                     DetectMovement:
-     37              /*if(adcUpdated == 0) return;
-     38          
-     39              adcUpdated = 0;
-     40              int currLeft = ADC_Left_Detect;
-     41              int currRight = ADC_Right_Detect;
-     42              int leftDiff = currLeft - lastLeft;
-     43              int rightDiff = currRight - lastRight;
-     44              lastLeft = currLeft;
-     45              lastRight = currRight;
-     46          
-     47              if(abs(rightDiff) < 2) rightDiff = 0;
-     48          
-     49              if(abs(leftDiff) < 2) leftDiff = 0;
-     50          
-     51              if(leftDiff)push(leftVals, currLeft);
-     52              else clearList(leftVals);
-     53          
-     54              if(rightDiff)push(rightVals, currRight);
-     55              else clearList(rightVals);
-     56          
-     57              if(validList(rightVals) || validList(leftVals)) {
-     58                  char dirR = getDirection(rightVals);
-     59                  char dirL = getDirection(leftVals);
-     60          
-     61                  if(dirR == INCREASING || dirL == DECREASING) movingDirection = MOVING_RIGHT;
-     62                  else if(dirR == DECREASING || dirL == INCREASING) movingDirection = MOVING_LEFT;
-     63                  else movingDirection = NOT_MOVING;
-     64              } else movingDirection = NOT_MOVING;*/
-     65          }
-   \   000000   1001         RETA
-     66          
-
-   \                                 In  segment CODE, align 2
-     67          void push(int list[], int val) {
-   \                     `push`:
-     68              /*for(int i = VALUES_TO_HOLD - 1; i > 0; --i) list[i] = list[i - 1];
-     69          
-     70              list[0] = val;*/
-     71          }
-   \   000000   1001         RETA
-     72          
-
-   \                                 In  segment CODE, align 2
-     73          void clearList(int list[]) {
-   \                     clearList:
-     74              //for (int i = 0; i < VALUES_TO_HOLD; ++i) list[i] = 0;
-     75          }
-   \   000000   1001         RETA
-     76          
-
-   \                                 In  segment CODE, align 2
-     77          int validList(int* list) {
-   \                     validList:
-   \   000000   0F4C         MOV.W   R12, R15
-     78              //for(int i = 0; i < VALUES_TO_HOLD; ++i) if(list[i] == 0)return 0;
-     79          
-     80              return 1;
-   \   000002   1C43         MOV.W   #0x1, R12
-   \   000004   1001         RETA
-     81          }
-     82          
-
-   \                                 In  segment CODE, align 2
-     83          int rollingSum(int * list) {
-   \                     rollingSum:
-   \   000000   0F4C         MOV.W   R12, R15
-     84              /*int sum = 0;
-     85          
-     86              for (int i = 0; i < VALUES_TO_HOLD; ++i) {
-     87                  sum += list[i];
-     88              }
-     89          
-     90              return sum;*/return 0;
-   \   000002   0C43         MOV.W   #0x0, R12
-   \   000004   1001         RETA
-     91          }
-     92          
-
-   \                                 In  segment CODE, align 2
-     93          char getDirection(int* list) {
-   \                     getDirection:
-   \   000000   0F4C         MOV.W   R12, R15
-     94              /*int increasing = 0, decreasing = 0;
-     95          
-     96              for(int i = 1; i < VALUES_TO_HOLD && list[i] != 0; ++i) {
-     97                  if(abs(list[i] - list[i - 1]) > 0) {
-     98                      if(list[i] > list[i - 1]) decreasing++;
-     99                      else increasing++;
-    100                  }
-    101              }
-    102          
-    103              return increasing > decreasing ? INCREASING : (increasing == decreasing ? NEUTRAL : DECREASING);*/
-    104            return 0;
-   \   000002   4C43         MOV.B   #0x0, R12
-   \   000004   1001         RETA
-    105          }
-    106          
-
-   \                                 In  segment CODE, align 2
-    107          unsigned int abs(int n) {
+     28          unsigned int abs(int n) {
    \                     abs:
    \   000000   B1000400     SUBA    #0x4, SP
-    108              const int ret[2] = {n, -n};
+     29              const int ret[2] = {n, -n};
    \   000004   814C0000     MOV.W   R12, 0(SP)
    \   000008   0F4C         MOV.W   R12, R15
    \   00000A   3FE3         XOR.W   #0xffff, R15
    \   00000C   1F53         ADD.W   #0x1, R15
    \   00000E   814F0200     MOV.W   R15, 0x2(SP)
-    109              return (unsigned int)(ret [n < 0]);
+     30              return (unsigned int)(ret [n < 0]);
    \   000012   0C93         CMP.W   #0x0, R12
    \   000014   0234         JGE     ??abs_1
    \   000016   5F43         MOV.B   #0x1, R15
@@ -255,96 +146,89 @@ C:\Users\saad\Documents\ece-306\Project 09\detectors.c
    \   000022   2C4F         MOV.W   @R15, R12
    \   000024   A1000400     ADDA    #0x4, SP
    \   000028   1001         RETA
-    110          }
-    111          
+     31          }
+     32          
 
    \                                 In  segment CODE, align 2
-    112          void calibrate(void) {
+     33          void calibrate(void) {
    \                     calibrate:
-    113              if(calibrationMode == 0) {
+     34              if(calibrationMode == 0) {
    \   000000   8293....     CMP.W   #0x0, &calibrationMode
    \   000004   0F20         JNE     ??calibrate_1
-    114                  unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
+     35                  unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
    \   000006   1F42....     MOV.W   &ADC_Left_Detect, R15
    \   00000A   1E42....     MOV.W   &ADC_Right_Detect, R14
-    115          
-    116                  if (left > LBDetect) LBDetect = left;
+     36          
+     37                  if (left > LBDetect) LBDetect = left;
    \   00000E   829F....     CMP.W   R15, &LBDetect
    \   000012   022C         JC      ??calibrate_2
    \   000014   824F....     MOV.W   R15, &LBDetect
-    117          
-    118                  if (right > RBDetect) RBDetect = right;
+     38          
+     39                  if (right > RBDetect) RBDetect = right;
    \                     ??calibrate_2:
    \   000018   829E....     CMP.W   R14, &RBDetect
    \   00001C   142C         JC      ??calibrate_0
    \   00001E   824E....     MOV.W   R14, &RBDetect
    \   000022   113C         JMP     ??calibrate_0
-    119              } else if(calibrationMode == 1) {
+     40              } else if(calibrationMode == 1) {
    \                     ??calibrate_1:
    \   000024   9293....     CMP.W   #0x1, &calibrationMode
    \   000028   0E20         JNE     ??calibrate_0
-    120                  unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
+     41                  unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
    \   00002A   1F42....     MOV.W   &ADC_Left_Detect, R15
    \   00002E   1E42....     MOV.W   &ADC_Right_Detect, R14
-    121          
-    122                  if (left > LWDetect) LWDetect = left;
+     42          
+     43                  if (left > LWDetect) LWDetect = left;
    \   000032   829F....     CMP.W   R15, &LWDetect
    \   000036   022C         JC      ??calibrate_3
    \   000038   824F....     MOV.W   R15, &LWDetect
-    123          
-    124                  if (right > RWDetect) RWDetect = right;
+     44          
+     45                  if (right > RWDetect) RWDetect = right;
    \                     ??calibrate_3:
    \   00003C   829E....     CMP.W   R14, &RWDetect
    \   000040   022C         JC      ??calibrate_0
    \   000042   824E....     MOV.W   R14, &RWDetect
-    125              }
-    126          
-    127              HEXtoBCD(LBDetect, 2, 6);
+     46              }
+     47          
+     48              HEXtoBCD(LBDetect, 2, 6);
    \                     ??calibrate_0:
    \   000046   3E400600     MOV.W   #0x6, R14
    \   00004A   2D43         MOV.W   #0x2, R13
    \   00004C   1C42....     MOV.W   &LBDetect, R12
    \   000050   ........     CALLA   #HEXtoBCD
-    128              HEXtoBCD(RBDetect, 2, 0);
+     49              HEXtoBCD(RBDetect, 2, 0);
    \   000054   0E43         MOV.W   #0x0, R14
    \   000056   2D43         MOV.W   #0x2, R13
    \   000058   1C42....     MOV.W   &RBDetect, R12
    \   00005C   ........     CALLA   #HEXtoBCD
-    129              HEXtoBCD(LWDetect, 1, 6);
+     50              HEXtoBCD(LWDetect, 1, 6);
    \   000060   3E400600     MOV.W   #0x6, R14
    \   000064   1D43         MOV.W   #0x1, R13
    \   000066   1C42....     MOV.W   &LWDetect, R12
    \   00006A   ........     CALLA   #HEXtoBCD
-    130              HEXtoBCD(RWDetect, 1, 0);
+     51              HEXtoBCD(RWDetect, 1, 0);
    \   00006E   0E43         MOV.W   #0x0, R14
    \   000070   1D43         MOV.W   #0x1, R13
    \   000072   1C42....     MOV.W   &RWDetect, R12
    \   000076   ........     CALLA   #HEXtoBCD
-    131          }
+     52          }
    \   00007A   1001         RETA
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
-      4   DetectMovement
       4   EmitterOff
       4   EmitterOn
       8   abs
       4   calibrate
         4   -> HEXtoBCD
-      4   clearList
-      4   getDirection
-      4   push
-      4   rollingSum
-      4   validList
 
 
    Segment part sizes:
 
    Bytes  Function/Label
    -----  --------------
-       2  DetectMovement
        8  EmitterOff
        8  EmitterOn
        2  LBDetect
@@ -354,23 +238,18 @@ C:\Users\saad\Documents\ece-306\Project 09\detectors.c
        2  _A_PCOUT_L
       42  abs
      124  calibrate
-       2  clearList
-       6  getDirection
        2  lastLeft
        2  lastRight
        8  leftVals
        1  movingDirection
-       2  push
        8  rightVals
-       6  rollingSum
-       6  validList
 
  
- 206 bytes in segment CODE
+ 182 bytes in segment CODE
    2 bytes in segment DATA16_AN
   29 bytes in segment DATA16_Z
  
- 206 bytes of CODE memory
+ 182 bytes of CODE memory
   29 bytes of DATA memory (+ 2 bytes shared)
 
 Errors: none

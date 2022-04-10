@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          31/Mar/2022  16:09:40
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:32:03
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Homework 09\adc.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWCA54.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWB041.tmp
 #        ("C:\Users\saad\Documents\ece-306\Homework 09\adc.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Homework 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj" --no_cse
@@ -357,7 +357,7 @@ C:\Users\saad\Documents\ece-306\Homework 09\adc.c
    \   00004A   B24009000A07 MOV.W   #0x9, &0x70a
     108                              ADC_Thumb = ADCMEM0;
    \   000050   92421207.... MOV.W   &0x712, &ADC_Thumb
-    109                              ADC_Thumb = ADC_Thumb >> (10-THUMB_RES);
+    109                              ADC_Thumb = ADC_Thumb >> (10 - THUMB_RES);
    \   000056   1F42....     MOV.W   &ADC_Thumb, R15
    \   00005A   5F0F         RRUM.W  #0x4, R15
    \   00005C   5F03         RRUM.W  #0x1, R15

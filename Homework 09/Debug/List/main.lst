@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          31/Mar/2022  16:09:41
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:32:04
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Homework 09\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWCBBC.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWB4F3.tmp
 #        ("C:\Users\saad\Documents\ece-306\Homework 09\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Homework 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Homework 09\Debug\Obj" --no_cse
@@ -147,7 +147,7 @@ C:\Users\saad\Documents\ece-306\Homework 09\main.c
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-     58          unsigned volatile UCA0_index,UCA1_index;
+     58          unsigned volatile UCA0_index, UCA1_index;
    \                     UCA0_index:
    \   000000                DS8 2
 
@@ -157,9 +157,9 @@ C:\Users\saad\Documents\ece-306\Homework 09\main.c
    \   000000                DS8 2
      59          extern volatile char USB0_Char_Tx[];
      60          extern volatile unsigned int pb0_buffered;
-     61          extern volatile unsigned int usb0_rx_wr,usb0_rx_rd;
+     61          extern volatile unsigned int usb0_rx_wr, usb0_rx_rd;
      62          extern volatile unsigned int serialState;
-     63          extern menu resistor,mainMenu;
+     63          extern menu resistor, mainMenu;
      64          //===========================================================================
      65          // Function name: Main
      66          //
@@ -264,10 +264,10 @@ C:\Users\saad\Documents\ece-306\Homework 09\main.c
     133                    display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
     134                    display_changed = 1;
     135                  }*/
-    136                  
+    136          
     137                  //strcpy(display_line[2], "   Baud   ");
-    138                  
-    139                  
+    138          
+    139          
     140                  /*if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
     141                    strcpy(display_line[2], "  115200  ");
     142                    display_changed=1;
@@ -276,7 +276,7 @@ C:\Users\saad\Documents\ece-306\Homework 09\main.c
     145                    strcpy(display_line[2], "  460800  ");
     146                    display_changed=1;
     147                  }*/
-    148                  
+    148          
     149                  /*if(serialState==1){
     150                    strcpy(display_line[0], " TRANSMIT ");
     151                    display_changed=1;
@@ -285,12 +285,12 @@ C:\Users\saad\Documents\ece-306\Homework 09\main.c
     154                    strcpy(display_line[0], " RECIEVED ");
     155                    display_changed=1;
     156                  }*/
-    157                    
-    158                  
-    159                  if(cycle_count==0){
+    157          
+    158          
+    159                  if(cycle_count == 0) {
    \   000070   8293....     CMP.W   #0x0, &cycle_count
    \   000074   0220         JNE     ??main_1
-    160                    display_changed = 1;
+    160                      display_changed = 1;
    \   000076   D243....     MOV.B   #0x1, &display_changed
     161                  }
     162          

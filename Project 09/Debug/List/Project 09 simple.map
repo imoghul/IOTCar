@@ -2,7 +2,7 @@
 #                                                                              #
 #      IAR Universal Linker V6.6.2.104                                         #
 #                                                                              #
-#           Link time     =  05/Apr/2022  21:53:34                             #
+#           Link time     =  10/Apr/2022  15:25:40                             #
 #           Target CPU    =  MSP430                                            #
 #           List file     =  "C:\Users\saad\Documents\ece-306\Project 09\Debug #
 #                            \List\Project 09 simple.map"                      #
@@ -11,7 +11,7 @@
 #                            Format: ubrof10                                   #
 #                            UBROF version 10.0.6                              #
 #                            Using library modules for C-SPY (-rt)             #
-#           Command line  =  -f C:\Users\saad\AppData\Local\Temp\EW38BA.tmp    #
+#           Command line  =  -f C:\Users\saad\AppData\Local\Temp\EWDA48.tmp    #
 #                            ("C:\Users\saad\Documents\ece-306\Project 09\Debu #
 #                            g\Obj\adc.r43"                                    #
 #                            "C:\Users\saad\Documents\ece-306\Project 09\Debug #
@@ -284,12 +284,6 @@ detectors ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\detectors.r43 )
         RWDetect                            203E
         EmitterOn                           9864
         EmitterOff                          985C
-        DetectMovement                      NOT NEEDED
-        push                                NOT NEEDED
-        clearList                           NOT NEEDED
-        validList                           NOT NEEDED
-        rollingSum                          NOT NEEDED
-        getDirection                        NOT NEEDED
         abs                                 NOT NEEDED
         calibrate                           8FA8
         ?setjmp_save_r4                     NOT NEEDED
@@ -417,18 +411,9 @@ LCD ( C:\Users\saad\Documents\ece-306\Project 09\Compiled\LCD.r43 )
         UCB1IFG_H                           05ED
         UCB1IFG_L                           05EC
 led ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\led.r43 )
-        _A_PAOUT_L                          NOT NEEDED
-        _A_PCOUT_L                          NOT NEEDED
         Display_Process                     NOT NEEDED
-        Carlson_StateMachine                NOT NEEDED
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
-        PAOUT                               0202
-        PAOUT_H                             0203
-        PAOUT_L                             0202
-        PCOUT                               0242
-        PCOUT_H                             0243
-        PCOUT_L                             0242
 main ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\main.r43 )
         _A_PBOUT_L                          NOT NEEDED
         _A_PM5CTL0_L                        NOT NEEDED
@@ -624,7 +609,6 @@ serial ( C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\serial.r43 )
         loadRingtoPB                        NOT NEEDED
         loadRingtoPB_0                      NOT NEEDED
         loadRingtoPB_1                      NOT NEEDED
-        copyPBtoTx_0                        NOT NEEDED
         SerialProcess                       NOT NEEDED
         eUSCI_A1_ISR::??INTVEC 64           FFE2
         eUSCI_A0_ISR::??INTVEC 66           FFE4

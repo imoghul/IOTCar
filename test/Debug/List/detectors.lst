@@ -1,0 +1,381 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:39:46
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  C:\Users\saad\Documents\ece-306\test\detectors.c
+#    Command line  =  
+#        -f C:\Users\saad\AppData\Local\Temp\EWBE60.tmp
+#        (C:\Users\saad\Documents\ece-306\test\detectors.c -lC
+#        C:\Users\saad\Documents\ece-306\test\Debug\List -o
+#        C:\Users\saad\Documents\ece-306\test\Debug\Obj --no_cse --no_unroll
+#        --no_inline --no_code_motion --no_tbaa --debug -D__MSP430FR2355__ -e
+#        --double=32 --dlib_config "C:\Program Files\IAR Systems\Embedded
+#        Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./ --core=430X
+#        --data_model=small -On --multiplier=32 --hw_workaround=CPU40
+#        --code_model=large)
+#    Locale        =  English_USA.1252
+#    List file     =  
+#        C:\Users\saad\Documents\ece-306\test\Debug\List\detectors.lst
+#    Object file   =  
+#        C:\Users\saad\Documents\ece-306\test\Debug\Obj\detectors.r43
+#
+###############################################################################
+
+C:\Users\saad\Documents\ece-306\test\detectors.c
+      1          #include "msp430.h"
+      2          #include "ports.h"
+      3          #include "adc.h"
+      4          #include "wheels.h"
+      5          #include <string.h>
+      6          #include "sm.h"
+      7          #include "detectors.h"
+      8          extern volatile unsigned char display_changed;
+      9          extern char display_line[4][11];
+
+   \                                 In  segment DATA16_Z, align 1, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     10          char movingDirection;
+   \                     movingDirection:
+   \   000000                DS8 1
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     11          int rightVals[VALUES_TO_HOLD];
+   \                     rightVals:
+   \   000000                DS8 8
+     12          extern volatile unsigned int ADC_Left_Detect, ADC_Right_Detect;
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     13          int lastLeft;
+   \                     lastLeft:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     14          int lastRight;
+   \                     lastRight:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     15          int leftVals[VALUES_TO_HOLD];
+   \                     leftVals:
+   \   000000                DS8 8
+     16          extern volatile unsigned int adcUpdated;
+     17          extern volatile unsigned int calibrationMode;
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     18          unsigned int LBDetect, LWDetect, RBDetect, RWDetect;
+   \                     LBDetect:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     LWDetect:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     RBDetect:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     RWDetect:
+   \   000000                DS8 2
+     19          
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     20          short l_LessBlack,l_LessGray,l_LessWhite;
+   \                     l_LessBlack:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     l_LessGray:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     l_LessWhite:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     21          short r_LessBlack,r_LessGray,r_LessWhite;
+   \                     r_LessBlack:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     r_LessGray:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     r_LessWhite:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     22          short l_GreaterBlack,l_GreaterGray,l_GreaterWhite;
+   \                     l_GreaterBlack:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     l_GreaterGray:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     l_GreaterWhite:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     23          short r_GreaterBlack,r_GreaterGray,r_GreaterWhite;
+   \                     r_GreaterBlack:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     r_GreaterGray:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     r_GreaterWhite:
+   \   000000                DS8 2
+     24          short lessWhiteOr,lessWhiteAnd,greaterWhiteOr,greaterWhiteAnd;
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     25          short lessWhiteOr,lessWhiteAnd,greaterWhiteOr,greaterWhiteAnd;
+   \                     lessWhiteOr:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     lessWhiteAnd:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     greaterWhiteOr:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     greaterWhiteAnd:
+   \   000000                DS8 2
+     26          short lessGrayOr,lessGrayAnd,greaterGrayOr,greaterGrayAnd;
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     27          short lessGrayOr,lessGrayAnd,greaterGrayOr,greaterGrayAnd;
+   \                     lessGrayOr:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     lessGrayAnd:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     greaterGrayOr:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     greaterGrayAnd:
+   \   000000                DS8 2
+     28          short lessBlackOr,lessBlackAnd,greaterBlackOr,greaterBlackAnd;
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+     29          short lessBlackOr,lessBlackAnd,greaterBlackOr,greaterBlackAnd;
+   \                     lessBlackOr:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     lessBlackAnd:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     greaterBlackOr:
+   \   000000                DS8 2
+
+   \                                 In  segment DATA16_Z, align 2, align-sorted
+   \   000000                REQUIRE ?cstart_init_zero
+   \                     greaterBlackAnd:
+   \   000000                DS8 2
+     30          
+
+   \                                 In  segment CODE, align 2
+     31          void updateDetectors(void){
+   \                     updateDetectors:
+     32            l_LessBlack = ADC_Left_Detect<LEFT_WHITE_DETECT;
+   \   000000   1F42....     MOV.W   &LWDetect, R15
+   \   000004   3F501400     ADD.W   #0x14, R15
+   \   000008   829F....     CMP.W   R15, &ADC_Left_Detect
+   \   00000C   032C         JC      ??updateDetectors_1
+   \   00000E   9243....     MOV.W   #0x1, &l_LessBlack
+   \   000012   023C         JMP     ??updateDetectors_0
+   \                     ??updateDetectors_1:
+   \   000014   8243....     MOV.W   #0x0, &l_LessBlack
+     33            r_LessBlack = ADC_Right_Detect<RIGHT_WHITE_DETECT;
+   \                     ??updateDetectors_0:
+   \   000018   1F42....     MOV.W   &RWDetect, R15
+   \   00001C   3F501400     ADD.W   #0x14, R15
+   \   000020   829F....     CMP.W   R15, &ADC_Right_Detect
+   \   000024   032C         JC      ??updateDetectors_2
+   \   000026   9243....     MOV.W   #0x1, &r_LessBlack
+   \   00002A   1001         RETA
+   \                     ??updateDetectors_2:
+   \   00002C   8243....     MOV.W   #0x0, &r_LessBlack
+     34          }
+   \   000030   1001         RETA
+     35          
+
+   \                                 In  segment CODE, align 2
+     36          void calibrate(void) {
+   \                     calibrate:
+     37              if(calibrationMode == 0) {
+   \   000000   8293....     CMP.W   #0x0, &calibrationMode
+   \   000004   0F20         JNE     ??calibrate_1
+     38                  unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
+   \   000006   1F42....     MOV.W   &ADC_Left_Detect, R15
+   \   00000A   1E42....     MOV.W   &ADC_Right_Detect, R14
+     39          
+     40                  if (left > LBDetect) LBDetect = left;
+   \   00000E   829F....     CMP.W   R15, &LBDetect
+   \   000012   022C         JC      ??calibrate_2
+   \   000014   824F....     MOV.W   R15, &LBDetect
+     41          
+     42                  if (right > RBDetect) RBDetect = right;
+   \                     ??calibrate_2:
+   \   000018   829E....     CMP.W   R14, &RBDetect
+   \   00001C   142C         JC      ??calibrate_0
+   \   00001E   824E....     MOV.W   R14, &RBDetect
+   \   000022   113C         JMP     ??calibrate_0
+     43              } else if(calibrationMode == 1) {
+   \                     ??calibrate_1:
+   \   000024   9293....     CMP.W   #0x1, &calibrationMode
+   \   000028   0E20         JNE     ??calibrate_0
+     44                  unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
+   \   00002A   1F42....     MOV.W   &ADC_Left_Detect, R15
+   \   00002E   1E42....     MOV.W   &ADC_Right_Detect, R14
+     45          
+     46                  if (left > LWDetect) LWDetect = left;
+   \   000032   829F....     CMP.W   R15, &LWDetect
+   \   000036   022C         JC      ??calibrate_3
+   \   000038   824F....     MOV.W   R15, &LWDetect
+     47          
+     48                  if (right > RWDetect) RWDetect = right;
+   \                     ??calibrate_3:
+   \   00003C   829E....     CMP.W   R14, &RWDetect
+   \   000040   022C         JC      ??calibrate_0
+   \   000042   824E....     MOV.W   R14, &RWDetect
+     49              }
+     50          
+     51              HEXtoBCD(LBDetect, 2, 6);
+                     ^
+Warning[Pe223]: function "HEXtoBCD" declared implicitly
+   \                     ??calibrate_0:
+   \   000046   3E400600     MOV.W   #0x6, R14
+   \   00004A   2D43         MOV.W   #0x2, R13
+   \   00004C   1C42....     MOV.W   &LBDetect, R12
+   \   000050   ........     CALLA   #HEXtoBCD
+     52              HEXtoBCD(RBDetect, 2, 0);
+   \   000054   0E43         MOV.W   #0x0, R14
+   \   000056   2D43         MOV.W   #0x2, R13
+   \   000058   1C42....     MOV.W   &RBDetect, R12
+   \   00005C   ........     CALLA   #HEXtoBCD
+     53              HEXtoBCD(LWDetect, 1, 6);
+   \   000060   3E400600     MOV.W   #0x6, R14
+   \   000064   1D43         MOV.W   #0x1, R13
+   \   000066   1C42....     MOV.W   &LWDetect, R12
+   \   00006A   ........     CALLA   #HEXtoBCD
+     54              HEXtoBCD(RWDetect, 1, 0);
+   \   00006E   0E43         MOV.W   #0x0, R14
+   \   000070   1D43         MOV.W   #0x1, R13
+   \   000072   1C42....     MOV.W   &RWDetect, R12
+   \   000076   ........     CALLA   #HEXtoBCD
+     55          }
+   \   00007A   1001         RETA
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   calibrate
+        4   -> HEXtoBCD
+      4   updateDetectors
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       2  LBDetect
+       2  LWDetect
+       2  RBDetect
+       2  RWDetect
+     124  calibrate
+       2  greaterBlackAnd
+       2  greaterBlackOr
+       2  greaterGrayAnd
+       2  greaterGrayOr
+       2  greaterWhiteAnd
+       2  greaterWhiteOr
+       2  l_GreaterBlack
+       2  l_GreaterGray
+       2  l_GreaterWhite
+       2  l_LessBlack
+       2  l_LessGray
+       2  l_LessWhite
+       2  lastLeft
+       2  lastRight
+       8  leftVals
+       2  lessBlackAnd
+       2  lessBlackOr
+       2  lessGrayAnd
+       2  lessGrayOr
+       2  lessWhiteAnd
+       2  lessWhiteOr
+       1  movingDirection
+       2  r_GreaterBlack
+       2  r_GreaterGray
+       2  r_GreaterWhite
+       2  r_LessBlack
+       2  r_LessGray
+       2  r_LessWhite
+       8  rightVals
+      50  updateDetectors
+
+ 
+ 174 bytes in segment CODE
+  77 bytes in segment DATA16_Z
+ 
+ 174 bytes of CODE memory
+  77 bytes of DATA memory
+
+Errors: none
+Warnings: 1

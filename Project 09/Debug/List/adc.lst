@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Apr/2022  21:46:30
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:25:28
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\adc.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWBBFD.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWA785.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\adc.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -351,7 +351,7 @@ C:\Users\saad\Documents\ece-306\Project 09\adc.c
    \   00004A   B24009000A07 MOV.W   #0x9, &0x70a
     107                              ADC_Thumb = ADCMEM0;
    \   000050   92421207.... MOV.W   &0x712, &ADC_Thumb
-    108                              ADC_Thumb = ADC_Thumb >> (10-THUMB_RES);
+    108                              ADC_Thumb = ADC_Thumb >> (10 - THUMB_RES);
    \   000056   1F42....     MOV.W   &ADC_Thumb, R15
    \   00005A   5F0F         RRUM.W  #0x4, R15
    \   00005C   5F03         RRUM.W  #0x1, R15
@@ -496,7 +496,8 @@ C:\Users\saad\Documents\ece-306\Project 09\adc.c
    \   000010   1F53         ADD.W   #0x1, R15
    \   000012   F93F         JMP     ??HEXtoBCD_0
     178              }
-    179              display_line[line][start] = 0x30 + value;
+    179          
+    180              display_line[line][start] = 0x30 + value;
    \                     ??HEXtoBCD_3:
    \   000014   0E12         PUSH.W  R14
    \   000016   C14F0000     MOV.B   R15, 0(SP)
@@ -507,21 +508,21 @@ C:\Users\saad\Documents\ece-306\Project 09\adc.c
    \   000022   49180B5D     ADDX.W  R13, R11
    \   000026   0B5A         ADD.W   R10, R11
    \   000028   CB4E....     MOV.B   R14, display_line(R11)
-    180              value = 0;
+    181              value = 0;
    \   00002C   0F43         MOV.W   #0x0, R15
-    181          
-    182              while(hex_value > 99) {
+    182          
+    183              while(hex_value > 99) {
    \                     ??HEXtoBCD_1:
    \   00002E   3C906400     CMP.W   #0x64, R12
    \   000032   0438         JL      ??HEXtoBCD_4
-    183                  hex_value -= 100;
+    184                  hex_value -= 100;
    \   000034   3C509CFF     ADD.W   #0xff9c, R12
-    184                  value += 1;
+    185                  value += 1;
    \   000038   1F53         ADD.W   #0x1, R15
    \   00003A   F93F         JMP     ??HEXtoBCD_1
-    185              }
-    186          
-    187              display_line[line][start + 1] = 0x30 + value;
+    186              }
+    187          
+    188              display_line[line][start + 1] = 0x30 + value;
    \                     ??HEXtoBCD_4:
    \   00003C   0B12         PUSH.W  R11
    \   00003E   C14F0000     MOV.B   R15, 0(SP)
@@ -533,21 +534,21 @@ C:\Users\saad\Documents\ece-306\Project 09\adc.c
    \   00004E   0E4A         MOV.W   R10, R14
    \   000050   0E58         ADD.W   R8, R14
    \   000052   CE4B....     MOV.B   R11, display_line + 1(R14)
-    188              value = 0;
+    189              value = 0;
    \   000056   0F43         MOV.W   #0x0, R15
-    189          
-    190              while(hex_value > 9) {
+    190          
+    191              while(hex_value > 9) {
    \                     ??HEXtoBCD_2:
    \   000058   3C900A00     CMP.W   #0xa, R12
    \   00005C   0438         JL      ??HEXtoBCD_5
-    191                  hex_value -= 10;
+    192                  hex_value -= 10;
    \   00005E   3C50F6FF     ADD.W   #0xfff6, R12
-    192                  value += 1;
+    193                  value += 1;
    \   000062   1F53         ADD.W   #0x1, R15
    \   000064   F93F         JMP     ??HEXtoBCD_2
-    193              }
-    194          
-    195              display_line[line][start + 2] = 0x30 + value;
+    194              }
+    195          
+    196              display_line[line][start + 2] = 0x30 + value;
    \                     ??HEXtoBCD_5:
    \   000066   0B12         PUSH.W  R11
    \   000068   C14F0000     MOV.B   R15, 0(SP)
@@ -559,7 +560,7 @@ C:\Users\saad\Documents\ece-306\Project 09\adc.c
    \   000078   0E4A         MOV.W   R10, R14
    \   00007A   0E58         ADD.W   R8, R14
    \   00007C   CE4B....     MOV.B   R11, display_line + 2(R14)
-    196              display_line[line][start + 3] = 0x30 + hex_value;
+    197              display_line[line][start + 3] = 0x30 + hex_value;
    \   000080   0B12         PUSH.W  R11
    \   000082   C14C0000     MOV.B   R12, 0(SP)
    \   000086   3B41         POP.W   R11
@@ -570,14 +571,14 @@ C:\Users\saad\Documents\ece-306\Project 09\adc.c
    \   000092   0E4A         MOV.W   R10, R14
    \   000094   0E58         ADD.W   R8, R14
    \   000096   CE4B....     MOV.B   R11, display_line + 3(R14)
-    197          }
+    198          }
    \   00009A   3817         POPM.W  #0x4, R11
    \   00009C   1001         RETA
 
    \                                 In  segment INTVEC, offset 0x3a, root
    \                     `??ADC_ISR::??INTVEC 58`:
    \   00003A   ....         DC16    ADC_ISR
-    198          
+    199          
 
    Maximum stack usage in bytes:
 

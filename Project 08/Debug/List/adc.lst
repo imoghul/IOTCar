@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          30/Mar/2022  20:04:25
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          07/Apr/2022  15:48:23
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 08\adc.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW5501.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW8DA6.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 08\adc.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 08\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 08\Debug\Obj" --no_cse
@@ -364,7 +364,7 @@ C:\Users\saad\Documents\ece-306\Project 08\adc.c
    \   00005E   824F....     MOV.W   R15, &ADC_Thumb
     110                              ADCCTL0 |= ADCSC;
    \   000062   92D30007     BIS.W   #0x1, &0x700
-    111                              HEXtoBCD(ADC_Thumb,0,0);
+    111                              HEXtoBCD(ADC_Thumb, 0, 0);
    \   000066   0E43         MOV.W   #0x0, R14
    \   000068   0D43         MOV.W   #0x0, R13
    \   00006A   1C42....     MOV.W   &ADC_Thumb, R12

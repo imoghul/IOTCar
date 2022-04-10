@@ -103,7 +103,7 @@ void main(void) {
     Init_DAC();
     Init_ADC();
     Init_Serial_UCA();
-    EmitterOn();
+    EMITTER_ON;
     // Place the contents of what you want on the display, in between the quotes
     // Limited to 10 characters per line
     strcpy(display_line[0], "          ");

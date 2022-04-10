@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          01/Apr/2022  19:00:20
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:25:36
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\ports.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW6334.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWC490.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\ports.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -413,8 +413,8 @@ C:\Users\saad\Documents\ece-306\Project 09\ports.c
    \   00002C   F2C22C02     BIC.B   #0x8, &0x22c
     173              P3DIR |= LCD_BACKLITE;
    \   000030   F2D22402     BIS.B   #0x8, &0x224
-    174              P3OUT |= LCD_BACKLITE;
-   \   000034   F2D22202     BIS.B   #0x8, &0x222
+    174              P3OUT &= ~LCD_BACKLITE;
+   \   000034   F2C22202     BIC.B   #0x8, &0x222
     175          
     176              switch(smclk) {
    \   000038   4E4C         MOV.B   R12, R14

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Apr/2022  21:46:32
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:25:39
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\timers.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWC5A4.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWD364.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\timers.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -579,12 +579,13 @@ C:\Users\saad\Documents\ece-306\Project 09\timers.c
     179              //----------------------------------------------------------------------------
     180              P3OUT |= IOT_EN_CPU;
    \   000002   F2D080002202 BIS.B   #0x80, &0x222
-    181              if(state != END) {
+    181          
+    182              if(state != END) {
    \   000008   F2904500.... CMP.B   #0x45, &state
    \   00000E   1024         JEQ     ??Timer1_B0_ISR_0
-    182                      stopwatchUpdated = 1;
+    183                  stopwatchUpdated = 1;
    \   000010   9243....     MOV.W   #0x1, &stopwatchUpdated
-    183                      timeElapsed += .2;
+    184                  timeElapsed += .2;
    \   000014   1C42....     MOV.W   &timeElapsed, R12
    \   000018   1D42....     MOV.W   &timeElapsed + 2, R13
    \   00001C   3E40CDCC     MOV.W   #0xcccd, R14
@@ -592,29 +593,30 @@ C:\Users\saad\Documents\ece-306\Project 09\timers.c
    \   000024   ........     CALLA   #_Add32f
    \   000028   824C....     MOV.W   R12, &timeElapsed
    \   00002C   824D....     MOV.W   R13, &timeElapsed + 2
-    184              }
-    185              update_display = 1;
+    185              }
+    186          
+    187              update_display = 1;
    \                     ??Timer1_B0_ISR_0:
    \   000030   D243....     MOV.B   #0x1, &update_display
-    186              TB1CCR0 += TB1CCR0_INTERVAL;
+    188              TB1CCR0 += TB1CCR0_INTERVAL;
    \   000034   B25050C3D203 ADD.W   #0xc350, &0x3d2
-    187              //----------------------------------------------------------------------------
-    188          }
+    189              //----------------------------------------------------------------------------
+    190          }
    \   00003A   3C17         POPM.W  #0x4, R15
    \   00003C   0013         RETI
    \   00003E                REQUIRE _A_PBOUT_L
    \   00003E                REQUIRE _A_TB1CCR0_L
-    189          
-    190          #pragma vector=TIMER1_B1_VECTOR
+    191          
+    192          #pragma vector=TIMER1_B1_VECTOR
 
    \                                 In  segment ISR_CODE, align 2
-    191          __interrupt void TIMER1_B1_ISR(void) {
+    193          __interrupt void TIMER1_B1_ISR(void) {
    \                     TIMER1_B1_ISR:
    \   000000   0F12         PUSH.W  R15
-    192              //----------------------------------------------------------------------------
-    193              // TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
     194              //----------------------------------------------------------------------------
-    195              switch(__even_in_range(TB1IV, 14)) {
+    195              // TimerB0 1-2, Overflow Interrupt Vector (TBIV) handler
+    196              //----------------------------------------------------------------------------
+    197              switch(__even_in_range(TB1IV, 14)) {
    \   000002   1F42EE03     MOV.W   &0x3ee, R15
    \   000006   E00F         ADDA    R15, PC
    \                     `?<Jumptable for TIMER1_B1_ISR>_0`:
@@ -626,39 +628,39 @@ C:\Users\saad\Documents\ece-306\Project 09\timers.c
    \   000012   0D3C         JMP     ??TIMER1_B1_ISR_1
    \   000014   0C3C         JMP     ??TIMER1_B1_ISR_1
    \   000016   0B3C         JMP     ??TIMER1_B1_ISR_1
-    196                  case 0:
-    197                      break; // No interrupt
-    198          
-    199                  case 2: // Right Motor
-    200                      rightSwitchable = 1;
+    198                  case 0:
+    199                      break; // No interrupt
+    200          
+    201                  case 2: // Right Motor
+    202                      rightSwitchable = 1;
    \                     ??TIMER1_B1_ISR_2:
    \   000018   9243....     MOV.W   #0x1, &rightSwitchable
-    201                      TB1CCTL1 &= ~CCIE;
+    203                      TB1CCTL1 &= ~CCIE;
    \   00001C   B2C01000C403 BIC.W   #0x10, &0x3c4
-    202          
-    203                      break;
-   \   000022   053C         JMP     ??TIMER1_B1_ISR_1
     204          
-    205                  case 4: // Left Motor
+    205                      break;
+   \   000022   053C         JMP     ??TIMER1_B1_ISR_1
     206          
-    207                      leftSwitchable = 1;
+    207                  case 4: // Left Motor
+    208          
+    209                      leftSwitchable = 1;
    \                     ??TIMER1_B1_ISR_3:
    \   000024   9243....     MOV.W   #0x1, &leftSwitchable
-    208                      TB1CCTL2 &= ~CCIE;
+    210                      TB1CCTL2 &= ~CCIE;
    \   000028   B2C01000C603 BIC.W   #0x10, &0x3c6
-    209          
-    210                      break;
     211          
-    212                  case 14: // overflow
+    212                      break;
     213          
-    214                      break;
+    214                  case 14: // overflow
     215          
-    216                  default:
-    217                      break;
-    218              }
-    219          
-    220              //----------------------------------------------------------------------------
-    221          }
+    216                      break;
+    217          
+    218                  default:
+    219                      break;
+    220              }
+    221          
+    222              //----------------------------------------------------------------------------
+    223          }
    \                     ??TIMER1_B1_ISR_1:
    \   00002E   3F41         POP.W   R15
    \   000030   0013         RETI

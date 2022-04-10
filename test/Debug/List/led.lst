@@ -1,0 +1,121 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:39:49
+# Copyright 1996-2021 IAR Systems AB.
+# PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
+#
+#    __rt_version  =  3
+#    __double_size =  32
+#    __reg_r4      =  free
+#    __reg_r5      =  free
+#    __pic         =  no
+#    __core        =  430X
+#    __data_model  =  small
+#    __code_model  =  large
+#    Source file   =  C:\Users\saad\Documents\ece-306\test\led.c
+#    Command line  =  
+#        -f C:\Users\saad\AppData\Local\Temp\EWC9A8.tmp
+#        (C:\Users\saad\Documents\ece-306\test\led.c -lC
+#        C:\Users\saad\Documents\ece-306\test\Debug\List -o
+#        C:\Users\saad\Documents\ece-306\test\Debug\Obj --no_cse --no_unroll
+#        --no_inline --no_code_motion --no_tbaa --debug -D__MSP430FR2355__ -e
+#        --double=32 --dlib_config "C:\Program Files\IAR Systems\Embedded
+#        Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./ --core=430X
+#        --data_model=small -On --multiplier=32 --hw_workaround=CPU40
+#        --code_model=large)
+#    Locale        =  English_USA.1252
+#    List file     =  C:\Users\saad\Documents\ece-306\test\Debug\List\led.lst
+#    Object file   =  C:\Users\saad\Documents\ece-306\test\Debug\Obj\led.r43
+#
+###############################################################################
+
+C:\Users\saad\Documents\ece-306\test\led.c
+      1          //==============================================================================
+      2          // File Name : led.c
+      3          //
+      4          // Description: This file contains mission code
+      5          //
+      6          // Author: Ibrahim Moghul
+      7          // Date: Feb 2022
+      8          // Compiler: Built with IAR Embedded Workbench Version: 7.21.1
+      9          //==============================================================================
+     10          
+     11          #include "led.h"
+     12          #include "init.h"
+     13          #include "functions.h"
+     14          #include "ports.h"
+     15          
+     16          
+     17          extern volatile unsigned char update_display;
+     18          extern volatile unsigned char display_changed;
+     19          extern volatile unsigned int Time_Sequence;
+     20          extern volatile char one_time;
+     21          extern volatile unsigned int cycle_count;
+     22          extern volatile unsigned int stopwatch_milliseconds;
+     23          extern volatile unsigned int stopwatch_seconds;
+     24          
+     25          
+     26          //===========================================================================
+     27          // Function name: Display_Process
+     28          //
+     29          // Description: Display output to LCD
+     30          //
+     31          // Passed : no variables passed
+     32          // Locals: no variables declared
+     33          // Returned: no values returned
+     34          // Globals: display_changed
+     35          // update_display
+     36          //
+     37          // Author: Jim Carlson
+     38          // Date: Feb 2022
+     39          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     40          //===========================================================================
+
+   \                                 In  segment CODE, align 2
+     41          void Display_Process(void) {
+   \                     Display_Process:
+     42              if(update_display) {
+   \   000000   C293....     CMP.B   #0x0, &update_display
+   \   000004   0D24         JEQ     ??Display_Process_0
+     43                  update_display = 0;
+   \   000006   C243....     MOV.B   #0x0, &update_display
+     44          
+     45                  if(display_changed) {
+   \   00000A   C293....     CMP.B   #0x0, &display_changed
+   \   00000E   0824         JEQ     ??Display_Process_0
+     46                      display_changed = 0;
+   \   000010   C243....     MOV.B   #0x0, &display_changed
+     47                      Display_Update(0, 0, 0, 0);
+   \   000014   4F43         MOV.B   #0x0, R15
+   \   000016   4E43         MOV.B   #0x0, R14
+   \   000018   4D43         MOV.B   #0x0, R13
+   \   00001A   4C43         MOV.B   #0x0, R12
+   \   00001C   ........     CALLA   #Display_Update
+     48                  }
+     49              }
+     50          }
+   \                     ??Display_Process_0:
+   \   000020   1001         RETA
+     51          
+
+   Maximum stack usage in bytes:
+
+   CSTACK Function
+   ------ --------
+      4   Display_Process
+        4   -> Display_Update
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      34  Display_Process
+
+ 
+ 34 bytes in segment CODE
+ 
+ 34 bytes of CODE memory
+
+Errors: none
+Warnings: none

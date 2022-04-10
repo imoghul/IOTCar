@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          28/Mar/2022  14:12:00
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          07/Apr/2022  15:48:26
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 08\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWDBB3.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW9BCE.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 08\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 08\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 08\Debug\Obj" --no_cse
@@ -156,7 +156,7 @@ C:\Users\saad\Documents\ece-306\Project 08\main.c
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-     57          unsigned volatile UCA0_index,UCA1_index;
+     57          unsigned volatile UCA0_index, UCA1_index;
    \                     UCA0_index:
    \   000000                DS8 2
 
@@ -166,7 +166,7 @@ C:\Users\saad\Documents\ece-306\Project 08\main.c
    \   000000                DS8 2
      58          extern volatile char USB0_Char_Tx[];
      59          extern volatile unsigned int pb0_buffered;
-     60          extern volatile unsigned int usb0_rx_wr,usb0_rx_rd;
+     60          extern volatile unsigned int usb0_rx_wr, usb0_rx_rd;
      61          extern volatile unsigned int serialState;
      62          //===========================================================================
      63          // Function name: Main
@@ -271,72 +271,71 @@ C:\Users\saad\Documents\ece-306\Project 08\main.c
     130                    display_line[3][5]=(int)(10*(timeElapsed-(int)timeElapsed))+0x30;
     131                    display_changed = 1;
     132                  }*/
-    133                  
+    133          
     134                  //strcpy(display_line[2], "   Baud   ");
-    135                  
-    136                  
-    137                  if(UCA0BRW == 4 && UCA0MCTLW == 0x5551){
+    135          
+    136          
+    137                  if(UCA0BRW == 4 && UCA0MCTLW == 0x5551) {
    \   000070   A2920605     CMP.W   #0x4, &0x506
    \   000074   0D20         JNE     ??main_2
    \   000076   B29051550805 CMP.W   #0x5551, &0x508
    \   00007C   0920         JNE     ??main_2
-    138                    strcpy(display_line[2], "  115200  ");
+    138                      strcpy(display_line[2], "  115200  ");
    \   00007E   3D40....     MOV.W   #`?<Constant "  115200  ">`, R13
    \   000082   3C40....     MOV.W   #display_line + 22, R12
    \   000086   ........     CALLA   #strcpy
-    139                    display_changed=1;
+    139                      display_changed = 1;
    \   00008A   D243....     MOV.B   #0x1, &display_changed
    \   00008E   0F3C         JMP     ??main_1
-    140                  }
-    141                  else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11){
+    140                  } else if(UCA0BRW == 1 && UCA0MCTLW == 0x4A11) {
    \                     ??main_2:
    \   000090   92930605     CMP.W   #0x1, &0x506
    \   000094   0C20         JNE     ??main_1
    \   000096   B290114A0805 CMP.W   #0x4a11, &0x508
    \   00009C   0820         JNE     ??main_1
-    142                    strcpy(display_line[2], "  460800  ");
+    141                      strcpy(display_line[2], "  460800  ");
    \   00009E   3D40....     MOV.W   #`?<Constant "  460800  ">`, R13
    \   0000A2   3C40....     MOV.W   #display_line + 22, R12
    \   0000A6   ........     CALLA   #strcpy
-    143                    display_changed=1;
+    142                      display_changed = 1;
    \   0000AA   D243....     MOV.B   #0x1, &display_changed
-    144                  }
-    145                  
-    146                  /*if(serialState==1){
-    147                    strcpy(display_line[0], " TRANSMIT ");
-    148                    display_changed=1;
-    149                  }
-    150                  else if(serialState==2) {
-    151                    strcpy(display_line[0], " RECIEVED ");
-    152                    display_changed=1;
-    153                  }*/
-    154                    
-    155                  
-    156                  if(cycle_count==0){
+    143                  }
+    144          
+    145                  /*if(serialState==1){
+    146                    strcpy(display_line[0], " TRANSMIT ");
+    147                    display_changed=1;
+    148                  }
+    149                  else if(serialState==2) {
+    150                    strcpy(display_line[0], " RECIEVED ");
+    151                    display_changed=1;
+    152                  }*/
+    153          
+    154          
+    155                  if(cycle_count == 0) {
    \                     ??main_1:
    \   0000AE   8293....     CMP.W   #0x0, &cycle_count
    \   0000B2   0220         JNE     ??main_3
-    157                    display_changed = 1;
+    156                      display_changed = 1;
    \   0000B4   D243....     MOV.B   #0x1, &display_changed
-    158                  }
-    159          
-    160                  if(Last_Time_Sequence != Time_Sequence) {
+    157                  }
+    158          
+    159                  if(Last_Time_Sequence != Time_Sequence) {
    \                     ??main_3:
    \   0000B8   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
    \   0000BE   D027         JEQ     ??main_0
-    161                      Last_Time_Sequence = Time_Sequence;
+    160                      Last_Time_Sequence = Time_Sequence;
    \   0000C0   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
-    162                      cycle_count++;
+    161                      cycle_count++;
    \   0000C6   9253....     ADD.W   #0x1, &cycle_count
-    163                      time_change = 1;
+    162                      time_change = 1;
    \   0000CA   9243....     MOV.W   #0x1, &time_change
-    164          
-    165                      if(cycle_count == TIME_SEQUENCE_MAX) {
+    163          
+    164                      if(cycle_count == TIME_SEQUENCE_MAX) {
    \   0000CE   B290FA00.... CMP.W   #0xfa, &cycle_count
    \   0000D4   C523         JNE     ??main_0
-    166                          cycle_count = 0;
+    165                          cycle_count = 0;
    \   0000D6   8243....     MOV.W   #0x0, &cycle_count
-    167                          stopwatch_seconds++;
+    166                          stopwatch_seconds++;
    \   0000DA   9253....     ADD.W   #0x1, &stopwatch_seconds
    \   0000DE   C03F         JMP     ??main_0
    \   0000E0   0343         NOP
@@ -344,12 +343,12 @@ C:\Users\saad\Documents\ece-306\Project 08\main.c
    \   0000E2                REQUIRE _A_PBOUT_L
    \   0000E2                REQUIRE _A_UCA0BRW_L
    \   0000E2                REQUIRE _A_UCA0MCTLW_L
-    168                      }
-    169                  }
-    170              }
-    171          
-    172              //------------------------------------------------------------------------------
-    173          }
+    167                      }
+    168                  }
+    169              }
+    170          
+    171              //------------------------------------------------------------------------------
+    172          }
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "WAITING...">`:
@@ -370,7 +369,7 @@ C:\Users\saad\Documents\ece-306\Project 08\main.c
    \                     `?<Constant "  460800  ">`:
    \   000000   202034363038 DC8 "  460800  "
    \            3030202000  
-    174          
+    173          
 
    Maximum stack usage in bytes:
 

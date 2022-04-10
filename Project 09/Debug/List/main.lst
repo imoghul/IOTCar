@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Apr/2022  21:46:31
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:25:32
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWC15D.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWB8E9.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -154,7 +154,7 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-     60          unsigned volatile UCA0_index,UCA1_index;
+     60          unsigned volatile UCA0_index, UCA1_index;
    \                     UCA0_index:
    \   000000                DS8 2
 
@@ -164,9 +164,9 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
    \   000000                DS8 2
      61          extern volatile char USB0_Char_Tx[];
      62          extern volatile unsigned int pb0_buffered;
-     63          extern volatile unsigned int usb0_rx_wr,usb0_rx_rd;
+     63          extern volatile unsigned int usb0_rx_wr, usb0_rx_rd;
      64          extern volatile unsigned int serialState;
-     65          extern menu resistor,mainMenu;
+     65          extern menu resistor, mainMenu;
      66          //===========================================================================
      67          // Function name: Main
      68          //
@@ -242,7 +242,7 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
    \   000058   ........     CALLA   #strcpy
     113              display_changed = TRUE;
    \   00005C   D243....     MOV.B   #0x1, &display_changed
-    114              
+    114          
     115              //------------------------------------------------------------------------------
     116              // Begining of the "While" Operating System
     117              //------------------------------------------------------------------------------
@@ -261,7 +261,7 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
    \   000064   ........     CALLA   #MotorSafety
     128                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
    \   000068   D2E32202     XOR.B   #0x1, &0x222
-    129                  
+    129          
     130          
     131                  if(Last_Time_Sequence != Time_Sequence) {
    \   00006C   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence

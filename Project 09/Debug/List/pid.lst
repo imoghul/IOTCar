@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          05/Apr/2022  18:55:08
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:25:34
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\pid.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWD918.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWC144.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\pid.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -139,7 +139,7 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
      42              if(speed > max)speed = max;
      43          
      44              if(speed < min)speed = min;*/
-     45            
+     45          
      46              long res = val + increment;
    \   000008   0E4B         MOV.W   R11, R14
    \   00000A   0E56         ADD.W   R6, R14
@@ -147,8 +147,8 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \   00000E   0F5F         RLA.W   R15
    \   000010   0F7F         SUBC.W  R15, R15
    \   000012   3FE3         XOR.W   #0xffff, R15
-     47              
-     48              if(res>max) res = max;
+     47          
+     48              if(res > max) res = max;
    \   000014   084D         MOV.W   R13, R8
    \   000016   0948         MOV.W   R8, R9
    \   000018   0959         RLA.W   R9
@@ -167,7 +167,8 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \   000030   39E3         XOR.W   #0xffff, R9
    \   000032   0E48         MOV.W   R8, R14
    \   000034   0F49         MOV.W   R9, R15
-     49              if(res<min) res = min;
+     49          
+     50              if(res < min) res = min;
    \                     ??additionSafe_1:
    \   000036   084A         MOV.W   R10, R8
    \   000038   0948         MOV.W   R8, R9
@@ -187,22 +188,22 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \   000052   39E3         XOR.W   #0xffff, R9
    \   000054   0E48         MOV.W   R8, R14
    \   000056   0F49         MOV.W   R9, R15
-     50          
-     51              return (int)res;
+     51          
+     52              return (int)res;
    \                     ??additionSafe_3:
    \   000058   0C4E         MOV.W   R14, R12
    \   00005A   5617         POPM.W  #0x6, R11
    \   00005C   1001         RETA
-     52          }
-     53          
+     53          }
+     54          
 
    \                                 In  segment CODE, align 2
-     54          int multSafe(int a, int b) {
+     55          int multSafe(int a, int b) {
    \                     multSafe:
    \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
-     55              if(a == 0 || b == 0)return 0;
+     56              if(a == 0 || b == 0)return 0;
    \   000006   0A93         CMP.W   #0x0, R10
    \   000008   0224         JEQ     ??multSafe_3
    \   00000A   0B93         CMP.W   #0x0, R11
@@ -210,8 +211,8 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \                     ??multSafe_3:
    \   00000E   0C43         MOV.W   #0x0, R12
    \   000010   353C         JMP     ??multSafe_0
-     56          
-     57              int res = a * b;
+     57          
+     58              int res = a * b;
    \                     ??multSafe_4:
    \   000012   0212         PUSH.W  SR
    \   000014   32C2         DINT
@@ -221,8 +222,8 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \   000020   1842....     MOV.W   &__iar_HWMUL + 10, R8          // RESLO
    \   000024   0343         NOP
    \   000026   3241         POP.W   SR
-     58          
-     59              if(a == res / b)return res;
+     59          
+     60              if(a == res / b)return res;
    \   000028   0C48         MOV.W   R8, R12
    \   00002A   0E4B         MOV.W   R11, R14
    \   00002C   ........     CALLA   #?DivMod16s
@@ -230,7 +231,7 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \   000032   0220         JNE     ??multSafe_5
    \   000034   0C48         MOV.W   R8, R12
    \   000036   223C         JMP     ??multSafe_0
-     60              else return (INT_MAX-1) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
+     61              else return (INT_MAX - 1) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
    \                     ??multSafe_5:
    \   000038   0A93         CMP.W   #0x0, R10
    \   00003A   0234         JGE     ??multSafe_6
@@ -266,7 +267,7 @@ C:\Users\saad\Documents\ece-306\Project 09\pid.c
    \                     ??multSafe_0:
    \   00007C   3817         POPM.W  #0x4, R11
    \   00007E   1001         RETA
-     61          }
+     62          }
 
    Maximum stack usage in bytes:
 
