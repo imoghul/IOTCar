@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:49:09
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:53:08
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW5A07.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW14B.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --no_cse
@@ -217,32 +217,36 @@ C:\Users\saad\Documents\ece-306\Project 10\main.c
    \   000010   ........     CALLA   #Init_Timers
     101              Init_LCD();                          // Initialize LCD
    \   000014   ........     CALLA   #Init_LCD
-    102              //Init_REF();
-    103              //Init_DAC();
-    104              //Init_ADC();
-    105              //Init_Serial_UCA();
+    102              Init_REF();
+   \   000018   ........     CALLA   #Init_REF
+    103              Init_DAC();
+   \   00001C   ........     CALLA   #Init_DAC
+    104              Init_ADC();
+   \   000020   ........     CALLA   #Init_ADC
+    105              Init_Serial_UCA();
+   \   000024   ........     CALLA   #Init_Serial_UCA
     106              EMITTER_ON;
-   \   000018   F2D010004302 BIS.B   #0x10, &0x243
+   \   000028   F2D010004302 BIS.B   #0x10, &0x243
     107              // Place the contents of what you want on the display, in between the quotes
     108              // Limited to 10 characters per line
     109              strcpy(display_line[0], "          ");
-   \   00001E   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000022   3C40....     MOV.W   #display_line, R12
-   \   000026   ........     CALLA   #strcpy
+   \   00002E   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000032   3C40....     MOV.W   #display_line, R12
+   \   000036   ........     CALLA   #strcpy
     110              strcpy(display_line[1], "          ");
-   \   00002A   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   00002E   3C40....     MOV.W   #display_line + 11, R12
-   \   000032   ........     CALLA   #strcpy
+   \   00003A   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00003E   3C40....     MOV.W   #display_line + 11, R12
+   \   000042   ........     CALLA   #strcpy
     111              strcpy(display_line[2], "          ");
-   \   000036   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   00003A   3C40....     MOV.W   #display_line + 22, R12
-   \   00003E   ........     CALLA   #strcpy
+   \   000046   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00004A   3C40....     MOV.W   #display_line + 22, R12
+   \   00004E   ........     CALLA   #strcpy
     112              strcpy(display_line[3], "          ");
-   \   000042   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000046   3C40....     MOV.W   #display_line + 33, R12
-   \   00004A   ........     CALLA   #strcpy
+   \   000052   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000056   3C40....     MOV.W   #display_line + 33, R12
+   \   00005A   ........     CALLA   #strcpy
     113              display_changed = TRUE;
-   \   00004E   D243....     MOV.B   #0x1, &display_changed
+   \   00005E   D243....     MOV.B   #0x1, &display_changed
     114          
     115              //------------------------------------------------------------------------------
     116              // Begining of the "While" Operating System
@@ -250,45 +254,52 @@ C:\Users\saad\Documents\ece-306\Project 10\main.c
     118              while(ALWAYS) {                       // Can the Operating system run
     119                  Display_Process();                  // Update Display
    \                     ??main_0:
-   \   000052   ........     CALLA   #Display_Process
-    120                  //SerialProcess();
+   \   000062   ........     CALLA   #Display_Process
+    120                  SerialProcess();
+   \   000066   ........     CALLA   #SerialProcess
     121          
-    122                  //if(!Init_IOT()) continue;
+    122                  if(!Init_IOT()) continue;
+   \   00006A   ........     CALLA   #Init_IOT
+   \   00006E   0C93         CMP.W   #0x0, R12
+   \   000070   F827         JEQ     ??main_0
     123          
-    124                  //IOTBufferCommands();
-    125                  //ProcessCommands();
+    124                  IOTBufferCommands();
+   \   000072   ........     CALLA   #IOTBufferCommands
+    125                  ProcessCommands();
+   \   000076   ........     CALLA   #ProcessCommands
     126                  StateMachine();                     // Run wheels state machine
-   \   000056   ........     CALLA   #StateMachine
-    127                  //MenuProcess();
+   \   00007A   ........     CALLA   #StateMachine
+    127                  MenuProcess();
+   \   00007E   ........     CALLA   #MenuProcess
     128                  MotorSafety();
-   \   00005A   ........     CALLA   #MotorSafety
+   \   000082   ........     CALLA   #MotorSafety
     129                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-   \   00005E   D2E32202     XOR.B   #0x1, &0x222
+   \   000086   D2E32202     XOR.B   #0x1, &0x222
     130          
     131          
     132                  if(Last_Time_Sequence != Time_Sequence) {
-   \   000062   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
-   \   000068   F427         JEQ     ??main_0
+   \   00008A   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
+   \   000090   E827         JEQ     ??main_0
     133                      Last_Time_Sequence = Time_Sequence;
-   \   00006A   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
+   \   000092   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
     134                      time_change = 1;
-   \   000070   9243....     MOV.W   #0x1, &time_change
+   \   000098   9243....     MOV.W   #0x1, &time_change
     135          
     136                      if(++cycle_count == TIME_SEQUENCE_MAX) {
-   \   000074   1F42....     MOV.W   &cycle_count, R15
-   \   000078   1F53         ADD.W   #0x1, R15
-   \   00007A   824F....     MOV.W   R15, &cycle_count
-   \   00007E   3F90FA00     CMP.W   #0xfa, R15
-   \   000082   E723         JNE     ??main_0
+   \   00009C   1F42....     MOV.W   &cycle_count, R15
+   \   0000A0   1F53         ADD.W   #0x1, R15
+   \   0000A2   824F....     MOV.W   R15, &cycle_count
+   \   0000A6   3F90FA00     CMP.W   #0xfa, R15
+   \   0000AA   DB23         JNE     ??main_0
     137                          cycle_count = 0;
-   \   000084   8243....     MOV.W   #0x0, &cycle_count
+   \   0000AC   8243....     MOV.W   #0x0, &cycle_count
     138                          stopwatch_seconds++;
-   \   000088   9253....     ADD.W   #0x1, &stopwatch_seconds
-   \   00008C   E23F         JMP     ??main_0
-   \   00008E   0343         NOP
-   \   000090                REQUIRE _A_PM5CTL0_L
-   \   000090                REQUIRE _A_PCOUT_L
-   \   000090                REQUIRE _A_PBOUT_L
+   \   0000B0   9253....     ADD.W   #0x1, &stopwatch_seconds
+   \   0000B4   D63F         JMP     ??main_0
+   \   0000B6   0343         NOP
+   \   0000B8                REQUIRE _A_PM5CTL0_L
+   \   0000B8                REQUIRE _A_PCOUT_L
+   \   0000B8                REQUIRE _A_PBOUT_L
     139                      }
     140                  }
     141              }
@@ -308,12 +319,21 @@ C:\Users\saad\Documents\ece-306\Project 10\main.c
    ------ --------
       4   main
         4   -> Display_Process
+        4   -> IOTBufferCommands
+        4   -> Init_ADC
         4   -> Init_Clocks
         4   -> Init_Conditions
+        4   -> Init_DAC
+        4   -> Init_IOT
         4   -> Init_LCD
         4   -> Init_Ports
+        4   -> Init_REF
+        4   -> Init_Serial_UCA
         4   -> Init_Timers
+        4   -> MenuProcess
         4   -> MotorSafety
+        4   -> ProcessCommands
+        4   -> SerialProcess
         4   -> StateMachine
         4   -> strcpy
 
@@ -333,7 +353,7 @@ C:\Users\saad\Documents\ece-306\Project 10\main.c
        1  chosen_direction
        2  cycle_count
        1  display_mode
-     144  main
+     184  main
        1  slow_input_down
        2  stopwatch_milliseconds
        2  stopwatch_seconds
@@ -341,12 +361,12 @@ C:\Users\saad\Documents\ece-306\Project 10\main.c
        2  time_change
 
  
- 144 bytes in segment CODE
+ 184 bytes in segment CODE
    6 bytes in segment DATA16_AN
   11 bytes in segment DATA16_C
   20 bytes in segment DATA16_Z
  
- 144 bytes of CODE  memory
+ 184 bytes of CODE  memory
   11 bytes of CONST memory
   20 bytes of DATA  memory (+ 6 bytes shared)
 
