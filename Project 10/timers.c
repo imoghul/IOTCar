@@ -26,12 +26,12 @@ void Init_Timers(void) {
 }
 
 void Init_Timer_B0(void) {
-    TB0CTL = TBSSEL__SMCLK; // SMCLK source
+    /*TB0CTL = TBSSEL__SMCLK; // SMCLK source
     TB0CTL |= TBCLR; // Resets TB0R, clock divider, count direction
     TB0CTL |= MC__CONTINOUS; // Continuous up
-    TB0CTL |= ID__2; // Divide clock by 2
+    TB0CTL |= ID__2; // Divide clock by 2*/
   
-    //TB0CTL |= TBSSEL__SMCLK | TBCLR | MC__CONTINOUS | ID__2;
+    TB0CTL = TBSSEL__SMCLK | TBCLR | MC__CONTINOUS | ID__2;
     
     TB0EX0 = TBIDEX__8; // Divide clock by an additional 8
     
@@ -49,12 +49,12 @@ void Init_Timer_B0(void) {
 }
 
 void Init_Timer_B1(void) {
-    TB1CTL = TBSSEL__SMCLK; // SMCLK source
+    /*TB1CTL = TBSSEL__SMCLK; // SMCLK source
     TB1CTL |= TBCLR; // Resets TB0R, clock divider, count direction
     TB1CTL |= MC__CONTINOUS; // Continuous up
-    TB1CTL |= ID__4; // Divide clock by 4
+    TB1CTL |= ID__4; // Divide clock by 4*/
   
-    //TB0CTL |= TBSSEL__SMCLK | TBCLR | MC__CONTINOUS | ID__4;
+    TB1CTL = TBSSEL__SMCLK | TBCLR | MC__CONTINOUS | ID__4;
     
     TB1EX0 = TBIDEX__8; // Divide clock by an additional 8
     
@@ -72,11 +72,11 @@ void Init_Timer_B1(void) {
 }
 
 void Init_Timer_B3(void) {
-    TB3CTL = TBSSEL__SMCLK;
+    /*TB3CTL = TBSSEL__SMCLK;
     TB3CTL |= MC__UP;
-    TB3CTL |= TBCLR;
+    TB3CTL |= TBCLR;*/
   
-    //TB3CTL |= TBCLR | MC__UP | TBSSEL__SMCLK;
+    TB3CTL = TBCLR | MC__UP | TBSSEL__SMCLK;
 
     TB3CCR0 = WHEEL_PERIOD;
 
