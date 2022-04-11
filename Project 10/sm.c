@@ -79,17 +79,17 @@ void Turn() {
 
         case 1: // gotta remove this
           if(enteringDirection == MOVING_LEFT){
-                if(Drive_Path(STRAIGHT_RIGHT >> 1, -STRAIGHT_LEFT >> 1, 20)) stateCounter++;
+                if(Drive_Path(RIGHT_MAX, -LEFT_MAX, 20)) stateCounter++;
           }else if(enteringDirection == MOVING_RIGHT)
-                    if(Drive_Path(-STRAIGHT_RIGHT >> 1, STRAIGHT_LEFT >> 1, 20)) stateCounter++;
+                    if(Drive_Path(-RIGHT_MAX, LEFT_MAX, 20)) stateCounter++;
 
             break;
 
         case 2:
             if (((ADC_Left_Detect <= LEFT_GRAY_DETECT || ADC_Right_Detect <= RIGHT_GRAY_DETECT))) {
-                if(enteringDirection == MOVING_LEFT)Drive_Path(STRAIGHT_RIGHT >> 2, -STRAIGHT_LEFT >> 2, 0);
+                if(enteringDirection == MOVING_LEFT)Drive_Path(RIGHT_MIN, -LEFT_MIN, 0);
 
-                if(enteringDirection == MOVING_RIGHT)Drive_Path(-STRAIGHT_RIGHT >> 2, STRAIGHT_LEFT >> 2, 0);
+                if(enteringDirection == MOVING_RIGHT)Drive_Path(-RIGHT_MIN, LEFT_MIN, 0);
             } else stateCounter++;
 
             break;
@@ -108,10 +108,10 @@ void LineFollow() {
 
     int rFollowSpeed,lFollowSpeed;
 
-    int leftPIDOut = GetOutput(&leftFollowController, LEFT_WHITE_DETECT, ADC_Left_Detect);
-    int rightPIDOut = GetOutput(&rightFollowController, RIGHT_WHITE_DETECT, ADC_Right_Detect);
-    rFollowSpeed = additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, RIGHT_MIN >> 1, leftPIDOut); // swapped b/c they are physically swapped
-    lFollowSpeed = additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, LEFT_MIN >> 1, rightPIDOut); // swapped b/c they are physically swapped
+    //int leftPIDOut = GetOutput(&leftFollowController, LEFT_WHITE_DETECT, ADC_Left_Detect);
+    //int rightPIDOut = GetOutput(&rightFollowController, RIGHT_WHITE_DETECT, ADC_Right_Detect);
+    rFollowSpeed = RIGHT_MIN>>1;//additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, RIGHT_MIN >> 1, leftPIDOut); // swapped b/c they are physically swapped
+    lFollowSpeed = LEFT_MIN>>1;//additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, LEFT_MIN >> 1, rightPIDOut); // swapped b/c they are physically swapped
 
     switch(stateCounter) {
         case 0:
@@ -226,9 +226,9 @@ void StateMachine(void) {
         case (CALIBRATE):
             calibrate();
 
-            if(calibrationMode >= 2) {
+            /*if(calibrationMode >= 2) {
                 state = START;
-            }
+            }*/
 
             break;
 

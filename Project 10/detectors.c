@@ -29,8 +29,21 @@ short lessBlackOr,lessBlackAnd,greaterBlackOr,greaterBlackAnd;
 short lessBlackOr,lessBlackAnd,greaterBlackOr,greaterBlackAnd;
 
 void updateDetectors(void){
-  l_LessBlack = ADC_Left_Detect<LEFT_WHITE_DETECT;
-  r_LessBlack = ADC_Right_Detect<RIGHT_WHITE_DETECT;
+  l_LessBlack = ADC_Left_Detect<LEFT_BLACK_DETECT;
+  r_LessBlack = ADC_Right_Detect<RIGHT_BLACK_DETECT;
+  l_LessGray = ADC_Left_Detect<LEFT_GRAY_DETECT;
+  r_LessGray = ADC_Right_Detect<RIGHT_GRAY_DETECT;
+  l_LessWhite = ADC_Left_Detect<LEFT_WHITE_DETECT;
+  r_LessWhite = ADC_Right_Detect<RIGHT_WHITE_DETECT;
+  //
+  l_GreaterBlack = ADC_Left_Detect>LEFT_BLACK_DETECT;
+  r_GreaterBlack = ADC_Right_Detect>RIGHT_BLACK_DETECT;
+  l_GreaterGray = ADC_Left_Detect>LEFT_GRAY_DETECT;
+  r_GreaterGray = ADC_Right_Detect>RIGHT_GRAY_DETECT;
+  l_GreaterWhite = ADC_Left_Detect>LEFT_WHITE_DETECT;
+  r_GreaterWhite = ADC_Right_Detect>RIGHT_WHITE_DETECT;
+  //
+  
 }
 
 void calibrate(void) {
@@ -48,8 +61,8 @@ void calibrate(void) {
         if (right > RWDetect) RWDetect = right;
     }
 
-    HEXtoBCD(LBDetect, 2, 6);
-    HEXtoBCD(RBDetect, 2, 0);
-    HEXtoBCD(LWDetect, 1, 6);
-    HEXtoBCD(RWDetect, 1, 0);
+    HEXtoBCD((int)LBDetect, 2, 6);
+    HEXtoBCD((int)RBDetect, 2, 0);
+    HEXtoBCD((int)LWDetect, 1, 6);
+    HEXtoBCD((int)RWDetect, 1, 0);
 }

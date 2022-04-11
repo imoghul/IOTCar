@@ -158,14 +158,14 @@ void clearProcessBuff_1(void) {
     clearProcessBuff(USB1_Char_Rx_Process, &pb1_index, &pb1_buffered);
 }
 
-void out_character(char character) {
+/*void out_character(char character) {
     //------------------------------------------------------------------------------
     // The while loop will stall as long as the Flag is not set [port is busy]
     while (!(UCA0IFG & UCTXIFG)); // USCI_A0 TX buffer ready?
 
     UCA0TXBUF = character;
     //------------------------------------------------------------------------------
-}
+}*/
 
 void USCI_A0_transmit(void) {
     tx0_index = 0;
@@ -178,12 +178,13 @@ void USCI_A1_transmit(void) {
 }
 
 void loadRingtoPB(volatile unsigned int* rx_wr, unsigned int* rx_rd, volatile char* Rx_Process, volatile char* Rx_Ring, volatile unsigned int* pb_index, volatile unsigned int* pb_buffered) {
+    if(*pb_buffered) return;
     if(*rx_wr != *rx_rd) {
         Rx_Process[pb0_index] = Rx_Ring[*rx_rd];
 
-        if((*rx_rd)++ >= SMALL_RING_SIZE - 1) *rx_rd = BEGINNING;
+        if(++(*rx_rd) > SMALL_RING_SIZE - 1) *rx_rd = BEGINNING;
 
-        if((*pb_index)++ >= LARGE_RING_SIZE - 1) *pb_index = BEGINNING;
+        if(++(*pb_index) > LARGE_RING_SIZE - 1) *pb_index = BEGINNING;
     }
 
     if(*pb_index >= 2 && Rx_Process[(*pb_index) - 1] == '\n' && Rx_Process[(*pb_index) - 2] == '\r') {
@@ -201,8 +202,8 @@ void loadRingtoPB_1(void) {
 
 
 void SerialProcess(void) {
-    if(!pb0_buffered)loadRingtoPB_0();
+    /*if(!pb0_buffered)*/loadRingtoPB_0();
 
-    if(!pb1_buffered)loadRingtoPB_1();
+    /*if(!pb1_buffered)*/loadRingtoPB_1();
 
 }

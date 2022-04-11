@@ -32,7 +32,7 @@
 #define RIGHT_COMMAND                   ('R')
 #define LEFT_COMMAND                    ('L')
 #define LINEFOLLOW_COMMAND              ('O')
-#define TURN_CONSTANT                   (10/3)
+#define TURN_CONSTANT                   (4)
 
 typedef struct {
     char comm;

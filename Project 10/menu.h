@@ -1,6 +1,7 @@
 #define MENU_LEN                (10)
 #define START_MENU              ('T')
-
+#define CALIB_MENU              ('C')     
+#define MAIN_MENU               ('M')
 // an attempt to organize all the data that a menu necessitates
 typedef struct menuStruct {
     char length;
@@ -56,7 +57,7 @@ void updateMenuPos(menu* m);
 // Date: Mar 2022
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
-void trainsitionMenu(void);
+void transitionMenu(menu * m);
 //===========================================================================
 // Function name: displayMainMenu
 //
@@ -72,3 +73,7 @@ void trainsitionMenu(void);
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
 void displayMainMenu();
+
+void Init_Menu(void);
+
+void interractWithMenu(void);

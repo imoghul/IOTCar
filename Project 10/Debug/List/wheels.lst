@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:23:44
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  19:21:47
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,14 +14,13 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW139F.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW13CB.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\wheels.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --no_cse
-#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -On --multiplier=32
+#        --core=430X --data_model=small -Ohz --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
@@ -168,61 +167,58 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
      47              ShutoffRight();
    \   000000   ........     CALLA   #ShutoffRight
      48              ShutoffLeft();
-   \   000004   ........     CALLA   #ShutoffLeft
+   \   000004   ........     BRA     #ShutoffLeft
      49          }
-   \   000008   1001         RETA
      50          
 
    \                                 In  segment CODE, align 2
      51          void ShutoffRight(void) {
    \                     ShutoffRight:
      52              RIGHT_FORWARD_SPEED = RIGHT_REVERSE_SPEED = WHEEL_OFF;
-   \   000000   0F43         MOV.W   #0x0, R15
-   \   000002   824F5804     MOV.W   R15, &0x458
-   \   000006   824F5404     MOV.W   R15, &0x454
+   \   000000   82435804     MOV.W   #0x0, &0x458
+   \   000004   82435404     MOV.W   #0x0, &0x454
      53              rightSwitchable = 0;
-   \   00000A   8243....     MOV.W   #0x0, &rightSwitchable
+   \   000008   8243....     MOV.W   #0x0, &rightSwitchable
      54              TB1CCTL1 &= ~CCIFG;
-   \   00000E   92C3C403     BIC.W   #0x1, &0x3c4
+   \   00000C   92C3C403     BIC.W   #0x1, &0x3c4
      55              TB1CCR1 = TB1R + TB1CCR1_INTERVAL;
-   \   000012   1F42D003     MOV.W   &0x3d0, R15
-   \   000016   3F50A861     ADD.W   #0x61a8, R15
-   \   00001A   824FD403     MOV.W   R15, &0x3d4
+   \   000010   1F42D003     MOV.W   &0x3d0, R15
+   \   000014   3F50A861     ADD.W   #0x61a8, R15
+   \   000018   824FD403     MOV.W   R15, &0x3d4
      56              TB1CCTL1 |= CCIE;
-   \   00001E   B2D01000C403 BIS.W   #0x10, &0x3c4
+   \   00001C   B2D01000C403 BIS.W   #0x10, &0x3c4
      57          }
-   \   000024   1001         RETA
-   \   000026                REQUIRE _A_TB3CCR1_L
-   \   000026                REQUIRE _A_TB3CCR3_L
-   \   000026                REQUIRE _A_TB1CCTL1_L
-   \   000026                REQUIRE _A_TB1CCR1_L
-   \   000026                REQUIRE _A_TB1R_L
+   \   000022   1001         RETA
+   \   000024                REQUIRE _A_TB3CCR1_L
+   \   000024                REQUIRE _A_TB3CCR3_L
+   \   000024                REQUIRE _A_TB1CCTL1_L
+   \   000024                REQUIRE _A_TB1CCR1_L
+   \   000024                REQUIRE _A_TB1R_L
      58          
 
    \                                 In  segment CODE, align 2
      59          void ShutoffLeft(void) {
    \                     ShutoffLeft:
      60              LEFT_FORWARD_SPEED = LEFT_REVERSE_SPEED = WHEEL_OFF;
-   \   000000   0F43         MOV.W   #0x0, R15
-   \   000002   824F5A04     MOV.W   R15, &0x45a
-   \   000006   824F5604     MOV.W   R15, &0x456
+   \   000000   82435A04     MOV.W   #0x0, &0x45a
+   \   000004   82435604     MOV.W   #0x0, &0x456
      61              leftSwitchable = 0;
-   \   00000A   8243....     MOV.W   #0x0, &leftSwitchable
+   \   000008   8243....     MOV.W   #0x0, &leftSwitchable
      62              TB1CCTL2 &= ~CCIFG;
-   \   00000E   92C3C603     BIC.W   #0x1, &0x3c6
+   \   00000C   92C3C603     BIC.W   #0x1, &0x3c6
      63              TB1CCR2 = TB1R + TB1CCR2_INTERVAL;
-   \   000012   1F42D003     MOV.W   &0x3d0, R15
-   \   000016   3F50A861     ADD.W   #0x61a8, R15
-   \   00001A   824FD603     MOV.W   R15, &0x3d6
+   \   000010   1F42D003     MOV.W   &0x3d0, R15
+   \   000014   3F50A861     ADD.W   #0x61a8, R15
+   \   000018   824FD603     MOV.W   R15, &0x3d6
      64              TB1CCTL2 |= CCIE;
-   \   00001E   B2D01000C603 BIS.W   #0x10, &0x3c6
+   \   00001C   B2D01000C603 BIS.W   #0x10, &0x3c6
      65          }
-   \   000024   1001         RETA
-   \   000026                REQUIRE _A_TB3CCR2_L
-   \   000026                REQUIRE _A_TB3CCR4_L
-   \   000026                REQUIRE _A_TB1CCTL2_L
-   \   000026                REQUIRE _A_TB1CCR2_L
-   \   000026                REQUIRE _A_TB1R_L
+   \   000022   1001         RETA
+   \   000024                REQUIRE _A_TB3CCR2_L
+   \   000024                REQUIRE _A_TB3CCR4_L
+   \   000024                REQUIRE _A_TB1CCTL2_L
+   \   000024                REQUIRE _A_TB1CCR2_L
+   \   000024                REQUIRE _A_TB1R_L
      66          
 
    \                                 In  segment CODE, align 2
@@ -235,92 +231,90 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
    \   00000A   0620         JNE     ??MotorSafety_1
    \                     ??MotorSafety_0:
    \   00000C   82935604     CMP.W   #0x0, &0x456
-   \   000010   0524         JEQ     ??MotorSafety_2
+   \   000010   0724         JEQ     ??MotorSafety_2
    \   000012   82935A04     CMP.W   #0x0, &0x45a
-   \   000016   0224         JEQ     ??MotorSafety_2
+   \   000016   0424         JEQ     ??MotorSafety_2
      69                  ShutoffMotors();
    \                     ??MotorSafety_1:
-   \   000018   ........     CALLA   #ShutoffMotors
+   \   000018   ........     CALLA   #ShutoffRight
+   \   00001C   ........     CALLA   #ShutoffLeft
      70                  //P1OUT |= RED_LED;
      71              } else {
      72                  //P1OUT &= ~RED_LED;
      73              }
      74          }
    \                     ??MotorSafety_2:
-   \   00001C   1001         RETA
-   \   00001E                REQUIRE _A_TB3CCR1_L
-   \   00001E                REQUIRE _A_TB3CCR3_L
-   \   00001E                REQUIRE _A_TB3CCR2_L
-   \   00001E                REQUIRE _A_TB3CCR4_L
+   \   000020   1001         RETA
+   \   000022                REQUIRE _A_TB3CCR1_L
+   \   000022                REQUIRE _A_TB3CCR3_L
+   \   000022                REQUIRE _A_TB3CCR2_L
+   \   000022                REQUIRE _A_TB3CCR4_L
      75          
 
    \                                 In  segment CODE, align 2
      76          int RunRightMotor(int val) {
    \                     RunRightMotor:
-   \   000000   0E4C         MOV.W   R12, R14
      77              if(RIGHT_REVERSE_SPEED > 0 && val > 0 || RIGHT_FORWARD_SPEED > 0 && val < 0) {
-   \   000002   82935804     CMP.W   #0x0, &0x458
-   \   000006   0224         JEQ     ??RunRightMotor_0
-   \   000008   1E93         CMP.W   #0x1, R14
-   \   00000A   0534         JGE     ??RunRightMotor_1
+   \   000000   82935804     CMP.W   #0x0, &0x458
+   \   000004   0224         JEQ     ??RunRightMotor_0
+   \   000006   1C93         CMP.W   #0x1, R12
+   \   000008   0534         JGE     ??RunRightMotor_1
    \                     ??RunRightMotor_0:
-   \   00000C   82935404     CMP.W   #0x0, &0x454
-   \   000010   0424         JEQ     ??RunRightMotor_2
-   \   000012   0E93         CMP.W   #0x0, R14
-   \   000014   0234         JGE     ??RunRightMotor_2
+   \   00000A   82935404     CMP.W   #0x0, &0x454
+   \   00000E   0424         JEQ     ??RunRightMotor_2
+   \   000010   0C93         CMP.W   #0x0, R12
+   \   000012   0234         JGE     ??RunRightMotor_2
      78                  ShutoffRight();
    \                     ??RunRightMotor_1:
-   \   000016   ........     CALLA   #ShutoffRight
+   \   000014   ........     CALLA   #ShutoffRight
      79              }
      80          
      81              if (val > 0) {
    \                     ??RunRightMotor_2:
-   \   00001A   1E93         CMP.W   #0x1, R14
-   \   00001C   0B38         JL      ??RunRightMotor_3
+   \   000018   1C93         CMP.W   #0x1, R12
+   \   00001A   0B38         JL      ??RunRightMotor_3
      82                  RIGHT_REVERSE_SPEED = WHEEL_OFF;
-   \   00001E   82435804     MOV.W   #0x0, &0x458
+   \   00001C   82435804     MOV.W   #0x0, &0x458
      83          
      84                  if(rightSwitchable) RIGHT_FORWARD_SPEED = val;
-   \   000022   8293....     CMP.W   #0x0, &rightSwitchable
-   \   000026   0224         JEQ     ??RunRightMotor_4
-   \   000028   824E5404     MOV.W   R14, &0x454
+   \   000020   8293....     CMP.W   #0x0, &rightSwitchable
+   \   000024   0224         JEQ     ??RunRightMotor_4
+   \   000026   824C5404     MOV.W   R12, &0x454
      85          
      86                  return P6IN & R_FORWARD;
    \                     ??RunRightMotor_4:
-   \   00002C   5C424102     MOV.B   &0x241, R12
-   \   000030   5CF3         AND.B   #0x1, R12
-   \   000032   1001         RETA
+   \   00002A   5C424102     MOV.B   &0x241, R12
+   \   00002E   5CF3         AND.B   #0x1, R12
+   \   000030   1001         RETA
      87              } else if (val == 0) {
    \                     ??RunRightMotor_3:
-   \   000034   0E93         CMP.W   #0x0, R14
-   \   000036   0520         JNE     ??RunRightMotor_5
+   \   000032   0C93         CMP.W   #0x0, R12
+   \   000034   0520         JNE     ??RunRightMotor_5
      88                  ShutoffRight();
-   \   000038   ........     CALLA   #ShutoffRight
+   \   000036   ........     CALLA   #ShutoffRight
      89                  return rightSwitchable;
-   \   00003C   1C42....     MOV.W   &rightSwitchable, R12
-   \   000040   1001         RETA
+   \   00003A   1C42....     MOV.W   &rightSwitchable, R12
+   \   00003E   1001         RETA
      90              } else {
      91                  RIGHT_FORWARD_SPEED = WHEEL_OFF;
    \                     ??RunRightMotor_5:
-   \   000042   82435404     MOV.W   #0x0, &0x454
+   \   000040   82435404     MOV.W   #0x0, &0x454
      92          
      93                  if(rightSwitchable) RIGHT_REVERSE_SPEED = -val;
-   \   000046   8293....     CMP.W   #0x0, &rightSwitchable
-   \   00004A   0524         JEQ     ??RunRightMotor_6
-   \   00004C   0F4E         MOV.W   R14, R15
-   \   00004E   3FE3         XOR.W   #0xffff, R15
-   \   000050   1F53         ADD.W   #0x1, R15
-   \   000052   824F5804     MOV.W   R15, &0x458
+   \   000044   8293....     CMP.W   #0x0, &rightSwitchable
+   \   000048   0424         JEQ     ??RunRightMotor_6
+   \   00004A   3CE3         XOR.W   #0xffff, R12
+   \   00004C   1C53         ADD.W   #0x1, R12
+   \   00004E   824C5804     MOV.W   R12, &0x458
      94          
      95                  return P6IN & R_REVERSE;
    \                     ??RunRightMotor_6:
-   \   000056   5C424102     MOV.B   &0x241, R12
-   \   00005A   4C4C         MOV.B   R12, R12
-   \   00005C   2CF2         AND.W   #0x4, R12
-   \   00005E   1001         RETA
-   \   000060                REQUIRE _A_TB3CCR3_L
-   \   000060                REQUIRE _A_TB3CCR1_L
-   \   000060                REQUIRE _A_PCIN_L
+   \   000052   5C424102     MOV.B   &0x241, R12
+   \   000056   2CF2         AND.W   #0x4, R12
+   \   000058   1001         RETA
+   \   00005A                REQUIRE _A_TB3CCR3_L
+   \   00005A                REQUIRE _A_TB3CCR1_L
+   \   00005A                REQUIRE _A_PCIN_L
      96              }
      97          }
      98          
@@ -328,71 +322,67 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
    \                                 In  segment CODE, align 2
      99          int RunLeftMotor( int val) {
    \                     RunLeftMotor:
-   \   000000   0E4C         MOV.W   R12, R14
     100              if(LEFT_REVERSE_SPEED > 0 && val > 0 || LEFT_FORWARD_SPEED > 0 && val < 0) {
-   \   000002   82935A04     CMP.W   #0x0, &0x45a
-   \   000006   0224         JEQ     ??RunLeftMotor_0
-   \   000008   1E93         CMP.W   #0x1, R14
-   \   00000A   0534         JGE     ??RunLeftMotor_1
+   \   000000   82935A04     CMP.W   #0x0, &0x45a
+   \   000004   0224         JEQ     ??RunLeftMotor_0
+   \   000006   1C93         CMP.W   #0x1, R12
+   \   000008   0534         JGE     ??RunLeftMotor_1
    \                     ??RunLeftMotor_0:
-   \   00000C   82935604     CMP.W   #0x0, &0x456
-   \   000010   0424         JEQ     ??RunLeftMotor_2
-   \   000012   0E93         CMP.W   #0x0, R14
-   \   000014   0234         JGE     ??RunLeftMotor_2
+   \   00000A   82935604     CMP.W   #0x0, &0x456
+   \   00000E   0424         JEQ     ??RunLeftMotor_2
+   \   000010   0C93         CMP.W   #0x0, R12
+   \   000012   0234         JGE     ??RunLeftMotor_2
     101                  ShutoffLeft();
    \                     ??RunLeftMotor_1:
-   \   000016   ........     CALLA   #ShutoffLeft
+   \   000014   ........     CALLA   #ShutoffLeft
     102              }
     103          
     104              if (val > 0) {
    \                     ??RunLeftMotor_2:
-   \   00001A   1E93         CMP.W   #0x1, R14
-   \   00001C   0C38         JL      ??RunLeftMotor_3
+   \   000018   1C93         CMP.W   #0x1, R12
+   \   00001A   0B38         JL      ??RunLeftMotor_3
     105                  LEFT_REVERSE_SPEED = WHEEL_OFF;
-   \   00001E   82435A04     MOV.W   #0x0, &0x45a
+   \   00001C   82435A04     MOV.W   #0x0, &0x45a
     106          
     107                  if(leftSwitchable) LEFT_FORWARD_SPEED = val;
-   \   000022   8293....     CMP.W   #0x0, &leftSwitchable
-   \   000026   0224         JEQ     ??RunLeftMotor_4
-   \   000028   824E5604     MOV.W   R14, &0x456
+   \   000020   8293....     CMP.W   #0x0, &leftSwitchable
+   \   000024   0224         JEQ     ??RunLeftMotor_4
+   \   000026   824C5604     MOV.W   R12, &0x456
     108          
     109                  return P6IN & L_FORWARD;
    \                     ??RunLeftMotor_4:
-   \   00002C   5C424102     MOV.B   &0x241, R12
-   \   000030   4C4C         MOV.B   R12, R12
-   \   000032   2CF3         AND.W   #0x2, R12
-   \   000034   1001         RETA
+   \   00002A   5C424102     MOV.B   &0x241, R12
+   \   00002E   2CF3         AND.W   #0x2, R12
+   \   000030   1001         RETA
     110              } else if (val == 0) {
    \                     ??RunLeftMotor_3:
-   \   000036   0E93         CMP.W   #0x0, R14
-   \   000038   0520         JNE     ??RunLeftMotor_5
+   \   000032   0C93         CMP.W   #0x0, R12
+   \   000034   0520         JNE     ??RunLeftMotor_5
     111                  ShutoffLeft();
-   \   00003A   ........     CALLA   #ShutoffLeft
+   \   000036   ........     CALLA   #ShutoffLeft
     112                  return leftSwitchable;
-   \   00003E   1C42....     MOV.W   &leftSwitchable, R12
-   \   000042   1001         RETA
+   \   00003A   1C42....     MOV.W   &leftSwitchable, R12
+   \   00003E   1001         RETA
     113              } else {
     114                  LEFT_FORWARD_SPEED = WHEEL_OFF;
    \                     ??RunLeftMotor_5:
-   \   000044   82435604     MOV.W   #0x0, &0x456
+   \   000040   82435604     MOV.W   #0x0, &0x456
     115          
     116                  if(leftSwitchable) LEFT_REVERSE_SPEED = -val;
-   \   000048   8293....     CMP.W   #0x0, &leftSwitchable
-   \   00004C   0524         JEQ     ??RunLeftMotor_6
-   \   00004E   0F4E         MOV.W   R14, R15
-   \   000050   3FE3         XOR.W   #0xffff, R15
-   \   000052   1F53         ADD.W   #0x1, R15
-   \   000054   824F5A04     MOV.W   R15, &0x45a
+   \   000044   8293....     CMP.W   #0x0, &leftSwitchable
+   \   000048   0424         JEQ     ??RunLeftMotor_6
+   \   00004A   3CE3         XOR.W   #0xffff, R12
+   \   00004C   1C53         ADD.W   #0x1, R12
+   \   00004E   824C5A04     MOV.W   R12, &0x45a
     117          
     118                  return P6IN & L_REVERSE_2355;
    \                     ??RunLeftMotor_6:
-   \   000058   5C424102     MOV.B   &0x241, R12
-   \   00005C   4C4C         MOV.B   R12, R12
-   \   00005E   3CF2         AND.W   #0x8, R12
-   \   000060   1001         RETA
-   \   000062                REQUIRE _A_TB3CCR4_L
-   \   000062                REQUIRE _A_TB3CCR2_L
-   \   000062                REQUIRE _A_PCIN_L
+   \   000052   5C424102     MOV.B   &0x241, R12
+   \   000056   3CF2         AND.W   #0x8, R12
+   \   000058   1001         RETA
+   \   00005A                REQUIRE _A_TB3CCR4_L
+   \   00005A                REQUIRE _A_TB3CCR2_L
+   \   00005A                REQUIRE _A_PCIN_L
     119              }
     120          }
     121          
@@ -430,108 +420,68 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
     153          }*/
     154          
 
-   \                                 In  segment CODE, align 2
+   \                                 In  segment CODE, align 2, keep-with-next
     155          int LockMotors(int polR, int polL) {
    \                     LockMotors:
-   \   000000   1B15         PUSHM.W #0x2, R11
-   \   000002   0A4C         MOV.W   R12, R10
-   \   000004   0B4D         MOV.W   R13, R11
     156              return (Drive_Path(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, LOCK_TIME));
-   \   000006   3E401900     MOV.W   #0x19, R14
-   \   00000A   0D4B         MOV.W   R11, R13
-   \   00000C   5D0E         RLAM.W  #0x4, R13
-   \   00000E   5D0A         RLAM.W  #0x3, R13
-   \   000010   0F4D         MOV.W   R13, R15
-   \   000012   5D06         RLAM.W  #0x2, R13
-   \   000014   0F5D         ADD.W   R13, R15
-   \   000016   0D5D         RLA.W   R13
-   \   000018   0F5D         ADD.W   R13, R15
-   \   00001A   0D5D         RLA.W   R13
-   \   00001C   0F5D         ADD.W   R13, R15
-   \   00001E   0D5D         RLA.W   R13
-   \   000020   0F5D         ADD.W   R13, R15
-   \   000022   0D5D         RLA.W   R13
-   \   000024   0D5F         ADD.W   R15, R13
-   \   000026   0C4A         MOV.W   R10, R12
-   \   000028   5C0E         RLAM.W  #0x4, R12
-   \   00002A   5C02         RLAM.W  #0x1, R12
-   \   00002C   0F4C         MOV.W   R12, R15
-   \   00002E   5C0E         RLAM.W  #0x4, R12
-   \   000030   0F5C         ADD.W   R12, R15
-   \   000032   0C5C         RLA.W   R12
-   \   000034   0F5C         ADD.W   R12, R15
-   \   000036   0C5C         RLA.W   R12
-   \   000038   0F5C         ADD.W   R12, R15
-   \   00003A   5C0A         RLAM.W  #0x3, R12
-   \   00003C   0C5F         ADD.W   R15, R12
-   \   00003E   ........     CALLA   #Drive_Path
-   \   000042   1A17         POPM.W  #0x2, R11
-   \   000044   1001         RETA
+   \   000000   3E401900     MOV.W   #0x19, R14
+   \   000004                REQUIRE ?Subroutine0
+   \   000004                // Fall through to label ?Subroutine0
     157          }
+
+   \                                 In  segment CODE, align 2, keep-with-next
+   \                     ?Subroutine0:
+   \   000000   0212         PUSH.W  SR
+   \   000002   32C2         DINT
+   \   000004   0343         NOP
+   \   000006   824D....     MOV.W   R13, &__iar_HWMUL              // MPY
+   \   00000A   B240803E.... MOV.W   #0x3e80, &__iar_HWMUL + 8      // OP2
+   \   000010   1D42....     MOV.W   &__iar_HWMUL + 10, R13         // RESLO
+   \   000014   0343         NOP
+   \   000016   3241         POP.W   SR
+   \   000018   5C0E         RLAM.W  #0x4, R12
+   \   00001A   5C02         RLAM.W  #0x1, R12
+   \   00001C   0F4C         MOV.W   R12, R15
+   \   00001E   5C0E         RLAM.W  #0x4, R12
+   \   000020   0F5C         ADD.W   R12, R15
+   \   000022   0C5C         RLA.W   R12
+   \   000024   0F5C         ADD.W   R12, R15
+   \   000026   0C5C         RLA.W   R12
+   \   000028   0F5C         ADD.W   R12, R15
+   \   00002A   5C0A         RLAM.W  #0x3, R12
+   \   00002C   0C5F         ADD.W   R15, R12
+   \   00002E   ........     BRA     #Drive_Path
     158          
 
    \                                 In  segment CODE, align 2
     159          int LockMotorsTime(int polR, int polL, int duration) {
    \                     LockMotorsTime:
-   \   000000   3B15         PUSHM.W #0x4, R11
-   \   000002   0A4C         MOV.W   R12, R10
-   \   000004   0B4D         MOV.W   R13, R11
-   \   000006   084E         MOV.W   R14, R8
     160              return (Drive_Path(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, duration));
-   \   000008   0E48         MOV.W   R8, R14
-   \   00000A   0D4B         MOV.W   R11, R13
-   \   00000C   5D0E         RLAM.W  #0x4, R13
-   \   00000E   5D0A         RLAM.W  #0x3, R13
-   \   000010   0F4D         MOV.W   R13, R15
-   \   000012   5D06         RLAM.W  #0x2, R13
-   \   000014   0F5D         ADD.W   R13, R15
-   \   000016   0D5D         RLA.W   R13
-   \   000018   0F5D         ADD.W   R13, R15
-   \   00001A   0D5D         RLA.W   R13
-   \   00001C   0F5D         ADD.W   R13, R15
-   \   00001E   0D5D         RLA.W   R13
-   \   000020   0F5D         ADD.W   R13, R15
-   \   000022   0D5D         RLA.W   R13
-   \   000024   0D5F         ADD.W   R15, R13
-   \   000026   0C4A         MOV.W   R10, R12
-   \   000028   5C0E         RLAM.W  #0x4, R12
-   \   00002A   5C02         RLAM.W  #0x1, R12
-   \   00002C   0F4C         MOV.W   R12, R15
-   \   00002E   5C0E         RLAM.W  #0x4, R12
-   \   000030   0F5C         ADD.W   R12, R15
-   \   000032   0C5C         RLA.W   R12
-   \   000034   0F5C         ADD.W   R12, R15
-   \   000036   0C5C         RLA.W   R12
-   \   000038   0F5C         ADD.W   R12, R15
-   \   00003A   5C0A         RLAM.W  #0x3, R12
-   \   00003C   0C5F         ADD.W   R15, R12
-   \   00003E   ........     CALLA   #Drive_Path
-   \   000042   3817         POPM.W  #0x4, R11
-   \   000044   1001         RETA
+   \   000000   ....         JMP     ?Subroutine0
+   \   000002   0343         NOP
     161          }
     162          
 
    \                                 In  segment CODE, align 2
     163          int Update_Ticks(int milliseconds) { // each tick is 4ms
    \                     Update_Ticks:
-   \   000000   0F4C         MOV.W   R12, R15
     164              stopwatch_milliseconds += MS_PER_TICK;
-   \   000002   A252....     ADD.W   #0x4, &stopwatch_milliseconds
+   \   000000   A252....     ADD.W   #0x4, &stopwatch_milliseconds
     165          
     166              if(stopwatch_milliseconds >= milliseconds) {
-   \   000006   829F....     CMP.W   R15, &stopwatch_milliseconds
-   \   00000A   0428         JNC     ??Update_Ticks_0
+   \   000004   829C....     CMP.W   R12, &stopwatch_milliseconds
+   \   000008   0428         JNC     ??Update_Ticks_0
     167                  stopwatch_milliseconds = 0;
-   \   00000C   8243....     MOV.W   #0x0, &stopwatch_milliseconds
+   \   00000A   8243....     MOV.W   #0x0, &stopwatch_milliseconds
     168                  return 1;
-   \   000010   1C43         MOV.W   #0x1, R12
-   \   000012   1001         RETA
+   \   00000E   1C43         MOV.W   #0x1, R12
+   \   000010   1001         RETA
     169              }
     170          
     171              return 0;
    \                     ??Update_Ticks_0:
-   \   000014   0C43         MOV.W   #0x0, R12
-   \   000016   1001         RETA
+   \   000012   0C43         MOV.W   #0x0, R12
+   \   000014   1001         RETA
     172          }
     173          
     174          /*int Drive_Path_Definite(int speedR, int speedL, unsigned int ticksDuration) {
@@ -561,62 +511,57 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
    \                                 In  segment CODE, align 2
     197          int Drive_Path(int speedR, int speedL, unsigned int ticksDuration) {
    \                     Drive_Path:
-   \   000000   5B15         PUSHM.W #0x6, R11
-   \   000002   0A4C         MOV.W   R12, R10
-   \   000004   0B4D         MOV.W   R13, R11
-   \   000006   084E         MOV.W   R14, R8
+   \   000000   0A12         PUSH.W  R10
     198              int successR = RunRightMotor(speedR);
-   \   000008   0C4A         MOV.W   R10, R12
-   \   00000A   ........     CALLA   #RunRightMotor
-   \   00000E   094C         MOV.W   R12, R9
+   \   000002   ........     CALLA   #RunRightMotor
+   \   000006   0A4C         MOV.W   R12, R10
     199              int successL = RunLeftMotor(speedL);
-   \   000010   0C4B         MOV.W   R11, R12
-   \   000012   ........     CALLA   #RunLeftMotor
-   \   000016   064C         MOV.W   R12, R6
+   \   000008   0C4D         MOV.W   R13, R12
+   \   00000A   ........     CALLA   #RunLeftMotor
     200              int success = successR && successL;
-   \   000018   0993         CMP.W   #0x0, R9
-   \   00001A   0424         JEQ     ??Drive_Path_2
-   \   00001C   0693         CMP.W   #0x0, R6
-   \   00001E   0224         JEQ     ??Drive_Path_2
-   \   000020   1743         MOV.W   #0x1, R7
-   \   000022   013C         JMP     ??Drive_Path_0
-   \                     ??Drive_Path_2:
-   \   000024   0743         MOV.W   #0x0, R7
+   \   00000E   0A93         CMP.W   #0x0, R10
+   \   000010   0524         JEQ     ??Drive_Path_3
+   \   000012   0C93         CMP.W   #0x0, R12
+   \   000014   0324         JEQ     ??Drive_Path_3
+   \   000016   1C43         MOV.W   #0x1, R12
+   \   000018   5F43         MOV.B   #0x1, R15
+   \   00001A   023C         JMP     ??Drive_Path_2
+   \                     ??Drive_Path_3:
+   \   00001C   0C43         MOV.W   #0x0, R12
+   \   00001E   4F43         MOV.B   #0x0, R15
     201              if(ticksDuration == 0) return success;
-   \                     ??Drive_Path_0:
-   \   000026   0893         CMP.W   #0x0, R8
-   \   000028   0220         JNE     ??Drive_Path_3
-   \   00002A   0C47         MOV.W   R7, R12
-   \   00002C   113C         JMP     ??Drive_Path_1
+   \                     ??Drive_Path_2:
+   \   000020   0E93         CMP.W   #0x0, R14
+   \   000022   1324         JEQ     ??Drive_Path_1
     202          
     203              if (time_change) {
-   \                     ??Drive_Path_3:
-   \   00002E   8293....     CMP.W   #0x0, &time_change
-   \   000032   0D24         JEQ     ??Drive_Path_4
+   \   000024   8293....     CMP.W   #0x0, &time_change
+   \   000028   0F24         JEQ     ??Drive_Path_4
     204                  time_change = 0;
-   \   000034   8243....     MOV.W   #0x0, &time_change
+   \   00002A   8243....     MOV.W   #0x0, &time_change
     205          
     206                  if (success && Update_Ticks(ticksDuration)) {
-   \   000038   0793         CMP.W   #0x0, R7
-   \   00003A   0924         JEQ     ??Drive_Path_4
-   \   00003C   0C48         MOV.W   R8, R12
-   \   00003E   ........     CALLA   #Update_Ticks
-   \   000042   0C93         CMP.W   #0x0, R12
-   \   000044   0424         JEQ     ??Drive_Path_4
+   \   00002E   4F93         CMP.B   #0x0, R15
+   \   000030   0B24         JEQ     ??Drive_Path_4
+   \   000032   0C4E         MOV.W   R14, R12
+   \   000034   ........     CALLA   #Update_Ticks
+   \   000038   0C93         CMP.W   #0x0, R12
+   \   00003A   0624         JEQ     ??Drive_Path_4
     207                      ShutoffMotors();
-   \   000046   ........     CALLA   #ShutoffMotors
+   \   00003C   ........     CALLA   #ShutoffRight
+   \   000040   ........     CALLA   #ShutoffLeft
     208                      return 1;
-   \   00004A   1C43         MOV.W   #0x1, R12
-   \   00004C   013C         JMP     ??Drive_Path_1
+   \   000044   1C43         MOV.W   #0x1, R12
+   \   000046   013C         JMP     ??Drive_Path_1
     209                  }
     210              }
     211          
     212              return 0;
    \                     ??Drive_Path_4:
-   \   00004E   0C43         MOV.W   #0x0, R12
+   \   000048   0C43         MOV.W   #0x0, R12
    \                     ??Drive_Path_1:
-   \   000050   5617         POPM.W  #0x6, R11
-   \   000052   1001         RETA
+   \   00004A   3A41         POP.W   R10
+   \   00004C   1001         RETA
     213          }
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
@@ -642,24 +587,26 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
 
    CSTACK Function
    ------ --------
-     16   Drive_Path
-       16   -> RunLeftMotor
-       16   -> RunRightMotor
-       16   -> ShutoffMotors
-       16   -> Update_Ticks
-      8   LockMotors
-        8   -> Drive_Path
-     12   LockMotorsTime
-       12   -> Drive_Path
+      6   Drive_Path
+        6   -> RunLeftMotor
+        6   -> RunRightMotor
+        6   -> ShutoffLeft
+        6   -> ShutoffRight
+        6   -> Update_Ticks
+      4   LockMotors
+        0   -> Drive_Path
+      4   LockMotorsTime
+        0   -> Drive_Path
       4   MotorSafety
-        4   -> ShutoffMotors
+        4   -> ShutoffLeft
+        4   -> ShutoffRight
       4   RunLeftMotor
         4   -> ShutoffLeft
       4   RunRightMotor
         4   -> ShutoffRight
       4   ShutoffLeft
       4   ShutoffMotors
-        4   -> ShutoffLeft
+        0   -> ShutoffLeft
         4   -> ShutoffRight
       4   ShutoffRight
       4   Update_Ticks
@@ -673,16 +620,17 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
        2  ?<Initializer for leftSwitchable>
        8  ?<Initializer for rightFollowController>
        2  ?<Initializer for rightSwitchable>
-      84  Drive_Path
-      70  LockMotors
-      70  LockMotorsTime
-      30  MotorSafety
-      98  RunLeftMotor
-      96  RunRightMotor
-      38  ShutoffLeft
-      10  ShutoffMotors
-      38  ShutoffRight
-      24  Update_Ticks
+      50  ?Subroutine0
+      78  Drive_Path
+       4  LockMotors
+       4  LockMotorsTime
+      34  MotorSafety
+      90  RunLeftMotor
+      90  RunRightMotor
+      36  ShutoffLeft
+       8  ShutoffMotors
+      36  ShutoffRight
+      22  Update_Ticks
        2  _A_PCIN_L
        2  _A_TB1CCR1_L
        2  _A_TB1CCR2_L
@@ -701,13 +649,13 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
        2  wheel_periods
 
  
- 558 bytes in segment CODE
+ 452 bytes in segment CODE
   20 bytes in segment DATA16_AN
   20 bytes in segment DATA16_I
   20 bytes in segment DATA16_ID
    4 bytes in segment DATA16_Z
  
- 558 bytes of CODE  memory
+ 452 bytes of CODE  memory
   20 bytes of CONST memory
   24 bytes of DATA  memory (+ 20 bytes shared)
 

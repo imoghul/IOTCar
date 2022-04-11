@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:53:08
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  19:21:45
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,14 +14,13 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW14B.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWB5E.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --no_cse
-#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
+#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -On --multiplier=32
+#        --core=430X --data_model=small -Ohz --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
@@ -206,43 +205,45 @@ C:\Users\saad\Documents\ece-306\Project 10\main.c
    \   000000   92C33001     BIC.W   #0x1, &0x130
      94              // Disable the GPIO power-on default high-impedance mode to activate
      95              // previously configured port settings
-     96          
+     96              Init_Menu();
+   \   000004   ........     CALLA   #Init_Menu
      97              Init_Ports();                        // Initialize Ports
-   \   000004   ........     CALLA   #Init_Ports
+   \   000008   ........     CALLA   #Init_Ports
      98              Init_Clocks();                       // Initialize Clock System
-   \   000008   ........     CALLA   #Init_Clocks
+   \   00000C   ........     CALLA   #Init_Clocks
      99              Init_Conditions();                   // Initialize Variables and Initial Conditions
-   \   00000C   ........     CALLA   #Init_Conditions
+   \   000010   ........     CALLA   #Init_Conditions
     100              Init_Timers();                       // Initialize Timers
-   \   000010   ........     CALLA   #Init_Timers
+   \   000014   ........     CALLA   #Init_Timers
     101              Init_LCD();                          // Initialize LCD
-   \   000014   ........     CALLA   #Init_LCD
+   \   000018   ........     CALLA   #Init_LCD
     102              Init_REF();
-   \   000018   ........     CALLA   #Init_REF
+   \   00001C   ........     CALLA   #Init_REF
     103              Init_DAC();
-   \   00001C   ........     CALLA   #Init_DAC
+   \   000020   ........     CALLA   #Init_DAC
     104              Init_ADC();
-   \   000020   ........     CALLA   #Init_ADC
+   \   000024   ........     CALLA   #Init_ADC
     105              Init_Serial_UCA();
-   \   000024   ........     CALLA   #Init_Serial_UCA
+   \   000028   ........     CALLA   #Init_Serial_UCA
     106              EMITTER_ON;
-   \   000028   F2D010004302 BIS.B   #0x10, &0x243
+   \   00002C   F2D010004302 BIS.B   #0x10, &0x243
     107              // Place the contents of what you want on the display, in between the quotes
     108              // Limited to 10 characters per line
     109              strcpy(display_line[0], "          ");
-   \   00002E   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   000032   3C40....     MOV.W   #display_line, R12
-   \   000036   ........     CALLA   #strcpy
+   \   000032   3A40....     MOV.W   #`?<Constant "          ">`, R10
+   \   000036   0D4A         MOV.W   R10, R13
+   \   000038   3C40....     MOV.W   #display_line, R12
+   \   00003C   ........     CALLA   #strcpy
     110              strcpy(display_line[1], "          ");
-   \   00003A   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   00003E   3C40....     MOV.W   #display_line + 11, R12
-   \   000042   ........     CALLA   #strcpy
+   \   000040   0D4A         MOV.W   R10, R13
+   \   000042   3C40....     MOV.W   #display_line + 11, R12
+   \   000046   ........     CALLA   #strcpy
     111              strcpy(display_line[2], "          ");
-   \   000046   3D40....     MOV.W   #`?<Constant "          ">`, R13
-   \   00004A   3C40....     MOV.W   #display_line + 22, R12
-   \   00004E   ........     CALLA   #strcpy
+   \   00004A   0D4A         MOV.W   R10, R13
+   \   00004C   3C40....     MOV.W   #display_line + 22, R12
+   \   000050   ........     CALLA   #strcpy
     112              strcpy(display_line[3], "          ");
-   \   000052   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000054   0D4A         MOV.W   R10, R13
    \   000056   3C40....     MOV.W   #display_line + 33, R12
    \   00005A   ........     CALLA   #strcpy
     113              display_changed = TRUE;
@@ -263,14 +264,14 @@ C:\Users\saad\Documents\ece-306\Project 10\main.c
    \   00006E   0C93         CMP.W   #0x0, R12
    \   000070   F827         JEQ     ??main_0
     123          
-    124                  IOTBufferCommands();
-   \   000072   ........     CALLA   #IOTBufferCommands
-    125                  ProcessCommands();
-   \   000076   ........     CALLA   #ProcessCommands
-    126                  StateMachine();                     // Run wheels state machine
-   \   00007A   ........     CALLA   #StateMachine
-    127                  MenuProcess();
-   \   00007E   ........     CALLA   #MenuProcess
+    124                  MenuProcess();
+   \   000072   ........     CALLA   #MenuProcess
+    125                  IOTBufferCommands();
+   \   000076   ........     CALLA   #IOTBufferCommands
+    126                  ProcessCommands();
+   \   00007A   ........     CALLA   #ProcessCommands
+    127                  StateMachine();                     // Run wheels state machine
+   \   00007E   ........     CALLA   #StateMachine
     128                  MotorSafety();
    \   000082   ........     CALLA   #MotorSafety
     129                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
@@ -326,6 +327,7 @@ C:\Users\saad\Documents\ece-306\Project 10\main.c
         4   -> Init_DAC
         4   -> Init_IOT
         4   -> Init_LCD
+        4   -> Init_Menu
         4   -> Init_Ports
         4   -> Init_REF
         4   -> Init_Serial_UCA

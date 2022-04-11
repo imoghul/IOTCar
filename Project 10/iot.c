@@ -123,8 +123,8 @@ void getSSID(void) {
 
             for(i = 0; i <= SSID_LEN && USB0_Char_Rx_Process[i + SSID_RESPONSE_LEN + 1] != '\"'; ++i) SSID[i] = USB0_Char_Rx_Process[i + SSID_RESPONSE_LEN + 1];
 
-            SSID[i + SSID_RESPONSE_LEN + 2] = 0;
-            SSID[SSID_LEN] = 0;
+            SSID[i + SSID_RESPONSE_LEN + 2] = 0; // set the end of the SSID to null
+            SSID[SSID_LEN] = 0; //  set end of the array to null
             centerStringToDisplay(0, SSID);
             display_changed = 1;
             iot_setup_state = GET_IP_Tx;

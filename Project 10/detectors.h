@@ -11,5 +11,4 @@
 #define EMITTER_OFF            {P6OUT &= ~IR_LED;}
 
 void calibrate(void);
-unsigned int abs(int);
 void updateDetectors(void);

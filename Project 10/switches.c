@@ -25,6 +25,7 @@ volatile unsigned int calibrationMode;
 extern volatile char USB0_Char_Tx[], USB1_Char_Tx[];
 extern volatile char USB0_Char_Rx_Ring[], USB1_Char_Rx_Ring[];
 extern unsigned volatile int tx0_index, tx1_index;
+volatile char transMenu,interractMenu;
 
 //===========================================================================
 // Function name: switchP4_interrupt
@@ -54,7 +55,7 @@ __interrupt void switchP4_interrupt(void) {
 
         // Actual Code
 
-        trainsitionMenu();
+        transMenu = 1;//trainsitionMenu();
     }
 }
 
@@ -83,6 +84,7 @@ __interrupt void switchP2_interrupt(void) {
         TB0CCTL2 |= CCIE;
         debouncing2 = TRUE;
         // Actual Code
+        interractMenu = 1;
     }
 }
 
