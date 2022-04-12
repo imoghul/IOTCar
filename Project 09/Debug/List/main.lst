@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  15:25:32
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          11/Apr/2022  11:39:43
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWB8E9.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW56AF.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 09\main.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
@@ -249,41 +249,45 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
     118              while(ALWAYS) {                       // Can the Operating system run
     119                  //Display_Process();                  // Update Display
     120                  //SerialProcess();
-    121                  //if(!Init_IOT()) continue;
-    122                  //IOTBufferCommands();
-    123                  //ProcessCommands();
-    124                  //DetectMovement();
-    125                  StateMachine();                     // Run wheels state machine
+    121                  if(!Init_IOT()) continue;
    \                     ??main_0:
-   \   000060   ........     CALLA   #StateMachine
+   \   000060   ........     CALLA   #Init_IOT
+   \   000064   0C93         CMP.W   #0x0, R12
+   \   000066   FC27         JEQ     ??main_0
+    122                  IOTBufferCommands();
+   \   000068   ........     CALLA   #IOTBufferCommands
+    123                  ProcessCommands();
+   \   00006C   ........     CALLA   #ProcessCommands
+    124                  //DetectMovement();
+    125                  //StateMachine();                     // Run wheels state machine
     126                  //MenuProcess();
     127                  MotorSafety();
-   \   000064   ........     CALLA   #MotorSafety
+   \   000070   ........     CALLA   #MotorSafety
     128                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-   \   000068   D2E32202     XOR.B   #0x1, &0x222
+   \   000074   D2E32202     XOR.B   #0x1, &0x222
     129          
     130          
     131                  if(Last_Time_Sequence != Time_Sequence) {
-   \   00006C   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
-   \   000072   F627         JEQ     ??main_0
+   \   000078   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
+   \   00007E   F027         JEQ     ??main_0
     132                      Last_Time_Sequence = Time_Sequence;
-   \   000074   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
+   \   000080   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
     133                      cycle_count++;
-   \   00007A   9253....     ADD.W   #0x1, &cycle_count
+   \   000086   9253....     ADD.W   #0x1, &cycle_count
     134                      time_change = 1;
-   \   00007E   9243....     MOV.W   #0x1, &time_change
+   \   00008A   9243....     MOV.W   #0x1, &time_change
     135          
     136                      if(cycle_count == TIME_SEQUENCE_MAX) {
-   \   000082   B290FA00.... CMP.W   #0xfa, &cycle_count
-   \   000088   EB23         JNE     ??main_0
+   \   00008E   B290FA00.... CMP.W   #0xfa, &cycle_count
+   \   000094   E523         JNE     ??main_0
     137                          cycle_count = 0;
-   \   00008A   8243....     MOV.W   #0x0, &cycle_count
+   \   000096   8243....     MOV.W   #0x0, &cycle_count
     138                          stopwatch_seconds++;
-   \   00008E   9253....     ADD.W   #0x1, &stopwatch_seconds
-   \   000092   E63F         JMP     ??main_0
-   \   000094   0343         NOP
-   \   000096                REQUIRE _A_PM5CTL0_L
-   \   000096                REQUIRE _A_PBOUT_L
+   \   00009A   9253....     ADD.W   #0x1, &stopwatch_seconds
+   \   00009E   E03F         JMP     ??main_0
+   \   0000A0   0343         NOP
+   \   0000A2                REQUIRE _A_PM5CTL0_L
+   \   0000A2                REQUIRE _A_PBOUT_L
     139                      }
     140                  }
     141              }
@@ -303,17 +307,19 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
    ------ --------
       4   main
         4   -> EmitterOn
+        4   -> IOTBufferCommands
         4   -> Init_ADC
         4   -> Init_Clocks
         4   -> Init_Conditions
         4   -> Init_DAC
+        4   -> Init_IOT
         4   -> Init_LCD
         4   -> Init_Ports
         4   -> Init_REF
         4   -> Init_Serial_UCA
         4   -> Init_Timers
         4   -> MotorSafety
-        4   -> StateMachine
+        4   -> ProcessCommands
         4   -> strcpy
 
 
@@ -331,7 +337,7 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
        1  chosen_direction
        2  cycle_count
        1  display_mode
-     150  main
+     162  main
        1  slow_input_down
        2  stopwatch_milliseconds
        2  stopwatch_seconds
@@ -339,12 +345,12 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
        2  time_change
 
  
- 150 bytes in segment CODE
+ 162 bytes in segment CODE
    4 bytes in segment DATA16_AN
   11 bytes in segment DATA16_C
   20 bytes in segment DATA16_Z
  
- 150 bytes of CODE  memory
+ 162 bytes of CODE  memory
   11 bytes of CONST memory
   20 bytes of DATA  memory (+ 4 bytes shared)
 

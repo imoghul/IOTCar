@@ -2,6 +2,7 @@
 #include "msp430.h"
 #include "adc.h"
 #include "functions.h"
+#include "iot.h"
 #include "sm.h"
 #include <string.h>
 #include <stdlib.h>
@@ -14,8 +15,10 @@ char menuState = START_MENU;
 extern unsigned int LBDetect, LWDetect, RBDetect, RWDetect;
 extern volatile char transMenu,interractMenu;
 unsigned int lastThumb;
+extern command currCommand;
+extern volatile char commandsReceieved;
 
-menu calib,start,mainMenu;
+menu calib,start,mainMenu,commandsOutput;
 
 menu* currMenu = &start;
 
@@ -30,6 +33,20 @@ void displayMainMenu() {
 void displayCalibMenu() {
     display_changed = 1;
 }*/
+
+void displayCommandsMenu() {
+  strcpy(display_line[3],"          ");
+  display_line[3][2] = currCommand.comm;
+  HEXtoBCD(currCommand.duration, 3, 4);
+  if(currCommand.comm == DISPLAY_NUMBER_COMMAND){
+    strcpy(display_line[0],"ARRIVED 0 ");
+    display_line[0][9] = currCommand.duration+'0';
+  }
+  
+  if(currCommand.comm == 0 && currCommand.duration == 0) strcpy(display_line[3],"          ");
+  if(!commandsReceieved) strcpy(display_line[3],"WAITING...");
+  display_changed = 1;
+}
 
 
 void updateMenuPos(menu* m) {
@@ -62,8 +79,8 @@ void transitionMenu(menu* m) {
     }
 
     strcpy(display_line[0], "          ");
-    strcpy(display_line[1], "          ");
-    strcpy(display_line[2], "          ");
+    //strcpy(display_line[1], "          ");
+    //strcpy(display_line[2], "          ");
     strcpy(display_line[3], "          ");
     display_changed = 1;
 }
@@ -78,15 +95,20 @@ void MenuProcess(void) {
     interractWithMenu();
   }
   switch(menuState) {
-      case START_MENU:
+      /*case START_MENU:
           //updateMenuPos(&start);
           //displayStartMenu();
-          break;
+          break;*/
       case MAIN_MENU:
+          updateMenuPos(&mainMenu);
           strcpy(display_line[0], mainMenu.headers[mainMenu.current]);//displayMainMenu();
+          display_changed = 1;
           break;
       case CALIB_MENU:
           display_changed = 1;//displayCalibMenu();
+          break;
+      case COMMANDS_MENU:
+          displayCommandsMenu();
       default:
           break;
   }
@@ -103,18 +125,26 @@ void Init_Menu(void){
   };
   
   mainMenu  = (menu){
-      .length = 1,
+      .length = 2,
       .current = 0,
       .name = MAIN_MENU,
-      .headers = {"CALIBRATE"},
+      .headers = {"CALIBRATE "," COMMANDS "},
       .values = {""},
-      .transitions = {&calib}
+      .transitions = {&calib,&commandsOutput}
   };
   
   start  = (menu){
       .length = 1,
       .current = 0,
       .name = START_MENU,
+      .headers = {""},
+      .values = {""},
+      .transitions = {&mainMenu}
+  };
+  commandsOutput = (menu){
+      .length = 1,
+      .current = 0,
+      .name = COMMANDS_MENU,
       .headers = {""},
       .values = {""},
       .transitions = {&mainMenu}

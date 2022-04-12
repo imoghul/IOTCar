@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  19:21:45
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Apr/2022  14:27:16
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\detectors.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW9D7.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW1337.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\detectors.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -352,29 +352,29 @@ C:\Users\saad\Documents\ece-306\Project 10\detectors.c
    \   000042   824E....     MOV.W   R14, &RWDetect
      62              }
      63          
-     64              HEXtoBCD((int)LBDetect, 2, 6);
+     64              HEXtoBCD((int)LBDetect, 3, 6);
                      ^
 Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \                     ??calibrate_0:
    \   000046   3E400600     MOV.W   #0x6, R14
-   \   00004A   2D43         MOV.W   #0x2, R13
-   \   00004C   1C42....     MOV.W   &LBDetect, R12
-   \   000050   ........     CALLA   #HEXtoBCD
-     65              HEXtoBCD((int)RBDetect, 2, 0);
-   \   000054   0E43         MOV.W   #0x0, R14
-   \   000056   2D43         MOV.W   #0x2, R13
-   \   000058   1C42....     MOV.W   &RBDetect, R12
-   \   00005C   ........     CALLA   #HEXtoBCD
-     66              HEXtoBCD((int)LWDetect, 1, 6);
-   \   000060   3E400600     MOV.W   #0x6, R14
-   \   000064   1D43         MOV.W   #0x1, R13
-   \   000066   1C42....     MOV.W   &LWDetect, R12
-   \   00006A   ........     CALLA   #HEXtoBCD
-     67              HEXtoBCD((int)RWDetect, 1, 0);
-   \   00006E   0E43         MOV.W   #0x0, R14
-   \   000070   1D43         MOV.W   #0x1, R13
-   \   000072   1C42....     MOV.W   &RWDetect, R12
-   \   000076   ........     BRA     #HEXtoBCD
+   \   00004A   3D400300     MOV.W   #0x3, R13
+   \   00004E   1C42....     MOV.W   &LBDetect, R12
+   \   000052   ........     CALLA   #HEXtoBCD
+     65              HEXtoBCD((int)RBDetect, 3, 0);
+   \   000056   0E43         MOV.W   #0x0, R14
+   \   000058   3D400300     MOV.W   #0x3, R13
+   \   00005C   1C42....     MOV.W   &RBDetect, R12
+   \   000060   ........     CALLA   #HEXtoBCD
+     66              HEXtoBCD((int)LWDetect, 0, 6);
+   \   000064   3E400600     MOV.W   #0x6, R14
+   \   000068   0D43         MOV.W   #0x0, R13
+   \   00006A   1C42....     MOV.W   &LWDetect, R12
+   \   00006E   ........     CALLA   #HEXtoBCD
+     67              HEXtoBCD((int)RWDetect, 0, 0);
+   \   000072   0E43         MOV.W   #0x0, R14
+   \   000074   0D43         MOV.W   #0x0, R13
+   \   000076   1C42....     MOV.W   &RWDetect, R12
+   \   00007A   ........     BRA     #HEXtoBCD
      68          }
 
    Maximum stack usage in bytes:
@@ -395,7 +395,7 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
        2  LWDetect
        2  RBDetect
        2  RWDetect
-     122  calibrate
+     126  calibrate
        2  greaterBlackAnd
        2  greaterBlackOr
        2  greaterGrayAnd
@@ -428,10 +428,10 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
      198  updateDetectors
 
  
- 320 bytes in segment CODE
+ 324 bytes in segment CODE
   77 bytes in segment DATA16_Z
  
- 320 bytes of CODE memory
+ 324 bytes of CODE memory
   77 bytes of DATA memory
 
 Errors: none

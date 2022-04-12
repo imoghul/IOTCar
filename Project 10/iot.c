@@ -2,12 +2,11 @@
 #include <string.h>
 #include "msp430.h"
 #include "utils.h"
-//#include <string.h>
+#include "wheels.h"
 #include "utils.h"
 #include "serial.h"
 #include "ports.h"
 #include "sm.h"
-//#include <stdlib.h>
 
 char iot_setup_state = BOOT_UP;
 extern volatile char USB0_Char_Tx[];
@@ -22,6 +21,7 @@ char dotFound;
 int midIndex;
 command CommandBuffer[COMMAND_BUFFER_LEN];
 char cb_index;
+volatile char commandsReceieved;
 
 extern volatile unsigned int cycle_count;
 extern volatile unsigned int stopwatch_milliseconds;
@@ -35,6 +35,7 @@ extern int polarityRight, polarityLeft;
 extern unsigned int driveTime;
 
 command emptyCommand = {0, 0};
+command currCommand;
 
 
 int Init_IOT(void) {
@@ -150,9 +151,9 @@ void getIP(void) {
             IP[i + IP_RESPONSE_LEN + 2] = 0;
             IP[IP_LEN] = 0;
             IP[midIndex] = 0;
-            strcpy(display_line[1], "IP ADDRESS");
-            centerStringToDisplay(2, IP);
-            centerStringToDisplay(3, IP + midIndex + 1);
+            //strcpy(display_line[1], "IP ADDRESS");
+            centerStringToDisplay(1, IP);
+            centerStringToDisplay(2, IP + midIndex + 1);
             display_changed = 1;
             iot_setup_state = IOT_SETUP_FINISHED;
         } else iot_setup_state = GET_IP_Tx;
@@ -209,34 +210,46 @@ void pushCB(command c) {
 }
 
 void ProcessCommands(void) {
-    if(state == START && (CommandBuffer[0].comm != 0 || CommandBuffer[0].duration != 0)) {
-        command c = popCB();
+    if (CommandBuffer[0].comm==STOP_COMMAND){
+      currCommand = popCB();
+      state = START;
+      stopwatch_milliseconds = 0;
+      ShutoffMotors();
+      return;
+    }
+    if(state == START) {
+        currCommand = popCB();
+        if(currCommand.comm == 0 && currCommand.duration == 0)return;
+        commandsReceieved = 1;
+        
         stopwatch_seconds = 0;
         cycle_count = 0;
-        state = DRIVE;
-        //display_line[1][2] = c.comm;
-        //HEXtoBCD(c.duration, 1, 4);
-        driveTime = (int)(c.duration * (c.comm == RIGHT_COMMAND || c.comm == LEFT_COMMAND ? TURN_CONSTANT : 1));
+        
+        driveTime = (int)(currCommand.duration * (currCommand.comm == RIGHT_COMMAND || currCommand.comm == LEFT_COMMAND ? TURN_CONSTANT : 1));
 
-        switch(c.comm) {
+        switch(currCommand.comm) {
             case (FORWARD_COMMAND):
                 polarityRight = 1;
                 polarityLeft = 1;
+                state = DRIVE;
                 break;
 
             case (REVERSE_COMMAND):
                 polarityRight = -1;
                 polarityLeft = -1;
+                state = DRIVE;
                 break;
 
             case (RIGHT_COMMAND):
                 polarityRight = 1;
                 polarityLeft = -1;
+                state = DRIVE;
                 break;
 
             case (LEFT_COMMAND):
                 polarityRight = -1;
                 polarityLeft = 1;
+                state = DRIVE;
                 break;
 
             case (LINEFOLLOW_COMMAND):
@@ -244,4 +257,5 @@ void ProcessCommands(void) {
                 break;
         }
     }
+    
 }

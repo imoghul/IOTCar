@@ -25,13 +25,15 @@
 #define CARET_SECURITY_CODE             ("^9A73")
 #define CARET_SECURITY_CODE_LEN         (5)
 
-#define COMMAND_BUFFER_LEN              (5)
+#define COMMAND_BUFFER_LEN              (10)
 
-#define FORWARD_COMMAND                 ('F')
-#define REVERSE_COMMAND                 ('B')
-#define RIGHT_COMMAND                   ('R')
-#define LEFT_COMMAND                    ('L')
-#define LINEFOLLOW_COMMAND              ('O')
+#define FORWARD_COMMAND                 ('f')
+#define REVERSE_COMMAND                 ('b')
+#define RIGHT_COMMAND                   ('r')
+#define LEFT_COMMAND                    ('l')
+#define STOP_COMMAND                    ('s')
+#define LINEFOLLOW_COMMAND              ('o')
+#define DISPLAY_NUMBER_COMMAND          ('d')
 #define TURN_CONSTANT                   (4)
 
 typedef struct {

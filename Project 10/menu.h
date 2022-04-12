@@ -2,6 +2,7 @@
 #define START_MENU              ('T')
 #define CALIB_MENU              ('C')     
 #define MAIN_MENU               ('M')
+#define COMMANDS_MENU           ('c')
 // an attempt to organize all the data that a menu necessitates
 typedef struct menuStruct {
     char length;

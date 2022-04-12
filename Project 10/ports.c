@@ -171,7 +171,7 @@ void Init_Port3(char smclk) {
     P3SEL0 &= ~LCD_BACKLITE;
     P3SEL1 &= ~LCD_BACKLITE;
     P3DIR |= LCD_BACKLITE;
-    P3OUT &= ~LCD_BACKLITE;
+    P3OUT |= LCD_BACKLITE;
 
     switch(smclk) {
         case(USE_SMCLK):

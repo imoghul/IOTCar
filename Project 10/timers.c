@@ -18,6 +18,7 @@ extern volatile unsigned int rightSwitchable, leftSwitchable;
 float timeElapsed;
 volatile unsigned int stopwatchUpdated;
 extern char receievedFromPC;
+extern volatile char commandsReceieved;
 
 void Init_Timers(void) {
     Init_Timer_B0();
@@ -195,7 +196,7 @@ __interrupt void Timer1_B0_ISR(void) {
     //----------------------------------------------------------------------------
     P3OUT |= IOT_EN_CPU;
 
-    if(state != END) {
+    if(commandsReceieved && state != END) {
         stopwatchUpdated = 1;
         timeElapsed += .2;
     }

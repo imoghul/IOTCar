@@ -33,7 +33,7 @@
 #define LEFT_WHITE_DETECT       (LWDetect+20)
 #define RIGHT_WHITE_DETECT      (RWDetect+20)
 #define MS_PER_TICK             (4)
-#define LOCK_TIME               (25)
+#define LOCK_TIME               (150)
 
 int RunRightMotor( int val);
 int RunLeftMotor( int val);

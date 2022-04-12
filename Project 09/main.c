@@ -118,11 +118,11 @@ void main(void) {
     while(ALWAYS) {                       // Can the Operating system run
         //Display_Process();                  // Update Display
         //SerialProcess();
-        //if(!Init_IOT()) continue;
-        //IOTBufferCommands();
-        //ProcessCommands();
+        if(!Init_IOT()) continue;
+        IOTBufferCommands();
+        ProcessCommands();
         //DetectMovement();
-        StateMachine();                     // Run wheels state machine
+        //StateMachine();                     // Run wheels state machine
         //MenuProcess();
         MotorSafety();
         P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF

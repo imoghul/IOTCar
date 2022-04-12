@@ -61,8 +61,8 @@ void calibrate(void) {
         if (right > RWDetect) RWDetect = right;
     }
 
-    HEXtoBCD((int)LBDetect, 2, 6);
-    HEXtoBCD((int)RBDetect, 2, 0);
-    HEXtoBCD((int)LWDetect, 1, 6);
-    HEXtoBCD((int)RWDetect, 1, 0);
+    HEXtoBCD((int)LBDetect, 3, 6);
+    HEXtoBCD((int)RBDetect, 3, 0);
+    HEXtoBCD((int)LWDetect, 0, 6);
+    HEXtoBCD((int)RWDetect, 0, 0);
 }

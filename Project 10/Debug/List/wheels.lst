@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  19:21:47
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Apr/2022  14:27:19
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW13CB.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW1F5D.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\wheels.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -32,11 +32,6 @@
 
 C:\Users\saad\Documents\ece-306\Project 10\wheels.c
       1          #include "msp430.h"
-
-   \                                 In  segment DATA16_AN, at 0x240
-   \   union <unnamed> _A_PCIN_L
-   \                     _A_PCIN_L:
-   \   000000                DS8 2
 
    \                                 In  segment DATA16_AN, at 0x3c4
    \   union <unnamed> _A_TB1CCTL1_L
@@ -256,65 +251,60 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
    \                     RunRightMotor:
      77              if(RIGHT_REVERSE_SPEED > 0 && val > 0 || RIGHT_FORWARD_SPEED > 0 && val < 0) {
    \   000000   82935804     CMP.W   #0x0, &0x458
-   \   000004   0224         JEQ     ??RunRightMotor_0
+   \   000004   0224         JEQ     ??RunRightMotor_1
    \   000006   1C93         CMP.W   #0x1, R12
-   \   000008   0534         JGE     ??RunRightMotor_1
-   \                     ??RunRightMotor_0:
-   \   00000A   82935404     CMP.W   #0x0, &0x454
-   \   00000E   0424         JEQ     ??RunRightMotor_2
-   \   000010   0C93         CMP.W   #0x0, R12
-   \   000012   0234         JGE     ??RunRightMotor_2
-     78                  ShutoffRight();
+   \   000008   0534         JGE     ??RunRightMotor_2
    \                     ??RunRightMotor_1:
+   \   00000A   82935404     CMP.W   #0x0, &0x454
+   \   00000E   0424         JEQ     ??RunRightMotor_3
+   \   000010   0C93         CMP.W   #0x0, R12
+   \   000012   0234         JGE     ??RunRightMotor_3
+     78                  ShutoffRight();
+   \                     ??RunRightMotor_2:
    \   000014   ........     CALLA   #ShutoffRight
      79              }
      80          
      81              if (val > 0) {
-   \                     ??RunRightMotor_2:
+   \                     ??RunRightMotor_3:
    \   000018   1C93         CMP.W   #0x1, R12
-   \   00001A   0B38         JL      ??RunRightMotor_3
+   \   00001A   0838         JL      ??RunRightMotor_4
      82                  RIGHT_REVERSE_SPEED = WHEEL_OFF;
    \   00001C   82435804     MOV.W   #0x0, &0x458
      83          
      84                  if(rightSwitchable) RIGHT_FORWARD_SPEED = val;
    \   000020   8293....     CMP.W   #0x0, &rightSwitchable
-   \   000024   0224         JEQ     ??RunRightMotor_4
+   \   000024   1324         JEQ     ??RunRightMotor_0
    \   000026   824C5404     MOV.W   R12, &0x454
+   \   00002A   103C         JMP     ??RunRightMotor_0
      85          
-     86                  return P6IN & R_FORWARD;
-   \                     ??RunRightMotor_4:
-   \   00002A   5C424102     MOV.B   &0x241, R12
-   \   00002E   5CF3         AND.B   #0x1, R12
-   \   000030   1001         RETA
+     86                  return 1;//P6IN & R_FORWARD;
      87              } else if (val == 0) {
-   \                     ??RunRightMotor_3:
-   \   000032   0C93         CMP.W   #0x0, R12
-   \   000034   0520         JNE     ??RunRightMotor_5
+   \                     ??RunRightMotor_4:
+   \   00002C   0C93         CMP.W   #0x0, R12
+   \   00002E   0520         JNE     ??RunRightMotor_5
      88                  ShutoffRight();
-   \   000036   ........     CALLA   #ShutoffRight
+   \   000030   ........     CALLA   #ShutoffRight
      89                  return rightSwitchable;
-   \   00003A   1C42....     MOV.W   &rightSwitchable, R12
-   \   00003E   1001         RETA
+   \   000034   1C42....     MOV.W   &rightSwitchable, R12
+   \   000038   1001         RETA
      90              } else {
      91                  RIGHT_FORWARD_SPEED = WHEEL_OFF;
    \                     ??RunRightMotor_5:
-   \   000040   82435404     MOV.W   #0x0, &0x454
+   \   00003A   82435404     MOV.W   #0x0, &0x454
      92          
      93                  if(rightSwitchable) RIGHT_REVERSE_SPEED = -val;
-   \   000044   8293....     CMP.W   #0x0, &rightSwitchable
-   \   000048   0424         JEQ     ??RunRightMotor_6
-   \   00004A   3CE3         XOR.W   #0xffff, R12
-   \   00004C   1C53         ADD.W   #0x1, R12
-   \   00004E   824C5804     MOV.W   R12, &0x458
+   \   00003E   8293....     CMP.W   #0x0, &rightSwitchable
+   \   000042   0424         JEQ     ??RunRightMotor_0
+   \   000044   3CE3         XOR.W   #0xffff, R12
+   \   000046   1C53         ADD.W   #0x1, R12
+   \   000048   824C5804     MOV.W   R12, &0x458
      94          
-     95                  return P6IN & R_REVERSE;
-   \                     ??RunRightMotor_6:
-   \   000052   5C424102     MOV.B   &0x241, R12
-   \   000056   2CF2         AND.W   #0x4, R12
-   \   000058   1001         RETA
-   \   00005A                REQUIRE _A_TB3CCR3_L
-   \   00005A                REQUIRE _A_TB3CCR1_L
-   \   00005A                REQUIRE _A_PCIN_L
+     95                  return 1;//P6IN & R_REVERSE;
+   \                     ??RunRightMotor_0:
+   \   00004C   1C43         MOV.W   #0x1, R12
+   \   00004E   1001         RETA
+   \   000050                REQUIRE _A_TB3CCR3_L
+   \   000050                REQUIRE _A_TB3CCR1_L
      96              }
      97          }
      98          
@@ -324,65 +314,60 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
    \                     RunLeftMotor:
     100              if(LEFT_REVERSE_SPEED > 0 && val > 0 || LEFT_FORWARD_SPEED > 0 && val < 0) {
    \   000000   82935A04     CMP.W   #0x0, &0x45a
-   \   000004   0224         JEQ     ??RunLeftMotor_0
+   \   000004   0224         JEQ     ??RunLeftMotor_1
    \   000006   1C93         CMP.W   #0x1, R12
-   \   000008   0534         JGE     ??RunLeftMotor_1
-   \                     ??RunLeftMotor_0:
-   \   00000A   82935604     CMP.W   #0x0, &0x456
-   \   00000E   0424         JEQ     ??RunLeftMotor_2
-   \   000010   0C93         CMP.W   #0x0, R12
-   \   000012   0234         JGE     ??RunLeftMotor_2
-    101                  ShutoffLeft();
+   \   000008   0534         JGE     ??RunLeftMotor_2
    \                     ??RunLeftMotor_1:
+   \   00000A   82935604     CMP.W   #0x0, &0x456
+   \   00000E   0424         JEQ     ??RunLeftMotor_3
+   \   000010   0C93         CMP.W   #0x0, R12
+   \   000012   0234         JGE     ??RunLeftMotor_3
+    101                  ShutoffLeft();
+   \                     ??RunLeftMotor_2:
    \   000014   ........     CALLA   #ShutoffLeft
     102              }
     103          
     104              if (val > 0) {
-   \                     ??RunLeftMotor_2:
+   \                     ??RunLeftMotor_3:
    \   000018   1C93         CMP.W   #0x1, R12
-   \   00001A   0B38         JL      ??RunLeftMotor_3
+   \   00001A   0838         JL      ??RunLeftMotor_4
     105                  LEFT_REVERSE_SPEED = WHEEL_OFF;
    \   00001C   82435A04     MOV.W   #0x0, &0x45a
     106          
     107                  if(leftSwitchable) LEFT_FORWARD_SPEED = val;
    \   000020   8293....     CMP.W   #0x0, &leftSwitchable
-   \   000024   0224         JEQ     ??RunLeftMotor_4
+   \   000024   1324         JEQ     ??RunLeftMotor_0
    \   000026   824C5604     MOV.W   R12, &0x456
+   \   00002A   103C         JMP     ??RunLeftMotor_0
     108          
-    109                  return P6IN & L_FORWARD;
-   \                     ??RunLeftMotor_4:
-   \   00002A   5C424102     MOV.B   &0x241, R12
-   \   00002E   2CF3         AND.W   #0x2, R12
-   \   000030   1001         RETA
+    109                  return 1;//P6IN & L_FORWARD;
     110              } else if (val == 0) {
-   \                     ??RunLeftMotor_3:
-   \   000032   0C93         CMP.W   #0x0, R12
-   \   000034   0520         JNE     ??RunLeftMotor_5
+   \                     ??RunLeftMotor_4:
+   \   00002C   0C93         CMP.W   #0x0, R12
+   \   00002E   0520         JNE     ??RunLeftMotor_5
     111                  ShutoffLeft();
-   \   000036   ........     CALLA   #ShutoffLeft
+   \   000030   ........     CALLA   #ShutoffLeft
     112                  return leftSwitchable;
-   \   00003A   1C42....     MOV.W   &leftSwitchable, R12
-   \   00003E   1001         RETA
+   \   000034   1C42....     MOV.W   &leftSwitchable, R12
+   \   000038   1001         RETA
     113              } else {
     114                  LEFT_FORWARD_SPEED = WHEEL_OFF;
    \                     ??RunLeftMotor_5:
-   \   000040   82435604     MOV.W   #0x0, &0x456
+   \   00003A   82435604     MOV.W   #0x0, &0x456
     115          
     116                  if(leftSwitchable) LEFT_REVERSE_SPEED = -val;
-   \   000044   8293....     CMP.W   #0x0, &leftSwitchable
-   \   000048   0424         JEQ     ??RunLeftMotor_6
-   \   00004A   3CE3         XOR.W   #0xffff, R12
-   \   00004C   1C53         ADD.W   #0x1, R12
-   \   00004E   824C5A04     MOV.W   R12, &0x45a
+   \   00003E   8293....     CMP.W   #0x0, &leftSwitchable
+   \   000042   0424         JEQ     ??RunLeftMotor_0
+   \   000044   3CE3         XOR.W   #0xffff, R12
+   \   000046   1C53         ADD.W   #0x1, R12
+   \   000048   824C5A04     MOV.W   R12, &0x45a
     117          
-    118                  return P6IN & L_REVERSE_2355;
-   \                     ??RunLeftMotor_6:
-   \   000052   5C424102     MOV.B   &0x241, R12
-   \   000056   3CF2         AND.W   #0x8, R12
-   \   000058   1001         RETA
-   \   00005A                REQUIRE _A_TB3CCR4_L
-   \   00005A                REQUIRE _A_TB3CCR2_L
-   \   00005A                REQUIRE _A_PCIN_L
+    118                  return 1;//P6IN & L_REVERSE_2355;
+   \                     ??RunLeftMotor_0:
+   \   00004C   1C43         MOV.W   #0x1, R12
+   \   00004E   1001         RETA
+   \   000050                REQUIRE _A_TB3CCR4_L
+   \   000050                REQUIRE _A_TB3CCR2_L
     119              }
     120          }
     121          
@@ -424,7 +409,7 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
     155          int LockMotors(int polR, int polL) {
    \                     LockMotors:
     156              return (Drive_Path(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, LOCK_TIME));
-   \   000000   3E401900     MOV.W   #0x19, R14
+   \   000000   3E409600     MOV.W   #0x96, R14
    \   000004                REQUIRE ?Subroutine0
    \   000004                // Fall through to label ?Subroutine0
     157          }
@@ -625,13 +610,12 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
        4  LockMotors
        4  LockMotorsTime
       34  MotorSafety
-      90  RunLeftMotor
-      90  RunRightMotor
+      80  RunLeftMotor
+      80  RunRightMotor
       36  ShutoffLeft
        8  ShutoffMotors
       36  ShutoffRight
       22  Update_Ticks
-       2  _A_PCIN_L
        2  _A_TB1CCR1_L
        2  _A_TB1CCR2_L
        2  _A_TB1CCTL1_L
@@ -649,15 +633,15 @@ C:\Users\saad\Documents\ece-306\Project 10\wheels.c
        2  wheel_periods
 
  
- 452 bytes in segment CODE
-  20 bytes in segment DATA16_AN
+ 432 bytes in segment CODE
+  18 bytes in segment DATA16_AN
   20 bytes in segment DATA16_I
   20 bytes in segment DATA16_ID
    4 bytes in segment DATA16_Z
  
- 452 bytes of CODE  memory
+ 432 bytes of CODE  memory
   20 bytes of CONST memory
-  24 bytes of DATA  memory (+ 20 bytes shared)
+  24 bytes of DATA  memory (+ 18 bytes shared)
 
 Errors: none
 Warnings: none

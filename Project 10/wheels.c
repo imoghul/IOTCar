@@ -83,7 +83,7 @@ int RunRightMotor(int val) {
 
         if(rightSwitchable) RIGHT_FORWARD_SPEED = val;
 
-        return P6IN & R_FORWARD;
+        return 1;//P6IN & R_FORWARD;
     } else if (val == 0) {
         ShutoffRight();
         return rightSwitchable;
@@ -92,7 +92,7 @@ int RunRightMotor(int val) {
 
         if(rightSwitchable) RIGHT_REVERSE_SPEED = -val;
 
-        return P6IN & R_REVERSE;
+        return 1;//P6IN & R_REVERSE;
     }
 }
 
@@ -106,7 +106,7 @@ int RunLeftMotor( int val) {
 
         if(leftSwitchable) LEFT_FORWARD_SPEED = val;
 
-        return P6IN & L_FORWARD;
+        return 1;//P6IN & L_FORWARD;
     } else if (val == 0) {
         ShutoffLeft();
         return leftSwitchable;
@@ -115,7 +115,7 @@ int RunLeftMotor( int val) {
 
         if(leftSwitchable) LEFT_REVERSE_SPEED = -val;
 
-        return P6IN & L_REVERSE_2355;
+        return 1;//P6IN & L_REVERSE_2355;
     }
 }
 

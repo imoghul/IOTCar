@@ -113,7 +113,7 @@ __interrupt void ADC_ISR(void) {
                     ADCMCTL0 &= ~ADCINCH_9;
                     ADCMCTL0 = ADCINCH_10;
                     ADC_Vbat = ADCMEM0;
-                    ADC_Vbat = ADC_Vbat;
+                    //ADC_Vbat = ADC_Vbat;
                     ADCCTL0 |= ADCSC;
                     break;
 
@@ -121,7 +121,7 @@ __interrupt void ADC_ISR(void) {
                     ADCMCTL0 &= ~ADCINCH_10;
                     ADCMCTL0 = ADCINCH_11;
                     ADC_Vdac = ADCMEM0;
-                    ADC_Vdac = ADC_Vdac;
+                    //ADC_Vdac = ADC_Vdac;
                     ADCCTL0 |= ADCSC;
                     break;
 
@@ -129,7 +129,7 @@ __interrupt void ADC_ISR(void) {
                     ADCMCTL0 &= ~ADCINCH_11;
                     ADCMCTL0 = ADCINCH_2;
                     ADC_V3v3 = ADCMEM0;
-                    ADC_V3v3 = ADC_V3v3;
+                    //ADC_V3v3 = ADC_V3v3;
                     ADCCTL0 |= ADCSC;
                     break;
 

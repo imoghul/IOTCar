@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          10/Apr/2022  19:21:44
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Apr/2022  14:27:16
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\adc.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW85F.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWF9E.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\adc.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -292,7 +292,7 @@ C:\Users\saad\Documents\ece-306\Project 10\adc.c
      81              switch(__even_in_range(ADCIV, ADCIV_ADCIFG)) {
    \   000002   1F421E07     MOV.W   &0x71e, R15
    \   000006   3F900C00     CMP.W   #0xc, R15
-   \   00000A   6E20         JNE     ??ADC_ISR_2
+   \   00000A   6520         JNE     ??ADC_ISR_2
      82                  case ADCIV_NONE:
      83                      break;
      84          
@@ -326,16 +326,16 @@ C:\Users\saad\Documents\ece-306\Project 10\adc.c
    \   000024   1F83         SUB.W   #0x1, R15
    \   000026   1A24         JEQ     ??ADC_ISR_4
    \   000028   1F83         SUB.W   #0x1, R15
-   \   00002A   2424         JEQ     ??ADC_ISR_5
+   \   00002A   2124         JEQ     ??ADC_ISR_5
    \   00002C   1F83         SUB.W   #0x1, R15
-   \   00002E   2E24         JEQ     ??ADC_ISR_6
+   \   00002E   2824         JEQ     ??ADC_ISR_6
    \   000030   1F83         SUB.W   #0x1, R15
-   \   000032   3724         JEQ     ??ADC_ISR_7
+   \   000032   2E24         JEQ     ??ADC_ISR_7
    \   000034   1F83         SUB.W   #0x1, R15
-   \   000036   4424         JEQ     ??ADC_ISR_8
+   \   000036   3B24         JEQ     ??ADC_ISR_8
    \   000038   1F83         SUB.W   #0x1, R15
-   \   00003A   5024         JEQ     ??ADC_ISR_9
-   \   00003C   533C         JMP     ??ADC_ISR_1
+   \   00003A   4724         JEQ     ??ADC_ISR_9
+   \   00003C   4A3C         JMP     ??ADC_ISR_1
     104                          case 0x00:
     105                              ADCMCTL0 &= ~ADCINCH_5;
    \                     ??ADC_ISR_3:
@@ -350,7 +350,7 @@ C:\Users\saad\Documents\ece-306\Project 10\adc.c
    \   000054   5F03         RRUM.W  #0x1, R15
    \   000056   824F....     MOV.W   R15, &ADC_Thumb
     109                              ADCCTL0 |= ADCSC;
-   \   00005A   2F3C         JMP     ??ADC_ISR_0
+   \   00005A   263C         JMP     ??ADC_ISR_0
     110                              break;
     111          
     112                          case 0x01:
@@ -361,79 +361,76 @@ C:\Users\saad\Documents\ece-306\Project 10\adc.c
    \   000062   B2400A000A07 MOV.W   #0xa, &0x70a
     115                              ADC_Vbat = ADCMEM0;
    \   000068   A24E....     MOV.W   @R14, &ADC_Vbat
-    116                              ADC_Vbat = ADC_Vbat;
-   \   00006C   9242........ MOV.W   &ADC_Vbat, &ADC_Vbat
+    116                              //ADC_Vbat = ADC_Vbat;
     117                              ADCCTL0 |= ADCSC;
-   \   000072   233C         JMP     ??ADC_ISR_0
+   \   00006C   1D3C         JMP     ??ADC_ISR_0
     118                              break;
     119          
     120                          case 0x02:
     121                              ADCMCTL0 &= ~ADCINCH_10;
    \                     ??ADC_ISR_5:
-   \   000074   B2F0F5FF0A07 AND.W   #0xfff5, &0x70a
+   \   00006E   B2F0F5FF0A07 AND.W   #0xfff5, &0x70a
     122                              ADCMCTL0 = ADCINCH_11;
-   \   00007A   B2400B000A07 MOV.W   #0xb, &0x70a
+   \   000074   B2400B000A07 MOV.W   #0xb, &0x70a
     123                              ADC_Vdac = ADCMEM0;
-   \   000080   A24E....     MOV.W   @R14, &ADC_Vdac
-    124                              ADC_Vdac = ADC_Vdac;
-   \   000084   9242........ MOV.W   &ADC_Vdac, &ADC_Vdac
+   \   00007A   A24E....     MOV.W   @R14, &ADC_Vdac
+    124                              //ADC_Vdac = ADC_Vdac;
     125                              ADCCTL0 |= ADCSC;
-   \   00008A   173C         JMP     ??ADC_ISR_0
+   \   00007E   143C         JMP     ??ADC_ISR_0
     126                              break;
     127          
     128                          case 0x03:
     129                              ADCMCTL0 &= ~ADCINCH_11;
    \                     ??ADC_ISR_6:
-   \   00008C   B2F0F4FF0A07 AND.W   #0xfff4, &0x70a
+   \   000080   B2F0F4FF0A07 AND.W   #0xfff4, &0x70a
     130                              ADCMCTL0 = ADCINCH_2;
-   \   000092   A2430A07     MOV.W   #0x2, &0x70a
+   \   000086   A2430A07     MOV.W   #0x2, &0x70a
     131                              ADC_V3v3 = ADCMEM0;
-   \   000096   A24E....     MOV.W   @R14, &ADC_V3v3
-    132                              ADC_V3v3 = ADC_V3v3;
-   \   00009A   9242........ MOV.W   &ADC_V3v3, &ADC_V3v3
+   \   00008A   A24E....     MOV.W   @R14, &ADC_V3v3
+    132                              //ADC_V3v3 = ADC_V3v3;
     133                              ADCCTL0 |= ADCSC;
-   \   0000A0   0C3C         JMP     ??ADC_ISR_0
+   \   00008E   0C3C         JMP     ??ADC_ISR_0
     134                              break;
     135          
     136                          case 0x04:
     137                              ADCMCTL0 &= ~ADCINCH_2;
    \                     ??ADC_ISR_7:
-   \   0000A2   A2C30A07     BIC.W   #0x2, &0x70a
+   \   000090   A2C30A07     BIC.W   #0x2, &0x70a
     138                              ADCMCTL0 = ADCINCH_3;
-   \   0000A6   B24003000A07 MOV.W   #0x3, &0x70a
+   \   000094   B24003000A07 MOV.W   #0x3, &0x70a
     139                              ADC_Left_Detect = ADCMEM0;
-   \   0000AC   A24E....     MOV.W   @R14, &ADC_Left_Detect
+   \   00009A   A24E....     MOV.W   @R14, &ADC_Left_Detect
     140                              ADC_Left_Detect = ADC_Left_Detect >> 1;
-   \   0000B0   1F42....     MOV.W   &ADC_Left_Detect, R15
-   \   0000B4   5F03         RRUM.W  #0x1, R15
-   \   0000B6   824F....     MOV.W   R15, &ADC_Left_Detect
+   \   00009E   1F42....     MOV.W   &ADC_Left_Detect, R15
+   \   0000A2   5F03         RRUM.W  #0x1, R15
+   \   0000A4   824F....     MOV.W   R15, &ADC_Left_Detect
     141                              ADCCTL0 |= ADCSC;
    \                     ??ADC_ISR_0:
-   \   0000BA   92D30007     BIS.W   #0x1, &0x700
+   \   0000A8   92D30007     BIS.W   #0x1, &0x700
     142                              break;
-   \   0000BE   123C         JMP     ??ADC_ISR_1
+   \   0000AC   123C         JMP     ??ADC_ISR_1
     143          
     144                          case 0x05:
     145                              ADCMCTL0 &= ~ADCINCH_3;
    \                     ??ADC_ISR_8:
-   \   0000C0   B2F0FCFF0A07 AND.W   #0xfffc, &0x70a
+   \   0000AE   B2F0FCFF0A07 AND.W   #0xfffc, &0x70a
     146                              ADCMCTL0 = ADCINCH_5;
-   \   0000C6   B24005000A07 MOV.W   #0x5, &0x70a
+   \   0000B4   B24005000A07 MOV.W   #0x5, &0x70a
     147                              ADC_Right_Detect = ADCMEM0;
-   \   0000CC   A24E....     MOV.W   @R14, &ADC_Right_Detect
+   \   0000BA   A24E....     MOV.W   @R14, &ADC_Right_Detect
     148                              ADC_Right_Detect = ADC_Right_Detect >> 1;
-   \   0000D0   1F42....     MOV.W   &ADC_Right_Detect, R15
-   \   0000D4   5F03         RRUM.W  #0x1, R15
-   \   0000D6   824F....     MOV.W   R15, &ADC_Right_Detect
+   \   0000BE   1F42....     MOV.W   &ADC_Right_Detect, R15
+   \   0000C2   5F03         RRUM.W  #0x1, R15
+   \   0000C4   824F....     MOV.W   R15, &ADC_Right_Detect
     149                              break;
-   \   0000DA   043C         JMP     ??ADC_ISR_1
+   \   0000C8   043C         JMP     ??ADC_ISR_1
     150          
     151                          case 0x06:
     152                              adcUpdated = 1;
    \                     ??ADC_ISR_9:
-   \   0000DC   9243....     MOV.W   #0x1, &adcUpdated
+   \   0000CA   9243....     MOV.W   #0x1, &adcUpdated
     153                              ADC_Channel = 0;
-   \   0000E0   8243....     MOV.W   #0x0, &ADC_Channel
+   \   0000CE   8243....     MOV.W   #0x0, &ADC_Channel
     154                              break;
     155          
     156                          default:
@@ -442,19 +439,19 @@ C:\Users\saad\Documents\ece-306\Project 10\adc.c
     159          
     160                      ADCCTL0 |= ADCENC;
    \                     ??ADC_ISR_1:
-   \   0000E4   A2D30007     BIS.W   #0x2, &0x700
+   \   0000D2   A2D30007     BIS.W   #0x2, &0x700
     161          
     162                  default:
     163                      break;
     164              }
     165          }
    \                     ??ADC_ISR_2:
-   \   0000E8   1E17         POPM.W  #0x2, R15
-   \   0000EA   0013         RETI
-   \   0000EC                REQUIRE _A_ADCCTL0_L
-   \   0000EC                REQUIRE _A_ADCMCTL0_L
-   \   0000EC                REQUIRE _A_ADCMEM0_L
-   \   0000EC                REQUIRE _A_ADCIV_L
+   \   0000D6   1E17         POPM.W  #0x2, R15
+   \   0000D8   0013         RETI
+   \   0000DA                REQUIRE _A_ADCCTL0_L
+   \   0000DA                REQUIRE _A_ADCMCTL0_L
+   \   0000DA                REQUIRE _A_ADCMEM0_L
+   \   0000DA                REQUIRE _A_ADCIV_L
 
    \                                 In  segment INTVEC, offset 0x3a, root
    \                     `??ADC_ISR::??INTVEC 58`:
@@ -476,7 +473,7 @@ C:\Users\saad\Documents\ece-306\Project 10\adc.c
    Bytes  Function/Label
    -----  --------------
        2  ADC_Channel
-     236  ADC_ISR
+     218  ADC_ISR
        2  ADC_ISR::??INTVEC 58
        2  ADC_Left_Detect
        2  ADC_Right_Detect
@@ -508,9 +505,9 @@ C:\Users\saad\Documents\ece-306\Project 10\adc.c
   26 bytes in segment DATA16_AN
   18 bytes in segment DATA16_Z
    2 bytes in segment INTVEC
- 236 bytes in segment ISR_CODE
+ 218 bytes in segment ISR_CODE
  
- 442 bytes of CODE  memory
+ 424 bytes of CODE  memory
    0 bytes of CONST memory (+  2 bytes shared)
   18 bytes of DATA  memory (+ 26 bytes shared)
 

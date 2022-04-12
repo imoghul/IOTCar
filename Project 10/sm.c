@@ -180,11 +180,11 @@ void Drive(int polR, int polL, unsigned int time) {
     switch(stateCounter) {
 
         case 0 :
-            stateCounter++;
+            if(rightSwitchable && leftSwitchable)stateCounter++;
             break;
 
         case 1 :
-            if(Drive_Path(polR * STRAIGHT_RIGHT, polL * STRAIGHT_LEFT, time))stateCounter++;
+          if(Drive_Path(polR>0?STRAIGHT_RIGHT:-STRAIGHT_RIGHT, polL>0?STRAIGHT_LEFT:-STRAIGHT_LEFT, time))stateCounter++;
 
             break;
 
@@ -238,7 +238,7 @@ void StateMachine(void) {
             break;
 
         case (WAIT):
-            strcpy(display_line[0], "WAITING...");
+            //strcpy(display_line[0], "WAITING...");
 
             if (delay(delayTime, 0)) state = nextState;
 
