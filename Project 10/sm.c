@@ -79,9 +79,9 @@ void Turn() {
 
         case 1: // gotta remove this
           if(enteringDirection == MOVING_LEFT){
-                if(Drive_Path(RIGHT_MAX, -LEFT_MAX, 20)) stateCounter++;
+                if(Drive_Path(RIGHT_MAX, -LEFT_MAX, 100)) stateCounter++;
           }else if(enteringDirection == MOVING_RIGHT)
-                    if(Drive_Path(-RIGHT_MAX, LEFT_MAX, 20)) stateCounter++;
+                    if(Drive_Path(-RIGHT_MAX, LEFT_MAX, 100)) stateCounter++;
 
             break;
 

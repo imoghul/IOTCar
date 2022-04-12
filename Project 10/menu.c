@@ -18,7 +18,7 @@ unsigned int lastThumb;
 extern command currCommand;
 extern volatile char commandsReceieved;
 
-menu calib,start,mainMenu,commandsOutput;
+menu calib,start,mainMenu,commandsOutput,networkInfo;
 
 menu* currMenu = &start;
 
@@ -79,8 +79,8 @@ void transitionMenu(menu* m) {
     }
 
     strcpy(display_line[0], "          ");
-    //strcpy(display_line[1], "          ");
-    //strcpy(display_line[2], "          ");
+    strcpy(display_line[1], "          ");
+    strcpy(display_line[2], "          ");
     strcpy(display_line[3], "          ");
     display_changed = 1;
 }
@@ -109,6 +109,10 @@ void MenuProcess(void) {
           break;
       case COMMANDS_MENU:
           displayCommandsMenu();
+          break;
+      case NETWORK_MENU:
+          displayNetworkInfo();
+          break;
       default:
           break;
   }
@@ -125,12 +129,12 @@ void Init_Menu(void){
   };
   
   mainMenu  = (menu){
-      .length = 2,
+      .length = 3,
       .current = 0,
       .name = MAIN_MENU,
-      .headers = {"CALIBRATE "," COMMANDS "},
+      .headers = {"CALIBRATE "," COMMANDS "," NETWORK  "},
       .values = {""},
-      .transitions = {&calib,&commandsOutput}
+      .transitions = {&calib,&commandsOutput,&networkInfo}
   };
   
   start  = (menu){
@@ -145,6 +149,14 @@ void Init_Menu(void){
       .length = 1,
       .current = 0,
       .name = COMMANDS_MENU,
+      .headers = {""},
+      .values = {""},
+      .transitions = {&mainMenu}
+  };
+  networkInfo = (menu){
+      .length = 1,
+      .current = 0,
+      .name = NETWORK_MENU,
       .headers = {""},
       .values = {""},
       .transitions = {&mainMenu}

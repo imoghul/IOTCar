@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Apr/2022  14:27:18
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Apr/2022  15:15:39
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\sm.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW18E5.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW61A5.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\sm.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -249,8 +249,8 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \                     ??Turn_2:
    \   00001C   7E904C00     CMP.B   #0x4c, R14
    \   000020   0720         JNE     ??Turn_5
-     82                          if(Drive_Path(RIGHT_MAX, -LEFT_MAX, 20)) stateCounter++;
-   \   000022   3E401400     MOV.W   #0x14, R14
+     82                          if(Drive_Path(RIGHT_MAX, -LEFT_MAX, 100)) stateCounter++;
+   \   000022   3E406400     MOV.W   #0x64, R14
    \   000026   3D40F0D8     MOV.W   #0xd8f0, R13
    \   00002A   3C401027     MOV.W   #0x2710, R12
    \   00002E   093C         JMP     ??Turn_0
@@ -258,8 +258,8 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \                     ??Turn_5:
    \   000030   7E905200     CMP.B   #0x52, R14
    \   000034   3C20         JNE     ??Turn_6
-     84                              if(Drive_Path(-RIGHT_MAX, LEFT_MAX, 20)) stateCounter++;
-   \   000036   3E401400     MOV.W   #0x14, R14
+     84                              if(Drive_Path(-RIGHT_MAX, LEFT_MAX, 100)) stateCounter++;
+   \   000036   3E406400     MOV.W   #0x64, R14
    \   00003A   3D401027     MOV.W   #0x2710, R13
    \   00003E   3C40F0D8     MOV.W   #0xd8f0, R12
    \                     ??Turn_0:
@@ -274,11 +274,11 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
      89                      if (((ADC_Left_Detect <= LEFT_GRAY_DETECT || ADC_Right_Detect <= RIGHT_GRAY_DETECT))) {
    \                     ??Turn_3:
    \   00004C   1F42....     MOV.W   &LBDetect, R15
-   \   000050   3F50A6FF     ADD.W   #0xffa6, R15
+   \   000050   3F509CFF     ADD.W   #0xff9c, R15
    \   000054   1F92....     CMP.W   &ADC_Left_Detect, R15
    \   000058   072C         JC      ??Turn_7
    \   00005A   1F42....     MOV.W   &RBDetect, R15
-   \   00005E   3F50A6FF     ADD.W   #0xffa6, R15
+   \   00005E   3F509CFF     ADD.W   #0xff9c, R15
    \   000062   1F92....     CMP.W   &ADC_Right_Detect, R15
    \   000066   1528         JNC     ??Turn_8
      90                          if(enteringDirection == MOVING_LEFT)Drive_Path(RIGHT_MIN, -LEFT_MIN, 0);
@@ -382,12 +382,12 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000060   7A3C         JMP     ??LineFollow_1
    \                     ??LineFollow_13:
    \   000062   1F42....     MOV.W   &LBDetect, R15
-   \   000066   3F50A6FF     ADD.W   #0xffa6, R15
+   \   000066   3F509CFF     ADD.W   #0xff9c, R15
    \   00006A   829F....     CMP.W   R15, &ADC_Left_Detect
    \   00006E   4E7E         SUBC.B  R14, R14
    \   000070   5EF3         AND.B   #0x1, R14
    \   000072   1D42....     MOV.W   &RBDetect, R13
-   \   000076   3D50A6FF     ADD.W   #0xffa6, R13
+   \   000076   3D509CFF     ADD.W   #0xff9c, R13
    \   00007A   829D....     CMP.W   R13, &ADC_Right_Detect
    \   00007E   012C         JC      ??LineFollow_0
    \   000080   5EE3         XOR.B   #0x1, R14
@@ -465,8 +465,8 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   0000E6   829F....     CMP.W   R15, &ADC_Left_Detect
    \   0000EA   062C         JC      ??LineFollow_24
    \   0000EC   0E43         MOV.W   #0x0, R14
-   \   0000EE   3D409CE6     MOV.W   #0xe69c, R13
-   \   0000F2   3C406419     MOV.W   #0x1964, R12
+   \   0000EE   3D406CEE     MOV.W   #0xee6c, R13
+   \   0000F2   3C409411     MOV.W   #0x1194, R12
    \   0000F6   133C         JMP     ??LineFollow_3
     152                      else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
    \                     ??LineFollow_24:
@@ -490,8 +490,8 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   00010E   829C....     CMP.W   R12, &ADC_Right_Detect
    \   000112   082C         JC      ??LineFollow_26
    \   000114   0E43         MOV.W   #0x0, R14
-   \   000116   3D406419     MOV.W   #0x1964, R13
-   \   00011A   3C409CE6     MOV.W   #0xe69c, R12
+   \   000116   3D409411     MOV.W   #0x1194, R13
+   \   00011A   3C406CEE     MOV.W   #0xee6c, R12
    \                     ??LineFollow_3:
    \   00011E   ........     CALLA   #Drive_Path
    \   000122   193C         JMP     ??LineFollow_1

@@ -50,4 +50,5 @@ void centerStringToDisplay(unsigned int line, char * s);
 void IOTBufferCommands(void);
 void ProcessCommands(void);
 void pushCB(command c);
+void displayNetworkInfo(void);
 command popCB(void);

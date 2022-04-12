@@ -10,7 +10,7 @@
 #define DRIVE           ('D')
 #define EXIT            ('e')
 
-#define LF_TURN_DECREMENT       (2000)
+#define LF_TURN_DECREMENT       (4000)
 
 void StateMachine(void);
 void Straight();

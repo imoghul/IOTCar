@@ -91,7 +91,7 @@ int Init_IOT(void) {
             if(UCA0IE & UCTXIE) break;
 
             getIP();
-
+            displayNetworkInfo();
             break;
 
         default:
@@ -126,8 +126,7 @@ void getSSID(void) {
 
             SSID[i + SSID_RESPONSE_LEN + 2] = 0; // set the end of the SSID to null
             SSID[SSID_LEN] = 0; //  set end of the array to null
-            centerStringToDisplay(0, SSID);
-            display_changed = 1;
+            
             iot_setup_state = GET_IP_Tx;
         } else iot_setup_state = GET_SSID_Tx;
 
@@ -147,19 +146,28 @@ void getIP(void) {
                     if(dotFound++ == 1) midIndex = i;
                 }
             }
-
+            
             IP[i + IP_RESPONSE_LEN + 2] = 0;
             IP[IP_LEN] = 0;
             IP[midIndex] = 0;
-            //strcpy(display_line[1], "IP ADDRESS");
-            centerStringToDisplay(1, IP);
-            centerStringToDisplay(2, IP + midIndex + 1);
-            display_changed = 1;
+            
             iot_setup_state = IOT_SETUP_FINISHED;
         } else iot_setup_state = GET_IP_Tx;
 
         clearProcessBuff_0();
     }
+}
+
+void displayNetworkInfo(void){
+  /*strcpy(display_line[0], "          ");
+  strcpy(display_line[1], "          ");
+  strcpy(display_line[2], "          ");
+  strcpy(display_line[3], "          ");*/
+  centerStringToDisplay(0, SSID);
+  //strcpy(display_line[1], "IP ADDRESS");
+  centerStringToDisplay(1, IP);
+  centerStringToDisplay(2, IP + midIndex + 1);
+  display_changed = 1;
 }
 
 

@@ -5,7 +5,11 @@ extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 
 void centerStringToDisplay(unsigned int line, char * s) {
-    strcpy(display_line[line] + ((10 - strlen(s)) >> 1), s);
+    int len = strlen(s);
+    int pos = ((10 - len) >> 1);
+    strcpy(display_line[line] + pos, s);
+    display_line[line][pos + len] = ' ';
+    display_line[line][10] = 0;
 }
 
 char* subStringPos(const char* str,char * subString) {
