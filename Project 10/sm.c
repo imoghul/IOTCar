@@ -176,6 +176,44 @@ void LineFollow() {
 
 }
 
+void Exit(int direction) {
+    if (stateCounter == 0) {
+        if(rightSwitchable && leftSwitchable)stateCounter++;
+    }
+
+    if (stateCounter == 1) {
+        if(direction) {
+            if(Drive_Path(-STRAIGHT_RIGHT, STRAIGHT_LEFT, 360)) stateCounter++;
+        } else {
+            if(Drive_Path(STRAIGHT_RIGHT, -STRAIGHT_LEFT, 360)) stateCounter++;
+        }
+    }
+
+    if (stateCounter == 2) {
+        if(direction) {
+          if(LockMotors(1, -1)) stateCounter++;  
+        } else {
+            if(LockMotors(-1, 1)) stateCounter++;
+        }
+    }
+
+    if (stateCounter == 3) {
+        if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 5000)) stateCounter++;
+    }
+
+    if (stateCounter == 4) {
+        if(LockMotors(-1, -1)) stateCounter++;
+    }
+
+    else if (stateCounter == 5) {
+        ShutoffMotors();
+        stateCounter = 0 ;
+        state = START;
+        stopwatch_seconds = 0;
+        cycle_count = 0;
+    }
+}
+
 void Drive(int polR, int polL, unsigned int time) {
     switch(stateCounter) {
 
@@ -254,6 +292,10 @@ void StateMachine(void) {
 
         case (LINEFOLLOW):
             LineFollow();
+            break;
+            
+        case (EXIT):
+            Exit(polarityRight);
             break;
             
         case (DRIVE):

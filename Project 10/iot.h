@@ -34,6 +34,7 @@
 #define STOP_COMMAND                    ('s')
 #define LINEFOLLOW_COMMAND              ('o')
 #define DISPLAY_NUMBER_COMMAND          ('d')
+#define EXIT_COMMAND                    ('e')
 #define TURN_CONSTANT                   (4)
 
 typedef struct {

@@ -21,7 +21,6 @@ char dotFound;
 int midIndex;
 command CommandBuffer[COMMAND_BUFFER_LEN];
 char cb_index;
-extern volatile int stateCounter;
 volatile char commandsReceieved;
 
 extern volatile unsigned int cycle_count;
@@ -223,7 +222,6 @@ void ProcessCommands(void) {
       currCommand = popCB();
       state = START;
       stopwatch_milliseconds = 0;
-      stateCounter = 0 ;
       ShutoffMotors();
       return;
     }

@@ -16,4 +16,5 @@ void StateMachine(void);
 void Straight();
 void Turn();
 void LineFollow();
+void Exit();
 int delay(int seconds, int cycles);
