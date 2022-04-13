@@ -18,7 +18,7 @@ unsigned int lastThumb;
 extern command currCommand;
 extern volatile char commandsReceieved;
 extern volatile unsigned int stopwatchUpdated;
-extern float timeElapsed;
+extern volatile int timeElapsedSeconds,timeElapsedMilliseconds;
 
 menu calib,start,mainMenu,commandsOutput,networkInfo;
 
@@ -50,9 +50,9 @@ void displayCommandsMenu() {
   
   if(stopwatchUpdated){
     stopwatchUpdated = 0;
-    HEXtoBCD((int)timeElapsed,3,0);
+    HEXtoBCD(timeElapsedSeconds,3,0);
     display_line[3][4] = '.';
-    display_line[3][5] = (int)(10*(timeElapsed-(int)timeElapsed)) + '0';
+    display_line[3][5] = timeElapsedMilliseconds + '0';
   }
   display_changed = 1;
 }

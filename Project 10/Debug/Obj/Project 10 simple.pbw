@@ -129826,16 +129826,30 @@
     "scope": null
   },
   {
-    "ID": "c:@timeElapsed",
+    "ID": "c:@timeElapsedSeconds",
     "What": "Variable",
     "defdec": "Dec",
-    "display": "timeElapsed",
+    "display": "timeElapsedSeconds",
     "location": {
-      "column": "14",
+      "column": "21",
       "line": "21",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\menu.c"
     },
-    "name": "timeElapsed",
+    "name": "timeElapsedSeconds",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@timeElapsedMilliseconds",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "timeElapsedMilliseconds",
+    "location": {
+      "column": "40",
+      "line": "21",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\menu.c"
+    },
+    "name": "timeElapsedMilliseconds",
     "origin": "project_file",
     "scope": null
   },
@@ -129952,7 +129966,7 @@
     "scope": null
   },
   {
-    "ID": "c:menu.c@1684@F@updateMenuPos@val",
+    "ID": "c:menu.c@1707@F@updateMenuPos@val",
     "What": "Variable",
     "defdec": "Def",
     "display": "val",
@@ -132484,7 +132498,7 @@
     "display": "void Turn(void)",
     "location": {
       "column": "6",
-      "line": "73",
+      "line": "75",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\sm.c"
     },
     "name": "Turn",
@@ -132498,7 +132512,7 @@
     "display": "void LineFollow(void)",
     "location": {
       "column": "6",
-      "line": "107",
+      "line": "111",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\sm.c"
     },
     "name": "LineFollow",
@@ -132506,13 +132520,13 @@
     "scope": null
   },
   {
-    "ID": "c:sm.c@3217@F@LineFollow@rFollowSpeed",
+    "ID": "c:sm.c@3349@F@LineFollow@rFollowSpeed",
     "What": "Variable",
     "defdec": "Def",
     "display": "rFollowSpeed",
     "location": {
       "column": "9",
-      "line": "109",
+      "line": "113",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\sm.c"
     },
     "name": "rFollowSpeed",
@@ -132520,13 +132534,13 @@
     "scope": null
   },
   {
-    "ID": "c:sm.c@3217@F@LineFollow@lFollowSpeed",
+    "ID": "c:sm.c@3349@F@LineFollow@lFollowSpeed",
     "What": "Variable",
     "defdec": "Dec",
     "display": "lFollowSpeed",
     "location": {
       "column": "22",
-      "line": "109",
+      "line": "113",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\sm.c"
     },
     "name": "lFollowSpeed",
@@ -132540,7 +132554,7 @@
     "display": "void Exit(int)",
     "location": {
       "column": "6",
-      "line": "179",
+      "line": "183",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\sm.c"
     },
     "name": "Exit",
@@ -132554,7 +132568,7 @@
     "display": "void Drive(int, int, unsigned int)",
     "location": {
       "column": "6",
-      "line": "217",
+      "line": "221",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\sm.c"
     },
     "name": "Drive",
@@ -132568,7 +132582,7 @@
     "display": "int delay(int, int)",
     "location": {
       "column": "5",
-      "line": "245",
+      "line": "249",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\sm.c"
     },
     "name": "delay",
@@ -132582,10 +132596,94 @@
     "display": "void StateMachine(void)",
     "location": {
       "column": "6",
-      "line": "261",
+      "line": "265",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\sm.c"
     },
     "name": "StateMachine",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@GetOutput",
+    "What": "Function",
+    "defdec": "Def",
+    "display": "int GetOutput(PIDController *, int, int)",
+    "location": {
+      "column": "5",
+      "line": "7",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
+    },
+    "name": "GetOutput",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:pid.c@184@F@GetOutput@error",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "error",
+    "location": {
+      "column": "9",
+      "line": "8",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
+    },
+    "name": "error",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:pid.c@461@F@GetOutput@derivative",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "derivative",
+    "location": {
+      "column": "9",
+      "line": "13",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
+    },
+    "name": "derivative",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:pid.c@601@F@GetOutput@errorTerm",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "errorTerm",
+    "location": {
+      "column": "9",
+      "line": "16",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
+    },
+    "name": "errorTerm",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:pid.c@649@F@GetOutput@derivTerm",
+    "What": "Variable",
+    "defdec": "Def",
+    "display": "derivTerm",
+    "location": {
+      "column": "9",
+      "line": "17",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
+    },
+    "name": "derivTerm",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@F@ClearController",
+    "What": "Function",
+    "defdec": "Def",
+    "display": "void ClearController(PIDController *)",
+    "location": {
+      "column": "6",
+      "line": "22",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
+    },
+    "name": "ClearController",
     "origin": "project_file",
     "scope": null
   },
@@ -132771,90 +132869,6 @@
     },
     "name": "multSafe",
     "origin": "user_include",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@GetOutput",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "int GetOutput(PIDController *, int, int)",
-    "location": {
-      "column": "5",
-      "line": "7",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
-    },
-    "name": "GetOutput",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:pid.c@184@F@GetOutput@error",
-    "What": "Variable",
-    "defdec": "Def",
-    "display": "error",
-    "location": {
-      "column": "9",
-      "line": "8",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
-    },
-    "name": "error",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:pid.c@461@F@GetOutput@derivative",
-    "What": "Variable",
-    "defdec": "Def",
-    "display": "derivative",
-    "location": {
-      "column": "9",
-      "line": "13",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
-    },
-    "name": "derivative",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:pid.c@601@F@GetOutput@errorTerm",
-    "What": "Variable",
-    "defdec": "Def",
-    "display": "errorTerm",
-    "location": {
-      "column": "9",
-      "line": "16",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
-    },
-    "name": "errorTerm",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:pid.c@649@F@GetOutput@derivTerm",
-    "What": "Variable",
-    "defdec": "Def",
-    "display": "derivTerm",
-    "location": {
-      "column": "9",
-      "line": "17",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
-    },
-    "name": "derivTerm",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@ClearController",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "void ClearController(PIDController *)",
-    "location": {
-      "column": "6",
-      "line": "22",
-      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\pid.c"
-    },
-    "name": "ClearController",
-    "origin": "project_file",
     "scope": null
   },
   {
@@ -133054,16 +133068,30 @@
     "scope": null
   },
   {
-    "ID": "c:@timeElapsed",
+    "ID": "c:@timeElapsedSeconds",
     "What": "Variable",
     "defdec": "Dec",
-    "display": "timeElapsed",
+    "display": "timeElapsedSeconds",
     "location": {
-      "column": "7",
+      "column": "14",
       "line": "18",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\timers.c"
     },
-    "name": "timeElapsed",
+    "name": "timeElapsedSeconds",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:@timeElapsedMilliseconds",
+    "What": "Variable",
+    "defdec": "Dec",
+    "display": "timeElapsedMilliseconds",
+    "location": {
+      "column": "33",
+      "line": "18",
+      "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\timers.c"
+    },
+    "name": "timeElapsedMilliseconds",
     "origin": "project_file",
     "scope": null
   },
@@ -133214,7 +133242,7 @@
     "display": "void TIMER1_B1_ISR(void)",
     "location": {
       "column": "18",
-      "line": "210",
+      "line": "214",
       "path": "C:\\Users\\saad\\Documents\\ece-306\\Project 10\\timers.c"
     },
     "name": "TIMER1_B1_ISR",

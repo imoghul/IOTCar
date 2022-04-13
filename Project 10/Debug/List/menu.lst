@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Apr/2022  16:00:32
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Apr/2022  19:05:20
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\menu.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW7CA6.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWADB3.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\menu.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -62,7 +62,7 @@ C:\Users\saad\Documents\ece-306\Project 10\menu.c
      18          extern command currCommand;
      19          extern volatile char commandsReceieved;
      20          extern volatile unsigned int stopwatchUpdated;
-     21          extern float timeElapsed;
+     21          extern volatile int timeElapsedSeconds,timeElapsedMilliseconds;
      22          
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
@@ -112,97 +112,79 @@ C:\Users\saad\Documents\ece-306\Project 10\menu.c
      37          }*/
      38          
 
-   \                                 In  segment CODE, align 2
+   \                                 In  segment CODE, align 2, keep-with-next
      39          void displayCommandsMenu() {
    \                     displayCommandsMenu:
-   \   000000   1B15         PUSHM.W #0x2, R11
      40            strcpy(display_line[1],"          ");
-   \   000002   ........     CALLA   #?Subroutine1
+   \   000000   ........     CALLA   #?Subroutine1
      41            display_line[1][2] = currCommand.comm;
    \                     ??CrossCallReturnLabel_8:
-   \   000006   D242........ MOV.B   &currCommand, &display_line + 13
+   \   000004   D242........ MOV.B   &currCommand, &display_line + 13
      42            HEXtoBCD(currCommand.duration, 1, 4);
                    ^
 Warning[Pe223]: function "HEXtoBCD" declared implicitly
-   \   00000C   2E42         MOV.W   #0x4, R14
-   \   00000E   1D43         MOV.W   #0x1, R13
-   \   000010   1C42....     MOV.W   &currCommand + 2, R12
-   \   000014   ........     CALLA   #HEXtoBCD
+   \   00000A   2E42         MOV.W   #0x4, R14
+   \   00000C   1D43         MOV.W   #0x1, R13
+   \   00000E   1C42....     MOV.W   &currCommand + 2, R12
+   \   000012   ........     CALLA   #HEXtoBCD
      43            if(currCommand.comm == DISPLAY_NUMBER_COMMAND){
-   \   000018   F2906400.... CMP.B   #0x64, &currCommand
-   \   00001E   0B20         JNE     ??displayCommandsMenu_1
+   \   000016   F2906400.... CMP.B   #0x64, &currCommand
+   \   00001C   0B20         JNE     ??displayCommandsMenu_1
      44              strcpy(display_line[0],"ARRIVED 0 ");
-   \   000020   3D40....     MOV.W   #`?<Constant "ARRIVED 0 ">`, R13
-   \   000024   ........     CALLA   #?Subroutine3
+   \   00001E   3D40....     MOV.W   #`?<Constant "ARRIVED 0 ">`, R13
+   \   000022   ........     CALLA   #?Subroutine3
      45              display_line[0][9] = currCommand.duration+'0';
    \                     ??CrossCallReturnLabel_6:
-   \   000028   5E42....     MOV.B   &currCommand + 2, R14
-   \   00002C   7E503000     ADD.B   #0x30, R14
-   \   000030   C24E....     MOV.B   R14, &display_line + 9
-   \   000034   083C         JMP     ??displayCommandsMenu_0
+   \   000026   5E42....     MOV.B   &currCommand + 2, R14
+   \   00002A   7E503000     ADD.B   #0x30, R14
+   \   00002E   C24E....     MOV.B   R14, &display_line + 9
+   \   000032   083C         JMP     ??displayCommandsMenu_0
      46            }
      47            
      48            if(currCommand.comm == 0 && currCommand.duration == 0) strcpy(display_line[1],"          ");
    \                     ??displayCommandsMenu_1:
-   \   000036   C293....     CMP.B   #0x0, &currCommand
-   \   00003A   0520         JNE     ??displayCommandsMenu_0
-   \   00003C   8293....     CMP.W   #0x0, &currCommand + 2
-   \   000040   0220         JNE     ??displayCommandsMenu_0
-   \   000042   ........     CALLA   #?Subroutine1
+   \   000034   C293....     CMP.B   #0x0, &currCommand
+   \   000038   0520         JNE     ??displayCommandsMenu_0
+   \   00003A   8293....     CMP.W   #0x0, &currCommand + 2
+   \   00003E   0220         JNE     ??displayCommandsMenu_0
+   \   000040   ........     CALLA   #?Subroutine1
      49            if(!commandsReceieved) strcpy(display_line[1],"WAITING...");
    \                     ??displayCommandsMenu_0:
-   \   000046   C293....     CMP.B   #0x0, &commandsReceieved
-   \   00004A   0420         JNE     ??displayCommandsMenu_2
-   \   00004C   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
-   \   000050   ........     CALLA   #??Subroutine1_0
+   \   000044   C293....     CMP.B   #0x0, &commandsReceieved
+   \   000048   0420         JNE     ??displayCommandsMenu_2
+   \   00004A   3D40....     MOV.W   #`?<Constant "WAITING...">`, R13
+   \   00004E   ........     CALLA   #??Subroutine1_0
      50            
      51            if(stopwatchUpdated){
    \                     ??displayCommandsMenu_2:
-   \   000054   8293....     CMP.W   #0x0, &stopwatchUpdated
-   \   000058   3024         JEQ     ??displayCommandsMenu_3
+   \   000052   8293....     CMP.W   #0x0, &stopwatchUpdated
+   \   000056   1224         JEQ     ??displayCommandsMenu_3
      52              stopwatchUpdated = 0;
-   \   00005A   8243....     MOV.W   #0x0, &stopwatchUpdated
-     53              HEXtoBCD((int)timeElapsed,3,0);
-   \   00005E   0E43         MOV.W   #0x0, R14
-   \   000060   3F400300     MOV.W   #0x3, R15
-   \   000064   1C42....     MOV.W   &timeElapsed, R12
-   \   000068   1D42....     MOV.W   &timeElapsed + 2, R13
-   \   00006C   ........     CALLA   #_Cast32fto32s
-   \   000070   0D4F         MOV.W   R15, R13
-   \   000072   ........     CALLA   #HEXtoBCD
+   \   000058   8243....     MOV.W   #0x0, &stopwatchUpdated
+     53              HEXtoBCD(timeElapsedSeconds,3,0);
+   \   00005C   0E43         MOV.W   #0x0, R14
+   \   00005E   3D400300     MOV.W   #0x3, R13
+   \   000062   1C42....     MOV.W   &timeElapsedSeconds, R12
+   \   000066   ........     CALLA   #HEXtoBCD
      54              display_line[3][4] = '.';
-   \   000076   F2402E00.... MOV.B   #0x2e, &display_line + 37
-     55              display_line[3][5] = (int)(10*(timeElapsed-(int)timeElapsed)) + '0';
-   \   00007C   1C42....     MOV.W   &timeElapsed, R12
-   \   000080   1D42....     MOV.W   &timeElapsed + 2, R13
-   \   000084   0A4C         MOV.W   R12, R10
-   \   000086   0B4D         MOV.W   R13, R11
-   \   000088   ........     CALLA   #_Cast32fto32s
-   \   00008C   0D4C         MOV.W   R12, R13
-   \   00008E   0D5D         RLA.W   R13
-   \   000090   0D7D         SUBC.W  R13, R13
-   \   000092   3DE3         XOR.W   #0xffff, R13
-   \   000094   ........     CALLA   #_Cast32sto32f
-   \   000098   0E4C         MOV.W   R12, R14
-   \   00009A   0F4D         MOV.W   R13, R15
-   \   00009C   0C4A         MOV.W   R10, R12
-   \   00009E   0D4B         MOV.W   R11, R13
-   \   0000A0   ........     CALLA   #_Sub32f
-   \   0000A4   0E43         MOV.W   #0x0, R14
-   \   0000A6   3F402041     MOV.W   #0x4120, R15
-   \   0000AA   ........     CALLA   #_Mul32f
-   \   0000AE   ........     CALLA   #_Cast32fto32s
-   \   0000B2   7C503000     ADD.B   #0x30, R12
-   \   0000B6   C24C....     MOV.B   R12, &display_line + 38
+   \   00006A   F2402E00.... MOV.B   #0x2e, &display_line + 37
+     55              display_line[3][5] = timeElapsedMilliseconds + '0';
+   \   000070   1E42....     MOV.W   &timeElapsedMilliseconds, R14
+   \   000074   7E503000     ADD.B   #0x30, R14
+   \   000078   C24E....     MOV.B   R14, &display_line + 38
      56            }
      57            display_changed = 1;
    \                     ??displayCommandsMenu_3:
-   \   0000BA   D243....     MOV.B   #0x1, &display_changed
+   \   00007C                REQUIRE ?Subroutine0
+   \   00007C                // Fall through to label ?Subroutine0
      58          }
-   \   0000BE   1A17         POPM.W  #0x2, R11
-   \   0000C0   1001         RETA
 
-   \                                 In  segment CODE, align 2
+   \                                 In  segment CODE, align 2, keep-with-next
+   \                     ?Subroutine0:
+   \   000000   D243....     MOV.B   #0x1, &display_changed
+   \   000004   1001         RETA
+
+   \                                 In  segment CODE, align 2, keep-with-next
    \                     ?Subroutine3:
    \   000000   3C40....     MOV.W   #display_line, R12
    \   000004   ........     BRA     #strcpy
@@ -213,14 +195,14 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \   000004                REQUIRE ??Subroutine1_0
    \   000004                // Fall through to label ??Subroutine1_0
 
-   \                                 In  segment CODE, align 2
+   \                                 In  segment CODE, align 2, keep-with-next
    \                     ??Subroutine1_0:
    \   000000   3C40....     MOV.W   #display_line + 11, R12
    \   000004   ........     BRA     #strcpy
      59          
      60          
 
-   \                                 In  segment CODE, align 2
+   \                                 In  segment CODE, align 2, keep-with-next
      61          void updateMenuPos(menu* m) {
    \                     updateMenuPos:
      62              unsigned int val = (ADC_Thumb * m->length) >> THUMB_RES;
@@ -246,7 +228,7 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \   00002A   1001         RETA
      65          
 
-   \                                 In  segment CODE, align 2
+   \                                 In  segment CODE, align 2, keep-with-next
      66          void interractWithMenu(void){
    \                     interractWithMenu:
      67            switch(menuState){
@@ -262,7 +244,7 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \   00000C   1001         RETA
      73          
 
-   \                                 In  segment CODE, align 2
+   \                                 In  segment CODE, align 2, keep-with-next
      74          void transitionMenu(menu* m) {
    \                     transitionMenu:
    \   000000   0A12         PUSH.W  R10
@@ -325,7 +307,7 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \   000072   1001         RETA
      96          
 
-   \                                 In  segment CODE, align 2, keep-with-next
+   \                                 In  segment CODE, align 2
      97          void MenuProcess(void) {
    \                     MenuProcess:
      98            if(transMenu){
@@ -395,11 +377,6 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
     126                    break;
     127            }
     128          }
-
-   \                                 In  segment CODE, align 2
-   \                     ?Subroutine0:
-   \   000000   D243....     MOV.B   #0x1, &display_changed
-   \   000004   1001         RETA
     129          
 
    \                                 In  segment CODE, align 2
@@ -531,13 +508,9 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
         4   -> strcpy
         4   -> transitionMenu
         4   -> updateMenuPos
-      8   displayCommandsMenu
-        8   -> HEXtoBCD
-        8   -> strcpy
-        8 _Cast32fto32s
-        8 _Cast32sto32f
-        8 _Mul32f
-        8 _Sub32f
+      4   displayCommandsMenu
+        4   -> HEXtoBCD
+        4   -> strcpy
       4   interractWithMenu
       6   transitionMenu
         6   -> strcpy
@@ -567,7 +540,7 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
       64  calib
       64  commandsOutput
        2  currMenu
-     194  displayCommandsMenu
+     124  displayCommandsMenu
       14  interractWithMenu
        2  lastThumb
       64  mainMenu
@@ -579,13 +552,13 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
      320  -- Other
 
  
- 560 bytes in segment CODE
+ 490 bytes in segment CODE
  387 bytes in segment DATA16_C
    3 bytes in segment DATA16_I
    3 bytes in segment DATA16_ID
  322 bytes in segment DATA16_Z
  
- 560 bytes of CODE  memory
+ 490 bytes of CODE  memory
  390 bytes of CONST memory
  325 bytes of DATA  memory
 

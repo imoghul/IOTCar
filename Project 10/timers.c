@@ -15,7 +15,7 @@ volatile unsigned int debounce_thresh1 = 10, debounce_thresh2 = 10;
 volatile unsigned int checkAdc;
 extern volatile char state;
 extern volatile unsigned int rightSwitchable, leftSwitchable;
-float timeElapsed;
+volatile int timeElapsedSeconds,timeElapsedMilliseconds;
 volatile unsigned int stopwatchUpdated;
 extern char receievedFromPC;
 extern volatile char commandsReceieved;
@@ -198,7 +198,11 @@ __interrupt void Timer1_B0_ISR(void) {
 
     if(commandsReceieved && state != END) {
         stopwatchUpdated = 1;
-        timeElapsed += .2;
+        timeElapsedMilliseconds+=2;
+        if(timeElapsedMilliseconds>=10){
+          timeElapsedMilliseconds = 0;
+          timeElapsedSeconds++;
+        }
     }
 
     update_display = 1;

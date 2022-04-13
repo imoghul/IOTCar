@@ -63,6 +63,8 @@ void Straight(void) {
 
         case 3:
             stateCounter = 0 ;
+            stopwatch_seconds = 0;
+            cycle_count = 0;
             state = WAIT;
             nextState = TURN;
             EMITTER_OFF;
@@ -97,6 +99,8 @@ void Turn() {
         case 3:
             ShutoffMotors();
             stateCounter = 0 ;
+            stopwatch_seconds = 0;
+            cycle_count = 0;
             state = WAIT;
             nextState = LINEFOLLOW;
             EMITTER_OFF;
@@ -300,8 +304,7 @@ void StateMachine(void) {
             
         case (DRIVE):
             Drive(polarityRight, polarityLeft, driveTime);
-
-        //if(Drive_Path(polarityRight*STRAIGHT_RIGHT,polarityLeft*STRAIGHT_LEFT, driveTime))state = START;
+            break;
 
         default:
             break;
