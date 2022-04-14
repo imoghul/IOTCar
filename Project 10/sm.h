@@ -10,11 +10,11 @@
 #define DRIVE           ('D')
 #define EXIT            ('e')
 
-#define LF_TURN_DECREMENT       (4000)
+#define LF_TURN_DECREMENT       (3000)
 
 void StateMachine(void);
-void Straight();
-void Turn();
+void Straight(char);
+void Turn(char);
 void LineFollow();
-void Exit();
+void Exit(int);
 int delay(int seconds, int cycles);

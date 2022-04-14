@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Apr/2022  19:05:21
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Apr/2022  10:36:20
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\sm.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWB1B9.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW651B.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\sm.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -120,106 +120,193 @@ C:\Users\saad\Documents\ece-306\Project 10\sm.c
      38          
      39          
 
-   \                                 In  segment CODE, align 2, keep-with-next
-     40          void Straight(void) {
+   \                                 In  segment CODE, align 2
+     40          void Straight(char direction) {
    \                     Straight:
-     41              switch(stateCounter) {
-   \   000000   1F42....     MOV.W   &stateCounter, R15
-   \   000004   0F83         SUB.W   #0x0, R15
-   \   000006   0724         JEQ     ??Straight_1
-   \   000008   1F83         SUB.W   #0x1, R15
-   \   00000A   0624         JEQ     ??Straight_2
-   \   00000C   1F83         SUB.W   #0x1, R15
-   \   00000E   2624         JEQ     ??Straight_3
-   \   000010   1F83         SUB.W   #0x1, R15
-   \   000012   2B24         JEQ     ??Straight_4
-   \   000014   1001         RETA
-     42                  case 0:
-     43                      EMITTER_ON;
-   \                     ??Straight_1:
-   \   000016   ....         JMP     ?Subroutine0
-     44                      stateCounter = 1;
-     45                      break;
-     46          
-     47                  case 1:
-     48                      if ((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
-   \                     ??Straight_2:
-   \   000018   1F42....     MOV.W   &LWDetect, R15
-   \   00001C   3F501400     ADD.W   #0x14, R15
-   \   000020   829F....     CMP.W   R15, &ADC_Left_Detect
-   \   000024   0728         JNC     ??Straight_5
-   \   000026   1F42....     MOV.W   &RWDetect, R15
-   \   00002A   3F501400     ADD.W   #0x14, R15
-   \   00002E   829F....     CMP.W   R15, &ADC_Right_Detect
-   \   000032   072C         JC      ??Straight_6
-     49                          Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
-   \                     ??Straight_5:
-   \   000034   0E43         MOV.W   #0x0, R14
-   \   000036   3D40803E     MOV.W   #0x3e80, R13
-   \   00003A   3C40204E     MOV.W   #0x4e20, R12
-   \   00003E   ........     BRA     #Drive_Path
-     50                      } else {
-     51                          if(ADC_Left_Detect > ADC_Right_Detect) enteringDirection = MOVING_LEFT;
-                                 ^
-Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
-          in this statement
-   \                     ??Straight_6:
-   \   000042   1F42....     MOV.W   &ADC_Right_Detect, R15
-   \   000046   1F92....     CMP.W   &ADC_Left_Detect, R15
-   \   00004A   0328         JNC     ??Straight_7
-   \   00004C   7E405200     MOV.B   #0x52, R14
-   \   000050   023C         JMP     ??Straight_0
-   \                     ??Straight_7:
-   \   000052   7E404C00     MOV.B   #0x4c, R14
-   \                     ??Straight_0:
-   \   000056   C24E....     MOV.B   R14, &enteringDirection
-     52                          else enteringDirection = MOVING_RIGHT;
-     53          
-     54                          stateCounter++;
-   \   00005A   ....         JMP     ?Subroutine1
-     55                      }
-     56          
+   \   000000   5B15         PUSHM.W #0x6, R11
+   \   000002   4E4C         MOV.B   R12, R14
+     41            int rightTurn = direction?STRAIGHT_RIGHT:-STRAIGHT_RIGHT;
+   \   000004   3C40204E     MOV.W   #0x4e20, R12
+   \   000008   3D40803E     MOV.W   #0x3e80, R13
+   \   00000C   4E93         CMP.B   #0x0, R14
+   \   00000E   0420         JNE     ??Straight_16
+   \   000010   3A40E0B1     MOV.W   #0xb1e0, R10
+   \   000014   0F4D         MOV.W   R13, R15
+   \   000016   033C         JMP     ??Straight_14
+   \                     ??Straight_16:
+   \   000018   0A4C         MOV.W   R12, R10
+   \   00001A   3F4080C1     MOV.W   #0xc180, R15
+   \                     ??Straight_14:
+   \   00001E   1842....     MOV.W   &RWDetect, R8
+   \   000022   38501400     ADD.W   #0x14, R8
+   \   000026   1942....     MOV.W   &LWDetect, R9
+   \   00002A   39501400     ADD.W   #0x14, R9
+   \   00002E   0B4A         MOV.W   R10, R11
+   \   000030   3BE3         XOR.W   #0xffff, R11
+   \   000032   1B53         ADD.W   #0x1, R11
+   \   000034   0E4F         MOV.W   R15, R14
+   \   000036   3EE3         XOR.W   #0xffff, R14
+   \   000038   1E53         ADD.W   #0x1, R14
+   \   00003A   1642....     MOV.W   &stateCounter, R6
+   \   00003E   0683         SUB.W   #0x0, R6
+   \   000040   1924         JEQ     ??Straight_17
+   \   000042   1683         SUB.W   #0x1, R6
+   \   000044   1A24         JEQ     ??Straight_13
+   \   000046   1683         SUB.W   #0x1, R6
+   \   000048   3624         JEQ     ??Straight_0
+   \   00004A   1683         SUB.W   #0x1, R6
+   \   00004C   1924         JEQ     ??Straight_7
+   \   00004E   1683         SUB.W   #0x1, R6
+   \   000050   1E24         JEQ     ??Straight_9
+   \   000052   1683         SUB.W   #0x1, R6
+   \   000054   1224         JEQ     ??Straight_13
+   \   000056   1683         SUB.W   #0x1, R6
+   \   000058   2E24         JEQ     ??Straight_0
+   \   00005A   1683         SUB.W   #0x1, R6
+   \   00005C   1124         JEQ     ??Straight_7
+   \   00005E   1683         SUB.W   #0x1, R6
+   \   000060   1624         JEQ     ??Straight_9
+   \   000062   1683         SUB.W   #0x1, R6
+   \   000064   1724         JEQ     ??Straight_18
+   \   000066   1683         SUB.W   #0x1, R6
+   \   000068   1C24         JEQ     ??Straight_19
+   \   00006A   1683         SUB.W   #0x1, R6
+   \   00006C   2424         JEQ     ??Straight_0
+   \   00006E   1683         SUB.W   #0x1, R6
+   \   000070   2B24         JEQ     ??Straight_20
+   \   000072   363C         JMP     ??Straight_15
+     42            int leftTurn = direction?-STRAIGHT_LEFT:STRAIGHT_LEFT;
+     43              switch(stateCounter) {
+     44                  case 0:
+     45                      EMITTER_ON;
+   \                     ??Straight_17:
+   \   000074   ........     CALLA   #?Subroutine1
+     46                      stateCounter = 1;
+     47                      strcpy(display_line[2], "          ");
+     48                      display_changed = 1;
+     49                      break;
+   \                     ??CrossCallReturnLabel_6:
+   \   000078   333C         JMP     ??Straight_15
+     50          
+     51                  case 1:
+     52                      if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 2000)) stateCounter++; // straight
+     53                      break;
+     54                      
+     55                  case 2:
+     56                      if(LockMotors(-1, -1)) stateCounter++;
      57                      break;
-     58          
-     59                  case 2:
-     60                      if(LockMotors(-1, -1)) stateCounter++;
-   \                     ??Straight_3:
-   \   00005C   3D43         MOV.W   #0xffff, R13
-   \   00005E   3C43         MOV.W   #0xffff, R12
-   \   000060   ........     CALLA   #LockMotors
-   \   000064   0C93         CMP.W   #0x0, R12
-   \   000066   0924         JEQ     ??Straight_8
-   \   000068   ....         JMP     ?Subroutine1
-     61          
-     62                      break;
-     63          
-     64                  case 3:
-     65                      stateCounter = 0 ;
-   \                     ??Straight_4:
-   \   00006A   ........     CALLA   #?Subroutine3
-     66                      stopwatch_seconds = 0;
-     67                      cycle_count = 0;
-     68                      state = WAIT;
-     69                      nextState = TURN;
-   \                     ??CrossCallReturnLabel_2:
-   \   00006E   F2405400.... MOV.B   #0x54, &nextState
-     70                      EMITTER_OFF;
-   \   000074   F2C010004302 BIC.B   #0x10, &0x243
-     71                      break;
-     72              }
-     73          }
+     58                      
+     59                  case 3:
+     60                    if(Drive_Path(rightTurn, leftTurn, TURN90)) stateCounter++;  // turn
+     61                    break;
+     62                  
+     63                  case 4:
+     64                      if(LockMotors(-rightTurn, -leftTurn)) stateCounter++;
+     65                      break;
+     66                      
+     67                  case 5:
+     68                      if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 2000)) stateCounter++;// straight
+   \                     ??Straight_13:
+   \   00007A   3E40D007     MOV.W   #0x7d0, R14
+   \   00007E   043C         JMP     ??Straight_8
+     69                      break;
+     70                      
+     71                  case 6:
+     72                      if(LockMotors(-1, -1)) stateCounter++;
+     73                      break;
+     74                      
+     75                  case 7:
+     76                      if(Drive_Path(rightTurn, leftTurn, TURN90)) stateCounter++; // turn
+   \                     ??Straight_7:
+   \   000080   3E402602     MOV.W   #0x226, R14
+   \   000084   0D4F         MOV.W   R15, R13
+   \   000086   0C4A         MOV.W   R10, R12
    \                     ??Straight_8:
-   \   00007A   1001         RETA
-   \   00007C                REQUIRE _A_PCOUT_L
+   \   000088   ........     CALLA   #Drive_Path
+   \   00008C   183C         JMP     ??Straight_2
+     77                      break;
+     78                  case 8:
+     79                      if(LockMotors(-rightTurn, -leftTurn)) stateCounter++;
+   \                     ??Straight_9:
+   \   00008E   0D4E         MOV.W   R14, R13
+   \   000090   0C4B         MOV.W   R11, R12
+   \   000092   133C         JMP     ??Straight_1
+     80                      break;
+     81                      
+     82                  case 9:
+     83                      if ((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
+   \                     ??Straight_18:
+   \   000094   8299....     CMP.W   R9, &ADC_Left_Detect
+   \   000098   0A28         JNC     ??Straight_21
+   \   00009A   8298....     CMP.W   R8, &ADC_Right_Detect
+   \   00009E   0728         JNC     ??Straight_21
+     84                          Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
+     85                      }
+     86                      else stateCounter++;
+   \   0000A0   103C         JMP     ??Straight_3
+     87          
+     88                      break;
+     89                      
+     90                  case 10:
+     91                      if ((ADC_Left_Detect > LEFT_WHITE_DETECT || ADC_Right_Detect > RIGHT_WHITE_DETECT)) {
+   \                     ??Straight_19:
+   \   0000A2   1992....     CMP.W   &ADC_Left_Detect, R9
+   \   0000A6   0328         JNC     ??Straight_21
+   \   0000A8   1892....     CMP.W   &ADC_Right_Detect, R8
+   \   0000AC   0A2C         JC      ??Straight_3
+     92                          Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
+   \                     ??Straight_21:
+   \   0000AE   0E43         MOV.W   #0x0, R14
+   \   0000B0   ........     CALLA   #Drive_Path
+   \   0000B4   153C         JMP     ??Straight_15
+     93                      }
+     94                      else stateCounter++;
+     95          
+     96                      break;
+     97          
+     98                  case 11:
+     99                      if(LockMotors(-1, -1)) stateCounter++;
+   \                     ??Straight_0:
+   \   0000B6   3D43         MOV.W   #0xffff, R13
+   \   0000B8   3C43         MOV.W   #0xffff, R12
+   \                     ??Straight_1:
+   \   0000BA   ........     CALLA   #LockMotors
+   \                     ??Straight_2:
+   \   0000BE   0C93         CMP.W   #0x0, R12
+   \   0000C0   0F24         JEQ     ??Straight_15
+   \                     ??Straight_3:
+   \   0000C2   9253....     ADD.W   #0x1, &stateCounter
+   \   0000C6   0C3C         JMP     ??Straight_15
+    100          
+    101                      break;
+    102          
+    103                  case 12:
+    104                      stateCounter = 0 ;
+   \                     ??Straight_20:
+   \   0000C8   ........     CALLA   #?Subroutine2
+    105                      stopwatch_seconds = 0;
+    106                      cycle_count = 0;
+    107                      state = WAIT;
+    108                      nextState = TURN;
+   \                     ??CrossCallReturnLabel_0:
+   \   0000CC   F2405400.... MOV.B   #0x54, &nextState
+    109                      strcpy(display_line[2],"INTERCEPT ");
+   \   0000D2   3D40....     MOV.W   #`?<Constant "INTERCEPT ">`, R13
+   \   0000D6   ........     CALLA   #??Subroutine1_1
+    110                      display_changed = 1;
+    111                      EMITTER_OFF;
+   \                     ??CrossCallReturnLabel_8:
+   \   0000DA   F2C010004302 BIC.B   #0x10, &0x243
+    112                      break;
+    113              }
+    114          }
+   \                     ??Straight_15:
+   \   0000E0   5617         POPM.W  #0x6, R11
+   \   0000E2   1001         RETA
+   \   0000E4                REQUIRE _A_PCOUT_L
 
    \                                 In  segment CODE, align 2, keep-with-next
-   \                     ?Subroutine0:
-   \   000000   F2D010004302 BIS.B   #0x10, &0x243
-   \   000006   9243....     MOV.W   #0x1, &stateCounter
-   \   00000A   1001         RETA
-
-   \                                 In  segment CODE, align 2, keep-with-next
-   \                     ?Subroutine3:
+   \                     ?Subroutine2:
    \   000000   8243....     MOV.W   #0x0, &stateCounter
    \   000004   8243....     MOV.W   #0x0, &stopwatch_seconds
    \   000008   8243....     MOV.W   #0x0, &cycle_count
@@ -228,333 +315,349 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
 
    \                                 In  segment CODE, align 2, keep-with-next
    \                     ?Subroutine1:
+   \   000000   F2D010004302 BIS.B   #0x10, &0x243
+   \   000006   9243....     MOV.W   #0x1, &stateCounter
+   \   00000A                REQUIRE ??Subroutine6_0
+   \   00000A                // Fall through to label ??Subroutine6_0
+
+   \                                 In  segment CODE, align 2, keep-with-next
+   \                     ??Subroutine6_0:
+   \   000000   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000004                REQUIRE ??Subroutine1_1
+   \   000004                // Fall through to label ??Subroutine1_1
+
+   \                                 In  segment CODE, align 2, keep-with-next
+   \                     ??Subroutine1_1:
+   \   000000   3C40....     MOV.W   #display_line + 22, R12
+   \   000004   ........     CALLA   #strcpy
+   \   000008   D243....     MOV.B   #0x1, &display_changed
+   \   00000C   1001         RETA
+    115          
+
+   \                                 In  segment CODE, align 2, keep-with-next
+    116          void Turn(char direction) {
+   \                     Turn:
+    117              switch(stateCounter) {
+   \   000000   1F42....     MOV.W   &stateCounter, R15
+   \   000004   0F83         SUB.W   #0x0, R15
+   \   000006   0724         JEQ     ??Turn_1
+   \   000008   1F83         SUB.W   #0x1, R15
+   \   00000A   0624         JEQ     ??Turn_2
+   \   00000C   1F83         SUB.W   #0x1, R15
+   \   00000E   1624         JEQ     ??Turn_3
+   \   000010   1F83         SUB.W   #0x1, R15
+   \   000012   3224         JEQ     ??Turn_4
+   \   000014   1001         RETA
+    118                  case 0:
+    119                      EMITTER_ON;
+   \                     ??Turn_1:
+   \   000016   ....         JMP     ?Subroutine1
+    120                      stateCounter = 1;
+    121                      strcpy(display_line[2], "          ");
+    122                      display_changed = 1;
+    123                      break;
+    124          
+    125                  case 1: // gotta remove this
+    126                    if(direction){
+   \                     ??Turn_2:
+   \   000018   4C93         CMP.B   #0x0, R12
+   \   00001A   3E406400     MOV.W   #0x64, R14
+   \   00001E   0524         JEQ     ??Turn_5
+    127                          if(Drive_Path(-RIGHT_MAX, LEFT_MAX, 100)) stateCounter++;
+   \   000020   3D401027     MOV.W   #0x2710, R13
+   \   000024   3C40F0D8     MOV.W   #0xd8f0, R12
+   \   000028   043C         JMP     ??Turn_0
+    128                    }else/* if(direction == MOVING_RIGHT)*/
+    129                              if(Drive_Path(RIGHT_MAX, -LEFT_MAX, 100)) stateCounter++;
+   \                     ??Turn_5:
+   \   00002A   3D40F0D8     MOV.W   #0xd8f0, R13
+   \   00002E   3C401027     MOV.W   #0x2710, R12
+   \                     ??Turn_0:
+   \   000032   ........     CALLA   #Drive_Path
+   \   000036   0C93         CMP.W   #0x0, R12
+   \   000038   2D24         JEQ     ??Turn_6
+   \   00003A   ....         JMP     ?Subroutine0
+    130          
+    131                      break;
+    132          
+    133                  case 2:
+    134                      if (((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT))) {
+   \                     ??Turn_3:
+   \   00003C   1F42....     MOV.W   &LWDetect, R15
+   \   000040   3F501400     ADD.W   #0x14, R15
+   \   000044   829F....     CMP.W   R15, &ADC_Left_Detect
+   \   000048   0728         JNC     ??Turn_7
+   \   00004A   1F42....     MOV.W   &RWDetect, R15
+   \   00004E   3F501400     ADD.W   #0x14, R15
+   \   000052   829F....     CMP.W   R15, &ADC_Right_Detect
+   \   000056   0F2C         JC      ??Turn_8
+    135                          if(direction)Drive_Path(-RIGHT_MIN, LEFT_MIN, 0);
+   \                     ??Turn_7:
+   \   000058   4C93         CMP.B   #0x0, R12
+   \   00005A   0E43         MOV.W   #0x0, R14
+   \   00005C   0624         JEQ     ??Turn_9
+   \   00005E   3D403421     MOV.W   #0x2134, R13
+   \   000062   3C40CCDE     MOV.W   #0xdecc, R12
+   \   000066   ........     BRA     #Drive_Path
+    136          
+    137                          else Drive_Path(RIGHT_MIN, -LEFT_MIN, 0);
+   \                     ??Turn_9:
+   \   00006A   3D40CCDE     MOV.W   #0xdecc, R13
+   \   00006E   3C403421     MOV.W   #0x2134, R12
+   \   000072   ........     BRA     #Drive_Path
+    138                      } else stateCounter++;
+   \                     ??Turn_8:
+   \   000076   ....         JMP     ?Subroutine0
+    139          
+    140                      break;
+    141          
+    142                  case 3:
+    143                      ShutoffMotors();
+   \                     ??Turn_4:
+   \   000078   ........     CALLA   #ShutoffMotors
+    144                      stateCounter = 0 ;
+   \   00007C   ........     CALLA   #?Subroutine2
+    145                      stopwatch_seconds = 0;
+    146                      cycle_count = 0;
+    147                      state = WAIT;
+    148                      nextState = LINEFOLLOW;
+   \                     ??CrossCallReturnLabel_1:
+   \   000080   F2404C00.... MOV.B   #0x4c, &nextState
+    149                      EMITTER_OFF;
+   \   000086   F2C010004302 BIC.B   #0x10, &0x243
+    150                      strcpy(display_line[2],"   TURN   ");
+   \   00008C   3D40....     MOV.W   #`?<Constant "   TURN   ">`, R13
+   \   000090   ........     CALLA   #??Subroutine1_1
+    151                      display_changed = 1;
+    152                      break;
+    153              }
+    154          }
+   \                     ??Turn_6:
+   \   000094   1001         RETA
+   \   000096                REQUIRE _A_PCOUT_L
+
+   \                                 In  segment CODE, align 2
+   \                     ?Subroutine0:
    \   000000   9253....     ADD.W   #0x1, &stateCounter
    \   000004   1001         RETA
-     74          
+    155          
 
    \                                 In  segment CODE, align 2, keep-with-next
-     75          void Turn() {
-   \                     Turn:
-     76              switch(stateCounter) {
-   \   000000   5E42....     MOV.B   &enteringDirection, R14
-   \   000004   1F42....     MOV.W   &stateCounter, R15
-   \   000008   0F83         SUB.W   #0x0, R15
-   \   00000A   0724         JEQ     ??Turn_1
-   \   00000C   1F83         SUB.W   #0x1, R15
-   \   00000E   0624         JEQ     ??Turn_2
-   \   000010   1F83         SUB.W   #0x1, R15
-   \   000012   1C24         JEQ     ??Turn_3
-   \   000014   1F83         SUB.W   #0x1, R15
-   \   000016   3E24         JEQ     ??Turn_4
-   \   000018   1001         RETA
-     77                  case 0:
-     78                      EMITTER_ON;
-   \                     ??Turn_1:
-   \   00001A   ....         JMP     ?Subroutine0
-     79                      stateCounter = 1;
-     80                      break;
-     81          
-     82                  case 1: // gotta remove this
-     83                    if(enteringDirection == MOVING_LEFT){
-   \                     ??Turn_2:
-   \   00001C   7E904C00     CMP.B   #0x4c, R14
-   \   000020   0720         JNE     ??Turn_5
-     84                          if(Drive_Path(RIGHT_MAX, -LEFT_MAX, 100)) stateCounter++;
-   \   000022   3E406400     MOV.W   #0x64, R14
-   \   000026   3D40F0D8     MOV.W   #0xd8f0, R13
-   \   00002A   3C401027     MOV.W   #0x2710, R12
-   \   00002E   093C         JMP     ??Turn_0
-     85                    }else if(enteringDirection == MOVING_RIGHT)
-   \                     ??Turn_5:
-   \   000030   7E905200     CMP.B   #0x52, R14
-   \   000034   3920         JNE     ??Turn_6
-     86                              if(Drive_Path(-RIGHT_MAX, LEFT_MAX, 100)) stateCounter++;
-   \   000036   3E406400     MOV.W   #0x64, R14
-   \   00003A   3D401027     MOV.W   #0x2710, R13
-   \   00003E   3C40F0D8     MOV.W   #0xd8f0, R12
-   \                     ??Turn_0:
-   \   000042   ........     CALLA   #Drive_Path
-   \   000046   0C93         CMP.W   #0x0, R12
-   \   000048   2F24         JEQ     ??Turn_6
-   \   00004A   ....         JMP     ?Subroutine1
-     87          
-     88                      break;
-     89          
-     90                  case 2:
-     91                      if (((ADC_Left_Detect <= LEFT_GRAY_DETECT || ADC_Right_Detect <= RIGHT_GRAY_DETECT))) {
-   \                     ??Turn_3:
-   \   00004C   1F42....     MOV.W   &LBDetect, R15
-   \   000050   3F509CFF     ADD.W   #0xff9c, R15
-   \   000054   1F92....     CMP.W   &ADC_Left_Detect, R15
-   \   000058   072C         JC      ??Turn_7
-   \   00005A   1F42....     MOV.W   &RBDetect, R15
-   \   00005E   3F509CFF     ADD.W   #0xff9c, R15
-   \   000062   1F92....     CMP.W   &ADC_Right_Detect, R15
-   \   000066   1528         JNC     ??Turn_8
-     92                          if(enteringDirection == MOVING_LEFT)Drive_Path(RIGHT_MIN, -LEFT_MIN, 0);
-   \                     ??Turn_7:
-   \   000068   7E904C00     CMP.B   #0x4c, R14
-   \   00006C   0720         JNE     ??Turn_9
-   \   00006E   0E43         MOV.W   #0x0, R14
-   \   000070   3D40CCDE     MOV.W   #0xdecc, R13
-   \   000074   3C403421     MOV.W   #0x2134, R12
-   \   000078   ........     CALLA   #Drive_Path
-     93          
-     94                          if(enteringDirection == MOVING_RIGHT)Drive_Path(-RIGHT_MIN, LEFT_MIN, 0);
-   \                     ??Turn_9:
-   \   00007C   F2905200.... CMP.B   #0x52, &enteringDirection
-   \   000082   1220         JNE     ??Turn_6
-   \   000084   0E43         MOV.W   #0x0, R14
-   \   000086   3D403421     MOV.W   #0x2134, R13
-   \   00008A   3C40CCDE     MOV.W   #0xdecc, R12
-   \   00008E   ........     BRA     #Drive_Path
-     95                      } else stateCounter++;
-   \                     ??Turn_8:
-   \   000092   ....         JMP     ?Subroutine1
-     96          
-     97                      break;
-     98          
-     99                  case 3:
-    100                      ShutoffMotors();
-   \                     ??Turn_4:
-   \   000094   ........     CALLA   #ShutoffMotors
-    101                      stateCounter = 0 ;
-   \   000098   ........     CALLA   #?Subroutine3
-    102                      stopwatch_seconds = 0;
-    103                      cycle_count = 0;
-    104                      state = WAIT;
-    105                      nextState = LINEFOLLOW;
-   \                     ??CrossCallReturnLabel_3:
-   \   00009C   F2404C00.... MOV.B   #0x4c, &nextState
-    106                      EMITTER_OFF;
-   \   0000A2   F2C010004302 BIC.B   #0x10, &0x243
-    107                      break;
-    108              }
-    109          }
-   \                     ??Turn_6:
-   \   0000A8   1001         RETA
-   \   0000AA                REQUIRE _A_PCOUT_L
-    110          
-
-   \                                 In  segment CODE, align 2, keep-with-next
-    111          void LineFollow() {
+    156          void LineFollow() {
    \                     LineFollow:
-   \   000000   3B15         PUSHM.W #0x4, R11
-    112          
-    113              int rFollowSpeed,lFollowSpeed;
-    114          
-    115              //int leftPIDOut = GetOutput(&leftFollowController, LEFT_WHITE_DETECT, ADC_Left_Detect);
-    116              //int rightPIDOut = GetOutput(&rightFollowController, RIGHT_WHITE_DETECT, ADC_Right_Detect);
-    117              rFollowSpeed = RIGHT_MIN>>1;//additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, RIGHT_MIN >> 1, leftPIDOut); // swapped b/c they are physically swapped
+   \   000000   1B15         PUSHM.W #0x2, R11
+    157              //HEXtoBCD(ADC_Left_Detect, 1, 6);
+    158              //HEXtoBCD(ADC_Right_Detect, 1, 0);
+    159              
+    160              int rFollowSpeed,lFollowSpeed;
+    161          
+    162              //int leftPIDOut = GetOutput(&leftFollowController, LEFT_WHITE_DETECT, ADC_Left_Detect);
+    163              //int rightPIDOut = GetOutput(&rightFollowController, RIGHT_WHITE_DETECT, ADC_Right_Detect);
+    164              rFollowSpeed = RIGHT_MIN>>1;//additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, RIGHT_MIN >> 1, leftPIDOut); // swapped b/c they are physically swapped
    \   000002   3A409A10     MOV.W   #0x109a, R10
-    118              lFollowSpeed = LEFT_MIN>>1;//additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, LEFT_MIN >> 1, rightPIDOut); // swapped b/c they are physically swapped
+    165              lFollowSpeed = LEFT_MIN>>1;//additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, LEFT_MIN >> 1, rightPIDOut); // swapped b/c they are physically swapped
    \   000006   0B4A         MOV.W   R10, R11
-   \   000008   1F42....     MOV.W   &LBDetect, R15
-   \   00000C   3F50CEFF     ADD.W   #0xffce, R15
+   \   000008   1F42....     MOV.W   &LWDetect, R15
+   \   00000C   3F501400     ADD.W   #0x14, R15
    \   000010   1E42....     MOV.W   &RWDetect, R14
    \   000014   3E501400     ADD.W   #0x14, R14
-   \   000018   1D42....     MOV.W   &LWDetect, R13
-   \   00001C   3D501400     ADD.W   #0x14, R13
-   \   000020   1C42....     MOV.W   &RBDetect, R12
-   \   000024   3C50CEFF     ADD.W   #0xffce, R12
-   \   000028   1842....     MOV.W   &stateCounter, R8
-   \   00002C   0883         SUB.W   #0x0, R8
-   \   00002E   0B24         JEQ     ??LineFollow_12
-   \   000030   1883         SUB.W   #0x1, R8
-   \   000032   1724         JEQ     ??LineFollow_13
-   \   000034   1883         SUB.W   #0x1, R8
-   \   000036   4A24         JEQ     ??LineFollow_14
-   \   000038   1883         SUB.W   #0x1, R8
-   \   00003A   5524         JEQ     ??LineFollow_15
-   \   00003C   1883         SUB.W   #0x1, R8
-   \   00003E   6724         JEQ     ??LineFollow_16
-   \   000040   1883         SUB.W   #0x1, R8
-   \   000042   8424         JEQ     ??LineFollow_17
-   \   000044   883C         JMP     ??LineFollow_1
-    119          
-    120              switch(stateCounter) {
-    121                  case 0:
-    122                      EMITTER_ON;
+   \   000018   1D42....     MOV.W   &stateCounter, R13
+   \   00001C   0D83         SUB.W   #0x0, R13
+   \   00001E   0B24         JEQ     ??LineFollow_12
+   \   000020   1D83         SUB.W   #0x1, R13
+   \   000022   1924         JEQ     ??LineFollow_13
+   \   000024   1D83         SUB.W   #0x1, R13
+   \   000026   4424         JEQ     ??LineFollow_14
+   \   000028   1D83         SUB.W   #0x1, R13
+   \   00002A   4F24         JEQ     ??LineFollow_15
+   \   00002C   1D83         SUB.W   #0x1, R13
+   \   00002E   6124         JEQ     ??LineFollow_16
+   \   000030   1D83         SUB.W   #0x1, R13
+   \   000032   7E24         JEQ     ??LineFollow_17
+   \   000034   823C         JMP     ??LineFollow_1
+    166          
+    167              switch(stateCounter) {
+    168                  case 0:
+    169                      EMITTER_ON;
    \                     ??LineFollow_12:
-   \   000046   F2D010004302 BIS.B   #0x10, &0x243
-    123                      stopwatch_seconds = 0;
-   \   00004C   ........     CALLA   #?Subroutine4
-    124                      cycle_count = 0;
-    125          
-    126                      if(rightSwitchable && leftSwitchable)stateCounter++;
+   \   000036   F2D010004302 BIS.B   #0x10, &0x243
+    170                      stopwatch_seconds = 0;
+   \   00003C   ........     CALLA   #?Subroutine4
+    171                      cycle_count = 0;
+    172                      strcpy(display_line[2],"          ");
    \                     ??CrossCallReturnLabel_4:
-   \   000050   8293....     CMP.W   #0x0, &rightSwitchable
-   \   000054   8024         JEQ     ??LineFollow_1
-   \   000056   8293....     CMP.W   #0x0, &leftSwitchable
-   \   00005A   7D24         JEQ     ??LineFollow_1
-   \   00005C   9253....     ADD.W   #0x1, &stateCounter
-    127                      else return;
-    128          
-    129                      break;
-   \   000060   7A3C         JMP     ??LineFollow_1
-   \                     ??LineFollow_13:
-   \   000062   1F42....     MOV.W   &LBDetect, R15
-   \   000066   3F509CFF     ADD.W   #0xff9c, R15
-   \   00006A   829F....     CMP.W   R15, &ADC_Left_Detect
-   \   00006E   4E7E         SUBC.B  R14, R14
-   \   000070   5EF3         AND.B   #0x1, R14
-   \   000072   1D42....     MOV.W   &RBDetect, R13
-   \   000076   3D509CFF     ADD.W   #0xff9c, R13
-   \   00007A   829D....     CMP.W   R13, &ADC_Right_Detect
-   \   00007E   012C         JC      ??LineFollow_0
-   \   000080   5EE3         XOR.B   #0x1, R14
-   \                     ??LineFollow_0:
-   \   000082   4E93         CMP.B   #0x0, R14
-   \   000084   0324         JEQ     ??LineFollow_18
-    130          
-    131                  case 1:
-    132                      if(ADC_Left_Detect < (LEFT_GRAY_DETECT) ^ ADC_Right_Detect < (RIGHT_GRAY_DETECT)) stateCounter = 2;
+   \   000040   ........     CALLA   #??Subroutine6_0
+    173                      display_changed = 1;
+    174                      if(rightSwitchable && leftSwitchable)stateCounter++;
+   \                     ??CrossCallReturnLabel_7:
+   \   000044   8293....     CMP.W   #0x0, &rightSwitchable
+   \   000048   7824         JEQ     ??LineFollow_1
+   \   00004A   8293....     CMP.W   #0x0, &leftSwitchable
+   \   00004E   7524         JEQ     ??LineFollow_1
+   \   000050   9253....     ADD.W   #0x1, &stateCounter
+    175                      else return;
+    176          
+    177                      break;
+   \   000054   723C         JMP     ??LineFollow_1
+    178          
+    179                  case 1:
+    180                      if(ADC_Left_Detect < (LEFT_WHITE_DETECT) ^ ADC_Right_Detect < (RIGHT_WHITE_DETECT)) stateCounter = 2;
                              ^
 Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
-   \   000086   A243....     MOV.W   #0x2, &stateCounter
-   \   00008A   123C         JMP     ??LineFollow_11
-    133                      else if (ADC_Left_Detect < (LEFT_GRAY_DETECT) && ADC_Right_Detect < (RIGHT_GRAY_DETECT)) {
+   \                     ??LineFollow_13:
+   \   000056   829F....     CMP.W   R15, &ADC_Left_Detect
+   \   00005A   4D7D         SUBC.B  R13, R13
+   \   00005C   5DF3         AND.B   #0x1, R13
+   \   00005E   829E....     CMP.W   R14, &ADC_Right_Detect
+   \   000062   012C         JC      ??LineFollow_0
+   \   000064   5DE3         XOR.B   #0x1, R13
+   \                     ??LineFollow_0:
+   \   000066   4D93         CMP.B   #0x0, R13
+   \   000068   0324         JEQ     ??LineFollow_18
+   \   00006A   A243....     MOV.W   #0x2, &stateCounter
+   \   00006E   123C         JMP     ??LineFollow_11
+    181                      else if (ADC_Left_Detect < (LEFT_WHITE_DETECT) && ADC_Right_Detect < (RIGHT_WHITE_DETECT)) {
    \                     ??LineFollow_18:
-   \   00008C   829F....     CMP.W   R15, &ADC_Left_Detect
-   \   000090   072C         JC      ??LineFollow_19
-   \   000092   829D....     CMP.W   R13, &ADC_Right_Detect
-   \   000096   042C         JC      ??LineFollow_19
-    134                          rFollowSpeed = -RIGHT_MIN;
-   \   000098   3A40CCDE     MOV.W   #0xdecc, R10
-    135                          lFollowSpeed = -LEFT_MIN;
-   \   00009C   0B4A         MOV.W   R10, R11
-   \   00009E   083C         JMP     ??LineFollow_11
-    136                      } else {
-    137                          ClearController(&rightFollowController);
+   \   000070   829F....     CMP.W   R15, &ADC_Left_Detect
+   \   000074   072C         JC      ??LineFollow_19
+   \   000076   829E....     CMP.W   R14, &ADC_Right_Detect
+   \   00007A   042C         JC      ??LineFollow_19
+    182                          rFollowSpeed = -RIGHT_MIN;
+   \   00007C   3A40CCDE     MOV.W   #0xdecc, R10
+    183                          lFollowSpeed = -LEFT_MIN;
+   \   000080   0B4A         MOV.W   R10, R11
+   \   000082   083C         JMP     ??LineFollow_11
+    184                      } else {
+    185                          ClearController(&rightFollowController);
    \                     ??LineFollow_19:
-   \   0000A0   3C40....     MOV.W   #rightFollowController, R12
-   \   0000A4   ........     CALLA   #ClearController
-    138                          ClearController(&leftFollowController);
-   \   0000A8   3C40....     MOV.W   #leftFollowController, R12
-   \   0000AC   ........     CALLA   #ClearController
-    139                      }
-    140          
-    141                      if(delay(70, 0)) stateCounter = 5;
+   \   000084   3C40....     MOV.W   #rightFollowController, R12
+   \   000088   ........     CALLA   #ClearController
+    186                          ClearController(&leftFollowController);
+   \   00008C   3C40....     MOV.W   #leftFollowController, R12
+   \   000090   ........     CALLA   #ClearController
+    187                      }
+    188          
+    189                      if(delay(70, 0)) stateCounter = 5;
    \                     ??LineFollow_11:
-   \   0000B0   0D43         MOV.W   #0x0, R13
-   \   0000B2   3C404600     MOV.W   #0x46, R12
-   \   0000B6   ........     CALLA   #delay
-   \   0000BA   0C93         CMP.W   #0x0, R12
-   \   0000BC   0324         JEQ     ??LineFollow_20
-   \   0000BE   B2400500.... MOV.W   #0x5, &stateCounter
-    142          
-    143                      Drive_Path(rFollowSpeed, lFollowSpeed, 0);
+   \   000094   0D43         MOV.W   #0x0, R13
+   \   000096   3C404600     MOV.W   #0x46, R12
+   \   00009A   ........     CALLA   #delay
+   \   00009E   0C93         CMP.W   #0x0, R12
+   \   0000A0   0324         JEQ     ??LineFollow_20
+   \   0000A2   B2400500.... MOV.W   #0x5, &stateCounter
+    190          
+    191                      Drive_Path(rFollowSpeed, lFollowSpeed, 0);
    \                     ??LineFollow_20:
-   \   0000C4   0E43         MOV.W   #0x0, R14
-   \   0000C6   0D4B         MOV.W   R11, R13
-   \   0000C8   0C4A         MOV.W   R10, R12
-   \   0000CA   293C         JMP     ??LineFollow_3
-    144                      break;
-    145          
-    146          
-    147                  case 2:
-    148                      if(ADC_Left_Detect < LEFT_BLACK_DETECT && ADC_Right_Detect >= RIGHT_BLACK_DETECT) stateCounter = 3;
+   \   0000A8   0E43         MOV.W   #0x0, R14
+   \   0000AA   0D4B         MOV.W   R11, R13
+   \   0000AC   0C4A         MOV.W   R10, R12
+   \   0000AE   293C         JMP     ??LineFollow_3
+    192                      break;
+    193          
+    194          
+    195                  case 2:
+    196                      if(ADC_Left_Detect < LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 3;
    \                     ??LineFollow_14:
-   \   0000CC   829F....     CMP.W   R15, &ADC_Left_Detect
-   \   0000D0   032C         JC      ??LineFollow_21
-   \   0000D2   829C....     CMP.W   R12, &ADC_Right_Detect
-   \   0000D6   362C         JC      ??LineFollow_22
-    149                      else if(ADC_Left_Detect >= LEFT_BLACK_DETECT && ADC_Right_Detect < RIGHT_BLACK_DETECT) stateCounter = 4;
+   \   0000B0   829F....     CMP.W   R15, &ADC_Left_Detect
+   \   0000B4   032C         JC      ??LineFollow_21
+   \   0000B6   829E....     CMP.W   R14, &ADC_Right_Detect
+   \   0000BA   362C         JC      ??LineFollow_22
+    197                      else if(ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect < RIGHT_WHITE_DETECT) stateCounter = 4;
    \                     ??LineFollow_21:
-   \   0000D8   829F....     CMP.W   R15, &ADC_Left_Detect
-   \   0000DC   3028         JNC     ??LineFollow_23
-   \   0000DE   829C....     CMP.W   R12, &ADC_Right_Detect
-   \   0000E2   1028         JNC     ??LineFollow_9
-   \   0000E4   283C         JMP     ??LineFollow_7
-    150                      else stateCounter = 1;
-    151          
-    152                      break;
-    153          
-    154                  case 3:// turn left ()
-    155                      if(ADC_Left_Detect < LEFT_BLACK_DETECT) Drive_Path((RIGHT_MIN - LF_TURN_DECREMENT), -(LEFT_MIN - LF_TURN_DECREMENT), 0);
+   \   0000BC   829F....     CMP.W   R15, &ADC_Left_Detect
+   \   0000C0   3028         JNC     ??LineFollow_23
+   \   0000C2   829E....     CMP.W   R14, &ADC_Right_Detect
+   \   0000C6   1028         JNC     ??LineFollow_9
+   \   0000C8   283C         JMP     ??LineFollow_7
+    198                      else stateCounter = 1;
+    199          
+    200                      break;
+    201          
+    202                  case 3:// turn left ()
+    203                      if(ADC_Left_Detect < LEFT_WHITE_DETECT) Drive_Path((RIGHT_MIN - LF_TURN_DECREMENT), -(LEFT_MIN - LF_TURN_DECREMENT), 0);
    \                     ??LineFollow_15:
-   \   0000E6   829F....     CMP.W   R15, &ADC_Left_Detect
-   \   0000EA   062C         JC      ??LineFollow_24
-   \   0000EC   0E43         MOV.W   #0x0, R14
-   \   0000EE   3D406CEE     MOV.W   #0xee6c, R13
-   \   0000F2   3C409411     MOV.W   #0x1194, R12
-   \   0000F6   133C         JMP     ??LineFollow_3
-    156                      else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
+   \   0000CA   829F....     CMP.W   R15, &ADC_Left_Detect
+   \   0000CE   062C         JC      ??LineFollow_24
+   \   0000D0   0E43         MOV.W   #0x0, R14
+   \   0000D2   3D4084EA     MOV.W   #0xea84, R13
+   \   0000D6   3C407C15     MOV.W   #0x157c, R12
+   \   0000DA   133C         JMP     ??LineFollow_3
+    204                      else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
    \                     ??LineFollow_24:
-   \   0000F8   829D....     CMP.W   R13, &ADC_Left_Detect
-   \   0000FC   0528         JNC     ??LineFollow_25
-   \   0000FE   829E....     CMP.W   R14, &ADC_Right_Detect
-   \   000102   192C         JC      ??LineFollow_7
+   \   0000DC   829F....     CMP.W   R15, &ADC_Left_Detect
+   \   0000E0   0528         JNC     ??LineFollow_25
+   \   0000E2   829E....     CMP.W   R14, &ADC_Right_Detect
+   \   0000E6   192C         JC      ??LineFollow_7
    \                     ??LineFollow_9:
-   \   000104   2F42         MOV.W   #0x4, R15
-   \   000106   183C         JMP     ??LineFollow_4
-    157                      else stateCounter = 4;
+   \   0000E8   2F42         MOV.W   #0x4, R15
+   \   0000EA   183C         JMP     ??LineFollow_4
+    205                      else stateCounter = 4;
    \                     ??LineFollow_25:
-   \   000108   A242....     MOV.W   #0x4, &stateCounter
-   \   00010C   243C         JMP     ??LineFollow_1
-    158          
-    159                      break;
-    160          
-    161                  case 4:
-    162                      if(ADC_Right_Detect < RIGHT_BLACK_DETECT) Drive_Path(-(RIGHT_MIN - LF_TURN_DECREMENT), (LEFT_MIN - LF_TURN_DECREMENT), 0);
+   \   0000EC   A242....     MOV.W   #0x4, &stateCounter
+   \   0000F0   243C         JMP     ??LineFollow_1
+    206          
+    207                      break;
+    208          
+    209                  case 4:
+    210                      if(ADC_Right_Detect < RIGHT_WHITE_DETECT) Drive_Path(-(RIGHT_MIN - LF_TURN_DECREMENT), (LEFT_MIN - LF_TURN_DECREMENT), 0);
    \                     ??LineFollow_16:
-   \   00010E   829C....     CMP.W   R12, &ADC_Right_Detect
-   \   000112   082C         JC      ??LineFollow_26
-   \   000114   0E43         MOV.W   #0x0, R14
-   \   000116   3D409411     MOV.W   #0x1194, R13
-   \   00011A   3C406CEE     MOV.W   #0xee6c, R12
+   \   0000F2   829E....     CMP.W   R14, &ADC_Right_Detect
+   \   0000F6   082C         JC      ??LineFollow_26
+   \   0000F8   0E43         MOV.W   #0x0, R14
+   \   0000FA   3D407C15     MOV.W   #0x157c, R13
+   \   0000FE   3C4084EA     MOV.W   #0xea84, R12
    \                     ??LineFollow_3:
-   \   00011E   ........     CALLA   #Drive_Path
-   \   000122   193C         JMP     ??LineFollow_1
-    163                      else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
+   \   000102   ........     CALLA   #Drive_Path
+   \   000106   193C         JMP     ??LineFollow_1
+    211                      else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
    \                     ??LineFollow_26:
-   \   000124   829D....     CMP.W   R13, &ADC_Left_Detect
-   \   000128   0D28         JNC     ??LineFollow_22
-   \   00012A   829E....     CMP.W   R14, &ADC_Right_Detect
-   \   00012E   032C         JC      ??LineFollow_7
-   \   000130   3F400300     MOV.W   #0x3, R15
-   \   000134   013C         JMP     ??LineFollow_4
+   \   000108   829F....     CMP.W   R15, &ADC_Left_Detect
+   \   00010C   0D28         JNC     ??LineFollow_22
+   \   00010E   829E....     CMP.W   R14, &ADC_Right_Detect
+   \   000112   032C         JC      ??LineFollow_7
+   \   000114   3F400300     MOV.W   #0x3, R15
+   \   000118   013C         JMP     ??LineFollow_4
    \                     ??LineFollow_7:
-   \   000136   1F43         MOV.W   #0x1, R15
+   \   00011A   1F43         MOV.W   #0x1, R15
    \                     ??LineFollow_4:
-   \   000138   824F....     MOV.W   R15, &stateCounter
-   \   00013C   0C3C         JMP     ??LineFollow_1
+   \   00011C   824F....     MOV.W   R15, &stateCounter
+   \   000120   0C3C         JMP     ??LineFollow_1
    \                     ??LineFollow_23:
-   \   00013E   9243....     MOV.W   #0x1, &stateCounter
-   \   000142   093C         JMP     ??LineFollow_1
-    164                      else stateCounter = 3;
+   \   000122   9243....     MOV.W   #0x1, &stateCounter
+   \   000126   093C         JMP     ??LineFollow_1
+    212                      else stateCounter = 3;
    \                     ??LineFollow_22:
-   \   000144   B2400300.... MOV.W   #0x3, &stateCounter
-   \   00014A   053C         JMP     ??LineFollow_1
-    165          
-    166                      break;
-    167          
-    168                  //case 10:
-    169                  //    if(LockMotorsTime(-1, -1, 1)) stateCounter = 2;
-    170                  //    break;
-    171          
-    172                  case 5:
-    173                      ShutoffMotors();
+   \   000128   B2400300.... MOV.W   #0x3, &stateCounter
+   \   00012E   053C         JMP     ??LineFollow_1
+    213          
+    214                      break;
+    215          
+    216                  //case 10:
+    217                  //    if(LockMotorsTime(-1, -1, 1)) stateCounter = 2;
+    218                  //    break;
+    219          
+    220                  case 5:
+    221                      ShutoffMotors();
    \                     ??LineFollow_17:
-   \   00014C   ........     CALLA   #?Subroutine2
-    174                      stateCounter = 0 ;
-    175                      state = START;
-    176                      EMITTER_OFF;
-   \                     ??CrossCallReturnLabel_0:
-   \   000150   F2C010004302 BIC.B   #0x10, &0x243
-    177                      break;
-    178              }
-    179          
-    180          
-    181          }
+   \   000130   ........     CALLA   #?Subroutine3
+    222                      stateCounter = 0 ;
+    223                      state = START;
+    224                      EMITTER_OFF;
+   \                     ??CrossCallReturnLabel_2:
+   \   000134   F2C010004302 BIC.B   #0x10, &0x243
+    225                      break;
+    226              }
+    227          
+    228          
+    229          }
    \                     ??LineFollow_1:
-   \   000156   3817         POPM.W  #0x4, R11
-   \   000158   1001         RETA
-   \   00015A                REQUIRE _A_PCOUT_L
+   \   00013A   1A17         POPM.W  #0x2, R11
+   \   00013C   1001         RETA
+   \   00013E                REQUIRE _A_PCOUT_L
 
    \                                 In  segment CODE, align 2, keep-with-next
-   \                     ?Subroutine2:
+   \                     ?Subroutine3:
    \   000000   ........     CALLA   #ShutoffMotors
    \   000004   8243....     MOV.W   #0x0, &stateCounter
    \   000008   F2405300.... MOV.B   #0x53, &state
@@ -565,332 +668,328 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \   000000   8243....     MOV.W   #0x0, &stopwatch_seconds
    \   000004   8243....     MOV.W   #0x0, &cycle_count
    \   000008   1001         RETA
-    182          
+    230          
 
    \                                 In  segment CODE, align 2, keep-with-next
-    183          void Exit(int direction) {
+    231          void Exit(int direction) {
    \                     Exit:
    \   000000   0A12         PUSH.W  R10
    \   000002   0A4C         MOV.W   R12, R10
-    184              if (stateCounter == 0) {
+    232              if (stateCounter == 0) {
    \   000004   8293....     CMP.W   #0x0, &stateCounter
-   \   000008   0820         JNE     ??Exit_9
-    185                  if(rightSwitchable && leftSwitchable)stateCounter++;
+   \   000008   0820         JNE     ??Exit_7
+    233                  if(rightSwitchable && leftSwitchable)stateCounter++;
    \   00000A   8293....     CMP.W   #0x0, &rightSwitchable
-   \   00000E   0524         JEQ     ??Exit_9
+   \   00000E   0524         JEQ     ??Exit_7
    \   000010   8293....     CMP.W   #0x0, &leftSwitchable
-   \   000014   0224         JEQ     ??Exit_9
+   \   000014   0224         JEQ     ??Exit_7
    \   000016   9253....     ADD.W   #0x1, &stateCounter
-    186              }
-    187          
-    188              if (stateCounter == 1) {
-   \                     ??Exit_9:
+    234              }
+    235          
+    236              if (stateCounter == 1) {
+   \                     ??Exit_7:
    \   00001A   9293....     CMP.W   #0x1, &stateCounter
    \   00001E   0F20         JNE     ??Exit_0
-    189                  if(direction) {
+    237                  if(direction) {
    \   000020   0C93         CMP.W   #0x0, R12
-   \   000022   3E406801     MOV.W   #0x168, R14
-   \   000026   0524         JEQ     ??Exit_10
-    190                      if(Drive_Path(-STRAIGHT_RIGHT, STRAIGHT_LEFT, 360)) stateCounter++;
+   \   000022   3E402602     MOV.W   #0x226, R14
+   \   000026   0524         JEQ     ??Exit_8
+    238                      if(Drive_Path(-STRAIGHT_RIGHT, STRAIGHT_LEFT, TURN90)) stateCounter++;
    \   000028   3D40803E     MOV.W   #0x3e80, R13
    \   00002C   3C40E0B1     MOV.W   #0xb1e0, R12
-   \   000030   043C         JMP     ??Exit_6
-    191                  } else {
-    192                      if(Drive_Path(STRAIGHT_RIGHT, -STRAIGHT_LEFT, 360)) stateCounter++;
-   \                     ??Exit_10:
+   \   000030   043C         JMP     ??Exit_4
+    239                  } else {
+    240                      if(Drive_Path(STRAIGHT_RIGHT, -STRAIGHT_LEFT, TURN90)) stateCounter++;
+   \                     ??Exit_8:
    \   000032   3D4080C1     MOV.W   #0xc180, R13
    \   000036   3C40204E     MOV.W   #0x4e20, R12
-    193                  }
-    194              }
-   \                     ??Exit_6:
+    241                  }
+    242              }
+   \                     ??Exit_4:
    \   00003A   ........     CALLA   #?Subroutine5
-    195          
-    196              if (stateCounter == 2) {
+    243          
+    244              if (stateCounter == 2) {
    \                     ??Exit_0:
    \   00003E   A293....     CMP.W   #0x2, &stateCounter
-   \   000042   0B20         JNE     ??Exit_1
-    197                  if(direction) {
+   \   000042   0D20         JNE     ??Exit_9
+    245                  if(direction) {
    \   000044   0A93         CMP.W   #0x0, R10
-   \   000046   0324         JEQ     ??Exit_11
-    198                    if(LockMotors(1, -1)) stateCounter++;  
+   \   000046   0324         JEQ     ??Exit_10
+    246                    if(LockMotors(1, -1)) stateCounter++;  
    \   000048   3D43         MOV.W   #0xffff, R13
    \   00004A   1C43         MOV.W   #0x1, R12
-   \   00004C   023C         JMP     ??Exit_7
-    199                  } else {
-    200                      if(LockMotors(-1, 1)) stateCounter++;
-   \                     ??Exit_11:
+   \   00004C   023C         JMP     ??Exit_5
+    247                  } else {
+    248                      if(LockMotors(-1, 1)) stateCounter++;
+   \                     ??Exit_10:
    \   00004E   1D43         MOV.W   #0x1, R13
    \   000050   3C43         MOV.W   #0xffff, R12
-   \                     ??Exit_7:
+   \                     ??Exit_5:
    \   000052   ........     CALLA   #LockMotors
-    201                  }
-    202              }
-   \   000056   ........     CALLA   #??Subroutine5_0
-    203          
-    204              if (stateCounter == 3) {
+   \   000056   0C93         CMP.W   #0x0, R12
+   \   000058   0224         JEQ     ??Exit_9
+   \   00005A   9253....     ADD.W   #0x1, &stateCounter
+    249                  }
+    250              }
+    251          
+    252              if (stateCounter == 3) {
+   \                     ??Exit_9:
+   \   00005E   B2900300.... CMP.W   #0x3, &stateCounter
+   \   000064   0820         JNE     ??Exit_1
+    253                  if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 5000)) stateCounter++;
+   \   000066   3E408813     MOV.W   #0x1388, R14
+   \   00006A   3D40803E     MOV.W   #0x3e80, R13
+   \   00006E   3C40204E     MOV.W   #0x4e20, R12
+   \   000072   ........     CALLA   #?Subroutine5
+    254              }
+    255          
+    256              if (stateCounter == 4) {
    \                     ??Exit_1:
-   \   00005A   B2900300.... CMP.W   #0x3, &stateCounter
-   \   000060   0820         JNE     ??Exit_2
-    205                  if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 5000)) stateCounter++;
-   \   000062   3E408813     MOV.W   #0x1388, R14
-   \   000066   3D40803E     MOV.W   #0x3e80, R13
-   \   00006A   3C40204E     MOV.W   #0x4e20, R12
-   \   00006E   ........     CALLA   #?Subroutine5
-    206              }
-    207          
-    208              if (stateCounter == 4) {
-   \                     ??Exit_2:
-   \   000072   A292....     CMP.W   #0x4, &stateCounter
-   \   000076   0920         JNE     ??Exit_12
-    209                  if(LockMotors(-1, -1)) stateCounter++;
-   \   000078   3D43         MOV.W   #0xffff, R13
-   \   00007A   3C43         MOV.W   #0xffff, R12
-   \   00007C   ........     CALLA   #LockMotors
-   \   000080   0C93         CMP.W   #0x0, R12
-   \   000082   0B24         JEQ     ??Exit_8
-   \   000084   9253....     ADD.W   #0x1, &stateCounter
-   \   000088   083C         JMP     ??Exit_8
-    210              }
-    211          
-    212              else if (stateCounter == 5) {
-   \                     ??Exit_12:
-   \   00008A   B2900500.... CMP.W   #0x5, &stateCounter
-   \   000090   0420         JNE     ??Exit_8
-    213                  ShutoffMotors();
-   \   000092   ........     CALLA   #?Subroutine2
-    214                  stateCounter = 0 ;
-    215                  state = START;
-    216                  stopwatch_seconds = 0;
-   \                     ??CrossCallReturnLabel_1:
-   \   000096   ........     CALLA   #?Subroutine4
-    217                  cycle_count = 0;
-    218              }
-    219          }
-   \                     ??Exit_8:
-   \   00009A   3A41         POP.W   R10
-   \   00009C   1001         RETA
+   \   000076   A292....     CMP.W   #0x4, &stateCounter
+   \   00007A   0920         JNE     ??Exit_11
+    257                  if(LockMotors(-1, -1)) stateCounter++;
+   \   00007C   3D43         MOV.W   #0xffff, R13
+   \   00007E   3C43         MOV.W   #0xffff, R12
+   \   000080   ........     CALLA   #LockMotors
+   \   000084   0C93         CMP.W   #0x0, R12
+   \   000086   0B24         JEQ     ??Exit_6
+   \   000088   9253....     ADD.W   #0x1, &stateCounter
+   \   00008C   083C         JMP     ??Exit_6
+    258              }
+    259          
+    260              else if (stateCounter == 5) {
+   \                     ??Exit_11:
+   \   00008E   B2900500.... CMP.W   #0x5, &stateCounter
+   \   000094   0420         JNE     ??Exit_6
+    261                  ShutoffMotors();
+   \   000096   ........     CALLA   #?Subroutine3
+    262                  stateCounter = 0 ;
+    263                  state = START;
+    264                  stopwatch_seconds = 0;
+   \                     ??CrossCallReturnLabel_3:
+   \   00009A   ........     CALLA   #?Subroutine4
+    265                  cycle_count = 0;
+    266              }
+    267          }
+   \                     ??Exit_6:
+   \   00009E   3A41         POP.W   R10
+   \   0000A0   1001         RETA
 
    \                                 In  segment CODE, align 2, keep-with-next
    \                     ?Subroutine5:
    \   000000   ........     CALLA   #Drive_Path
-   \                     ??Subroutine5_0:
    \   000004   0C93         CMP.W   #0x0, R12
-   \   000006   0224         JEQ     ??Exit_3
+   \   000006   0224         JEQ     ??Exit_2
    \   000008   9253....     ADD.W   #0x1, &stateCounter
-   \                     ??Exit_3:
+   \                     ??Exit_2:
    \   00000C   1001         RETA
-    220          
+    268          
 
-   \                                 In  segment CODE, align 2
-    221          void Drive(int polR, int polL, unsigned int time) {
+   \                                 In  segment CODE, align 2, keep-with-next
+    269          void Drive(int polR, int polL, unsigned int time) {
    \                     Drive:
-    222              switch(stateCounter) {
+    270              switch(stateCounter) {
    \   000000   1F42....     MOV.W   &stateCounter, R15
    \   000004   0F83         SUB.W   #0x0, R15
-   \   000006   0724         JEQ     ??Drive_4
+   \   000006   0724         JEQ     ??Drive_3
    \   000008   1F83         SUB.W   #0x1, R15
-   \   00000A   0B24         JEQ     ??Drive_5
+   \   00000A   0624         JEQ     ??Drive_4
    \   00000C   1F83         SUB.W   #0x1, R15
-   \   00000E   1A24         JEQ     ??Drive_6
+   \   00000E   1524         JEQ     ??Drive_5
    \   000010   1F83         SUB.W   #0x1, R15
-   \   000012   2124         JEQ     ??Drive_7
+   \   000012   1C24         JEQ     ??Drive_6
    \   000014   1001         RETA
-    223          
-    224                  case 0 :
-    225                      if(rightSwitchable && leftSwitchable)stateCounter++;
-   \                     ??Drive_4:
-   \   000016   8293....     CMP.W   #0x0, &rightSwitchable
-   \   00001A   1F24         JEQ     ??Drive_8
-   \   00001C   8293....     CMP.W   #0x0, &leftSwitchable
-   \   000020   183C         JMP     ??Drive_0
-    226                      break;
-    227          
-    228                  case 1 :
-    229                    if(Drive_Path(polR>0?STRAIGHT_RIGHT:-STRAIGHT_RIGHT, polL>0?STRAIGHT_LEFT:-STRAIGHT_LEFT, time))stateCounter++;
-   \                     ??Drive_5:
-   \   000022   1D93         CMP.W   #0x1, R13
-   \   000024   0334         JGE     ??Drive_9
-   \   000026   3D4080C1     MOV.W   #0xc180, R13
-   \   00002A   023C         JMP     ??Drive_1
-   \                     ??Drive_9:
-   \   00002C   3D40803E     MOV.W   #0x3e80, R13
-   \                     ??Drive_1:
-   \   000030   1C93         CMP.W   #0x1, R12
-   \   000032   0334         JGE     ??Drive_10
-   \   000034   3C40E0B1     MOV.W   #0xb1e0, R12
-   \   000038   023C         JMP     ??Drive_2
-   \                     ??Drive_10:
-   \   00003A   3C40204E     MOV.W   #0x4e20, R12
-   \                     ??Drive_2:
-   \   00003E   ........     CALLA   #Drive_Path
-   \   000042   063C         JMP     ??Drive_3
-    230          
-    231                      break;
-    232          
-    233                  case 2 :
-    234                      if(LockMotors(-polR, -polL)) stateCounter++;
-   \                     ??Drive_6:
-   \   000044   3DE3         XOR.W   #0xffff, R13
-   \   000046   1D53         ADD.W   #0x1, R13
-   \   000048   3CE3         XOR.W   #0xffff, R12
-   \   00004A   1C53         ADD.W   #0x1, R12
-   \   00004C   ........     CALLA   #LockMotors
+    271          
+    272                  case 0 :
+    273                      stateCounter++;
    \                     ??Drive_3:
-   \   000050   0C93         CMP.W   #0x0, R12
-   \                     ??Drive_0:
-   \   000052   0324         JEQ     ??Drive_8
-   \   000054   ....         JMP     ?Subroutine1
-    235          
-    236                      break;
-    237          
-    238                  case 3 :
-    239                      ShutoffMotors();
+   \   000016   ....         JMP     ?Subroutine0
+    274                      break;
+    275          
+    276                  case 1 :
+    277                    if(Drive_Path(polR>0?STRAIGHT_RIGHT:-STRAIGHT_RIGHT, polL>0?STRAIGHT_LEFT:-STRAIGHT_LEFT, time))stateCounter++;
+   \                     ??Drive_4:
+   \   000018   1D93         CMP.W   #0x1, R13
+   \   00001A   0334         JGE     ??Drive_7
+   \   00001C   3D4080C1     MOV.W   #0xc180, R13
+   \   000020   023C         JMP     ??Drive_0
    \                     ??Drive_7:
-   \   000056   ........     CALLA   #?Subroutine2
-    240                      stateCounter = 0 ;
-    241                      state = START;
-    242                      break;
-    243              }
-    244          }
+   \   000022   3D40803E     MOV.W   #0x3e80, R13
+   \                     ??Drive_0:
+   \   000026   1C93         CMP.W   #0x1, R12
+   \   000028   0334         JGE     ??Drive_8
+   \   00002A   3C40E0B1     MOV.W   #0xb1e0, R12
+   \   00002E   023C         JMP     ??Drive_1
    \                     ??Drive_8:
-   \   00005A   1001         RETA
-    245          
-    246          
-    247          
-    248          // delays for a specified time make sure stopwatch_seconds and cycle_count are 0 before calling
+   \   000030   3C40204E     MOV.W   #0x4e20, R12
+   \                     ??Drive_1:
+   \   000034   ........     CALLA   #Drive_Path
+   \   000038   063C         JMP     ??Drive_2
+    278          
+    279                      break;
+    280          
+    281                  case 2 :
+    282                      if(LockMotors(-polR, -polL)) stateCounter++;
+   \                     ??Drive_5:
+   \   00003A   3DE3         XOR.W   #0xffff, R13
+   \   00003C   1D53         ADD.W   #0x1, R13
+   \   00003E   3CE3         XOR.W   #0xffff, R12
+   \   000040   1C53         ADD.W   #0x1, R12
+   \   000042   ........     CALLA   #LockMotors
+   \                     ??Drive_2:
+   \   000046   0C93         CMP.W   #0x0, R12
+   \   000048   0324         JEQ     ??Drive_9
+   \   00004A   ....         JMP     ?Subroutine0
+    283          
+    284                      break;
+    285          
+    286                  case 3 :
+    287                      ShutoffMotors();
+   \                     ??Drive_6:
+   \   00004C   ........     CALLA   #?Subroutine3
+    288                      stateCounter = 0 ;
+    289                      state = START;
+    290                      break;
+    291              }
+    292          }
+   \                     ??Drive_9:
+   \   000050   1001         RETA
+    293          
+    294          
+    295          
+    296          // delays for a specified time make sure stopwatch_seconds and cycle_count are 0 before calling
 
    \                                 In  segment CODE, align 2
-    249          int delay(int seconds, int cycles) {
+    297          int delay(int seconds, int cycles) {
    \                     delay:
-    250              if(stopwatch_seconds == 0 && cycle_count <= 1) {
+    298              if(stopwatch_seconds == 0 && cycle_count <= 1) {
    \   000000   8293....     CMP.W   #0x0, &stopwatch_seconds
    \   000004   0520         JNE     ??delay_0
    \   000006   A293....     CMP.W   #0x2, &cycle_count
    \   00000A   022C         JC      ??delay_0
-    251                  display_changed = 1;
+    299                  display_changed = 1;
    \   00000C   D243....     MOV.B   #0x1, &display_changed
-    252              }
-    253          
-    254              if(stopwatch_seconds >= seconds && cycle_count >= cycles) {
+    300              }
+    301          
+    302              if(stopwatch_seconds >= seconds && cycle_count >= cycles) {
    \                     ??delay_0:
    \   000010   829C....     CMP.W   R12, &stopwatch_seconds
    \   000014   0728         JNC     ??delay_1
    \   000016   829D....     CMP.W   R13, &cycle_count
    \   00001A   0428         JNC     ??delay_1
-    255                  stopwatch_seconds = 0;
+    303                  stopwatch_seconds = 0;
    \   00001C   ........     CALLA   #?Subroutine4
-    256                  cycle_count = 0;
-    257                  return 1;
+    304                  cycle_count = 0;
+    305                  return 1;
    \                     ??CrossCallReturnLabel_5:
    \   000020   1C43         MOV.W   #0x1, R12
    \   000022   1001         RETA
-    258              } else return 0;
+    306              } else return 0;
    \                     ??delay_1:
    \   000024   0C43         MOV.W   #0x0, R12
    \   000026   1001         RETA
-    259          }
-    260          
-    261          
-    262          
-    263          
-    264          
+    307          }
+    308          
+    309          
+    310          
+    311          
+    312          
 
    \                                 In  segment CODE, align 2
-    265          void StateMachine(void) {
+    313          void StateMachine(void) {
    \                     StateMachine:
-    266            
-    267              switch(state) {
-   \   000000   5E42....     MOV.B   &state, R14
-   \   000004   7E804300     SUB.B   #0x43, R14
-   \   000008   1324         JEQ     ??StateMachine_0
-   \   00000A   5E83         SUB.B   #0x1, R14
-   \   00000C   2924         JEQ     ??StateMachine_1
-   \   00000E   7E82         SUB.B   #0x8, R14
-   \   000010   2124         JEQ     ??StateMachine_2
-   \   000012   7E800700     SUB.B   #0x7, R14
-   \   000016   0E24         JEQ     ??StateMachine_3
-   \   000018   5E83         SUB.B   #0x1, R14
-   \   00001A   1A24         JEQ     ??StateMachine_4
-   \   00001C   7E800300     SUB.B   #0x3, R14
-   \   000020   0A24         JEQ     ??StateMachine_5
-   \   000022   7E800E00     SUB.B   #0xe, R14
-   \   000026   1824         JEQ     ??StateMachine_6
-   \   000028   7E800E00     SUB.B   #0xe, R14
-   \   00002C   0F24         JEQ     ??StateMachine_7
-   \   00002E   1001         RETA
-    268                  case (CALIBRATE):
-    269                      calibrate();
+    314            
+    315              switch(state) {
+   \   000000   1C42....     MOV.W   &polarityRight, R12
+   \   000004   5E42....     MOV.B   &state, R14
+   \   000008   7E804300     SUB.B   #0x43, R14
+   \   00000C   1324         JEQ     ??StateMachine_0
+   \   00000E   5E83         SUB.B   #0x1, R14
+   \   000010   2724         JEQ     ??StateMachine_1
+   \   000012   7E82         SUB.B   #0x8, R14
+   \   000014   2124         JEQ     ??StateMachine_2
+   \   000016   7E800700     SUB.B   #0x7, R14
+   \   00001A   0E24         JEQ     ??StateMachine_3
+   \   00001C   5E83         SUB.B   #0x1, R14
+   \   00001E   1A24         JEQ     ??StateMachine_4
+   \   000020   7E800300     SUB.B   #0x3, R14
+   \   000024   0A24         JEQ     ??StateMachine_5
+   \   000026   7E800E00     SUB.B   #0xe, R14
+   \   00002A   1824         JEQ     ??StateMachine_6
+   \   00002C   7E800E00     SUB.B   #0xe, R14
+   \   000030   0F24         JEQ     ??StateMachine_7
+   \   000032   1001         RETA
+    316                  case (CALIBRATE):
+    317                      calibrate();
    \                     ??StateMachine_0:
-   \   000030   ........     BRA     #calibrate
-    270          
-    271                      /*if(calibrationMode >= 2) {
-    272                          state = START;
-    273                      }*/
-    274          
-    275                      break;
-    276          
-    277                  case (START):
-    278                      stopwatch_seconds = 0;
+   \   000034   ........     BRA     #calibrate
+    318          
+    319                      /*if(calibrationMode >= 2) {
+    320                          state = START;
+    321                      }*/
+    322          
+    323                      break;
+    324          
+    325                  case (START):
+    326                      stopwatch_seconds = 0;
    \                     ??StateMachine_3:
-   \   000034   ....         JMP     ?Subroutine4
-    279                      cycle_count = 0;
-    280                      break;
-    281          
-    282                  case (WAIT):
-    283                      //strcpy(display_line[0], "WAITING...");
-    284          
-    285                      if (delay(delayTime, 0)) state = nextState;
+   \   000038   ....         JMP     ?Subroutine4
+    327                      cycle_count = 0;
+    328                      break;
+    329          
+    330                  case (WAIT):
+    331                      //strcpy(display_line[0], "WAITING...");
+    332          
+    333                      if (delay(delayTime, 0)) state = nextState;
    \                     ??StateMachine_5:
-   \   000036   0D43         MOV.W   #0x0, R13
-   \   000038   1C42....     MOV.W   &delayTime, R12
-   \   00003C   ........     CALLA   #delay
-   \   000040   0C93         CMP.W   #0x0, R12
-   \   000042   1624         JEQ     ??StateMachine_8
-   \   000044   D242........ MOV.B   &nextState, &state
-   \   00004A   1001         RETA
-    286          
-    287                      break;
-    288          
-    289                  case (STRAIGHT):
-    290                      Straight();
+   \   00003A   0D43         MOV.W   #0x0, R13
+   \   00003C   1C42....     MOV.W   &delayTime, R12
+   \   000040   ........     CALLA   #delay
+   \   000044   0C93         CMP.W   #0x0, R12
+   \   000046   1224         JEQ     ??StateMachine_8
+   \   000048   D242........ MOV.B   &nextState, &state
+   \   00004E   1001         RETA
+    334          
+    335                      break;
+    336          
+    337                  case (STRAIGHT):
+    338                      Straight(polarityRight);
    \                     ??StateMachine_7:
-   \   00004C   ........     BRA     #Straight
-    291                      break;
-    292          
-    293                  case (TURN):
-    294                      Turn();
+   \   000050   ........     BRA     #Straight
+    339                      break;
+    340          
+    341                  case (TURN):
+    342                      Turn(polarityRight);
    \                     ??StateMachine_4:
-   \   000050   ........     BRA     #Turn
-    295                      break;
-    296          
-    297                  case (LINEFOLLOW):
-    298                      LineFollow();
+   \   000054   ........     BRA     #Turn
+    343                      break;
+    344          
+    345                  case (LINEFOLLOW):
+    346                      LineFollow();
    \                     ??StateMachine_2:
-   \   000054   ........     BRA     #LineFollow
-    299                      break;
-    300                      
-    301                  case (EXIT):
-    302                      Exit(polarityRight);
+   \   000058   ........     BRA     #LineFollow
+    347                      break;
+    348                      
+    349                  case (EXIT):
+    350                      Exit(polarityRight);
    \                     ??StateMachine_6:
-   \   000058   1C42....     MOV.W   &polarityRight, R12
    \   00005C   ........     BRA     #Exit
-    303                      break;
-    304                      
-    305                  case (DRIVE):
-    306                      Drive(polarityRight, polarityLeft, driveTime);
+    351                      break;
+    352                      
+    353                  case (DRIVE):
+    354                      Drive(polarityRight, polarityLeft, driveTime);
    \                     ??StateMachine_1:
    \   000060   1E42....     MOV.W   &driveTime, R14
    \   000064   1D42....     MOV.W   &polarityLeft, R13
-   \   000068   1C42....     MOV.W   &polarityRight, R12
-   \   00006C   ........     CALLA   #Drive
-    307                      break;
-    308          
-    309                  default:
-    310                      break;
-    311              }
-    312          }
+   \   000068   ........     CALLA   #Drive
+    355                      break;
+    356          
+    357                  default:
+    358                      break;
+    359              }
+    360          }
    \                     ??StateMachine_8:
-   \   000070   1001         RETA
+   \   00006C   1001         RETA
 
    \                                 In  segment DATA16_ID, align 1, align-sorted
    \                     `?<Initializer for state>`:
@@ -908,6 +1007,21 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
    \                     `?<Initializer for enteringDirection>`:
    \   000000   4E           DC8 78
 
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "          ">`:
+   \   000000   202020202020 DC8 "          "
+   \            2020202000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "INTERCEPT ">`:
+   \   000000   494E54455243 DC8 "INTERCEPT "
+   \            4550542000  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "   TURN   ">`:
+   \   000000   202020545552 DC8 "   TURN   "
+   \            4E20202000  
+
    Maximum stack usage in bytes:
 
    CSTACK Function
@@ -920,11 +1034,12 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
        10   -> Drive_Path
         6   -> LockMotors
        10   -> ShutoffMotors
-     12   LineFollow
-       12   -> ClearController
-       12   -> Drive_Path
-       16   -> ShutoffMotors
-       12   -> delay
+      8   LineFollow
+        8   -> ClearController
+        8   -> Drive_Path
+       12   -> ShutoffMotors
+        8   -> delay
+       12   -> strcpy
       4   StateMachine
         4   -> Drive
         0   -> Exit
@@ -933,13 +1048,16 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
         0   -> Turn
         0   -> calibrate
         4   -> delay
-      4   Straight
-        0   -> Drive_Path
-        4   -> LockMotors
+     16   Straight
+       16   -> Drive_Path
+       16   -> LockMotors
+       20   -> strcpy
       4   Turn
         0   -> Drive_Path
         4   -> Drive_Path
         4   -> ShutoffMotors
+        4   -> strcpy
+        8   -> strcpy
       4   delay
 
 
@@ -947,22 +1065,27 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
 
    Bytes  Function/Label
    -----  --------------
+      11  ?<Constant "          ">
+      11  ?<Constant "   TURN   ">
+      11  ?<Constant "INTERCEPT ">
        2  ?<Initializer for delayTime>
        1  ?<Initializer for enteringDirection>
        1  ?<Initializer for nextState>
        1  ?<Initializer for state>
-      12  ?Subroutine0
-       6  ?Subroutine1
-      16  ?Subroutine2
-      20  ?Subroutine3
+      14  ??Subroutine1_1
+       4  ??Subroutine6_0
+       6  ?Subroutine0
+      10  ?Subroutine1
+      20  ?Subroutine2
+      16  ?Subroutine3
       10  ?Subroutine4
       14  ?Subroutine5
-      92  Drive
-     158  Exit
-     346  LineFollow
-     114  StateMachine
-     124  Straight
-     170  Turn
+      82  Drive
+     162  Exit
+     318  LineFollow
+     110  StateMachine
+     228  Straight
+     150  Turn
        2  _A_PCOUT_L
       40  delay
        2  delayTime
@@ -975,15 +1098,16 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
        2  stateCounter
 
  
- 1 122 bytes in segment CODE
+ 1 184 bytes in segment CODE
      2 bytes in segment DATA16_AN
+    33 bytes in segment DATA16_C
      5 bytes in segment DATA16_I
      5 bytes in segment DATA16_ID
      8 bytes in segment DATA16_Z
  
- 1 122 bytes of CODE  memory
-     5 bytes of CONST memory
+ 1 184 bytes of CODE  memory
+    38 bytes of CONST memory
     13 bytes of DATA  memory (+ 2 bytes shared)
 
 Errors: none
-Warnings: 2
+Warnings: 1

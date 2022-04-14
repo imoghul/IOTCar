@@ -264,6 +264,7 @@ void ProcessCommands(void) {
 
             case (LINEFOLLOW_COMMAND):
                 state = STRAIGHT;
+                polarityRight = currCommand.duration;
                 break;
             case (EXIT_COMMAND):
                 state = EXIT;

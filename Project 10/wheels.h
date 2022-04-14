@@ -25,11 +25,13 @@
 #define TRIANGLE_TURN_TICK      (350)//(15)
 #define TRIANGLE_LEFT_TICK      (0)
 #define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
+// turn
+#define TURN90                  (550)
 // detectors
-#define LEFT_BLACK_DETECT       (LBDetect-50)
-#define RIGHT_BLACK_DETECT      (RBDetect-50)
-#define LEFT_GRAY_DETECT        (LBDetect-100)
-#define RIGHT_GRAY_DETECT       (RBDetect-100)
+#define LEFT_BLACK_DETECT       (LBDetect-10)
+#define RIGHT_BLACK_DETECT      (RBDetect-10)
+#define LEFT_GRAY_DETECT        (LBDetect-50)
+#define RIGHT_GRAY_DETECT       (RBDetect-50)
 #define LEFT_WHITE_DETECT       (LWDetect+20)
 #define RIGHT_WHITE_DETECT      (RWDetect+20)
 #define MS_PER_TICK             (4)

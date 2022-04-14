@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Apr/2022  16:07:06
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Apr/2022  10:16:00
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\iot.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW7F06.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWCADE.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\iot.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -610,7 +610,7 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \   000000   B1000400     SUBA    #0x4, SP
     222              if (CommandBuffer[0].comm==STOP_COMMAND){
    \   000004   F2907300.... CMP.B   #0x73, &CommandBuffer
-   \   00000A   0D20         JNE     ??ProcessCommands_9
+   \   00000A   0D20         JNE     ??ProcessCommands_10
     223                currCommand = popCB();
    \   00000C   0C41         MOV.W   SP, R12
    \   00000E   ........     CALLA   #?Subroutine2
@@ -627,7 +627,7 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \   000024   5A3C         JMP     ??ProcessCommands_0
     229              }
     230              if(state == START) {
-   \                     ??ProcessCommands_9:
+   \                     ??ProcessCommands_10:
    \   000026   F2905300.... CMP.B   #0x53, &state
    \   00002C   5620         JNE     ??ProcessCommands_0
     231                  currCommand = popCB();
@@ -659,89 +659,92 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \                     ??ProcessCommands_6:
    \   00005E   2F42         MOV.W   #0x4, R15
    \                     ??ProcessCommands_3:
-   \   000060   0212         PUSH.W  SR
-   \   000062   32C2         DINT
-   \   000064   0343         NOP
-   \   000066   9242........ MOV.W   &currCommand + 2, &__iar_HWMUL // MPY
-   \   00006C   824F....     MOV.W   R15, &__iar_HWMUL + 8          // OP2
-   \   000070   9242........ MOV.W   &__iar_HWMUL + 10, &driveTime  // RESLO
-   \   000076   0343         NOP
-   \   000078   3241         POP.W   SR
+   \   000060   1D42....     MOV.W   &currCommand + 2, R13
+   \   000064   0212         PUSH.W  SR
+   \   000066   32C2         DINT
+   \   000068   0343         NOP
+   \   00006A   824D....     MOV.W   R13, &__iar_HWMUL              // MPY
+   \   00006E   824F....     MOV.W   R15, &__iar_HWMUL + 8          // OP2
+   \   000072   9242........ MOV.W   &__iar_HWMUL + 10, &driveTime  // RESLO
+   \   000078   0343         NOP
+   \   00007A   3241         POP.W   SR
     239          
     240                  switch(currCommand.comm) {
-   \   00007A   7F404400     MOV.B   #0x44, R15
-   \   00007E   7E806200     SUB.B   #0x62, R14
-   \   000082   1224         JEQ     ??ProcessCommands_10
-   \   000084   7E800300     SUB.B   #0x3, R14
-   \   000088   2224         JEQ     ??ProcessCommands_11
-   \   00008A   5E83         SUB.B   #0x1, R14
-   \   00008C   0A24         JEQ     ??ProcessCommands_12
-   \   00008E   7E800600     SUB.B   #0x6, R14
-   \   000092   1224         JEQ     ??ProcessCommands_13
-   \   000094   7E800300     SUB.B   #0x3, R14
-   \   000098   1624         JEQ     ??ProcessCommands_14
-   \   00009A   7E800300     SUB.B   #0x3, R14
-   \   00009E   0724         JEQ     ??ProcessCommands_15
-   \   0000A0   1C3C         JMP     ??ProcessCommands_0
+   \   00007C   7F404400     MOV.B   #0x44, R15
+   \   000080   7E806200     SUB.B   #0x62, R14
+   \   000084   1224         JEQ     ??ProcessCommands_11
+   \   000086   7E800300     SUB.B   #0x3, R14
+   \   00008A   2224         JEQ     ??ProcessCommands_12
+   \   00008C   5E83         SUB.B   #0x1, R14
+   \   00008E   0A24         JEQ     ??ProcessCommands_13
+   \   000090   7E800600     SUB.B   #0x6, R14
+   \   000094   1224         JEQ     ??ProcessCommands_14
+   \   000096   7E800300     SUB.B   #0x3, R14
+   \   00009A   1624         JEQ     ??ProcessCommands_15
+   \   00009C   7E800300     SUB.B   #0x3, R14
+   \   0000A0   0724         JEQ     ??ProcessCommands_16
+   \   0000A2   1B3C         JMP     ??ProcessCommands_0
     241                      case (FORWARD_COMMAND):
     242                          polarityRight = 1;
-   \                     ??ProcessCommands_12:
-   \   0000A2   9243....     MOV.W   #0x1, &polarityRight
+   \                     ??ProcessCommands_13:
+   \   0000A4   9243....     MOV.W   #0x1, &polarityRight
     243                          polarityLeft = 1;
-   \   0000A6   0A3C         JMP     ??ProcessCommands_7
+   \   0000A8   0A3C         JMP     ??ProcessCommands_7
     244                          state = DRIVE;
     245                          break;
     246          
     247                      case (REVERSE_COMMAND):
     248                          polarityRight = -1;
-   \                     ??ProcessCommands_10:
-   \   0000A8   B243....     MOV.W   #0xffff, &polarityRight
+   \                     ??ProcessCommands_11:
+   \   0000AA   B243....     MOV.W   #0xffff, &polarityRight
     249                          polarityLeft = -1;
-   \   0000AC   023C         JMP     ??ProcessCommands_8
+   \   0000AE   023C         JMP     ??ProcessCommands_8
     250                          state = DRIVE;
     251                          break;
     252          
     253                      case (RIGHT_COMMAND):
     254                          polarityRight = 1;
-   \                     ??ProcessCommands_15:
-   \   0000AE   9243....     MOV.W   #0x1, &polarityRight
+   \                     ??ProcessCommands_16:
+   \   0000B0   9243....     MOV.W   #0x1, &polarityRight
     255                          polarityLeft = -1;
    \                     ??ProcessCommands_8:
-   \   0000B2   B243....     MOV.W   #0xffff, &polarityLeft
+   \   0000B4   B243....     MOV.W   #0xffff, &polarityLeft
     256                          state = DRIVE;
-   \   0000B6   043C         JMP     ??ProcessCommands_5
+   \   0000B8   043C         JMP     ??ProcessCommands_5
     257                          break;
     258          
     259                      case (LEFT_COMMAND):
     260                          polarityRight = -1;
-   \                     ??ProcessCommands_13:
-   \   0000B8   B243....     MOV.W   #0xffff, &polarityRight
+   \                     ??ProcessCommands_14:
+   \   0000BA   B243....     MOV.W   #0xffff, &polarityRight
     261                          polarityLeft = 1;
    \                     ??ProcessCommands_7:
-   \   0000BC   9243....     MOV.W   #0x1, &polarityLeft
+   \   0000BE   9243....     MOV.W   #0x1, &polarityLeft
     262                          state = DRIVE;
    \                     ??ProcessCommands_5:
-   \   0000C0   C24F....     MOV.B   R15, &state
+   \   0000C2   C24F....     MOV.B   R15, &state
     263                          break;
-   \   0000C4   0A3C         JMP     ??ProcessCommands_0
+   \   0000C6   093C         JMP     ??ProcessCommands_0
     264          
     265                      case (LINEFOLLOW_COMMAND):
     266                          state = STRAIGHT;
-   \                     ??ProcessCommands_14:
-   \   0000C6   F2407300.... MOV.B   #0x73, &state
-    267                          break;
-   \   0000CC   063C         JMP     ??ProcessCommands_0
-    268                      case (EXIT_COMMAND):
-    269                          state = EXIT;
-   \                     ??ProcessCommands_11:
-   \   0000CE   F2406500.... MOV.B   #0x65, &state
-    270                          polarityRight = currCommand.duration;
-   \   0000D4   9242........ MOV.W   &currCommand + 2, &polarityRight
-    271                          break;
-    272                  }
-    273              }
-    274              
-    275          }
+   \                     ??ProcessCommands_15:
+   \   0000C8   F2407300.... MOV.B   #0x73, &state
+    267                          polarityRight = currCommand.duration;
+   \   0000CE   033C         JMP     ??ProcessCommands_9
+    268                          break;
+    269                      case (EXIT_COMMAND):
+    270                          state = EXIT;
+   \                     ??ProcessCommands_12:
+   \   0000D0   F2406500.... MOV.B   #0x65, &state
+    271                          polarityRight = currCommand.duration;
+   \                     ??ProcessCommands_9:
+   \   0000D6   824D....     MOV.W   R13, &polarityRight
+    272                          break;
+    273                  }
+    274              }
+    275              
+    276          }
    \                     ??ProcessCommands_0:
    \   0000DA   ....         JMP     ?Subroutine0
    \   0000DC   0343         NOP

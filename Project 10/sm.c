@@ -37,61 +37,104 @@ int polarityRight, polarityLeft;
 unsigned int driveTime;
 
 
-void Straight(void) {
+void Straight(char direction) {
+  int rightTurn = direction?STRAIGHT_RIGHT:-STRAIGHT_RIGHT;
+  int leftTurn = direction?-STRAIGHT_LEFT:STRAIGHT_LEFT;
     switch(stateCounter) {
         case 0:
             EMITTER_ON;
             stateCounter = 1;
+            strcpy(display_line[2], "          ");
+            display_changed = 1;
             break;
 
         case 1:
+            if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 2000)) stateCounter++; // straight
+            break;
+            
+        case 2:
+            if(LockMotors(-1, -1)) stateCounter++;
+            break;
+            
+        case 3:
+          if(Drive_Path(rightTurn, leftTurn, TURN90)) stateCounter++;  // turn
+          break;
+        
+        case 4:
+            if(LockMotors(-rightTurn, -leftTurn)) stateCounter++;
+            break;
+            
+        case 5:
+            if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 2000)) stateCounter++;// straight
+            break;
+            
+        case 6:
+            if(LockMotors(-1, -1)) stateCounter++;
+            break;
+            
+        case 7:
+            if(Drive_Path(rightTurn, leftTurn, TURN90)) stateCounter++; // turn
+            break;
+        case 8:
+            if(LockMotors(-rightTurn, -leftTurn)) stateCounter++;
+            break;
+            
+        case 9:
             if ((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
                 Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
-            } else {
-                if(ADC_Left_Detect > ADC_Right_Detect) enteringDirection = MOVING_LEFT;
-                else enteringDirection = MOVING_RIGHT;
-
-                stateCounter++;
             }
+            else stateCounter++;
+
+            break;
+            
+        case 10:
+            if ((ADC_Left_Detect > LEFT_WHITE_DETECT || ADC_Right_Detect > RIGHT_WHITE_DETECT)) {
+                Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
+            }
+            else stateCounter++;
 
             break;
 
-        case 2:
+        case 11:
             if(LockMotors(-1, -1)) stateCounter++;
 
             break;
 
-        case 3:
+        case 12:
             stateCounter = 0 ;
             stopwatch_seconds = 0;
             cycle_count = 0;
             state = WAIT;
             nextState = TURN;
+            strcpy(display_line[2],"INTERCEPT ");
+            display_changed = 1;
             EMITTER_OFF;
             break;
     }
 }
 
-void Turn() {
+void Turn(char direction) {
     switch(stateCounter) {
         case 0:
             EMITTER_ON;
             stateCounter = 1;
+            strcpy(display_line[2], "          ");
+            display_changed = 1;
             break;
 
         case 1: // gotta remove this
-          if(enteringDirection == MOVING_LEFT){
-                if(Drive_Path(RIGHT_MAX, -LEFT_MAX, 100)) stateCounter++;
-          }else if(enteringDirection == MOVING_RIGHT)
-                    if(Drive_Path(-RIGHT_MAX, LEFT_MAX, 100)) stateCounter++;
+          if(direction){
+                if(Drive_Path(-RIGHT_MAX, LEFT_MAX, 100)) stateCounter++;
+          }else/* if(direction == MOVING_RIGHT)*/
+                    if(Drive_Path(RIGHT_MAX, -LEFT_MAX, 100)) stateCounter++;
 
             break;
 
         case 2:
-            if (((ADC_Left_Detect <= LEFT_GRAY_DETECT || ADC_Right_Detect <= RIGHT_GRAY_DETECT))) {
-                if(enteringDirection == MOVING_LEFT)Drive_Path(RIGHT_MIN, -LEFT_MIN, 0);
+            if (((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT))) {
+                if(direction)Drive_Path(-RIGHT_MIN, LEFT_MIN, 0);
 
-                if(enteringDirection == MOVING_RIGHT)Drive_Path(-RIGHT_MIN, LEFT_MIN, 0);
+                else Drive_Path(RIGHT_MIN, -LEFT_MIN, 0);
             } else stateCounter++;
 
             break;
@@ -104,12 +147,16 @@ void Turn() {
             state = WAIT;
             nextState = LINEFOLLOW;
             EMITTER_OFF;
+            strcpy(display_line[2],"   TURN   ");
+            display_changed = 1;
             break;
     }
 }
 
 void LineFollow() {
-
+    //HEXtoBCD(ADC_Left_Detect, 1, 6);
+    //HEXtoBCD(ADC_Right_Detect, 1, 0);
+    
     int rFollowSpeed,lFollowSpeed;
 
     //int leftPIDOut = GetOutput(&leftFollowController, LEFT_WHITE_DETECT, ADC_Left_Detect);
@@ -122,15 +169,16 @@ void LineFollow() {
             EMITTER_ON;
             stopwatch_seconds = 0;
             cycle_count = 0;
-
+            strcpy(display_line[2],"          ");
+            display_changed = 1;
             if(rightSwitchable && leftSwitchable)stateCounter++;
             else return;
 
             break;
 
         case 1:
-            if(ADC_Left_Detect < (LEFT_GRAY_DETECT) ^ ADC_Right_Detect < (RIGHT_GRAY_DETECT)) stateCounter = 2;
-            else if (ADC_Left_Detect < (LEFT_GRAY_DETECT) && ADC_Right_Detect < (RIGHT_GRAY_DETECT)) {
+            if(ADC_Left_Detect < (LEFT_WHITE_DETECT) ^ ADC_Right_Detect < (RIGHT_WHITE_DETECT)) stateCounter = 2;
+            else if (ADC_Left_Detect < (LEFT_WHITE_DETECT) && ADC_Right_Detect < (RIGHT_WHITE_DETECT)) {
                 rFollowSpeed = -RIGHT_MIN;
                 lFollowSpeed = -LEFT_MIN;
             } else {
@@ -145,21 +193,21 @@ void LineFollow() {
 
 
         case 2:
-            if(ADC_Left_Detect < LEFT_BLACK_DETECT && ADC_Right_Detect >= RIGHT_BLACK_DETECT) stateCounter = 3;
-            else if(ADC_Left_Detect >= LEFT_BLACK_DETECT && ADC_Right_Detect < RIGHT_BLACK_DETECT) stateCounter = 4;
+            if(ADC_Left_Detect < LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 3;
+            else if(ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect < RIGHT_WHITE_DETECT) stateCounter = 4;
             else stateCounter = 1;
 
             break;
 
         case 3:// turn left ()
-            if(ADC_Left_Detect < LEFT_BLACK_DETECT) Drive_Path((RIGHT_MIN - LF_TURN_DECREMENT), -(LEFT_MIN - LF_TURN_DECREMENT), 0);
+            if(ADC_Left_Detect < LEFT_WHITE_DETECT) Drive_Path((RIGHT_MIN - LF_TURN_DECREMENT), -(LEFT_MIN - LF_TURN_DECREMENT), 0);
             else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
             else stateCounter = 4;
 
             break;
 
         case 4:
-            if(ADC_Right_Detect < RIGHT_BLACK_DETECT) Drive_Path(-(RIGHT_MIN - LF_TURN_DECREMENT), (LEFT_MIN - LF_TURN_DECREMENT), 0);
+            if(ADC_Right_Detect < RIGHT_WHITE_DETECT) Drive_Path(-(RIGHT_MIN - LF_TURN_DECREMENT), (LEFT_MIN - LF_TURN_DECREMENT), 0);
             else if (ADC_Left_Detect >= LEFT_WHITE_DETECT && ADC_Right_Detect >= RIGHT_WHITE_DETECT) stateCounter = 1;
             else stateCounter = 3;
 
@@ -187,9 +235,9 @@ void Exit(int direction) {
 
     if (stateCounter == 1) {
         if(direction) {
-            if(Drive_Path(-STRAIGHT_RIGHT, STRAIGHT_LEFT, 360)) stateCounter++;
+            if(Drive_Path(-STRAIGHT_RIGHT, STRAIGHT_LEFT, TURN90)) stateCounter++;
         } else {
-            if(Drive_Path(STRAIGHT_RIGHT, -STRAIGHT_LEFT, 360)) stateCounter++;
+            if(Drive_Path(STRAIGHT_RIGHT, -STRAIGHT_LEFT, TURN90)) stateCounter++;
         }
     }
 
@@ -222,7 +270,7 @@ void Drive(int polR, int polL, unsigned int time) {
     switch(stateCounter) {
 
         case 0 :
-            if(rightSwitchable && leftSwitchable)stateCounter++;
+            stateCounter++;
             break;
 
         case 1 :
@@ -287,11 +335,11 @@ void StateMachine(void) {
             break;
 
         case (STRAIGHT):
-            Straight();
+            Straight(polarityRight);
             break;
 
         case (TURN):
-            Turn();
+            Turn(polarityRight);
             break;
 
         case (LINEFOLLOW):

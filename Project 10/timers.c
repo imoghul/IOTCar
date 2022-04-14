@@ -219,15 +219,15 @@ __interrupt void TIMER1_B1_ISR(void) {
         case 0:
             break; // No interrupt
 
-        case 2: // Right Motor
-            rightSwitchable = 1;
+        case 2: // Left Motor
+            leftSwitchable = 1;
             TB1CCTL1 &= ~CCIE;
 
             break;
 
-        case 4: // Left Motor
+        case 4: // Right Motor
 
-            leftSwitchable = 1;
+            rightSwitchable = 1;
             TB1CCTL2 &= ~CCIE;
 
             break;

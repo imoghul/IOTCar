@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          12/Apr/2022  18:43:48
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Apr/2022  10:16:04
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\timers.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWF7F5.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWDC70.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\timers.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -648,21 +648,21 @@ C:\Users\saad\Documents\ece-306\Project 10\timers.c
     219                  case 0:
     220                      break; // No interrupt
     221          
-    222                  case 2: // Right Motor
-    223                      rightSwitchable = 1;
+    222                  case 2: // Left Motor
+    223                      leftSwitchable = 1;
    \                     ??TIMER1_B1_ISR_1:
-   \   000018   9243....     MOV.W   #0x1, &rightSwitchable
+   \   000018   9243....     MOV.W   #0x1, &leftSwitchable
     224                      TB1CCTL1 &= ~CCIE;
    \   00001C   B2C01000C403 BIC.W   #0x10, &0x3c4
     225          
     226                      break;
    \   000022   053C         JMP     ??TIMER1_B1_ISR_0
     227          
-    228                  case 4: // Left Motor
+    228                  case 4: // Right Motor
     229          
-    230                      leftSwitchable = 1;
+    230                      rightSwitchable = 1;
    \                     ??TIMER1_B1_ISR_2:
-   \   000024   9243....     MOV.W   #0x1, &leftSwitchable
+   \   000024   9243....     MOV.W   #0x1, &rightSwitchable
     231                      TB1CCTL2 &= ~CCIE;
    \   000028   B2C01000C603 BIC.W   #0x10, &0x3c6
     232          
