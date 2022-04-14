@@ -6,6 +6,7 @@
 #define BOOT_RESPONSE                   ("WIFI GOT IP\r\n")
 #define SSID_RESPONSE                   ("+CWJAP:")
 #define IP_RESPONSE                     ("+CIFSR:STAIP,")
+#define DISCONNECTED_RESPONSE           ("DISCONNECTED")
 #define SSID_RESPONSE_LEN               (7)
 #define IP_RESPONSE_LEN                 (13)
 #define BOOT_UP                         ('B')
@@ -52,4 +53,5 @@ void IOTBufferCommands(void);
 void ProcessCommands(void);
 void pushCB(command c);
 void displayNetworkInfo(void);
+void displayIP(void);
 command popCB(void);

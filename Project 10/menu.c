@@ -37,22 +37,23 @@ void displayCalibMenu() {
 }*/
 
 void displayCommandsMenu() {
-  strcpy(display_line[1],"          ");
-  display_line[1][2] = currCommand.comm;
-  HEXtoBCD(currCommand.duration, 1, 4);
+  //strcpy(display_line[3],"          ");
+  display_line[3][0] = currCommand.comm;
+  //HEXtoBCD(currCommand.duration, 1, 4);
   if(currCommand.comm == DISPLAY_NUMBER_COMMAND){
     strcpy(display_line[0],"ARRIVED 0 ");
     display_line[0][9] = currCommand.duration+'0';
   }
-  
-  if(currCommand.comm == 0 && currCommand.duration == 0) strcpy(display_line[1],"          ");
-  if(!commandsReceieved) strcpy(display_line[1],"WAITING...");
+  displayIP();
+  if(currCommand.comm == 0 && currCommand.duration == 0) display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] =' ';
+  if(!commandsReceieved) strcpy(display_line[3],"WAITING...");
   
   if(stopwatchUpdated){
     stopwatchUpdated = 0;
-    HEXtoBCD(timeElapsedSeconds,3,0);
-    display_line[3][4] = '.';
-    display_line[3][5] = timeElapsedMilliseconds + '0';
+    HEXtoBCD(timeElapsedSeconds,3,4);
+    display_line[3][4] = ' ';
+    display_line[3][8] = '.';
+    display_line[3][9] = timeElapsedMilliseconds + '0';
   }
   display_changed = 1;
 }

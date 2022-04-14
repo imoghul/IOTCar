@@ -49,7 +49,7 @@ void Straight(char direction) {
             break;
 
         case 1:
-            if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 2000)) stateCounter++; // straight
+            if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG1)) stateCounter++; // straight
             break;
             
         case 2:
@@ -65,7 +65,7 @@ void Straight(char direction) {
             break;
             
         case 5:
-            if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 2000)) stateCounter++;// straight
+            if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG2)) stateCounter++;// straight
             break;
             
         case 6:
@@ -80,7 +80,7 @@ void Straight(char direction) {
             break;
             
         case 9:
-            if ((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
+            if ((ADC_Left_Detect > LEFT_WHITE_DETECT || ADC_Right_Detect > RIGHT_WHITE_DETECT)) {
                 Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
             }
             else stateCounter++;
@@ -88,8 +88,8 @@ void Straight(char direction) {
             break;
             
         case 10:
-            if ((ADC_Left_Detect > LEFT_WHITE_DETECT || ADC_Right_Detect > RIGHT_WHITE_DETECT)) {
-                Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
+            if ((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
+                Drive_Path(RIGHT_MIN, RIGHT_MIN, 0);
             }
             else stateCounter++;
 
@@ -124,9 +124,9 @@ void Turn(char direction) {
 
         case 1: // gotta remove this
           if(direction){
-                if(Drive_Path(-RIGHT_MAX, LEFT_MAX, 100)) stateCounter++;
+                if(Drive_Path(-RIGHT_MAX, LEFT_MAX, PRELIMINARY_TURN)) stateCounter++;
           }else/* if(direction == MOVING_RIGHT)*/
-                    if(Drive_Path(RIGHT_MAX, -LEFT_MAX, 100)) stateCounter++;
+                    if(Drive_Path(RIGHT_MAX, -LEFT_MAX, PRELIMINARY_TURN)) stateCounter++;
 
             break;
 
@@ -159,10 +159,10 @@ void LineFollow() {
     
     int rFollowSpeed,lFollowSpeed;
 
-    //int leftPIDOut = GetOutput(&leftFollowController, LEFT_WHITE_DETECT, ADC_Left_Detect);
-    //int rightPIDOut = GetOutput(&rightFollowController, RIGHT_WHITE_DETECT, ADC_Right_Detect);
-    rFollowSpeed = RIGHT_MIN>>1;//additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, RIGHT_MIN >> 1, leftPIDOut); // swapped b/c they are physically swapped
-    lFollowSpeed = LEFT_MIN>>1;//additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, LEFT_MIN >> 1, rightPIDOut); // swapped b/c they are physically swapped
+    int leftPIDOut = GetOutput(&leftFollowController, LEFT_WHITE_DETECT, ADC_Left_Detect);
+    int rightPIDOut = GetOutput(&rightFollowController, RIGHT_WHITE_DETECT, ADC_Right_Detect);
+    rFollowSpeed = /*RIGHT_MIN>>1;//*/additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, RIGHT_MIN >> 1, leftPIDOut); // swapped b/c they are physically swapped
+    lFollowSpeed = /*LEFT_MIN>>1;//*/additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, LEFT_MIN >> 1, rightPIDOut); // swapped b/c they are physically swapped
 
     switch(stateCounter) {
         case 0:
@@ -186,9 +186,10 @@ void LineFollow() {
                 ClearController(&leftFollowController);
             }
 
-            if(delay(70, 0)) stateCounter = 5;
+            if(delay(CIRCLING_TIME, 0))  stateCounter = 5;
+            if(stopwatch_seconds>=TIME_TO_CIRCLE) strcpy(display_line[2]," CIRCLING ");
 
-            Drive_Path(rFollowSpeed, lFollowSpeed, 0);
+            Drive_Path(rFollowSpeed, lFollowSpeed,0);
             break;
 
 
@@ -222,6 +223,7 @@ void LineFollow() {
             stateCounter = 0 ;
             state = START;
             EMITTER_OFF;
+            strcpy(display_line[2],"          ");
             break;
     }
 

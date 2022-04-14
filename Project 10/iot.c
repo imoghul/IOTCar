@@ -166,14 +166,20 @@ void displayNetworkInfo(void){
   strcpy(display_line[3], "          ");*/
   centerStringToDisplay(0, SSID);
   //strcpy(display_line[1], "IP ADDRESS");
+  displayIP();
+  display_changed = 1;
+}
+
+void displayIP(void){
   centerStringToDisplay(1, IP);
   centerStringToDisplay(2, IP + midIndex + 1);
-  display_changed = 1;
 }
 
 
 void IOTBufferCommands(void) {
     if(pb0_buffered) {
+        if(subStringPos((char*)USB0_Char_Rx_Process,DISCONNECTED_RESPONSE)) 
+          iot_setup_state = CIPMUX_Tx;
         char * pos = subStringPos((char*)USB0_Char_Rx_Process, CARET_SECURITY_CODE);
 
         while(pos) {
