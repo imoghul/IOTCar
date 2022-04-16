@@ -18,7 +18,9 @@ extern volatile unsigned int rightSwitchable, leftSwitchable;
 volatile int timeElapsedSeconds,timeElapsedMilliseconds;
 volatile unsigned int stopwatchUpdated;
 extern char receievedFromPC;
-extern volatile char commandsReceieved;
+extern char commandsReceieved;
+char pingCounter;
+volatile char pingFlag;
 
 void Init_Timers(void) {
     Init_Timer_B0();
@@ -205,6 +207,11 @@ __interrupt void Timer1_B0_ISR(void) {
         }
     }
 
+    if(pingCounter++>=PING_COUNT_MAX){
+      pingCounter = 0;
+      pingFlag = 1;
+    }
+    
     update_display = 1;
     TB1CCR0 += TB1CCR0_INTERVAL;
     //----------------------------------------------------------------------------

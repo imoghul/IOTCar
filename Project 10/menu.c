@@ -16,7 +16,7 @@ extern unsigned int LBDetect, LWDetect, RBDetect, RWDetect;
 extern volatile char transMenu,interractMenu;
 unsigned int lastThumb;
 extern command currCommand;
-extern volatile char commandsReceieved;
+extern char commandsReceieved;
 extern volatile unsigned int stopwatchUpdated;
 extern volatile int timeElapsedSeconds,timeElapsedMilliseconds;
 

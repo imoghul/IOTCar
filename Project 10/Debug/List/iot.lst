@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Apr/2022  12:03:19
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          16/Apr/2022  18:31:13
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\iot.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW1097.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWF4DB.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\iot.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -114,25 +114,27 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
      35          extern int polarityRight, polarityLeft;
      36          extern unsigned int driveTime;
      37          
+     38          extern volatile char pingFlag;
+     39          
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-     38          command emptyCommand = {0, 0};
+     40          command emptyCommand = {0, 0};
    \                     emptyCommand:
    \   000000                DS8 4
 
    \                                 In  segment DATA16_Z, align 2, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
-     39          command currCommand;
+     41          command currCommand;
    \                     currCommand:
    \   000000                DS8 4
-     40          
-     41          
+     42          
+     43          
 
    \                                 In  segment CODE, align 2
-     42          int Init_IOT(void) {
+     44          int Init_IOT(void) {
    \                     Init_IOT:
-     43              switch(iot_setup_state) {
+     45              switch(iot_setup_state) {
    \   000000   5E42....     MOV.B   &iot_setup_state, R14
    \   000004   7E804200     SUB.B   #0x42, R14
    \   000008   1524         JEQ     ??Init_IOT_5
@@ -153,68 +155,72 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \   00002C   7E800500     SUB.B   #0x5, R14
    \   000030   1D24         JEQ     ??Init_IOT_13
    \   000032   3E3C         JMP     ??Init_IOT_3
-     44                  case (BOOT_UP):
-     45                      waitForReady();
+     46                  case (BOOT_UP):
+     47                      waitForReady();
    \                     ??Init_IOT_5:
    \   000034   ........     CALLA   #waitForReady
-     46                      break;
-     47          
-     48                  case CIPMUX_Tx:
-     49                      SendIOTCommand(ALLOW_MULTIPLE_CONNECTIONS, CIPMUX_Rx);
-     50                      break;
-     51          
-     52                  case CIPMUX_Rx:
-     53                      if(UCA0IE & UCTXIE) break; // wait for the Tx to completely transmit
-     54          
-     55                      if(pb0_buffered) { // wait for pb to finish buffering
-     56                          iot_setup_state = CIPSERVER_Tx;
-     57                          clearProcessBuff_0();
-     58                      }
-     59          
-     60                      break;
+     48                      break;
+     49          
+     50                  case CIPMUX_Tx:
+     51                      SendIOTCommand(ALLOW_MULTIPLE_CONNECTIONS, CIPMUX_Rx);
+     52                      break;
+     53          
+     54                  case CIPMUX_Rx:
+     55                      if(UCA0IE & UCTXIE) break; // wait for the Tx to completely transmit
+     56          
+     57                      if(pb0_buffered) { // wait for pb to finish buffering
+     58                          iot_setup_state = CIPSERVER_Tx;
+     59                          clearProcessBuff_0();
+     60                      }
      61          
-     62                  case CIPSERVER_Tx:
-     63                      SendIOTCommand(START_SERVER, CIPSERVER_Rx);
-     64                      break;
-     65          
-     66                  case CIPSERVER_Rx:
-     67                      if(UCA0IE & UCTXIE) break;
-     68          
-     69                      if(pb0_buffered) {
-     70                          iot_setup_state = GET_SSID_Tx;
-     71                          clearProcessBuff_0();
-     72                      }
-     73          
-     74                      break;
+     62                      break;
+     63          
+     64                  case CIPSERVER_Tx:
+     65                      SendIOTCommand(START_SERVER, CIPSERVER_Rx);
+     66                      break;
+     67          
+     68                  case CIPSERVER_Rx:
+     69                      if(UCA0IE & UCTXIE) break;
+     70          
+     71                      if(pb0_buffered) {
+     72                          iot_setup_state = GET_SSID_Tx;
+     73                          clearProcessBuff_0();
+     74                      }
      75          
-     76                  case GET_SSID_Tx:
-     77                      SendIOTCommand(SSID_COMMAND, GET_SSID_Rx);
-     78                      break;
-     79          
-     80                  case GET_SSID_Rx:
-     81                      if(UCA0IE & UCTXIE) break;
-     82          
-     83                      getSSID();
+     76                      break;
+     77          
+     78                  case GET_SSID_Tx:
+     79                      SendIOTCommand(SSID_COMMAND, GET_SSID_Rx);
+     80                      break;
+     81          
+     82                  case GET_SSID_Rx:
+     83                      if(UCA0IE & UCTXIE) break;
      84          
-     85                      break;
+     85                      getSSID();
      86          
-     87                  case GET_IP_Tx:
-     88                      SendIOTCommand(IP_COMMAND, GET_IP_Rx);
-     89                      break;
-     90          
-     91                  case GET_IP_Rx:
-     92                      if(UCA0IE & UCTXIE) break;
-     93          
-     94                      getIP();
-     95                      displayNetworkInfo();
-     96                      break;
-     97          
-     98                  default:
-     99                      return 1;
-    100                      break;
-    101              }
-    102          
-    103              return 0;
+     87                      break;
+     88          
+     89                  case GET_IP_Tx:
+     90                      SendIOTCommand(IP_COMMAND, GET_IP_Rx);
+     91                      break;
+     92          
+     93                  case GET_IP_Rx:
+     94                      if(UCA0IE & UCTXIE) break;
+     95          
+     96                      getIP();
+     97                      displayNetworkInfo();
+     98                      break;
+     99          
+    100                  default:
+    101                      if(pingFlag){
+    102                        pingFlag = 0;
+    103                        SendIOTCommand(PING_COMMAND, IOT_SETUP_FINISHED);
+    104                      }
+    105                      return 1;
+    106                      break;
+    107              }
+    108          
+    109              return 0;
    \                     ??Init_IOT_0:
    \   000038   0C43         MOV.W   #0x0, R12
    \   00003A   1001         RETA
@@ -264,69 +270,76 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \   0000AA   ........     CALLA   #displayNetworkInfo
    \   0000AE   C43F         JMP     ??Init_IOT_0
    \                     ??Init_IOT_3:
-   \   0000B0   1C43         MOV.W   #0x1, R12
-   \   0000B2   1001         RETA
-   \   0000B4                REQUIRE _A_UCA0IE_L
-    104          }
-    105          
-    106          
+   \   0000B0   C293....     CMP.B   #0x0, &pingFlag
+   \   0000B4   0824         JEQ     ??Init_IOT_14
+   \   0000B6   C243....     MOV.B   #0x0, &pingFlag
+   \   0000BA   7D404600     MOV.B   #0x46, R13
+   \   0000BE   3C40....     MOV.W   #`?<Constant "AT+PING=\\"www.google.c...">`, R12
+   \   0000C2   ........     CALLA   #SendIOTCommand
+   \                     ??Init_IOT_14:
+   \   0000C6   1C43         MOV.W   #0x1, R12
+   \   0000C8   1001         RETA
+   \   0000CA                REQUIRE _A_UCA0IE_L
+    110          }
+    111          
+    112          
 
    \                                 In  segment CODE, align 2
-    107          void waitForReady(void) {
+    113          void waitForReady(void) {
    \                     waitForReady:
-    108              if(pb0_buffered) {
+    114              if(pb0_buffered) {
    \   000000   8293....     CMP.W   #0x0, &pb0_buffered
    \   000004   0D24         JEQ     ??waitForReady_0
-    109                  if(strcmp((char*)USB0_Char_Rx_Process, BOOT_RESPONSE) == 0) iot_setup_state = CIPMUX_Tx;
+    115                  if(strcmp((char*)USB0_Char_Rx_Process, BOOT_RESPONSE) == 0) iot_setup_state = CIPMUX_Tx;
    \   000006   3D40....     MOV.W   #`?<Constant "WIFI GOT IP\\r\\n">`, R13
    \   00000A   3C40....     MOV.W   #USB0_Char_Rx_Process, R12
    \   00000E   ........     CALLA   #strcmp
    \   000012   0C93         CMP.W   #0x0, R12
    \   000014   0320         JNE     ??waitForReady_1
    \   000016   F2404D00.... MOV.B   #0x4d, &iot_setup_state
-    110          
-    111                  clearProcessBuff_0();
+    116          
+    117                  clearProcessBuff_0();
    \                     ??waitForReady_1:
    \   00001C   ........     CALLA   #clearProcessBuff_0
-    112              }
-    113          }
+    118              }
+    119          }
    \                     ??waitForReady_0:
    \   000020   1001         RETA
-    114          
-
-   \                                 In  segment CODE, align 2
-    115          void SendIOTCommand(char* command, char nextState) {
-   \                     SendIOTCommand:
-   \   000000   0A12         PUSH.W  R10
-   \   000002   4A4D         MOV.B   R13, R10
-    116              strcpy((char*)USB0_Char_Tx, command);
-   \   000004   0D4C         MOV.W   R12, R13
-   \   000006   3C40....     MOV.W   #USB0_Char_Tx, R12
-   \   00000A   ........     CALLA   #strcpy
-    117              USCI_A0_transmit();
-   \   00000E   ........     CALLA   #USCI_A0_transmit
-    118              iot_setup_state = nextState;
-   \   000012   C24A....     MOV.B   R10, &iot_setup_state
-    119          }
-   \   000016   3A41         POP.W   R10
-   \   000018   1001         RETA
     120          
 
    \                                 In  segment CODE, align 2
-    121          void getSSID(void) {
+    121          void SendIOTCommand(char* command, char nextState) {
+   \                     SendIOTCommand:
+   \   000000   0A12         PUSH.W  R10
+   \   000002   4A4D         MOV.B   R13, R10
+    122              strcpy((char*)USB0_Char_Tx, command);
+   \   000004   0D4C         MOV.W   R12, R13
+   \   000006   3C40....     MOV.W   #USB0_Char_Tx, R12
+   \   00000A   ........     CALLA   #strcpy
+    123              USCI_A0_transmit();
+   \   00000E   ........     CALLA   #USCI_A0_transmit
+    124              iot_setup_state = nextState;
+   \   000012   C24A....     MOV.B   R10, &iot_setup_state
+    125          }
+   \   000016   3A41         POP.W   R10
+   \   000018   1001         RETA
+    126          
+
+   \                                 In  segment CODE, align 2
+    127          void getSSID(void) {
    \                     getSSID:
-    122              if(pb0_buffered) {
+    128              if(pb0_buffered) {
    \   000000   8293....     CMP.W   #0x0, &pb0_buffered
    \   000004   1F24         JEQ     ??getSSID_2
-    123                  if(subStringPos((char*)USB0_Char_Rx_Process, SSID_RESPONSE)) {
+    129                  if(subStringPos((char*)USB0_Char_Rx_Process, SSID_RESPONSE)) {
    \   000006   3D40....     MOV.W   #`?<Constant "+CWJAP:">`, R13
    \   00000A   ........     CALLA   #?Subroutine1
    \                     ??CrossCallReturnLabel_2:
    \   00000E   0C93         CMP.W   #0x0, R12
    \   000010   1324         JEQ     ??getSSID_3
-    124                      int i;
-    125          
-    126                      for(i = 0; i <= SSID_LEN && USB0_Char_Rx_Process[i + SSID_RESPONSE_LEN + 1] != '\"'; ++i) SSID[i] = USB0_Char_Rx_Process[i + SSID_RESPONSE_LEN + 1];
+    130                      int i;
+    131          
+    132                      for(i = 0; i <= SSID_LEN && USB0_Char_Rx_Process[i + SSID_RESPONSE_LEN + 1] != '\"'; ++i) SSID[i] = USB0_Char_Rx_Process[i + SSID_RESPONSE_LEN + 1];
    \   000012   0F43         MOV.W   #0x0, R15
    \                     ??getSSID_0:
    \   000014   FF902200.... CMP.B   #0x22, LWRD(USB0_Char_Rx_Process + 8)(R15)
@@ -335,26 +348,26 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \   000022   1F53         ADD.W   #0x1, R15
    \   000024   3F900B00     CMP.W   #0xb, R15
    \   000028   F53B         JL      ??getSSID_0
-    127          
-    128                      SSID[i + SSID_RESPONSE_LEN + 2] = 0; // set the end of the SSID to null
+    133          
+    134                      SSID[i + SSID_RESPONSE_LEN + 2] = 0; // set the end of the SSID to null
    \                     ??getSSID_4:
    \   00002A   CF43....     MOV.B   #0x0, SSID + 9(R15)
-    129                      SSID[SSID_LEN] = 0; //  set end of the array to null
+    135                      SSID[SSID_LEN] = 0; //  set end of the array to null
    \   00002E   C243....     MOV.B   #0x0, &SSID + 10
-    130                      
-    131                      iot_setup_state = GET_IP_Tx;
+    136                      
+    137                      iot_setup_state = GET_IP_Tx;
    \   000032   7E404900     MOV.B   #0x49, R14
    \   000036   023C         JMP     ??getSSID_1
-    132                  } else iot_setup_state = GET_SSID_Tx;
+    138                  } else iot_setup_state = GET_SSID_Tx;
    \                     ??getSSID_3:
    \   000038   7E404E00     MOV.B   #0x4e, R14
    \                     ??getSSID_1:
    \   00003C   C24E....     MOV.B   R14, &iot_setup_state
-    133          
-    134                  clearProcessBuff_0();
+    139          
+    140                  clearProcessBuff_0();
    \   000040   ........     CALLA   #clearProcessBuff_0
-    135              }
-    136          }
+    141              }
+    142          }
    \                     ??getSSID_2:
    \   000044   1001         RETA
 
@@ -362,15 +375,15 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \                     ?Subroutine1:
    \   000000   3C40....     MOV.W   #USB0_Char_Rx_Process, R12
    \   000004   ........     BRA     #subStringPos
-    137          
+    143          
 
    \                                 In  segment CODE, align 2
-    138          void getIP(void) {
+    144          void getIP(void) {
    \                     getIP:
-    139              if(pb0_buffered) {
+    145              if(pb0_buffered) {
    \   000000   8293....     CMP.W   #0x0, &pb0_buffered
    \   000004   3224         JEQ     ??getIP_2
-    140                  if(subStringPos((char*)USB0_Char_Rx_Process, IP_RESPONSE)) {
+    146                  if(subStringPos((char*)USB0_Char_Rx_Process, IP_RESPONSE)) {
    \   000006   3D40....     MOV.W   #`?<Constant "+CIFSR:STAIP,">`, R13
    \   00000A   ........     CALLA   #?Subroutine1
    \                     ??CrossCallReturnLabel_3:
@@ -378,145 +391,145 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \   000012   1D42....     MOV.W   &midIndex, R13
    \   000016   0C93         CMP.W   #0x0, R12
    \   000018   1E24         JEQ     ??getIP_3
-    141                      int i;
-    142          
-    143                      for(i = 0; i <= IP_LEN && USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1] != '"'; ++i) {
+    147                      int i;
+    148          
+    149                      for(i = 0; i <= IP_LEN && USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1] != '"'; ++i) {
    \   00001A   0C43         MOV.W   #0x0, R12
    \                     ??getIP_0:
    \   00001C   FC902200.... CMP.B   #0x22, LWRD(USB0_Char_Rx_Process + 14)(R12)
    \   000022   1024         JEQ     ??getIP_4
-    144                          IP[i] = USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1];
+    150                          IP[i] = USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1];
    \   000024   DC4C........ MOV.B   LWRD(USB0_Char_Rx_Process + 14)(R12), IP(R12)
-    145          
-    146                          if(USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1] == '.') {
+    151          
+    152                          if(USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1] == '.') {
    \   00002A   FC902E00.... CMP.B   #0x2e, LWRD(USB0_Char_Rx_Process + 14)(R12)
    \   000030   0520         JNE     ??getIP_5
-    147                              if(dotFound++ == 1) midIndex = i;
+    153                              if(dotFound++ == 1) midIndex = i;
    \   000032   4E4F         MOV.B   R15, R14
    \   000034   5F53         ADD.B   #0x1, R15
    \   000036   5E93         CMP.B   #0x1, R14
    \   000038   0120         JNE     ??getIP_5
    \   00003A   0D4C         MOV.W   R12, R13
-    148                          }
-    149                      }
+    154                          }
+    155                      }
    \                     ??getIP_5:
    \   00003C   1C53         ADD.W   #0x1, R12
    \   00003E   3C900E00     CMP.W   #0xe, R12
    \   000042   EC3B         JL      ??getIP_0
-    150                      
-    151                      IP[i + IP_RESPONSE_LEN + 2] = 0;
+    156                      
+    157                      IP[i + IP_RESPONSE_LEN + 2] = 0;
    \                     ??getIP_4:
    \   000044   CC43....     MOV.B   #0x0, LWRD(IP + 15)(R12)
-    152                      IP[IP_LEN] = 0;
+    158                      IP[IP_LEN] = 0;
    \   000048   C243....     MOV.B   #0x0, &IP + 13
-    153                      IP[midIndex] = 0;
+    159                      IP[midIndex] = 0;
    \   00004C   CD43....     MOV.B   #0x0, IP(R13)
-    154                      
-    155                      iot_setup_state = IOT_SETUP_FINISHED;
+    160                      
+    161                      iot_setup_state = IOT_SETUP_FINISHED;
    \   000050   7E404600     MOV.B   #0x46, R14
    \   000054   023C         JMP     ??getIP_1
-    156                  } else iot_setup_state = GET_IP_Tx;
+    162                  } else iot_setup_state = GET_IP_Tx;
    \                     ??getIP_3:
    \   000056   7E404900     MOV.B   #0x49, R14
    \                     ??getIP_1:
    \   00005A   824D....     MOV.W   R13, &midIndex
    \   00005E   C24F....     MOV.B   R15, &dotFound
    \   000062   C24E....     MOV.B   R14, &iot_setup_state
-    157          
-    158                  clearProcessBuff_0();
+    163          
+    164                  clearProcessBuff_0();
    \   000066   ........     CALLA   #clearProcessBuff_0
-    159              }
-    160          }
+    165              }
+    166          }
    \                     ??getIP_2:
    \   00006A   1001         RETA
-    161          
+    167          
 
    \                                 In  segment CODE, align 2
-    162          void displayNetworkInfo(void){
+    168          void displayNetworkInfo(void){
    \                     displayNetworkInfo:
-    163            /*strcpy(display_line[0], "          ");
-    164            strcpy(display_line[1], "          ");
-    165            strcpy(display_line[2], "          ");
-    166            strcpy(display_line[3], "          ");*/
-    167            centerStringToDisplay(0, SSID);
+    169            /*strcpy(display_line[0], "          ");
+    170            strcpy(display_line[1], "          ");
+    171            strcpy(display_line[2], "          ");
+    172            strcpy(display_line[3], "          ");*/
+    173            centerStringToDisplay(0, SSID);
    \   000000   3D40....     MOV.W   #SSID, R13
    \   000004   0C43         MOV.W   #0x0, R12
    \   000006   ........     CALLA   #centerStringToDisplay
-    168            //strcpy(display_line[1], "IP ADDRESS");
-    169            displayIP();
+    174            //strcpy(display_line[1], "IP ADDRESS");
+    175            displayIP();
    \   00000A   ........     CALLA   #displayIP
-    170            display_changed = 1;
+    176            display_changed = 1;
    \   00000E   D243....     MOV.B   #0x1, &display_changed
-    171          }
+    177          }
    \   000012   1001         RETA
-    172          
+    178          
 
    \                                 In  segment CODE, align 2
-    173          void displayIP(void){
+    179          void displayIP(void){
    \                     displayIP:
-    174            centerStringToDisplay(1, IP);
+    180            centerStringToDisplay(1, IP);
    \   000000   3D40....     MOV.W   #IP, R13
    \   000004   1C43         MOV.W   #0x1, R12
    \   000006   ........     CALLA   #centerStringToDisplay
-    175            centerStringToDisplay(2, IP + midIndex + 1);
+    181            centerStringToDisplay(2, IP + midIndex + 1);
    \   00000A   3D40....     MOV.W   #IP + 1, R13
    \   00000E   1D52....     ADD.W   &midIndex, R13
    \   000012   2C43         MOV.W   #0x2, R12
    \   000014   ........     BRA     #centerStringToDisplay
-    176          }
-    177          
-    178          
+    182          }
+    183          
+    184          
 
    \                                 In  segment CODE, align 2
-    179          void IOTBufferCommands(void) {
+    185          void IOTBufferCommands(void) {
    \                     IOTBufferCommands:
    \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   B1000400     SUBA    #0x4, SP
-    180              if(pb0_buffered) {
+    186              if(pb0_buffered) {
    \   000006   8293....     CMP.W   #0x0, &pb0_buffered
    \   00000A   3A24         JEQ     ??IOTBufferCommands_3
-    181                  if(subStringPos((char*)USB0_Char_Rx_Process,DISCONNECTED_RESPONSE)) 
+    187                  if(subStringPos((char*)USB0_Char_Rx_Process,DISCONNECTED_RESPONSE)) 
    \   00000C   3D40....     MOV.W   #`?<Constant "DISCONNECTED">`, R13
    \   000010   ........     CALLA   #?Subroutine1
    \                     ??CrossCallReturnLabel_1:
    \   000014   0C93         CMP.W   #0x0, R12
    \   000016   0324         JEQ     ??IOTBufferCommands_4
-    182                    iot_setup_state = CIPMUX_Tx;
+    188                    iot_setup_state = CIPMUX_Tx;
    \   000018   F2404D00.... MOV.B   #0x4d, &iot_setup_state
-    183                  char * pos = subStringPos((char*)USB0_Char_Rx_Process, CARET_SECURITY_CODE);
+    189                  char * pos = subStringPos((char*)USB0_Char_Rx_Process, CARET_SECURITY_CODE);
    \                     ??IOTBufferCommands_4:
    \   00001E   3D40....     MOV.W   #`?<Constant "^9A73">`, R13
    \   000022   ........     CALLA   #?Subroutine1
    \                     ??CrossCallReturnLabel_0:
    \   000026   0A4C         MOV.W   R12, R10
    \   000028   173C         JMP     ??IOTBufferCommands_2
-    184          
-    185                  while(pos) {
-    186                      pos += CARET_SECURITY_CODE_LEN; // now should be on where the command actually is
-    187                      char comm = *pos;
-    188                      pos++;
-    189                      char * end_caret = charInString(pos, '^');
-    190                      char * end_null = charInString(pos, 0);
-    191                      char * end = end_caret ? end_caret : end_null;
+    190          
+    191                  while(pos) {
+    192                      pos += CARET_SECURITY_CODE_LEN; // now should be on where the command actually is
+    193                      char comm = *pos;
+    194                      pos++;
+    195                      char * end_caret = charInString(pos, '^');
+    196                      char * end_null = charInString(pos, 0);
+    197                      char * end = end_caret ? end_caret : end_null;
    \                     ??IOTBufferCommands_0:
    \   00002A   0B4C         MOV.W   R12, R11
-    192                      int time = stoi(pos,end-pos);
+    198                      int time = stoi(pos,end-pos);
    \                     ??IOTBufferCommands_1:
    \   00002C   0B8A         SUB.W   R10, R11
    \   00002E   0D4B         MOV.W   R11, R13
    \   000030   0C4A         MOV.W   R10, R12
    \   000032   ........     CALLA   #stoi
-    193                      command c = {
-    194                          .comm = comm,
-    195                          .duration = time
-    196                      };
+    199                      command c = {
+    200                          .comm = comm,
+    201                          .duration = time
+    202                      };
    \   000036   C1480000     MOV.B   R8, 0(SP)
    \   00003A   814C0200     MOV.W   R12, 0x2(SP)
-    197                      pushCB(c);
+    203                      pushCB(c);
    \   00003E   0C12         PUSH.W  R12
    \   000040   11120400     PUSH.W  0x4(SP)
    \   000044   ........     CALLA   #pushCB
-    198                      pos = subStringPos(pos, CARET_SECURITY_CODE);
+    204                      pos = subStringPos(pos, CARET_SECURITY_CODE);
    \   000048   3D40....     MOV.W   #`?<Constant "^9A73">`, R13
    \   00004C   0C4A         MOV.W   R10, R12
    \   00004E   ........     CALLA   #subStringPos
@@ -537,29 +550,29 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \   000076   0B93         CMP.W   #0x0, R11
    \   000078   D827         JEQ     ??IOTBufferCommands_0
    \   00007A   D83F         JMP     ??IOTBufferCommands_1
-    199                  }
-    200          
-    201                  clearProcessBuff_0();
+    205                  }
+    206          
+    207                  clearProcessBuff_0();
    \                     ??IOTBufferCommands_5:
    \   00007C   ........     CALLA   #clearProcessBuff_0
-    202              }
-    203          
-    204          }
+    208              }
+    209          
+    210          }
    \                     ??IOTBufferCommands_3:
    \   000080   A1000400     ADDA    #0x4, SP
    \   000084   3817         POPM.W  #0x4, R11
    \   000086   1001         RETA
-    205          
+    211          
 
    \                                 In  segment CODE, align 2, keep-with-next
-    206          command popCB(void) {
+    212          command popCB(void) {
    \                     popCB:
    \   000000   B1000400     SUBA    #0x4, SP
-    207              command ret = CommandBuffer[0];
+    213              command ret = CommandBuffer[0];
    \   000004   9142....0000 MOV.W   &CommandBuffer, 0(SP)
    \   00000A   9142....0200 MOV.W   &CommandBuffer + 2, 0x2(SP)
-    208          
-    209              for(int i = 0; i < COMMAND_BUFFER_LEN - 1; ++i) CommandBuffer[i] = CommandBuffer[i + 1];
+    214          
+    215              for(int i = 0; i < COMMAND_BUFFER_LEN - 1; ++i) CommandBuffer[i] = CommandBuffer[i + 1];
    \   000010   0F43         MOV.W   #0x0, R15
    \                     ??popCB_0:
    \   000012   0E4F         MOV.W   R15, R14
@@ -569,16 +582,16 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \   000022   1F53         ADD.W   #0x1, R15
    \   000024   3F900900     CMP.W   #0x9, R15
    \   000028   F43B         JL      ??popCB_0
-    210          
-    211              CommandBuffer[COMMAND_BUFFER_LEN - 1] = emptyCommand;
+    216          
+    217              CommandBuffer[COMMAND_BUFFER_LEN - 1] = emptyCommand;
    \   00002A   9242........ MOV.W   &emptyCommand, &CommandBuffer + 36
    \   000030   9242........ MOV.W   &emptyCommand + 2, &CommandBuffer + 38
    \   000036   AC410000     MOV.W   @SP, 0(R12)
    \   00003A   9C4102000200 MOV.W   0x2(SP), 0x2(R12)
    \   000040                REQUIRE ?Subroutine0
    \   000040                // Fall through to label ?Subroutine0
-    212              return ret;
-    213          }
+    218              return ret;
+    219          }
 
    \                                 In  segment CODE, align 2, keep-with-next
    \                     ?Subroutine0:
@@ -586,13 +599,13 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \   000004   1001         RETA
 
    \                                 In  segment CODE, align 2
-    214          void pushCB(command c) {
+    220          void pushCB(command c) {
    \                     pushCB:
-    215              int i;
-    216          
-    217              for(i = 0; i < COMMAND_BUFFER_LEN; ++i)
+    221              int i;
+    222          
+    223              for(i = 0; i < COMMAND_BUFFER_LEN; ++i)
    \   000000   0F43         MOV.W   #0x0, R15
-    218                  if(CommandBuffer[i].comm == 0 && CommandBuffer[i].duration == 0) break;
+    224                  if(CommandBuffer[i].comm == 0 && CommandBuffer[i].duration == 0) break;
    \                     ??pushCB_0:
    \   000002   0E4F         MOV.W   R15, R14
    \   000004   5E06         RLAM.W  #0x2, R14
@@ -604,174 +617,190 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \   000012   1F53         ADD.W   #0x1, R15
    \   000014   3F900A00     CMP.W   #0xa, R15
    \   000018   F43B         JL      ??pushCB_0
-    219          
-    220              if(i == COMMAND_BUFFER_LEN) {
+    225          
+    226              if(i == COMMAND_BUFFER_LEN) {
    \                     ??pushCB_4:
    \   00001A   3F900A00     CMP.W   #0xa, R15
    \   00001E   0724         JEQ     ??pushCB_2
-    221                  return;
-    222              }
-    223          
-    224              CommandBuffer[i] = c;
+    227                  return;
+    228              }
+    229          
+    230              CommandBuffer[i] = c;
    \   000020   5F06         RLAM.W  #0x2, R15
    \   000022   9F410400.... MOV.W   0x4(SP), CommandBuffer(R15)
    \   000028   9F410600.... MOV.W   0x6(SP), CommandBuffer + 2(R15)
-    225          }
+    231          }
    \                     ??pushCB_2:
    \   00002E   1001         RETA
-    226          
+    232          
 
    \                                 In  segment CODE, align 2
-    227          void ProcessCommands(void) {
+    233          void ProcessCommands(void) {
    \                     ProcessCommands:
    \   000000   B1000400     SUBA    #0x4, SP
-    228              if (CommandBuffer[0].comm==STOP_COMMAND){
+    234              //if(currCommand.comm == 0 && currCommand.duration == 0)return;
+    235              //commandsReceieved = 1;
+    236              if (CommandBuffer[0].comm==STOP_COMMAND){
    \   000004   F2907300.... CMP.B   #0x73, &CommandBuffer
-   \   00000A   0D20         JNE     ??ProcessCommands_10
-    229                currCommand = popCB();
+   \   00000A   0620         JNE     ??ProcessCommands_10
+    237                currCommand = popCB();
    \   00000C   0C41         MOV.W   SP, R12
-   \   00000E   ........     CALLA   #?Subroutine2
-    230                state = START;
-   \                     ??CrossCallReturnLabel_4:
-   \   000012   F2405300.... MOV.B   #0x53, &state
-    231                stopwatch_milliseconds = 0;
-   \   000018   8243....     MOV.W   #0x0, &stopwatch_milliseconds
-    232                stateCounter = 0 ;
-   \   00001C   8243....     MOV.W   #0x0, &stateCounter
-    233                ShutoffMotors();
-   \   000020   ........     CALLA   #ShutoffMotors
-    234                return;
-   \   000024   5A3C         JMP     ??ProcessCommands_0
-    235              }
-    236              if(state == START) {
-   \                     ??ProcessCommands_10:
-   \   000026   F2905300.... CMP.B   #0x53, &state
-   \   00002C   5620         JNE     ??ProcessCommands_0
-    237                  currCommand = popCB();
-   \   00002E   0C41         MOV.W   SP, R12
-   \   000030   ........     CALLA   #?Subroutine2
-    238                  if(currCommand.comm == 0 && currCommand.duration == 0)return;
+   \   00000E   ........     CALLA   #?Subroutine3
+    238                state = START;
    \                     ??CrossCallReturnLabel_5:
-   \   000034   5E42....     MOV.B   &currCommand, R14
-   \   000038   4E93         CMP.B   #0x0, R14
-   \   00003A   0320         JNE     ??ProcessCommands_1
-   \   00003C   8293....     CMP.W   #0x0, &currCommand + 2
-   \   000040   4C24         JEQ     ??ProcessCommands_0
-    239                  commandsReceieved = 1;
-   \                     ??ProcessCommands_1:
-   \   000042   D243....     MOV.B   #0x1, &commandsReceieved
-    240                  
-    241                  stopwatch_seconds = 0;
-   \   000046   8243....     MOV.W   #0x0, &stopwatch_seconds
-    242                  cycle_count = 0;
-   \   00004A   8243....     MOV.W   #0x0, &cycle_count
-    243                  
-    244                  driveTime = (int)(currCommand.duration * (currCommand.comm == RIGHT_COMMAND || currCommand.comm == LEFT_COMMAND ? TURN_CONSTANT : 1));
-   \   00004E   7E907200     CMP.B   #0x72, R14
-   \   000052   0524         JEQ     ??ProcessCommands_6
-   \   000054   7E906C00     CMP.B   #0x6c, R14
-   \   000058   0224         JEQ     ??ProcessCommands_6
-   \   00005A   1F43         MOV.W   #0x1, R15
-   \   00005C   013C         JMP     ??ProcessCommands_3
-   \                     ??ProcessCommands_6:
-   \   00005E   2F42         MOV.W   #0x4, R15
-   \                     ??ProcessCommands_3:
-   \   000060   1D42....     MOV.W   &currCommand + 2, R13
-   \   000064   0212         PUSH.W  SR
-   \   000066   32C2         DINT
-   \   000068   0343         NOP
-   \   00006A   824D....     MOV.W   R13, &__iar_HWMUL              // MPY
-   \   00006E   824F....     MOV.W   R15, &__iar_HWMUL + 8          // OP2
-   \   000072   9242........ MOV.W   &__iar_HWMUL + 10, &driveTime  // RESLO
-   \   000078   0343         NOP
-   \   00007A   3241         POP.W   SR
-    245          
-    246                  switch(currCommand.comm) {
-   \   00007C   7F404400     MOV.B   #0x44, R15
-   \   000080   7E806200     SUB.B   #0x62, R14
-   \   000084   1224         JEQ     ??ProcessCommands_11
-   \   000086   7E800300     SUB.B   #0x3, R14
-   \   00008A   2224         JEQ     ??ProcessCommands_12
-   \   00008C   5E83         SUB.B   #0x1, R14
-   \   00008E   0A24         JEQ     ??ProcessCommands_13
-   \   000090   7E800600     SUB.B   #0x6, R14
-   \   000094   1224         JEQ     ??ProcessCommands_14
-   \   000096   7E800300     SUB.B   #0x3, R14
-   \   00009A   1624         JEQ     ??ProcessCommands_15
-   \   00009C   7E800300     SUB.B   #0x3, R14
-   \   0000A0   0724         JEQ     ??ProcessCommands_16
-   \   0000A2   1B3C         JMP     ??ProcessCommands_0
-    247                      case (FORWARD_COMMAND):
-    248                          polarityRight = 1;
-   \                     ??ProcessCommands_13:
-   \   0000A4   9243....     MOV.W   #0x1, &polarityRight
-    249                          polarityLeft = 1;
-   \   0000A8   0A3C         JMP     ??ProcessCommands_7
-    250                          state = DRIVE;
-    251                          break;
-    252          
-    253                      case (REVERSE_COMMAND):
-    254                          polarityRight = -1;
+   \   000012   ........     CALLA   #?Subroutine2
+    239                stopwatch_milliseconds = 0;
+    240                stateCounter = 0 ;
+    241                ShutoffMotors();
+    242                return;
+   \                     ??CrossCallReturnLabel_4:
+   \   000016   603C         JMP     ??ProcessCommands_0
+    243              }
+    244              if (CommandBuffer[0].comm==EXIT_COMMAND){
+   \                     ??ProcessCommands_10:
+   \   000018   F2906500.... CMP.B   #0x65, &CommandBuffer
+   \   00001E   0220         JNE     ??ProcessCommands_11
+    245                state = START;
+   \   000020   ........     CALLA   #?Subroutine2
+    246                stopwatch_milliseconds = 0;
+    247                stateCounter = 0 ;
+    248                ShutoffMotors();
+    249              }
+    250              if(state == START) {
    \                     ??ProcessCommands_11:
-   \   0000AA   B243....     MOV.W   #0xffff, &polarityRight
-    255                          polarityLeft = -1;
-   \   0000AE   023C         JMP     ??ProcessCommands_8
-    256                          state = DRIVE;
-    257                          break;
+   \   000024   F2905300.... CMP.B   #0x53, &state
+   \   00002A   5620         JNE     ??ProcessCommands_0
+    251                  currCommand = popCB();
+   \   00002C   0C41         MOV.W   SP, R12
+   \   00002E   ........     CALLA   #?Subroutine3
+    252                  if(currCommand.comm == 0 && currCommand.duration == 0)return;
+   \                     ??CrossCallReturnLabel_6:
+   \   000032   5E42....     MOV.B   &currCommand, R14
+   \   000036   4E93         CMP.B   #0x0, R14
+   \   000038   0320         JNE     ??ProcessCommands_1
+   \   00003A   8293....     CMP.W   #0x0, &currCommand + 2
+   \   00003E   4C24         JEQ     ??ProcessCommands_0
+    253                  commandsReceieved = 1;
+   \                     ??ProcessCommands_1:
+   \   000040   D243....     MOV.B   #0x1, &commandsReceieved
+    254                  stopwatch_seconds = 0;
+   \   000044   8243....     MOV.W   #0x0, &stopwatch_seconds
+    255                  cycle_count = 0;
+   \   000048   8243....     MOV.W   #0x0, &cycle_count
+    256                  
+    257                  driveTime = (int)(currCommand.duration * (currCommand.comm == RIGHT_COMMAND || currCommand.comm == LEFT_COMMAND ? TURN_CONSTANT : 1));
+   \   00004C   7E907200     CMP.B   #0x72, R14
+   \   000050   0524         JEQ     ??ProcessCommands_6
+   \   000052   7E906C00     CMP.B   #0x6c, R14
+   \   000056   0224         JEQ     ??ProcessCommands_6
+   \   000058   1F43         MOV.W   #0x1, R15
+   \   00005A   013C         JMP     ??ProcessCommands_3
+   \                     ??ProcessCommands_6:
+   \   00005C   2F42         MOV.W   #0x4, R15
+   \                     ??ProcessCommands_3:
+   \   00005E   1D42....     MOV.W   &currCommand + 2, R13
+   \   000062   0212         PUSH.W  SR
+   \   000064   32C2         DINT
+   \   000066   0343         NOP
+   \   000068   824D....     MOV.W   R13, &__iar_HWMUL              // MPY
+   \   00006C   824F....     MOV.W   R15, &__iar_HWMUL + 8          // OP2
+   \   000070   9242........ MOV.W   &__iar_HWMUL + 10, &driveTime  // RESLO
+   \   000076   0343         NOP
+   \   000078   3241         POP.W   SR
     258          
-    259                      case (RIGHT_COMMAND):
-    260                          polarityRight = 1;
-   \                     ??ProcessCommands_16:
-   \   0000B0   9243....     MOV.W   #0x1, &polarityRight
-    261                          polarityLeft = -1;
-   \                     ??ProcessCommands_8:
-   \   0000B4   B243....     MOV.W   #0xffff, &polarityLeft
-    262                          state = DRIVE;
-   \   0000B8   043C         JMP     ??ProcessCommands_5
-    263                          break;
-    264          
-    265                      case (LEFT_COMMAND):
-    266                          polarityRight = -1;
+    259                  switch(currCommand.comm) {
+   \   00007A   7F404400     MOV.B   #0x44, R15
+   \   00007E   7E806200     SUB.B   #0x62, R14
+   \   000082   1224         JEQ     ??ProcessCommands_12
+   \   000084   7E800300     SUB.B   #0x3, R14
+   \   000088   2224         JEQ     ??ProcessCommands_13
+   \   00008A   5E83         SUB.B   #0x1, R14
+   \   00008C   0A24         JEQ     ??ProcessCommands_14
+   \   00008E   7E800600     SUB.B   #0x6, R14
+   \   000092   1224         JEQ     ??ProcessCommands_15
+   \   000094   7E800300     SUB.B   #0x3, R14
+   \   000098   1624         JEQ     ??ProcessCommands_16
+   \   00009A   7E800300     SUB.B   #0x3, R14
+   \   00009E   0724         JEQ     ??ProcessCommands_17
+   \   0000A0   1B3C         JMP     ??ProcessCommands_0
+    260                      case (FORWARD_COMMAND):
+    261                          polarityRight = 1;
    \                     ??ProcessCommands_14:
-   \   0000BA   B243....     MOV.W   #0xffff, &polarityRight
-    267                          polarityLeft = 1;
-   \                     ??ProcessCommands_7:
-   \   0000BE   9243....     MOV.W   #0x1, &polarityLeft
-    268                          state = DRIVE;
-   \                     ??ProcessCommands_5:
-   \   0000C2   C24F....     MOV.B   R15, &state
-    269                          break;
-   \   0000C6   093C         JMP     ??ProcessCommands_0
-    270          
-    271                      case (LINEFOLLOW_COMMAND):
-    272                          state = STRAIGHT;
-   \                     ??ProcessCommands_15:
-   \   0000C8   F2407300.... MOV.B   #0x73, &state
-    273                          polarityRight = currCommand.duration;
-   \   0000CE   033C         JMP     ??ProcessCommands_9
-    274                          break;
-    275                      case (EXIT_COMMAND):
-    276                          state = EXIT;
+   \   0000A2   9243....     MOV.W   #0x1, &polarityRight
+    262                          polarityLeft = 1;
+   \   0000A6   0A3C         JMP     ??ProcessCommands_7
+    263                          state = DRIVE;
+    264                          break;
+    265          
+    266                      case (REVERSE_COMMAND):
+    267                          polarityRight = -1;
    \                     ??ProcessCommands_12:
-   \   0000D0   F2406500.... MOV.B   #0x65, &state
-    277                          polarityRight = currCommand.duration;
+   \   0000A8   B243....     MOV.W   #0xffff, &polarityRight
+    268                          polarityLeft = -1;
+   \   0000AC   023C         JMP     ??ProcessCommands_8
+    269                          state = DRIVE;
+    270                          break;
+    271          
+    272                      case (RIGHT_COMMAND):
+    273                          polarityRight = 1;
+   \                     ??ProcessCommands_17:
+   \   0000AE   9243....     MOV.W   #0x1, &polarityRight
+    274                          polarityLeft = -1;
+   \                     ??ProcessCommands_8:
+   \   0000B2   B243....     MOV.W   #0xffff, &polarityLeft
+    275                          state = DRIVE;
+   \   0000B6   043C         JMP     ??ProcessCommands_5
+    276                          break;
+    277          
+    278                      case (LEFT_COMMAND):
+    279                          polarityRight = -1;
+   \                     ??ProcessCommands_15:
+   \   0000B8   B243....     MOV.W   #0xffff, &polarityRight
+    280                          polarityLeft = 1;
+   \                     ??ProcessCommands_7:
+   \   0000BC   9243....     MOV.W   #0x1, &polarityLeft
+    281                          state = DRIVE;
+   \                     ??ProcessCommands_5:
+   \   0000C0   C24F....     MOV.B   R15, &state
+    282                          break;
+   \   0000C4   093C         JMP     ??ProcessCommands_0
+    283          
+    284                      case (LINEFOLLOW_COMMAND):
+    285                          state = STRAIGHT;
+   \                     ??ProcessCommands_16:
+   \   0000C6   F2407300.... MOV.B   #0x73, &state
+    286                          polarityRight = currCommand.duration;
+   \   0000CC   033C         JMP     ??ProcessCommands_9
+    287                          break;
+    288                      case (EXIT_COMMAND):
+    289                          state = EXIT;
+   \                     ??ProcessCommands_13:
+   \   0000CE   F2406500.... MOV.B   #0x65, &state
+    290                          polarityRight = currCommand.duration;
    \                     ??ProcessCommands_9:
-   \   0000D6   824D....     MOV.W   R13, &polarityRight
-    278                          break;
-    279                  }
-    280              }
-    281              
-    282          }
+   \   0000D4   824D....     MOV.W   R13, &polarityRight
+    291                          break;
+    292                  }
+    293              }
+    294              
+    295          }
    \                     ??ProcessCommands_0:
-   \   0000DA   ....         JMP     ?Subroutine0
-   \   0000DC   0343         NOP
+   \   0000D8   ....         JMP     ?Subroutine0
+   \   0000DA   0343         NOP
 
    \                                 In  segment CODE, align 2
-   \                     ?Subroutine2:
+   \                     ?Subroutine3:
    \   000000   ........     CALLA   #popCB
    \   000004   92410400.... MOV.W   0x4(SP), &currCommand
    \   00000A   92410600.... MOV.W   0x6(SP), &currCommand + 2
    \   000010   1001         RETA
+
+   \                                 In  segment CODE, align 2
+   \                     ?Subroutine2:
+   \   000000   F2405300.... MOV.B   #0x53, &state
+   \   000006   8243....     MOV.W   #0x0, &stopwatch_milliseconds
+   \   00000A   8243....     MOV.W   #0x0, &stateCounter
+   \   00000E   ........     BRA     #ShutoffMotors
 
    \                                 In  segment DATA16_ID, align 1, align-sorted
    \                     `?<Initializer for iot_setup_state>`:
@@ -799,6 +828,14 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
    \                     `?<Constant "AT+CIFSR\\r\\n">`:
    \   000000   41542B434946 DC8 "AT+CIFSR\015\012"
    \            53520D0A00  
+
+   \                                 In  segment DATA16_C, align 1, align-sorted
+   \                     `?<Constant "AT+PING=\\"www.google.c...">`:
+   \   000000   41542B50494E DC8 "AT+PING=\"www.google.com\"\015\012"
+   \            473D22777777
+   \            2E676F6F676C
+   \            652E636F6D22
+   \            0D0A00      
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "WIFI GOT IP\\r\\n">`:
@@ -880,6 +917,7 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
       14  ?<Constant "AT+CIPMUX=1\r\n">
       22  ?<Constant "AT+CIPSERVER=1,4764\r\n">
       12  ?<Constant "AT+CWJAP?\r\n">
+      27  ?<Constant "AT+PING=\"www.google.c...">
       13  ?<Constant "DISCONNECTED">
       14  ?<Constant "WIFI GOT IP\r\n">
        6  ?<Constant "^9A73">
@@ -887,11 +925,12 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
        6  ?Subroutine0
        8  ?Subroutine1
       18  ?Subroutine2
+      18  ?Subroutine3
       40  CommandBuffer
      136  IOTBufferCommands
       14  IP
-     180  Init_IOT
-     222  ProcessCommands
+     202  Init_IOT
+     220  ProcessCommands
       11  SSID
       26  SendIOTCommand
        2  _A_UCA0IE_L
@@ -911,16 +950,16 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
       34  waitForReady
 
  
- 964 bytes in segment CODE
-   2 bytes in segment DATA16_AN
- 114 bytes in segment DATA16_C
-   1 byte  in segment DATA16_I
-   1 byte  in segment DATA16_ID
-  78 bytes in segment DATA16_Z
+ 1 002 bytes in segment CODE
+     2 bytes in segment DATA16_AN
+   141 bytes in segment DATA16_C
+     1 byte  in segment DATA16_I
+     1 byte  in segment DATA16_ID
+    78 bytes in segment DATA16_Z
  
- 964 bytes of CODE  memory
- 115 bytes of CONST memory
-  79 bytes of DATA  memory (+ 2 bytes shared)
+ 1 002 bytes of CODE  memory
+   142 bytes of CONST memory
+    79 bytes of DATA  memory (+ 2 bytes shared)
 
 Errors: none
 Warnings: none

@@ -47,14 +47,14 @@ void updateDetectors(void){
 }
 
 void calibrate(void) {
+  unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
     if(calibrationMode == 0) {
-        unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
 
         if (left > LBDetect) LBDetect = left;
 
         if (right > RBDetect) RBDetect = right;
     } else if(calibrationMode == 1) {
-        unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
+        
 
         if (left > LWDetect) LWDetect = left;
 
@@ -63,6 +63,9 @@ void calibrate(void) {
 
     HEXtoBCD((int)LBDetect, 3, 6);
     HEXtoBCD((int)RBDetect, 3, 0);
-    HEXtoBCD((int)LWDetect, 0, 6);
-    HEXtoBCD((int)RWDetect, 0, 0);
+    HEXtoBCD((int)LWDetect, 2, 6);
+    HEXtoBCD((int)RWDetect, 2, 0);
+    HEXtoBCD((int)left, 0, 6);
+    HEXtoBCD((int)right, 0, 0);
+    
 }

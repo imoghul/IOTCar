@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Apr/2022  10:48:01
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          16/Apr/2022  18:31:10
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\adc.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW215F.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWE926.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\adc.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -400,9 +400,9 @@ C:\Users\saad\Documents\ece-306\Project 10\adc.c
    \   000094   B24003000A07 MOV.W   #0x3, &0x70a
     139                              ADC_Left_Detect = ADCMEM0;
    \   00009A   A24E....     MOV.W   @R14, &ADC_Left_Detect
-    140                              ADC_Left_Detect = ADC_Left_Detect >> 1;
+    140                              ADC_Left_Detect = ADC_Left_Detect >> 4;
    \   00009E   1F42....     MOV.W   &ADC_Left_Detect, R15
-   \   0000A2   5F03         RRUM.W  #0x1, R15
+   \   0000A2   5F0F         RRUM.W  #0x4, R15
    \   0000A4   824F....     MOV.W   R15, &ADC_Left_Detect
     141                              ADCCTL0 |= ADCSC;
    \                     ??ADC_ISR_0:
@@ -418,9 +418,9 @@ C:\Users\saad\Documents\ece-306\Project 10\adc.c
    \   0000B4   B24005000A07 MOV.W   #0x5, &0x70a
     147                              ADC_Right_Detect = ADCMEM0;
    \   0000BA   A24E....     MOV.W   @R14, &ADC_Right_Detect
-    148                              ADC_Right_Detect = ADC_Right_Detect >> 1;
+    148                              ADC_Right_Detect = ADC_Right_Detect >>4;
    \   0000BE   1F42....     MOV.W   &ADC_Right_Detect, R15
-   \   0000C2   5F03         RRUM.W  #0x1, R15
+   \   0000C2   5F0F         RRUM.W  #0x4, R15
    \   0000C4   824F....     MOV.W   R15, &ADC_Right_Detect
     149                              break;
    \   0000C8   043C         JMP     ??ADC_ISR_1

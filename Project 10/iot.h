@@ -2,6 +2,7 @@
 #define START_SERVER                    ("AT+CIPSERVER=1,4764\r\n")
 #define SSID_COMMAND                    ("AT+CWJAP?\r\n")
 #define IP_COMMAND                      ("AT+CIFSR\r\n")
+#define PING_COMMAND                    ("AT+PING=\"www.google.com\"\r\n")
 #define OK_RESPONSE                     ("OK\r\n")
 #define BOOT_RESPONSE                   ("WIFI GOT IP\r\n")
 #define SSID_RESPONSE                   ("+CWJAP:")

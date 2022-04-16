@@ -44,7 +44,7 @@ void Straight(char direction) {
         case 0:
             EMITTER_ON;
             stateCounter = 1;
-            strcpy(display_line[2], "          ");
+            strcpy(display_line[0], "          ");
             display_changed = 1;
             break;
 
@@ -106,7 +106,7 @@ void Straight(char direction) {
             cycle_count = 0;
             state = WAIT;
             nextState = TURN;
-            strcpy(display_line[2],"INTERCEPT ");
+            strcpy(display_line[0],"INTERCEPT ");
             display_changed = 1;
             EMITTER_OFF;
             break;
@@ -118,7 +118,7 @@ void Turn(char direction) {
         case 0:
             EMITTER_ON;
             stateCounter = 1;
-            strcpy(display_line[2], "          ");
+            strcpy(display_line[0], "          ");
             display_changed = 1;
             break;
 
@@ -147,29 +147,32 @@ void Turn(char direction) {
             state = WAIT;
             nextState = LINEFOLLOW;
             EMITTER_OFF;
-            strcpy(display_line[2],"   TURN   ");
+            strcpy(display_line[0],"   TURN   ");
             display_changed = 1;
             break;
     }
 }
 
-void LineFollow() {
+void LineFollow(char direction) {
     //HEXtoBCD(ADC_Left_Detect, 1, 6);
     //HEXtoBCD(ADC_Right_Detect, 1, 0);
     
     int rFollowSpeed,lFollowSpeed;
 
-    int leftPIDOut = GetOutput(&leftFollowController, LEFT_WHITE_DETECT, ADC_Left_Detect);
-    int rightPIDOut = GetOutput(&rightFollowController, RIGHT_WHITE_DETECT, ADC_Right_Detect);
-    rFollowSpeed = /*RIGHT_MIN>>1;//*/additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, RIGHT_MIN >> 1, leftPIDOut); // swapped b/c they are physically swapped
-    lFollowSpeed = /*LEFT_MIN>>1;//*/additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, LEFT_MIN >> 1, rightPIDOut); // swapped b/c they are physically swapped
-
+    //rFollowSpeed = RIGHT_MIN>>1;
+    //lFollowSpeed = LEFT_MIN>>1;
+    
+    /*if(ADC_Left_Detect>LEFT_GRAY_DETECT)rFollowSpeed = 3000;
+    else*/ rFollowSpeed = direction?additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, 4000, GetOutput(&leftFollowController, LEFT_GRAY_DETECT, ADC_Left_Detect)):RIGHT_MIN>>1; // swapped b/c they are physically swapped
+    /*if(ADC_Right_Detect>RIGHT_GRAY_DETECT)lFollowSpeed = 3000;
+    else*/ lFollowSpeed = direction?LEFT_MIN>>1:additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, 4000, GetOutput(&rightFollowController, RIGHT_GRAY_DETECT, ADC_Right_Detect));// swapped b/c they are physically swapped
+    
     switch(stateCounter) {
         case 0:
             EMITTER_ON;
             stopwatch_seconds = 0;
             cycle_count = 0;
-            strcpy(display_line[2],"          ");
+            strcpy(display_line[0],"          ");
             display_changed = 1;
             if(rightSwitchable && leftSwitchable)stateCounter++;
             else return;
@@ -187,7 +190,7 @@ void LineFollow() {
             }
 
             if(delay(CIRCLING_TIME, 0))  stateCounter = 5;
-            if(stopwatch_seconds>=TIME_TO_CIRCLE) strcpy(display_line[2]," CIRCLING ");
+            if(stopwatch_seconds>=TIME_TO_CIRCLE) strcpy(display_line[0]," CIRCLING ");
 
             Drive_Path(rFollowSpeed, lFollowSpeed,0);
             break;
@@ -223,15 +226,17 @@ void LineFollow() {
             stateCounter = 0 ;
             state = START;
             EMITTER_OFF;
-            strcpy(display_line[2],"          ");
+            strcpy(display_line[0],"          ");
             break;
     }
 
-
+    if(rFollowSpeed!=lFollowSpeed && stateCounter==1) P6OUT|=GRN_LED;
+    else P6OUT&=~GRN_LED;
 }
 
 void Exit(int direction) {
     if (stateCounter == 0) {
+        strcpy(display_line[0]," EXITING  ");
         if(rightSwitchable && leftSwitchable)stateCounter++;
     }
 
@@ -345,7 +350,7 @@ void StateMachine(void) {
             break;
 
         case (LINEFOLLOW):
-            LineFollow();
+            LineFollow(polarityRight);
             break;
             
         case (EXIT):

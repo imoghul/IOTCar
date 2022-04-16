@@ -35,6 +35,8 @@ extern volatile char nextState;
 extern int polarityRight, polarityLeft;
 extern unsigned int driveTime;
 
+extern volatile char pingFlag;
+
 command emptyCommand = {0, 0};
 command currCommand;
 
@@ -96,6 +98,10 @@ int Init_IOT(void) {
             break;
 
         default:
+            if(pingFlag){
+              pingFlag = 0;
+              SendIOTCommand(PING_COMMAND, IOT_SETUP_FINISHED);
+            }
             return 1;
             break;
     }
@@ -225,6 +231,8 @@ void pushCB(command c) {
 }
 
 void ProcessCommands(void) {
+    //if(currCommand.comm == 0 && currCommand.duration == 0)return;
+    //commandsReceieved = 1;
     if (CommandBuffer[0].comm==STOP_COMMAND){
       currCommand = popCB();
       state = START;
@@ -233,11 +241,16 @@ void ProcessCommands(void) {
       ShutoffMotors();
       return;
     }
+    if (CommandBuffer[0].comm==EXIT_COMMAND){
+      state = START;
+      stopwatch_milliseconds = 0;
+      stateCounter = 0 ;
+      ShutoffMotors();
+    }
     if(state == START) {
         currCommand = popCB();
         if(currCommand.comm == 0 && currCommand.duration == 0)return;
         commandsReceieved = 1;
-        
         stopwatch_seconds = 0;
         cycle_count = 0;
         

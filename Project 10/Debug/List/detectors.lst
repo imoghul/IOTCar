@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Apr/2022  10:48:02
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          16/Apr/2022  18:31:11
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\detectors.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW2305.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWEF7D.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\detectors.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -232,158 +232,169 @@ C:\Users\saad\Documents\ece-306\Project 10\detectors.c
    \                     updateDetectors:
    \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   1842....     MOV.W   &LBDetect, R8
-   \   000006   3850F6FF     ADD.W   #0xfff6, R8
-   \   00000A   8298....     CMP.W   R8, &ADC_Left_Detect
-   \   00000E   4F7F         SUBC.B  R15, R15
-   \   000010   5FF3         AND.B   #0x1, R15
-   \   000012   824F....     MOV.W   R15, &l_LessBlack
-   \   000016   1B42....     MOV.W   &RBDetect, R11
-   \   00001A   3B50F6FF     ADD.W   #0xfff6, R11
-   \   00001E   829B....     CMP.W   R11, &ADC_Right_Detect
-   \   000022   4F7F         SUBC.B  R15, R15
-   \   000024   5FF3         AND.B   #0x1, R15
-   \   000026   824F....     MOV.W   R15, &r_LessBlack
-   \   00002A   1C42....     MOV.W   &LBDetect, R12
-   \   00002E   3C50CEFF     ADD.W   #0xffce, R12
-   \   000032   829C....     CMP.W   R12, &ADC_Left_Detect
-   \   000036   4F7F         SUBC.B  R15, R15
-   \   000038   5FF3         AND.B   #0x1, R15
-   \   00003A   824F....     MOV.W   R15, &l_LessGray
+   \   000006   2883         SUB.W   #0x2, R8
+   \   000008   8298....     CMP.W   R8, &ADC_Left_Detect
+   \   00000C   4F7F         SUBC.B  R15, R15
+   \   00000E   5FF3         AND.B   #0x1, R15
+   \   000010   824F....     MOV.W   R15, &l_LessBlack
+   \   000014   1B42....     MOV.W   &RBDetect, R11
+   \   000018   2B83         SUB.W   #0x2, R11
+   \   00001A   829B....     CMP.W   R11, &ADC_Right_Detect
+   \   00001E   4F7F         SUBC.B  R15, R15
+   \   000020   5FF3         AND.B   #0x1, R15
+   \   000022   824F....     MOV.W   R15, &r_LessBlack
+   \   000026   1C42....     MOV.W   &LBDetect, R12
+   \   00002A   3C50FBFF     ADD.W   #0xfffb, R12
+   \   00002E   829C....     CMP.W   R12, &ADC_Left_Detect
+   \   000032   4F7F         SUBC.B  R15, R15
+   \   000034   5FF3         AND.B   #0x1, R15
+   \   000036   824F....     MOV.W   R15, &l_LessGray
      32            l_LessBlack = ADC_Left_Detect<LEFT_BLACK_DETECT;
      33            r_LessBlack = ADC_Right_Detect<RIGHT_BLACK_DETECT;
      34            l_LessGray = ADC_Left_Detect<LEFT_GRAY_DETECT;
      35            r_LessGray = ADC_Right_Detect<RIGHT_GRAY_DETECT;
-   \   00003E   1E42....     MOV.W   &RBDetect, R14
-   \   000042   3E50CEFF     ADD.W   #0xffce, R14
-   \   000046   829E....     CMP.W   R14, &ADC_Right_Detect
-   \   00004A   4F7F         SUBC.B  R15, R15
-   \   00004C   5FF3         AND.B   #0x1, R15
-   \   00004E   824F....     MOV.W   R15, &r_LessGray
-   \   000052   1D42....     MOV.W   &LWDetect, R13
-   \   000056   3D501400     ADD.W   #0x14, R13
-   \   00005A   829D....     CMP.W   R13, &ADC_Left_Detect
-   \   00005E   4F7F         SUBC.B  R15, R15
-   \   000060   5FF3         AND.B   #0x1, R15
-   \   000062   824F....     MOV.W   R15, &l_LessWhite
+   \   00003A   1E42....     MOV.W   &RBDetect, R14
+   \   00003E   3E50FBFF     ADD.W   #0xfffb, R14
+   \   000042   829E....     CMP.W   R14, &ADC_Right_Detect
+   \   000046   4F7F         SUBC.B  R15, R15
+   \   000048   5FF3         AND.B   #0x1, R15
+   \   00004A   824F....     MOV.W   R15, &r_LessGray
      36            l_LessWhite = ADC_Left_Detect<LEFT_WHITE_DETECT;
+   \   00004E   1D42....     MOV.W   &LWDetect, R13
+   \   000052   2D53         ADD.W   #0x2, R13
+   \   000054   829D....     CMP.W   R13, &ADC_Left_Detect
+   \   000058   4F7F         SUBC.B  R15, R15
+   \   00005A   5FF3         AND.B   #0x1, R15
+   \   00005C   824F....     MOV.W   R15, &l_LessWhite
      37            r_LessWhite = ADC_Right_Detect<RIGHT_WHITE_DETECT;
-   \   000066   1A42....     MOV.W   &RWDetect, R10
-   \   00006A   3A501400     ADD.W   #0x14, R10
-   \   00006E   829A....     CMP.W   R10, &ADC_Right_Detect
-   \   000072   4F7F         SUBC.B  R15, R15
-   \   000074   5FF3         AND.B   #0x1, R15
-   \   000076   824F....     MOV.W   R15, &r_LessWhite
+   \   000060   1A42....     MOV.W   &RWDetect, R10
+   \   000064   2A53         ADD.W   #0x2, R10
+   \   000066   829A....     CMP.W   R10, &ADC_Right_Detect
+   \   00006A   4F7F         SUBC.B  R15, R15
+   \   00006C   5FF3         AND.B   #0x1, R15
+   \   00006E   824F....     MOV.W   R15, &r_LessWhite
      38            //
      39            l_GreaterBlack = ADC_Left_Detect>LEFT_BLACK_DETECT;
-   \   00007A   1892....     CMP.W   &ADC_Left_Detect, R8
-   \   00007E   4F7F         SUBC.B  R15, R15
-   \   000080   5FF3         AND.B   #0x1, R15
-   \   000082   824F....     MOV.W   R15, &l_GreaterBlack
+   \   000072   1892....     CMP.W   &ADC_Left_Detect, R8
+   \   000076   4F7F         SUBC.B  R15, R15
+   \   000078   5FF3         AND.B   #0x1, R15
+   \   00007A   824F....     MOV.W   R15, &l_GreaterBlack
      40            r_GreaterBlack = ADC_Right_Detect>RIGHT_BLACK_DETECT;
-   \   000086   1B92....     CMP.W   &ADC_Right_Detect, R11
-   \   00008A   4F7F         SUBC.B  R15, R15
-   \   00008C   5FF3         AND.B   #0x1, R15
-   \   00008E   824F....     MOV.W   R15, &r_GreaterBlack
+   \   00007E   1B92....     CMP.W   &ADC_Right_Detect, R11
+   \   000082   4F7F         SUBC.B  R15, R15
+   \   000084   5FF3         AND.B   #0x1, R15
+   \   000086   824F....     MOV.W   R15, &r_GreaterBlack
      41            l_GreaterGray = ADC_Left_Detect>LEFT_GRAY_DETECT;
-   \   000092   1C92....     CMP.W   &ADC_Left_Detect, R12
-   \   000096   4F7F         SUBC.B  R15, R15
-   \   000098   5FF3         AND.B   #0x1, R15
-   \   00009A   824F....     MOV.W   R15, &l_GreaterGray
+   \   00008A   1C92....     CMP.W   &ADC_Left_Detect, R12
+   \   00008E   4F7F         SUBC.B  R15, R15
+   \   000090   5FF3         AND.B   #0x1, R15
+   \   000092   824F....     MOV.W   R15, &l_GreaterGray
      42            r_GreaterGray = ADC_Right_Detect>RIGHT_GRAY_DETECT;
-   \   00009E   1E92....     CMP.W   &ADC_Right_Detect, R14
-   \   0000A2   4F7F         SUBC.B  R15, R15
-   \   0000A4   5FF3         AND.B   #0x1, R15
-   \   0000A6   824F....     MOV.W   R15, &r_GreaterGray
+   \   000096   1E92....     CMP.W   &ADC_Right_Detect, R14
+   \   00009A   4F7F         SUBC.B  R15, R15
+   \   00009C   5FF3         AND.B   #0x1, R15
+   \   00009E   824F....     MOV.W   R15, &r_GreaterGray
      43            l_GreaterWhite = ADC_Left_Detect>LEFT_WHITE_DETECT;
-   \   0000AA   1D92....     CMP.W   &ADC_Left_Detect, R13
-   \   0000AE   4F7F         SUBC.B  R15, R15
-   \   0000B0   5FF3         AND.B   #0x1, R15
-   \   0000B2   824F....     MOV.W   R15, &l_GreaterWhite
+   \   0000A2   1D92....     CMP.W   &ADC_Left_Detect, R13
+   \   0000A6   4F7F         SUBC.B  R15, R15
+   \   0000A8   5FF3         AND.B   #0x1, R15
+   \   0000AA   824F....     MOV.W   R15, &l_GreaterWhite
      44            r_GreaterWhite = ADC_Right_Detect>RIGHT_WHITE_DETECT;
-   \   0000B6   1A92....     CMP.W   &ADC_Right_Detect, R10
-   \   0000BA   4F7F         SUBC.B  R15, R15
-   \   0000BC   5FF3         AND.B   #0x1, R15
-   \   0000BE   824F....     MOV.W   R15, &r_GreaterWhite
+   \   0000AE   1A92....     CMP.W   &ADC_Right_Detect, R10
+   \   0000B2   4F7F         SUBC.B  R15, R15
+   \   0000B4   5FF3         AND.B   #0x1, R15
+   \   0000B6   824F....     MOV.W   R15, &r_GreaterWhite
      45            //
      46            
      47          }
-   \   0000C2   3817         POPM.W  #0x4, R11
-   \   0000C4   1001         RETA
+   \   0000BA   3817         POPM.W  #0x4, R11
+   \   0000BC   1001         RETA
      48          
 
    \                                 In  segment CODE, align 2
      49          void calibrate(void) {
    \                     calibrate:
-     50              if(calibrationMode == 0) {
-   \   000000   8293....     CMP.W   #0x0, &calibrationMode
-   \   000004   0F20         JNE     ??calibrate_1
-     51                  unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
-   \   000006   1F42....     MOV.W   &ADC_Left_Detect, R15
-   \   00000A   1E42....     MOV.W   &ADC_Right_Detect, R14
+   \   000000   1B15         PUSHM.W #0x2, R11
+     50            unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
+   \   000002   1A42....     MOV.W   &ADC_Left_Detect, R10
+   \   000006   1B42....     MOV.W   &ADC_Right_Detect, R11
+     51              if(calibrationMode == 0) {
+   \   00000A   8293....     CMP.W   #0x0, &calibrationMode
+   \   00000E   0B20         JNE     ??calibrate_1
      52          
      53                  if (left > LBDetect) LBDetect = left;
-   \   00000E   829F....     CMP.W   R15, &LBDetect
-   \   000012   022C         JC      ??calibrate_2
-   \   000014   824F....     MOV.W   R15, &LBDetect
+   \   000010   829A....     CMP.W   R10, &LBDetect
+   \   000014   022C         JC      ??calibrate_2
+   \   000016   824A....     MOV.W   R10, &LBDetect
      54          
      55                  if (right > RBDetect) RBDetect = right;
    \                     ??calibrate_2:
-   \   000018   829E....     CMP.W   R14, &RBDetect
-   \   00001C   142C         JC      ??calibrate_0
-   \   00001E   824E....     MOV.W   R14, &RBDetect
-   \   000022   113C         JMP     ??calibrate_0
+   \   00001A   829B....     CMP.W   R11, &RBDetect
+   \   00001E   102C         JC      ??calibrate_0
+   \   000020   824B....     MOV.W   R11, &RBDetect
+   \   000024   0D3C         JMP     ??calibrate_0
      56              } else if(calibrationMode == 1) {
    \                     ??calibrate_1:
-   \   000024   9293....     CMP.W   #0x1, &calibrationMode
-   \   000028   0E20         JNE     ??calibrate_0
-     57                  unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
-   \   00002A   1F42....     MOV.W   &ADC_Left_Detect, R15
-   \   00002E   1E42....     MOV.W   &ADC_Right_Detect, R14
+   \   000026   9293....     CMP.W   #0x1, &calibrationMode
+   \   00002A   0A20         JNE     ??calibrate_0
+     57                  
      58          
      59                  if (left > LWDetect) LWDetect = left;
-   \   000032   829F....     CMP.W   R15, &LWDetect
-   \   000036   022C         JC      ??calibrate_3
-   \   000038   824F....     MOV.W   R15, &LWDetect
+   \   00002C   829A....     CMP.W   R10, &LWDetect
+   \   000030   022C         JC      ??calibrate_3
+   \   000032   824A....     MOV.W   R10, &LWDetect
      60          
      61                  if (right > RWDetect) RWDetect = right;
    \                     ??calibrate_3:
-   \   00003C   829E....     CMP.W   R14, &RWDetect
-   \   000040   022C         JC      ??calibrate_0
-   \   000042   824E....     MOV.W   R14, &RWDetect
+   \   000036   829B....     CMP.W   R11, &RWDetect
+   \   00003A   022C         JC      ??calibrate_0
+   \   00003C   824B....     MOV.W   R11, &RWDetect
      62              }
      63          
      64              HEXtoBCD((int)LBDetect, 3, 6);
                      ^
 Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \                     ??calibrate_0:
-   \   000046   3E400600     MOV.W   #0x6, R14
-   \   00004A   3D400300     MOV.W   #0x3, R13
-   \   00004E   1C42....     MOV.W   &LBDetect, R12
-   \   000052   ........     CALLA   #HEXtoBCD
+   \   000040   3E400600     MOV.W   #0x6, R14
+   \   000044   3D400300     MOV.W   #0x3, R13
+   \   000048   1C42....     MOV.W   &LBDetect, R12
+   \   00004C   ........     CALLA   #HEXtoBCD
      65              HEXtoBCD((int)RBDetect, 3, 0);
-   \   000056   0E43         MOV.W   #0x0, R14
-   \   000058   3D400300     MOV.W   #0x3, R13
-   \   00005C   1C42....     MOV.W   &RBDetect, R12
-   \   000060   ........     CALLA   #HEXtoBCD
-     66              HEXtoBCD((int)LWDetect, 0, 6);
-   \   000064   3E400600     MOV.W   #0x6, R14
-   \   000068   0D43         MOV.W   #0x0, R13
-   \   00006A   1C42....     MOV.W   &LWDetect, R12
-   \   00006E   ........     CALLA   #HEXtoBCD
-     67              HEXtoBCD((int)RWDetect, 0, 0);
-   \   000072   0E43         MOV.W   #0x0, R14
-   \   000074   0D43         MOV.W   #0x0, R13
-   \   000076   1C42....     MOV.W   &RWDetect, R12
-   \   00007A   ........     BRA     #HEXtoBCD
-     68          }
+   \   000050   0E43         MOV.W   #0x0, R14
+   \   000052   3D400300     MOV.W   #0x3, R13
+   \   000056   1C42....     MOV.W   &RBDetect, R12
+   \   00005A   ........     CALLA   #HEXtoBCD
+     66              HEXtoBCD((int)LWDetect, 2, 6);
+   \   00005E   3E400600     MOV.W   #0x6, R14
+   \   000062   2D43         MOV.W   #0x2, R13
+   \   000064   1C42....     MOV.W   &LWDetect, R12
+   \   000068   ........     CALLA   #HEXtoBCD
+     67              HEXtoBCD((int)RWDetect, 2, 0);
+   \   00006C   0E43         MOV.W   #0x0, R14
+   \   00006E   2D43         MOV.W   #0x2, R13
+   \   000070   1C42....     MOV.W   &RWDetect, R12
+   \   000074   ........     CALLA   #HEXtoBCD
+     68              HEXtoBCD((int)left, 0, 6);
+   \   000078   3E400600     MOV.W   #0x6, R14
+   \   00007C   0D43         MOV.W   #0x0, R13
+   \   00007E   0C4A         MOV.W   R10, R12
+   \   000080   ........     CALLA   #HEXtoBCD
+     69              HEXtoBCD((int)right, 0, 0);
+   \   000084   0E43         MOV.W   #0x0, R14
+   \   000086   0D43         MOV.W   #0x0, R13
+   \   000088   0C4B         MOV.W   R11, R12
+   \   00008A   ........     CALLA   #HEXtoBCD
+     70              
+     71          }
+   \   00008E   1A17         POPM.W  #0x2, R11
+   \   000090   1001         RETA
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
-      4   calibrate
-        0   -> HEXtoBCD
-        4   -> HEXtoBCD
+      8   calibrate
+        8   -> HEXtoBCD
      12   updateDetectors
 
 
@@ -395,7 +406,7 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
        2  LWDetect
        2  RBDetect
        2  RWDetect
-     126  calibrate
+     146  calibrate
        2  greaterBlackAnd
        2  greaterBlackOr
        2  greaterGrayAnd
@@ -425,13 +436,13 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
        2  r_LessGray
        2  r_LessWhite
        8  rightVals
-     198  updateDetectors
+     190  updateDetectors
 
  
- 324 bytes in segment CODE
+ 336 bytes in segment CODE
   77 bytes in segment DATA16_Z
  
- 324 bytes of CODE memory
+ 336 bytes of CODE memory
   77 bytes of DATA memory
 
 Errors: none
