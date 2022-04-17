@@ -163,9 +163,9 @@ void LineFollow(char direction) {
     //lFollowSpeed = LEFT_MIN>>1;
     
     /*if(ADC_Left_Detect>LEFT_GRAY_DETECT)rFollowSpeed = 3000;
-    else*/ rFollowSpeed = direction?additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, 4000, GetOutput(&leftFollowController, LEFT_GRAY_DETECT, ADC_Left_Detect)):RIGHT_MIN>>1; // swapped b/c they are physically swapped
+    else*/ rFollowSpeed = direction?additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, 4000, GetOutput(&leftFollowController, LEFT_BLACK_DETECT, ADC_Left_Detect)):RIGHT_MIN>>1; // swapped b/c they are physically swapped
     /*if(ADC_Right_Detect>RIGHT_GRAY_DETECT)lFollowSpeed = 3000;
-    else*/ lFollowSpeed = direction?LEFT_MIN>>1:additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, 4000, GetOutput(&rightFollowController, RIGHT_GRAY_DETECT, ADC_Right_Detect));// swapped b/c they are physically swapped
+    else*/ lFollowSpeed = direction?LEFT_MIN>>1:additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, 4000, GetOutput(&rightFollowController, RIGHT_BLACK_DETECT, ADC_Right_Detect));// swapped b/c they are physically swapped
     
     switch(stateCounter) {
         case 0:

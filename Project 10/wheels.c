@@ -26,7 +26,7 @@ extern int rightVals[VALUES_TO_HOLD];
 
 
 PIDController rightFollowController = {
-    .kP = -9,// /8
+    .kP = -11,// /8
     .kD = 13,// /8
     //.kI = 0,
     .error = 0,
@@ -34,7 +34,7 @@ PIDController rightFollowController = {
     //.lastIntegral = 0
 };
 PIDController leftFollowController = {
-    .kP = -9,// /8
+    .kP = -11,// /8
     .kD = 13,// /8
     //.kI = 0,
     .error = 0,

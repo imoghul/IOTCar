@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          16/Apr/2022  18:31:11
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          17/Apr/2022  16:57:06
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\detectors.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWEF7D.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW2B84.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\detectors.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -244,7 +244,7 @@ C:\Users\saad\Documents\ece-306\Project 10\detectors.c
    \   000020   5FF3         AND.B   #0x1, R15
    \   000022   824F....     MOV.W   R15, &r_LessBlack
    \   000026   1C42....     MOV.W   &LBDetect, R12
-   \   00002A   3C50FBFF     ADD.W   #0xfffb, R12
+   \   00002A   3C50F6FF     ADD.W   #0xfff6, R12
    \   00002E   829C....     CMP.W   R12, &ADC_Left_Detect
    \   000032   4F7F         SUBC.B  R15, R15
    \   000034   5FF3         AND.B   #0x1, R15
@@ -254,7 +254,7 @@ C:\Users\saad\Documents\ece-306\Project 10\detectors.c
      34            l_LessGray = ADC_Left_Detect<LEFT_GRAY_DETECT;
      35            r_LessGray = ADC_Right_Detect<RIGHT_GRAY_DETECT;
    \   00003A   1E42....     MOV.W   &RBDetect, R14
-   \   00003E   3E50FBFF     ADD.W   #0xfffb, R14
+   \   00003E   3E50F6FF     ADD.W   #0xfff6, R14
    \   000042   829E....     CMP.W   R14, &ADC_Right_Detect
    \   000046   4F7F         SUBC.B  R15, R15
    \   000048   5FF3         AND.B   #0x1, R15
