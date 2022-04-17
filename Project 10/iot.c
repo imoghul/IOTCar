@@ -22,7 +22,7 @@ int midIndex;
 command CommandBuffer[COMMAND_BUFFER_LEN];
 char cb_index;
 extern volatile int stateCounter;
-volatile char commandsReceieved;
+char commandsReceieved;
 
 extern volatile unsigned int cycle_count;
 extern volatile unsigned int stopwatch_milliseconds;

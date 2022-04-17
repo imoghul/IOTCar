@@ -46,8 +46,10 @@ void displayCommandsMenu() {
   }
   displayIP();
   if(currCommand.comm == 0 && currCommand.duration == 0) display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] =' ';
-  if(!commandsReceieved) strcpy(display_line[3],"WAITING...");
-  
+  if(!commandsReceieved) {
+    strcpy(display_line[3],"WAITING...");
+  }
+  else display_line[3][1] = display_line[3][2] = display_line[3][3] =' ';
   if(stopwatchUpdated){
     stopwatchUpdated = 0;
     HEXtoBCD(timeElapsedSeconds,3,4);
