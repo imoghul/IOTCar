@@ -20,7 +20,31 @@ extern char commandsReceieved;
 extern volatile unsigned int stopwatchUpdated;
 extern volatile int timeElapsedSeconds, timeElapsedMilliseconds;
 
-menu calib, start, mainMenu, commandsOutput; //,networkInfo;
+menu mainMenu;
+menu calib = {
+    .length = 1,
+    .current = 0,
+    .name = CALIB_MENU,
+    .headers = {""},
+    .values = {""},
+    .transitions = {&mainMenu}
+};
+menu start = {
+    .length = 1,
+    .current = 0,
+    .name = START_MENU,
+    .headers = {""},
+    .values = {""},
+    .transitions = {&mainMenu}
+};
+menu commandsOutput = {
+    .length = 1,
+    .current = 0,
+    .name = COMMANDS_MENU,
+    .headers = {""},
+    .values = {""},
+    .transitions = {&mainMenu}
+};
 
 menu* currMenu = &start;
 
@@ -164,14 +188,14 @@ void MenuProcess(void) {
 }
 
 void Init_Menu(void) {
-    calib = (menu) {
-        .length = 1,
-        .current = 0,
-        .name = CALIB_MENU,
-        .headers = {""},
-        .values = {""},
-        .transitions = {&mainMenu}
-    };
+    // calib = (menu) {
+    //     .length = 1,
+    //     .current = 0,
+    //     .name = CALIB_MENU,
+    //     .headers = {""},
+    //     .values = {""},
+    //     .transitions = {&mainMenu}
+    // };
 
     mainMenu  = (menu) {
         .length = 3,
@@ -182,22 +206,22 @@ void Init_Menu(void) {
         .transitions = {&calib, &commandsOutput} //,&networkInfo}
     };
 
-    start  = (menu) {
-        .length = 1,
-        .current = 0,
-        .name = START_MENU,
-        .headers = {""},
-        .values = {""},
-        .transitions = {&mainMenu}
-    };
-    commandsOutput = (menu) {
-        .length = 1,
-        .current = 0,
-        .name = COMMANDS_MENU,
-        .headers = {""},
-        .values = {""},
-        .transitions = {&mainMenu}
-    };
+    // start  = (menu) {
+    //     .length = 1,
+    //     .current = 0,
+    //     .name = START_MENU,
+    //     .headers = {""},
+    //     .values = {""},
+    //     .transitions = {&mainMenu}
+    // };
+    // commandsOutput = (menu) {
+    //     .length = 1,
+    //     .current = 0,
+    //     .name = COMMANDS_MENU,
+    //     .headers = {""},
+    //     .values = {""},
+    //     .transitions = {&mainMenu}
+    // };
     /*networkInfo = (menu){
         .length = 1,
         .current = 0,
