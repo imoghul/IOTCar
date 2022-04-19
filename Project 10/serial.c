@@ -45,7 +45,7 @@ void Init_Serial_UCA(void) {
         USB1_Char_Tx[i] = 0x00;
     }
 
-    // Configure UART 0
+    /*// Configure UART 0
     UCA0CTLW0 = 0;
     UCA0CTLW0 |= UCSWRST;
     UCA0CTLW0 |= UCSSEL__SMCLK;
@@ -57,6 +57,18 @@ void Init_Serial_UCA(void) {
     UCA1CTLW0 = 0;
     UCA1CTLW0 |= UCSWRST;
     UCA1CTLW0 |= UCSSEL__SMCLK;
+    UCA1BRW = 4;
+    UCA1MCTLW = 0x5551;
+    UCA1CTLW0 &= ~UCSWRST;
+    UCA1IE |= UCRXIE;*/
+    // Configure UART 0
+    UCA0CTLW0 = UCSWRST | UCSSEL__SMCLK;
+    UCA0BRW = 4;
+    UCA0MCTLW = 0x5551;
+    UCA0CTLW0 &= ~UCSWRST;
+    UCA0IE |= UCRXIE;
+    // Configure UART 1
+    UCA1CTLW0 = UCSWRST | UCSSEL__SMCLK;
     UCA1BRW = 4;
     UCA1MCTLW = 0x5551;
     UCA1CTLW0 &= ~UCSWRST;
