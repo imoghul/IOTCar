@@ -278,7 +278,7 @@ void Exit(int direction) {
         /*if(rightSwitchable && leftSwitchable)*/stateCounter++;
     }
 
-    if (stateCounter == 1) {
+    /*if (stateCounter == 1) {
         if(direction) {
             if(Drive_Path(-STRAIGHT_RIGHT, STRAIGHT_LEFT, TURN90)) stateCounter++;
         } else {
@@ -292,17 +292,18 @@ void Exit(int direction) {
         } else {
             if(LockMotors(-1, 1)) stateCounter++;
         }
+    }*/
+
+    if (stateCounter == 1) {
+        if ( Drive(direction ? -STRAIGHT_RIGHT : STRAIGHT_RIGHT, direction ? STRAIGHT_LEFT : -STRAIGHT_LEFT, TURN90) )
+            stateCounter++;
     }
 
-    if (stateCounter == 3) {
-        if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 5000)) stateCounter++;
+    if (stateCounter == 2) {
+        if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, 5000)) stateCounter++;
     }
 
-    if (stateCounter == 4) {
-        if(LockMotors(-1, -1)) stateCounter++;
-    }
-
-    else if (stateCounter == 5) {
+    else if (stateCounter == 3) {
         ShutoffMotors();
         stateCounter = 0 ;
         state = DONE;
@@ -405,12 +406,6 @@ void StateMachine(void) {
             break;
 
         case (DONE):
-            display_line[3][0] = 'T';
-            display_line[3][1] = 'i';
-            display_line[3][2] = 'm';
-            display_line[3][3] = 'e';
-            strcpy(display_line[1], " That was ");
-            strcpy(display_line[1], "easy!! ;-)");
             break;
 
         default:
