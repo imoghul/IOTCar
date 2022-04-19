@@ -279,7 +279,7 @@ int Drive(int r, int l, unsigned int time) {
         case 3 :
             ShutoffMotors();
             driveStateCounter = 0 ;
-            state = START;
+            //state = START;
             return 1;
             break;
     }
@@ -349,7 +349,7 @@ void StateMachine(void) {
             break;
 
         case (DRIVE):
-            Drive(speedRight, speedLeft, driveTime);
+            if(Drive(speedRight, speedLeft, driveTime)) state = START;
             break;
 
         case (DONE):

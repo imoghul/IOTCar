@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          11/Apr/2022  11:39:43
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          19/Apr/2022  18:33:37
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,12 +12,12 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece-306\Project 09\main.c
+#    Source file   =  C:\Users\saad\Documents\anotherone\Project 09\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW56AF.tmp
-#        ("C:\Users\saad\Documents\ece-306\Project 09\main.c" -lC
-#        "C:\Users\saad\Documents\ece-306\Project 09\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj" --no_cse
+#        -f C:\Users\saad\AppData\Local\Temp\EW1CF2.tmp
+#        ("C:\Users\saad\Documents\anotherone\Project 09\main.c" -lC
+#        "C:\Users\saad\Documents\anotherone\Project 09\Debug\List" -o
+#        "C:\Users\saad\Documents\anotherone\Project 09\Debug\Obj" --no_cse
 #        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
@@ -25,13 +25,13 @@
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece-306\Project 09\Debug\List\main.lst
+#        C:\Users\saad\Documents\anotherone\Project 09\Debug\List\main.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece-306\Project 09\Debug\Obj\main.r43
+#        C:\Users\saad\Documents\anotherone\Project 09\Debug\Obj\main.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece-306\Project 09\main.c
+C:\Users\saad\Documents\anotherone\Project 09\main.c
       1          //------------------------------------------------------------------------------
       2          //
       3          //  Description: This file contains the Main Routine - "While" Operating System
@@ -254,52 +254,53 @@ C:\Users\saad\Documents\ece-306\Project 09\main.c
    \   000060   ........     CALLA   #Init_IOT
    \   000064   0C93         CMP.W   #0x0, R12
    \   000066   FC27         JEQ     ??main_0
-    122                  IOTBufferCommands();
+    122          
+    123                  IOTBufferCommands();
    \   000068   ........     CALLA   #IOTBufferCommands
-    123                  ProcessCommands();
+    124                  ProcessCommands();
    \   00006C   ........     CALLA   #ProcessCommands
-    124                  //DetectMovement();
-    125                  //StateMachine();                     // Run wheels state machine
-    126                  //MenuProcess();
-    127                  MotorSafety();
+    125                  //DetectMovement();
+    126                  //StateMachine();                     // Run wheels state machine
+    127                  //MenuProcess();
+    128                  MotorSafety();
    \   000070   ........     CALLA   #MotorSafety
-    128                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+    129                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
    \   000074   D2E32202     XOR.B   #0x1, &0x222
-    129          
     130          
-    131                  if(Last_Time_Sequence != Time_Sequence) {
+    131          
+    132                  if(Last_Time_Sequence != Time_Sequence) {
    \   000078   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
    \   00007E   F027         JEQ     ??main_0
-    132                      Last_Time_Sequence = Time_Sequence;
+    133                      Last_Time_Sequence = Time_Sequence;
    \   000080   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
-    133                      cycle_count++;
+    134                      cycle_count++;
    \   000086   9253....     ADD.W   #0x1, &cycle_count
-    134                      time_change = 1;
+    135                      time_change = 1;
    \   00008A   9243....     MOV.W   #0x1, &time_change
-    135          
-    136                      if(cycle_count == TIME_SEQUENCE_MAX) {
+    136          
+    137                      if(cycle_count == TIME_SEQUENCE_MAX) {
    \   00008E   B290FA00.... CMP.W   #0xfa, &cycle_count
    \   000094   E523         JNE     ??main_0
-    137                          cycle_count = 0;
+    138                          cycle_count = 0;
    \   000096   8243....     MOV.W   #0x0, &cycle_count
-    138                          stopwatch_seconds++;
+    139                          stopwatch_seconds++;
    \   00009A   9253....     ADD.W   #0x1, &stopwatch_seconds
    \   00009E   E03F         JMP     ??main_0
    \   0000A0   0343         NOP
    \   0000A2                REQUIRE _A_PM5CTL0_L
    \   0000A2                REQUIRE _A_PBOUT_L
-    139                      }
-    140                  }
-    141              }
-    142          
-    143              //------------------------------------------------------------------------------
-    144          }
+    140                      }
+    141                  }
+    142              }
+    143          
+    144              //------------------------------------------------------------------------------
+    145          }
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
-    145          
+    146          
 
    Maximum stack usage in bytes:
 

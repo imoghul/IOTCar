@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Apr/2022  07:38:49
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          19/Apr/2022  19:13:53
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,25 +12,25 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\utils.c
+#    Source file   =  C:\Users\saad\Documents\anotherone\Project 10\utils.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWE575.tmp
-#        ("C:\Users\saad\Documents\ece-306\Project 10\utils.c" -lC
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EWFCD2.tmp
+#        ("C:\Users\saad\Documents\anotherone\Project 10\utils.c" -lC
+#        "C:\Users\saad\Documents\anotherone\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\anotherone\Project 10\Debug\Obj" --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
 #        --core=430X --data_model=small -Ohz --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece-306\Project 10\Debug\List\utils.lst
+#        C:\Users\saad\Documents\anotherone\Project 10\Debug\List\utils.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj\utils.r43
+#        C:\Users\saad\Documents\anotherone\Project 10\Debug\Obj\utils.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece-306\Project 10\utils.c
+C:\Users\saad\Documents\anotherone\Project 10\utils.c
       1          #include <string.h>
       2          #include "utils.h"
       3          #include "macros.h"
@@ -73,7 +73,7 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
      14          
 
    \                                 In  segment CODE, align 2
-     15          char* subStringPos(const char* str,char * subString) {
+     15          char* subStringPos(const char* str, char * subString) {
    \                     subStringPos:
    \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   0A4C         MOV.W   R12, R10
@@ -91,8 +91,8 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
    \   000010   0C4A         MOV.W   R10, R12
    \   000012   ........     CALLA   #strlen
    \   000016   0C89         SUB.W   R9, R12
-     22              
-     23              for (i = 0; i < len;i++) {
+     22          
+     23              for (i = 0; i < len; i++) {
    \   000018   093C         JMP     ??subStringPos_1
      24                  int exists = 1;
      25          
@@ -122,61 +122,61 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
    \   000036   0E99         CMP.W   R9, R14
    \   000038   F03B         JL      ??subStringPos_0
      32          
-     33                  if (exists) return (char*)(str + i);
+     33                  if (exists) {
+     34                    return (char*)(str + i);
    \   00003A   0A58         ADD.W   R8, R10
    \   00003C   0C4A         MOV.W   R10, R12
    \   00003E   013C         JMP     ??subStringPos_3
-     34              }
-     35              return 0;
+     35                  }
+     36              }
+     37          
+     38              return 0;
    \                     ??subStringPos_5:
    \   000040   0C43         MOV.W   #0x0, R12
    \                     ??subStringPos_3:
    \   000042   3817         POPM.W  #0x4, R11
    \   000044   1001         RETA
-     36          }
-     37          
+     39          }
+     40          
 
    \                                 In  segment CODE, align 2
-     38          int stoi(char* str,int len) {
+     41          int stoi(char* str, int len) {
    \                     stoi:
-   \   000000   1B15         PUSHM.W #0x2, R11
-     39              int num = 0;
+   \   000000   0A12         PUSH.W  R10
+     42              int num = 0;
    \   000002   0E43         MOV.W   #0x0, R14
-     40              for(int i = 0; i < len && str[i] >= '0' && str[i] <= '9'; ++i)
+     43          
+     44              for(int i = 0; i < len/* && str[i] >= '0' && str[i] <= '9'*/; ++i)
    \   000004   0A43         MOV.W   #0x0, R10
-   \   000006   063C         JMP     ??stoi_1
-     41                  num = num * 10 + (int)(str[i] - '0');
+   \   000006   093C         JMP     ??stoi_1
+     45                  num = num * 10 + (int)(str[i] - '0');
    \                     ??stoi_0:
-   \   000008                RPT     #0xa
-   \   000008   49180F5E     ADDX.W  R14, R15
-   \   00000C   0E4F         MOV.W   R15, R14
-   \   00000E   3E50D0FF     ADD.W   #0xffd0, R14
-   \   000012   1A53         ADD.W   #0x1, R10
+   \   000008   0F4C         MOV.W   R12, R15
+   \   00000A   0F5A         ADD.W   R10, R15
+   \   00000C   6F4F         MOV.B   @R15, R15
+   \   00000E                RPT     #0xa
+   \   00000E   49180F5E     ADDX.W  R14, R15
+   \   000012   0E4F         MOV.W   R15, R14
+   \   000014   3E50D0FF     ADD.W   #0xffd0, R14
+   \   000018   1A53         ADD.W   #0x1, R10
    \                     ??stoi_1:
-   \   000014   0A9D         CMP.W   R13, R10
-   \   000016   0934         JGE     ??stoi_2
-   \   000018   0F4C         MOV.W   R12, R15
-   \   00001A   0F5A         ADD.W   R10, R15
-   \   00001C   6F4F         MOV.B   @R15, R15
-   \   00001E   4B4F         MOV.B   R15, R11
-   \   000020   7B50D000     ADD.B   #0xd0, R11
-   \   000024   7B900A00     CMP.B   #0xa, R11
-   \   000028   EF2B         JNC     ??stoi_0
-     42              return num;
-   \                     ??stoi_2:
-   \   00002A   0C4E         MOV.W   R14, R12
-   \   00002C   1A17         POPM.W  #0x2, R11
-   \   00002E   1001         RETA
-     43          }
-     44          
+   \   00001A   0A9D         CMP.W   R13, R10
+   \   00001C   F53B         JL      ??stoi_0
+     46          
+     47              return num;
+   \   00001E   0C4E         MOV.W   R14, R12
+   \   000020   3A41         POP.W   R10
+   \   000022   1001         RETA
+     48          }
+     49          
 
    \                                 In  segment CODE, align 2
-     45          char* charInString(const char* str, char c) {
+     50          char* charInString(const char* str, char c) {
    \                     charInString:
    \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   0B4C         MOV.W   R12, R11
    \   000004   4A4D         MOV.B   R13, R10
-     46              for(int i = 0; i < strlen(str)+1; i++)
+     51              for(int i = 0; i < strlen(str) + 1; i++)
    \   000006   0843         MOV.W   #0x0, R8
    \   000008   013C         JMP     ??charInString_1
    \                     ??charInString_0:
@@ -187,33 +187,33 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
    \   000012   1C53         ADD.W   #0x1, R12
    \   000014   089C         CMP.W   R12, R8
    \   000016   052C         JC      ??charInString_3
-     47                  if(str[i] == c) return (char*)(str + i);
+     52                  if(str[i] == c) return (char*)(str + i);
    \   000018   0C4B         MOV.W   R11, R12
    \   00001A   0C58         ADD.W   R8, R12
    \   00001C   6A9C         CMP.B   @R12, R10
    \   00001E   F523         JNE     ??charInString_0
    \   000020   013C         JMP     ??charInString_2
-     48          
-     49              return 0;
+     53          
+     54              return 0;
    \                     ??charInString_3:
    \   000022   0C43         MOV.W   #0x0, R12
    \                     ??charInString_2:
    \   000024   3817         POPM.W  #0x4, R11
    \   000026   1001         RETA
-     50          }
-     51          
+     55          }
+     56          
 
    \                                 In  segment CODE, align 2
-     52          unsigned int absVal(int n) {
+     57          unsigned int absVal(int n) {
    \                     absVal:
    \   000000   B1000400     SUBA    #0x4, SP
-     53              const int ret[2] = {n, -n};
+     58              const int ret[2] = {n, -n};
    \   000004   814C0000     MOV.W   R12, 0(SP)
    \   000008   0F4C         MOV.W   R12, R15
    \   00000A   3FE3         XOR.W   #0xffff, R15
    \   00000C   1F53         ADD.W   #0x1, R15
    \   00000E   814F0200     MOV.W   R15, 0x2(SP)
-     54              return (unsigned int)(ret [n < 0]);
+     59              return (unsigned int)(ret [n < 0]);
    \   000012   0C93         CMP.W   #0x0, R12
    \   000014   0238         JL      ??absVal_1
    \   000016   0F43         MOV.W   #0x0, R15
@@ -225,94 +225,114 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
    \   00001E   2C4F         MOV.W   @R15, R12
    \   000020   A1000400     ADDA    #0x4, SP
    \   000024   1001         RETA
-     55          }
-     56          
+     60          }
+     61          
 
    \                                 In  segment CODE, align 2
-     57          void HEXtoBCD(int hex_value, int line, int start) {
+     62          void HEXtoBCD(int hex_value, int line, int start) {
    \                     HEXtoBCD:
-   \   000000   0A12         PUSH.W  R10
-     58              int value = 0;
-   \   000002   0F43         MOV.W   #0x0, R15
-   \   000004   033C         JMP     ??HEXtoBCD_3
-     59          
-     60              while(hex_value > 999) {
-     61                  hex_value -= 1000;
-   \                     ??HEXtoBCD_0:
-   \   000006   3C5018FC     ADD.W   #0xfc18, R12
-     62                  value += 1;
-   \   00000A   1F53         ADD.W   #0x1, R15
-     63              }
-   \                     ??HEXtoBCD_3:
-   \   00000C   3C90E803     CMP.W   #0x3e8, R12
-   \   000010   FA37         JGE     ??HEXtoBCD_0
-     64          
-     65              display_line[line][start] = 0x30 + value;
-   \   000012   0A4D         MOV.W   R13, R10
-   \   000014                RPT     #0xa
-   \   000014   49180A5D     ADDX.W  R13, R10
-   \   000018   0A5E         ADD.W   R14, R10
-   \   00001A   3A50....     ADD.W   #display_line, R10
-   \   00001E   7E403000     MOV.B   #0x30, R14
-   \   000022   4F5E         ADD.B   R14, R15
-   \   000024   CA4F0000     MOV.B   R15, 0(R10)
-     66              value = 0;
-   \   000028   0F43         MOV.W   #0x0, R15
-   \   00002A   033C         JMP     ??HEXtoBCD_4
-     67          
-     68              while(hex_value > 99) {
-     69                  hex_value -= 100;
+   \   000000   3B15         PUSHM.W #0x4, R11
+   \   000002   B1000600     SUBA    #0x6, SP
+     63          
+     64              int value = 0;
+   \   000006   0F43         MOV.W   #0x0, R15
+     65          
+     66              int i;
+     67              int bases[] = {1000, 100, 10};
+   \   000008   3B40....     MOV.W   #`?<Constant {1000, 100, 10}>`, R11
+   \   00000C   B14B0000     MOV.W   @R11+, 0(SP)
+   \   000010   B14B0200     MOV.W   @R11+, 0x2(SP)
+   \   000014   B14B0400     MOV.W   @R11+, 0x4(SP)
+     68          
+     69              for(i = 0; i < 3; i++) {
+   \   000018   0B43         MOV.W   #0x0, R11
+     70                  int base = bases[i];
    \                     ??HEXtoBCD_1:
-   \   00002C   3C509CFF     ADD.W   #0xff9c, R12
-     70                  value += 1;
-   \   000030   1F53         ADD.W   #0x1, R15
-     71              }
-   \                     ??HEXtoBCD_4:
-   \   000032   3C906400     CMP.W   #0x64, R12
-   \   000036   FA37         JGE     ??HEXtoBCD_1
-     72          
-     73              display_line[line][start + 1] = 0x30 + value;
-   \   000038   4F5E         ADD.B   R14, R15
-   \   00003A   CA4F0100     MOV.B   R15, 0x1(R10)
-     74              value = 0;
-   \   00003E   0F43         MOV.W   #0x0, R15
-   \   000040   033C         JMP     ??HEXtoBCD_5
-     75          
-     76              while(hex_value > 9) {
-     77                  hex_value -= 10;
+   \   00001A   0A4B         MOV.W   R11, R10
+   \   00001C   0A5A         RLA.W   R10
+   \   00001E   0A51         ADD.W   SP, R10
+   \   000020   2A4A         MOV.W   @R10, R10
+   \   000022   023C         JMP     ??HEXtoBCD_2
+     71          
+     72                  while(hex_value > (base - 1)) {
+     73                      hex_value -= base;
+   \                     ??HEXtoBCD_0:
+   \   000024   0C8A         SUB.W   R10, R12
+     74                      value += 1;
+   \   000026   1F53         ADD.W   #0x1, R15
+     75                  }
    \                     ??HEXtoBCD_2:
-   \   000042   3C50F6FF     ADD.W   #0xfff6, R12
-     78                  value += 1;
-   \   000046   1F53         ADD.W   #0x1, R15
+   \   000028   084A         MOV.W   R10, R8
+   \   00002A   3853         ADD.W   #0xffff, R8
+   \   00002C   089C         CMP.W   R12, R8
+   \   00002E   FA3B         JL      ??HEXtoBCD_0
+     76          
+     77                  display_line[line][start + i] = value + '0';
+   \   000030   484F         MOV.B   R15, R8
+   \   000032   78503000     ADD.B   #0x30, R8
+   \   000036   094D         MOV.W   R13, R9
+   \   000038                RPT     #0xa
+   \   000038   4918095D     ADDX.W  R13, R9
+   \   00003C   095E         ADD.W   R14, R9
+   \   00003E   095B         ADD.W   R11, R9
+   \   000040   C948....     MOV.B   R8, display_line(R9)
+     78          
      79              }
-   \                     ??HEXtoBCD_5:
-   \   000048   3C900A00     CMP.W   #0xa, R12
-   \   00004C   FA37         JGE     ??HEXtoBCD_2
+   \   000044   1B53         ADD.W   #0x1, R11
+   \   000046   3B900300     CMP.W   #0x3, R11
+   \   00004A   E73B         JL      ??HEXtoBCD_1
      80          
-     81              display_line[line][start + 2] = 0x30 + value;
-   \   00004E   4F5E         ADD.B   R14, R15
-   \   000050   CA4F0200     MOV.B   R15, 0x2(R10)
-     82              display_line[line][start + 3] = 0x30 + hex_value;
-   \   000054   4C5E         ADD.B   R14, R12
-   \   000056   CA4C0300     MOV.B   R12, 0x3(R10)
-     83          }
-   \   00005A   3A41         POP.W   R10
-   \   00005C   1001         RETA
-     84          
-     85          
+     81              display_line[line][start + 3] = hex_value + '0';
+   \   00004C   7C503000     ADD.B   #0x30, R12
+   \   000050   0F4D         MOV.W   R13, R15
+   \   000052                RPT     #0xa
+   \   000052   49180F5D     ADDX.W  R13, R15
+   \   000056   0E5F         ADD.W   R15, R14
+   \   000058   CE4C....     MOV.B   R12, display_line + 3(R14)
+     82          
+     83              /*while(hex_value > 999) {
+     84                  hex_value -= 1000;
+     85                  value += 1;
+     86              }
+     87          
+     88              display_line[line][start] = 0x30 + value;
+     89              value = 0;
+     90          
+     91              while(hex_value > 99) {
+     92                  hex_value -= 100;
+     93                  value += 1;
+     94              }
+     95          
+     96              display_line[line][start + 1] = 0x30 + value;
+     97              value = 0;
+     98          
+     99              while(hex_value > 9) {
+    100                  hex_value -= 10;
+    101                  value += 1;
+    102              }
+    103          
+    104              display_line[line][start + 2] = 0x30 + value;
+    105              display_line[line][start + 3] = 0x30 + hex_value;*/
+    106          
+    107          }
+   \   00005C   A1000600     ADDA    #0x6, SP
+   \   000060   3817         POPM.W  #0x4, R11
+   \   000062   1001         RETA
+    108          
+    109          
 
    \                                 In  segment CODE, align 2
-     86          int additionSafe(int val, int max, int min, int increment) {
+    110          int additionSafe(int val, int max, int min, int increment) {
    \                     additionSafe:
    \   000000   1B15         PUSHM.W #0x2, R11
-     87              long res = val + increment;
+    111              long res = val + increment;
    \   000002   0C5F         ADD.W   R15, R12
    \   000004   0A4C         MOV.W   R12, R10
    \   000006   22B2         BIT.W   #0x4, SR
    \   000008   0B7B         SUBC.W  R11, R11
    \   00000A   3BE3         XOR.W   #0xffff, R11
-     88          
-     89              if(res > (long)max) res = (long)max;
+    112          
+    113              if(res > (long)max) res = (long)max;
    \   00000C   0C4D         MOV.W   R13, R12
    \   00000E   0D5D         RLA.W   R13
    \   000010   0D7D         SUBC.W  R13, R13
@@ -325,8 +345,8 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
    \                     ??additionSafe_0:
    \   00001E   0A4C         MOV.W   R12, R10
    \   000020   0B4D         MOV.W   R13, R11
-     90          
-     91              if(res < (long)min) res = (long)min;
+    114          
+    115              if(res < (long)min) res = (long)min;
    \                     ??additionSafe_1:
    \   000022   0F4E         MOV.W   R14, R15
    \   000024   0F5F         RLA.W   R15
@@ -339,22 +359,22 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
    \   000032   012C         JC      ??additionSafe_3
    \                     ??additionSafe_2:
    \   000034   0A4E         MOV.W   R14, R10
-     92          
-     93              return (int)res;
+    116          
+    117              return (int)res;
    \                     ??additionSafe_3:
    \   000036   0C4A         MOV.W   R10, R12
    \   000038   1A17         POPM.W  #0x2, R11
    \   00003A   1001         RETA
-     94          }
-     95          
+    118          }
+    119          
 
    \                                 In  segment CODE, align 2
-     96          int multSafe(int a, int b) {
+    120          int multSafe(int a, int b) {
    \                     multSafe:
    \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
-     97              if(a == 0 || b == 0) return 0;
+    121              if(a == 0 || b == 0) return 0;
    \   000006   0C93         CMP.W   #0x0, R12
    \   000008   0224         JEQ     ??multSafe_2
    \   00000A   0D93         CMP.W   #0x0, R13
@@ -362,8 +382,8 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
    \                     ??multSafe_2:
    \   00000E   0C43         MOV.W   #0x0, R12
    \   000010   1E3C         JMP     ??multSafe_0
-     98          
-     99              int res = a * b;
+    122          
+    123              int res = a * b;
    \                     ??multSafe_3:
    \   000012   0212         PUSH.W  SR
    \   000014   32C2         DINT
@@ -373,8 +393,8 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
    \   000020   1842....     MOV.W   &__iar_HWMUL + 10, R8          // RESLO
    \   000024   0343         NOP
    \   000026   3241         POP.W   SR
-    100          
-    101              if(a == res / b)return res;
+    124          
+    125              if(a == res / b)return res;
    \   000028   0C48         MOV.W   R8, R12
    \   00002A   0E4D         MOV.W   R13, R14
    \   00002C   ........     CALLA   #?DivMod16s
@@ -382,7 +402,8 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
    \   000032   0220         JNE     ??multSafe_4
    \   000034   0C48         MOV.W   R8, R12
    \   000036   0B3C         JMP     ??multSafe_0
-    102              return (INT_MAX) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
+    126          
+    127              return (INT_MAX) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
    \                     ??multSafe_4:
    \   000038   0A93         CMP.W   #0x0, R10
    \   00003A   0338         JL      ??multSafe_5
@@ -398,13 +419,17 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
    \                     ??multSafe_0:
    \   00004E   3817         POPM.W  #0x4, R11
    \   000050   1001         RETA
-    103          }
+    128          }
+
+   \                                 In  segment DATA16_C, align 2, align-sorted
+   \                     `?<Constant {1000, 100, 10}>`:
+   \   000000   E80364000A00 DC16 1000, 100, 10
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
-      6   HEXtoBCD
+     18   HEXtoBCD
       8   absVal
       8   additionSafe
      16   centerStringToDisplay
@@ -414,7 +439,7 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
        12   -> strlen
      14   multSafe
        12 ?DivMod16s
-      8   stoi
+      6   stoi
      12   subStringPos
        12   -> strlen
 
@@ -423,19 +448,22 @@ C:\Users\saad\Documents\ece-306\Project 10\utils.c
 
    Bytes  Function/Label
    -----  --------------
-      94  HEXtoBCD
+       6  ?<Constant {1000, 100, 10}>
+     100  HEXtoBCD
       38  absVal
       60  additionSafe
       60  centerStringToDisplay
       40  charInString
       82  multSafe
-      48  stoi
+      36  stoi
       70  subStringPos
 
  
- 492 bytes in segment CODE
+ 486 bytes in segment CODE
+   6 bytes in segment DATA16_C
  
- 492 bytes of CODE memory
+ 486 bytes of CODE  memory
+   6 bytes of CONST memory
 
 Errors: none
 Warnings: none

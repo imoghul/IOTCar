@@ -1,6 +1,7 @@
 #include "iot.h"
 #include "msp430.h"
 #include "utils.h"
+#include <string.h>
 #include "wheels.h"
 #include "utils.h"
 #include "serial.h"
@@ -102,7 +103,7 @@ int Init_IOT(void) {
         default:
             if(pingFlag) {
                 pingFlag = 0;
-                SendIOTCommand(PING_COMMAND, IOT_SETUP_FINISHED);
+                //SendIOTCommand(PING_COMMAND, IOT_SETUP_FINISHED);
             }
 
             return 1;
@@ -115,7 +116,7 @@ int Init_IOT(void) {
 
 void waitForReady(void) {
     if(pb0_buffered) {
-        if(subStringPos((char*)USB0_Char_Rx_Process, BOOT_RESPONSE)) iot_setup_state = CIPMUX_Tx;
+        if(strcmp((char*)USB0_Char_Rx_Process, BOOT_RESPONSE)==0) iot_setup_state = CIPMUX_Tx;
 
         clearProcessBuff_0();
     }
