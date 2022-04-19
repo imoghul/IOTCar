@@ -63,9 +63,47 @@ void Init_Serial_UCA(void) {
     UCA1IE |= UCRXIE;
 }
 //------------------------------------------------------------------------------
+
+void serialInterrupt(volatile unsigned int* rx_wr, volatile char [] Rx_Ring, volatile char [] Tx, volatile unsigned int* tx_index, volatile unsigned short * txbuf, volatile unsigned short * txbuf_other, volatile unsigned short ucaiv, volatile unsigned short * ucaie, volatile unsigned short rxbuf) {
+
+    unsigned int temp;
+
+    switch(__even_in_range(ucaiv, 0x08)) {
+        case 0:
+            break;
+
+        case 2: // RXIFG
+            temp = (*rx_wr)++;
+            Rx_Ring[temp] = rxbuf;
+
+            if (*rx_wr >= (SMALL_RING_SIZE)) {
+                *rx_wr = BEGINNING;
+            }
+
+            if(receievedFromPC) *txbuf_other = Rx_Ring[temp];
+
+            break;
+
+        case 4: // TXIFG
+            *txbuf = Tx[*tx_index];
+            Tx[(*tx_index)++] = 0;
+
+            if(USB0_Char_Tx[tx0_index] == 0) {
+                *ucaie &= ~UCTXIE;
+            }
+
+            break;
+
+        default:
+            break;
+    }
+
+}
+
 #pragma vector=EUSCI_A0_VECTOR
 __interrupt void eUSCI_A0_ISR(void) {
-    unsigned int temp;
+    serialInterrupt(&usb0_rx_wr, USB0_Char_Rx_Ring, USB0_Char_Tx, &tx0_index,, &UCA0TXBUF, &UCA1TXBUF, UCA0IV, UCA0RXBUF);
+    /*unsigned int temp;
 
     switch(__even_in_range(UCA0IV, 0x08)) {
         case 0:
@@ -84,10 +122,6 @@ __interrupt void eUSCI_A0_ISR(void) {
             break;
 
         case 4: // TXIFG
-            //if(receievedFromPC==OFF) {
-            //  UCA0IE &= ~UCTXIE;
-            //  return;
-            //}
             UCA0TXBUF = USB0_Char_Tx[tx0_index];
             USB0_Char_Tx[tx0_index++] = 0;
 
@@ -99,12 +133,29 @@ __interrupt void eUSCI_A0_ISR(void) {
 
         default:
             break;
-    }
+    }*/
 }
 
 #pragma vector=EUSCI_A1_VECTOR
 __interrupt void eUSCI_A1_ISR(void) {
-    unsigned int temp;
+    switch(__even_in_range(UCA1IV, 0x08)) {
+
+        case 2:
+            receievedFromPC = ON;
+            break;
+
+        case 4:
+            if(receievedFromPC == OFF) {
+                UCA1IE &= ~UCTXIE;
+                return;
+            }
+
+            break;
+
+    }
+
+    serialInterrupt(&usb1_rx_wr, USB1_Char_Rx_Ring, USB1_Char_Tx, &tx1_index,, &UCA1TXBUF, &UCA0TXBUF, UCA1IV, UCA1RXBUF);
+    /*unsigned int temp;
 
     switch(__even_in_range(UCA1IV, 0x08)) {
         case 0:
@@ -142,7 +193,7 @@ __interrupt void eUSCI_A1_ISR(void) {
 
         default:
             break;
-    }
+    }*/
 }
 
 void clearProcessBuff(volatile char* pb, volatile unsigned int* pb_index, volatile unsigned int* pb_buffered) {
