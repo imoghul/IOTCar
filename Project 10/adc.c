@@ -121,13 +121,13 @@ __interrupt void ADC_ISR(void) {
             switch (ADC_Channel++) {
                 case 0x00:
                     ADCMCTL0 &= ~ADCINCH_5;
-                    ADCMCTL0 = ADCINCH_9;
+                    ADCMCTL0 = ADCINCH_2;
                     ADC_Thumb = ADCMEM0;
                     ADC_Thumb = ADC_Thumb >> (10 - THUMB_RES);
                     ADCCTL0 |= ADCSC;
                     break;
 
-                case 0x01:
+                /*case 0x01:
                     ADCMCTL0 &= ~ADCINCH_9;
                     ADCMCTL0 = ADCINCH_10;
                     ADC_Vbat = ADCMEM0;
@@ -149,9 +149,9 @@ __interrupt void ADC_ISR(void) {
                     ADC_V3v3 = ADCMEM0;
                     //ADC_V3v3 = ADC_V3v3;
                     ADCCTL0 |= ADCSC;
-                    break;
+                    break;*/
 
-                case 0x04:
+                case 0x01:
                     ADCMCTL0 &= ~ADCINCH_2;
                     ADCMCTL0 = ADCINCH_3;
                     ADC_Left_Detect = ADCMEM0;
@@ -159,14 +159,14 @@ __interrupt void ADC_ISR(void) {
                     ADCCTL0 |= ADCSC;
                     break;
 
-                case 0x05:
+                case 0x02:
                     ADCMCTL0 &= ~ADCINCH_3;
                     ADCMCTL0 = ADCINCH_5;
                     ADC_Right_Detect = ADCMEM0;
                     ADC_Right_Detect = ADC_Right_Detect >> 4;
                     break;
 
-                case 0x06:
+                case 0x03:
                     adcUpdated = 1;
                     ADC_Channel = 0;
                     break;
