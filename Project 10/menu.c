@@ -63,7 +63,7 @@ void displayCalibMenu() {
 
 void displayCommandsMenu() {
     display_line[3][0] = currCommand.comm;
-    HEXtoBCD(currCommand.duration, 1, 4);
+    HEXtoBCD(currCommand.duration, 3, 1);
 
     if(currCommand.comm == LINEFOLLOW_COMMAND) {
         display_line[3][0] = 'A';
@@ -71,10 +71,7 @@ void displayCommandsMenu() {
         display_line[3][2] = 't';
         display_line[3][3] = 'o';
         display_line[3][4] = '.';
-    }
-
-    if(state == DONE) {
-
+    } else if(state == DONE) {
         display_line[3][0] = 'T';
         display_line[3][1] = 'i';
         display_line[3][2] = 'm';
@@ -82,19 +79,17 @@ void displayCommandsMenu() {
         strcpy(display_line[1], " That was ");
         strcpy(display_line[2], "easy!! ;-)");
 
-    }
+    } else if(currCommand.comm == 0 && currCommand.duration == 0) display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] = ' ';
 
     if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
         strcpy(display_line[0], "ARRIVED 0 ");
         display_line[0][9] = currCommand.duration + '0';
     }
 
-    if(currCommand.comm == 0 && currCommand.duration == 0) display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] = ' ';
+
 
     if(commandsReceieved) {
         if(state != DONE)displayIP(1);
-
-        display_line[3][1] = display_line[3][2] = display_line[3][3] = ' ';
     } else {
         strcpy(display_line[0], " WAITING  ");
         strcpy(display_line[1], " FOR INPUT");
@@ -120,11 +115,12 @@ void updateMenuPos(menu* m) {
 }
 
 void interractWithMenu(void) {
-    switch(menuState) {
+    /*switch(menuState) {
         case CALIB_MENU:
             calibrationMode++;
             break;
-    }
+    }*/
+    if(menuState == CALIB_MENU) calibrationMode++;
 }
 
 void transitionMenu(menu* m) {
@@ -168,20 +164,18 @@ void MenuProcess(void) {
             break;*/
         case MAIN_MENU:
             updateMenuPos(&mainMenu);
-            strcpy(display_line[0], mainMenu.headers[mainMenu.current]);//displayMainMenu();
+            strcpy(display_line[0], mainMenu.headers[mainMenu.current]);
+            //displayMainMenu();
             display_changed = 1;
-            break;
-
-        case CALIB_MENU:
-            display_changed = 1;//displayCalibMenu();
             break;
 
         case COMMANDS_MENU:
             displayCommandsMenu();
             break;
-            /*case NETWORK_MENU:
-                displayNetworkInfo();*/
-            break;
+
+        /*case NETWORK_MENU:
+            displayNetworkInfo();
+            break;*/
 
         default:
             break;

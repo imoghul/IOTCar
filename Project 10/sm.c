@@ -72,7 +72,7 @@ void Straight(char direction) {
 
         case 5:
         case 6:
-            if (greaterWhiteOr) { //((ADC_Left_Detect > LEFT_WHITE_DETECT || ADC_Right_Detect > RIGHT_WHITE_DETECT)) {
+            if (greaterWhiteOr) {
                 Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
             } else stateCounter++;
 
@@ -81,7 +81,7 @@ void Straight(char direction) {
         case 7:
             EMITTER_ON;
 
-            if (lessWhiteOr) { //((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
+            if (lessWhiteOr) {
                 Drive_Path(RIGHT_MIN, RIGHT_MIN, 0);
             } else stateCounter++;
 
@@ -117,8 +117,7 @@ void Turn(char direction) {
         case 1: // gotta remove this
             if(direction) {
                 if(Drive_Path(-RIGHT_MAX, LEFT_MAX, PRELIMINARY_TURN)) stateCounter++;
-            } else/* if(direction == MOVING_RIGHT)*/
-                if(Drive_Path(RIGHT_MAX, -LEFT_MAX, PRELIMINARY_TURN)) stateCounter++;
+            } else if(Drive_Path(RIGHT_MAX, -LEFT_MAX, PRELIMINARY_TURN)) stateCounter++;
 
             break;
 
@@ -132,7 +131,6 @@ void Turn(char direction) {
             break;
 
         case 3:
-            ShutoffMotors();
             stateCounter = 0 ;
             stopwatch_seconds = 0;
             cycle_count = 0;
