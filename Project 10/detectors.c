@@ -40,8 +40,8 @@ void updateDetectors(void) {
     r_GreaterBlack = ADC_Right_Detect > RIGHT_BLACK_DETECT;
     l_GreaterGray = ADC_Left_Detect > LEFT_GRAY_DETECT;
     r_GreaterGray = ADC_Right_Detect > RIGHT_GRAY_DETECT;*/
-    l_GreaterWhite = ADC_Left_Detect > LEFT_WHITE_DETECT;
-    r_GreaterWhite = ADC_Right_Detect > RIGHT_WHITE_DETECT;
+    l_GreaterWhite = !l_LessWhite;//ADC_Left_Detect > LEFT_WHITE_DETECT;
+    r_GreaterWhite = !r_LessWhite;//ADC_Right_Detect > RIGHT_WHITE_DETECT;
     //
     lessWhiteOr = l_LessWhite || r_LessWhite;
     lessWhiteAnd = l_LessWhite && r_LessWhite;
@@ -51,19 +51,12 @@ void updateDetectors(void) {
 
 void calibrate(void) {
     unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
+    int * leftDetect = calibrationMode ? &LWDetect, &LBDetect;
+    int * rightDetect = calibrationMode ? &RWDetect, &RBDetect;
 
-    if(calibrationMode == 0) {
+    if (left > *leftDetect) *leftDetect = left;
 
-        if (left > LBDetect) LBDetect = left;
-
-        if (right > RBDetect) RBDetect = right;
-    } else if(calibrationMode == 1) {
-
-
-        if (left > LWDetect) LWDetect = left;
-
-        if (right > RWDetect) RWDetect = right;
-    }
+    if (right > *rightDetect) *rightDetect = right;
 
     HEXtoBCD((int)LBDetect, 3, 6);
     HEXtoBCD((int)RBDetect, 3, 0);

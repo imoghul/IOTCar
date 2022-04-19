@@ -37,29 +37,39 @@ void displayCalibMenu() {
 }*/
 
 void displayCommandsMenu() {
-    //strcpy(display_line[3],"          ");
     display_line[3][0] = currCommand.comm;
+    HEXtoBCD(currCommand.duration, 1, 4);
 
-    //HEXtoBCD(currCommand.duration, 1, 4);
+    if(currCommand.comm == LINEFOLLOW_COMMAND) {
+        display_line[3][0] = 'A';
+        display_line[3][1] = 'u';
+        display_line[3][2] = 't';
+        display_line[3][3] = 'o';
+        display_line[3][4] = '.';
+    }
+
     if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
         strcpy(display_line[0], "ARRIVED 0 ");
         display_line[0][9] = currCommand.duration + '0';
     }
 
-    displayIP();
-
     if(currCommand.comm == 0 && currCommand.duration == 0) display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] = ' ';
 
-    if(!commandsReceieved) {
-        strcpy(display_line[3], "WAITING...");
-    } else display_line[3][1] = display_line[3][2] = display_line[3][3] = ' ';
+    if(commandsReceieved) {
+        displayIP(1);
+        display_line[3][1] = display_line[3][2] = display_line[3][3] = ' ';
+    } else {
+        strcpy(display_line[0], " WAITING  ");
+        strcpy(display_line[1], " FOR INPUT");
+        displayIP(2);
+    }
 
     if(stopwatchUpdated) {
         stopwatchUpdated = 0;
-        HEXtoBCD(timeElapsedSeconds, 3, 4);
-        display_line[3][4] = ' ';
-        display_line[3][8] = '.';
-        display_line[3][9] = timeElapsedMilliseconds + '0';
+        HEXtoBCD(timeElapsedSeconds, 3, 5);
+        display_line[3][5] = ' ';
+        display_line[3][9] = 's';
+        //display_line[3][9] = timeElapsedMilliseconds + '0';
     }
 
     display_changed = 1;

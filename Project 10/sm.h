@@ -9,6 +9,7 @@
 #define LINEFOLLOW      ('L')
 #define DRIVE           ('D')
 #define EXIT            ('e')
+#define DONE            ('d')
 
 #define LF_TURN_DECREMENT       (3000)
 #define LEG1                    (2000)

@@ -175,13 +175,13 @@ void displayNetworkInfo(void) {
     strcpy(display_line[3], "          ");*/
     centerStringToDisplay(0, SSID);
     //strcpy(display_line[1], "IP ADDRESS");
-    displayIP();
+    displayIP(1);
     display_changed = 1;
 }
 
-void displayIP(void) {
-    centerStringToDisplay(1, IP);
-    centerStringToDisplay(2, IP + midIndex + 1);
+void displayIP(int pos) {
+    centerStringToDisplay(pos, IP);
+    centerStringToDisplay(pos + 1, IP + midIndex + 1);
 }
 
 
