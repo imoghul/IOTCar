@@ -266,8 +266,8 @@ void loadRingtoPB_1(void) {
 
 
 void SerialProcess(void) {
-    /*if(!pb0_buffered)*/loadRingtoPB_0();
+    loadRingtoPB(&usb0_rx_wr, &usb0_rx_rd, USB0_Char_Rx_Process, USB0_Char_Rx_Ring, &pb0_index, &pb0_buffered);//if(!pb0_buffered)loadRingtoPB_0();
 
-    /*if(!pb1_buffered)*/loadRingtoPB_1();
+    loadRingtoPB(&usb1_rx_wr, &usb1_rx_rd, USB1_Char_Rx_Process, USB1_Char_Rx_Ring, &pb1_index, &pb1_buffered);//if(!pb1_buffered)loadRingtoPB_1();
 
 }
