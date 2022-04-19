@@ -15,7 +15,7 @@ extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 extern volatile unsigned int wheel_periods;
 volatile char state = START;//CALIBRATE;
-volatile int stateCounter;
+volatile int stateCounter, driveStateCounter;
 volatile char nextState = STRAIGHT;
 extern volatile unsigned int Time_Sequence;
 extern volatile unsigned int Last_Time_Sequence;
@@ -45,13 +45,12 @@ void Straight(char direction) {
 
     switch(stateCounter) {
         case 0:
-            EMITTER_ON;
             stateCounter = 1;
             strcpy(display_line[0], " BL START ");
             display_changed = 1;
             break;
 
-        case 1:
+        /*case 1:
             if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG1)) stateCounter++; // straight
 
             break;
@@ -89,6 +88,25 @@ void Straight(char direction) {
         case 8:
             if(LockMotors(-rightTurn, -leftTurn)) stateCounter++;
 
+            break;*/
+        case 1:
+            if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG1))stateCounter++;
+
+            break;
+
+        case 2:
+            if(Drive(rightTurn, leftTurn, TURN90))stateCounter++;
+
+            break;
+
+        case 3:
+            if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG2))stateCounter++;
+
+            break;
+
+        case 4:
+            if(Drive(rightTurn, leftTurn, TURN90))stateCounter = 9;
+
             break;
 
         case 9:
@@ -99,6 +117,8 @@ void Straight(char direction) {
             break;
 
         case 10:
+            EMITTER_ON;
+
             if (lessWhiteOr) { //((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
                 Drive_Path(RIGHT_MIN, RIGHT_MIN, 0);
             } else stateCounter++;
@@ -182,13 +202,14 @@ void LineFollow(char direction) {
     switch(stateCounter) {
         case 0:
             EMITTER_ON;
-            stopwatch_seconds = 0;
-            cycle_count = 0;
             strcpy(display_line[0], "BL TRAVEL ");
             display_changed = 1;
 
             if(rightSwitchable && leftSwitchable)stateCounter++;
             else return;
+
+            stopwatch_seconds = 0;
+            cycle_count = 0;
 
             break;
 
@@ -290,29 +311,32 @@ void Exit(int direction) {
     }
 }
 
-void Drive(int polR, int polL, unsigned int time) {
-    switch(stateCounter) {
+int Drive(int polR, int polL, unsigned int time) {
+    switch(driveStateCounter) {
 
         case 0 :
-            stateCounter++;
+            driveStateCounter++;
             break;
 
         case 1 :
-            if(Drive_Path(polR > 0 ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > 0 ? STRAIGHT_LEFT : -STRAIGHT_LEFT, time))stateCounter++;
+            if(Drive_Path(polR > 0 ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > 0 ? STRAIGHT_LEFT : -STRAIGHT_LEFT, time))driveStateCounter++;
 
             break;
 
         case 2 :
-            if(LockMotors(-polR, -polL)) stateCounter++;
+            if(LockMotors(-polR, -polL)) driveStateCounter++;
 
             break;
 
         case 3 :
             ShutoffMotors();
-            stateCounter = 0 ;
+            driveStateCounter = 0 ;
             state = START;
+            return 1;
             break;
     }
+
+    return 0;
 }
 
 

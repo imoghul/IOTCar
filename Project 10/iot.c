@@ -29,7 +29,7 @@ extern volatile unsigned int stopwatch_milliseconds;
 extern volatile unsigned int stopwatch_seconds;
 
 extern volatile char state;
-extern volatile int stateCounter;
+extern volatile int stateCounter, driveStateCounter;
 extern volatile char nextState;
 
 extern int polarityRight, polarityLeft;
@@ -242,6 +242,7 @@ void ProcessCommands(void) {
         state = START;
         stopwatch_milliseconds = 0;
         stateCounter = 0 ;
+        driveStateCounter = 0;
         ShutoffMotors();
         return;
     }
@@ -250,6 +251,7 @@ void ProcessCommands(void) {
         state = START;
         stopwatch_milliseconds = 0;
         stateCounter = 0 ;
+        driveStateCounter = 0;
         ShutoffMotors();
     }
 
