@@ -42,6 +42,7 @@ command currCommand;
 
 
 int Init_IOT(void) {
+    int isTransmitting = UCA0IE & UCTXIE
     switch(iot_setup_state) {
         case (BOOT_UP):
             waitForReady();
@@ -52,7 +53,7 @@ int Init_IOT(void) {
             break;
 
         case CIPMUX_Rx:
-            if(UCA0IE & UCTXIE) break; // wait for the Tx to completely transmit
+            if(isTransmitting) break; // wait for the Tx to completely transmit
 
             if(pb0_buffered) { // wait for pb to finish buffering
                 iot_setup_state = CIPSERVER_Tx;
@@ -66,7 +67,7 @@ int Init_IOT(void) {
             break;
 
         case CIPSERVER_Rx:
-            if(UCA0IE & UCTXIE) break;
+            if(isTransmitting) break;
 
             if(pb0_buffered) {
                 iot_setup_state = GET_SSID_Tx;
@@ -80,7 +81,7 @@ int Init_IOT(void) {
             break;
 
         case GET_SSID_Rx:
-            if(UCA0IE & UCTXIE) break;
+            if(isTransmitting) break;
 
             getSSID();
 
@@ -91,7 +92,7 @@ int Init_IOT(void) {
             break;
 
         case GET_IP_Rx:
-            if(UCA0IE & UCTXIE) break;
+            if(isTransmitting) break;
 
             getIP();
             displayNetworkInfo();
@@ -149,7 +150,7 @@ void getIP(void) {
             for(i = 0; i <= IP_LEN && USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1] != '"'; ++i) {
                 IP[i] = USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1];
 
-                if(USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1] == '.') {
+                if(IP[i] == '.') {
                     if(dotFound++ == 1) midIndex = i;
                 }
             }
@@ -193,7 +194,7 @@ void IOTBufferCommands(void) {
             char comm = *pos;
             pos++;
             char * end_caret = charInString(pos, '^');
-            char * end_null = charInString(pos, 0);
+            char * end_null = charInString(pos, '\r');
             char * end = end_caret ? end_caret : end_null;
             int time = stoi(pos,end-pos);
             command c = {
@@ -254,31 +255,35 @@ void ProcessCommands(void) {
         stopwatch_seconds = 0;
         cycle_count = 0;
         
-        driveTime = (int)(currCommand.duration * (currCommand.comm == RIGHT_COMMAND || currCommand.comm == LEFT_COMMAND ? TURN_CONSTANT : 1));
+        //driveTime = (int)(currCommand.duration * (currCommand.comm == RIGHT_COMMAND || currCommand.comm == LEFT_COMMAND ? TURN_CONSTANT : 1));
 
         switch(currCommand.comm) {
             case (FORWARD_COMMAND):
                 polarityRight = 1;
                 polarityLeft = 1;
                 state = DRIVE;
+                driveTime = currCommand.duration;
                 break;
 
             case (REVERSE_COMMAND):
                 polarityRight = -1;
                 polarityLeft = -1;
                 state = DRIVE;
+                driveTime = currCommand.duration;
                 break;
 
             case (RIGHT_COMMAND):
                 polarityRight = 1;
                 polarityLeft = -1;
                 state = DRIVE;
+                driveTime = currCommand.duration<<2;
                 break;
 
             case (LEFT_COMMAND):
                 polarityRight = -1;
                 polarityLeft = 1;
                 state = DRIVE;
+                driveTime = currCommand.duration<<2;
                 break;
 
             case (LINEFOLLOW_COMMAND):
