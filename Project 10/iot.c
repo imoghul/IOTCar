@@ -43,6 +43,7 @@ command currCommand;
 
 int Init_IOT(void) {
     int isTransmitting = UCA0IE & UCTXIE
+
     switch(iot_setup_state) {
         case (BOOT_UP):
             waitForReady();
@@ -99,10 +100,11 @@ int Init_IOT(void) {
             break;
 
         default:
-            if(pingFlag){
-              pingFlag = 0;
-              SendIOTCommand(PING_COMMAND, IOT_SETUP_FINISHED);
+            if(pingFlag) {
+                pingFlag = 0;
+                SendIOTCommand(PING_COMMAND, IOT_SETUP_FINISHED);
             }
+
             return 1;
             break;
     }
@@ -134,7 +136,7 @@ void getSSID(void) {
 
             SSID[i + SSID_RESPONSE_LEN + 2] = 0; // set the end of the SSID to null
             SSID[SSID_LEN] = 0; //  set end of the array to null
-            
+
             iot_setup_state = GET_IP_Tx;
         } else iot_setup_state = GET_SSID_Tx;
 
@@ -154,11 +156,11 @@ void getIP(void) {
                     if(dotFound++ == 1) midIndex = i;
                 }
             }
-            
+
             IP[i + IP_RESPONSE_LEN + 2] = 0;
             IP[IP_LEN] = 0;
             IP[midIndex] = 0;
-            
+
             iot_setup_state = IOT_SETUP_FINISHED;
         } else iot_setup_state = GET_IP_Tx;
 
@@ -166,27 +168,28 @@ void getIP(void) {
     }
 }
 
-void displayNetworkInfo(void){
-  /*strcpy(display_line[0], "          ");
-  strcpy(display_line[1], "          ");
-  strcpy(display_line[2], "          ");
-  strcpy(display_line[3], "          ");*/
-  centerStringToDisplay(0, SSID);
-  //strcpy(display_line[1], "IP ADDRESS");
-  displayIP();
-  display_changed = 1;
+void displayNetworkInfo(void) {
+    /*strcpy(display_line[0], "          ");
+    strcpy(display_line[1], "          ");
+    strcpy(display_line[2], "          ");
+    strcpy(display_line[3], "          ");*/
+    centerStringToDisplay(0, SSID);
+    //strcpy(display_line[1], "IP ADDRESS");
+    displayIP();
+    display_changed = 1;
 }
 
-void displayIP(void){
-  centerStringToDisplay(1, IP);
-  centerStringToDisplay(2, IP + midIndex + 1);
+void displayIP(void) {
+    centerStringToDisplay(1, IP);
+    centerStringToDisplay(2, IP + midIndex + 1);
 }
 
 
 void IOTBufferCommands(void) {
     if(pb0_buffered) {
-        if(subStringPos((char*)USB0_Char_Rx_Process,DISCONNECTED_RESPONSE)) 
-          iot_setup_state = CIPMUX_Tx;
+        if(subStringPos((char*)USB0_Char_Rx_Process, DISCONNECTED_RESPONSE))
+            iot_setup_state = CIPMUX_Tx;
+
         char * pos = subStringPos((char*)USB0_Char_Rx_Process, CARET_SECURITY_CODE);
 
         while(pos) {
@@ -196,7 +199,7 @@ void IOTBufferCommands(void) {
             char * end_caret = charInString(pos, '^');
             char * end_null = charInString(pos, '\r');
             char * end = end_caret ? end_caret : end_null;
-            int time = stoi(pos,end-pos);
+            int time = stoi(pos, end - pos);
             command c = {
                 .comm = comm,
                 .duration = time
@@ -234,27 +237,31 @@ void pushCB(command c) {
 void ProcessCommands(void) {
     //if(currCommand.comm == 0 && currCommand.duration == 0)return;
     //commandsReceieved = 1;
-    if (CommandBuffer[0].comm==STOP_COMMAND){
-      currCommand = popCB();
-      state = START;
-      stopwatch_milliseconds = 0;
-      stateCounter = 0 ;
-      ShutoffMotors();
-      return;
+    if (CommandBuffer[0].comm == STOP_COMMAND) {
+        currCommand = popCB();
+        state = START;
+        stopwatch_milliseconds = 0;
+        stateCounter = 0 ;
+        ShutoffMotors();
+        return;
     }
-    if (CommandBuffer[0].comm==EXIT_COMMAND){
-      state = START;
-      stopwatch_milliseconds = 0;
-      stateCounter = 0 ;
-      ShutoffMotors();
+
+    if (CommandBuffer[0].comm == EXIT_COMMAND) {
+        state = START;
+        stopwatch_milliseconds = 0;
+        stateCounter = 0 ;
+        ShutoffMotors();
     }
+
     if(state == START) {
         currCommand = popCB();
+
         if(currCommand.comm == 0 && currCommand.duration == 0)return;
+
         commandsReceieved = 1;
         stopwatch_seconds = 0;
         cycle_count = 0;
-        
+
         //driveTime = (int)(currCommand.duration * (currCommand.comm == RIGHT_COMMAND || currCommand.comm == LEFT_COMMAND ? TURN_CONSTANT : 1));
 
         switch(currCommand.comm) {
@@ -276,25 +283,26 @@ void ProcessCommands(void) {
                 polarityRight = 1;
                 polarityLeft = -1;
                 state = DRIVE;
-                driveTime = currCommand.duration<<2;
+                driveTime = currCommand.duration << 2;
                 break;
 
             case (LEFT_COMMAND):
                 polarityRight = -1;
                 polarityLeft = 1;
                 state = DRIVE;
-                driveTime = currCommand.duration<<2;
+                driveTime = currCommand.duration << 2;
                 break;
 
             case (LINEFOLLOW_COMMAND):
                 state = STRAIGHT;
                 polarityRight = currCommand.duration;
                 break;
+
             case (EXIT_COMMAND):
                 state = EXIT;
                 polarityRight = currCommand.duration;
                 break;
         }
     }
-    
+
 }

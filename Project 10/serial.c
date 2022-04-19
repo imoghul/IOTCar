@@ -179,6 +179,7 @@ void USCI_A1_transmit(void) {
 
 void loadRingtoPB(volatile unsigned int* rx_wr, unsigned int* rx_rd, volatile char* Rx_Process, volatile char* Rx_Ring, volatile unsigned int* pb_index, volatile unsigned int* pb_buffered) {
     if(*pb_buffered) return;
+
     if(*rx_wr != *rx_rd) {
         Rx_Process[pb0_index] = Rx_Ring[*rx_rd];
 
