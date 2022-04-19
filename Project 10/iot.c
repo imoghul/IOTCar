@@ -168,12 +168,7 @@ void getIP(void) {
 }
 
 void displayNetworkInfo(void) {
-    /*strcpy(display_line[0], "          ");
-    strcpy(display_line[1], "          ");
-    strcpy(display_line[2], "          ");
-    strcpy(display_line[3], "          ");*/
     centerStringToDisplay(0, SSID);
-    //strcpy(display_line[1], "IP ADDRESS");
     displayIP(1);
     display_changed = 1;
 }
@@ -187,7 +182,7 @@ void displayIP(int pos) {
 void IOTBufferCommands(void) {
     if(pb0_buffered) {
         if(subStringPos((char*)USB0_Char_Rx_Process, DISCONNECTED_RESPONSE))
-            iot_setup_state = CIPMUX_Tx;
+            iot_setup_state = CIPSERVER_Tx;
 
         char * pos = subStringPos((char*)USB0_Char_Rx_Process, CARET_SECURITY_CODE);
 

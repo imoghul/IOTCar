@@ -70,13 +70,14 @@ void Straight(char direction) {
             break;
 
         case 5:
+        case 6:
             if (greaterWhiteOr) { //((ADC_Left_Detect > LEFT_WHITE_DETECT || ADC_Right_Detect > RIGHT_WHITE_DETECT)) {
                 Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
             } else stateCounter++;
 
             break;
 
-        case 6:
+        case 7:
             EMITTER_ON;
 
             if (lessWhiteOr) { //((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
@@ -85,12 +86,12 @@ void Straight(char direction) {
 
             break;
 
-        case 7:
+        case 8:
             if(LockMotors(-1, -1)) stateCounter++;
 
             break;
 
-        case 8:
+        case 9:
             stateCounter = 0 ;
             stopwatch_seconds = 0;
             cycle_count = 0;
