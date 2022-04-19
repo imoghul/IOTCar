@@ -163,9 +163,9 @@ void LineFollow(char direction) {
     //lFollowSpeed = LEFT_MIN>>1;
     
     /*if(ADC_Left_Detect>LEFT_GRAY_DETECT)rFollowSpeed = 3000;
-    else*/ rFollowSpeed = direction?additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, 4000, GetOutput(&leftFollowController, LEFT_BLACK_DETECT, ADC_Left_Detect)):RIGHT_MIN>>1; // swapped b/c they are physically swapped
+    else*/ rFollowSpeed = additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, 4000, GetOutput(&leftFollowController, LEFT_BLACK_DETECT, ADC_Left_Detect)); // swapped b/c they are physically swapped
     /*if(ADC_Right_Detect>RIGHT_GRAY_DETECT)lFollowSpeed = 3000;
-    else*/ lFollowSpeed = direction?LEFT_MIN>>1:additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, 4000, GetOutput(&rightFollowController, RIGHT_BLACK_DETECT, ADC_Right_Detect));// swapped b/c they are physically swapped
+    else*/ lFollowSpeed = additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, 4000, GetOutput(&rightFollowController, RIGHT_BLACK_DETECT, ADC_Right_Detect));// swapped b/c they are physically swapped
     
     switch(stateCounter) {
         case 0:
@@ -180,14 +180,14 @@ void LineFollow(char direction) {
             break;
 
         case 1:
-            if(ADC_Left_Detect < (LEFT_WHITE_DETECT) ^ ADC_Right_Detect < (RIGHT_WHITE_DETECT)) stateCounter = 2;
+            if(ADC_Left_Detect < (LEFT_WHITE_DETECT) ^ ADC_Right_Detect < (RIGHT_WHITE_DETECT)) stateCounter = 10;
             else if (ADC_Left_Detect < (LEFT_WHITE_DETECT) && ADC_Right_Detect < (RIGHT_WHITE_DETECT)) {
                 rFollowSpeed = -RIGHT_MIN;
                 lFollowSpeed = -LEFT_MIN;
-            } else {
+            }/* else {
                 ClearController(&rightFollowController);
                 ClearController(&leftFollowController);
-            }
+            }*/
 
             if(delay(CIRCLING_TIME, 0))  stateCounter = 5;
             if(stopwatch_seconds>=TIME_TO_CIRCLE) strcpy(display_line[0]," CIRCLING ");
@@ -217,9 +217,9 @@ void LineFollow(char direction) {
 
             break;
 
-        //case 10:
-        //    if(LockMotorsTime(-1, -1, 1)) stateCounter = 2;
-        //    break;
+        case 10:
+            if(LockMotorsTime(-1, -1, 1)) stateCounter = 2;
+            break;
 
         case 5:
             ShutoffMotors();

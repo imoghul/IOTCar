@@ -20,7 +20,7 @@ extern char commandsReceieved;
 extern volatile unsigned int stopwatchUpdated;
 extern volatile int timeElapsedSeconds,timeElapsedMilliseconds;
 
-menu calib,start,mainMenu,commandsOutput,networkInfo;
+menu calib,start,mainMenu,commandsOutput;//,networkInfo;
 
 menu* currMenu = &start;
 
@@ -122,8 +122,8 @@ void MenuProcess(void) {
       case COMMANDS_MENU:
           displayCommandsMenu();
           break;
-      case NETWORK_MENU:
-          displayNetworkInfo();
+      /*case NETWORK_MENU:
+          displayNetworkInfo();*/
           break;
       default:
           break;
@@ -144,9 +144,9 @@ void Init_Menu(void){
       .length = 3,
       .current = 0,
       .name = MAIN_MENU,
-      .headers = {"CALIBRATE "," COMMANDS "," NETWORK  "},
+      .headers = {"CALIBRATE "," COMMANDS "},//," NETWORK  "},
       .values = {""},
-      .transitions = {&calib,&commandsOutput,&networkInfo}
+      .transitions = {&calib,&commandsOutput}//,&networkInfo}
   };
   
   start  = (menu){
@@ -165,13 +165,13 @@ void Init_Menu(void){
       .values = {""},
       .transitions = {&mainMenu}
   };
-  networkInfo = (menu){
+  /*networkInfo = (menu){
       .length = 1,
       .current = 0,
       .name = NETWORK_MENU,
       .headers = {""},
       .values = {""},
       .transitions = {&mainMenu}
-  };
+  };*/
 }
 
