@@ -20,11 +20,6 @@
 #define RCIRC_LEFT              (3000)
 #define MAX_RCIRCLE_TICK        (1285)//(75)
 #define MAX_LCIRCLE_TICK        (1180)//(72)
-// triangle
-#define TRIANGLE_LEG            (120)//(4)
-#define TRIANGLE_TURN_TICK      (350)//(15)
-#define TRIANGLE_LEFT_TICK      (0)
-#define TRIANGLE_RIGHT_TICK     (RCIRC_RIGHT)
 // turn
 #define TURN90                  (550)
 // detectors
