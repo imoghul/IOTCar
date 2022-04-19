@@ -32,7 +32,7 @@ extern volatile char state;
 extern volatile int stateCounter, driveStateCounter;
 extern volatile char nextState;
 
-extern int polarityRight, polarityLeft;
+extern int speedRight, speedLeft;
 extern unsigned int driveTime;
 
 extern volatile char pingFlag;
@@ -268,41 +268,41 @@ void ProcessCommands(void) {
 
         switch(currCommand.comm) {
             case (FORWARD_COMMAND):
-                polarityRight = 1;
-                polarityLeft = 1;
+                speedRight = STRAIGHT_RIGHT;
+                speedLeft = STRAIGHT_LEFT;
                 state = DRIVE;
                 driveTime = currCommand.duration;
                 break;
 
             case (REVERSE_COMMAND):
-                polarityRight = -1;
-                polarityLeft = -1;
+                speedRight = -1;
+                speedLeft = -1;
                 state = DRIVE;
                 driveTime = currCommand.duration;
                 break;
 
             case (RIGHT_COMMAND):
-                polarityRight = 1;
-                polarityLeft = -1;
+                speedRight = 1;
+                speedLeft = -1;
                 state = DRIVE;
                 driveTime = currCommand.duration << 2;
                 break;
 
             case (LEFT_COMMAND):
-                polarityRight = -1;
-                polarityLeft = 1;
+                speedRight = -1;
+                speedLeft = 1;
                 state = DRIVE;
                 driveTime = currCommand.duration << 2;
                 break;
 
             case (LINEFOLLOW_COMMAND):
                 state = STRAIGHT;
-                polarityRight = currCommand.duration;
+                speedRight = currCommand.duration;
                 break;
 
             case (EXIT_COMMAND):
                 state = EXIT;
-                polarityRight = currCommand.duration;
+                speedRight = currCommand.duration;
                 break;
         }
     }

@@ -35,7 +35,7 @@ extern PIDController leftFollowController, leftAdjustController;
 
 extern short l_LessBlack, l_LessGray, l_LessWhite, r_LessBlack, r_LessGray, r_LessWhite, l_GreaterBlack, l_GreaterGray, l_GreaterWhite, r_GreaterBlack, r_GreaterGray, r_GreaterWhite, lessWhiteOr, lessWhiteAnd, greaterWhiteOr, greaterWhiteAnd, lessWhiteOr, lessWhiteAnd, greaterWhiteOr, greaterWhiteAnd, lessGrayOr, lessGrayAnd, greaterGrayOr, greaterGrayAnd, lessGrayOr, lessGrayAnd, greaterGrayOr, greaterGrayAnd, lessBlackOr, lessBlackAnd, greaterBlackOr, greaterBlackAnd, lessBlackOr, lessBlackAnd, greaterBlackOr, greaterBlackAnd;
 
-int polarityRight, polarityLeft;
+int speedRight, speedLeft;
 unsigned int driveTime;
 
 
@@ -311,7 +311,7 @@ void Exit(int direction) {
     }
 }
 
-int Drive(int polR, int polL, unsigned int time) {
+int Drive(int r, int l, unsigned int time) {
     switch(driveStateCounter) {
 
         case 0 :
@@ -319,12 +319,12 @@ int Drive(int polR, int polL, unsigned int time) {
             break;
 
         case 1 :
-            if(Drive_Path(polR > 0 ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > 0 ? STRAIGHT_LEFT : -STRAIGHT_LEFT, time))driveStateCounter++;
+            if(Drive_Path(r, l, time))driveStateCounter++;
 
             break;
 
         case 2 :
-            if(LockMotors(-polR, -polL)) driveStateCounter++;
+            if(LockMotors(-r, -l)) driveStateCounter++;
 
             break;
 
@@ -385,23 +385,23 @@ void StateMachine(void) {
             break;
 
         case (STRAIGHT):
-            Straight(polarityRight);
+            Straight(speedRight);
             break;
 
         case (TURN):
-            Turn(polarityRight);
+            Turn(speedRight);
             break;
 
         case (LINEFOLLOW):
-            LineFollow(polarityRight);
+            LineFollow(speedRight);
             break;
 
         case (EXIT):
-            Exit(polarityRight);
+            Exit(speedRight);
             break;
 
         case (DRIVE):
-            Drive(polarityRight, polarityLeft, driveTime);
+            Drive(speedRight, speedLeft, driveTime);
             break;
 
         case (DONE):
