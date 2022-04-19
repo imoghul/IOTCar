@@ -275,22 +275,22 @@ void ProcessCommands(void) {
                 break;
 
             case (REVERSE_COMMAND):
-                speedRight = -1;
-                speedLeft = -1;
+                speedRight = -STRAIGHT_RIGHT;
+                speedLeft = -STRAIGHT_LEFT;
                 state = DRIVE;
                 driveTime = currCommand.duration;
                 break;
 
             case (RIGHT_COMMAND):
-                speedRight = 1;
-                speedLeft = -1;
+                speedRight = STRAIGHT_RIGHT;
+                speedLeft = -STRAIGHT_LEFT;
                 state = DRIVE;
                 driveTime = currCommand.duration << 2;
                 break;
 
             case (LEFT_COMMAND):
-                speedRight = -1;
-                speedLeft = 1;
+                speedRight = -STRAIGHT_RIGHT;
+                speedLeft = STRAIGHT_LEFT;
                 state = DRIVE;
                 driveTime = currCommand.duration << 2;
                 break;

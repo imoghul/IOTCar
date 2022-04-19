@@ -48,6 +48,17 @@ void displayCommandsMenu() {
         display_line[3][4] = '.';
     }
 
+    if(state == DONE) {
+
+        display_line[3][0] = 'T';
+        display_line[3][1] = 'i';
+        display_line[3][2] = 'm';
+        display_line[3][3] = 'e';
+        strcpy(display_line[1], " That was ");
+        strcpy(display_line[2], "easy!! ;-)");
+
+    }
+
     if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
         strcpy(display_line[0], "ARRIVED 0 ");
         display_line[0][9] = currCommand.duration + '0';
@@ -56,12 +67,14 @@ void displayCommandsMenu() {
     if(currCommand.comm == 0 && currCommand.duration == 0) display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] = ' ';
 
     if(commandsReceieved) {
-        displayIP(1);
+        if(state != DONE)displayIP(1);
+
         display_line[3][1] = display_line[3][2] = display_line[3][3] = ' ';
     } else {
         strcpy(display_line[0], " WAITING  ");
         strcpy(display_line[1], " FOR INPUT");
-        displayIP(2);
+
+        if(state != DONE)displayIP(2);
     }
 
     if(stopwatchUpdated) {
