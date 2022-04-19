@@ -21,6 +21,7 @@ extern volatile unsigned int stopwatchUpdated;
 extern volatile int timeElapsedSeconds, timeElapsedMilliseconds;
 
 menu mainMenu;
+
 menu calib = {
     .length = 1,
     .current = 0,

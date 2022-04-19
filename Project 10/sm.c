@@ -49,6 +49,7 @@ void Straight(char direction) {
             strcpy(display_line[0], " BL START ");
             display_changed = 1;
             break;
+
         case 1:
             if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG1))stateCounter++;
 
@@ -233,7 +234,7 @@ void LineFollow(char direction) {
 }
 
 void Exit(int direction) {
-    switch(stateCounter){
+    switch(stateCounter) {
         case 0:
             strcpy(display_line[0], " BL EXIT  ");
             /*if(rightSwitchable && leftSwitchable)*/stateCounter++;
@@ -242,10 +243,12 @@ void Exit(int direction) {
         case 1:
             if ( Drive(direction ? -STRAIGHT_RIGHT : STRAIGHT_RIGHT, direction ? STRAIGHT_LEFT : -STRAIGHT_LEFT, TURN90) )
                 stateCounter++;
+
             break;
 
         case 2:
             if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, 5000)) stateCounter++;
+
             break;
 
         case 3:

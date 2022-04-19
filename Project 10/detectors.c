@@ -51,8 +51,8 @@ void updateDetectors(void) {
 
 void calibrate(void) {
     unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
-    int * leftDetect = calibrationMode ? &LWDetect, &LBDetect;
-    int * rightDetect = calibrationMode ? &RWDetect, &RBDetect;
+    int * leftDetect = calibrationMode ? &LWDetect : &LBDetect;
+    int * rightDetect = calibrationMode ? &RWDetect : &RBDetect;
 
     if (left > *leftDetect) *leftDetect = left;
 
