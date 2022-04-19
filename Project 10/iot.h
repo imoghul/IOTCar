@@ -27,7 +27,7 @@
 #define CARET_SECURITY_CODE             ("^9A73")
 #define CARET_SECURITY_CODE_LEN         (5)
 
-#define COMMAND_BUFFER_LEN              (10)
+#define COMMAND_BUFFER_LEN              (5)
 
 #define FORWARD_COMMAND                 ('f')
 #define REVERSE_COMMAND                 ('b')

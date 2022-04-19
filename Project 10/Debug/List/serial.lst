@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          14/Apr/2022  07:38:47
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          19/Apr/2022  19:26:51
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,25 +12,25 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\serial.c
+#    Source file   =  C:\Users\saad\Documents\anotherone\Project 10\serial.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWDA49.tmp
-#        ("C:\Users\saad\Documents\ece-306\Project 10\serial.c" -lC
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EWDCED.tmp
+#        ("C:\Users\saad\Documents\anotherone\Project 10\serial.c" -lC
+#        "C:\Users\saad\Documents\anotherone\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\anotherone\Project 10\Debug\Obj" --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
 #        --core=430X --data_model=small -Ohz --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece-306\Project 10\Debug\List\serial.lst
+#        C:\Users\saad\Documents\anotherone\Project 10\Debug\List\serial.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj\serial.r43
+#        C:\Users\saad\Documents\anotherone\Project 10\Debug\Obj\serial.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece-306\Project 10\serial.c
+C:\Users\saad\Documents\anotherone\Project 10\serial.c
       1          //------------------------------------------------------------------------------
       2          //
       3          //  Description: This file contains the Serial Routine - Serial Processes
@@ -143,7 +143,7 @@ C:\Users\saad\Documents\ece-306\Project 10\serial.c
    \   000000                REQUIRE ?cstart_init_zero
      18          volatile char USB0_Char_Rx_Ring[SMALL_RING_SIZE], USB0_Char_Rx_Process[LARGE_RING_SIZE];
    \                     USB0_Char_Rx_Ring:
-   \   000000                DS8 16
+   \   000000                DS8 32
 
    \                                 In  segment DATA16_Z, align 1, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
@@ -154,7 +154,7 @@ C:\Users\saad\Documents\ece-306\Project 10\serial.c
    \   000000                REQUIRE ?cstart_init_zero
      19          volatile char USB1_Char_Rx_Ring[SMALL_RING_SIZE], USB1_Char_Rx_Process[LARGE_RING_SIZE];
    \                     USB1_Char_Rx_Ring:
-   \   000000                DS8 16
+   \   000000                DS8 32
 
    \                                 In  segment DATA16_Z, align 1, align-sorted
    \   000000                REQUIRE ?cstart_init_zero
@@ -235,7 +235,7 @@ C:\Users\saad\Documents\ece-306\Project 10\serial.c
    \   000006   CF43....     MOV.B   #0x0, USB1_Char_Rx_Ring(R15)
      36              }
    \   00000A   1F53         ADD.W   #0x1, R15
-   \   00000C   3F901000     CMP.W   #0x10, R15
+   \   00000C   3F902000     CMP.W   #0x20, R15
    \   000010   F83B         JL      ??Init_Serial_UCA_0
      37          
      38              usb0_rx_wr = BEGINNING;
@@ -332,7 +332,7 @@ C:\Users\saad\Documents\ece-306\Project 10\serial.c
    \   000022   CF4E....     MOV.B   R14, USB0_Char_Rx_Ring(R15)
      77          
      78                      if (usb0_rx_wr >= (SMALL_RING_SIZE)) {
-   \   000026   B2901000.... CMP.W   #0x10, &usb0_rx_wr
+   \   000026   B2902000.... CMP.W   #0x20, &usb0_rx_wr
    \   00002C   0228         JNC     ??eUSCI_A0_ISR_1
      79                          usb0_rx_wr = BEGINNING;
    \   00002E   8243....     MOV.W   #0x0, &usb0_rx_wr
@@ -434,7 +434,7 @@ C:\Users\saad\Documents\ece-306\Project 10\serial.c
     121          
     122                      if (usb1_rx_wr >= (SMALL_RING_SIZE)) {
    \                     ??eUSCI_A1_ISR_4:
-   \   00003E   B2901000.... CMP.W   #0x10, &usb1_rx_wr
+   \   00003E   B2902000.... CMP.W   #0x20, &usb1_rx_wr
    \   000044   1B28         JNC     ??eUSCI_A1_ISR_0
     123                          usb1_rx_wr = BEGINNING;
    \   000046   8243....     MOV.W   #0x0, &usb1_rx_wr
@@ -589,7 +589,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
     185                  if(++(*rx_rd) > SMALL_RING_SIZE - 1) *rx_rd = BEGINNING;
    \   000022   2F4D         MOV.W   @R13, R15
    \   000024   1F53         ADD.W   #0x1, R15
-   \   000026   3F901000     CMP.W   #0x10, R15
+   \   000026   3F902000     CMP.W   #0x20, R15
    \   00002A   0128         JNC     ??loadRingtoPB_3
    \   00002C   0F43         MOV.W   #0x0, R15
    \                     ??loadRingtoPB_3:
@@ -715,10 +715,10 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
      118  Init_Serial_UCA
        8  SerialProcess
      150  USB0_Char_Rx_Process
-      16  USB0_Char_Rx_Ring
+      32  USB0_Char_Rx_Ring
      150  USB0_Char_Tx
      150  USB1_Char_Rx_Process
-      16  USB1_Char_Rx_Ring
+      32  USB1_Char_Rx_Ring
      150  USB1_Char_Tx
       10  USCI_A0_transmit
       10  USCI_A1_transmit
@@ -762,13 +762,13 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
  
  382 bytes in segment CODE
   28 bytes in segment DATA16_AN
- 655 bytes in segment DATA16_Z
+ 687 bytes in segment DATA16_Z
    4 bytes in segment INTVEC
  240 bytes in segment ISR_CODE
  
  622 bytes of CODE  memory
    0 bytes of CONST memory (+  4 bytes shared)
- 655 bytes of DATA  memory (+ 28 bytes shared)
+ 687 bytes of DATA  memory (+ 28 bytes shared)
 
 Errors: none
 Warnings: 1

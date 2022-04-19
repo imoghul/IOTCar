@@ -24,3 +24,4 @@ void Turn(char);
 void LineFollow(char);
 void Exit(int);
 int delay(int seconds, int cycles);
+int Drive(int r, int l, unsigned int time);

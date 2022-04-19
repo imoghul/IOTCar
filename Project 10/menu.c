@@ -193,7 +193,7 @@ void Init_Menu(void) {
     // };
 
     mainMenu  = (menu) {
-        .length = 3,
+        .length = 2,
         .current = 0,
         .name = MAIN_MENU,
         .headers = {"CALIBRATE ", " COMMANDS "}, //," NETWORK  "},
