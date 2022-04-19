@@ -96,6 +96,7 @@ int Init_IOT(void) {
 
             getIP();
             displayNetworkInfo();
+
             break;
 
         default:
