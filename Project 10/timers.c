@@ -198,7 +198,7 @@ __interrupt void Timer1_B0_ISR(void) {
     //----------------------------------------------------------------------------
     P3OUT |= IOT_EN_CPU;
 
-    if(commandsReceieved && state != END) {
+    if(commandsReceieved && state != DONE) {
         stopwatchUpdated = 1;
         timeElapsedMilliseconds += 2;
 

@@ -49,46 +49,6 @@ void Straight(char direction) {
             strcpy(display_line[0], " BL START ");
             display_changed = 1;
             break;
-
-        /*case 1:
-            if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG1)) stateCounter++; // straight
-
-            break;
-
-        case 2:
-            if(LockMotors(-1, -1)) stateCounter++;
-
-            break;
-
-        case 3:
-            if(Drive_Path(rightTurn, leftTurn, TURN90)) stateCounter++;  // turn
-
-            break;
-
-        case 4:
-            if(LockMotors(-rightTurn, -leftTurn)) stateCounter++;
-
-            break;
-
-        case 5:
-            if(Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG2)) stateCounter++;// straight
-
-            break;
-
-        case 6:
-            if(LockMotors(-1, -1)) stateCounter++;
-
-            break;
-
-        case 7:
-            if(Drive_Path(rightTurn, leftTurn, TURN90)) stateCounter++; // turn
-
-            break;
-
-        case 8:
-            if(LockMotors(-rightTurn, -leftTurn)) stateCounter++;
-
-            break;*/
         case 1:
             if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG1))stateCounter++;
 
@@ -105,18 +65,18 @@ void Straight(char direction) {
             break;
 
         case 4:
-            if(Drive(rightTurn, leftTurn, TURN90))stateCounter = 9;
+            if(Drive(rightTurn, leftTurn, TURN90))stateCounter++;
 
             break;
 
-        case 9:
+        case 5:
             if (greaterWhiteOr) { //((ADC_Left_Detect > LEFT_WHITE_DETECT || ADC_Right_Detect > RIGHT_WHITE_DETECT)) {
                 Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
             } else stateCounter++;
 
             break;
 
-        case 10:
+        case 6:
             EMITTER_ON;
 
             if (lessWhiteOr) { //((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT)) {
@@ -125,12 +85,12 @@ void Straight(char direction) {
 
             break;
 
-        case 11:
+        case 7:
             if(LockMotors(-1, -1)) stateCounter++;
 
             break;
 
-        case 12:
+        case 8:
             stateCounter = 0 ;
             stopwatch_seconds = 0;
             cycle_count = 0;
@@ -272,43 +232,28 @@ void LineFollow(char direction) {
 }
 
 void Exit(int direction) {
-    if (stateCounter == 0) {
-        strcpy(display_line[0], " BL EXIT  ");
+    switch(stateCounter){
+        case 0:
+            strcpy(display_line[0], " BL EXIT  ");
+            /*if(rightSwitchable && leftSwitchable)*/stateCounter++;
+            break;
 
-        /*if(rightSwitchable && leftSwitchable)*/stateCounter++;
-    }
+        case 1:
+            if ( Drive(direction ? -STRAIGHT_RIGHT : STRAIGHT_RIGHT, direction ? STRAIGHT_LEFT : -STRAIGHT_LEFT, TURN90) )
+                stateCounter++;
+            break;
 
-    /*if (stateCounter == 1) {
-        if(direction) {
-            if(Drive_Path(-STRAIGHT_RIGHT, STRAIGHT_LEFT, TURN90)) stateCounter++;
-        } else {
-            if(Drive_Path(STRAIGHT_RIGHT, -STRAIGHT_LEFT, TURN90)) stateCounter++;
-        }
-    }
+        case 2:
+            if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, 5000)) stateCounter++;
+            break;
 
-    if (stateCounter == 2) {
-        if(direction) {
-            if(LockMotors(1, -1)) stateCounter++;
-        } else {
-            if(LockMotors(-1, 1)) stateCounter++;
-        }
-    }*/
-
-    if (stateCounter == 1) {
-        if ( Drive(direction ? -STRAIGHT_RIGHT : STRAIGHT_RIGHT, direction ? STRAIGHT_LEFT : -STRAIGHT_LEFT, TURN90) )
-            stateCounter++;
-    }
-
-    if (stateCounter == 2) {
-        if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, 5000)) stateCounter++;
-    }
-
-    else if (stateCounter == 3) {
-        ShutoffMotors();
-        stateCounter = 0 ;
-        state = DONE;
-        stopwatch_seconds = 0;
-        cycle_count = 0;
+        case 3:
+            ShutoffMotors();
+            stateCounter = 0 ;
+            state = DONE;
+            stopwatch_seconds = 0;
+            cycle_count = 0;
+            break;
     }
 }
 
