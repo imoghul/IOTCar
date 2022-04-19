@@ -41,7 +41,7 @@ command currCommand;
 
 
 int Init_IOT(void) {
-    int isTransmitting = UCA0IE & UCTXIE
+    int isTransmitting = UCA0IE & UCTXIE;
 
     switch(iot_setup_state) {
         case (BOOT_UP):
