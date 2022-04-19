@@ -15,7 +15,7 @@ volatile unsigned int debounce_thresh1 = 10, debounce_thresh2 = 10;
 volatile unsigned int checkAdc;
 extern volatile char state;
 extern volatile unsigned int rightSwitchable, leftSwitchable;
-volatile int timeElapsedSeconds,timeElapsedMilliseconds;
+volatile int timeElapsedSeconds, timeElapsedMilliseconds;
 volatile unsigned int stopwatchUpdated;
 extern char receievedFromPC;
 extern char commandsReceieved;
@@ -33,20 +33,20 @@ void Init_Timer_B0(void) {
     TB0CTL |= TBCLR; // Resets TB0R, clock divider, count direction
     TB0CTL |= MC__CONTINOUS; // Continuous up
     TB0CTL |= ID__2; // Divide clock by 2*/
-  
+
     TB0CTL = TBSSEL__SMCLK | TBCLR | MC__CONTINOUS | ID__2;
-    
+
     TB0EX0 = TBIDEX__8; // Divide clock by an additional 8
-    
+
     TB0CCR0 = TB0CCR0_INTERVAL; // CCR0
     TB0CCTL0 |= CCIE; // CCR0 enable interrupt
-    
+
     TB0CCR1 = TB0CCR1_INTERVAL; // CCR1
     //TB0CCTL1 |= CCIE; // CCR1 enable interrupt
-    
+
     TB0CCR2 = TB0CCR2_INTERVAL; // CCR2
     //TB0CCTL2 |= CCIE; // CCR2 enable interrupt
-    
+
     TB0CTL &= ~TBIE & ~TBIFG; // Disable Overflow Interrupt
     //TB0CTL &= ~TBIFG; // Clear Overflow Interrupt flag
 }
@@ -56,20 +56,20 @@ void Init_Timer_B1(void) {
     TB1CTL |= TBCLR; // Resets TB0R, clock divider, count direction
     TB1CTL |= MC__CONTINOUS; // Continuous up
     TB1CTL |= ID__4; // Divide clock by 4*/
-  
+
     TB1CTL = TBSSEL__SMCLK | TBCLR | MC__CONTINOUS | ID__4;
-    
+
     TB1EX0 = TBIDEX__8; // Divide clock by an additional 8
-    
+
     TB1CCR0 = TB1CCR0_INTERVAL; // CCR0
     TB1CCTL0 |= CCIE; // CCR0 enable interrupt
-    
+
     //TB1CCR1 = TB1CCR1_INTERVAL; // CCR1
     //TB1CCTL1 |= CCIE; // CCR1 enable interrupt
-    
+
     //TB1CCR2 = TB1CCR2_INTERVAL; // CCR2
     //TB1CCTL2 |= CCIE; // CCR2 enable interrupt
-    
+
     TB1CTL &= ~TBIE & ~TBIFG; // Disable Overflow Interrupt
     //TB1CTL &= ~TBIFG; // Clear Overflow Interrupt flag
 }
@@ -78,7 +78,7 @@ void Init_Timer_B3(void) {
     /*TB3CTL = TBSSEL__SMCLK;
     TB3CTL |= MC__UP;
     TB3CTL |= TBCLR;*/
-  
+
     TB3CTL = TBCLR | MC__UP | TBSSEL__SMCLK;
 
     TB3CCR0 = WHEEL_PERIOD;
@@ -200,18 +200,19 @@ __interrupt void Timer1_B0_ISR(void) {
 
     if(commandsReceieved && state != END) {
         stopwatchUpdated = 1;
-        timeElapsedMilliseconds+=2;
-        if(timeElapsedMilliseconds>=10){
-          timeElapsedMilliseconds = 0;
-          timeElapsedSeconds++;
+        timeElapsedMilliseconds += 2;
+
+        if(timeElapsedMilliseconds >= 10) {
+            timeElapsedMilliseconds = 0;
+            timeElapsedSeconds++;
         }
     }
 
-    if(pingCounter++>=PING_COUNT_MAX){
-      pingCounter = 0;
-      pingFlag = 1;
+    if(pingCounter++ >= PING_COUNT_MAX) {
+        pingCounter = 0;
+        pingFlag = 1;
     }
-    
+
     update_display = 1;
     TB1CCR0 += TB1CCR0_INTERVAL;
     //----------------------------------------------------------------------------

@@ -51,7 +51,7 @@ void ShutoffMotors(void) {
 void ShutoffRight(void) {
     RIGHT_FORWARD_SPEED = RIGHT_REVERSE_SPEED = WHEEL_OFF;
     rightSwitchable = 0;
-    
+
     TB1CCTL2 &= ~CCIFG;
     TB1CCR2 = TB1R + TB1CCR2_INTERVAL;
     TB1CCTL2 |= CCIE;
@@ -60,7 +60,7 @@ void ShutoffRight(void) {
 void ShutoffLeft(void) {
     LEFT_FORWARD_SPEED = LEFT_REVERSE_SPEED = WHEEL_OFF;
     leftSwitchable = 0;
-    
+
     TB1CCTL1 &= ~CCIFG;
     TB1CCR1 = TB1R + TB1CCR1_INTERVAL;
     TB1CCTL1 |= CCIE;
@@ -155,11 +155,11 @@ int RunLeftMotor( int val){
 }*/
 
 int LockMotors(int polR, int polL) {
-  return (Drive_Path(polR>0?STRAIGHT_RIGHT:-STRAIGHT_RIGHT, polL>0 ?STRAIGHT_LEFT:-STRAIGHT_LEFT, LOCK_TIME));
+    return (Drive_Path(polR > 0 ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > 0 ? STRAIGHT_LEFT : -STRAIGHT_LEFT, LOCK_TIME));
 }
 
 int LockMotorsTime(int polR, int polL, int duration) {
-    return (Drive_Path(polR>0?STRAIGHT_RIGHT:-STRAIGHT_RIGHT, polL>0 ?STRAIGHT_LEFT:-STRAIGHT_LEFT, duration));
+    return (Drive_Path(polR > 0 ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > 0 ? STRAIGHT_LEFT : -STRAIGHT_LEFT, duration));
 }
 
 int Update_Ticks(int milliseconds) { // each tick is 4ms
@@ -202,6 +202,7 @@ int Drive_Path(int speedR, int speedL, unsigned int ticksDuration) {
     int success = successR && successL;*/
     RunRightMotor(speedR);
     RunLeftMotor(speedL);
+
     if(ticksDuration == 0) return 1;
 
     if (time_change) {

@@ -25,7 +25,7 @@ volatile unsigned int calibrationMode;
 extern volatile char USB0_Char_Tx[], USB1_Char_Tx[];
 extern volatile char USB0_Char_Rx_Ring[], USB1_Char_Rx_Ring[];
 extern unsigned volatile int tx0_index, tx1_index;
-volatile char transMenu,interractMenu;
+volatile char transMenu, interractMenu;
 
 //===========================================================================
 // Function name: switchP4_interrupt

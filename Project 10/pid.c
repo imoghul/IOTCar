@@ -10,11 +10,11 @@ int GetOutput(PIDController* pidController, int setPoint, int current) {
     // INTEGRAL NOT EVEN BEGIN USED
     //long long integral = pidController->lastIntegral+error;
     //int integral = additionSafe(pidController->lastIntegral, INT_MAX, INT_MIN, pidController->error);
-    int derivative = error-pidController->lastError;
+    int derivative = error - pidController->lastError;
     pidController->lastError = error;
     //pidController->lastIntegral = integral;
-    int errorTerm = (error * pidController->kP)>>3;
-    int derivTerm = (derivative * pidController->kD)>>3;
+    int errorTerm = (error * pidController->kP) >> 3;
+    int derivTerm = (derivative * pidController->kD) >> 3;
     //long intTerm = integral, pidController->kI;
     return additionSafe(errorTerm, INT_MAX, INT_MIN, derivTerm);
 }

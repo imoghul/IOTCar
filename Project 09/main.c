@@ -119,6 +119,7 @@ void main(void) {
         //Display_Process();                  // Update Display
         //SerialProcess();
         if(!Init_IOT()) continue;
+
         IOTBufferCommands();
         ProcessCommands();
         //DetectMovement();

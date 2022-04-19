@@ -48,7 +48,7 @@ void Init_Ports(void) {
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
 void Init_Port1() {
-    P1OUT = 0x00;
+    /*P1OUT = 0x00;
     P1DIR = 0x00;
 
     P1SEL0 &= ~RED_LED;
@@ -79,7 +79,20 @@ void Init_Port1() {
     P1SEL0 |= UCA0RXD;
 
     P1SEL1 &= ~UCA0TXD;
-    P1SEL0 |= UCA0TXD;
+    P1SEL0 |= UCA0TXD;*/
+    P1OUT = 0x00;
+    P1DIR = RED_LED;
+
+    P1SEL0 &= ~RED_LED & ~SMCLK_2476;
+    P1SEL0 |= V_THUMB | UCA0RXD | UCA0TXD;
+    P1SEL1 &= ~RED_LED & ~UCA0RXD & ~UCA0TXD & ~SMCLK_2476;
+    P1SEL1 |= V_THUMB;
+    P1OUT &= ~RED_LED;
+
+    P1SELC |= A1_SEEED | V_DETECT_L | V_DETECT_R;
+
+    P1DIR &= ~SMCLK_2476;
+
 }
 
 //===========================================================================
@@ -97,7 +110,7 @@ void Init_Port1() {
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
 void Init_Port2() {
-    P2OUT = 0x00;
+    /*P2OUT = 0x00;
     P2DIR = 0x00;
 
     P2SEL0 &= ~RESET_LCD;
@@ -136,7 +149,19 @@ void Init_Port2() {
     P2SEL1 |= LFXOUT;
 
     P2SEL0 &= ~LFXIN;
-    P2SEL1 |= LFXIN;
+    P2SEL1 |= LFXIN;*/
+    P2OUT = SW2 | DAC_ENB;
+    P2DIR = RESET_LCD | IOT_RUN_CPU | DAC_ENB;
+    P2SEL0 &= ~RESET_LCD & ~L_REVERSE_2476 & ~P2_2 & ~SW2 & ~IOT_RUN_CPU & ~DAC_ENB & ~LFXOUT & ~LFXIN;
+    P2SEL1 &= ~RESET_LCD & ~L_REVERSE_2476 & ~P2_2 & ~SW2 & ~IOT_RUN_CPU & ~DAC_ENB;
+    P2SEL1 |= LFXOUT | LFXIN;
+    P2OUT &= ~RESET_LCD & ~IOT_RUN_CPU;
+    P2DIR &= ~L_REVERSE_2476 & ~P2_2 & ~SW2;
+    P2REN |= SW2;
+    P2IES |= SW2;
+    P2IFG &= ~SW2;
+    P2IE |= SW2;
+
 }
 
 //===========================================================================
@@ -154,7 +179,7 @@ void Init_Port2() {
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
 void Init_Port3(char smclk) {
-    P3OUT = 0x00;
+    /*P3OUT = 0x00;
     P3DIR = 0x00;
 
     P3SEL0 &= ~TEST_PROBE;
@@ -202,7 +227,35 @@ void Init_Port3(char smclk) {
     P3SEL0 &= ~IOT_EN_CPU;
     P3SEL1 &= ~IOT_EN_CPU;
     P3DIR |= IOT_EN_CPU;
-    P3OUT &= ~IOT_EN_CPU;
+    P3OUT &= ~IOT_EN_CPU;*/
+    P3OUT = LCD_BACKLITE;
+    P3DIR = LCD_BACKLITE | IOT_LINK_CPU | IOT_EN_CPU;
+
+    P3SEL0 &= ~TEST_PROBE & ~DAC_CNTL1 & ~LCD_BACKLITE & ~DAC_CNTL & ~IOT_LINK_CPU & ~IOT_EN_CPU;
+    P3SEL1 &= ~TEST_PROBE & ~DAC_CNTL1 & ~LCD_BACKLITE & ~DAC_CNTL & ~IOT_LINK_CPU & ~IOT_EN_CPU;
+    P3SEL0 |= OA2N;
+    P3SEL1 |= OA2N;
+    P3DIR &= ~TEST_PROBE & ~DAC_CNTL1 & ~DAC_CNTL;
+    P3OUT &= ~IOT_LINK_CPU & ~IOT_EN_CPU;
+
+    switch(smclk) {
+        case(USE_SMCLK):
+            P3SEL0 |= SMCLK_2355;
+            P3SEL1 &= ~SMCLK_2355;
+            P3DIR |= SMCLK_2355;
+            break;
+
+        case(USE_GPIO):
+            P3SEL0 &= ~SMCLK_2355;
+            P3SEL1 &= ~SMCLK_2355;
+            P3DIR &= ~SMCLK_2355;
+            break;
+
+        default:
+            break;
+    }
+
+
 }
 
 //===========================================================================
@@ -220,7 +273,7 @@ void Init_Port3(char smclk) {
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
 void Init_Port4() {
-    P4OUT = 0x00;
+    /*P4OUT = 0x00;
     P4DIR = 0x00;
 
     P4SEL0 &= ~_4_0;
@@ -254,7 +307,18 @@ void Init_Port4() {
     P4SEL1 &= ~UCB1SIMO;
 
     P4SEL0 |= UCB1SOMI;
-    P4SEL1 &= UCB1SOMI;
+    P4SEL1 &= UCB1SOMI;*/
+    P4OUT = SW1 | UCB1_CS_LCD;
+    P4DIR = UCB1_CS_LCD;
+
+    P4SEL0 &= ~_4_0 & ~SW1 & ~UCB1_CS_LCD;
+    P4SEL0 |= UCA1TXD | UCA1RXD | UCB1CLK | UCB1SIMO | UCB1SOMI;
+    P4SEL1 &= ~_4_0 & ~SW1 & ~UCA1TXD & ~UCA1RXD & ~UCB1_CS_LCD & ~UCB1CLK & ~UCB1SIMO & ~UCB1SOMI;
+    P4DIR &= ~_4_0 & ~SW1;
+    P4REN |= SW1;
+    P4IES |= SW1;
+    P4IFG &= ~SW1;
+    P4IE |= SW1;
 }
 
 
@@ -273,7 +337,7 @@ void Init_Port4() {
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
 void Init_Port5() {
-    P5OUT = 0x00;
+    /*P5OUT = 0x00;
     P5DIR = 0x00;
 
     P5SEL0 &= ~CHECK_BAT;
@@ -298,7 +362,14 @@ void Init_Port5() {
     P5SEL0 &= ~IOT_BOOT_CPU;
     P5SEL1 &= ~IOT_BOOT_CPU;
     P5DIR |= IOT_BOOT_CPU;
-    P5OUT |= IOT_BOOT_CPU;
+    P5OUT |= IOT_BOOT_CPU;*/
+    P5OUT = IOT_BOOT_CPU;
+    P5DIR = IOT_BOOT_CPU;
+
+    P5SEL0 &= ~CHECK_BAT & ~IOT_BOOT_CPU;
+    P5SEL1 &= ~CHECK_BAT & ~IOT_BOOT_CPU;
+    P5DIR &= ~CHECK_BAT;
+    P5SELC |= V_BAT | V_DAC | V_3_3;
 }
 
 //===========================================================================
@@ -316,7 +387,7 @@ void Init_Port5() {
 // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
 //===========================================================================
 void Init_Port6() {
-    P6OUT = 0x00;
+    /*P6OUT = 0x00;
     P6DIR = 0x00;
 
     P6SEL0 |= R_FORWARD;
@@ -351,5 +422,13 @@ void Init_Port6() {
     P6SEL0 &= ~GRN_LED;
     P6SEL1 &= ~GRN_LED;
     P6DIR |= GRN_LED;
+    P6OUT &= ~GRN_LED;*/
+    P6OUT = IR_LED;
+    P6DIR = R_FORWARD | L_FORWARD | R_REVERSE | L_REVERSE_2355 | IR_LED | GRN_LED;
+
+    P6SEL0 |= R_FORWARD | L_FORWARD | R_REVERSE | L_REVERSE_2355;
+    P6SEL0 &= ~IR_LED&~P6_5&~GRN_LED;
+    P6SEL1 &= ~R_FORWARD & ~L_FORWARD & ~R_REVERSE & ~L_REVERSE_2355 & ~IR_LED & ~P6_5 & ~GRN_LED;
+    P6DIR &= ~P6_5;
     P6OUT &= ~GRN_LED;
 }
