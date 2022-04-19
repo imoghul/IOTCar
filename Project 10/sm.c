@@ -47,7 +47,7 @@ void Straight(char direction) {
         case 0:
             EMITTER_ON;
             stateCounter = 1;
-            strcpy(display_line[0], "          ");
+            strcpy(display_line[0], " BL START ");
             display_changed = 1;
             break;
 
@@ -128,7 +128,7 @@ void Turn(char direction) {
         case 0:
             EMITTER_ON;
             stateCounter = 1;
-            strcpy(display_line[0], "          ");
+            strcpy(display_line[0], " BL TURN ");
             display_changed = 1;
             break;
 
@@ -157,7 +157,7 @@ void Turn(char direction) {
             state = WAIT;
             nextState = LINEFOLLOW;
             EMITTER_OFF;
-            strcpy(display_line[0], "   TURN   ");
+            //strcpy(display_line[0], " BL TURN ");
             display_changed = 1;
             break;
     }
@@ -184,7 +184,7 @@ void LineFollow(char direction) {
             EMITTER_ON;
             stopwatch_seconds = 0;
             cycle_count = 0;
-            strcpy(display_line[0], "          ");
+            strcpy(display_line[0], "BL TRAVEL ");
             display_changed = 1;
 
             if(rightSwitchable && leftSwitchable)stateCounter++;
@@ -205,7 +205,7 @@ void LineFollow(char direction) {
 
             if(delay(CIRCLING_TIME, 0))  stateCounter = 5;
 
-            if(stopwatch_seconds >= TIME_TO_CIRCLE) strcpy(display_line[0], " CIRCLING ");
+            if(stopwatch_seconds >= TIME_TO_CIRCLE) strcpy(display_line[0], "BL CIRCLE ");
 
             Drive_Path(rFollowSpeed, lFollowSpeed, 0);
             break;
@@ -242,7 +242,7 @@ void LineFollow(char direction) {
             stateCounter = 0 ;
             state = START;
             EMITTER_OFF;
-            strcpy(display_line[0], "          ");
+            //strcpy(display_line[0], "          ");
             break;
     }
 
@@ -252,7 +252,7 @@ void LineFollow(char direction) {
 
 void Exit(int direction) {
     if (stateCounter == 0) {
-        strcpy(display_line[0], " EXITING  ");
+        strcpy(display_line[0], " BL EXIT  ");
 
         /*if(rightSwitchable && leftSwitchable)*/stateCounter++;
     }
@@ -284,7 +284,7 @@ void Exit(int direction) {
     else if (stateCounter == 5) {
         ShutoffMotors();
         stateCounter = 0 ;
-        state = START;
+        state = DONE;
         stopwatch_seconds = 0;
         cycle_count = 0;
     }
@@ -378,6 +378,15 @@ void StateMachine(void) {
 
         case (DRIVE):
             Drive(polarityRight, polarityLeft, driveTime);
+            break;
+
+        case (DONE):
+            display_line[3][0] = 'T';
+            display_line[3][1] = 'i';
+            display_line[3][2] = 'm';
+            display_line[3][3] = 'e';
+            strcpy(display_line[1], " That was ");
+            strcpy(display_line[1], "easy!! ;-)");
             break;
 
         default:

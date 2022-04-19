@@ -54,5 +54,5 @@ void IOTBufferCommands(void);
 void ProcessCommands(void);
 void pushCB(command c);
 void displayNetworkInfo(void);
-void displayIP(void);
+void displayIP(int);
 command popCB(void);
