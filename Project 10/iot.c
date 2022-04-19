@@ -1,5 +1,4 @@
 #include "iot.h"
-#include <string.h>
 #include "msp430.h"
 #include "utils.h"
 #include "wheels.h"
@@ -115,7 +114,7 @@ int Init_IOT(void) {
 
 void waitForReady(void) {
     if(pb0_buffered) {
-        if(strcmp((char*)USB0_Char_Rx_Process, BOOT_RESPONSE) == 0) iot_setup_state = CIPMUX_Tx;
+        if(subStringPos((char*)USB0_Char_Rx_Process, BOOT_RESPONSE)) iot_setup_state = CIPMUX_Tx;
 
         clearProcessBuff_0();
     }
@@ -153,7 +152,7 @@ void getIP(void) {
                 IP[i] = USB0_Char_Rx_Process[i + IP_RESPONSE_LEN + 1];
 
                 if(IP[i] == '.') {
-                    if(dotFound++ == 1) midIndex = i;
+                    if(++dotFound == 2) midIndex = i;
                 }
             }
 
