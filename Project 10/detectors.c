@@ -64,5 +64,5 @@ void calibrate(void) {
     HEXtoBCD((int)RWDetect, 2, 0);
     HEXtoBCD((int)left, 0, 6);
     HEXtoBCD((int)right, 0, 0);
-
+    display_changed = 1;
 }
