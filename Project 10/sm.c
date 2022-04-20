@@ -131,6 +131,7 @@ void Turn(char direction) {
             break;
 
         case 3:
+            ShutoffMotors();
             stateCounter = 0 ;
             stopwatch_seconds = 0;
             cycle_count = 0;
