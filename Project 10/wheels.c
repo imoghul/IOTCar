@@ -26,7 +26,7 @@ extern int rightVals[VALUES_TO_HOLD];
 
 
 PIDController rightFollowController = {
-    .kP = 0,// /8
+    .kP = 14,// /8
     .kD = 3,// /8
     //.kI = 0,
     .error = 0,
@@ -34,7 +34,7 @@ PIDController rightFollowController = {
     //.lastIntegral = 0
 };
 PIDController leftFollowController = {
-    .kP = 0,// /8
+    .kP = 14,// /8
     .kD = 3,// /8
     //.kI = 0,
     .error = 0,
@@ -203,7 +203,7 @@ int Drive_Path(int speedR, int speedL, unsigned int ticksDuration) {
     RunRightMotor(speedR);
     RunLeftMotor(speedL);
 
-    if(ticksDuration == 0) return 1;
+    if(ticksDuration == 0) return 0;
 
     if (time_change) {
         time_change = 0;

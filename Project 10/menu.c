@@ -76,6 +76,7 @@ void displayCommandsMenu() {
         display_line[3][1] = 'i';
         display_line[3][2] = 'm';
         display_line[3][3] = 'e';
+        display_line[3][4] = ' ';
         strcpy(display_line[1], " That was ");
         strcpy(display_line[2], "easy!! ;-)");
 

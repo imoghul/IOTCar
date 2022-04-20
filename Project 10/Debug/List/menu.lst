@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          19/Apr/2022  19:22:17
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Apr/2022  10:42:57
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\anotherone\Project 10\menu.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWAD1C.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW8BF6.tmp
 #        ("C:\Users\saad\Documents\anotherone\Project 10\menu.c" -lC
 #        "C:\Users\saad\Documents\anotherone\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\anotherone\Project 10\Debug\Obj" --debug
@@ -165,11 +165,11 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \   00003A   F2406F00.... MOV.B   #0x6f, &display_line + 36
      73                  display_line[3][4] = '.';
    \   000040   F2402E00.... MOV.B   #0x2e, &display_line + 37
-   \   000046   253C         JMP     ??displayCommandsMenu_1
+   \   000046   273C         JMP     ??displayCommandsMenu_1
      74              } else if(state == DONE) {
    \                     ??displayCommandsMenu_3:
    \   000048   5892....     CMP.B   &state, R8
-   \   00004C   2A20         JNE     ??displayCommandsMenu_4
+   \   00004C   2C20         JNE     ??displayCommandsMenu_4
      75                  display_line[3][0] = 'T';
    \   00004E   F2405400.... MOV.B   #0x54, &display_line + 33
      76                  display_line[3][1] = 'i';
@@ -178,95 +178,97 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \   00005A   F2406D00.... MOV.B   #0x6d, &display_line + 35
      78                  display_line[3][3] = 'e';
    \   000060   F2406500.... MOV.B   #0x65, &display_line + 36
-     79                  strcpy(display_line[1], " That was ");
-   \   000066   3D40....     MOV.W   #`?<Constant " That was ">`, R13
-   \   00006A   ........     CALLA   #?Subroutine1
-     80                  strcpy(display_line[2], "easy!! ;-)");
+     79                  display_line[3][4] = ' ';
+   \   000066   C24B....     MOV.B   R11, &display_line + 37
+     80                  strcpy(display_line[1], " That was ");
+   \   00006A   3D40....     MOV.W   #`?<Constant " That was ">`, R13
+   \   00006E   ........     CALLA   #?Subroutine1
+     81                  strcpy(display_line[2], "easy!! ;-)");
    \                     ??CrossCallReturnLabel_6:
-   \   00006E   3D40....     MOV.W   #`?<Constant "easy!! ;-)">`, R13
-   \   000072   3C40....     MOV.W   #display_line + 22, R12
-   \   000076   ........     CALLA   #strcpy
-     81          
-     82              } else if(currCommand.comm == 0 && currCommand.duration == 0) display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] = ' ';
-     83          
-     84              if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
+   \   000072   3D40....     MOV.W   #`?<Constant "easy!! ;-)">`, R13
+   \   000076   3C40....     MOV.W   #display_line + 22, R12
+   \   00007A   ........     CALLA   #strcpy
+     82          
+     83              } else if(currCommand.comm == 0 && currCommand.duration == 0) display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] = ' ';
+     84          
+     85              if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
    \                     ??displayCommandsMenu_0:
-   \   00007A   4A98         CMP.B   R8, R10
-   \   00007C   0A20         JNE     ??displayCommandsMenu_1
-     85                  strcpy(display_line[0], "ARRIVED 0 ");
-   \   00007E   3D40....     MOV.W   #`?<Constant "ARRIVED 0 ">`, R13
-   \   000082   ........     CALLA   #?Subroutine0
-     86                  display_line[0][9] = currCommand.duration + '0';
+   \   00007E   4A98         CMP.B   R8, R10
+   \   000080   0A20         JNE     ??displayCommandsMenu_1
+     86                  strcpy(display_line[0], "ARRIVED 0 ");
+   \   000082   3D40....     MOV.W   #`?<Constant "ARRIVED 0 ">`, R13
+   \   000086   ........     CALLA   #?Subroutine0
+     87                  display_line[0][9] = currCommand.duration + '0';
    \                     ??CrossCallReturnLabel_3:
-   \   000086   5E42....     MOV.B   &currCommand + 2, R14
-   \   00008A   7E503000     ADD.B   #0x30, R14
-   \   00008E   C24E....     MOV.B   R14, &display_line + 9
-     87              }
-     88          
+   \   00008A   5E42....     MOV.B   &currCommand + 2, R14
+   \   00008E   7E503000     ADD.B   #0x30, R14
+   \   000092   C24E....     MOV.B   R14, &display_line + 9
+     88              }
      89          
      90          
-     91              if(commandsReceieved) {
+     91          
+     92              if(commandsReceieved) {
    \                     ??displayCommandsMenu_1:
-   \   000092   C293....     CMP.B   #0x0, &commandsReceieved
-   \   000096   1324         JEQ     ??displayCommandsMenu_5
-     92                  if(state != DONE)displayIP(1);
-   \   000098   5892....     CMP.B   &state, R8
-   \   00009C   1E24         JEQ     ??displayCommandsMenu_6
-   \   00009E   1C43         MOV.W   #0x1, R12
-   \   0000A0   1A3C         JMP     ??displayCommandsMenu_2
-     93              } else {
+   \   000096   C293....     CMP.B   #0x0, &commandsReceieved
+   \   00009A   1324         JEQ     ??displayCommandsMenu_5
+     93                  if(state != DONE)displayIP(1);
+   \   00009C   5892....     CMP.B   &state, R8
+   \   0000A0   1E24         JEQ     ??displayCommandsMenu_6
+   \   0000A2   1C43         MOV.W   #0x1, R12
+   \   0000A4   1A3C         JMP     ??displayCommandsMenu_2
+     94              } else {
    \                     ??displayCommandsMenu_4:
-   \   0000A2   4A93         CMP.B   #0x0, R10
-   \   0000A4   EA23         JNE     ??displayCommandsMenu_0
-   \   0000A6   8293....     CMP.W   #0x0, &currCommand + 2
-   \   0000AA   F323         JNE     ??displayCommandsMenu_1
-   \   0000AC   C24B....     MOV.B   R11, &display_line + 36
-   \   0000B0   C24B....     MOV.B   R11, &display_line + 35
-   \   0000B4   C24B....     MOV.B   R11, &display_line + 34
-   \   0000B8   C24B....     MOV.B   R11, &display_line + 33
-   \   0000BC   EA3F         JMP     ??displayCommandsMenu_1
-     94                  strcpy(display_line[0], " WAITING  ");
+   \   0000A6   4A93         CMP.B   #0x0, R10
+   \   0000A8   EA23         JNE     ??displayCommandsMenu_0
+   \   0000AA   8293....     CMP.W   #0x0, &currCommand + 2
+   \   0000AE   F323         JNE     ??displayCommandsMenu_1
+   \   0000B0   C24B....     MOV.B   R11, &display_line + 36
+   \   0000B4   C24B....     MOV.B   R11, &display_line + 35
+   \   0000B8   C24B....     MOV.B   R11, &display_line + 34
+   \   0000BC   C24B....     MOV.B   R11, &display_line + 33
+   \   0000C0   EA3F         JMP     ??displayCommandsMenu_1
+     95                  strcpy(display_line[0], " WAITING  ");
    \                     ??displayCommandsMenu_5:
-   \   0000BE   3D40....     MOV.W   #`?<Constant " WAITING  ">`, R13
-   \   0000C2   ........     CALLA   #?Subroutine0
-     95                  strcpy(display_line[1], " FOR INPUT");
+   \   0000C2   3D40....     MOV.W   #`?<Constant " WAITING  ">`, R13
+   \   0000C6   ........     CALLA   #?Subroutine0
+     96                  strcpy(display_line[1], " FOR INPUT");
    \                     ??CrossCallReturnLabel_2:
-   \   0000C6   3D40....     MOV.W   #`?<Constant " FOR INPUT">`, R13
-   \   0000CA   ........     CALLA   #?Subroutine1
-     96          
-     97                  if(state != DONE)displayIP(2);
+   \   0000CA   3D40....     MOV.W   #`?<Constant " FOR INPUT">`, R13
+   \   0000CE   ........     CALLA   #?Subroutine1
+     97          
+     98                  if(state != DONE)displayIP(2);
    \                     ??CrossCallReturnLabel_5:
-   \   0000CE   5892....     CMP.B   &state, R8
-   \   0000D2   0324         JEQ     ??displayCommandsMenu_6
-   \   0000D4   2C43         MOV.W   #0x2, R12
+   \   0000D2   5892....     CMP.B   &state, R8
+   \   0000D6   0324         JEQ     ??displayCommandsMenu_6
+   \   0000D8   2C43         MOV.W   #0x2, R12
    \                     ??displayCommandsMenu_2:
-   \   0000D6   ........     CALLA   #displayIP
-     98              }
-     99          
-    100              if(stopwatchUpdated) {
+   \   0000DA   ........     CALLA   #displayIP
+     99              }
+    100          
+    101              if(stopwatchUpdated) {
    \                     ??displayCommandsMenu_6:
-   \   0000DA   8293....     CMP.W   #0x0, &stopwatchUpdated
-   \   0000DE   0F24         JEQ     ??displayCommandsMenu_7
-    101                  stopwatchUpdated = 0;
-   \   0000E0   8243....     MOV.W   #0x0, &stopwatchUpdated
-    102                  HEXtoBCD(timeElapsedSeconds, 3, 5);
-   \   0000E4   3E400500     MOV.W   #0x5, R14
-   \   0000E8   3D400300     MOV.W   #0x3, R13
-   \   0000EC   1C42....     MOV.W   &timeElapsedSeconds, R12
-   \   0000F0   ........     CALLA   #HEXtoBCD
-    103                  display_line[3][5] = ' ';
-   \   0000F4   C24B....     MOV.B   R11, &display_line + 38
-    104                  display_line[3][9] = 's';
-   \   0000F8   F2407300.... MOV.B   #0x73, &display_line + 42
-    105                  //display_line[3][9] = timeElapsedMilliseconds + '0';
-    106              }
-    107          
-    108              display_changed = 1;
+   \   0000DE   8293....     CMP.W   #0x0, &stopwatchUpdated
+   \   0000E2   0F24         JEQ     ??displayCommandsMenu_7
+    102                  stopwatchUpdated = 0;
+   \   0000E4   8243....     MOV.W   #0x0, &stopwatchUpdated
+    103                  HEXtoBCD(timeElapsedSeconds, 3, 5);
+   \   0000E8   3E400500     MOV.W   #0x5, R14
+   \   0000EC   3D400300     MOV.W   #0x3, R13
+   \   0000F0   1C42....     MOV.W   &timeElapsedSeconds, R12
+   \   0000F4   ........     CALLA   #HEXtoBCD
+    104                  display_line[3][5] = ' ';
+   \   0000F8   C24B....     MOV.B   R11, &display_line + 38
+    105                  display_line[3][9] = 's';
+   \   0000FC   F2407300.... MOV.B   #0x73, &display_line + 42
+    106                  //display_line[3][9] = timeElapsedMilliseconds + '0';
+    107              }
+    108          
+    109              display_changed = 1;
    \                     ??displayCommandsMenu_7:
-   \   0000FE   D243....     MOV.B   #0x1, &display_changed
-    109          }
-   \   000102   3817         POPM.W  #0x4, R11
-   \   000104   1001         RETA
+   \   000102   D243....     MOV.B   #0x1, &display_changed
+    110          }
+   \   000106   3817         POPM.W  #0x4, R11
+   \   000108   1001         RETA
 
    \                                 In  segment CODE, align 2
    \                     ?Subroutine1:
@@ -277,13 +279,13 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \                     ?Subroutine0:
    \   000000   3C40....     MOV.W   #display_line, R12
    \   000004   ........     BRA     #strcpy
-    110          
     111          
+    112          
 
    \                                 In  segment CODE, align 2
-    112          void updateMenuPos(menu* m) {
+    113          void updateMenuPos(menu* m) {
    \                     updateMenuPos:
-    113              unsigned int val = (ADC_Thumb * m->length) >> THUMB_RES;
+    114              unsigned int val = (ADC_Thumb * m->length) >> THUMB_RES;
    \   000000   6E4C         MOV.B   @R12, R14
    \   000002   0212         PUSH.W  SR
    \   000004   32C2         DINT
@@ -295,121 +297,121 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \   000018   3241         POP.W   SR
    \   00001A   5F0F         RRUM.W  #0x4, R15
    \   00001C   5F03         RRUM.W  #0x1, R15
-    114              m->current  = val < m->length ? val : m->length - 1;
+    115              m->current  = val < m->length ? val : m->length - 1;
    \   00001E   0F9E         CMP.W   R14, R15
    \   000020   0228         JNC     ??updateMenuPos_1
    \   000022   6F4C         MOV.B   @R12, R15
    \   000024   7F53         ADD.B   #0xff, R15
    \                     ??updateMenuPos_1:
    \   000026   CC4F0100     MOV.B   R15, 0x1(R12)
-    115          }
+    116          }
    \   00002A   1001         RETA
-    116          
+    117          
 
    \                                 In  segment CODE, align 2
-    117          void interractWithMenu(void) {
+    118          void interractWithMenu(void) {
    \                     interractWithMenu:
-    118              /*switch(menuState) {
-    119                  case CALIB_MENU:
-    120                      calibrationMode++;
-    121                      break;
-    122              }*/
-    123              if(menuState == CALIB_MENU) calibrationMode++;
+    119              /*switch(menuState) {
+    120                  case CALIB_MENU:
+    121                      calibrationMode++;
+    122                      break;
+    123              }*/
+    124              if(menuState == CALIB_MENU) calibrationMode++;
    \   000000   F2904300.... CMP.B   #0x43, &menuState
    \   000006   0220         JNE     ??interractWithMenu_0
    \   000008   9253....     ADD.W   #0x1, &calibrationMode
-    124          }
+    125          }
    \                     ??interractWithMenu_0:
    \   00000C   1001         RETA
-    125          
+    126          
 
    \                                 In  segment CODE, align 2
-    126          void transitionMenu(menu* m) {
+    127          void transitionMenu(menu* m) {
    \                     transitionMenu:
    \   000000   0A12         PUSH.W  R10
-    127              // transitioning out code
-    128              if(menuState == CALIB_MENU) {
+    128              // transitioning out code
+    129              if(menuState == CALIB_MENU) {
    \   000002   F2904300.... CMP.B   #0x43, &menuState
    \   000008   0320         JNE     ??transitionMenu_0
-    129                  state = START;
+    130                  state = START;
    \   00000A   F2405300.... MOV.B   #0x53, &state
-    130              }
-    131          
-    132              currMenu = m->transitions[m->current];
+    131              }
+    132          
+    133              currMenu = m->transitions[m->current];
    \                     ??transitionMenu_0:
    \   000010   5F4C0100     MOV.B   0x1(R12), R15
    \   000014   0C5F         ADD.W   R15, R12
    \   000016   0C5F         ADD.W   R15, R12
    \   000018   1F4C2C00     MOV.W   0x2c(R12), R15
    \   00001C   824F....     MOV.W   R15, &currMenu
-    133              menuState = currMenu->name;
+    134              menuState = currMenu->name;
    \   000020   5E4F0200     MOV.B   0x2(R15), R14
    \   000024   C24E....     MOV.B   R14, &menuState
-    134          
-    135              // transitioning in code
-    136              if(menuState == CALIB_MENU) {
+    135          
+    136              // transitioning in code
+    137              if(menuState == CALIB_MENU) {
    \   000028   7E904300     CMP.B   #0x43, R14
    \   00002C   0D20         JNE     ??transitionMenu_1
-    137                  calibrationMode = 0;
+    138                  calibrationMode = 0;
    \   00002E   8243....     MOV.W   #0x0, &calibrationMode
-    138                  LBDetect = RBDetect = LWDetect = RWDetect = 0;
+    139                  LBDetect = RBDetect = LWDetect = RWDetect = 0;
    \   000032   8243....     MOV.W   #0x0, &RWDetect
    \   000036   8243....     MOV.W   #0x0, &LWDetect
    \   00003A   8243....     MOV.W   #0x0, &RBDetect
    \   00003E   8243....     MOV.W   #0x0, &LBDetect
-    139                  state = CALIBRATE;
+    140                  state = CALIBRATE;
    \   000042   F2404300.... MOV.B   #0x43, &state
-    140              }
-    141          
-    142              strcpy(display_line[0], "          ");
+    141              }
+    142          
+    143              strcpy(display_line[0], "          ");
    \                     ??transitionMenu_1:
    \   000048   3A40....     MOV.W   #`?<Constant "          ">`, R10
    \   00004C   0D4A         MOV.W   R10, R13
    \   00004E   ........     CALLA   #?Subroutine0
-    143              strcpy(display_line[1], "          ");
+    144              strcpy(display_line[1], "          ");
    \                     ??CrossCallReturnLabel_1:
    \   000052   0D4A         MOV.W   R10, R13
    \   000054   ........     CALLA   #?Subroutine1
-    144              strcpy(display_line[2], "          ");
+    145              strcpy(display_line[2], "          ");
    \                     ??CrossCallReturnLabel_4:
    \   000058   0D4A         MOV.W   R10, R13
    \   00005A   3C40....     MOV.W   #display_line + 22, R12
    \   00005E   ........     CALLA   #strcpy
-    145              strcpy(display_line[3], "          ");
+    146              strcpy(display_line[3], "          ");
    \   000062   0D4A         MOV.W   R10, R13
    \   000064   3C40....     MOV.W   #display_line + 33, R12
    \   000068   ........     CALLA   #strcpy
-    146              display_changed = 1;
+    147              display_changed = 1;
    \   00006C   D243....     MOV.B   #0x1, &display_changed
-    147          }
+    148          }
    \   000070   3A41         POP.W   R10
    \   000072   1001         RETA
-    148          
+    149          
 
    \                                 In  segment CODE, align 2
-    149          void MenuProcess(void) {
+    150          void MenuProcess(void) {
    \                     MenuProcess:
-    150              if(transMenu) {
+    151              if(transMenu) {
    \   000000   C293....     CMP.B   #0x0, &transMenu
    \   000004   0624         JEQ     ??MenuProcess_0
-    151                  transMenu = 0;
+    152                  transMenu = 0;
    \   000006   C243....     MOV.B   #0x0, &transMenu
-    152                  transitionMenu(currMenu);
+    153                  transitionMenu(currMenu);
    \   00000A   1C42....     MOV.W   &currMenu, R12
    \   00000E   ........     CALLA   #transitionMenu
-    153              }
-    154          
-    155              if(interractMenu) {
+    154              }
+    155          
+    156              if(interractMenu) {
    \                     ??MenuProcess_0:
    \   000012   C293....     CMP.B   #0x0, &interractMenu
    \   000016   0424         JEQ     ??MenuProcess_1
-    156                  interractMenu = 0;
+    157                  interractMenu = 0;
    \   000018   C243....     MOV.B   #0x0, &interractMenu
-    157                  interractWithMenu();
+    158                  interractWithMenu();
    \   00001C   ........     CALLA   #interractWithMenu
-    158              }
-    159          
-    160              switch(menuState) {
+    159              }
+    160          
+    161              switch(menuState) {
    \                     ??MenuProcess_1:
    \   000020   5E42....     MOV.B   &menuState, R14
    \   000024   7E804D00     SUB.B   #0x4d, R14
@@ -417,93 +419,93 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \   00002A   7E801600     SUB.B   #0x16, R14
    \   00002E   0F24         JEQ     ??MenuProcess_3
    \   000030   1001         RETA
-    161                  /*case START_MENU:
-    162                      //updateMenuPos(&start);
-    163                      //displayStartMenu();
-    164                      break;*/
-    165                  case MAIN_MENU:
-    166                      updateMenuPos(&mainMenu);
+    162                  /*case START_MENU:
+    163                      //updateMenuPos(&start);
+    164                      //displayStartMenu();
+    165                      break;*/
+    166                  case MAIN_MENU:
+    167                      updateMenuPos(&mainMenu);
    \                     ??MenuProcess_2:
    \   000032   3C40....     MOV.W   #mainMenu, R12
    \   000036   ........     CALLA   #updateMenuPos
-    167                      strcpy(display_line[0], mainMenu.headers[mainMenu.current]);
+    168                      strcpy(display_line[0], mainMenu.headers[mainMenu.current]);
    \   00003A   5F42....     MOV.B   &mainMenu + 1, R15
    \   00003E   0F5F         RLA.W   R15
    \   000040   1D4F....     MOV.W   mainMenu + 4(R15), R13
    \   000044   ........     CALLA   #?Subroutine0
-    168                      //displayMainMenu();
-    169                      display_changed = 1;
+    169                      //displayMainMenu();
+    170                      display_changed = 1;
    \                     ??CrossCallReturnLabel_0:
    \   000048   D243....     MOV.B   #0x1, &display_changed
-    170                      break;
+    171                      break;
    \   00004C   1001         RETA
-    171          
-    172                  case COMMANDS_MENU:
-    173                      displayCommandsMenu();
+    172          
+    173                  case COMMANDS_MENU:
+    174                      displayCommandsMenu();
    \                     ??MenuProcess_3:
    \   00004E   ........     BRA     #displayCommandsMenu
-    174                      break;
-    175          
-    176                  /*case NETWORK_MENU:
-    177                      displayNetworkInfo();
-    178                      break;*/
-    179          
-    180                  default:
-    181                      break;
-    182              }
-    183          }
-    184          
+    175                      break;
+    176          
+    177                  /*case NETWORK_MENU:
+    178                      displayNetworkInfo();
+    179                      break;*/
+    180          
+    181                  default:
+    182                      break;
+    183              }
+    184          }
+    185          
 
    \                                 In  segment CODE, align 2
-    185          void Init_Menu(void) {
+    186          void Init_Menu(void) {
    \                     Init_Menu:
-    186              // calib = (menu) {
-    187              //     .length = 1,
-    188              //     .current = 0,
-    189              //     .name = CALIB_MENU,
-    190              //     .headers = {""},
-    191              //     .values = {""},
-    192              //     .transitions = {&mainMenu}
-    193              // };
-    194          
-    195              mainMenu  = (menu) {
-    196                  .length = 2,
-    197                  .current = 0,
-    198                  .name = MAIN_MENU,
-    199                  .headers = {"CALIBRATE ", " COMMANDS "}, //," NETWORK  "},
-    200                  .values = {""},
-    201                  .transitions = {&calib, &commandsOutput} //,&networkInfo}
-    202              };
+    187              // calib = (menu) {
+    188              //     .length = 1,
+    189              //     .current = 0,
+    190              //     .name = CALIB_MENU,
+    191              //     .headers = {""},
+    192              //     .values = {""},
+    193              //     .transitions = {&mainMenu}
+    194              // };
+    195          
+    196              mainMenu  = (menu) {
+    197                  .length = 2,
+    198                  .current = 0,
+    199                  .name = MAIN_MENU,
+    200                  .headers = {"CALIBRATE ", " COMMANDS "}, //," NETWORK  "},
+    201                  .values = {""},
+    202                  .transitions = {&calib, &commandsOutput} //,&networkInfo}
+    203              };
    \   000000   3C40....     MOV.W   #mainMenu, R12
    \   000004   3E40....     MOV.W   #?_0, R14
    \   000008   3D402000     MOV.W   #0x20, R13
    \   00000C   ........     BRA     #?CopyMemoryWords
-    203          
-    204              // start  = (menu) {
-    205              //     .length = 1,
-    206              //     .current = 0,
-    207              //     .name = START_MENU,
-    208              //     .headers = {""},
-    209              //     .values = {""},
-    210              //     .transitions = {&mainMenu}
-    211              // };
-    212              // commandsOutput = (menu) {
-    213              //     .length = 1,
-    214              //     .current = 0,
-    215              //     .name = COMMANDS_MENU,
-    216              //     .headers = {""},
-    217              //     .values = {""},
-    218              //     .transitions = {&mainMenu}
-    219              // };
-    220              /*networkInfo = (menu){
-    221                  .length = 1,
-    222                  .current = 0,
-    223                  .name = NETWORK_MENU,
-    224                  .headers = {""},
-    225                  .values = {""},
-    226                  .transitions = {&mainMenu}
-    227              };*/
-    228          }
+    204          
+    205              // start  = (menu) {
+    206              //     .length = 1,
+    207              //     .current = 0,
+    208              //     .name = START_MENU,
+    209              //     .headers = {""},
+    210              //     .values = {""},
+    211              //     .transitions = {&mainMenu}
+    212              // };
+    213              // commandsOutput = (menu) {
+    214              //     .length = 1,
+    215              //     .current = 0,
+    216              //     .name = COMMANDS_MENU,
+    217              //     .headers = {""},
+    218              //     .values = {""},
+    219              //     .transitions = {&mainMenu}
+    220              // };
+    221              /*networkInfo = (menu){
+    222                  .length = 1,
+    223                  .current = 0,
+    224                  .name = NETWORK_MENU,
+    225                  .headers = {""},
+    226                  .values = {""},
+    227                  .transitions = {&mainMenu}
+    228              };*/
+    229          }
 
    \                                 In  segment DATA16_ID, align 1, align-sorted
    \                     `?<Initializer for menuState>`:
@@ -604,7 +606,7 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
    \                     `?<Constant " COMMANDS ">`:
    \   000000   20434F4D4D41 DC8 " COMMANDS "
    \            4E44532000  
-    229          
+    230          
 
    Maximum stack usage in bytes:
 
@@ -653,7 +655,7 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
       64  calib
       64  commandsOutput
        2  currMenu
-     262  displayCommandsMenu
+     266  displayCommandsMenu
       14  interractWithMenu
        2  lastThumb
       64  mainMenu
@@ -664,13 +666,13 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
       64  -- Other
 
  
- 550 bytes in segment CODE
+ 554 bytes in segment CODE
  153 bytes in segment DATA16_C
  195 bytes in segment DATA16_I
  195 bytes in segment DATA16_ID
   66 bytes in segment DATA16_Z
  
- 550 bytes of CODE  memory
+ 554 bytes of CODE  memory
  348 bytes of CONST memory
  261 bytes of DATA  memory
 
