@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          19/Apr/2022  19:31:25
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Apr/2022  10:09:36
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\anotherone\Project 10\wheels.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWA60.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWA6F.tmp
 #        ("C:\Users\saad\Documents\anotherone\Project 10\wheels.c" -lC
 #        "C:\Users\saad\Documents\anotherone\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\anotherone\Project 10\Debug\Obj" --debug
@@ -132,7 +132,7 @@ C:\Users\saad\Documents\anotherone\Project 10\wheels.c
    \                     rightFollowController:
    \   000000                DS8 8
    \   000008                REQUIRE `?<Initializer for rightFollowController>`
-     29              .kP = 0,// /8
+     29              .kP = 14,// /8
      30              .kD = 3,// /8
      31              //.kI = 0,
      32              .error = 0,
@@ -146,7 +146,7 @@ C:\Users\saad\Documents\anotherone\Project 10\wheels.c
    \                     leftFollowController:
    \   000000                DS8 8
    \   000008                REQUIRE `?<Initializer for leftFollowController>`
-     37              .kP = 0,// /8
+     37              .kP = 14,// /8
      38              .kD = 3,// /8
      39              //.kI = 0,
      40              .error = 0,
@@ -503,37 +503,34 @@ C:\Users\saad\Documents\anotherone\Project 10\wheels.c
    \   000004   0C4D         MOV.W   R13, R12
    \   000006   ........     CALLA   #RunLeftMotor
     205          
-    206              if(ticksDuration == 0) return 1;
+    206              if(ticksDuration == 0) return 0;
    \   00000A   0E93         CMP.W   #0x0, R14
-   \   00000C   0220         JNE     ??Drive_Path_0
-   \   00000E   1C43         MOV.W   #0x1, R12
-   \   000010   1001         RETA
+   \   00000C   1024         JEQ     ??Drive_Path_0
     207          
     208              if (time_change) {
-   \                     ??Drive_Path_0:
-   \   000012   8293....     CMP.W   #0x0, &time_change
-   \   000016   0D24         JEQ     ??Drive_Path_1
+   \   00000E   8293....     CMP.W   #0x0, &time_change
+   \   000012   0D24         JEQ     ??Drive_Path_0
     209                  time_change = 0;
-   \   000018   8243....     MOV.W   #0x0, &time_change
+   \   000014   8243....     MOV.W   #0x0, &time_change
     210          
     211                  if (/*success && */Update_Ticks(ticksDuration)) {
-   \   00001C   0C4E         MOV.W   R14, R12
-   \   00001E   ........     CALLA   #Update_Ticks
-   \   000022   0C93         CMP.W   #0x0, R12
-   \   000024   0624         JEQ     ??Drive_Path_1
+   \   000018   0C4E         MOV.W   R14, R12
+   \   00001A   ........     CALLA   #Update_Ticks
+   \   00001E   0C93         CMP.W   #0x0, R12
+   \   000020   0624         JEQ     ??Drive_Path_0
     212                      ShutoffMotors();
-   \   000026   ........     CALLA   #ShutoffRight
-   \   00002A   ........     CALLA   #ShutoffLeft
+   \   000022   ........     CALLA   #ShutoffRight
+   \   000026   ........     CALLA   #ShutoffLeft
     213                      return 1;
-   \   00002E   1C43         MOV.W   #0x1, R12
-   \   000030   1001         RETA
+   \   00002A   1C43         MOV.W   #0x1, R12
+   \   00002C   1001         RETA
     214                  }
     215              }
     216          
     217              return 0;
-   \                     ??Drive_Path_1:
-   \   000032   0C43         MOV.W   #0x0, R12
-   \   000034   1001         RETA
+   \                     ??Drive_Path_0:
+   \   00002E   0C43         MOV.W   #0x0, R12
+   \   000030   1001         RETA
     218          }
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
@@ -546,12 +543,12 @@ C:\Users\saad\Documents\anotherone\Project 10\wheels.c
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
    \                     `?<Initializer for rightFollowController>`:
-   \   000000   000003000000 DC16 0, 3, 0, 0
+   \   000000   0E0003000000 DC16 14, 3, 0, 0
    \            0000        
 
    \                                 In  segment DATA16_ID, align 2, align-sorted
    \                     `?<Initializer for leftFollowController>`:
-   \   000000   000003000000 DC16 0, 3, 0, 0
+   \   000000   0E0003000000 DC16 14, 3, 0, 0
    \            0000        
     219          
 
@@ -593,7 +590,7 @@ C:\Users\saad\Documents\anotherone\Project 10\wheels.c
        8  ?<Initializer for rightFollowController>
        2  ?<Initializer for rightSwitchable>
       30  ?Subroutine0
-      54  Drive_Path
+      50  Drive_Path
       12  LockMotors
        8  LockMotorsTime
       34  MotorSafety
@@ -620,13 +617,13 @@ C:\Users\saad\Documents\anotherone\Project 10\wheels.c
        2  wheel_periods
 
  
- 400 bytes in segment CODE
+ 396 bytes in segment CODE
   18 bytes in segment DATA16_AN
   20 bytes in segment DATA16_I
   20 bytes in segment DATA16_ID
    4 bytes in segment DATA16_Z
  
- 400 bytes of CODE  memory
+ 396 bytes of CODE  memory
   20 bytes of CONST memory
   24 bytes of DATA  memory (+ 18 bytes shared)
 

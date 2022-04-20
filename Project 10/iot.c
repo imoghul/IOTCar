@@ -103,7 +103,7 @@ int Init_IOT(void) {
         default:
             if(pingFlag) {
                 pingFlag = 0;
-                //SendIOTCommand(PING_COMMAND, IOT_SETUP_FINISHED);
+                SendIOTCommand(PING_COMMAND, IOT_SETUP_FINISHED);
             }
 
             return 1;
@@ -176,6 +176,8 @@ void displayNetworkInfo(void) {
 }
 
 void displayIP(int pos) {
+    strcpy(display_line[pos],"          ");
+    strcpy(display_line[pos+1],"          ");
     centerStringToDisplay(pos, IP);
     centerStringToDisplay(pos + 1, IP + midIndex + 1);
 }
@@ -278,17 +280,17 @@ void ProcessCommands(void) {
                 break;
 
             case (RIGHT_COMMAND):
-                speedRight = STRAIGHT_RIGHT;
-                speedLeft = -STRAIGHT_LEFT;
+                speedRight = STRAIGHT_RIGHT>>1;
+                speedLeft = -(STRAIGHT_LEFT>>1);
                 state = DRIVE;
-                driveTime = currCommand.duration << 2;
+                driveTime = currCommand.duration << 3;
                 break;
 
             case (LEFT_COMMAND):
-                speedRight = -STRAIGHT_RIGHT;
-                speedLeft = STRAIGHT_LEFT;
+                speedRight = -(STRAIGHT_RIGHT>>1);
+                speedLeft = STRAIGHT_LEFT>>1;
                 state = DRIVE;
-                driveTime = currCommand.duration << 2;
+                driveTime = currCommand.duration << 3;
                 break;
 
             case (LINEFOLLOW_COMMAND):

@@ -20,7 +20,7 @@ volatile char nextState = STRAIGHT;
 extern volatile unsigned int Time_Sequence;
 extern volatile unsigned int Last_Time_Sequence;
 extern volatile unsigned int time_change;
-volatile unsigned int delayTime = 1;
+volatile unsigned int delayTime = 5;
 extern volatile unsigned int ADC_Left_Detect, ADC_Right_Detect;
 extern volatile unsigned int rightSwitchable, leftSwitchable;
 extern unsigned int temp;
@@ -122,7 +122,7 @@ void Turn(char direction) {
             break;
 
         case 2:
-            if (lessWhiteOr) { //(((ADC_Left_Detect < LEFT_WHITE_DETECT || ADC_Right_Detect < RIGHT_WHITE_DETECT))) {
+            if (((ADC_Left_Detect < LEFT_GRAY_DETECT || ADC_Right_Detect < RIGHT_GRAY_DETECT))) {
                 if(direction)Drive_Path(-RIGHT_MIN, LEFT_MIN, 0);
 
                 else Drive_Path(RIGHT_MIN, -LEFT_MIN, 0);
@@ -153,9 +153,11 @@ void LineFollow(char direction) {
     //lFollowSpeed = LEFT_MIN>>1;
 
     /*if(ADC_Left_Detect>LEFT_GRAY_DETECT)rFollowSpeed = 3000;
-    else*/ rFollowSpeed = additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, 4000, GetOutput(&leftFollowController, LEFT_BLACK_DETECT, ADC_Left_Detect)); // swapped b/c they are physically swapped
+    else*/ 
+    rFollowSpeed = additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, 4000, GetOutput(&leftFollowController, LEFT_GRAY_DETECT, ADC_Left_Detect)); // swapped b/c they are physically swapped
     /*if(ADC_Right_Detect>RIGHT_GRAY_DETECT)lFollowSpeed = 3000;
-    else*/ lFollowSpeed = additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, 4000, GetOutput(&rightFollowController, RIGHT_BLACK_DETECT, ADC_Right_Detect));// swapped b/c they are physically swapped
+    else*/ 
+    lFollowSpeed = additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, 4000, GetOutput(&rightFollowController, RIGHT_GRAY_DETECT, ADC_Right_Detect));// swapped b/c they are physically swapped
     rAdjustSpeed = (RIGHT_MIN - LF_TURN_DECREMENT);
     lAdjustSpeed = (LEFT_MIN - LF_TURN_DECREMENT);
 
