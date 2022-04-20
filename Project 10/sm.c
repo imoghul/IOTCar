@@ -122,7 +122,7 @@ void Turn(char direction) {
             break;
 
         case 2:
-            if (((ADC_Left_Detect < LEFT_GRAY_DETECT || ADC_Right_Detect < RIGHT_GRAY_DETECT))) {
+            if (lessWhiteOr){//(((ADC_Left_Detect < LEFT_GRAY_DETECT || ADC_Right_Detect < RIGHT_GRAY_DETECT))) {
                 if(direction)Drive_Path(-RIGHT_MIN, LEFT_MIN, 0);
 
                 else Drive_Path(RIGHT_MIN, -LEFT_MIN, 0);

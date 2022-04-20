@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Apr/2022  11:32:15
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Apr/2022  11:45:36
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\anotherone\Project 10\sm.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWB5A7.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWEEDE.tmp
 #        ("C:\Users\saad\Documents\anotherone\Project 10\sm.c" -lC
 #        "C:\Users\saad\Documents\anotherone\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\anotherone\Project 10\Debug\Obj" --debug
@@ -329,7 +329,7 @@ C:\Users\saad\Documents\anotherone\Project 10\sm.c
    \   00000C   1F83         SUB.W   #0x1, R15
    \   00000E   1D24         JEQ     ??Turn_3
    \   000010   1F83         SUB.W   #0x1, R15
-   \   000012   3924         JEQ     ??Turn_4
+   \   000012   2E24         JEQ     ??Turn_4
    \   000014   1001         RETA
     110                  case 0:
     111                      EMITTER_ON;
@@ -360,63 +360,56 @@ C:\Users\saad\Documents\anotherone\Project 10\sm.c
    \                     ??Turn_0:
    \   000040   ........     CALLA   #Drive_Path
    \   000044   0C93         CMP.W   #0x0, R12
-   \   000046   2924         JEQ     ??Turn_6
+   \   000046   1E24         JEQ     ??Turn_6
    \   000048   ....         JMP     ?Subroutine0
     121          
     122                      break;
     123          
     124                  case 2:
-    125                      if (((ADC_Left_Detect < LEFT_GRAY_DETECT || ADC_Right_Detect < RIGHT_GRAY_DETECT))) {
+    125                      if (lessWhiteOr){//(((ADC_Left_Detect < LEFT_GRAY_DETECT || ADC_Right_Detect < RIGHT_GRAY_DETECT))) {
    \                     ??Turn_3:
-   \   00004A   1F42....     MOV.W   &LBDetect, R15
-   \   00004E   3F50F6FF     ADD.W   #0xfff6, R15
-   \   000052   829F....     CMP.W   R15, &ADC_Left_Detect
-   \   000056   0728         JNC     ??Turn_7
-   \   000058   1F42....     MOV.W   &RBDetect, R15
-   \   00005C   3F50F6FF     ADD.W   #0xfff6, R15
-   \   000060   829F....     CMP.W   R15, &ADC_Right_Detect
-   \   000064   0F2C         JC      ??Turn_8
+   \   00004A   8293....     CMP.W   #0x0, &lessWhiteOr
+   \   00004E   0F24         JEQ     ??Turn_7
     126                          if(direction)Drive_Path(-RIGHT_MIN, LEFT_MIN, 0);
-   \                     ??Turn_7:
-   \   000066   4C93         CMP.B   #0x0, R12
-   \   000068   0E43         MOV.W   #0x0, R14
-   \   00006A   0624         JEQ     ??Turn_9
-   \   00006C   3D403421     MOV.W   #0x2134, R13
-   \   000070   3C40CCDE     MOV.W   #0xdecc, R12
-   \   000074   ........     BRA     #Drive_Path
+   \   000050   4C93         CMP.B   #0x0, R12
+   \   000052   0E43         MOV.W   #0x0, R14
+   \   000054   0624         JEQ     ??Turn_8
+   \   000056   3D403421     MOV.W   #0x2134, R13
+   \   00005A   3C40CCDE     MOV.W   #0xdecc, R12
+   \   00005E   ........     BRA     #Drive_Path
     127          
     128                          else Drive_Path(RIGHT_MIN, -LEFT_MIN, 0);
-   \                     ??Turn_9:
-   \   000078   3D40CCDE     MOV.W   #0xdecc, R13
-   \   00007C   3C403421     MOV.W   #0x2134, R12
-   \   000080   ........     BRA     #Drive_Path
-    129                      } else stateCounter++;
    \                     ??Turn_8:
-   \   000084   ....         JMP     ?Subroutine0
+   \   000062   3D40CCDE     MOV.W   #0xdecc, R13
+   \   000066   3C403421     MOV.W   #0x2134, R12
+   \   00006A   ........     BRA     #Drive_Path
+    129                      } else stateCounter++;
+   \                     ??Turn_7:
+   \   00006E   ....         JMP     ?Subroutine0
     130          
     131                      break;
     132          
     133                  case 3:
     134                      stateCounter = 0 ;
    \                     ??Turn_4:
-   \   000086   ........     CALLA   #?Subroutine2
+   \   000070   ........     CALLA   #?Subroutine2
     135                      stopwatch_seconds = 0;
     136                      cycle_count = 0;
     137                      state = WAIT;
     138                      nextState = LINEFOLLOW;
    \                     ??CrossCallReturnLabel_4:
-   \   00008A   F2404C00.... MOV.B   #0x4c, &nextState
+   \   000074   F2404C00.... MOV.B   #0x4c, &nextState
     139                      EMITTER_OFF;
-   \   000090   F2C010004302 BIC.B   #0x10, &0x243
+   \   00007A   F2C010004302 BIC.B   #0x10, &0x243
     140                      //strcpy(display_line[0], " BL TURN ");
     141                      display_changed = 1;
-   \   000096   D243....     MOV.B   #0x1, &display_changed
+   \   000080   D243....     MOV.B   #0x1, &display_changed
     142                      break;
     143              }
     144          }
    \                     ??Turn_6:
-   \   00009A   1001         RETA
-   \   00009C                REQUIRE _A_PCOUT_L
+   \   000084   1001         RETA
+   \   000086                REQUIRE _A_PCOUT_L
 
    \                                 In  segment CODE, align 2
    \                     ?Subroutine0:
@@ -444,7 +437,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
    \   000002   1E42....     MOV.W   &ADC_Left_Detect, R14
    \   000006   1D42....     MOV.W   &LBDetect, R13
-   \   00000A   3D50F6FF     ADD.W   #0xfff6, R13
+   \   00000A   3D50FBFF     ADD.W   #0xfffb, R13
    \   00000E   3C40....     MOV.W   #leftFollowController, R12
    \   000012   ........     CALLA   #?Subroutine4
    \                     ??CrossCallReturnLabel_7:
@@ -459,7 +452,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
           in this statement
    \   000020   1E42....     MOV.W   &ADC_Right_Detect, R14
    \   000024   1D42....     MOV.W   &RBDetect, R13
-   \   000028   3D50F6FF     ADD.W   #0xfff6, R13
+   \   000028   3D50FBFF     ADD.W   #0xfffb, R13
    \   00002C   3C40....     MOV.W   #rightFollowController, R12
    \   000030   ........     CALLA   #?Subroutine4
    \                     ??CrossCallReturnLabel_8:
@@ -1078,7 +1071,7 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
      356  LineFollow
      124  StateMachine
      198  Straight
-     156  Turn
+     134  Turn
        2  _A_PCOUT_L
        2  _A_TB3CCR1_L
        2  _A_TB3CCR2_L
@@ -1094,14 +1087,14 @@ Warning[Pa082]: undefined behavior: the order of volatile accesses is undefined
        2  stateCounter
 
  
- 1 112 bytes in segment CODE
+ 1 090 bytes in segment CODE
      6 bytes in segment DATA16_AN
     65 bytes in segment DATA16_C
      5 bytes in segment DATA16_I
      5 bytes in segment DATA16_ID
     10 bytes in segment DATA16_Z
  
- 1 112 bytes of CODE  memory
+ 1 090 bytes of CODE  memory
     70 bytes of CONST memory
     15 bytes of DATA  memory (+ 6 bytes shared)
 
