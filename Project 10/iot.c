@@ -1,6 +1,7 @@
 #include "iot.h"
 #include "msp430.h"
 #include "utils.h"
+#include "menu.h"
 #include <string.h>
 #include "wheels.h"
 #include "utils.h"
@@ -23,7 +24,8 @@ command CommandBuffer[COMMAND_BUFFER_LEN];
 char cb_index;
 extern volatile int stateCounter;
 char commandsReceieved;
-
+char currentStation;
+extern int commandDisplayCounter;
 extern volatile unsigned int cycle_count;
 extern volatile unsigned int stopwatch_milliseconds;
 extern volatile unsigned int stopwatch_seconds;
@@ -296,6 +298,11 @@ void ProcessCommands(void) {
             case (LINEFOLLOW_COMMAND):
                 state = STRAIGHT;
                 speedRight = currCommand.duration;
+                break;
+                
+            case (DISPLAY_NUMBER_COMMAND):
+              commandDisplayCounter = DISPLAY_ARRIVAL_STATE;
+                currentStation = currCommand.duration;
                 break;
 
             case (EXIT_COMMAND):

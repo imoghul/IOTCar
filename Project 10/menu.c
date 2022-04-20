@@ -19,6 +19,7 @@ extern command currCommand;
 extern char commandsReceieved;
 extern volatile unsigned int stopwatchUpdated;
 int commandDisplayCounter;
+extern char currentStation;
 extern volatile int timeElapsedSeconds, timeElapsedMilliseconds;
 
 menu mainMenu;
@@ -73,7 +74,7 @@ void displayStatus(){
   if(currCommand.comm == LINEFOLLOW_COMMAND) {
         strcpy(display_line[3],"Auto.     ");
     } else if(state == DONE) {
-        strcpy(display_line[3],"Time      ");
+        strcpy(display_line[3],"Time:     ");
         strcpy(display_line[1], " That was ");
         strcpy(display_line[2], "easy!! ;-)");
 
@@ -89,10 +90,11 @@ void displayStatus(){
 
 void displayArrival(){
   
-  if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
+  //if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
         strcpy(display_line[0], "ARRIVED 0 ");
-        display_line[0][9] = currCommand.duration + '0';
-  }
+        display_line[0][9] = currentStation + '0';
+        commandDisplayCounter = 0;
+  //}
   
 }
 
@@ -122,16 +124,16 @@ void displayCommandsMenu() {
       displayStatus();
       break;
     case 200:
-      displayArrival();
-    case 300:
       displayIp();
       break;
-    case 400:
+    case 300:
       displayStopwatch();
       break;
-    case 500:
+    case 400:
       commandDisplayCounter = 0;
       break;
+    case DISPLAY_ARRIVAL_STATE:
+      displayArrival();
     default: break;
   }
     display_changed = 1;
