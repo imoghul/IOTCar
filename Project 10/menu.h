@@ -4,6 +4,7 @@
 #define MAIN_MENU               ('M')
 #define COMMANDS_MENU           ('c')
 #define NETWORK_MENU            ('N')
+#define DISPLAY_ARRIVAL_STATE   (500)
 // an attempt to organize all the data that a menu necessitates
 typedef struct menuStruct {
     char length;
