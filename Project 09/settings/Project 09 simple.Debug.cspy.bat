@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "C:\Users\saad\Documents\ece-306\Project 09\settings\Project 09 simple.Debug.general.xcl" --backend -f "C:\Users\saad\Documents\ece-306\Project 09\settings\Project 09 simple.Debug.driver.xcl" 
+"C:\Program Files\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "C:\Users\saad\Documents\anotherone\Project 09\settings\Project 09 simple.Debug.general.xcl" --backend -f "C:\Users\saad\Documents\anotherone\Project 09\settings\Project 09 simple.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "C:\Users\saad\Documents\ece-306\Project 09\settings\Project 09 simple.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\saad\Documents\ece-306\Project 09\settings\Project 09 simple.Debug.driver.xcl" 
+"C:\Program Files\IAR Systems\Embedded Workbench 8.5\common\bin\cspybat" -f "C:\Users\saad\Documents\anotherone\Project 09\settings\Project 09 simple.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\saad\Documents\anotherone\Project 09\settings\Project 09 simple.Debug.driver.xcl" 
 
 @echo off 
 :end

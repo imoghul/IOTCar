@@ -1,6 +1,6 @@
 #define BEGINNING               (0)
 #define SMALL_RING_SIZE         (16)
-#define LARGE_RING_SIZE         (150)
+#define LARGE_RING_SIZE         (100)
 #define SET_UCA0_115200         {UCA0BRW = 4;UCA0MCTLW = 0x5551;UCA1BRW = 4;UCA1MCTLW = 0x5551;}
 #define SET_UCA0_9600           {UCA0BRW = 52;UCA0MCTLW = 0x4911;UCA1BRW = 52;UCA1MCTLW = 0x4911;}
 
@@ -15,7 +15,7 @@ void loadRingtoPB_0(void);
 void loadRingtoPB_1(void);
 void clearProcessBuff_0(void);
 void clearProcessBuff_1(void);
-
+void serialInterrupt(volatile unsigned int* rx_wr, volatile char Rx_Ring[], volatile char Tx[], volatile unsigned int* tx_index, volatile unsigned short * txbuf, volatile unsigned short * txbuf_other, volatile unsigned short ucaiv, volatile unsigned short * ucaie, volatile unsigned short rxbuf);
 void SerialProcess(void);
 
 //#define CLEARPB0                        {clearProcessBuff(USB0_Char_Rx_Process, &pb0_index, &pb0_buffered);}

@@ -111,16 +111,16 @@ void main(void) {
     strcpy(display_line[2], "          ");
     strcpy(display_line[3], "          ");
     display_changed = TRUE;
-
+    Display_Process();
     //------------------------------------------------------------------------------
     // Begining of the "While" Operating System
     //------------------------------------------------------------------------------
     while(ALWAYS) {                       // Can the Operating system run
-        Display_Process();                  // Update Display
         SerialProcess();
 
         if(!Init_IOT()) continue;
-
+        
+        Display_Process();                  // Update Display
         MenuProcess();
         IOTBufferCommands();
         ProcessCommands();

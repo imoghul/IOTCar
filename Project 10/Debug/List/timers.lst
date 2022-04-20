@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          17/Apr/2022  16:57:14
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Apr/2022  16:01:54
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,25 +12,25 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\timers.c
+#    Source file   =  C:\Users\saad\Documents\anotherone\Project 10\timers.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW481E.tmp
-#        ("C:\Users\saad\Documents\ece-306\Project 10\timers.c" -lC
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EW9CAF.tmp
+#        ("C:\Users\saad\Documents\anotherone\Project 10\timers.c" -lC
+#        "C:\Users\saad\Documents\anotherone\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\anotherone\Project 10\Debug\Obj" --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
 #        --core=430X --data_model=small -Ohz --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece-306\Project 10\Debug\List\timers.lst
+#        C:\Users\saad\Documents\anotherone\Project 10\Debug\List\timers.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj\timers.r43
+#        C:\Users\saad\Documents\anotherone\Project 10\Debug\Obj\timers.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece-306\Project 10\timers.c
+C:\Users\saad\Documents\anotherone\Project 10\timers.c
       1          #include "msp430.h"
 
    \                                 In  segment DATA16_AN, at 0x700
@@ -607,10 +607,10 @@ C:\Users\saad\Documents\ece-306\Project 10\timers.c
     199              P3OUT |= IOT_EN_CPU;
    \   000002   F2D080002202 BIS.B   #0x80, &0x222
     200          
-    201              if(commandsReceieved && state != END) {
+    201              if(commandsReceieved && state != DONE) {
    \   000008   C293....     CMP.B   #0x0, &commandsReceieved
    \   00000C   1024         JEQ     ??Timer1_B0_ISR_0
-   \   00000E   F2904500.... CMP.B   #0x45, &state
+   \   00000E   F2906400.... CMP.B   #0x64, &state
    \   000014   0C24         JEQ     ??Timer1_B0_ISR_0
     202                  stopwatchUpdated = 1;
    \   000016   9243....     MOV.W   #0x1, &stopwatchUpdated
@@ -631,7 +631,7 @@ C:\Users\saad\Documents\ece-306\Project 10\timers.c
    \   00002E   5E42....     MOV.B   &pingCounter, R14
    \   000032   4F4E         MOV.B   R14, R15
    \   000034   5F53         ADD.B   #0x1, R15
-   \   000036   7E900300     CMP.B   #0x3, R14
+   \   000036   7E900A00     CMP.B   #0xa, R14
    \   00003A   0328         JNC     ??Timer1_B0_ISR_1
     211                pingCounter = 0;
    \   00003C   4F43         MOV.B   #0x0, R15

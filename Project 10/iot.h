@@ -27,7 +27,7 @@
 #define CARET_SECURITY_CODE             ("^9A73")
 #define CARET_SECURITY_CODE_LEN         (5)
 
-#define COMMAND_BUFFER_LEN              (10)
+#define COMMAND_BUFFER_LEN              (5)
 
 #define FORWARD_COMMAND                 ('f')
 #define REVERSE_COMMAND                 ('b')
@@ -54,5 +54,5 @@ void IOTBufferCommands(void);
 void ProcessCommands(void);
 void pushCB(command c);
 void displayNetworkInfo(void);
-void displayIP(void);
+void displayIP(int);
 command popCB(void);
