@@ -18,6 +18,7 @@ unsigned int lastThumb;
 extern command currCommand;
 extern char commandsReceieved;
 extern volatile unsigned int stopwatchUpdated;
+char commandDisplayCounter;
 extern volatile int timeElapsedSeconds, timeElapsedMilliseconds;
 
 menu mainMenu;
@@ -61,11 +62,13 @@ void displayCalibMenu() {
     display_changed = 1;
 }*/
 
-void displayCommandsMenu() {
-    display_line[3][0] = currCommand.comm;
-    HEXtoBCD(currCommand.duration, 3, 1);
+void displayCommand(){
+  display_line[3][0] = currCommand.comm;
+  HEXtoBCD(currCommand.duration, 3, 1);
+}
 
-    if(currCommand.comm == LINEFOLLOW_COMMAND) {
+void displayStatus(){
+  if(currCommand.comm == LINEFOLLOW_COMMAND) {
         display_line[3][0] = 'A';
         display_line[3][1] = 'u';
         display_line[3][2] = 't';
@@ -80,16 +83,22 @@ void displayCommandsMenu() {
         strcpy(display_line[1], " That was ");
         strcpy(display_line[2], "easy!! ;-)");
 
-    } else if(currCommand.comm == 0 && currCommand.duration == 0) display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] = ' ';
+    } else if(currCommand.comm == 0 && currCommand.duration == 0) strcpy(display_line[3],"          ");//display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] = display_line[3][4] = ' ';
+     
+}
 
-    if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
+void displayArrival(){
+  
+  if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
         strcpy(display_line[0], "ARRIVED 0 ");
         display_line[0][9] = currCommand.duration + '0';
-    }
+  }
+  
+}
 
-
-
-    if(commandsReceieved) {
+void displayIp(){
+  
+  if(commandsReceieved) {
         if(state != DONE)displayIP(1);
     } else {
         strcpy(display_line[0], " WAITING  ");
@@ -97,15 +106,40 @@ void displayCommandsMenu() {
 
         if(state != DONE)displayIP(2);
     }
+  
+}
 
-    if(stopwatchUpdated) {
-        stopwatchUpdated = 0;
+void displayStopwatch(){
+    //if(stopwatchUpdated) {
+        //stopwatchUpdated = 0;
         HEXtoBCD(timeElapsedSeconds, 3, 5);
         display_line[3][5] = ' ';
         display_line[3][9] = 's';
         //display_line[3][9] = timeElapsedMilliseconds + '0';
-    }
+    //}
+}
 
+void displayCommandsMenu() {
+  switch(commandDisplayCounter++){
+    case 0:
+      displayCommand();
+      break;
+    case 10:
+      displayStatus();
+      break;
+    case 20:
+      displayArrival();
+    case 30:
+      displayIp();
+      break;
+    case 40:
+      displayStopwatch();
+      break;
+    case 50:
+      commandDisplayCounter = 0;
+      break;
+    default: break;
+  }
     display_changed = 1;
 }
 
