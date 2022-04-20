@@ -18,7 +18,7 @@ unsigned int lastThumb;
 extern command currCommand;
 extern char commandsReceieved;
 extern volatile unsigned int stopwatchUpdated;
-char commandDisplayCounter;
+int commandDisplayCounter;
 extern volatile int timeElapsedSeconds, timeElapsedMilliseconds;
 
 menu mainMenu;
@@ -63,24 +63,16 @@ void displayCalibMenu() {
 }*/
 
 void displayCommand(){
-  display_line[3][0] = currCommand.comm;
-  HEXtoBCD(currCommand.duration, 3, 1);
+  if(currCommand.comm != LINEFOLLOW_COMMAND && currCommand.comm != EXIT_COMMAND){
+    display_line[3][0] = currCommand.comm;
+    HEXtoBCD(currCommand.duration, 3, 1);
+  }
 }
 
 void displayStatus(){
   if(currCommand.comm == LINEFOLLOW_COMMAND) {
-        display_line[3][0] = 'A';
-        display_line[3][1] = 'u';
-        display_line[3][2] = 't';
-        display_line[3][3] = 'o';
-        display_line[3][4] = '.';
         strcpy(display_line[3],"Auto.     ");
     } else if(state == DONE) {
-        /*display_line[3][0] = 'T';
-        display_line[3][1] = 'i';
-        display_line[3][2] = 'm';
-        display_line[3][3] = 'e';
-        display_line[3][4] = ' ';*/
         strcpy(display_line[3],"Time      ");
         strcpy(display_line[1], " That was ");
         strcpy(display_line[2], "easy!! ;-)");
@@ -126,18 +118,18 @@ void displayCommandsMenu() {
     case 0:
       displayCommand();
       break;
-    case 10:
+    case 100:
       displayStatus();
       break;
-    case 20:
+    case 200:
       displayArrival();
-    case 30:
+    case 300:
       displayIp();
       break;
-    case 40:
+    case 400:
       displayStopwatch();
       break;
-    case 50:
+    case 500:
       commandDisplayCounter = 0;
       break;
     default: break;

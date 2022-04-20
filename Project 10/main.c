@@ -116,11 +116,11 @@ void main(void) {
     // Begining of the "While" Operating System
     //------------------------------------------------------------------------------
     while(ALWAYS) {                       // Can the Operating system run
-        Display_Process();                  // Update Display
         SerialProcess();
 
         if(!Init_IOT()) continue;
-
+        
+        Display_Process();                  // Update Display
         MenuProcess();
         IOTBufferCommands();
         ProcessCommands();

@@ -9,7 +9,7 @@
 #define TIME_SEQUENCE_MAX               (250)
 #define CHECK_ADC_TIMER_COUNT           (14)
 #define TIMER_COUNT_MAX                 (701) // multiply the other ones and add 1
-#define PING_COUNT_MAX                  (3)
+#define PING_COUNT_MAX                  (10)
 
 void Init_Timers(void);
 void Init_Timer_B0(void);

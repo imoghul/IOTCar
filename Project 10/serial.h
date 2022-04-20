@@ -1,6 +1,6 @@
 #define BEGINNING               (0)
 #define SMALL_RING_SIZE         (16)
-#define LARGE_RING_SIZE         (150)
+#define LARGE_RING_SIZE         (100)
 #define SET_UCA0_115200         {UCA0BRW = 4;UCA0MCTLW = 0x5551;UCA1BRW = 4;UCA1MCTLW = 0x5551;}
 #define SET_UCA0_9600           {UCA0BRW = 52;UCA0MCTLW = 0x4911;UCA1BRW = 52;UCA1MCTLW = 0x4911;}
 
