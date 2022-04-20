@@ -74,17 +74,25 @@ void displayStatus(){
         display_line[3][2] = 't';
         display_line[3][3] = 'o';
         display_line[3][4] = '.';
+        strcpy(display_line[3],"Auto.     ");
     } else if(state == DONE) {
-        display_line[3][0] = 'T';
+        /*display_line[3][0] = 'T';
         display_line[3][1] = 'i';
         display_line[3][2] = 'm';
         display_line[3][3] = 'e';
-        display_line[3][4] = ' ';
+        display_line[3][4] = ' ';*/
+        strcpy(display_line[3],"Time      ");
         strcpy(display_line[1], " That was ");
         strcpy(display_line[2], "easy!! ;-)");
 
-    } else if(currCommand.comm == 0 && currCommand.duration == 0) strcpy(display_line[3],"          ");//display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] = display_line[3][4] = ' ';
-     
+    } else if(commandsReceieved && currCommand.comm == 0 && currCommand.duration == 0) strcpy(display_line[3],"          ");//display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] = display_line[3][4] = ' ';
+     if(commandsReceieved){//(stopwatchUpdated) {
+        //stopwatchUpdated = 0;
+        HEXtoBCD(timeElapsedSeconds, 3, 5);
+        display_line[3][5] = ' ';
+        display_line[3][9] = 's';
+        //display_line[3][9] = timeElapsedMilliseconds + '0';
+    }
 }
 
 void displayArrival(){
@@ -110,13 +118,7 @@ void displayIp(){
 }
 
 void displayStopwatch(){
-    //if(stopwatchUpdated) {
-        //stopwatchUpdated = 0;
-        HEXtoBCD(timeElapsedSeconds, 3, 5);
-        display_line[3][5] = ' ';
-        display_line[3][9] = 's';
-        //display_line[3][9] = timeElapsedMilliseconds + '0';
-    //}
+    
 }
 
 void displayCommandsMenu() {
