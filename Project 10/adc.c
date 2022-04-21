@@ -155,7 +155,7 @@ __interrupt void ADC_ISR(void) {
                     ADCMCTL0 &= ~ADCINCH_2;
                     ADCMCTL0 = ADCINCH_3;
                     ADC_Left_Detect = ADCMEM0;
-                    ADC_Left_Detect = ADC_Left_Detect >> 4;
+                    ADC_Left_Detect = ADC_Left_Detect >> 3;
                     ADCCTL0 |= ADCSC;
                     break;
 
@@ -163,7 +163,7 @@ __interrupt void ADC_ISR(void) {
                     ADCMCTL0 &= ~ADCINCH_3;
                     ADCMCTL0 = ADCINCH_5;
                     ADC_Right_Detect = ADCMEM0;
-                    ADC_Right_Detect = ADC_Right_Detect >> 4;
+                    ADC_Right_Detect = ADC_Right_Detect >> 3;
                     break;
 
                 case 0x03:

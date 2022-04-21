@@ -21,7 +21,7 @@
 #define MAX_RCIRCLE_TICK        (1285)//(75)
 #define MAX_LCIRCLE_TICK        (1180)//(72)
 // turn
-#define TURN90                  (480)
+#define TURN90                  (460)
 // detectors
 #define LEFT_BLACK_DETECT       (LBDetect)
 #define RIGHT_BLACK_DETECT      (RBDetect)

@@ -14,6 +14,7 @@
 #define LF_TURN_DECREMENT       (2500)
 #define LEG1                    (2500)
 #define LEG2                    (5000)
+#define LEG3                    (1800)
 #define PRELIMINARY_TURN        (100)
 #define EXITING_TIME            (4000)
 #define CIRCLING_TIME           (120)

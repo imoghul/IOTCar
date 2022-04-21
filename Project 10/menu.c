@@ -189,10 +189,10 @@ void MenuProcess(void) {
     }
 
     switch(menuState) {
-        /*case START_MENU:
-            //updateMenuPos(&start);
-            //displayStartMenu();
-            break;*/
+        //case START_MENU:
+        //    //updateMenuPos(&start);
+        //    //displayStartMenu();
+        //    break;
         case MAIN_MENU:
             updateMenuPos(&mainMenu);
             strcpy(display_line[0], mainMenu.headers[mainMenu.current]);
@@ -208,8 +208,8 @@ void MenuProcess(void) {
             displayNetworkInfo();
             break;*/
 
-        default:
-            break;
+        //default:
+        //    break;
     }
 }
 
