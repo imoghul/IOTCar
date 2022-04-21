@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  09:37:23
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  10:03:58
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\iot.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWE9ED.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW3E5A.tmp
 #        ("C:\Users\saad\Documents\ece-306\Project 10\iot.c" -lC
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
@@ -744,7 +744,7 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
     270                      case (FORWARD_COMMAND):
     271                          speedRight = STRAIGHT_RIGHT;
    \                     ??ProcessCommands_10:
-   \   000078   B240204E.... MOV.W   #0x4e20, &speedRight
+   \   000078   B2405046.... MOV.W   #0x4650, &speedRight
     272                          speedLeft = STRAIGHT_LEFT;
    \   00007E   B240204E.... MOV.W   #0x4e20, &speedLeft
     273                          state = DRIVE;
@@ -755,7 +755,7 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
     277                      case (REVERSE_COMMAND):
     278                          speedRight = -STRAIGHT_RIGHT;
    \                     ??ProcessCommands_7:
-   \   000086   B240E0B1.... MOV.W   #0xb1e0, &speedRight
+   \   000086   B240B0B9.... MOV.W   #0xb9b0, &speedRight
     279                          speedLeft = -STRAIGHT_LEFT;
    \   00008C   B240E0B1.... MOV.W   #0xb1e0, &speedLeft
     280                          state = DRIVE;
@@ -769,24 +769,24 @@ C:\Users\saad\Documents\ece-306\Project 10\iot.c
     284                      case (RIGHT_COMMAND):
     285                          speedRight = STRAIGHT_RIGHT>>1;
    \                     ??ProcessCommands_13:
-   \   00009E   B2401027.... MOV.W   #0x2710, &speedRight
+   \   00009E   B2402823.... MOV.W   #0x2328, &speedRight
     286                          speedLeft = -(STRAIGHT_LEFT>>1);
    \   0000A4   B240F0D8.... MOV.W   #0xd8f0, &speedLeft
     287                          state = DRIVE;
    \   0000AA   063C         JMP     ??ProcessCommands_3
-    288                          driveTime = currCommand.duration << 3;
+    288                          driveTime = currCommand.duration << TURN_CONSTANT;
     289                          break;
     290          
     291                      case (LEFT_COMMAND):
     292                          speedRight = -(STRAIGHT_RIGHT>>1);
    \                     ??ProcessCommands_11:
-   \   0000AC   B240F0D8.... MOV.W   #0xd8f0, &speedRight
+   \   0000AC   B240D8DC.... MOV.W   #0xdcd8, &speedRight
     293                          speedLeft = STRAIGHT_LEFT>>1;
    \   0000B2   B2401027.... MOV.W   #0x2710, &speedLeft
     294                          state = DRIVE;
    \                     ??ProcessCommands_3:
    \   0000B8   C24E....     MOV.B   R14, &state
-    295                          driveTime = currCommand.duration << 3;
+    295                          driveTime = currCommand.duration << TURN_CONSTANT;
    \   0000BC   1F42....     MOV.W   &currCommand + 2, R15
    \   0000C0   5F0A         RLAM.W  #0x3, R15
    \   0000C2   824F....     MOV.W   R15, &driveTime
