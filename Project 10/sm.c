@@ -155,10 +155,10 @@ void LineFollow(char direction) {
 
     /*if(ADC_Left_Detect>LEFT_GRAY_DETECT)rFollowSpeed = 3000;
     else*/ 
-    rFollowSpeed = additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, 4000, GetOutput(&leftFollowController, LEFT_GRAY_DETECT, ADC_Left_Detect)); // swapped b/c they are physically swapped
+    rFollowSpeed = additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, RIGHT_MIN>>1, GetOutput(&leftFollowController, LEFT_BLACK_DETECT, ADC_Left_Detect)); // swapped b/c they are physically swapped
     /*if(ADC_Right_Detect>RIGHT_GRAY_DETECT)lFollowSpeed = 3000;
     else*/ 
-    lFollowSpeed = additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, 4000, GetOutput(&rightFollowController, RIGHT_GRAY_DETECT, ADC_Right_Detect));// swapped b/c they are physically swapped
+    lFollowSpeed = additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, RIGHT_MIN>>1, GetOutput(&rightFollowController, RIGHT_BLACK_DETECT, ADC_Right_Detect));// swapped b/c they are physically swapped
     rAdjustSpeed = (RIGHT_MIN - LF_TURN_DECREMENT);
     lAdjustSpeed = (LEFT_MIN - LF_TURN_DECREMENT);
 
@@ -230,14 +230,14 @@ void LineFollow(char direction) {
             break;
     }
 
-    //if(rFollowSpeed != lFollowSpeed && stateCounter == 1) P6OUT |= GRN_LED;
-    //else P6OUT &= ~GRN_LED;
+    if(rFollowSpeed != lFollowSpeed && stateCounter == 1) P6OUT |= GRN_LED;
+    else P6OUT &= ~GRN_LED;
 }
 
 void Exit(int direction) {
     switch(stateCounter) {
         case 0:
-            strcpy(display_line[0], " BL EXIT  ");
+            strcpy(display_line[0], " BL STOP  ");
             /*if(rightSwitchable && leftSwitchable)*/stateCounter++;
             break;
 
@@ -248,7 +248,7 @@ void Exit(int direction) {
             break;
 
         case 2:
-            if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, 5000)) stateCounter++;
+            if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, EXITING_TIME)) stateCounter++;
 
             break;
 

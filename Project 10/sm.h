@@ -11,10 +11,11 @@
 #define EXIT            ('e')
 #define DONE            ('d')
 
-#define LF_TURN_DECREMENT       (3000)
-#define LEG1                    (2000)
-#define LEG2                    (4500)
+#define LF_TURN_DECREMENT       (2500)
+#define LEG1                    (2500)
+#define LEG2                    (5000)
 #define PRELIMINARY_TURN        (100)
+#define EXITING_TIME            (4000)
 #define CIRCLING_TIME           (120)
 #define TIME_TO_CIRCLE          (3)
 

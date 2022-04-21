@@ -111,6 +111,7 @@ void main(void) {
     strcpy(display_line[2], "          ");
     strcpy(display_line[3], "          ");
     display_changed = TRUE;
+    update_display = TRUE;
     Display_Process();
     //------------------------------------------------------------------------------
     // Begining of the "While" Operating System

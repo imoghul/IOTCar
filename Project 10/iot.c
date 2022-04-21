@@ -285,14 +285,14 @@ void ProcessCommands(void) {
                 speedRight = STRAIGHT_RIGHT>>1;
                 speedLeft = -(STRAIGHT_LEFT>>1);
                 state = DRIVE;
-                driveTime = currCommand.duration << 3;
+                driveTime = currCommand.duration << TURN_CONSTANT;
                 break;
 
             case (LEFT_COMMAND):
                 speedRight = -(STRAIGHT_RIGHT>>1);
                 speedLeft = STRAIGHT_LEFT>>1;
                 state = DRIVE;
-                driveTime = currCommand.duration << 3;
+                driveTime = currCommand.duration << TURN_CONSTANT;
                 break;
 
             case (LINEFOLLOW_COMMAND):
@@ -306,7 +306,8 @@ void ProcessCommands(void) {
                 break;
 
             case (EXIT_COMMAND):
-                state = EXIT;
+                state = WAIT;
+                nextState = EXIT;
                 speedRight = currCommand.duration;
                 break;
         }
