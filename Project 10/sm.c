@@ -70,15 +70,20 @@ void Straight(char direction) {
 
             break;
 
-        case 5:
+        /*case 5:
         case 6:
             if (greaterWhiteOr) {
                 Drive_Path(STRAIGHT_RIGHT, STRAIGHT_LEFT, 0);
             } else stateCounter++;
 
-            break;
+            break;*/
 
-        case 7:
+        case 5:
+          if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG3))stateCounter++;
+          break;
+            
+            
+        case 6:
             EMITTER_ON;
 
             if (lessWhiteOr) {
@@ -86,13 +91,14 @@ void Straight(char direction) {
             } else stateCounter++;
 
             break;
+      
 
-        case 8:
+        case 7:
             if(LockMotors(-1, -1)) stateCounter++;
 
             break;
 
-        case 9:
+        case 8:
             stateCounter = 0 ;
             stopwatch_seconds = 0;
             cycle_count = 0;

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Apr/2022  16:24:10
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  14:43:27
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,25 +12,25 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\pid.c
+#    Source file   =  C:\Users\saad\Documents\ece306test\Project 10\pid.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWF4C7.tmp
-#        ("C:\Users\saad\Documents\ece-306\Project 10\pid.c" -lC
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EW1E85.tmp
+#        ("C:\Users\saad\Documents\ece306test\Project 10\pid.c" -lC
+#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj" --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
 #        --core=430X --data_model=small -Ohz --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece-306\Project 10\Debug\List\pid.lst
+#        C:\Users\saad\Documents\ece306test\Project 10\Debug\List\pid.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj\pid.r43
+#        C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj\pid.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece-306\Project 10\pid.c
+C:\Users\saad\Documents\ece306test\Project 10\pid.c
       1          #include "pid.h"
       2          #include "msp430.h"
       3          #include "macros.h"
@@ -56,7 +56,7 @@ C:\Users\saad\Documents\ece-306\Project 10\pid.c
      14              pidController->lastError = error;
    \   000010   8C4A0600     MOV.W   R10, 0x6(R12)
      15              //pidController->lastIntegral = integral;
-     16              int errorTerm = (error * pidController->kP) >> 3;
+     16              int errorTerm = (error * pidController->kP) >> 4;
      17              int derivTerm = (derivative * pidController->kD) >> 3;
      18              //long intTerm = integral, pidController->kI;
      19              return additionSafe(errorTerm, INT_MAX, INT_MIN, derivTerm);
@@ -78,7 +78,7 @@ C:\Users\saad\Documents\ece-306\Project 10\pid.c
    \   000042   1C42....     MOV.W   &__iar_HWMUL + 10, R12         // RESLO
    \   000046   0343         NOP
    \   000048   3241         POP.W   SR
-   \   00004A   5C09         RRAM.W  #0x3, R12
+   \   00004A   5C0D         RRAM.W  #0x4, R12
    \   00004C   ........     CALLA   #additionSafe
    \   000050   3A41         POP.W   R10
    \   000052   1001         RETA

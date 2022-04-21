@@ -13,7 +13,7 @@ int GetOutput(PIDController* pidController, int setPoint, int current) {
     int derivative = error - pidController->lastError;
     pidController->lastError = error;
     //pidController->lastIntegral = integral;
-    int errorTerm = (error * pidController->kP) >> 3;
+    int errorTerm = (error * pidController->kP) >> 4;
     int derivTerm = (derivative * pidController->kD) >> 3;
     //long intTerm = integral, pidController->kI;
     return additionSafe(errorTerm, INT_MAX, INT_MIN, derivTerm);

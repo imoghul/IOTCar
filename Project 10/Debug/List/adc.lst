@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  10:31:25
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  15:35:03
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,25 +12,25 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\adc.c
+#    Source file   =  C:\Users\saad\Documents\ece306test\Project 10\adc.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW641B.tmp
-#        ("C:\Users\saad\Documents\ece-306\Project 10\adc.c" -lC
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EW5AC5.tmp
+#        ("C:\Users\saad\Documents\ece306test\Project 10\adc.c" -lC
+#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj" --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
 #        --core=430X --data_model=small -Ohz --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece-306\Project 10\Debug\List\adc.lst
+#        C:\Users\saad\Documents\ece306test\Project 10\Debug\List\adc.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj\adc.r43
+#        C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj\adc.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece-306\Project 10\adc.c
+C:\Users\saad\Documents\ece306test\Project 10\adc.c
       1          #include "msp430.h"
 
    \                                 In  segment DATA16_AN, at 0x700
@@ -396,9 +396,9 @@ C:\Users\saad\Documents\ece-306\Project 10\adc.c
    \   000050   B24003000A07 MOV.W   #0x3, &0x70a
     157                              ADC_Left_Detect = ADCMEM0;
    \   000056   92421207.... MOV.W   &0x712, &ADC_Left_Detect
-    158                              ADC_Left_Detect = ADC_Left_Detect >> 4;
+    158                              ADC_Left_Detect = ADC_Left_Detect >> 3;
    \   00005C   1F42....     MOV.W   &ADC_Left_Detect, R15
-   \   000060   5F0F         RRUM.W  #0x4, R15
+   \   000060   5F0B         RRUM.W  #0x3, R15
    \   000062   824F....     MOV.W   R15, &ADC_Left_Detect
     159                              ADCCTL0 |= ADCSC;
    \                     ??ADC_ISR_1:
@@ -414,9 +414,9 @@ C:\Users\saad\Documents\ece-306\Project 10\adc.c
    \   000072   B24005000A07 MOV.W   #0x5, &0x70a
     165                              ADC_Right_Detect = ADCMEM0;
    \   000078   92421207.... MOV.W   &0x712, &ADC_Right_Detect
-    166                              ADC_Right_Detect = ADC_Right_Detect >> 4;
+    166                              ADC_Right_Detect = ADC_Right_Detect >> 3;
    \   00007E   1F42....     MOV.W   &ADC_Right_Detect, R15
-   \   000082   5F0F         RRUM.W  #0x4, R15
+   \   000082   5F0B         RRUM.W  #0x3, R15
    \   000084   824F....     MOV.W   R15, &ADC_Right_Detect
     167                              break;
    \   000088   043C         JMP     ??ADC_ISR_0
