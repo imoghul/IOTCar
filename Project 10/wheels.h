@@ -12,7 +12,7 @@
 #define LEFT_MIN                (8500)
 // straight
 #define STRAIGHT_RIGHT          (20000)
-#define STRAIGHT_LEFT           (16000)
+#define STRAIGHT_LEFT           (20000)
 // circle
 #define LCIRC_RIGHT             (3000)
 #define LCIRC_LEFT              (20000)
@@ -21,7 +21,7 @@
 #define MAX_RCIRCLE_TICK        (1285)//(75)
 #define MAX_LCIRCLE_TICK        (1180)//(72)
 // turn
-#define TURN90                  (550)
+#define TURN90                  (360)
 // detectors
 #define LEFT_BLACK_DETECT       (LBDetect-2)
 #define RIGHT_BLACK_DETECT      (RBDetect-2)
@@ -30,7 +30,7 @@
 #define LEFT_WHITE_DETECT       (LWDetect+2)
 #define RIGHT_WHITE_DETECT      (RWDetect+2)
 #define MS_PER_TICK             (4)
-#define LOCK_TIME               (150)
+#define LOCK_TIME               (125)
 
 int RunRightMotor( int val);
 int RunLeftMotor( int val);

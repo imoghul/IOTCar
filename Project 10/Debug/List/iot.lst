@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          20/Apr/2022  15:59:25
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  09:37:23
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,25 +12,25 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\anotherone\Project 10\iot.c
+#    Source file   =  C:\Users\saad\Documents\ece-306\Project 10\iot.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW545F.tmp
-#        ("C:\Users\saad\Documents\anotherone\Project 10\iot.c" -lC
-#        "C:\Users\saad\Documents\anotherone\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\anotherone\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EWE9ED.tmp
+#        ("C:\Users\saad\Documents\ece-306\Project 10\iot.c" -lC
+#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj" --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
 #        --core=430X --data_model=small -Ohz --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\anotherone\Project 10\Debug\List\iot.lst
+#        C:\Users\saad\Documents\ece-306\Project 10\Debug\List\iot.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\anotherone\Project 10\Debug\Obj\iot.r43
+#        C:\Users\saad\Documents\ece-306\Project 10\Debug\Obj\iot.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\anotherone\Project 10\iot.c
+C:\Users\saad\Documents\ece-306\Project 10\iot.c
       1          #include "iot.h"
       2          #include "msp430.h"
 
@@ -516,7 +516,7 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
    \   000006   8293....     CMP.W   #0x0, &pb0_buffered
    \   00000A   3B24         JEQ     ??IOTBufferCommands_3
     190                  if(subStringPos((char*)USB0_Char_Rx_Process, DISCONNECTED_RESPONSE))
-   \   00000C   3D40....     MOV.W   #`?<Constant "DISCONNECTED">`, R13
+   \   00000C   3D40....     MOV.W   #`?<Constant "DISCONNECT">`, R13
    \   000010   ........     CALLA   #?Subroutine1
    \                     ??CrossCallReturnLabel_1:
    \   000014   0C93         CMP.W   #0x0, R12
@@ -683,7 +683,7 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
     246                  ShutoffMotors();
     247                  return;
    \                     ??CrossCallReturnLabel_4:
-   \   000016   693C         JMP     ??ProcessCommands_0
+   \   000016   6C3C         JMP     ??ProcessCommands_0
     248              }
     249          
     250              if (CommandBuffer[0].comm == EXIT_COMMAND) {
@@ -701,7 +701,7 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
     258              if(state == START) {
    \                     ??ProcessCommands_6:
    \   000024   F2905300.... CMP.B   #0x53, &state
-   \   00002A   5F20         JNE     ??ProcessCommands_0
+   \   00002A   6220         JNE     ??ProcessCommands_0
     259                  currCommand = popCB();
    \   00002C   0C41         MOV.W   SP, R12
    \   00002E   ........     CALLA   #?Subroutine3
@@ -711,7 +711,7 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
    \   000032   C293....     CMP.B   #0x0, &currCommand
    \   000036   0320         JNE     ??ProcessCommands_1
    \   000038   8293....     CMP.W   #0x0, &currCommand + 2
-   \   00003C   5624         JEQ     ??ProcessCommands_0
+   \   00003C   5924         JEQ     ??ProcessCommands_0
     262          
     263                  commandsReceieved = 1;
    \                     ??ProcessCommands_1:
@@ -740,13 +740,13 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
    \   00006E   2C24         JEQ     ??ProcessCommands_12
    \   000070   7F800300     SUB.B   #0x3, R15
    \   000074   1424         JEQ     ??ProcessCommands_13
-   \   000076   393C         JMP     ??ProcessCommands_0
+   \   000076   3C3C         JMP     ??ProcessCommands_0
     270                      case (FORWARD_COMMAND):
     271                          speedRight = STRAIGHT_RIGHT;
    \                     ??ProcessCommands_10:
    \   000078   B240204E.... MOV.W   #0x4e20, &speedRight
     272                          speedLeft = STRAIGHT_LEFT;
-   \   00007E   B240803E.... MOV.W   #0x3e80, &speedLeft
+   \   00007E   B240204E.... MOV.W   #0x4e20, &speedLeft
     273                          state = DRIVE;
    \   000084   063C         JMP     ??ProcessCommands_2
     274                          driveTime = currCommand.duration;
@@ -757,21 +757,21 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
    \                     ??ProcessCommands_7:
    \   000086   B240E0B1.... MOV.W   #0xb1e0, &speedRight
     279                          speedLeft = -STRAIGHT_LEFT;
-   \   00008C   B24080C1.... MOV.W   #0xc180, &speedLeft
+   \   00008C   B240E0B1.... MOV.W   #0xb1e0, &speedLeft
     280                          state = DRIVE;
    \                     ??ProcessCommands_2:
    \   000092   C24E....     MOV.B   R14, &state
     281                          driveTime = currCommand.duration;
    \   000096   9242........ MOV.W   &currCommand + 2, &driveTime
     282                          break;
-   \   00009C   263C         JMP     ??ProcessCommands_0
+   \   00009C   293C         JMP     ??ProcessCommands_0
     283          
     284                      case (RIGHT_COMMAND):
     285                          speedRight = STRAIGHT_RIGHT>>1;
    \                     ??ProcessCommands_13:
    \   00009E   B2401027.... MOV.W   #0x2710, &speedRight
     286                          speedLeft = -(STRAIGHT_LEFT>>1);
-   \   0000A4   B240C0E0.... MOV.W   #0xe0c0, &speedLeft
+   \   0000A4   B240F0D8.... MOV.W   #0xd8f0, &speedLeft
     287                          state = DRIVE;
    \   0000AA   063C         JMP     ??ProcessCommands_3
     288                          driveTime = currCommand.duration << 3;
@@ -782,7 +782,7 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
    \                     ??ProcessCommands_11:
    \   0000AC   B240F0D8.... MOV.W   #0xd8f0, &speedRight
     293                          speedLeft = STRAIGHT_LEFT>>1;
-   \   0000B2   B240401F.... MOV.W   #0x1f40, &speedLeft
+   \   0000B2   B2401027.... MOV.W   #0x2710, &speedLeft
     294                          state = DRIVE;
    \                     ??ProcessCommands_3:
    \   0000B8   C24E....     MOV.B   R14, &state
@@ -791,14 +791,14 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
    \   0000C0   5F0A         RLAM.W  #0x3, R15
    \   0000C2   824F....     MOV.W   R15, &driveTime
     296                          break;
-   \   0000C6   113C         JMP     ??ProcessCommands_0
+   \   0000C6   143C         JMP     ??ProcessCommands_0
     297          
     298                      case (LINEFOLLOW_COMMAND):
     299                          state = STRAIGHT;
    \                     ??ProcessCommands_12:
    \   0000C8   F2407300.... MOV.B   #0x73, &state
     300                          speedRight = currCommand.duration;
-   \   0000CE   0A3C         JMP     ??ProcessCommands_4
+   \   0000CE   0D3C         JMP     ??ProcessCommands_4
     301                          break;
     302                          
     303                      case (DISPLAY_NUMBER_COMMAND):
@@ -808,23 +808,25 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
     305                          currentStation = currCommand.duration;
    \   0000D6   D242........ MOV.B   &currCommand + 2, &currentStation
     306                          break;
-   \   0000DC   063C         JMP     ??ProcessCommands_0
+   \   0000DC   093C         JMP     ??ProcessCommands_0
     307          
     308                      case (EXIT_COMMAND):
-    309                          state = EXIT;
+    309                          state = WAIT;
    \                     ??ProcessCommands_9:
-   \   0000DE   F2406500.... MOV.B   #0x65, &state
-    310                          speedRight = currCommand.duration;
+   \   0000DE   F2405700.... MOV.B   #0x57, &state
+    310                          nextState = EXIT;
+   \   0000E4   F2406500.... MOV.B   #0x65, &nextState
+    311                          speedRight = currCommand.duration;
    \                     ??ProcessCommands_4:
-   \   0000E4   9242........ MOV.W   &currCommand + 2, &speedRight
-    311                          break;
-    312                  }
-    313              }
-    314          
-    315          }
+   \   0000EA   9242........ MOV.W   &currCommand + 2, &speedRight
+    312                          break;
+    313                  }
+    314              }
+    315          
+    316          }
    \                     ??ProcessCommands_0:
-   \   0000EA   ....         JMP     ?Subroutine0
-   \   0000EC   0343         NOP
+   \   0000F0   ....         JMP     ?Subroutine0
+   \   0000F2   0343         NOP
 
    \                                 In  segment CODE, align 2
    \                     ?Subroutine3:
@@ -899,10 +901,9 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
    \            2020202000  
 
    \                                 In  segment DATA16_C, align 1, align-sorted
-   \                     `?<Constant "DISCONNECTED">`:
-   \   000000   444953434F4E DC8 "DISCONNECTED"
-   \            4E4543544544
-   \            00          
+   \                     `?<Constant "DISCONNECT">`:
+   \   000000   444953434F4E DC8 "DISCONNECT"
+   \            4E45435400  
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "^9A73">`:
@@ -963,7 +964,7 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
       22  ?<Constant "AT+CIPSERVER=1,4764\r\n">
       12  ?<Constant "AT+CWJAP?\r\n">
       27  ?<Constant "AT+PING=\"www.google.c...">
-      13  ?<Constant "DISCONNECTED">
+      11  ?<Constant "DISCONNECT">
       14  ?<Constant "WIFI GOT IP\r\n">
        6  ?<Constant "^9A73">
        1  ?<Initializer for iot_setup_state>
@@ -975,7 +976,7 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
      138  IOTBufferCommands
       14  IP
      200  Init_IOT
-     238  ProcessCommands
+     244  ProcessCommands
       11  SSID
       26  SendIOTCommand
        2  _A_UCA0IE_L
@@ -996,15 +997,15 @@ C:\Users\saad\Documents\anotherone\Project 10\iot.c
       34  waitForReady
 
  
- 1 066 bytes in segment CODE
+ 1 072 bytes in segment CODE
      2 bytes in segment DATA16_AN
-   152 bytes in segment DATA16_C
+   150 bytes in segment DATA16_C
      1 byte  in segment DATA16_I
      1 byte  in segment DATA16_ID
     59 bytes in segment DATA16_Z
  
- 1 066 bytes of CODE  memory
-   153 bytes of CONST memory
+ 1 072 bytes of CODE  memory
+   151 bytes of CONST memory
     60 bytes of DATA  memory (+ 2 bytes shared)
 
 Errors: none

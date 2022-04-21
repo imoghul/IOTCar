@@ -7,7 +7,7 @@
 #define BOOT_RESPONSE                   ("WIFI GOT IP\r\n")
 #define SSID_RESPONSE                   ("+CWJAP:")
 #define IP_RESPONSE                     ("+CIFSR:STAIP,")
-#define DISCONNECTED_RESPONSE           ("DISCONNECTED")
+#define DISCONNECTED_RESPONSE           ("DISCONNECT")
 #define SSID_RESPONSE_LEN               (7)
 #define IP_RESPONSE_LEN                 (13)
 #define BOOT_UP                         ('B')
@@ -37,7 +37,7 @@
 #define LINEFOLLOW_COMMAND              ('o')
 #define DISPLAY_NUMBER_COMMAND          ('d')
 #define EXIT_COMMAND                    ('e')
-#define TURN_CONSTANT                   (4)
+#define TURN_CONSTANT                   (3)
 
 typedef struct {
     char comm;
