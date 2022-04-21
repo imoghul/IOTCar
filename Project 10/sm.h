@@ -17,7 +17,7 @@
 #define PRELIMINARY_TURN        (100)
 #define EXITING_TIME            (4000)
 #define CIRCLING_TIME           (120)
-#define TIME_TO_CIRCLE          (3)
+#define TIME_TO_CIRCLE          (10)
 
 void StateMachine(void);
 void Straight(char);
