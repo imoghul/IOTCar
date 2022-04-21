@@ -11,7 +11,7 @@
 #define RIGHT_MIN               (8500)
 #define LEFT_MIN                (8500)
 // straight
-#define STRAIGHT_RIGHT          (20000)
+#define STRAIGHT_RIGHT          (18000)
 #define STRAIGHT_LEFT           (20000)
 // circle
 #define LCIRC_RIGHT             (3000)
@@ -21,10 +21,10 @@
 #define MAX_RCIRCLE_TICK        (1285)//(75)
 #define MAX_LCIRCLE_TICK        (1180)//(72)
 // turn
-#define TURN90                  (360)
+#define TURN90                  (450)
 // detectors
-#define LEFT_BLACK_DETECT       (LBDetect-2)
-#define RIGHT_BLACK_DETECT      (RBDetect-2)
+#define LEFT_BLACK_DETECT       (LBDetect)
+#define RIGHT_BLACK_DETECT      (RBDetect)
 #define LEFT_GRAY_DETECT        (LBDetect-5)
 #define RIGHT_GRAY_DETECT       (RBDetect-5)
 #define LEFT_WHITE_DETECT       (LWDetect+2)
