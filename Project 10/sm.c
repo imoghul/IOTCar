@@ -179,8 +179,8 @@ void LineFollow(char direction) {
         case 1:
             if(l_LessWhite ^ r_LessWhite) stateCounter = 10;
             else if (lessWhiteAnd) {
-                rFollowSpeed = -RIGHT_MIN;
-                lFollowSpeed = -LEFT_MIN;
+                rFollowSpeed = -RIGHT_MIN>>1;
+                lFollowSpeed = -LEFT_MIN>>1;
             }/* else {
 
                 ClearController(&rightFollowController);
