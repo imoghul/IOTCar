@@ -27,8 +27,8 @@
 #define RIGHT_BLACK_DETECT      (RBDetect)
 #define LEFT_GRAY_DETECT        (LBDetect-5)
 #define RIGHT_GRAY_DETECT       (RBDetect-5)
-#define LEFT_WHITE_DETECT       (LWDetect+2)
-#define RIGHT_WHITE_DETECT      (RWDetect+2)
+#define LEFT_WHITE_DETECT       (9)//(LWDetect+2)
+#define RIGHT_WHITE_DETECT      (9)//(RWDetect+2)
 #define MS_PER_TICK             (4)
 #define LOCK_TIME               (125)
 
