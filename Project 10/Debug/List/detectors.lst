@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  15:35:03
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  17:16:02
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece306test\Project 10\detectors.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW5CC9.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EWCE78.tmp
 #        ("C:\Users\saad\Documents\ece306test\Project 10\detectors.c" -lC
 #        "C:\Users\saad\Documents\ece306test\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj" --debug
@@ -236,50 +236,46 @@ C:\Users\saad\Documents\ece306test\Project 10\detectors.c
      34              l_LessGray = ADC_Left_Detect < LEFT_GRAY_DETECT;
      35              r_LessGray = ADC_Right_Detect < RIGHT_GRAY_DETECT;*/
      36              l_LessWhite = ADC_Left_Detect < LEFT_WHITE_DETECT;
-   \   000002   1F42....     MOV.W   &LWDetect, R15
-   \   000006   2F53         ADD.W   #0x2, R15
-   \   000008   829F....     CMP.W   R15, &ADC_Left_Detect
-   \   00000C   4E7E         SUBC.B  R14, R14
-   \   00000E   5EF3         AND.B   #0x1, R14
-   \   000010   824E....     MOV.W   R14, &l_LessWhite
+   \   000002   B2900900.... CMP.W   #0x9, &ADC_Left_Detect
+   \   000008   4E7E         SUBC.B  R14, R14
+   \   00000A   5EF3         AND.B   #0x1, R14
+   \   00000C   824E....     MOV.W   R14, &l_LessWhite
      37              r_LessWhite = ADC_Right_Detect < RIGHT_WHITE_DETECT;
-   \   000014   1F42....     MOV.W   &RWDetect, R15
-   \   000018   2F53         ADD.W   #0x2, R15
-   \   00001A   829F....     CMP.W   R15, &ADC_Right_Detect
-   \   00001E   4F7F         SUBC.B  R15, R15
-   \   000020   5FF3         AND.B   #0x1, R15
-   \   000022   824F....     MOV.W   R15, &r_LessWhite
+   \   000010   B2900900.... CMP.W   #0x9, &ADC_Right_Detect
+   \   000016   4F7F         SUBC.B  R15, R15
+   \   000018   5FF3         AND.B   #0x1, R15
+   \   00001A   824F....     MOV.W   R15, &r_LessWhite
      38              //
      39              /*l_GreaterBlack = ADC_Left_Detect > LEFT_BLACK_DETECT;
      40              r_GreaterBlack = ADC_Right_Detect > RIGHT_BLACK_DETECT;
      41              l_GreaterGray = ADC_Left_Detect > LEFT_GRAY_DETECT;
      42              r_GreaterGray = ADC_Right_Detect > RIGHT_GRAY_DETECT;*/
      43              l_GreaterWhite = !l_LessWhite;//ADC_Left_Detect > LEFT_WHITE_DETECT;
-   \   000026   4D4E         MOV.B   R14, R13
-   \   000028   5DE3         XOR.B   #0x1, R13
-   \   00002A   824D....     MOV.W   R13, &l_GreaterWhite
+   \   00001E   4D4E         MOV.B   R14, R13
+   \   000020   5DE3         XOR.B   #0x1, R13
+   \   000022   824D....     MOV.W   R13, &l_GreaterWhite
      44              r_GreaterWhite = !r_LessWhite;//ADC_Right_Detect > RIGHT_WHITE_DETECT;
-   \   00002E   4C4F         MOV.B   R15, R12
-   \   000030   5CE3         XOR.B   #0x1, R12
-   \   000032   824C....     MOV.W   R12, &r_GreaterWhite
+   \   000026   4C4F         MOV.B   R15, R12
+   \   000028   5CE3         XOR.B   #0x1, R12
+   \   00002A   824C....     MOV.W   R12, &r_GreaterWhite
      45              //
      46              lessWhiteOr = l_LessWhite || r_LessWhite;
-   \   000036   4A4E         MOV.B   R14, R10
-   \   000038   4ADF         BIS.B   R15, R10
-   \   00003A   824A....     MOV.W   R10, &lessWhiteOr
+   \   00002E   4A4E         MOV.B   R14, R10
+   \   000030   4ADF         BIS.B   R15, R10
+   \   000032   824A....     MOV.W   R10, &lessWhiteOr
      47              lessWhiteAnd = l_LessWhite && r_LessWhite;
-   \   00003E   4EFF         AND.B   R15, R14
-   \   000040   824E....     MOV.W   R14, &lessWhiteAnd
+   \   000036   4EFF         AND.B   R15, R14
+   \   000038   824E....     MOV.W   R14, &lessWhiteAnd
      48              greaterWhiteAnd = l_GreaterWhite && r_GreaterWhite;
-   \   000044   4E4D         MOV.B   R13, R14
-   \   000046   4EFC         AND.B   R12, R14
-   \   000048   824E....     MOV.W   R14, &greaterWhiteAnd
+   \   00003C   4E4D         MOV.B   R13, R14
+   \   00003E   4EFC         AND.B   R12, R14
+   \   000040   824E....     MOV.W   R14, &greaterWhiteAnd
      49              greaterWhiteOr = l_GreaterWhite || r_GreaterWhite;
-   \   00004C   4DDC         BIS.B   R12, R13
-   \   00004E   824D....     MOV.W   R13, &greaterWhiteOr
+   \   000044   4DDC         BIS.B   R12, R13
+   \   000046   824D....     MOV.W   R13, &greaterWhiteOr
      50          }
-   \   000052   1A17         POPM.W  #0x2, R11
-   \   000054   1001         RETA
+   \   00004A   1A17         POPM.W  #0x2, R11
+   \   00004C   1001         RETA
      51          
 
    \                                 In  segment CODE, align 2
@@ -411,13 +407,13 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
        2  r_LessGray
        2  r_LessWhite
        8  rightVals
-      86  updateDetectors
+      78  updateDetectors
 
  
- 234 bytes in segment CODE
+ 226 bytes in segment CODE
   77 bytes in segment DATA16_Z
  
- 234 bytes of CODE memory
+ 226 bytes of CODE memory
   77 bytes of DATA memory
 
 Errors: none
