@@ -28,6 +28,24 @@ short lessGrayOr, lessGrayAnd, greaterGrayOr, greaterGrayAnd;
 short lessBlackOr, lessBlackAnd, greaterBlackOr, greaterBlackAnd;
 short lessBlackOr, lessBlackAnd, greaterBlackOr, greaterBlackAnd;
 
+
+//===========================================================================
+// Function name: updateDetectors
+//
+// Description: This function updates the status of the detectors
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: l_LessWhite,r_LessWhite,l_GreaterWhite,r_GreaterWhite,lessWhiteOr,
+// lessWhiteAnd, greaterWhiteAnd, greaterWhiteOr, ADC_Left_Detect,
+// ADC_Right_Detect
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void updateDetectors(void) {
     /*l_LessBlack = ADC_Left_Detect < LEFT_BLACK_DETECT;
     r_LessBlack = ADC_Right_Detect < RIGHT_BLACK_DETECT;
@@ -49,6 +67,21 @@ void updateDetectors(void) {
     greaterWhiteOr = l_GreaterWhite || r_GreaterWhite;
 }
 
+//===========================================================================
+// Function name: calibrate
+//
+// Description: This function calibrates the thresholds for the detectors
+//
+// Passed : no variables passed
+// Locals: left, right, leftDetect,rightDetect
+// Returned: no values returned
+// Globals: LWDetect,LBDetect,RWDetect,RBDetect
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void calibrate(void) {
     unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
     int * leftDetect = calibrationMode ? &LWDetect : &LBDetect;
@@ -57,12 +90,4 @@ void calibrate(void) {
     if (left > *leftDetect) *leftDetect = left;
 
     if (right > *rightDetect) *rightDetect = right;
-
-    /*HEXtoBCD((int)LBDetect, 3, 6);
-    HEXtoBCD((int)RBDetect, 3, 0);
-    HEXtoBCD((int)LWDetect, 2, 6);
-    HEXtoBCD((int)RWDetect, 2, 0);
-    HEXtoBCD((int)left, 0, 6);
-    HEXtoBCD((int)right, 0, 0);
-    display_changed = 1;*/
 }

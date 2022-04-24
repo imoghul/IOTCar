@@ -17,6 +17,22 @@ extern volatile unsigned int checkAdc;
 extern volatile char state;
 volatile unsigned int adcUpdated;
 
+//===========================================================================
+// Function name: Init_ADC
+//
+// Description: This function initializes the ADC
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: no globals used
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
+
 void Init_ADC(void) {
     //------------------------------------------------------------------------------
     // V_DETECT_L
@@ -58,6 +74,21 @@ void Init_ADC(void) {
     //ADCCTL0 = ADCENC | ADCSC;
 }
 
+//===========================================================================
+// Function name: Init_REF
+//
+// Description: This function initializes the reference for the ADC
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: no globals used
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void Init_REF(void) {
     PMMCTL0_H = PMMPW_H;
     PMMCTL2 = INTREFEN;
@@ -66,6 +97,21 @@ void Init_REF(void) {
 
     while(!(PMMCTL2 & REFGENRDY));
 }
+
+//===========================================================================
+// Function name: Init_DAC
+//
+// Description: This function initializes the DAC
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: no globals used
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void Init_DAC(void) {
     DAC_data = DAC_INIT_VAL;
@@ -93,6 +139,23 @@ void Init_DAC(void) {
     SAC3OA |= SACEN;
     SAC3OA |= OAEN;
 }
+
+//===========================================================================
+// Function name: ADC_ISR
+//
+// Description: This is the isr for the ADC, it stores the adc values into 
+// the global variables, which are used elsewhere
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: ADC_Thumb,ADC_Left_Detect,ADC_Right_Detect,adc_Updated,
+// ADC_Channel
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 #pragma vector=ADC_VECTOR
 __interrupt void ADC_ISR(void) {
@@ -181,4 +244,3 @@ __interrupt void ADC_ISR(void) {
             break;
     }
 }
-

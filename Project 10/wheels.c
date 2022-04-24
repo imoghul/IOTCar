@@ -43,11 +43,42 @@ PIDController leftFollowController = {
     //.lastIntegral = 0
 };
 
+//===========================================================================
+// Function name: ShutoffMotors
+//
+// Description: This function shuts off the motors and all related tasks
+// such as starting switching timer
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: no global values
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void ShutoffMotors(void) {
     ShutoffRight();
     ShutoffLeft();
 }
+
+//===========================================================================
+// Function name: ShutoffRight
+//
+// Description: This function shuts off the right motor and starts its 
+// switching timer
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: rightSwitchable
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void ShutoffRight(void) {
     RIGHT_FORWARD_SPEED = RIGHT_REVERSE_SPEED = WHEEL_OFF;
@@ -58,6 +89,22 @@ void ShutoffRight(void) {
     TB1CCTL2 |= CCIE;
 }
 
+//===========================================================================
+// Function name: ShutoffLeft
+//
+// Description: This function shuts off the left motor and stats its
+// switching timer
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: leftSwitchable
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void ShutoffLeft(void) {
     LEFT_FORWARD_SPEED = LEFT_REVERSE_SPEED = WHEEL_OFF;
     leftSwitchable = false;
@@ -67,6 +114,22 @@ void ShutoffLeft(void) {
     TB1CCTL1 |= CCIE;
 }
 
+//===========================================================================
+// Function name: MotorSafety
+//
+// Description: This function checks if the motors are in forward and reverse 
+// at the same time an turns them off
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: no global values
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void MotorSafety(void) {
     if ((RIGHT_FORWARD_SPEED != OFF && RIGHT_REVERSE_SPEED != OFF) || (LEFT_FORWARD_SPEED != OFF && LEFT_REVERSE_SPEED != OFF)) {
         ShutoffMotors();
@@ -75,6 +138,22 @@ void MotorSafety(void) {
         //P1OUT &= ~RED_LED;
     }
 }
+
+//===========================================================================
+// Function name: RunRightMotor
+//
+// Description: This function sets the right motor with the desired speed and
+// direction, taking into account switching directions
+//
+// Passed : val
+// Locals: no variables declared
+// Returned: success
+// Globals: rightSwitchable
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 int RunRightMotor(int val) {
     if(RIGHT_REVERSE_SPEED > OFF && val > OFF || RIGHT_FORWARD_SPEED > OFF && val < OFF) {
@@ -98,6 +177,22 @@ int RunRightMotor(int val) {
         return true;//P6IN & R_REVERSE;
     }
 }
+
+//===========================================================================
+// Function name: RunRightMotor
+//
+// Description: This function sets the left motor with the desired speed and
+// direciton, taking into account switching directions
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: success
+// Globals: no global values
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 int RunLeftMotor( int val) {
     if(LEFT_REVERSE_SPEED > OFF && val > OFF || LEFT_FORWARD_SPEED > OFF && val < OFF) {
@@ -155,13 +250,61 @@ int RunLeftMotor( int val){
   return RunMotor(val, &LEFT_FORWARD_SPEED, &LEFT_REVERSE_SPEED, L_FORWARD, L_REVERSE_2355,leftSwitchable,ShutoffLeft);
 }*/
 
+//===========================================================================
+// Function name: LockMotors
+//
+// Description: This function electronically brakes the motors, for the 
+// predetermined time that is configured to stop the car at full speed
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: completion
+// Globals: no global values
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 int LockMotors(int polR, int polL) {
     return (Drive_Path(polR > OFF ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > OFF ? STRAIGHT_LEFT : -STRAIGHT_LEFT, LOCK_TIME));
 }
 
+//===========================================================================
+// Function name: LockMotorsTime
+//
+// Description: This function electronically brakes the motors, for a 
+// desired duration
+//
+// Passed : polR, polL, duration
+// Locals: no variables declared
+// Returned: completion
+// Globals: no global values
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 int LockMotorsTime(int polR, int polL, int duration) {
     return (Drive_Path(polR > OFF ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > OFF ? STRAIGHT_LEFT : -STRAIGHT_LEFT, duration));
 }
+
+//===========================================================================
+// Function name: Update_Ticks
+//
+// Description: This function updates duration the car has been driving a 
+// specific path
+//
+// Passed : milliseconds
+// Locals: no variables declared
+// Returned: completion
+// Globals: stopwatch_milliseconds
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 int Update_Ticks(int milliseconds) { // each tick is 4ms
     stopwatch_milliseconds += MS_PER_TICK;
@@ -196,6 +339,22 @@ int Drive_Path_Indefinite(int speedR, int speedL) {
     int successL = RunLeftMotor(speedL);
     return successR && successL;
 }*/
+
+//===========================================================================
+// Function name: Drive_Path
+//
+// Description: This function sets the motors to different speeds for a 
+// certain time
+//
+// Passed : speedR, speedL, ticksDuration
+// Locals: no variables declared
+// Returned: completion
+// Globals: time_change
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 int Drive_Path(int speedR, int speedL, unsigned int ticksDuration) {
     /*int successR = RunRightMotor(speedR);

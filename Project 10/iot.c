@@ -44,6 +44,23 @@ command emptyCommand = {0, 0};
 command currCommand;
 
 
+//===========================================================================
+// Function name: Init_IOT
+//
+// Description: This function initializes the IOT, and gets it connected to
+// the local network, and ready to communicate with other devices, it also
+// ensures it stays connected with periodic pings
+//
+// Passed : no variables passed
+// Locals: isTransmitting
+// Returned: whether the iot module is available or not
+// Globals: iot_setup_state, pingFlag,pb0_buffered
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 int Init_IOT(void) {
     int isTransmitting = UCA0IE & UCTXIE;
 
@@ -116,7 +133,21 @@ int Init_IOT(void) {
     return 0;
 }
 
-
+//===========================================================================
+// Function name: waitForRead
+//
+// Description: This function waits for the final boot up output from the iot
+// before moving on in the initialization process for the iot
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: pb0_buffered, USB0_Char_Rx_Process, iot_setup_state
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 void waitForReady(void) {
     if(pb0_buffered) {
         if(!strcmp((char*)USB0_Char_Rx_Process, BOOT_RESPONSE)) iot_setup_state = CIPMUX_Tx;
@@ -125,11 +156,43 @@ void waitForReady(void) {
     }
 }
 
+//===========================================================================
+// Function name: SendIOTCommand
+//
+// Description: This function loads a command to transmit to the IOT
+// into the tx buffer, and enables the interrupt to begin the transmition
+// it then transitions to the next state in the setup process
+//
+// Passed : command, nextState
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: iot_setup_state
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void SendIOTCommand(char* command, char nextState) {
     strcpy((char*)USB0_Char_Tx, command);
     USCI_A0_transmit();
     iot_setup_state = nextState;
 }
+
+//===========================================================================
+// Function name: getSSID
+//
+// Description: This function waits for and parses the SSID
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: SSID, USB0_Char_Rx_Process,iot_setup_state
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void getSSID(void) {
     if(pb0_buffered) {
@@ -147,6 +210,21 @@ void getSSID(void) {
         clearProcessBuff_0();
     }
 }
+
+//===========================================================================
+// Function name: getIP
+//
+// Description: This function waits for and parses the IP address
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: IP, USB0_Char_Rx_Process,iot_setup_state, midIndex
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void getIP(void) {
     if(pb0_buffered) {
@@ -172,11 +250,42 @@ void getIP(void) {
     }
 }
 
+//===========================================================================
+// Function name: displayNetworkInfo
+//
+// Description: This function displays the network information
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: display_changed, SSID
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void displayNetworkInfo(void) {
     centerStringToDisplay(0, SSID);
     displayIP(1);
     display_changed = 1;
 }
+
+//===========================================================================
+// Function name: displayIP
+//
+// Description: This function displays the IP address centered, starting at a
+// desired line
+//
+// Passed : pos
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: display_line, IP, midIndex
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void displayIP(int pos) {
     strcpy(display_line[pos], BLANK_LINE);
@@ -185,6 +294,25 @@ void displayIP(int pos) {
     centerStringToDisplay(pos + 1, IP + midIndex + 1);
 }
 
+
+//===========================================================================
+// Function name: IOTBufferCommands
+//
+// Description: This function reads the serial input from the IOT and 
+// converts them into "commands" that the rest of the program can understand
+// and then pushes it onto CommandBuffer, until there are no more recognzied
+// command, it also checks whether the iot has disconnected and restarts the
+// initialization process if so
+//
+// Passed : no variables passed
+// Locals: pos,end_caret,end_null,end,time,c,comm
+// Returned: no values returned
+// Globals: USB0_Char_Rx_Process,iot_setup_state,pb0_buffered
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void IOTBufferCommands(void) {
     if(pb0_buffered) {
@@ -214,6 +342,22 @@ void IOTBufferCommands(void) {
 
 }
 
+//===========================================================================
+// Function name: popCB
+//
+// Description: This function pops the oldest command for processing, then
+// shifts the rest to be popped later
+//
+// Passed : no variables passed
+// Locals: ret
+// Returned: oldest command
+// Globals: CommandBuffer,emptyCommand
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 command popCB(void) {
     command ret = CommandBuffer[0];
 
@@ -222,6 +366,23 @@ command popCB(void) {
     CommandBuffer[COMMAND_BUFFER_LEN - 1] = emptyCommand;
     return ret;
 }
+
+//===========================================================================
+// Function name: pushCB
+//
+// Description: This function pushes a command onto the end of the
+// CommandBuffer
+//
+// Passed : c
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: CommandBuffer
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void pushCB(command c) {
     int i;
 
@@ -234,6 +395,23 @@ void pushCB(command c) {
 
     CommandBuffer[i] = c;
 }
+
+//===========================================================================
+// Function name: ProcessCommands
+//
+// Description: This function processes the oldest command and implements it
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: state,currCommand,stopwatch_milliseconds,stateCounter
+// driveStateCounter,cycle_count,speedRight,speedLeft,driveTime,nextState,
+// commandDisplayCounter
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void ProcessCommands(void) {
     //if(currCommand.comm == 0 && currCommand.duration == 0)return;

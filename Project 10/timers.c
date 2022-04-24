@@ -22,11 +22,41 @@ extern char commandsReceieved;
 char pingCounter;
 volatile char pingFlag;
 
+//===========================================================================
+// Function name: Init_Timrs
+//
+// Description: This function is used to initialize all timers
+//
+// Passed : direction
+// Locals: no locals used
+// Returned: no values returned
+// Globals: no globals used
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void Init_Timers(void) {
     Init_Timer_B0();
     Init_Timer_B1();
     Init_Timer_B3();
 }
+
+//===========================================================================
+// Function name: Init_Timer_B0
+//
+// Description: This function is used to initialized timer B0
+//
+// Passed : direction
+// Locals: no locals used
+// Returned: no values returned
+// Globals: no globals used
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void Init_Timer_B0(void) {
     /*TB0CTL = TBSSEL__SMCLK; // SMCLK source
@@ -51,6 +81,21 @@ void Init_Timer_B0(void) {
     //TB0CTL &= ~TBIFG; // Clear Overflow Interrupt flag
 }
 
+//===========================================================================
+// Function name: Init_Timer_B1
+//
+// Description: This function is used to initialized timer B1
+//
+// Passed : direction
+// Locals: no locals used
+// Returned: no values returned
+// Globals: no globals used
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void Init_Timer_B1(void) {
     /*TB1CTL = TBSSEL__SMCLK; // SMCLK source
     TB1CTL |= TBCLR; // Resets TB0R, clock divider, count direction
@@ -73,6 +118,20 @@ void Init_Timer_B1(void) {
     TB1CTL &= ~TBIE & ~TBIFG; // Disable Overflow Interrupt
     //TB1CTL &= ~TBIFG; // Clear Overflow Interrupt flag
 }
+//===========================================================================
+// Function name: Init_Timer_B3
+//
+// Description: This function is used to initialized timer B3
+//
+// Passed : direction
+// Locals: no locals used
+// Returned: no values returned
+// Globals: no globals used
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void Init_Timer_B3(void) {
     /*TB3CTL = TBSSEL__SMCLK;
@@ -100,7 +159,7 @@ void Init_Timer_B3(void) {
 //===========================================================================
 // Function name: Timer0_B0_ISR
 //
-// Description: Increments Time_Sequence and update_display
+// Description: Timer B0 isr, Increments Time_Sequence and enables adc preiodically
 //
 // Passed : no variables passed
 // Locals: no variables declared
@@ -131,13 +190,13 @@ __interrupt void Timer0_B0_ISR(void) {
 //===========================================================================
 // Function name: TIMER0_B1_ISR
 //
-// Description: Timer 1 handles switch debounce, and Timer 2 handles
-// LCD blinking
+// Description: Timer B0 isr, Timers 1 and 2 handles switch debounce
 //
 // Passed : no variables passed
 // Locals: no variables declared
 // Returned: no values returned
-// Globals: no global values
+// Globals: debouncing1, debouncing2, debounce_count1, debounce_count2, 
+// debounce_thresh1, debounce_thresh2
 //
 // Author: Ibrahim Moghul
 // Date: Feb 2022
@@ -191,6 +250,23 @@ __interrupt void TIMER0_B1_ISR(void) {
     //----------------------------------------------------------------------------
 }
 
+//===========================================================================
+// Function name: TIMER1_B0_ISR
+//
+// Description: Timer B1 isr; enables IOT, updates stopwatch, updates ping
+// flag, sets update_display
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: commandReceieved, state, stopwatchUpdated, timeElapsedMilliseconds
+// pingCounter, pingFlag, update_display
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 #pragma vector = TIMER1_B0_VECTOR
 __interrupt void Timer1_B0_ISR(void) {
     //------------------------------------------------------------------------------
@@ -217,6 +293,21 @@ __interrupt void Timer1_B0_ISR(void) {
     TB1CCR0 += TB1CCR0_INTERVAL;
     //----------------------------------------------------------------------------
 }
+
+//===========================================================================
+// Function name: TIMER1_B1_ISR
+//
+// Description: Timer B0 isr, eanbles motor switching after delay
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: leftSwitchable, rightSwitchable
+//
+// Author: Ibrahim Moghul
+// Date: Feb 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 #pragma vector=TIMER1_B1_VECTOR
 __interrupt void TIMER1_B1_ISR(void) {

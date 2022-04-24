@@ -41,28 +41,34 @@ menu start = {
     .values = {""},
     .transitions = {&mainMenu}
 };
-// menu commandsOutput = {
-//     .length = 1,
-//     .current = 0,
-//     .name = COMMANDS_MENU,
-//     .headers = {""},
-//     .values = {""},
-//     .transitions = {&mainMenu}
-// };
+menu commandsOutput = {
+    .length = 1,
+    .current = 0,
+    .name = COMMANDS_MENU,
+    .headers = {""},
+    .values = {""},
+    .transitions = {&mainMenu}
+};
 
 menu* currMenu = &start;
 
 
 
-/*void displayStartMenu() {}
 
-void displayMainMenu() {
-    strcpy(display_line[0], mainMenu.headers[mainMenu.current]);
-}
-
-void displayCalibMenu() {
-    display_changed = 1;
-}*/
+//===========================================================================
+// Function name: displayCommand
+//
+// Description: This function displays the current command being implemented
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: display_line,currCommand
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void displayCommand() {
     if(currCommand.comm != LINEFOLLOW_COMMAND && currCommand.comm != EXIT_COMMAND) {
@@ -70,6 +76,21 @@ void displayCommand() {
         HEXtoBCD(currCommand.duration, COMMAND_LINE, COMMAND_DURATION_BEGIN);
     }
 }
+
+//===========================================================================
+// Function name: displayStatus
+//
+// Description: This function displays the status of completion
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: display_line,timeElapsedSeconds,currCommand,commandsReceieved
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void displayStatus() {
     if(currCommand.comm == LINEFOLLOW_COMMAND) {
@@ -90,6 +111,21 @@ void displayStatus() {
     }
 }
 
+//===========================================================================
+// Function name: displayArrival
+//
+// Description: This function displays the arrival status
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: display_line, commandDisplayCounter, currentStation
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void displayArrival() {
 
     //if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
@@ -99,6 +135,22 @@ void displayArrival() {
     //}
 
 }
+
+//===========================================================================
+// Function name: displayIP
+//
+// Description: This function displays the Ip address during the duration of
+// operation
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: display_line, commandsReceieved, state
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void displayIp() {
 
@@ -113,9 +165,26 @@ void displayIp() {
 
 }
 
-void displayStopwatch() {
+// void displayStopwatch() {
 
-}
+// }
+
+//===========================================================================
+// Function name: displayCommandsMenu
+//
+// Description: This function displays all the required elements on the LCD
+// for the demo, it does so every couple clock cycles as doing so every cycle
+// was causing major lag
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: commandDisplayCounter, display_changed
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void displayCommandsMenu() {
     switch(commandDisplayCounter++) {
@@ -132,7 +201,7 @@ void displayCommandsMenu() {
             break;
 
         case 300:
-            displayStopwatch();
+            //displayStopwatch();
             break;
 
         case 400:
@@ -149,11 +218,43 @@ void displayCommandsMenu() {
     display_changed = true;
 }
 
+//===========================================================================
+// Function name: updateMenuPos
+//
+// Description: This function converts the ADC_Thumb value into an index of
+// what the current menu item should be
+//
+// Passed : m
+// Locals: val
+// Returned: no values returned
+// Globals: ADC_Thumb
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 
 void updateMenuPos(menu* m) {
     unsigned int val = (ADC_Thumb * m->length) >> THUMB_RES;
     m->current  = val < m->length ? val : m->length - 1;
 }
+
+//===========================================================================
+// Function name: interractWithMenu
+//
+// Description: This function is run when button 2 is pressed and completes
+// all the interraction that happens within a menu
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: menuState, calibrationMode
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void interractWithMenu(void) {
     /*switch(menuState) {
@@ -163,6 +264,24 @@ void interractWithMenu(void) {
     }*/
     if(menuState == CALIB_MENU) calibrationMode++;
 }
+
+//===========================================================================
+// Function name: transitionMenu
+//
+// Description: This function displays transitions the menu based on its 
+// current position the the positions corresponding menu, it also does 
+// anything a specific menu needs done in a transition into or out of it
+//
+// Passed : m
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: display_changed, display_line, state,menuState,currMenu
+// LBDetect, RBDetect,LWDetect,RWDetect, calibrationMode
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void transitionMenu(menu* m) {
     // transitioning out code
@@ -187,11 +306,28 @@ void transitionMenu(menu* m) {
     display_changed = true;
 }
 
+//===========================================================================
+// Function name: MenuProcess
+//
+// Description: This function displays the current menu and processes
+// transitions and interractions
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: display_changed, display_line, transMenu,currMenu,menuState,
+// mainMenu
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void MenuProcess(void) {
     if(transMenu) {
         transMenu = false;
-        currMenu = &mainMenu;
-        menuState = MAIN_MENU;
+        currMenu = &commandsOutput;
+        menuState = COMMANDS_MENU;
         //transitionMenu(currMenu);
     }
 
@@ -200,21 +336,21 @@ void MenuProcess(void) {
         interractWithMenu();
     }*/
 
-    switch(menuState) {
+    //switch(menuState) {
         //case START_MENU:
         //    //updateMenuPos(&start);
         //    //displayStartMenu();
         //    break;
-        case MAIN_MENU:
-            updateMenuPos(&mainMenu);
-            strcpy(LINE1, mainMenu.headers[mainMenu.current]);
-            //displayMainMenu();
-            display_changed = TRUE;
-            break;
+        // case MAIN_MENU:
+        //     updateMenuPos(&mainMenu);
+        //     strcpy(LINE1, mainMenu.headers[mainMenu.current]);
+        //     //displayMainMenu();
+        //     display_changed = TRUE;
+        //     break;
 
-            // case COMMANDS_MENU:
-            //     displayCommandsMenu();
-            //     break;
+            case COMMANDS_MENU:
+                displayCommandsMenu();
+                break;
 
             // case NETWORK_MENU:
             //     displayNetworkInfo();
@@ -224,6 +360,21 @@ void MenuProcess(void) {
             //    break;
     }
 }
+
+//===========================================================================
+// Function name: Init_Menu
+//
+// Description: This function initializes menu structs
+//
+// Passed : no variables passed
+// Locals: no variables declared
+// Returned: no values returned
+// Globals: mainMenu, calib, commandsOutput
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void Init_Menu(void) {
     // calib = (menu) {

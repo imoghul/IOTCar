@@ -40,6 +40,28 @@ int speedRight, speedLeft;
 unsigned int driveTime;
 
 
+//===========================================================================
+// Function name: Straight
+//
+// Description: This function is used to increcept the black line as such:
+//
+//           --------------->|
+//           ^               |
+//           |               v
+//           |          black line
+//           |
+//
+// Passed : no variables passed
+// Locals: rightTurn,leftTurn
+// Returned: no values returned
+// Globals: stateCounter,display_line,display_changed,lessWhiteOr,
+// stopwatch_seconds,cycle_count,state,nextState
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void Straight(char direction) {
     int rightTurn = direction ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT;
     int leftTurn = direction ? -STRAIGHT_LEFT : STRAIGHT_LEFT;
@@ -113,6 +135,22 @@ void Straight(char direction) {
     }
 }
 
+//===========================================================================
+// Function name: Turn
+//
+// Description: This function is used to turn onto the black line
+//
+// Passed : direction
+// Locals: no locals used
+// Returned: no values returned
+// Globals: stateCounter,display_line,display_changed,lessWhiteOr,
+// stopwatch_seconds,cycle_count,state,nextState
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void Turn(char direction) {
     switch(stateCounter) {
         case 0:
@@ -150,6 +188,24 @@ void Turn(char direction) {
             break;
     }
 }
+
+//===========================================================================
+// Function name: LineFolow
+//
+// Description: This function is used to follow the black line
+//
+// Passed : direction
+// Locals: rFollowSpeed,lFollowSpeed,rAdjustSpeed,lAdjustSpeed
+// Returned: no values returned
+// Globals: stateCounter,display_line,display_changed,lessWhiteOr,
+// stopwatch_seconds,cycle_count,state,nextState, leftFollowController,
+// rightFollowControler, l_LesssWhite,r_LessWhite,lessWhiteAnd,
+// greaterWhiteAnd
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void LineFollow(char direction) {
     int rFollowSpeed, lFollowSpeed, rAdjustSpeed, lAdjustSpeed;
@@ -224,6 +280,23 @@ void LineFollow(char direction) {
 
 }
 
+//===========================================================================
+// Function name: Exit
+//
+// Description: This function is used to turn and exit the black line after 
+// finishing following it
+//
+// Passed : direction
+// Locals: no locals used
+// Returned: no values returned
+// Globals: stateCounter,display_line,display_changed, stopwatch_seconds,
+// cycle_count,state
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
+
 void Exit(int direction) {
     switch(stateCounter) {
         case 0:
@@ -251,6 +324,22 @@ void Exit(int direction) {
             break;
     }
 }
+
+//===========================================================================
+// Function name: Drive
+//
+// Description: This function is used to drive a certain path and then 
+// electronically brake
+//
+// Passed : r, l, time
+// Locals: no locals used
+// Returned: completion
+// Globals: driveStateCounter
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 int Drive(int r, int l, unsigned int time) {
     switch(driveStateCounter) {
@@ -280,7 +369,21 @@ int Drive(int r, int l, unsigned int time) {
     return false;
 }
 
-
+//===========================================================================
+// Function name: delay
+//
+// Description: This function is used as a customizable timer to choose 
+// how long to delay before returning true
+//
+// Passed : seconds, cycles
+// Locals: no locals used
+// Returned: no values returned
+// Globals: stopwatch_seconds,cycle_count, display_changed
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 // delays for a specified time make sure stopwatch_seconds and cycle_count are 0 before calling
 int delay(int seconds, int cycles) {
@@ -297,7 +400,21 @@ int delay(int seconds, int cycles) {
 
 
 
-
+//===========================================================================
+// Function name: StateMachine
+//
+// Description: This function is the main state machine for wheel processes
+//
+// Passed : no variables passed
+// Locals: no locals used
+// Returned: no values returned
+// Globals: stateCounter, stopwatch_seconds,cycle_count,state,nextState
+// delayTime, speedRight, speedLeft
+//
+// Author: Ibrahim Moghul
+// Date: Apr 2022
+// Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+//===========================================================================
 
 void StateMachine(void) {
     updateDetectors();
