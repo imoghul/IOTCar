@@ -122,7 +122,7 @@ void Turn(char direction) {
             display_changed = true;
             break;
 
-        case 1: // gotta remove this
+        case 1: 
             if(direction) {
                 if(Drive_Path(-RIGHT_MAX, LEFT_MAX, PRELIMINARY_TURN)) stateCounter++;
             } else if(Drive_Path(RIGHT_MAX, -LEFT_MAX, PRELIMINARY_TURN)) stateCounter++;
@@ -130,7 +130,7 @@ void Turn(char direction) {
             break;
 
         case 2:
-            if (lessWhiteOr) { //(((ADC_Left_Detect < LEFT_GRAY_DETECT || ADC_Right_Detect < RIGHT_GRAY_DETECT))) {
+            if (lessWhiteOr) { 
                 if(direction)Drive_Path(-RIGHT_MID, LEFT_MID, false);
 
                 else Drive_Path(RIGHT_MID, -LEFT_MID, false);
@@ -219,19 +219,16 @@ void LineFollow(char direction) {
             stateCounter = BEGINNING;
             state = START;
             EMITTER_OFF;
-            //strcpy(display_line[0], BLANK_LINE);
             break;
     }
 
-    // if(rFollowSpeed != lFollowSpeed && stateCounter == 1) P6OUT |= GRN_LED;
-    // else P6OUT &= ~GRN_LED;
 }
 
 void Exit(int direction) {
     switch(stateCounter) {
         case 0:
             strcpy(LINE1, " BL STOP  ");
-            /*if(rightSwitchable && leftSwitchable)*/stateCounter++;
+            stateCounter++;
             break;
 
         case 1:
