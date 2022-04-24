@@ -319,8 +319,6 @@ void StateMachine(void) {
 
         case (WAIT):
 
-            //strcpy(display_line[0], "WAITING...");
-
             if (delay(delayTime, false)) state = nextState;
 
             break;
