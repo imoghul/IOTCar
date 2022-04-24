@@ -146,7 +146,6 @@ void Turn(char direction) {
             state = WAIT;
             nextState = LINEFOLLOW;
             EMITTER_OFF;
-            //strcpy(display_line[0], " BL TURN ");
             display_changed = true;
             break;
     }
@@ -179,11 +178,7 @@ void LineFollow(char direction) {
             else if (lessWhiteAnd) {
                 rFollowSpeed = -RIGHT_MIN;
                 lFollowSpeed = -LEFT_MIN;
-            }/* else {
-
-                ClearController(&rightFollowController);
-                ClearController(&leftFollowController);
-            }*/
+            }
 
             if(delay(CIRCLING_TIME, false))  stateCounter = 5;
 
@@ -221,15 +216,15 @@ void LineFollow(char direction) {
 
         case 5:
             ShutoffMotors();
-            stateCounter = 0 ;
+            stateCounter = BEGINNING;
             state = START;
             EMITTER_OFF;
             //strcpy(display_line[0], BLANK_LINE);
             break;
     }
 
-    if(rFollowSpeed != lFollowSpeed && stateCounter == 1) P6OUT |= GRN_LED;
-    else P6OUT &= ~GRN_LED;
+    // if(rFollowSpeed != lFollowSpeed && stateCounter == 1) P6OUT |= GRN_LED;
+    // else P6OUT &= ~GRN_LED;
 }
 
 void Exit(int direction) {
