@@ -106,13 +106,14 @@ void main(void) {
     EMITTER_ON;
     // Place the contents of what you want on the display, in between the quotes
     // Limited to 10 characters per line
-    strcpy(display_line[0], "          ");
-    strcpy(display_line[1], "          ");
-    strcpy(display_line[2], "          ");
-    strcpy(display_line[3], "          ");
+    strcpy(LINE1, BLANK_LINE);
+    strcpy(LINE2, BLANK_LINE);
+    strcpy(LINE3, BLANK_LINE);
+    strcpy(LINE4, BLANK_LINE);
     display_changed = TRUE;
     update_display = TRUE;
     Display_Process();
+
     //------------------------------------------------------------------------------
     // Begining of the "While" Operating System
     //------------------------------------------------------------------------------
@@ -120,7 +121,7 @@ void main(void) {
         SerialProcess();
 
         if(!Init_IOT()) continue;
-        
+
         Display_Process();                  // Update Display
         MenuProcess();
         IOTBufferCommands();
@@ -132,10 +133,10 @@ void main(void) {
 
         if(Last_Time_Sequence != Time_Sequence) {
             Last_Time_Sequence = Time_Sequence;
-            time_change = 1;
+            time_change = true;
 
             if(++cycle_count == TIME_SEQUENCE_MAX) {
-                cycle_count = 0;
+                cycle_count = BEGINNING;
                 stopwatch_seconds++;
             }
         }

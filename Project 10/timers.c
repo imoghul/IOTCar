@@ -11,11 +11,11 @@ volatile unsigned long timer0Counter;
 volatile unsigned int backliteCounter;
 unsigned int debounce_count1, debounce_count2;
 volatile unsigned int debouncing1, debouncing2;
-volatile unsigned int debounce_thresh1 = 10, debounce_thresh2 = 10;
+volatile unsigned int debounce_thresh1 = SWITCH_DEBOUNCE_THRESH, debounce_thresh2 = SWITCH_DEBOUNCE_THRESH;
 volatile unsigned int checkAdc;
 extern volatile char state;
 extern volatile unsigned int rightSwitchable, leftSwitchable;
-volatile int timeElapsedSeconds,timeElapsedMilliseconds;
+volatile int timeElapsedSeconds, timeElapsedMilliseconds;
 volatile unsigned int stopwatchUpdated;
 extern char receievedFromPC;
 extern char commandsReceieved;
@@ -33,20 +33,20 @@ void Init_Timer_B0(void) {
     TB0CTL |= TBCLR; // Resets TB0R, clock divider, count direction
     TB0CTL |= MC__CONTINOUS; // Continuous up
     TB0CTL |= ID__2; // Divide clock by 2*/
-  
+
     TB0CTL = TBSSEL__SMCLK | TBCLR | MC__CONTINOUS | ID__2;
-    
+
     TB0EX0 = TBIDEX__8; // Divide clock by an additional 8
-    
+
     TB0CCR0 = TB0CCR0_INTERVAL; // CCR0
     TB0CCTL0 |= CCIE; // CCR0 enable interrupt
-    
+
     TB0CCR1 = TB0CCR1_INTERVAL; // CCR1
     //TB0CCTL1 |= CCIE; // CCR1 enable interrupt
-    
+
     TB0CCR2 = TB0CCR2_INTERVAL; // CCR2
     //TB0CCTL2 |= CCIE; // CCR2 enable interrupt
-    
+
     TB0CTL &= ~TBIE & ~TBIFG; // Disable Overflow Interrupt
     //TB0CTL &= ~TBIFG; // Clear Overflow Interrupt flag
 }
@@ -56,20 +56,20 @@ void Init_Timer_B1(void) {
     TB1CTL |= TBCLR; // Resets TB0R, clock divider, count direction
     TB1CTL |= MC__CONTINOUS; // Continuous up
     TB1CTL |= ID__4; // Divide clock by 4*/
-  
+
     TB1CTL = TBSSEL__SMCLK | TBCLR | MC__CONTINOUS | ID__4;
-    
+
     TB1EX0 = TBIDEX__8; // Divide clock by an additional 8
-    
+
     TB1CCR0 = TB1CCR0_INTERVAL; // CCR0
     TB1CCTL0 |= CCIE; // CCR0 enable interrupt
-    
+
     //TB1CCR1 = TB1CCR1_INTERVAL; // CCR1
     //TB1CCTL1 |= CCIE; // CCR1 enable interrupt
-    
+
     //TB1CCR2 = TB1CCR2_INTERVAL; // CCR2
     //TB1CCTL2 |= CCIE; // CCR2 enable interrupt
-    
+
     TB1CTL &= ~TBIE & ~TBIFG; // Disable Overflow Interrupt
     //TB1CTL &= ~TBIFG; // Clear Overflow Interrupt flag
 }
@@ -78,7 +78,7 @@ void Init_Timer_B3(void) {
     /*TB3CTL = TBSSEL__SMCLK;
     TB3CTL |= MC__UP;
     TB3CTL |= TBCLR;*/
-  
+
     TB3CTL = TBCLR | MC__UP | TBSSEL__SMCLK;
 
     TB3CCR0 = WHEEL_PERIOD;
@@ -116,10 +116,10 @@ __interrupt void Timer0_B0_ISR(void) {
     //------------------------------------------------------------------------------
     // TimerB0 0 Interrupt handler
     //----------------------------------------------------------------------------
-    if(Time_Sequence++ == TIME_SEQUENCE_MAX) Time_Sequence = 0;
+    if(Time_Sequence++ == TIME_SEQUENCE_MAX) Time_Sequence = BEGINNING;
 
     if(++timer0Counter >= CHECK_ADC_TIMER_COUNT ) { // 56 ms
-        timer0Counter = 0;
+        timer0Counter = BEGINNING;
         ADCCTL0 |= ADCSC;
     }
 
@@ -156,7 +156,7 @@ __interrupt void TIMER0_B1_ISR(void) {
             if(debouncing1 == TRUE) debounce_count1++;
 
             if (debounce_count1 > debounce_thresh1) {
-                debounce_count1 = 0;
+                debounce_count1 = BEGINNING;
                 debouncing1 = FALSE;
                 P4IE |= SW1;
                 TB0CCTL1 &= ~CCIE;
@@ -170,7 +170,7 @@ __interrupt void TIMER0_B1_ISR(void) {
             if(debouncing2 == TRUE) debounce_count2++;
 
             if (debounce_count2 > debounce_thresh2) {
-                debounce_count2 = 0;
+                debounce_count2 = BEGINNING;
                 debouncing2 = FALSE;
                 P2IE |= SW2;
                 TB0CCTL2 &= ~CCIE;
@@ -199,20 +199,21 @@ __interrupt void Timer1_B0_ISR(void) {
     P3OUT |= IOT_EN_CPU;
 
     if(commandsReceieved && state != DONE) {
-        stopwatchUpdated = 1;
-        timeElapsedMilliseconds+=2;
-        if(timeElapsedMilliseconds>=10){
-          timeElapsedMilliseconds = 0;
-          timeElapsedSeconds++;
+        stopwatchUpdated = true;
+        timeElapsedMilliseconds += STOP_WATCH_INCREMENT;
+
+        if(timeElapsedMilliseconds >= MS_IN_SEC) {
+            timeElapsedMilliseconds = BEGINNING;
+            timeElapsedSeconds++;
         }
     }
 
-    if(pingCounter++>=PING_COUNT_MAX){
-      pingCounter = 0;
-      pingFlag = 1;
+    if(pingCounter++ >= PING_COUNT_MAX) {
+        pingCounter = BEGINNING;
+        pingFlag = true;
     }
-    
-    update_display = 1;
+
+    update_display = true;
     TB1CCR0 += TB1CCR0_INTERVAL;
     //----------------------------------------------------------------------------
 }
@@ -227,14 +228,14 @@ __interrupt void TIMER1_B1_ISR(void) {
             break; // No interrupt
 
         case 2: // Left Motor
-            leftSwitchable = 1;
+            leftSwitchable = true;
             TB1CCTL1 &= ~CCIE;
 
             break;
 
         case 4: // Right Motor
 
-            rightSwitchable = 1;
+            rightSwitchable = true;
             TB1CCTL2 &= ~CCIE;
 
             break;

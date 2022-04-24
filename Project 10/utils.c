@@ -1,48 +1,48 @@
 #include <string.h>
 #include "utils.h"
 #include "macros.h"
+#include "adc.h"
 extern volatile unsigned char display_changed;
 extern char display_line[4][11];
 
 void centerStringToDisplay(unsigned int line, char * s) {
     int len = strlen(s);
-    int pos = ((10 - len) >> 1);
+    int pos = ((LINE_LEN - len) >> 1);
     strcpy(display_line[line] + pos, s);
     display_line[line][pos + len] = ' ';
-    display_line[line][10] = 0;
+    display_line[line][LINE_LEN] = '\0';
 }
 
 char* subStringPos(const char* str, char * subString) {
 
-    int i = 0;
-    int d = 0;
+    int i, d;
 
     int lenSub = strlen(subString);
     int len = strlen(str) - lenSub;
 
     for (i = 0; i < len; i++) {
-        int exists = 1;
+        int exists = true;
 
         for (d = 0; d < lenSub; d++) {
             if (str[i + d] != subString[d]) {
-                exists = 0;
+                exists = false;
                 break;
             }
         }
 
         if (exists) {
-          return (char*)(str + i);
+            return (char*)(str + i);
         }
     }
 
-    return 0;
+    return false;
 }
 
 int stoi(char* str, int len) {
     int num = 0;
 
     for(int i = 0; i < len/* && str[i] >= '0' && str[i] <= '9'*/; ++i)
-        num = num * 10 + (int)(str[i] - '0');
+        num = num * BASE_10 + (int)(str[i] - '0');
 
     return num;
 }
@@ -51,7 +51,7 @@ char* charInString(const char* str, char c) {
     for(int i = 0; i < strlen(str) + 1; i++)
         if(str[i] == c) return (char*)(str + i);
 
-    return 0;
+    return false;
 }
 
 unsigned int absVal(int n) {
@@ -61,12 +61,12 @@ unsigned int absVal(int n) {
 
 void HEXtoBCD(int hex_value, int line, int start) {
 
-    int value = 0;
+    int value = BEGINNING;
 
     int i;
-    int bases[] = {1000, 100, 10};
+    int bases[] = HEX_BCD_BASES;
 
-    for(i = 0; i < 3; i++) {
+    for(i = 0; i < HEX_BCD_SIZE; i++) {
         int base = bases[i];
 
         while(hex_value > (base - 1)) {
@@ -78,7 +78,7 @@ void HEXtoBCD(int hex_value, int line, int start) {
 
     }
 
-    display_line[line][start + 3] = hex_value + '0';
+    display_line[line][start + HEX_BCD_SIZE] = hex_value + '0'; // set the last character to the ones place
 
     /*while(hex_value > 999) {
         hex_value -= 1000;
@@ -117,12 +117,12 @@ int additionSafe(int val, int max, int min, int increment) {
     return (int)res;
 }
 
-int multSafe(int a, int b) {
-    if(a == 0 || b == 0) return 0;
+// int multSafe(int a, int b) {
+//     if(a == 0 || b == 0) return 0;
 
-    int res = a * b;
+//     int res = a * b;
 
-    if(a == res / b)return res;
+//     if(a == res / b)return res;
 
-    return (INT_MAX) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
-}
+//     return (INT_MAX) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
+// }

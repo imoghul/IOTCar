@@ -5,6 +5,10 @@
 #define COMMANDS_MENU           ('c')
 #define NETWORK_MENU            ('N')
 #define DISPLAY_ARRIVAL_STATE   (500)
+#define COMMAND_DURATION_BEGIN  (1)
+#define COMMAND_LINE            (3)
+#define STOPWATCH_BEGIN         (5)
+#define DIPLAY_IP_LINE          (2)
 // an attempt to organize all the data that a menu necessitates
 typedef struct menuStruct {
     char length;

@@ -1,6 +1,7 @@
 #include "msp430.h"
 #include "ports.h"
 #include "wheels.h"
+#include "macros.h"
 #include "adc.h"
 #include "timers.h"
 #include "detectors.h"
@@ -26,16 +27,16 @@ extern int rightVals[VALUES_TO_HOLD];
 
 
 PIDController rightFollowController = {
-    .kP = 1,// /16
-    .kD = 250,// /8
+    .kP = KP,// /16
+    .kD = KD,// /8
     //.kI = 0,
     .error = 0,
     .lastError = 0
     //.lastIntegral = 0
 };
 PIDController leftFollowController = {
-    .kP = 1,// /16
-    .kD = 250,// /8
+    .kP = KP,// /16
+    .kD = KD,// /8
     //.kI = 0,
     .error = 0,
     .lastError = 0
@@ -50,7 +51,7 @@ void ShutoffMotors(void) {
 
 void ShutoffRight(void) {
     RIGHT_FORWARD_SPEED = RIGHT_REVERSE_SPEED = WHEEL_OFF;
-    rightSwitchable = 0;
+    rightSwitchable = false;
 
     TB1CCTL2 &= ~CCIFG;
     TB1CCR2 = TB1R + TB1CCR2_INTERVAL;
@@ -59,7 +60,7 @@ void ShutoffRight(void) {
 
 void ShutoffLeft(void) {
     LEFT_FORWARD_SPEED = LEFT_REVERSE_SPEED = WHEEL_OFF;
-    leftSwitchable = 0;
+    leftSwitchable = false;
 
     TB1CCTL1 &= ~CCIFG;
     TB1CCR1 = TB1R + TB1CCR1_INTERVAL;
@@ -67,7 +68,7 @@ void ShutoffLeft(void) {
 }
 
 void MotorSafety(void) {
-    if ((RIGHT_FORWARD_SPEED != 0 && RIGHT_REVERSE_SPEED != 0) || (LEFT_FORWARD_SPEED != 0 && LEFT_REVERSE_SPEED != 0)) {
+    if ((RIGHT_FORWARD_SPEED != OFF && RIGHT_REVERSE_SPEED != OFF) || (LEFT_FORWARD_SPEED != OFF && LEFT_REVERSE_SPEED != OFF)) {
         ShutoffMotors();
         //P1OUT |= RED_LED;
     } else {
@@ -76,17 +77,17 @@ void MotorSafety(void) {
 }
 
 int RunRightMotor(int val) {
-    if(RIGHT_REVERSE_SPEED > 0 && val > 0 || RIGHT_FORWARD_SPEED > 0 && val < 0) {
+    if(RIGHT_REVERSE_SPEED > OFF && val > OFF || RIGHT_FORWARD_SPEED > OFF && val < OFF) {
         ShutoffRight();
     }
 
-    if (val > 0) {
+    if (val > OFF) {
         RIGHT_REVERSE_SPEED = WHEEL_OFF;
 
         if(rightSwitchable) RIGHT_FORWARD_SPEED = val;
 
-        return 1;//P6IN & R_FORWARD;
-    } else if (val == 0) {
+        return true;//P6IN & R_FORWARD;
+    } else if (val == OFF) {
         ShutoffRight();
         return rightSwitchable;
     } else {
@@ -94,22 +95,22 @@ int RunRightMotor(int val) {
 
         if(rightSwitchable) RIGHT_REVERSE_SPEED = -val;
 
-        return 1;//P6IN & R_REVERSE;
+        return true;//P6IN & R_REVERSE;
     }
 }
 
 int RunLeftMotor( int val) {
-    if(LEFT_REVERSE_SPEED > 0 && val > 0 || LEFT_FORWARD_SPEED > 0 && val < 0) {
+    if(LEFT_REVERSE_SPEED > OFF && val > OFF || LEFT_FORWARD_SPEED > OFF && val < OFF) {
         ShutoffLeft();
     }
 
-    if (val > 0) {
+    if (val > OFF) {
         LEFT_REVERSE_SPEED = WHEEL_OFF;
 
         if(leftSwitchable) LEFT_FORWARD_SPEED = val;
 
-        return 1;//P6IN & L_FORWARD;
-    } else if (val == 0) {
+        return true;//P6IN & L_FORWARD;
+    } else if (val == OFF) {
         ShutoffLeft();
         return leftSwitchable;
     } else {
@@ -117,7 +118,7 @@ int RunLeftMotor( int val) {
 
         if(leftSwitchable) LEFT_REVERSE_SPEED = -val;
 
-        return 1;//P6IN & L_REVERSE_2355;
+        return true;//P6IN & L_REVERSE_2355;
     }
 }
 
@@ -155,22 +156,22 @@ int RunLeftMotor( int val){
 }*/
 
 int LockMotors(int polR, int polL) {
-    return (Drive_Path(polR > 0 ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > 0 ? STRAIGHT_LEFT : -STRAIGHT_LEFT, LOCK_TIME));
+    return (Drive_Path(polR > OFF ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > OFF ? STRAIGHT_LEFT : -STRAIGHT_LEFT, LOCK_TIME));
 }
 
 int LockMotorsTime(int polR, int polL, int duration) {
-    return (Drive_Path(polR > 0 ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > 0 ? STRAIGHT_LEFT : -STRAIGHT_LEFT, duration));
+    return (Drive_Path(polR > OFF ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > OFF ? STRAIGHT_LEFT : -STRAIGHT_LEFT, duration));
 }
 
 int Update_Ticks(int milliseconds) { // each tick is 4ms
     stopwatch_milliseconds += MS_PER_TICK;
 
     if(stopwatch_milliseconds >= milliseconds) {
-        stopwatch_milliseconds = 0;
-        return 1;
+        stopwatch_milliseconds = BEGINNING;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 /*int Drive_Path_Definite(int speedR, int speedL, unsigned int ticksDuration) {
@@ -203,17 +204,17 @@ int Drive_Path(int speedR, int speedL, unsigned int ticksDuration) {
     RunRightMotor(speedR);
     RunLeftMotor(speedL);
 
-    if(ticksDuration == 0) return 0;
+    if(ticksDuration == false) return false;
 
     if (time_change) {
-        time_change = 0;
+        time_change = BEGINNING;
 
         if (/*success && */Update_Ticks(ticksDuration)) {
             ShutoffMotors();
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 

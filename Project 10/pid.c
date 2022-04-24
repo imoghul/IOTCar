@@ -13,15 +13,15 @@ int GetOutput(PIDController* pidController, int setPoint, int current) {
     int derivative = error - pidController->lastError;
     pidController->lastError = error;
     //pidController->lastIntegral = integral;
-    int errorTerm = (error * pidController->kP) >> 4;
-    int derivTerm = (derivative * pidController->kD) >> 3;
+    int errorTerm = (error * pidController->kP) >> KP_SHIFT;
+    int derivTerm = (derivative * pidController->kD) >> KD_SHIFT;
     //long intTerm = integral, pidController->kI;
     return additionSafe(errorTerm, INT_MAX, INT_MIN, derivTerm);
 }
 
 void ClearController(PIDController* pidController) {
-    pidController->error = 0;
-    pidController->lastError = 0;
+    pidController->error = BEGINNING;
+    pidController->lastError = BEGINNING;
     //pidController->lastIntegral = 0;
 }
 

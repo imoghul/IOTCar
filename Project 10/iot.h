@@ -39,6 +39,11 @@
 #define EXIT_COMMAND                    ('e')
 #define TURN_CONSTANT                   (3)
 
+#define CARET                           ('^')
+#define CR                              ('\r')
+
+#define MID_DOT                         (2)
+
 typedef struct {
     char comm;
     unsigned int duration;

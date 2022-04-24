@@ -8,8 +8,10 @@
 #define WHEEL_PERIOD            (20000)
 #define RIGHT_MAX               (20000)
 #define LEFT_MAX                (20000)
-#define RIGHT_MIN               (8500)
-#define LEFT_MIN                (8500)
+#define RIGHT_MID               (8500)
+#define LEFT_MID                (8500)
+#define RIGHT_MIN               (4250)
+#define LEFT_MIN                (4250)
 // straight
 #define STRAIGHT_RIGHT          (18000)
 #define STRAIGHT_LEFT           (20000)
@@ -23,14 +25,17 @@
 // turn
 #define TURN90                  (460)
 // detectors
-#define LEFT_BLACK_DETECT       (LBDetect)
-#define RIGHT_BLACK_DETECT      (RBDetect)
-#define LEFT_GRAY_DETECT        (LBDetect-5)
-#define RIGHT_GRAY_DETECT       (RBDetect-5)
+#define LEFT_BLACK_DETECT       (24)//(LBDetect)
+#define RIGHT_BLACK_DETECT      (22)//(RBDetect)
+#define LEFT_GRAY_DETECT        (15)//(LBDetect-5)
+#define RIGHT_GRAY_DETECT       (15)//(RBDetect-5)
 #define LEFT_WHITE_DETECT       (9)//(LWDetect+2)
 #define RIGHT_WHITE_DETECT      (9)//(RWDetect+2)
 #define MS_PER_TICK             (4)
 #define LOCK_TIME               (125)
+
+#define KP                      (1)
+#define KD                      (250)
 
 int RunRightMotor( int val);
 int RunLeftMotor( int val);

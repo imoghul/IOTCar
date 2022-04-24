@@ -55,7 +55,7 @@ __interrupt void switchP4_interrupt(void) {
 
         // Actual Code
 
-        transMenu = 1;//trainsitionMenu();
+        transMenu = true;//trainsitionMenu();
     }
 }
 
@@ -84,7 +84,7 @@ __interrupt void switchP2_interrupt(void) {
         TB0CCTL2 |= CCIE;
         debouncing2 = TRUE;
         // Actual Code
-        interractMenu = 1;
+        interractMenu = true;
     }
 }
 

@@ -11,6 +11,10 @@
 #define TIMER_COUNT_MAX                 (701) // multiply the other ones and add 1
 #define PING_COUNT_MAX                  (10)
 
+#define STOP_WATCH_INCREMENT            (2)
+#define MS_IN_SEC                       (10)
+
+#define SWITCH_DEBOUNCE_THRESH          (10)
 void Init_Timers(void);
 void Init_Timer_B0(void);
 void Init_Timer_B1(void);

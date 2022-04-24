@@ -1,6 +1,7 @@
 #include "menu.h"
 #include "msp430.h"
 #include "adc.h"
+#include "macros.h"
 #include "functions.h"
 #include "iot.h"
 #include "sm.h"
@@ -24,14 +25,14 @@ extern volatile int timeElapsedSeconds, timeElapsedMilliseconds;
 
 menu mainMenu;
 
-menu calib = {
-    .length = 1,
-    .current = 0,
-    .name = CALIB_MENU,
-    .headers = {""},
-    .values = {""},
-    .transitions = {&mainMenu}
-};
+// menu calib = {
+//     .length = 1,
+//     .current = 0,
+//     .name = CALIB_MENU,
+//     .headers = {""},
+//     .values = {""},
+//     .transitions = {&mainMenu}
+// };
 menu start = {
     .length = 1,
     .current = 0,
@@ -40,14 +41,14 @@ menu start = {
     .values = {""},
     .transitions = {&mainMenu}
 };
-menu commandsOutput = {
-    .length = 1,
-    .current = 0,
-    .name = COMMANDS_MENU,
-    .headers = {""},
-    .values = {""},
-    .transitions = {&mainMenu}
-};
+// menu commandsOutput = {
+//     .length = 1,
+//     .current = 0,
+//     .name = COMMANDS_MENU,
+//     .headers = {""},
+//     .values = {""},
+//     .transitions = {&mainMenu}
+// };
 
 menu* currMenu = &start;
 
@@ -63,80 +64,89 @@ void displayCalibMenu() {
     display_changed = 1;
 }*/
 
-void displayCommand(){
-  if(currCommand.comm != LINEFOLLOW_COMMAND && currCommand.comm != EXIT_COMMAND){
-    display_line[3][0] = currCommand.comm;
-    HEXtoBCD(currCommand.duration, 3, 1);
-  }
+void displayCommand() {
+    if(currCommand.comm != LINEFOLLOW_COMMAND && currCommand.comm != EXIT_COMMAND) {
+        LINE4[0] = currCommand.comm;
+        HEXtoBCD(currCommand.duration, COMMAND_LINE, COMMAND_DURATION_BEGIN);
+    }
 }
 
-void displayStatus(){
-  if(currCommand.comm == LINEFOLLOW_COMMAND) {
-        strcpy(display_line[3],"Auto.     ");
+void displayStatus() {
+    if(currCommand.comm == LINEFOLLOW_COMMAND) {
+        strcpy(LINE4, "Auto.     ");
     } else if(state == DONE) {
-        strcpy(display_line[3],"Time:     ");
-        strcpy(display_line[1], " That was ");
-        strcpy(display_line[2], "easy!! ;-)");
+        strcpy(LINE4, "Time:     ");
+        strcpy(LINE2, " That was ");
+        strcpy(LINE3, "easy!! ;-)");
 
-    } else if(commandsReceieved && currCommand.comm == 0 && currCommand.duration == 0) strcpy(display_line[3],"          ");//display_line[3][0] = display_line[3][1] = display_line[3][2] = display_line[3][3] = display_line[3][4] = ' ';
-     if(commandsReceieved){//(stopwatchUpdated) {
+    } else if(commandsReceieved && currCommand.comm == false && currCommand.duration == false) strcpy(LINE4, BLANK_LINE);
+
+    if(commandsReceieved) { //(stopwatchUpdated) {
         //stopwatchUpdated = 0;
-        HEXtoBCD(timeElapsedSeconds, 3, 5);
-        display_line[3][5] = ' ';
-        display_line[3][9] = 's';
+        HEXtoBCD(timeElapsedSeconds, COMMAND_LINE, STOPWATCH_BEGIN5);
+        LINE4[STOPWATCH_BEGIN] = ' ';
+        LINE4[LINE_LEN - 1] = 's';
         //display_line[3][9] = timeElapsedMilliseconds + '0';
     }
 }
 
-void displayArrival(){
-  
-  //if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
-        strcpy(display_line[0], "ARRIVED 0 ");
-        display_line[0][9] = currentStation + '0';
-        commandDisplayCounter = 0;
-  //}
-  
+void displayArrival() {
+
+    //if(currCommand.comm == DISPLAY_NUMBER_COMMAND) {
+    strcpy(LINE1, "ARRIVED 0 ");
+    LINE1[LINE_LEN - 1] = currentStation + '0';
+    commandDisplayCounter = BEGINNING;
+    //}
+
 }
 
-void displayIp(){
-  
-  if(commandsReceieved) {
+void displayIp() {
+
+    if(commandsReceieved) {
         if(state != DONE)displayIP(1);
     } else {
-        strcpy(display_line[0], " WAITING  ");
-        strcpy(display_line[1], " FOR INPUT");
+        strcpy(LINE1, " WAITING  ");
+        strcpy(LINE2, " FOR INPUT");
 
-        if(state != DONE)displayIP(2);
+        if(state != DONE)displayIP(DIPLAY_IP_LINE);
     }
-  
+
 }
 
-void displayStopwatch(){
-    
+void displayStopwatch() {
+
 }
 
 void displayCommandsMenu() {
-  switch(commandDisplayCounter++){
-    case 0:
-      displayCommand();
-      break;
-    case 100:
-      displayStatus();
-      break;
-    case 200:
-      displayIp();
-      break;
-    case 300:
-      displayStopwatch();
-      break;
-    case 400:
-      commandDisplayCounter = 0;
-      break;
-    case DISPLAY_ARRIVAL_STATE:
-      displayArrival();
-    default: break;
-  }
-    display_changed = 1;
+    switch(commandDisplayCounter++) {
+        case 0:
+            displayCommand();
+            break;
+
+        case 100:
+            displayStatus();
+            break;
+
+        case 200:
+            displayIp();
+            break;
+
+        case 300:
+            displayStopwatch();
+            break;
+
+        case 400:
+            commandDisplayCounter = BEGINNING;
+            break;
+
+        case DISPLAY_ARRIVAL_STATE:
+            displayArrival();
+
+        default:
+            break;
+    }
+
+    display_changed = true;
 }
 
 
@@ -165,28 +175,30 @@ void transitionMenu(menu* m) {
 
     // transitioning in code
     if(menuState == CALIB_MENU) {
-        calibrationMode = 0;
-        LBDetect = RBDetect = LWDetect = RWDetect = 0;
+        calibrationMode = BEGINNING;
+        LBDetect = RBDetect = LWDetect = RWDetect = OFF;
         state = CALIBRATE;
     }
 
-    strcpy(display_line[0], "          ");
-    strcpy(display_line[1], "          ");
-    strcpy(display_line[2], "          ");
-    strcpy(display_line[3], "          ");
-    display_changed = 1;
+    strcpy(LINE1, BLANK_LINE);
+    strcpy(LINE2, BLANK_LINE);
+    strcpy(LINE3, BLANK_LINE);
+    strcpy(LINE4, BLANK_LINE);
+    display_changed = true;
 }
 
 void MenuProcess(void) {
     if(transMenu) {
-        transMenu = 0;
-        transitionMenu(currMenu);
+        transMenu = false;
+        currMenu = &mainMenu;
+        menuState = MAIN_MENU;
+        //transitionMenu(currMenu);
     }
 
-    if(interractMenu) {
+    /*if(interractMenu) {
         interractMenu = 0;
         interractWithMenu();
-    }
+    }*/
 
     switch(menuState) {
         //case START_MENU:
@@ -195,21 +207,21 @@ void MenuProcess(void) {
         //    break;
         case MAIN_MENU:
             updateMenuPos(&mainMenu);
-            strcpy(display_line[0], mainMenu.headers[mainMenu.current]);
+            strcpy(LINE1, mainMenu.headers[mainMenu.current]);
             //displayMainMenu();
-            display_changed = 1;
+            display_changed = TRUE;
             break;
 
-        case COMMANDS_MENU:
-            displayCommandsMenu();
-            break;
+            // case COMMANDS_MENU:
+            //     displayCommandsMenu();
+            //     break;
 
-        /*case NETWORK_MENU:
-            displayNetworkInfo();
-            break;*/
+            // case NETWORK_MENU:
+            //     displayNetworkInfo();
+            //     break;
 
-        //default:
-        //    break;
+            //default:
+            //    break;
     }
 }
 

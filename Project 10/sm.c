@@ -5,6 +5,7 @@
 #include <string.h>
 #include "adc.h"
 #include "timers.h"
+#include "macros.h"
 #include "detectors.h"
 #include "pid.h"
 
@@ -45,9 +46,9 @@ void Straight(char direction) {
 
     switch(stateCounter) {
         case 0:
-            stateCounter = 1;
-            strcpy(display_line[0], " BL START ");
-            display_changed = 1;
+            stateCounter++;
+            strcpy(LINE1, " BL START ");
+            display_changed = true;
             break;
 
         case 1:
@@ -79,19 +80,20 @@ void Straight(char direction) {
             break;*/
 
         case 5:
-          if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG3))stateCounter++;
-          break;
-            
-            
+            if(Drive(STRAIGHT_RIGHT, STRAIGHT_LEFT, LEG3))stateCounter++;
+
+            break;
+
+
         case 6:
             EMITTER_ON;
 
             if (lessWhiteOr) {
-                Drive_Path(RIGHT_MIN, RIGHT_MIN, 0);
+                Drive_Path(RIGHT_MID, RIGHT_MID, false);
             } else stateCounter++;
 
             break;
-      
+
 
         case 7:
             if(LockMotors(-1, -1)) stateCounter++;
@@ -99,13 +101,13 @@ void Straight(char direction) {
             break;
 
         case 8:
-            stateCounter = 0 ;
-            stopwatch_seconds = 0;
-            cycle_count = 0;
+            stateCounter = BEGINNING;
+            stopwatch_seconds = BEGINNING;
+            cycle_count = BEGINNING;
             state = WAIT;
             nextState = TURN;
-            strcpy(display_line[0], "INTERCEPT ");
-            display_changed = 1;
+            strcpy(LINE1, "INTERCEPT ");
+            display_changed = true;
             EMITTER_OFF;
             break;
     }
@@ -115,9 +117,9 @@ void Turn(char direction) {
     switch(stateCounter) {
         case 0:
             EMITTER_ON;
-            stateCounter = 1;
-            strcpy(display_line[0], " BL TURN ");
-            display_changed = 1;
+            stateCounter++;
+            strcpy(LINE1, " BL TURN ");
+            display_changed = true;
             break;
 
         case 1: // gotta remove this
@@ -128,76 +130,66 @@ void Turn(char direction) {
             break;
 
         case 2:
-            if (lessWhiteOr){//(((ADC_Left_Detect < LEFT_GRAY_DETECT || ADC_Right_Detect < RIGHT_GRAY_DETECT))) {
-                if(direction)Drive_Path(-RIGHT_MIN, LEFT_MIN, 0);
+            if (lessWhiteOr) { //(((ADC_Left_Detect < LEFT_GRAY_DETECT || ADC_Right_Detect < RIGHT_GRAY_DETECT))) {
+                if(direction)Drive_Path(-RIGHT_MID, LEFT_MID, false);
 
-                else Drive_Path(RIGHT_MIN, -LEFT_MIN, 0);
+                else Drive_Path(RIGHT_MID, -LEFT_MID, false);
             } else stateCounter++;
 
             break;
 
         case 3:
             ShutoffMotors();
-            stateCounter = 0 ;
-            stopwatch_seconds = 0;
-            cycle_count = 0;
+            stateCounter = BEGINNING;
+            stopwatch_seconds = BEGINNING;
+            cycle_count = BEGINNING;
             state = WAIT;
             nextState = LINEFOLLOW;
             EMITTER_OFF;
             //strcpy(display_line[0], " BL TURN ");
-            display_changed = 1;
+            display_changed = true;
             break;
     }
 }
 
 void LineFollow(char direction) {
-    //HEXtoBCD(ADC_Left_Detect, 1, 6);
-    //HEXtoBCD(ADC_Right_Detect, 1, 0);
-
     int rFollowSpeed, lFollowSpeed, rAdjustSpeed, lAdjustSpeed;
 
-    //rFollowSpeed = RIGHT_MIN>>1;
-    //lFollowSpeed = LEFT_MIN>>1;
-
-    /*if(ADC_Left_Detect>LEFT_GRAY_DETECT)rFollowSpeed = 3000;
-    else*/ 
-    rFollowSpeed = additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, RIGHT_MIN>>1, GetOutput(&leftFollowController, LEFT_BLACK_DETECT, ADC_Left_Detect)); // swapped b/c they are physically swapped
-    /*if(ADC_Right_Detect>RIGHT_GRAY_DETECT)lFollowSpeed = 3000;
-    else*/ 
-    lFollowSpeed = additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, RIGHT_MIN>>1, GetOutput(&rightFollowController, RIGHT_BLACK_DETECT, ADC_Right_Detect));// swapped b/c they are physically swapped
-    rAdjustSpeed = (RIGHT_MIN - LF_TURN_DECREMENT);
-    lAdjustSpeed = (LEFT_MIN - LF_TURN_DECREMENT);
+    rFollowSpeed = additionSafe(RIGHT_FORWARD_SPEED, RIGHT_MAX, RIGHT_MIN, GetOutput(&leftFollowController, LEFT_BLACK_DETECT, ADC_Left_Detect)); // swapped b/c they are physically swapped
+    lFollowSpeed = additionSafe(LEFT_FORWARD_SPEED, LEFT_MAX, RIGHT_MIN, GetOutput(&rightFollowController, RIGHT_BLACK_DETECT, ADC_Right_Detect));// swapped b/c they are physically swapped
+    rAdjustSpeed = (RIGHT_MID - LF_TURN_DECREMENT);
+    lAdjustSpeed = (LEFT_MID - LF_TURN_DECREMENT);
 
     switch(stateCounter) {
         case 0:
             EMITTER_ON;
-            strcpy(display_line[0], "BL TRAVEL ");
-            display_changed = 1;
+            strcpy(LINE1, "BL TRAVEL ");
+            display_changed = true;
 
             if(rightSwitchable && leftSwitchable)stateCounter++;
             else return;
 
-            stopwatch_seconds = 0;
-            cycle_count = 0;
+            stopwatch_seconds = BEGINNING;
+            cycle_count = BEGINNING;
 
             break;
 
         case 1:
             if(l_LessWhite ^ r_LessWhite) stateCounter = 10;
             else if (lessWhiteAnd) {
-                rFollowSpeed = -RIGHT_MIN>>1;
-                lFollowSpeed = -LEFT_MIN>>1;
+                rFollowSpeed = -RIGHT_MIN;
+                lFollowSpeed = -LEFT_MIN;
             }/* else {
 
                 ClearController(&rightFollowController);
                 ClearController(&leftFollowController);
             }*/
 
-            if(delay(CIRCLING_TIME, 0))  stateCounter = 5;
+            if(delay(CIRCLING_TIME, false))  stateCounter = 5;
 
-            if(stopwatch_seconds >= TIME_TO_CIRCLE) strcpy(display_line[0], "BL CIRCLE ");
+            if(stopwatch_seconds >= TIME_TO_CIRCLE) strcpy(LINE1, "BL CIRCLE ");
 
-            Drive_Path(rFollowSpeed, lFollowSpeed, 0);
+            Drive_Path(rFollowSpeed, lFollowSpeed, false);
             break;
 
 
@@ -209,21 +201,21 @@ void LineFollow(char direction) {
             break;
 
         case 3:// turn left ()
-            if(l_LessWhite) Drive_Path(rAdjustSpeed, -lAdjustSpeed, 0);
+            if(l_LessWhite) Drive_Path(rAdjustSpeed, -lAdjustSpeed, false);
             else if (greaterWhiteAnd) stateCounter = 1;
             else stateCounter = 4;
 
             break;
 
         case 4:
-            if(r_LessWhite) Drive_Path(-rAdjustSpeed, lAdjustSpeed, 0);
+            if(r_LessWhite) Drive_Path(-rAdjustSpeed, lAdjustSpeed, false);
             else if (greaterWhiteAnd) stateCounter = 1;
             else stateCounter = 3;
 
             break;
 
         case 10:
-            if(LockMotorsTime(-1, -1, 1)) stateCounter = 2;
+            if(LockMotorsTime(-1, -1, LF_LOCK_TIME)) stateCounter = 2;
 
             break;
 
@@ -232,7 +224,7 @@ void LineFollow(char direction) {
             stateCounter = 0 ;
             state = START;
             EMITTER_OFF;
-            //strcpy(display_line[0], "          ");
+            //strcpy(display_line[0], BLANK_LINE);
             break;
     }
 
@@ -243,7 +235,7 @@ void LineFollow(char direction) {
 void Exit(int direction) {
     switch(stateCounter) {
         case 0:
-            strcpy(display_line[0], " BL STOP  ");
+            strcpy(LINE1, " BL STOP  ");
             /*if(rightSwitchable && leftSwitchable)*/stateCounter++;
             break;
 
@@ -260,10 +252,10 @@ void Exit(int direction) {
 
         case 3:
             ShutoffMotors();
-            stateCounter = 0 ;
+            stateCounter = BEGINNING;
             state = DONE;
-            stopwatch_seconds = 0;
-            cycle_count = 0;
+            stopwatch_seconds = BEGINNING;
+            cycle_count = BEGINNING;
             break;
     }
 }
@@ -287,28 +279,28 @@ int Drive(int r, int l, unsigned int time) {
 
         case 3 :
             ShutoffMotors();
-            driveStateCounter = 0 ;
+            driveStateCounter = BEGINNING;
             //state = START;
-            return 1;
+            return true;
             break;
     }
 
-    return 0;
+    return false;
 }
 
 
 
 // delays for a specified time make sure stopwatch_seconds and cycle_count are 0 before calling
 int delay(int seconds, int cycles) {
-    if(stopwatch_seconds == 0 && cycle_count <= 1) {
-        display_changed = 1;
+    if(stopwatch_seconds == BEGINNING && cycle_count <= (BEGINNING + 1)) {
+        display_changed = true;
     }
 
     if(stopwatch_seconds >= seconds && cycle_count >= cycles) {
-        stopwatch_seconds = 0;
-        cycle_count = 0;
-        return 1;
-    } else return 0;
+        stopwatch_seconds = BEGINNING;
+        cycle_count = FALSE;
+        return true;
+    } else return false;
 }
 
 
@@ -319,25 +311,25 @@ void StateMachine(void) {
     updateDetectors();
 
     switch(state) {
-        case (CALIBRATE):
+        /*case (CALIBRATE):
             calibrate();
 
-            /*if(calibrationMode >= 2) {
+            if(calibrationMode >= 2) {
                 state = START;
-            }*/
+            }
 
-            break;
+            break;*/
 
         case (START):
-            stopwatch_seconds = 0;
-            cycle_count = 0;
+            stopwatch_seconds = BEGINNING;
+            cycle_count = BEGINNING;
             break;
 
         case (WAIT):
 
             //strcpy(display_line[0], "WAITING...");
 
-            if (delay(delayTime, 0)) state = nextState;
+            if (delay(delayTime, false)) state = nextState;
 
             break;
 
@@ -359,6 +351,7 @@ void StateMachine(void) {
 
         case (DRIVE):
             if(Drive(speedRight, speedLeft, driveTime)) state = START;
+
             break;
 
         case (DONE):

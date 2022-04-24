@@ -49,16 +49,17 @@ void Init_Serial_UCA(void) {
     UCA0CTLW0 = 0;
     UCA0CTLW0 |= UCSWRST;
     UCA0CTLW0 |= UCSSEL__SMCLK;
-    UCA0BRW = 4;
-    UCA0MCTLW = 0x5551;
+    // UCA0BRW = 4;
+    // UCA0MCTLW = 0x5551;
+    SET_UCA_115200;
     UCA0CTLW0 &= ~UCSWRST;
     UCA0IE |= UCRXIE;
     // Configure UART 1
     UCA1CTLW0 = 0;
     UCA1CTLW0 |= UCSWRST;
     UCA1CTLW0 |= UCSSEL__SMCLK;
-    UCA1BRW = 4;
-    UCA1MCTLW = 0x5551;
+    // UCA1BRW = 4;
+    // UCA1MCTLW = 0x5551;
     UCA1CTLW0 &= ~UCSWRST;
     UCA1IE |= UCRXIE;
 }
@@ -89,9 +90,9 @@ __interrupt void eUSCI_A0_ISR(void) {
             //  return;
             //}
             UCA0TXBUF = USB0_Char_Tx[tx0_index];
-            USB0_Char_Tx[tx0_index++] = 0;
+            USB0_Char_Tx[tx0_index++] = '\0';
 
-            if(USB0_Char_Tx[tx0_index] == 0) {
+            if(USB0_Char_Tx[tx0_index] == false) {
                 UCA0IE &= ~UCTXIE;
             }
 
@@ -132,9 +133,9 @@ __interrupt void eUSCI_A1_ISR(void) {
             }
 
             UCA1TXBUF = USB1_Char_Tx[tx1_index];
-            USB1_Char_Tx[tx1_index++] = 0;
+            USB1_Char_Tx[tx1_index++] = '\0';
 
-            if(USB1_Char_Tx[tx1_index] == 0) {
+            if(USB1_Char_Tx[tx1_index] == false) {
                 UCA1IE &= ~UCTXIE;
             }
 
@@ -146,10 +147,10 @@ __interrupt void eUSCI_A1_ISR(void) {
 }
 
 void clearProcessBuff(volatile char* pb, volatile unsigned int* pb_index, volatile unsigned int* pb_buffered) {
-    for(int i = 0; i < LARGE_RING_SIZE; ++i)pb[i] = 0;
+    for(int i = 0; i < LARGE_RING_SIZE; ++i)pb[i] = '\0';
 
-    *pb_index = 0;
-    *pb_buffered = 0;
+    *pb_index = BEGINNING;
+    *pb_buffered = false;
 }
 void clearProcessBuff_0(void) {
     clearProcessBuff(USB0_Char_Rx_Process, &pb0_index, &pb0_buffered);
@@ -168,17 +169,18 @@ void clearProcessBuff_1(void) {
 }*/
 
 void USCI_A0_transmit(void) {
-    tx0_index = 0;
+    tx0_index = BEGINNING;
     UCA0IE |= UCTXIE;
 }
 
 void USCI_A1_transmit(void) {
-    tx1_index = 0;
+    tx1_index = BEGINNING;
     UCA1IE |= UCTXIE;
 }
 
 void loadRingtoPB(volatile unsigned int* rx_wr, unsigned int* rx_rd, volatile char* Rx_Process, volatile char* Rx_Ring, volatile unsigned int* pb_index, volatile unsigned int* pb_buffered) {
     if(*pb_buffered) return;
+
     if(*rx_wr != *rx_rd) {
         Rx_Process[pb0_index] = Rx_Ring[*rx_rd];
 
@@ -188,7 +190,7 @@ void loadRingtoPB(volatile unsigned int* rx_wr, unsigned int* rx_rd, volatile ch
     }
 
     if(*pb_index >= 2 && Rx_Process[(*pb_index) - 1] == '\n' && Rx_Process[(*pb_index) - 2] == '\r') {
-        *pb_buffered = 1;
+        *pb_buffered = true;
         *pb_index = BEGINNING;
     }
 }

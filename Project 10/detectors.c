@@ -58,11 +58,11 @@ void calibrate(void) {
 
     if (right > *rightDetect) *rightDetect = right;
 
-    HEXtoBCD((int)LBDetect, 3, 6);
+    /*HEXtoBCD((int)LBDetect, 3, 6);
     HEXtoBCD((int)RBDetect, 3, 0);
     HEXtoBCD((int)LWDetect, 2, 6);
     HEXtoBCD((int)RWDetect, 2, 0);
     HEXtoBCD((int)left, 0, 6);
     HEXtoBCD((int)right, 0, 0);
-    display_changed = 1;
+    display_changed = 1;*/
 }

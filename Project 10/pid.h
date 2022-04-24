@@ -1,4 +1,6 @@
-#define SET_POINT        (20)
+#define SET_POINT           (20)
+#define KP_SHIFT            (4)
+#define KD_SHIFT            (3)
 struct PID {
     int kP, kD;//, kI;
     int error, lastError;//, lastIntegral;

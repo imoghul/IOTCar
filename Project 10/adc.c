@@ -68,7 +68,7 @@ void Init_REF(void) {
 }
 
 void Init_DAC(void) {
-    DAC_data = 10000;
+    DAC_data = DAC_INIT_VAL;
     SAC3DAT = DAC_data;
     /*SAC3DAC = DACSREF_1 | DACLSEL_0 | DACEN;
 
@@ -123,7 +123,7 @@ __interrupt void ADC_ISR(void) {
                     ADCMCTL0 &= ~ADCINCH_5;
                     ADCMCTL0 = ADCINCH_2;
                     ADC_Thumb = ADCMEM0;
-                    ADC_Thumb = ADC_Thumb >> (10 - THUMB_RES);
+                    ADC_Thumb = ADC_Thumb >> (ADC_RES_THUMB_MAX - THUMB_RES);
                     ADCCTL0 |= ADCSC;
                     break;
 
@@ -155,7 +155,7 @@ __interrupt void ADC_ISR(void) {
                     ADCMCTL0 &= ~ADCINCH_2;
                     ADCMCTL0 = ADCINCH_3;
                     ADC_Left_Detect = ADCMEM0;
-                    ADC_Left_Detect = ADC_Left_Detect >> 3;
+                    ADC_Left_Detect = ADC_Left_Detect >> DETECTOR_DECREMENT;
                     ADCCTL0 |= ADCSC;
                     break;
 
@@ -163,12 +163,12 @@ __interrupt void ADC_ISR(void) {
                     ADCMCTL0 &= ~ADCINCH_3;
                     ADCMCTL0 = ADCINCH_5;
                     ADC_Right_Detect = ADCMEM0;
-                    ADC_Right_Detect = ADC_Right_Detect >> 3;
+                    ADC_Right_Detect = ADC_Right_Detect >> DETECTOR_DECREMENT;
                     break;
 
                 case 0x03:
-                    adcUpdated = 1;
-                    ADC_Channel = 0;
+                    adcUpdated = true;
+                    ADC_Channel = BEGINNING;
                     break;
 
                 default:

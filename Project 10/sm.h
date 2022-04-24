@@ -12,6 +12,7 @@
 #define DONE            ('d')
 
 #define LF_TURN_DECREMENT       (2500)
+#define LF_LOCK_TIME            (1)
 #define LEG1                    (2500)
 #define LEG2                    (5000)
 #define LEG3                    (1800)
