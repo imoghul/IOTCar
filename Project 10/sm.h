@@ -21,6 +21,8 @@
 #define CIRCLING_TIME           (120)
 #define TIME_TO_CIRCLE          (10)
 
+#define DELAY_BETWEEN_EVENTS    (5)
+
 void StateMachine(void);
 void Straight(char);
 void Turn(char);
