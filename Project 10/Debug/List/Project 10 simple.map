@@ -11,7 +11,7 @@ Warning[w6]: Type conflict for external/entry "HEXtoBCD", in module menu against
 #                                                                              #
 #      IAR Universal Linker V6.6.2.104                                         #
 #                                                                              #
-#           Link time     =  25/Apr/2022  16:12:49                             #
+#           Link time     =  25/Apr/2022  16:26:32                             #
 #           Target CPU    =  MSP430                                            #
 #           List file     =  "C:\Users\saad\Documents\test\Project 10\Debug\Li #
 #                            st\Project 10 simple.map"                         #
@@ -20,7 +20,7 @@ Warning[w6]: Type conflict for external/entry "HEXtoBCD", in module menu against
 #                            Format: ubrof10                                   #
 #                            UBROF version 10.0.6                              #
 #                            Using library modules for C-SPY (-rt)             #
-#           Command line  =  -f C:\Users\saad\AppData\Local\Temp\EW6B24.tmp    #
+#           Command line  =  -f C:\Users\saad\AppData\Local\Temp\EWED1E.tmp    #
 #                            ("C:\Users\saad\Documents\test\Project 10\Debug\O #
 #                            bj\adc.r43"                                       #
 #                            "C:\Users\saad\Documents\test\Project 10\Debug\Ob #
@@ -45,6 +45,8 @@ Warning[w6]: Type conflict for external/entry "HEXtoBCD", in module menu against
 #                            j\ports.r43"                                      #
 #                            "C:\Users\saad\Documents\test\Project 10\Debug\Ob #
 #                            j\serial.r43"                                     #
+#                            "C:\Users\saad\Documents\test\Project 10\Debug\Ob #
+#                            j\serial_interrupts.r43"                          #
 #                            "C:\Users\saad\Documents\test\Project 10\Debug\Ob #
 #                            j\sm.r43"                                         #
 #                            "C:\Users\saad\Documents\test\Project 10\Debug\Ob #
@@ -601,17 +603,11 @@ serial ( C:\Users\saad\Documents\test\Project 10\Debug\Obj\serial.r43 )
         _A_UCA0CTLW0_L                      0500
         _A_UCA0BRW_L                        0506
         _A_UCA0MCTLW_L                      0508
-        _A_UCA0RXBUF_L                      050C
-        _A_UCA0TXBUF_L                      050E
         _A_UCA0IE_L                         NOT NEEDED
-        _A_UCA0IV_L                         051E
         _A_UCA1CTLW0_L                      0580
         _A_UCA1BRW_L                        0586
         _A_UCA1MCTLW_L                      0588
-        _A_UCA1RXBUF_L                      058C
-        _A_UCA1TXBUF_L                      058E
         _A_UCA1IE_L                         059A
-        _A_UCA1IV_L                         059E
         usb0_rx_wr                          206C
         usb1_rx_wr                          206E
         usb0_rx_rd                          2070
@@ -631,8 +627,6 @@ serial ( C:\Users\saad\Documents\test\Project 10\Debug\Obj\serial.r43 )
         serialState                         NOT NEEDED
         receievedFromPC                     2299
         Init_Serial_UCA                     9352
-        eUSCI_A0_ISR                        822E
-        eUSCI_A1_ISR                        82A4
         clearProcessBuff                    9C8A
         clearProcessBuff_0                  9EEA
         clearProcessBuff_1                  NOT NEEDED
@@ -642,8 +636,6 @@ serial ( C:\Users\saad\Documents\test\Project 10\Debug\Obj\serial.r43 )
         loadRingtoPB_0                      9CAC
         loadRingtoPB_1                      9CF0
         SerialProcess                       9F70
-        eUSCI_A1_ISR::??INTVEC 64           FFE2
-        eUSCI_A0_ISR::??INTVEC 66           FFE4
         ?setjmp_save_r4                     NOT NEEDED
         ?setjmp_save_r5                     NOT NEEDED
         UCA0CTLW0                           0500
@@ -655,6 +647,36 @@ serial ( C:\Users\saad\Documents\test\Project 10\Debug\Obj\serial.r43 )
         UCA0MCTLW                           0508
         UCA0MCTLW_H                         0509
         UCA0MCTLW_L                         0508
+        UCA0IE                              051A
+        UCA0IE_H                            051B
+        UCA0IE_L                            051A
+        UCA1CTLW0                           0580
+        UCA1CTLW0_H                         0581
+        UCA1CTLW0_L                         0580
+        UCA1BRW                             0586
+        UCA1BRW_H                           0587
+        UCA1BRW_L                           0586
+        UCA1MCTLW                           0588
+        UCA1MCTLW_H                         0589
+        UCA1MCTLW_L                         0588
+        UCA1IE                              059A
+        UCA1IE_H                            059B
+        UCA1IE_L                            059A
+serial_interrupts ( C:\Users\saad\Documents\test\Project 10\Debug\Obj\serial_interrupts.r43 )
+        _A_UCA0RXBUF_L                      050C
+        _A_UCA0TXBUF_L                      050E
+        _A_UCA0IE_L                         NOT NEEDED
+        _A_UCA0IV_L                         051E
+        _A_UCA1RXBUF_L                      058C
+        _A_UCA1TXBUF_L                      058E
+        _A_UCA1IE_L                         NOT NEEDED
+        _A_UCA1IV_L                         059E
+        eUSCI_A0_ISR                        822E
+        eUSCI_A1_ISR                        82A4
+        eUSCI_A1_ISR::??INTVEC 64           FFE2
+        eUSCI_A0_ISR::??INTVEC 66           FFE4
+        ?setjmp_save_r4                     NOT NEEDED
+        ?setjmp_save_r5                     NOT NEEDED
         UCA0RXBUF                           050C
         UCA0RXBUF_H                         050D
         UCA0RXBUF_L                         050C
@@ -667,15 +689,6 @@ serial ( C:\Users\saad\Documents\test\Project 10\Debug\Obj\serial.r43 )
         UCA0IV                              051E
         UCA0IV_H                            051F
         UCA0IV_L                            051E
-        UCA1CTLW0                           0580
-        UCA1CTLW0_H                         0581
-        UCA1CTLW0_L                         0580
-        UCA1BRW                             0586
-        UCA1BRW_H                           0587
-        UCA1BRW_L                           0586
-        UCA1MCTLW                           0588
-        UCA1MCTLW_H                         0589
-        UCA1MCTLW_L                         0588
         UCA1RXBUF                           058C
         UCA1RXBUF_H                         058D
         UCA1RXBUF_L                         058C
@@ -1120,7 +1133,9 @@ menu                  354      2            88
 pid                    96
 ports                 758            30
   + shared                            8
-serial                618    453     26
+serial                360    453     12
+  + shared                            2
+serial_interrupts     258            12
   + common             68
 sm                  1 374     14            69
   + shared                            4

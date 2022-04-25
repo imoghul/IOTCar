@@ -20,6 +20,7 @@ rule browsedata
 
 
 #Build steps
+build serial_interrupts.pbi : index serial_interrupts.xcl
 build adc.pbi : index adc.xcl
 build clocks.pbi : index clocks.xcl
 build detectors.pbi : index detectors.xcl
@@ -37,11 +38,11 @@ build system.pbi : index system.xcl
 build timers.pbi : index timers.xcl
 build utils.pbi : index utils.xcl
 build wheels.pbi : index wheels.xcl
-build Project$ 10$ simple_part0.pbi : link adc.pbi clocks.pbi detectors.pbi init.pbi
-build Project$ 10$ simple_part1.pbi : link iot.pbi led.pbi main.pbi menu.pbi
-build Project$ 10$ simple_part2.pbi : link pid.pbi ports.pbi serial.pbi sm.pbi
-build Project$ 10$ simple_part3.pbi : link switches.pbi system.pbi timers.pbi utils.pbi
-build Project$ 10$ simple_part4.pbi : link wheels.pbi
+build Project$ 10$ simple_part0.pbi : link serial_interrupts.pbi adc.pbi clocks.pbi detectors.pbi
+build Project$ 10$ simple_part1.pbi : link init.pbi iot.pbi led.pbi main.pbi
+build Project$ 10$ simple_part2.pbi : link menu.pbi pid.pbi ports.pbi serial.pbi
+build Project$ 10$ simple_part3.pbi : link sm.pbi switches.pbi system.pbi timers.pbi
+build Project$ 10$ simple_part4.pbi : link utils.pbi wheels.pbi
 build Project$ 10$ simple.pbd : link Project$ 10$ simple_part0.pbi Project$ 10$ simple_part1.pbi Project$ 10$ simple_part2.pbi Project$ 10$ simple_part3.pbi Project$ 10$ simple_part4.pbi
 build Project$ 10$ simple.pbw : browsedata Project$ 10$ simple.pbd
 
