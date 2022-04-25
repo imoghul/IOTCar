@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  17:16:01
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          25/Apr/2022  16:18:09
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -14,7 +14,7 @@
 #    __code_model  =  large
 #    Source file   =  C:\Users\saad\Documents\ece306test\Project 10\adc.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWCC55.tmp
+#        -f C:\Users\saad\AppData\Local\Temp\EW3F75.tmp
 #        ("C:\Users\saad\Documents\ece306test\Project 10\adc.c" -lC
 #        "C:\Users\saad\Documents\ece306test\Project 10\Debug\List" -o
 #        "C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj" --debug
@@ -257,8 +257,8 @@ C:\Users\saad\Documents\ece306test\Project 10\adc.c
    \                                 In  segment CODE, align 2
      70          void Init_DAC(void) {
    \                     Init_DAC:
-     71              DAC_data = 10000;
-   \   000000   B2401027.... MOV.W   #0x2710, &DAC_data
+     71              DAC_data = 1000;
+   \   000000   B240E803.... MOV.W   #0x3e8, &DAC_data
      72              SAC3DAT = DAC_data;
    \   000006   9242....B60C MOV.W   &DAC_data, &0xcb6
      73              /*SAC3DAC = DACSREF_1 | DACLSEL_0 | DACEN;
