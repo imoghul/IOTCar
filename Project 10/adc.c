@@ -54,7 +54,7 @@ void Init_ADC(void) {
     ADCCTL1 |= ADCSSEL_0;
     ADCCTL1 |= ADCCONSEQ_0;
     //ADCCTL1 = ADCSHS_0 | ADCSHP | ADCDIV_0 | ADCSSEL_0 | ADCCONSEQ_0;
-    //ADCCTL1 &= ~ADCISSH;
+    ADCCTL1 &= ~ADCISSH;
     // ADCCTL2 Register
     ADCCTL2 = 0;
     ADCCTL2 |= ADCPDIV0;
@@ -62,7 +62,7 @@ void Init_ADC(void) {
     ADCCTL2 &= ~ADCDF;
     ADCCTL2 &= ~ADCSR;
     //ADCCTL2 = ADCPDIV0 | ADCRES_1;
-    //ADCCTL2 &= ~ADCDF & ~ADCSR;
+    ADCCTL2 &= ~ADCDF & ~ADCSR;
     // ADCMCTL0 Register
     ADCMCTL0 |= ADCSREF_0;
     ADCMCTL0 |= ADCINCH_5;

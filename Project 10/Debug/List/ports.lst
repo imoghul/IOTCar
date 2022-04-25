@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  14:43:28
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          25/Apr/2022  16:03:36
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,25 +12,26 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece306test\Project 10\ports.c
+#    Source file   =  C:\Users\saad\Documents\test\Project 10\ports.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW2069.tmp
-#        ("C:\Users\saad\Documents\ece306test\Project 10\ports.c" -lC
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EWF914.tmp
+#        ("C:\Users\saad\Documents\test\Project 10\ports.c" -lC
+#        "C:\Users\saad\Documents\test\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\test\Project 10\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -Ohz --multiplier=32
+#        --core=430X --data_model=small -On --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\List\ports.lst
+#        C:\Users\saad\Documents\test\Project 10\Debug\List\ports.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj\ports.r43
+#        C:\Users\saad\Documents\test\Project 10\Debug\Obj\ports.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece306test\Project 10\ports.c
+C:\Users\saad\Documents\test\Project 10\ports.c
       1          //==============================================================================
       2          // File Name : ports.c
       3          //
@@ -183,8 +184,9 @@ C:\Users\saad\Documents\ece306test\Project 10\ports.c
      32              Init_Port5();
    \   000012   ........     CALLA   #Init_Port5
      33              Init_Port6();
-   \   000016   ........     BRA     #Init_Port6
+   \   000016   ........     CALLA   #Init_Port6
      34          }
+   \   00001A   1001         RETA
      35          
      36          //===========================================================================
      37          // Function name: Init_Port1
@@ -415,28 +417,29 @@ C:\Users\saad\Documents\ece306test\Project 10\ports.c
    \   000034   F2D22202     BIS.B   #0x8, &0x222
     175          
     176              switch(smclk) {
-   \   000038   4C83         SUB.B   #0x0, R12
-   \   00003A   0C24         JEQ     ??Init_Port3_2
-   \   00003C   5C83         SUB.B   #0x1, R12
-   \   00003E   1320         JNE     ??Init_Port3_1
+   \   000038   4E4C         MOV.B   R12, R14
+   \   00003A   4E83         SUB.B   #0x0, R14
+   \   00003C   0C24         JEQ     ??Init_Port3_2
+   \   00003E   5E83         SUB.B   #0x1, R14
+   \   000040   1320         JNE     ??Init_Port3_0
     177                  case(USE_SMCLK):
     178                      P3SEL0 |= SMCLK_2355;
-   \   000040   F2D010002A02 BIS.B   #0x10, &0x22a
+   \   000042   F2D010002A02 BIS.B   #0x10, &0x22a
     179                      P3SEL1 &= ~SMCLK_2355;
-   \   000046   F2C010002C02 BIC.B   #0x10, &0x22c
+   \   000048   F2C010002C02 BIC.B   #0x10, &0x22c
     180                      P3DIR |= SMCLK_2355;
-   \   00004C   F2D010002402 BIS.B   #0x10, &0x224
+   \   00004E   F2D010002402 BIS.B   #0x10, &0x224
     181                      break;
-   \   000052   093C         JMP     ??Init_Port3_1
+   \   000054   093C         JMP     ??Init_Port3_0
     182          
     183                  case(USE_GPIO):
     184                      P3SEL0 &= ~SMCLK_2355;
    \                     ??Init_Port3_2:
-   \   000054   F2C010002A02 BIC.B   #0x10, &0x22a
+   \   000056   F2C010002A02 BIC.B   #0x10, &0x22a
     185                      P3SEL1 &= ~SMCLK_2355;
-   \   00005A   F2C010002C02 BIC.B   #0x10, &0x22c
+   \   00005C   F2C010002C02 BIC.B   #0x10, &0x22c
     186                      P3DIR &= ~SMCLK_2355;
-   \   000060   F2C010002402 BIC.B   #0x10, &0x224
+   \   000062   F2C010002402 BIC.B   #0x10, &0x224
     187                      break;
     188          
     189                  default:
@@ -444,36 +447,36 @@ C:\Users\saad\Documents\ece306test\Project 10\ports.c
     191              }
     192          
     193              P3SEL0 &= ~DAC_CNTL;
-   \                     ??Init_Port3_1:
-   \   000066   F2C020002A02 BIC.B   #0x20, &0x22a
+   \                     ??Init_Port3_0:
+   \   000068   F2C020002A02 BIC.B   #0x20, &0x22a
     194              P3SEL1 &= ~DAC_CNTL;
-   \   00006C   F2C020002C02 BIC.B   #0x20, &0x22c
+   \   00006E   F2C020002C02 BIC.B   #0x20, &0x22c
     195              P3DIR &= ~DAC_CNTL;
-   \   000072   F2C020002402 BIC.B   #0x20, &0x224
+   \   000074   F2C020002402 BIC.B   #0x20, &0x224
     196          
     197              P3SEL0 &= ~IOT_LINK_CPU;
-   \   000078   F2C040002A02 BIC.B   #0x40, &0x22a
+   \   00007A   F2C040002A02 BIC.B   #0x40, &0x22a
     198              P3SEL1 &= ~IOT_LINK_CPU;
-   \   00007E   F2C040002C02 BIC.B   #0x40, &0x22c
+   \   000080   F2C040002C02 BIC.B   #0x40, &0x22c
     199              P3DIR |= IOT_LINK_CPU;
-   \   000084   F2D040002402 BIS.B   #0x40, &0x224
+   \   000086   F2D040002402 BIS.B   #0x40, &0x224
     200              P3OUT &= ~IOT_LINK_CPU;
-   \   00008A   F2C040002202 BIC.B   #0x40, &0x222
+   \   00008C   F2C040002202 BIC.B   #0x40, &0x222
     201          
     202              P3SEL0 &= ~IOT_EN_CPU;
-   \   000090   F2C080002A02 BIC.B   #0x80, &0x22a
+   \   000092   F2C080002A02 BIC.B   #0x80, &0x22a
     203              P3SEL1 &= ~IOT_EN_CPU;
-   \   000096   F2C080002C02 BIC.B   #0x80, &0x22c
+   \   000098   F2C080002C02 BIC.B   #0x80, &0x22c
     204              P3DIR |= IOT_EN_CPU;
-   \   00009C   F2D080002402 BIS.B   #0x80, &0x224
+   \   00009E   F2D080002402 BIS.B   #0x80, &0x224
     205              P3OUT &= ~IOT_EN_CPU;
-   \   0000A2   F2C080002202 BIC.B   #0x80, &0x222
+   \   0000A4   F2C080002202 BIC.B   #0x80, &0x222
     206          }
-   \   0000A8   1001         RETA
-   \   0000AA                REQUIRE _A_PBOUT_L
-   \   0000AA                REQUIRE _A_PBDIR_L
-   \   0000AA                REQUIRE _A_PBSEL0_L
-   \   0000AA                REQUIRE _A_PBSEL1_L
+   \   0000AA   1001         RETA
+   \   0000AC                REQUIRE _A_PBOUT_L
+   \   0000AC                REQUIRE _A_PBDIR_L
+   \   0000AC                REQUIRE _A_PBSEL0_L
+   \   0000AC                REQUIRE _A_PBSEL1_L
     207          
     208          //===========================================================================
     209          // Function name: Init_Port4
@@ -733,7 +736,7 @@ C:\Users\saad\Documents\ece306test\Project 10\ports.c
         4   -> Init_Port3
         4   -> Init_Port4
         4   -> Init_Port5
-        0   -> Init_Port6
+        4   -> Init_Port6
 
 
    Segment part sizes:
@@ -742,11 +745,11 @@ C:\Users\saad\Documents\ece306test\Project 10\ports.c
    -----  --------------
       92  Init_Port1
      154  Init_Port2
-     170  Init_Port3
+     172  Init_Port3
      130  Init_Port4
       58  Init_Port5
      124  Init_Port6
-      26  Init_Ports
+      28  Init_Ports
        2  _A_PADIR_L
        2  _A_PAIES_L
        2  _A_PAIE_L
@@ -771,10 +774,10 @@ C:\Users\saad\Documents\ece306test\Project 10\ports.c
        2  _A_PCSELC_L
 
  
- 754 bytes in segment CODE
+ 758 bytes in segment CODE
   44 bytes in segment DATA16_AN
  
- 754 bytes of CODE memory
+ 758 bytes of CODE memory
    0 bytes of DATA memory (+ 44 bytes shared)
 
 Errors: none

@@ -68,13 +68,16 @@ void Init_Serial_UCA(void) {
     SET_UCA_115200;
     UCA0CTLW0 &= ~UCSWRST;
     UCA0IE |= UCRXIE;
+    
     // Configure UART 1
-    UCA1CTLW0 = 0;
+    /*UCA1CTLW0 = 0;
     UCA1CTLW0 |= UCSWRST;
     UCA1CTLW0 |= UCSSEL__SMCLK;
     // UCA1BRW = 4;
     // UCA1MCTLW = 0x5551;
     UCA1CTLW0 &= ~UCSWRST;
+    UCA1IE |= UCRXIE;*/
+    UCA1CTLW0 = UCA0CTLW0;
     UCA1IE |= UCRXIE;
 }
 //===========================================================================
@@ -324,7 +327,7 @@ void loadRingtoPB(volatile unsigned int* rx_wr, unsigned int* rx_rd, volatile ch
         if(++(*pb_index) > LARGE_RING_SIZE - 1) *pb_index = BEGINNING;
     }
 
-    if(*pb_index >= 2 && Rx_Process[(*pb_index) - 1] == '\n' && Rx_Process[(*pb_index) - 2] == '\r') {
+    if(/**pb_index >= 2 && */Rx_Process[(*pb_index) - 1] == '\n' && Rx_Process[(*pb_index) - 2] == '\r') {
         *pb_buffered = true;
         *pb_index = BEGINNING;
     }

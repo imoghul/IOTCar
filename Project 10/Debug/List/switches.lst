@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  17:16:05
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          25/Apr/2022  16:03:38
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,25 +12,26 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece306test\Project 10\switches.c
+#    Source file   =  C:\Users\saad\Documents\test\Project 10\switches.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWDDF7.tmp
-#        ("C:\Users\saad\Documents\ece306test\Project 10\switches.c" -lC
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EWFFEA.tmp
+#        ("C:\Users\saad\Documents\test\Project 10\switches.c" -lC
+#        "C:\Users\saad\Documents\test\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\test\Project 10\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -Ohz --multiplier=32
+#        --core=430X --data_model=small -On --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\List\switches.lst
+#        C:\Users\saad\Documents\test\Project 10\Debug\List\switches.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj\switches.r43
+#        C:\Users\saad\Documents\test\Project 10\Debug\Obj\switches.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece306test\Project 10\switches.c
+C:\Users\saad\Documents\test\Project 10\switches.c
       1          #include "msp430.h"
 
    \                                 In  segment DATA16_AN, at 0x21a
@@ -174,7 +175,7 @@ C:\Users\saad\Documents\ece306test\Project 10\switches.c
    \   000000   0F12         PUSH.W  R15
      48              if(P4IFG & SW1 && debouncing1 == FALSE) {
    \   000002   E2B33D02     BIT.B   #0x2, &0x23d
-   \   000006   1624         JEQ     ??switchP4_interrupt_0
+   \   000006   1628         JNC     ??switchP4_interrupt_0
    \   000008   8293....     CMP.W   #0x0, &debouncing1
    \   00000C   1320         JNE     ??switchP4_interrupt_0
      49                  P4IE &= ~SW1;
@@ -194,7 +195,7 @@ C:\Users\saad\Documents\ece306test\Project 10\switches.c
      55          
      56                  // Actual Code
      57          
-     58                  transMenu = 1;//trainsitionMenu();
+     58                  transMenu = true;//trainsitionMenu();
    \   000030   D243....     MOV.B   #0x1, &transMenu
      59              }
      60          }
@@ -230,7 +231,7 @@ C:\Users\saad\Documents\ece306test\Project 10\switches.c
    \   000000   0F12         PUSH.W  R15
      79              if(P2IFG & SW2 && debouncing2 == FALSE) {
    \   000002   F2B21D02     BIT.B   #0x8, &0x21d
-   \   000006   1624         JEQ     ??switchP2_interrupt_0
+   \   000006   1628         JNC     ??switchP2_interrupt_0
    \   000008   8293....     CMP.W   #0x0, &debouncing2
    \   00000C   1320         JNE     ??switchP2_interrupt_0
      80                  P2IE &= ~SW2;
@@ -248,7 +249,7 @@ C:\Users\saad\Documents\ece306test\Project 10\switches.c
      85                  debouncing2 = TRUE;
    \   00002C   9243....     MOV.W   #0x1, &debouncing2
      86                  // Actual Code
-     87                  interractMenu = 1;
+     87                  interractMenu = true;
    \   000030   D243....     MOV.B   #0x1, &interractMenu
      88              }
      89          }

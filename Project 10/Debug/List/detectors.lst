@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  17:16:02
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          25/Apr/2022  16:03:32
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,25 +12,26 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece306test\Project 10\detectors.c
+#    Source file   =  C:\Users\saad\Documents\test\Project 10\detectors.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWCE78.tmp
-#        ("C:\Users\saad\Documents\ece306test\Project 10\detectors.c" -lC
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EWE9B3.tmp
+#        ("C:\Users\saad\Documents\test\Project 10\detectors.c" -lC
+#        "C:\Users\saad\Documents\test\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\test\Project 10\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -Ohz --multiplier=32
+#        --core=430X --data_model=small -On --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\List\detectors.lst
+#        C:\Users\saad\Documents\test\Project 10\Debug\List\detectors.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj\detectors.r43
+#        C:\Users\saad\Documents\test\Project 10\Debug\Obj\detectors.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece306test\Project 10\detectors.c
+C:\Users\saad\Documents\test\Project 10\detectors.c
       1          #include "msp430.h"
       2          #include "ports.h"
       3          #include "adc.h"
@@ -226,147 +227,179 @@ C:\Users\saad\Documents\ece306test\Project 10\detectors.c
    \                     greaterBlackAnd:
    \   000000                DS8 2
      30          
+     31          
+     32          //===========================================================================
+     33          // Function name: updateDetectors
+     34          //
+     35          // Description: This function updates the status of the detectors
+     36          //
+     37          // Passed : no variables passed
+     38          // Locals: no variables declared
+     39          // Returned: no values returned
+     40          // Globals: l_LessWhite,r_LessWhite,l_GreaterWhite,r_GreaterWhite,lessWhiteOr,
+     41          // lessWhiteAnd, greaterWhiteAnd, greaterWhiteOr, ADC_Left_Detect,
+     42          // ADC_Right_Detect
+     43          //
+     44          // Author: Ibrahim Moghul
+     45          // Date: Apr 2022
+     46          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     47          //===========================================================================
+     48          
 
    \                                 In  segment CODE, align 2
-     31          void updateDetectors(void) {
+     49          void updateDetectors(void) {
    \                     updateDetectors:
-   \   000000   1B15         PUSHM.W #0x2, R11
-     32              /*l_LessBlack = ADC_Left_Detect < LEFT_BLACK_DETECT;
-     33              r_LessBlack = ADC_Right_Detect < RIGHT_BLACK_DETECT;
-     34              l_LessGray = ADC_Left_Detect < LEFT_GRAY_DETECT;
-     35              r_LessGray = ADC_Right_Detect < RIGHT_GRAY_DETECT;*/
-     36              l_LessWhite = ADC_Left_Detect < LEFT_WHITE_DETECT;
-   \   000002   B2900900.... CMP.W   #0x9, &ADC_Left_Detect
-   \   000008   4E7E         SUBC.B  R14, R14
-   \   00000A   5EF3         AND.B   #0x1, R14
-   \   00000C   824E....     MOV.W   R14, &l_LessWhite
-     37              r_LessWhite = ADC_Right_Detect < RIGHT_WHITE_DETECT;
-   \   000010   B2900900.... CMP.W   #0x9, &ADC_Right_Detect
-   \   000016   4F7F         SUBC.B  R15, R15
-   \   000018   5FF3         AND.B   #0x1, R15
-   \   00001A   824F....     MOV.W   R15, &r_LessWhite
-     38              //
-     39              /*l_GreaterBlack = ADC_Left_Detect > LEFT_BLACK_DETECT;
-     40              r_GreaterBlack = ADC_Right_Detect > RIGHT_BLACK_DETECT;
-     41              l_GreaterGray = ADC_Left_Detect > LEFT_GRAY_DETECT;
-     42              r_GreaterGray = ADC_Right_Detect > RIGHT_GRAY_DETECT;*/
-     43              l_GreaterWhite = !l_LessWhite;//ADC_Left_Detect > LEFT_WHITE_DETECT;
-   \   00001E   4D4E         MOV.B   R14, R13
-   \   000020   5DE3         XOR.B   #0x1, R13
-   \   000022   824D....     MOV.W   R13, &l_GreaterWhite
-     44              r_GreaterWhite = !r_LessWhite;//ADC_Right_Detect > RIGHT_WHITE_DETECT;
-   \   000026   4C4F         MOV.B   R15, R12
-   \   000028   5CE3         XOR.B   #0x1, R12
-   \   00002A   824C....     MOV.W   R12, &r_GreaterWhite
-     45              //
-     46              lessWhiteOr = l_LessWhite || r_LessWhite;
-   \   00002E   4A4E         MOV.B   R14, R10
-   \   000030   4ADF         BIS.B   R15, R10
-   \   000032   824A....     MOV.W   R10, &lessWhiteOr
-     47              lessWhiteAnd = l_LessWhite && r_LessWhite;
-   \   000036   4EFF         AND.B   R15, R14
-   \   000038   824E....     MOV.W   R14, &lessWhiteAnd
-     48              greaterWhiteAnd = l_GreaterWhite && r_GreaterWhite;
-   \   00003C   4E4D         MOV.B   R13, R14
-   \   00003E   4EFC         AND.B   R12, R14
-   \   000040   824E....     MOV.W   R14, &greaterWhiteAnd
-     49              greaterWhiteOr = l_GreaterWhite || r_GreaterWhite;
-   \   000044   4DDC         BIS.B   R12, R13
-   \   000046   824D....     MOV.W   R13, &greaterWhiteOr
-     50          }
-   \   00004A   1A17         POPM.W  #0x2, R11
-   \   00004C   1001         RETA
-     51          
+     50              /*l_LessBlack = ADC_Left_Detect < LEFT_BLACK_DETECT;
+     51              r_LessBlack = ADC_Right_Detect < RIGHT_BLACK_DETECT;
+     52              l_LessGray = ADC_Left_Detect < LEFT_GRAY_DETECT;
+     53              r_LessGray = ADC_Right_Detect < RIGHT_GRAY_DETECT;*/
+     54              l_LessWhite = ADC_Left_Detect < LEFT_WHITE_DETECT;
+   \   000000   B2900900.... CMP.W   #0x9, &ADC_Left_Detect
+   \   000006   032C         JC      ??updateDetectors_7
+   \   000008   9243....     MOV.W   #0x1, &l_LessWhite
+   \   00000C   023C         JMP     ??updateDetectors_0
+   \                     ??updateDetectors_7:
+   \   00000E   8243....     MOV.W   #0x0, &l_LessWhite
+     55              r_LessWhite = ADC_Right_Detect < RIGHT_WHITE_DETECT;
+   \                     ??updateDetectors_0:
+   \   000012   B2900900.... CMP.W   #0x9, &ADC_Right_Detect
+   \   000018   032C         JC      ??updateDetectors_8
+   \   00001A   9243....     MOV.W   #0x1, &r_LessWhite
+   \   00001E   023C         JMP     ??updateDetectors_1
+   \                     ??updateDetectors_8:
+   \   000020   8243....     MOV.W   #0x0, &r_LessWhite
+     56              //
+     57              /*l_GreaterBlack = ADC_Left_Detect > LEFT_BLACK_DETECT;
+     58              r_GreaterBlack = ADC_Right_Detect > RIGHT_BLACK_DETECT;
+     59              l_GreaterGray = ADC_Left_Detect > LEFT_GRAY_DETECT;
+     60              r_GreaterGray = ADC_Right_Detect > RIGHT_GRAY_DETECT;*/
+     61              l_GreaterWhite = !l_LessWhite;//ADC_Left_Detect > LEFT_WHITE_DETECT;
+   \                     ??updateDetectors_1:
+   \   000024   8293....     CMP.W   #0x0, &l_LessWhite
+   \   000028   0320         JNE     ??updateDetectors_9
+   \   00002A   9243....     MOV.W   #0x1, &l_GreaterWhite
+   \   00002E   023C         JMP     ??updateDetectors_2
+   \                     ??updateDetectors_9:
+   \   000030   8243....     MOV.W   #0x0, &l_GreaterWhite
+     62              r_GreaterWhite = !r_LessWhite;//ADC_Right_Detect > RIGHT_WHITE_DETECT;
+   \                     ??updateDetectors_2:
+   \   000034   8293....     CMP.W   #0x0, &r_LessWhite
+   \   000038   0320         JNE     ??updateDetectors_10
+   \   00003A   9243....     MOV.W   #0x1, &r_GreaterWhite
+   \   00003E   023C         JMP     ??updateDetectors_3
+   \                     ??updateDetectors_10:
+   \   000040   8243....     MOV.W   #0x0, &r_GreaterWhite
+     63              //
+     64              lessWhiteOr = l_LessWhite || r_LessWhite;
+   \                     ??updateDetectors_3:
+   \   000044   8293....     CMP.W   #0x0, &l_LessWhite
+   \   000048   0320         JNE     ??updateDetectors_11
+   \   00004A   8293....     CMP.W   #0x0, &r_LessWhite
+   \   00004E   0324         JEQ     ??updateDetectors_12
+   \                     ??updateDetectors_11:
+   \   000050   9243....     MOV.W   #0x1, &lessWhiteOr
+   \   000054   023C         JMP     ??updateDetectors_4
+   \                     ??updateDetectors_12:
+   \   000056   8243....     MOV.W   #0x0, &lessWhiteOr
+     65              lessWhiteAnd = l_LessWhite && r_LessWhite;
+   \                     ??updateDetectors_4:
+   \   00005A   8293....     CMP.W   #0x0, &l_LessWhite
+   \   00005E   0624         JEQ     ??updateDetectors_13
+   \   000060   8293....     CMP.W   #0x0, &r_LessWhite
+   \   000064   0324         JEQ     ??updateDetectors_13
+   \   000066   9243....     MOV.W   #0x1, &lessWhiteAnd
+   \   00006A   023C         JMP     ??updateDetectors_5
+   \                     ??updateDetectors_13:
+   \   00006C   8243....     MOV.W   #0x0, &lessWhiteAnd
+     66              greaterWhiteAnd = l_GreaterWhite && r_GreaterWhite;
+   \                     ??updateDetectors_5:
+   \   000070   8293....     CMP.W   #0x0, &l_GreaterWhite
+   \   000074   0624         JEQ     ??updateDetectors_14
+   \   000076   8293....     CMP.W   #0x0, &r_GreaterWhite
+   \   00007A   0324         JEQ     ??updateDetectors_14
+   \   00007C   9243....     MOV.W   #0x1, &greaterWhiteAnd
+   \   000080   023C         JMP     ??updateDetectors_6
+   \                     ??updateDetectors_14:
+   \   000082   8243....     MOV.W   #0x0, &greaterWhiteAnd
+     67              greaterWhiteOr = l_GreaterWhite || r_GreaterWhite;
+   \                     ??updateDetectors_6:
+   \   000086   8293....     CMP.W   #0x0, &l_GreaterWhite
+   \   00008A   0320         JNE     ??updateDetectors_15
+   \   00008C   8293....     CMP.W   #0x0, &r_GreaterWhite
+   \   000090   0324         JEQ     ??updateDetectors_16
+   \                     ??updateDetectors_15:
+   \   000092   9243....     MOV.W   #0x1, &greaterWhiteOr
+   \   000096   1001         RETA
+   \                     ??updateDetectors_16:
+   \   000098   8243....     MOV.W   #0x0, &greaterWhiteOr
+     68          }
+   \   00009C   1001         RETA
+     69          
+     70          //===========================================================================
+     71          // Function name: calibrate
+     72          //
+     73          // Description: This function calibrates the thresholds for the detectors
+     74          //
+     75          // Passed : no variables passed
+     76          // Locals: left, right, leftDetect,rightDetect
+     77          // Returned: no values returned
+     78          // Globals: LWDetect,LBDetect,RWDetect,RBDetect
+     79          //
+     80          // Author: Ibrahim Moghul
+     81          // Date: Apr 2022
+     82          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     83          //===========================================================================
+     84          
 
    \                                 In  segment CODE, align 2
-     52          void calibrate(void) {
+     85          void calibrate(void) {
    \                     calibrate:
-   \   000000   1B15         PUSHM.W #0x2, R11
-     53              unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
-   \   000002   1A42....     MOV.W   &ADC_Left_Detect, R10
-   \   000006   1B42....     MOV.W   &ADC_Right_Detect, R11
-     54              int * leftDetect = calibrationMode ? &LWDetect : &LBDetect;
+     86              unsigned int left = ADC_Left_Detect, right = ADC_Right_Detect;
+   \   000000   1F42....     MOV.W   &ADC_Left_Detect, R15
+   \   000004   1E42....     MOV.W   &ADC_Right_Detect, R14
+     87              int * leftDetect = calibrationMode ? &LWDetect : &LBDetect;
                                         ^
 Warning[Pe144]: a value of type "unsigned int *" cannot be used to initialize
           an entity of type "int *"
-   \   00000A   8293....     CMP.W   #0x0, &calibrationMode
-   \   00000E   0324         JEQ     ??calibrate_2
-   \   000010   3F40....     MOV.W   #LWDetect, R15
-   \   000014   023C         JMP     ??calibrate_0
+   \   000008   8293....     CMP.W   #0x0, &calibrationMode
+   \   00000C   0324         JEQ     ??calibrate_2
+   \   00000E   3D40....     MOV.W   #LWDetect, R13
+   \   000012   023C         JMP     ??calibrate_0
    \                     ??calibrate_2:
-   \   000016   3F40....     MOV.W   #LBDetect, R15
-     55              int * rightDetect = calibrationMode ? &RWDetect : &RBDetect;
+   \   000014   3D40....     MOV.W   #LBDetect, R13
+     88              int * rightDetect = calibrationMode ? &RWDetect : &RBDetect;
                                          ^
 Warning[Pe144]: a value of type "unsigned int *" cannot be used to initialize
           an entity of type "int *"
    \                     ??calibrate_0:
-   \   00001A   8293....     CMP.W   #0x0, &calibrationMode
-   \   00001E   0324         JEQ     ??calibrate_3
-   \   000020   3E40....     MOV.W   #RWDetect, R14
-   \   000024   023C         JMP     ??calibrate_1
+   \   000018   8293....     CMP.W   #0x0, &calibrationMode
+   \   00001C   0324         JEQ     ??calibrate_3
+   \   00001E   3C40....     MOV.W   #RWDetect, R12
+   \   000022   023C         JMP     ??calibrate_1
    \                     ??calibrate_3:
-   \   000026   3E40....     MOV.W   #RBDetect, R14
-     56          
-     57              if (left > *leftDetect) *leftDetect = left;
+   \   000024   3C40....     MOV.W   #RBDetect, R12
+     89          
+     90              if (left > *leftDetect) *leftDetect = left;
    \                     ??calibrate_1:
-   \   00002A   2C4F         MOV.W   @R15, R12
-   \   00002C   0C9A         CMP.W   R10, R12
-   \   00002E   022C         JC      ??calibrate_4
-   \   000030   8F4A0000     MOV.W   R10, 0(R15)
-     58          
-     59              if (right > *rightDetect) *rightDetect = right;
+   \   000028   8D9F0000     CMP.W   R15, 0(R13)
+   \   00002C   022C         JC      ??calibrate_4
+   \   00002E   8D4F0000     MOV.W   R15, 0(R13)
+     91          
+     92              if (right > *rightDetect) *rightDetect = right;
    \                     ??calibrate_4:
-   \   000034   2C4E         MOV.W   @R14, R12
-   \   000036   0C9B         CMP.W   R11, R12
-   \   000038   022C         JC      ??calibrate_5
-   \   00003A   8E4B0000     MOV.W   R11, 0(R14)
-     60          
-     61              HEXtoBCD((int)LBDetect, 3, 6);
-                     ^
-Warning[Pe223]: function "HEXtoBCD" declared implicitly
+   \   000032   8C9E0000     CMP.W   R14, 0(R12)
+   \   000036   022C         JC      ??calibrate_5
+   \   000038   8C4E0000     MOV.W   R14, 0(R12)
+     93          }
    \                     ??calibrate_5:
-   \   00003E   3E400600     MOV.W   #0x6, R14
-   \   000042   3D400300     MOV.W   #0x3, R13
-   \   000046   1C42....     MOV.W   &LBDetect, R12
-   \   00004A   ........     CALLA   #HEXtoBCD
-     62              HEXtoBCD((int)RBDetect, 3, 0);
-   \   00004E   0E43         MOV.W   #0x0, R14
-   \   000050   3D400300     MOV.W   #0x3, R13
-   \   000054   1C42....     MOV.W   &RBDetect, R12
-   \   000058   ........     CALLA   #HEXtoBCD
-     63              HEXtoBCD((int)LWDetect, 2, 6);
-   \   00005C   3E400600     MOV.W   #0x6, R14
-   \   000060   2D43         MOV.W   #0x2, R13
-   \   000062   1C42....     MOV.W   &LWDetect, R12
-   \   000066   ........     CALLA   #HEXtoBCD
-     64              HEXtoBCD((int)RWDetect, 2, 0);
-   \   00006A   0E43         MOV.W   #0x0, R14
-   \   00006C   2D43         MOV.W   #0x2, R13
-   \   00006E   1C42....     MOV.W   &RWDetect, R12
-   \   000072   ........     CALLA   #HEXtoBCD
-     65              HEXtoBCD((int)left, 0, 6);
-   \   000076   3E400600     MOV.W   #0x6, R14
-   \   00007A   0D43         MOV.W   #0x0, R13
-   \   00007C   0C4A         MOV.W   R10, R12
-   \   00007E   ........     CALLA   #HEXtoBCD
-     66              HEXtoBCD((int)right, 0, 0);
-   \   000082   0E43         MOV.W   #0x0, R14
-   \   000084   0D43         MOV.W   #0x0, R13
-   \   000086   0C4B         MOV.W   R11, R12
-   \   000088   ........     CALLA   #HEXtoBCD
-     67              display_changed = 1;
-   \   00008C   D243....     MOV.B   #0x1, &display_changed
-     68          }
-   \   000090   1A17         POPM.W  #0x2, R11
-   \   000092   1001         RETA
+   \   00003C   1001         RETA
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
-      8   calibrate
-        8   -> HEXtoBCD
-      8   updateDetectors
+      4   calibrate
+      4   updateDetectors
 
 
    Segment part sizes:
@@ -377,7 +410,7 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
        2  LWDetect
        2  RBDetect
        2  RWDetect
-     148  calibrate
+      62  calibrate
        2  greaterBlackAnd
        2  greaterBlackOr
        2  greaterGrayAnd
@@ -407,14 +440,14 @@ Warning[Pe223]: function "HEXtoBCD" declared implicitly
        2  r_LessGray
        2  r_LessWhite
        8  rightVals
-      78  updateDetectors
+     158  updateDetectors
 
  
- 226 bytes in segment CODE
+ 220 bytes in segment CODE
   77 bytes in segment DATA16_Z
  
- 226 bytes of CODE memory
+ 220 bytes of CODE memory
   77 bytes of DATA memory
 
 Errors: none
-Warnings: 3
+Warnings: 2

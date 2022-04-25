@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  14:43:27
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          25/Apr/2022  16:03:36
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,110 +12,148 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece306test\Project 10\pid.c
+#    Source file   =  C:\Users\saad\Documents\test\Project 10\pid.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW1E85.tmp
-#        ("C:\Users\saad\Documents\ece306test\Project 10\pid.c" -lC
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EWF636.tmp
+#        ("C:\Users\saad\Documents\test\Project 10\pid.c" -lC
+#        "C:\Users\saad\Documents\test\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\test\Project 10\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -Ohz --multiplier=32
+#        --core=430X --data_model=small -On --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\List\pid.lst
-#    Object file   =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj\pid.r43
+#        C:\Users\saad\Documents\test\Project 10\Debug\List\pid.lst
+#    Object file   =  C:\Users\saad\Documents\test\Project 10\Debug\Obj\pid.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece306test\Project 10\pid.c
+C:\Users\saad\Documents\test\Project 10\pid.c
       1          #include "pid.h"
       2          #include "msp430.h"
       3          #include "macros.h"
       4          #include "detectors.h"
       5          #include "utils.h"
       6          
+      7          //===========================================================================
+      8          // Function name: GetOutput
+      9          //
+     10          // Description: This function retruns the pid output based on the controller,
+     11          // set point, and current value
+     12          //
+     13          // Passed : pidController, setPoint, current
+     14          // Locals: no variables declared
+     15          // Returned: pid ouput
+     16          // Globals: no globals used
+     17          //
+     18          // Author: Ibrahim Moghul
+     19          // Date: Apr 2022
+     20          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     21          //===========================================================================
+     22          
 
    \                                 In  segment CODE, align 2
-      7          int GetOutput(PIDController* pidController, int setPoint, int current) {
+     23          int GetOutput(PIDController* pidController, int setPoint, int current) {
    \                     GetOutput:
-   \   000000   0A12         PUSH.W  R10
-   \   000002   0A4D         MOV.W   R13, R10
-      8              int error = setPoint - current;
-   \   000004   0A8E         SUB.W   R14, R10
-      9              pidController->error = error;
-   \   000006   8C4A0400     MOV.W   R10, 0x4(R12)
-     10              // INTEGRAL NOT EVEN BEGIN USED
-     11              //long long integral = pidController->lastIntegral+error;
-     12              //int integral = additionSafe(pidController->lastIntegral, INT_MAX, INT_MIN, pidController->error);
-     13              int derivative = error - pidController->lastError;
-   \   00000A   0F4A         MOV.W   R10, R15
-   \   00000C   1F8C0600     SUB.W   0x6(R12), R15
-     14              pidController->lastError = error;
-   \   000010   8C4A0600     MOV.W   R10, 0x6(R12)
-     15              //pidController->lastIntegral = integral;
-     16              int errorTerm = (error * pidController->kP) >> 4;
-     17              int derivTerm = (derivative * pidController->kD) >> 3;
-     18              //long intTerm = integral, pidController->kI;
-     19              return additionSafe(errorTerm, INT_MAX, INT_MIN, derivTerm);
-   \   000014   0212         PUSH.W  SR
-   \   000016   32C2         DINT
-   \   000018   0343         NOP
-   \   00001A   824F....     MOV.W   R15, &__iar_HWMUL              // MPY
-   \   00001E   924C0200.... MOV.W   0x2(R12), &__iar_HWMUL + 8     // OP2
-   \   000024   1F42....     MOV.W   &__iar_HWMUL + 10, R15         // RESLO
-   \   000028   0343         NOP
-   \   00002A   2241         MOV.W   @SP, SR
-   \   00002C   5F09         RRAM.W  #0x3, R15
-   \   00002E   3E400080     MOV.W   #0x8000, R14
-   \   000032   3D40FF7F     MOV.W   #0x7fff, R13
-   \   000036   32C2         DINT
-   \   000038   0343         NOP
-   \   00003A   824A....     MOV.W   R10, &__iar_HWMUL              // MPY
-   \   00003E   A24C....     MOV.W   @R12, &__iar_HWMUL + 8         // OP2
-   \   000042   1C42....     MOV.W   &__iar_HWMUL + 10, R12         // RESLO
+   \   000000   7B15         PUSHM.W #0x8, R11
+   \   000002   0A4C         MOV.W   R12, R10
+   \   000004   0B4D         MOV.W   R13, R11
+   \   000006   084E         MOV.W   R14, R8
+     24              int error = setPoint - current;
+   \   000008   094B         MOV.W   R11, R9
+   \   00000A   0988         SUB.W   R8, R9
+     25              pidController->error = error;
+   \   00000C   8A490400     MOV.W   R9, 0x4(R10)
+     26              // INTEGRAL NOT EVEN BEGIN USED
+     27              //long long integral = pidController->lastIntegral+error;
+     28              //int integral = additionSafe(pidController->lastIntegral, INT_MAX, INT_MIN, pidController->error);
+     29              int derivative = error - pidController->lastError;
+   \   000010   0649         MOV.W   R9, R6
+   \   000012   168A0600     SUB.W   0x6(R10), R6
+     30              pidController->lastError = error;
+   \   000016   8A490600     MOV.W   R9, 0x6(R10)
+     31              //pidController->lastIntegral = integral;
+     32              int errorTerm = (error * pidController->kP) >> KP_SHIFT;
+   \   00001A   0212         PUSH.W  SR
+   \   00001C   32C2         DINT
+   \   00001E   0343         NOP
+   \   000020   8249....     MOV.W   R9, &__iar_HWMUL               // MPY
+   \   000024   A24A....     MOV.W   @R10, &__iar_HWMUL + 8         // OP2
+   \   000028   1742....     MOV.W   &__iar_HWMUL + 10, R7          // RESLO
+   \   00002C   0343         NOP
+   \   00002E   3241         POP.W   SR
+   \   000030   570D         RRAM.W  #0x4, R7
+     33              int derivTerm = (derivative * pidController->kD) >> KD_SHIFT;
+   \   000032   0212         PUSH.W  SR
+   \   000034   32C2         DINT
+   \   000036   0343         NOP
+   \   000038   8246....     MOV.W   R6, &__iar_HWMUL               // MPY
+   \   00003C   924A0200.... MOV.W   0x2(R10), &__iar_HWMUL + 8     // OP2
+   \   000042   1442....     MOV.W   &__iar_HWMUL + 10, R4          // RESLO
    \   000046   0343         NOP
    \   000048   3241         POP.W   SR
-   \   00004A   5C0D         RRAM.W  #0x4, R12
-   \   00004C   ........     CALLA   #additionSafe
-   \   000050   3A41         POP.W   R10
-   \   000052   1001         RETA
-     20          }
-     21          
+   \   00004A   5409         RRAM.W  #0x3, R4
+     34              //long intTerm = integral, pidController->kI;
+     35              return additionSafe(errorTerm, INT_MAX, INT_MIN, derivTerm);
+   \   00004C   0F44         MOV.W   R4, R15
+   \   00004E   3E400080     MOV.W   #0x8000, R14
+   \   000052   3D40FF7F     MOV.W   #0x7fff, R13
+   \   000056   0C47         MOV.W   R7, R12
+   \   000058   ........     CALLA   #additionSafe
+   \   00005C   7417         POPM.W  #0x8, R11
+   \   00005E   1001         RETA
+     36          }
+     37          
+     38          //===========================================================================
+     39          // Function name: ClearController
+     40          //
+     41          // Description: This function clears the error of a pid controller
+     42          //
+     43          // Passed : pidController
+     44          // Locals: no variables declared
+     45          // Returned: no values returned
+     46          // Globals: not globals used
+     47          //
+     48          // Author: Ibrahim Moghul
+     49          // Date: Apr 2022
+     50          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     51          //===========================================================================
+     52          
 
    \                                 In  segment CODE, align 2
-     22          void ClearController(PIDController* pidController) {
+     53          void ClearController(PIDController* pidController) {
    \                     ClearController:
-     23              pidController->error = 0;
-     24              pidController->lastError = 0;
-   \   000000   7C030400     MOVA    #0x0, 0x4(R12)
-     25              //pidController->lastIntegral = 0;
-     26          }
-   \   000004   1001         RETA
-     27          
+     54              pidController->error = BEGINNING;
+   \   000000   8C430400     MOV.W   #0x0, 0x4(R12)
+     55              pidController->lastError = BEGINNING;
+   \   000004   8C430600     MOV.W   #0x0, 0x6(R12)
+     56              //pidController->lastIntegral = 0;
+     57          }
+   \   000008   1001         RETA
+     58          
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
       4   ClearController
-      8   GetOutput
-        6   -> additionSafe
+     22   GetOutput
+       20   -> additionSafe
 
 
    Segment part sizes:
 
    Bytes  Function/Label
    -----  --------------
-       6  ClearController
-      84  GetOutput
+      10  ClearController
+      96  GetOutput
 
  
- 90 bytes in segment CODE
+ 106 bytes in segment CODE
  
- 90 bytes of CODE memory
+ 106 bytes of CODE memory
 
 Errors: none
 Warnings: none

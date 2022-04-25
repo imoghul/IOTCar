@@ -267,7 +267,7 @@ int RunLeftMotor( int val){
 //===========================================================================
 
 int LockMotors(int polR, int polL) {
-    return (Drive_Path(polR > OFF ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > OFF ? STRAIGHT_LEFT : -STRAIGHT_LEFT, LOCK_TIME));
+    return LockMotorsTime(polR,polL,LOCK_TIME);//(Drive_Path(polR > OFF ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT, polL > OFF ? STRAIGHT_LEFT : -STRAIGHT_LEFT, LOCK_TIME));
 }
 
 //===========================================================================

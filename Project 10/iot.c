@@ -414,19 +414,7 @@ void pushCB(command c) {
 //===========================================================================
 
 void ProcessCommands(void) {
-    //if(currCommand.comm == 0 && currCommand.duration == 0)return;
-    //commandsReceieved = 1;
-    if (CommandBuffer[BEGINNING].comm == STOP_COMMAND) {
-        currCommand = popCB();
-        state = START;
-        stopwatch_milliseconds = BEGINNING;
-        stateCounter = BEGINNING;
-        driveStateCounter = BEGINNING;
-        ShutoffMotors();
-        return;
-    }
-
-    if (CommandBuffer[BEGINNING].comm == EXIT_COMMAND) {
+    if (CommandBuffer[BEGINNING].comm == EXIT_COMMAND || CommandBuffer[BEGINNING].comm == STOP_COMMAND) {
         state = START;
         stopwatch_milliseconds = BEGINNING;
         stateCounter = BEGINNING;
@@ -444,7 +432,7 @@ void ProcessCommands(void) {
         cycle_count = BEGINNING;
 
         //driveTime = (int)(currCommand.duration * (currCommand.comm == RIGHT_COMMAND || currCommand.comm == LEFT_COMMAND ? TURN_CONSTANT : 1));
-
+        int turnTime = currCommand.duration << TURN_CONSTANT;
         switch(currCommand.comm) {
             case (FORWARD_COMMAND):
                 speedRight = STRAIGHT_RIGHT;
@@ -464,14 +452,14 @@ void ProcessCommands(void) {
                 speedRight = RIGHT_MID;
                 speedLeft = -(LEFT_MID);
                 state = DRIVE;
-                driveTime = currCommand.duration << TURN_CONSTANT;
+                driveTime = turnTime;//currCommand.duration << TURN_CONSTANT;
                 break;
 
             case (LEFT_COMMAND):
                 speedRight = -(RIGHT_MID);
                 speedLeft = LEFT_MID;
                 state = DRIVE;
-                driveTime = currCommand.duration << TURN_CONSTANT;
+                driveTime = turnTime;//currCommand.duration << TURN_CONSTANT;
                 break;
 
             case (LINEFOLLOW_COMMAND):

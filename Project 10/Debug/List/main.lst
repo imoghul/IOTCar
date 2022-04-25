@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  17:16:04
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          25/Apr/2022  16:03:35
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,25 +12,26 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece306test\Project 10\main.c
+#    Source file   =  C:\Users\saad\Documents\test\Project 10\main.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EWD7CD.tmp
-#        ("C:\Users\saad\Documents\ece306test\Project 10\main.c" -lC
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EWF4FD.tmp
+#        ("C:\Users\saad\Documents\test\Project 10\main.c" -lC
+#        "C:\Users\saad\Documents\test\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\test\Project 10\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -Ohz --multiplier=32
+#        --core=430X --data_model=small -On --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\List\main.lst
+#        C:\Users\saad\Documents\test\Project 10\Debug\List\main.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj\main.r43
+#        C:\Users\saad\Documents\test\Project 10\Debug\Obj\main.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece306test\Project 10\main.c
+C:\Users\saad\Documents\test\Project 10\main.c
       1          //------------------------------------------------------------------------------
       2          //
       3          //  Description: This file contains the Main Routine - "While" Operating System
@@ -229,93 +230,93 @@ C:\Users\saad\Documents\ece306test\Project 10\main.c
    \   00002C   F2D010004302 BIS.B   #0x10, &0x243
     107              // Place the contents of what you want on the display, in between the quotes
     108              // Limited to 10 characters per line
-    109              strcpy(display_line[0], "          ");
-   \   000032   3A40....     MOV.W   #`?<Constant "          ">`, R10
-   \   000036   0D4A         MOV.W   R10, R13
-   \   000038   3C40....     MOV.W   #display_line, R12
-   \   00003C   ........     CALLA   #strcpy
-    110              strcpy(display_line[1], "          ");
-   \   000040   0D4A         MOV.W   R10, R13
+    109              strcpy(LINE1, BLANK_LINE);
+   \   000032   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   000036   3C40....     MOV.W   #display_line, R12
+   \   00003A   ........     CALLA   #strcpy
+    110              strcpy(LINE2, BLANK_LINE);
+   \   00003E   3D40....     MOV.W   #`?<Constant "          ">`, R13
    \   000042   3C40....     MOV.W   #display_line + 11, R12
    \   000046   ........     CALLA   #strcpy
-    111              strcpy(display_line[2], "          ");
-   \   00004A   0D4A         MOV.W   R10, R13
-   \   00004C   3C40....     MOV.W   #display_line + 22, R12
-   \   000050   ........     CALLA   #strcpy
-    112              strcpy(display_line[3], "          ");
-   \   000054   0D4A         MOV.W   R10, R13
-   \   000056   3C40....     MOV.W   #display_line + 33, R12
-   \   00005A   ........     CALLA   #strcpy
+    111              strcpy(LINE3, BLANK_LINE);
+   \   00004A   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00004E   3C40....     MOV.W   #display_line + 22, R12
+   \   000052   ........     CALLA   #strcpy
+    112              strcpy(LINE4, BLANK_LINE);
+   \   000056   3D40....     MOV.W   #`?<Constant "          ">`, R13
+   \   00005A   3C40....     MOV.W   #display_line + 33, R12
+   \   00005E   ........     CALLA   #strcpy
     113              display_changed = TRUE;
-   \   00005E   D243....     MOV.B   #0x1, &display_changed
+   \   000062   D243....     MOV.B   #0x1, &display_changed
     114              update_display = TRUE;
-   \   000062   D243....     MOV.B   #0x1, &update_display
+   \   000066   D243....     MOV.B   #0x1, &update_display
     115              Display_Process();
-   \   000066   ........     CALLA   #Display_Process
-    116              //------------------------------------------------------------------------------
-    117              // Begining of the "While" Operating System
-    118              //------------------------------------------------------------------------------
-    119              while(ALWAYS) {                       // Can the Operating system run
-    120                  SerialProcess();
+   \   00006A   ........     CALLA   #Display_Process
+    116          
+    117              //------------------------------------------------------------------------------
+    118              // Begining of the "While" Operating System
+    119              //------------------------------------------------------------------------------
+    120              while(ALWAYS) {                       // Can the Operating system run
+    121                  SerialProcess();
    \                     ??main_0:
-   \   00006A   ........     CALLA   #SerialProcess
-    121          
-    122                  if(!Init_IOT()) continue;
-   \   00006E   ........     CALLA   #Init_IOT
-   \   000072   0C93         CMP.W   #0x0, R12
-   \   000074   FA27         JEQ     ??main_0
-    123                  
-    124                  Display_Process();                  // Update Display
-   \   000076   ........     CALLA   #Display_Process
-    125                  MenuProcess();
-   \   00007A   ........     CALLA   #MenuProcess
-    126                  IOTBufferCommands();
-   \   00007E   ........     CALLA   #IOTBufferCommands
-    127                  ProcessCommands();
-   \   000082   ........     CALLA   #ProcessCommands
-    128                  StateMachine();                     // Run wheels state machine
-   \   000086   ........     CALLA   #StateMachine
-    129                  MotorSafety();
-   \   00008A   ........     CALLA   #MotorSafety
-    130                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-   \   00008E   D2E32202     XOR.B   #0x1, &0x222
-    131          
+   \   00006E   ........     CALLA   #SerialProcess
+    122          
+    123                  if(!Init_IOT()) continue;
+   \   000072   ........     CALLA   #Init_IOT
+   \   000076   0C93         CMP.W   #0x0, R12
+   \   000078   FA27         JEQ     ??main_0
+    124          
+    125                  Display_Process();                  // Update Display
+   \   00007A   ........     CALLA   #Display_Process
+    126                  MenuProcess();
+   \   00007E   ........     CALLA   #MenuProcess
+    127                  IOTBufferCommands();
+   \   000082   ........     CALLA   #IOTBufferCommands
+    128                  ProcessCommands();
+   \   000086   ........     CALLA   #ProcessCommands
+    129                  StateMachine();                     // Run wheels state machine
+   \   00008A   ........     CALLA   #StateMachine
+    130                  MotorSafety();
+   \   00008E   ........     CALLA   #MotorSafety
+    131                  P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
+   \   000092   D2E32202     XOR.B   #0x1, &0x222
     132          
-    133                  if(Last_Time_Sequence != Time_Sequence) {
-   \   000092   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
-   \   000098   E827         JEQ     ??main_0
-    134                      Last_Time_Sequence = Time_Sequence;
-   \   00009A   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
-    135                      time_change = 1;
-   \   0000A0   9243....     MOV.W   #0x1, &time_change
-    136          
-    137                      if(++cycle_count == TIME_SEQUENCE_MAX) {
-   \   0000A4   1F42....     MOV.W   &cycle_count, R15
-   \   0000A8   1F53         ADD.W   #0x1, R15
-   \   0000AA   824F....     MOV.W   R15, &cycle_count
-   \   0000AE   3F90FA00     CMP.W   #0xfa, R15
-   \   0000B2   DB23         JNE     ??main_0
-    138                          cycle_count = 0;
-   \   0000B4   8243....     MOV.W   #0x0, &cycle_count
-    139                          stopwatch_seconds++;
-   \   0000B8   9253....     ADD.W   #0x1, &stopwatch_seconds
-   \   0000BC   D63F         JMP     ??main_0
-   \   0000BE   0343         NOP
-   \   0000C0                REQUIRE _A_PM5CTL0_L
-   \   0000C0                REQUIRE _A_PCOUT_L
-   \   0000C0                REQUIRE _A_PBOUT_L
-    140                      }
-    141                  }
-    142              }
-    143          
-    144              //------------------------------------------------------------------------------
-    145          }
+    133          
+    134                  if(Last_Time_Sequence != Time_Sequence) {
+   \   000096   9292........ CMP.W   &Time_Sequence, &Last_Time_Sequence
+   \   00009C   E827         JEQ     ??main_0
+    135                      Last_Time_Sequence = Time_Sequence;
+   \   00009E   9242........ MOV.W   &Time_Sequence, &Last_Time_Sequence
+    136                      time_change = true;
+   \   0000A4   9243....     MOV.W   #0x1, &time_change
+    137          
+    138                      if(++cycle_count == TIME_SEQUENCE_MAX) {
+   \   0000A8   1F42....     MOV.W   &cycle_count, R15
+   \   0000AC   1F53         ADD.W   #0x1, R15
+   \   0000AE   824F....     MOV.W   R15, &cycle_count
+   \   0000B2   3F90FA00     CMP.W   #0xfa, R15
+   \   0000B6   DB23         JNE     ??main_0
+    139                          cycle_count = BEGINNING;
+   \   0000B8   8243....     MOV.W   #0x0, &cycle_count
+    140                          stopwatch_seconds++;
+   \   0000BC   9253....     ADD.W   #0x1, &stopwatch_seconds
+   \   0000C0   D63F         JMP     ??main_0
+   \   0000C2   0343         NOP
+   \   0000C4                REQUIRE _A_PM5CTL0_L
+   \   0000C4                REQUIRE _A_PCOUT_L
+   \   0000C4                REQUIRE _A_PBOUT_L
+    141                      }
+    142                  }
+    143              }
+    144          
+    145              //------------------------------------------------------------------------------
+    146          }
 
    \                                 In  segment DATA16_C, align 1, align-sorted
    \                     `?<Constant "          ">`:
    \   000000   202020202020 DC8 "          "
    \            2020202000  
-    146          
+    147          
 
    Maximum stack usage in bytes:
 
@@ -358,7 +359,7 @@ C:\Users\saad\Documents\ece306test\Project 10\main.c
        1  chosen_direction
        2  cycle_count
        1  display_mode
-     192  main
+     196  main
        1  slow_input_down
        2  stopwatch_milliseconds
        2  stopwatch_seconds
@@ -366,12 +367,12 @@ C:\Users\saad\Documents\ece306test\Project 10\main.c
        2  time_change
 
  
- 192 bytes in segment CODE
+ 196 bytes in segment CODE
    6 bytes in segment DATA16_AN
   11 bytes in segment DATA16_C
   20 bytes in segment DATA16_Z
  
- 192 bytes of CODE  memory
+ 196 bytes of CODE  memory
   11 bytes of CONST memory
   20 bytes of DATA  memory (+ 6 bytes shared)
 

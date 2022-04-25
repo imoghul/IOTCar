@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  14:43:30
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          25/Apr/2022  16:03:40
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,436 +12,520 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece306test\Project 10\utils.c
+#    Source file   =  C:\Users\saad\Documents\test\Project 10\utils.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW2C03.tmp
-#        ("C:\Users\saad\Documents\ece306test\Project 10\utils.c" -lC
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EW5F6.tmp
+#        ("C:\Users\saad\Documents\test\Project 10\utils.c" -lC
+#        "C:\Users\saad\Documents\test\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\test\Project 10\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -Ohz --multiplier=32
+#        --core=430X --data_model=small -On --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\List\utils.lst
+#        C:\Users\saad\Documents\test\Project 10\Debug\List\utils.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj\utils.r43
+#        C:\Users\saad\Documents\test\Project 10\Debug\Obj\utils.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece306test\Project 10\utils.c
+C:\Users\saad\Documents\test\Project 10\utils.c
       1          #include <string.h>
       2          #include "utils.h"
       3          #include "macros.h"
-      4          extern volatile unsigned char display_changed;
-      5          extern char display_line[4][11];
-      6          
+      4          #include "adc.h"
+      5          extern volatile unsigned char display_changed;
+      6          extern char display_line[4][11];
+      7          
+      8          //===========================================================================
+      9          // Function name: centerStringToDisplay
+     10          //
+     11          // Description: This function centers a string to a desired line on the 
+     12          // display
+     13          //
+     14          // Passed : line, s
+     15          // Locals: len, pos
+     16          // Returned: no values returned
+     17          // Globals: display_line
+     18          //
+     19          // Author: Ibrahim Moghul
+     20          // Date: Feb 2022
+     21          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     22          //===========================================================================
+     23          
 
    \                                 In  segment CODE, align 2
-      7          void centerStringToDisplay(unsigned int line, char * s) {
+     24          void centerStringToDisplay(unsigned int line, char * s) {
    \                     centerStringToDisplay:
-   \   000000   5B15         PUSHM.W #0x6, R11
-   \   000002   0A4C         MOV.W   R12, R10
-   \   000004   0B4D         MOV.W   R13, R11
-      8              int len = strlen(s);
-   \   000006   0C4D         MOV.W   R13, R12
-   \   000008   ........     CALLA   #strlen
-   \   00000C   084C         MOV.W   R12, R8
-      9              int pos = ((10 - len) >> 1);
-   \   00000E   39400A00     MOV.W   #0xa, R9
-   \   000012   098C         SUB.W   R12, R9
-   \   000014   5901         RRAM.W  #0x1, R9
-     10              strcpy(display_line[line] + pos, s);
-   \   000016   064A         MOV.W   R10, R6
-   \   000018                RPT     #0xa
-   \   000018   4918065A     ADDX.W  R10, R6
-   \   00001C   0D4B         MOV.W   R11, R13
-   \   00001E   0C46         MOV.W   R6, R12
-   \   000020   0C59         ADD.W   R9, R12
-   \   000022   3C50....     ADD.W   #display_line, R12
-   \   000026   ........     CALLA   #strcpy
-     11              display_line[line][pos + len] = ' ';
-   \   00002A   0958         ADD.W   R8, R9
-   \   00002C   0956         ADD.W   R6, R9
-   \   00002E   F9402000.... MOV.B   #0x20, display_line(R9)
-     12              display_line[line][10] = 0;
-   \   000034   C643....     MOV.B   #0x0, display_line + 10(R6)
-     13          }
-   \   000038   5617         POPM.W  #0x6, R11
-   \   00003A   1001         RETA
-     14          
-
-   \                                 In  segment CODE, align 2
-     15          char* subStringPos(const char* str, char * subString) {
-   \                     subStringPos:
    \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   0A4C         MOV.W   R12, R10
    \   000004   0B4D         MOV.W   R13, R11
-     16          
-     17              int i = 0;
-   \   000006   0843         MOV.W   #0x0, R8
-     18              int d = 0;
-     19          
-     20              int lenSub = strlen(subString);
-   \   000008   0C4D         MOV.W   R13, R12
-   \   00000A   ........     CALLA   #strlen
-   \   00000E   094C         MOV.W   R12, R9
-     21              int len = strlen(str) - lenSub;
-   \   000010   0C4A         MOV.W   R10, R12
-   \   000012   ........     CALLA   #strlen
-   \   000016   0C89         SUB.W   R9, R12
-     22          
-     23              for (i = 0; i < len; i++) {
-   \   000018   093C         JMP     ??subStringPos_1
-     24                  int exists = 1;
-     25          
-     26                  for (d = 0; d < lenSub; d++) {
-     27                      if (str[i + d] != subString[d]) {
-   \                     ??subStringPos_0:
-   \   00001A   0D4A         MOV.W   R10, R13
-   \   00001C   0D58         ADD.W   R8, R13
-   \   00001E   0D5E         ADD.W   R14, R13
-   \   000020   0F4B         MOV.W   R11, R15
-   \   000022   0F5E         ADD.W   R14, R15
-   \   000024   ED9F0000     CMP.B   @R15, 0(R13)
-   \   000028   0524         JEQ     ??subStringPos_4
-     28                          exists = 0;
-     29                          break;
-     30                      }
-     31                  }
-   \   00002A   1853         ADD.W   #0x1, R8
-   \                     ??subStringPos_1:
-   \   00002C   089C         CMP.W   R12, R8
-   \   00002E   0834         JGE     ??subStringPos_5
-   \   000030   0E43         MOV.W   #0x0, R14
-   \   000032   013C         JMP     ??subStringPos_2
-   \                     ??subStringPos_4:
-   \   000034   1E53         ADD.W   #0x1, R14
-   \                     ??subStringPos_2:
-   \   000036   0E99         CMP.W   R9, R14
-   \   000038   F03B         JL      ??subStringPos_0
-     32          
-     33                  if (exists) {
-     34                    return (char*)(str + i);
-   \   00003A   0A58         ADD.W   R8, R10
-   \   00003C   0C4A         MOV.W   R10, R12
-   \   00003E   013C         JMP     ??subStringPos_3
-     35                  }
-     36              }
-     37          
-     38              return 0;
-   \                     ??subStringPos_5:
-   \   000040   0C43         MOV.W   #0x0, R12
-   \                     ??subStringPos_3:
-   \   000042   3817         POPM.W  #0x4, R11
-   \   000044   1001         RETA
-     39          }
-     40          
+     25              int len = strlen(s);
+   \   000006   0C4B         MOV.W   R11, R12
+   \   000008   ........     CALLA   #strlen
+   \   00000C   084C         MOV.W   R12, R8
+     26              int pos = ((LINE_LEN - len) >> 1);
+   \   00000E   39400A00     MOV.W   #0xa, R9
+   \   000012   0988         SUB.W   R8, R9
+   \   000014   0911         RRA.W   R9
+     27              strcpy(display_line[line] + pos, s);
+   \   000016   0D4B         MOV.W   R11, R13
+   \   000018   0C4A         MOV.W   R10, R12
+   \   00001A                RPT     #0xa
+   \   00001A   49180C5A     ADDX.W  R10, R12
+   \   00001E   0C59         ADD.W   R9, R12
+   \   000020   3C50....     ADD.W   #display_line, R12
+   \   000024   ........     CALLA   #strcpy
+     28              display_line[line][pos + len] = ' ';
+   \   000028   0E4A         MOV.W   R10, R14
+   \   00002A                RPT     #0xa
+   \   00002A   49180E5A     ADDX.W  R10, R14
+   \   00002E   0F49         MOV.W   R9, R15
+   \   000030   0F58         ADD.W   R8, R15
+   \   000032   0E5F         ADD.W   R15, R14
+   \   000034   FE402000.... MOV.B   #0x20, display_line(R14)
+     29              display_line[line][LINE_LEN] = '\0';
+   \   00003A   0F4A         MOV.W   R10, R15
+   \   00003C                RPT     #0xa
+   \   00003C   49180F5A     ADDX.W  R10, R15
+   \   000040   CF43....     MOV.B   #0x0, display_line + 10(R15)
+     30          }
+   \   000044   3817         POPM.W  #0x4, R11
+   \   000046   1001         RETA
+     31          
+     32          //===========================================================================
+     33          // Function name: subStringPos
+     34          //
+     35          // Description: This function a sub string in a string and returns a pointer
+     36          // to the beginning of it
+     37          //
+     38          // Passed : str, subString
+     39          // Locals: lenSub, len
+     40          // Returned: pointer to beginning of sub string
+     41          // Globals: no global values
+     42          //
+     43          // Author: Ibrahim Moghul
+     44          // Date: Feb 2022
+     45          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     46          //===========================================================================
+     47          
 
    \                                 In  segment CODE, align 2
-     41          int stoi(char* str, int len) {
+     48          char* subStringPos(const char* str, char * subString) {
+   \                     subStringPos:
+   \   000000   5B15         PUSHM.W #0x6, R11
+   \   000002   0A4C         MOV.W   R12, R10
+   \   000004   0B4D         MOV.W   R13, R11
+     49          
+     50              int i, d;
+     51          
+     52              int lenSub = strlen(subString);
+   \   000006   0C4B         MOV.W   R11, R12
+   \   000008   ........     CALLA   #strlen
+   \   00000C   064C         MOV.W   R12, R6
+     53              int len = strlen(str) - lenSub;
+   \   00000E   0C4A         MOV.W   R10, R12
+   \   000010   ........     CALLA   #strlen
+   \   000014   0E4C         MOV.W   R12, R14
+   \   000016   0E86         SUB.W   R6, R14
+     54          
+     55              for (i = 0; i < len; i++) {
+   \   000018   0843         MOV.W   #0x0, R8
+   \                     ??subStringPos_1:
+   \   00001A   089E         CMP.W   R14, R8
+   \   00001C   1834         JGE     ??subStringPos_4
+     56                  int exists = true;
+   \   00001E   1D43         MOV.W   #0x1, R13
+     57          
+     58                  for (d = 0; d < lenSub; d++) {
+   \   000020   0943         MOV.W   #0x0, R9
+   \                     ??subStringPos_0:
+   \   000022   0996         CMP.W   R6, R9
+   \   000024   0D34         JGE     ??subStringPos_2
+     59                      if (str[i + d] != subString[d]) {
+   \   000026   0F48         MOV.W   R8, R15
+   \   000028   0F59         ADD.W   R9, R15
+   \   00002A   0C4A         MOV.W   R10, R12
+   \   00002C   0C5F         ADD.W   R15, R12
+   \   00002E   0F4B         MOV.W   R11, R15
+   \   000030   0F59         ADD.W   R9, R15
+   \   000032   EC9F0000     CMP.B   @R15, 0(R12)
+   \   000036   0224         JEQ     ??subStringPos_5
+     60                          exists = false;
+   \   000038   0D43         MOV.W   #0x0, R13
+     61                          break;
+   \   00003A   023C         JMP     ??subStringPos_2
+     62                      }
+     63                  }
+   \                     ??subStringPos_5:
+   \   00003C   1953         ADD.W   #0x1, R9
+   \   00003E   F13F         JMP     ??subStringPos_0
+     64          
+     65                  if (exists) {
+   \                     ??subStringPos_2:
+   \   000040   0D93         CMP.W   #0x0, R13
+   \   000042   0324         JEQ     ??subStringPos_6
+     66                      return (char*)(str + i);
+   \   000044   0A58         ADD.W   R8, R10
+   \   000046   0C4A         MOV.W   R10, R12
+   \   000048   033C         JMP     ??subStringPos_3
+     67                  }
+     68              }
+   \                     ??subStringPos_6:
+   \   00004A   1853         ADD.W   #0x1, R8
+   \   00004C   E63F         JMP     ??subStringPos_1
+     69          
+     70              return false;
+   \                     ??subStringPos_4:
+   \   00004E   0C43         MOV.W   #0x0, R12
+   \                     ??subStringPos_3:
+   \   000050   5617         POPM.W  #0x6, R11
+   \   000052   1001         RETA
+     71          }
+     72          
+     73          //===========================================================================
+     74          // Function name: stoi
+     75          //
+     76          // Description: This function converts a string to an integer
+     77          //
+     78          // Passed : str, len
+     79          // Locals: num
+     80          // Returned: the integer representation of the string
+     81          // Globals: no global values
+     82          //
+     83          // Author: Ibrahim Moghul
+     84          // Date: Feb 2022
+     85          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+     86          //===========================================================================
+     87          
+
+   \                                 In  segment CODE, align 2
+     88          int stoi(char* str, int len) {
    \                     stoi:
    \   000000   0A12         PUSH.W  R10
-     42              int num = 0;
-   \   000002   0E43         MOV.W   #0x0, R14
-     43          
-     44              for(int i = 0; i < len/* && str[i] >= '0' && str[i] <= '9'*/; ++i)
-   \   000004   0A43         MOV.W   #0x0, R10
-   \   000006   093C         JMP     ??stoi_1
-     45                  num = num * 10 + (int)(str[i] - '0');
+   \   000002   0E4C         MOV.W   R12, R14
+     89              int num = 0;
+   \   000004   0C43         MOV.W   #0x0, R12
+     90          
+     91              for(int i = 0; i < len/* && str[i] >= '0' && str[i] <= '9'*/; ++i)
+   \   000006   0A43         MOV.W   #0x0, R10
    \                     ??stoi_0:
-   \   000008   0F4C         MOV.W   R12, R15
-   \   00000A   0F5A         ADD.W   R10, R15
-   \   00000C   6F4F         MOV.B   @R15, R15
-   \   00000E                RPT     #0xa
-   \   00000E   49180F5E     ADDX.W  R14, R15
-   \   000012   0E4F         MOV.W   R15, R14
-   \   000014   3E50D0FF     ADD.W   #0xffd0, R14
-   \   000018   1A53         ADD.W   #0x1, R10
+   \   000008   0A9D         CMP.W   R13, R10
+   \   00000A   0B34         JGE     ??stoi_1
+     92                  num = num * BASE_10 + (int)(str[i] - '0');
+   \   00000C   0F4E         MOV.W   R14, R15
+   \   00000E   0F5A         ADD.W   R10, R15
+   \   000010   6F4F         MOV.B   @R15, R15
+   \   000012   4F4F         MOV.B   R15, R15
+   \   000014                RPT     #0xa
+   \   000014   49180F5C     ADDX.W  R12, R15
+   \   000018   0C4F         MOV.W   R15, R12
+   \   00001A   3C50D0FF     ADD.W   #0xffd0, R12
+   \   00001E   1A53         ADD.W   #0x1, R10
+   \   000020   F33F         JMP     ??stoi_0
+     93          
+     94              return num;
    \                     ??stoi_1:
-   \   00001A   0A9D         CMP.W   R13, R10
-   \   00001C   F53B         JL      ??stoi_0
-     46          
-     47              return num;
-   \   00001E   0C4E         MOV.W   R14, R12
-   \   000020   3A41         POP.W   R10
-   \   000022   1001         RETA
-     48          }
-     49          
+   \   000022   3A41         POP.W   R10
+   \   000024   1001         RETA
+     95          }
+     96          
+     97          //===========================================================================
+     98          // Function name: charInString
+     99          //
+    100          // Description: This function returns the first instance of a character in
+    101          // a string
+    102          //
+    103          // Passed : str, c
+    104          // Locals: no variables declared
+    105          // Returned: pointer to first instance of character in string
+    106          // Globals: no global values
+    107          //
+    108          // Author: Ibrahim Moghul
+    109          // Date: Feb 2022
+    110          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+    111          //===========================================================================
+    112          
 
    \                                 In  segment CODE, align 2
-     50          char* charInString(const char* str, char c) {
+    113          char* charInString(const char* str, char c) {
    \                     charInString:
    \   000000   3B15         PUSHM.W #0x4, R11
    \   000002   0B4C         MOV.W   R12, R11
    \   000004   4A4D         MOV.B   R13, R10
-     51              for(int i = 0; i < strlen(str) + 1; i++)
+    114              for(int i = 0; i < strlen(str) + 1; i++)
    \   000006   0843         MOV.W   #0x0, R8
-   \   000008   013C         JMP     ??charInString_1
    \                     ??charInString_0:
-   \   00000A   1853         ADD.W   #0x1, R8
-   \                     ??charInString_1:
-   \   00000C   0C4B         MOV.W   R11, R12
-   \   00000E   ........     CALLA   #strlen
-   \   000012   1C53         ADD.W   #0x1, R12
-   \   000014   089C         CMP.W   R12, R8
-   \   000016   052C         JC      ??charInString_3
-     52                  if(str[i] == c) return (char*)(str + i);
-   \   000018   0C4B         MOV.W   R11, R12
-   \   00001A   0C58         ADD.W   R8, R12
-   \   00001C   6A9C         CMP.B   @R12, R10
-   \   00001E   F523         JNE     ??charInString_0
-   \   000020   013C         JMP     ??charInString_2
-     53          
-     54              return 0;
+   \   000008   0C4B         MOV.W   R11, R12
+   \   00000A   ........     CALLA   #strlen
+   \   00000E   1C53         ADD.W   #0x1, R12
+   \   000010   089C         CMP.W   R12, R8
+   \   000012   0A2C         JC      ??charInString_2
+    115                  if(str[i] == c) return (char*)(str + i);
+   \   000014   0F4B         MOV.W   R11, R15
+   \   000016   0F58         ADD.W   R8, R15
+   \   000018   CF9A0000     CMP.B   R10, 0(R15)
+   \   00001C   0320         JNE     ??charInString_3
+   \   00001E   0B58         ADD.W   R8, R11
+   \   000020   0C4B         MOV.W   R11, R12
+   \   000022   033C         JMP     ??charInString_1
    \                     ??charInString_3:
-   \   000022   0C43         MOV.W   #0x0, R12
+   \   000024   1853         ADD.W   #0x1, R8
+   \   000026   F03F         JMP     ??charInString_0
+    116          
+    117              return false;
    \                     ??charInString_2:
-   \   000024   3817         POPM.W  #0x4, R11
-   \   000026   1001         RETA
-     55          }
-     56          
+   \   000028   0C43         MOV.W   #0x0, R12
+   \                     ??charInString_1:
+   \   00002A   3817         POPM.W  #0x4, R11
+   \   00002C   1001         RETA
+    118          }
+    119          
+    120          //===========================================================================
+    121          // Function name: absVal
+    122          //
+    123          // Description: This function returns the absolute value of an integer
+    124          //
+    125          // Passed : n
+    126          // Locals: no variables declared
+    127          // Returned: |n|
+    128          // Globals: no global values
+    129          //
+    130          // Author: Ibrahim Moghul
+    131          // Date: Feb 2022
+    132          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+    133          //===========================================================================
+    134          
 
    \                                 In  segment CODE, align 2
-     57          unsigned int absVal(int n) {
+    135          unsigned int absVal(int n) {
    \                     absVal:
    \   000000   B1000400     SUBA    #0x4, SP
-     58              const int ret[2] = {n, -n};
+    136              const int ret[2] = {n, -n};
    \   000004   814C0000     MOV.W   R12, 0(SP)
    \   000008   0F4C         MOV.W   R12, R15
    \   00000A   3FE3         XOR.W   #0xffff, R15
    \   00000C   1F53         ADD.W   #0x1, R15
    \   00000E   814F0200     MOV.W   R15, 0x2(SP)
-     59              return (unsigned int)(ret [n < 0]);
+    137              return (unsigned int)(ret [n < 0]);
    \   000012   0C93         CMP.W   #0x0, R12
-   \   000014   0238         JL      ??absVal_1
-   \   000016   0F43         MOV.W   #0x0, R15
+   \   000014   0234         JGE     ??absVal_1
+   \   000016   5F43         MOV.B   #0x1, R15
    \   000018   013C         JMP     ??absVal_0
    \                     ??absVal_1:
-   \   00001A   2F43         MOV.W   #0x2, R15
+   \   00001A   4F43         MOV.B   #0x0, R15
    \                     ??absVal_0:
-   \   00001C   0F51         ADD.W   SP, R15
-   \   00001E   2C4F         MOV.W   @R15, R12
-   \   000020   A1000400     ADDA    #0x4, SP
-   \   000024   1001         RETA
-     60          }
-     61          
+   \   00001C   4F4F         MOV.B   R15, R15
+   \   00001E   0F5F         RLA.W   R15
+   \   000020   0F51         ADD.W   SP, R15
+   \   000022   2C4F         MOV.W   @R15, R12
+   \   000024   A1000400     ADDA    #0x4, SP
+   \   000028   1001         RETA
+    138          }
+    139          
+    140          //===========================================================================
+    141          // Function name: HEXtoBCD
+    142          //
+    143          // Description: This function puts an int to a location on the LCD in base 10
+    144          //
+    145          // Passed : hex_value, line, start
+    146          // Locals: value, bases
+    147          // Returned: no values returned
+    148          // Globals: display_line
+    149          //
+    150          // Author: Ibrahim Moghul
+    151          // Date: Feb 2022
+    152          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+    153          //===========================================================================
+    154          
 
    \                                 In  segment CODE, align 2
-     62          void HEXtoBCD(int hex_value, int line, int start) {
+    155          void HEXtoBCD(int hex_value, int line, int start) {
    \                     HEXtoBCD:
-   \   000000   3B15         PUSHM.W #0x4, R11
+   \   000000   5B15         PUSHM.W #0x6, R11
    \   000002   B1000600     SUBA    #0x6, SP
-     63          
-     64              int value = 0;
-   \   000006   0F43         MOV.W   #0x0, R15
-     65          
-     66              int i;
-     67              int bases[] = {1000, 100, 10};
-   \   000008   3B40....     MOV.W   #`?<Constant {1000, 100, 10}>`, R11
-   \   00000C   B14B0000     MOV.W   @R11+, 0(SP)
-   \   000010   B14B0200     MOV.W   @R11+, 0x2(SP)
-   \   000014   B14B0400     MOV.W   @R11+, 0x4(SP)
-     68          
-     69              for(i = 0; i < 3; i++) {
-   \   000018   0B43         MOV.W   #0x0, R11
-     70                  int base = bases[i];
+   \   000006   0A4E         MOV.W   R14, R10
+    156          
+    157              int value = BEGINNING;
+   \   000008   0F43         MOV.W   #0x0, R15
+    158          
+    159              int i;
+    160              int bases[] = HEX_BCD_BASES;
+   \   00000A   3E40....     MOV.W   #`?<Constant {1000, 100, 10}>`, R14
+   \   00000E   B14E0000     MOV.W   @R14+, 0(SP)
+   \   000012   B14E0200     MOV.W   @R14+, 0x2(SP)
+   \   000016   B14E0400     MOV.W   @R14+, 0x4(SP)
+    161          
+    162              for(i = 0; i < HEX_BCD_SIZE; i++) {
+   \   00001A   0B43         MOV.W   #0x0, R11
    \                     ??HEXtoBCD_1:
-   \   00001A   0A4B         MOV.W   R11, R10
-   \   00001C   0A5A         RLA.W   R10
-   \   00001E   0A51         ADD.W   SP, R10
-   \   000020   2A4A         MOV.W   @R10, R10
-   \   000022   023C         JMP     ??HEXtoBCD_2
-     71          
-     72                  while(hex_value > (base - 1)) {
-     73                      hex_value -= base;
+   \   00001C   3B900300     CMP.W   #0x3, R11
+   \   000020   1B34         JGE     ??HEXtoBCD_2
+    163                  int base = bases[i];
+   \   000022   0E4B         MOV.W   R11, R14
+   \   000024   0E5E         RLA.W   R14
+   \   000026   0E51         ADD.W   SP, R14
+   \   000028   284E         MOV.W   @R14, R8
+    164          
+    165                  while(hex_value > (base - 1)) {
    \                     ??HEXtoBCD_0:
-   \   000024   0C8A         SUB.W   R10, R12
-     74                      value += 1;
-   \   000026   1F53         ADD.W   #0x1, R15
-     75                  }
+   \   00002A   0E48         MOV.W   R8, R14
+   \   00002C   3E53         ADD.W   #0xffff, R14
+   \   00002E   0E9C         CMP.W   R12, R14
+   \   000030   0334         JGE     ??HEXtoBCD_3
+    166                      hex_value -= base;
+   \   000032   0C88         SUB.W   R8, R12
+    167                      value += 1;
+   \   000034   1F53         ADD.W   #0x1, R15
+   \   000036   F93F         JMP     ??HEXtoBCD_0
+    168                  }
+    169          
+    170                  display_line[line][start + i] = value + '0';
+   \                     ??HEXtoBCD_3:
+   \   000038   0912         PUSH.W  R9
+   \   00003A   C14F0000     MOV.B   R15, 0(SP)
+   \   00003E   3941         POP.W   R9
+   \   000040   79503000     ADD.B   #0x30, R9
+   \   000044   064D         MOV.W   R13, R6
+   \   000046                RPT     #0xa
+   \   000046   4918065D     ADDX.W  R13, R6
+   \   00004A   0E4A         MOV.W   R10, R14
+   \   00004C   0E5B         ADD.W   R11, R14
+   \   00004E   065E         ADD.W   R14, R6
+   \   000050   C649....     MOV.B   R9, display_line(R6)
+    171          
+    172              }
+   \   000054   1B53         ADD.W   #0x1, R11
+   \   000056   E23F         JMP     ??HEXtoBCD_1
+    173          
+    174              display_line[line][start + HEX_BCD_SIZE] = hex_value + '0'; // set the last character to the ones place
    \                     ??HEXtoBCD_2:
-   \   000028   084A         MOV.W   R10, R8
-   \   00002A   3853         ADD.W   #0xffff, R8
-   \   00002C   089C         CMP.W   R12, R8
-   \   00002E   FA3B         JL      ??HEXtoBCD_0
-     76          
-     77                  display_line[line][start + i] = value + '0';
-   \   000030   484F         MOV.B   R15, R8
-   \   000032   78503000     ADD.B   #0x30, R8
-   \   000036   094D         MOV.W   R13, R9
-   \   000038                RPT     #0xa
-   \   000038   4918095D     ADDX.W  R13, R9
-   \   00003C   095E         ADD.W   R14, R9
-   \   00003E   095B         ADD.W   R11, R9
-   \   000040   C948....     MOV.B   R8, display_line(R9)
-     78          
-     79              }
-   \   000044   1B53         ADD.W   #0x1, R11
-   \   000046   3B900300     CMP.W   #0x3, R11
-   \   00004A   E73B         JL      ??HEXtoBCD_1
-     80          
-     81              display_line[line][start + 3] = hex_value + '0';
-   \   00004C   7C503000     ADD.B   #0x30, R12
-   \   000050   0F4D         MOV.W   R13, R15
-   \   000052                RPT     #0xa
-   \   000052   49180F5D     ADDX.W  R13, R15
-   \   000056   0E5F         ADD.W   R15, R14
-   \   000058   CE4C....     MOV.B   R12, display_line + 3(R14)
-     82          
-     83              /*while(hex_value > 999) {
-     84                  hex_value -= 1000;
-     85                  value += 1;
-     86              }
-     87          
-     88              display_line[line][start] = 0x30 + value;
-     89              value = 0;
-     90          
-     91              while(hex_value > 99) {
-     92                  hex_value -= 100;
-     93                  value += 1;
-     94              }
-     95          
-     96              display_line[line][start + 1] = 0x30 + value;
-     97              value = 0;
-     98          
-     99              while(hex_value > 9) {
-    100                  hex_value -= 10;
-    101                  value += 1;
-    102              }
-    103          
-    104              display_line[line][start + 2] = 0x30 + value;
-    105              display_line[line][start + 3] = 0x30 + hex_value;*/
-    106          
-    107          }
-   \   00005C   A1000600     ADDA    #0x6, SP
-   \   000060   3817         POPM.W  #0x4, R11
-   \   000062   1001         RETA
-    108          
-    109          
+   \   000058   0812         PUSH.W  R8
+   \   00005A   C14C0000     MOV.B   R12, 0(SP)
+   \   00005E   3841         POP.W   R8
+   \   000060   78503000     ADD.B   #0x30, R8
+   \   000064   094D         MOV.W   R13, R9
+   \   000066                RPT     #0xa
+   \   000066   4918095D     ADDX.W  R13, R9
+   \   00006A   0E4A         MOV.W   R10, R14
+   \   00006C   0E59         ADD.W   R9, R14
+   \   00006E   CE48....     MOV.B   R8, display_line + 3(R14)
+    175          }
+   \   000072   A1000600     ADDA    #0x6, SP
+   \   000076   5617         POPM.W  #0x6, R11
+   \   000078   1001         RETA
+    176          
+    177          //===========================================================================
+    178          // Function name: additionSafe
+    179          //
+    180          // Description: This function adds 2 numbers, handles overflow, and
+    181          // constrains the ouptut to a desired range
+    182          //
+    183          // Passed : val, max, min, increment
+    184          // Locals: res
+    185          // Returned: the safe addition of the two integers
+    186          // Globals: no global values
+    187          //
+    188          // Author: Ibrahim Moghul
+    189          // Date: Feb 2022
+    190          // Compiler: Built with IAR Embedded Workbench Version: (7.21.1)
+    191          //===========================================================================
+    192          
 
    \                                 In  segment CODE, align 2
-    110          int additionSafe(int val, int max, int min, int increment) {
+    193          int additionSafe(int val, int max, int min, int increment) {
    \                     additionSafe:
-   \   000000   1B15         PUSHM.W #0x2, R11
-    111              long res = val + increment;
-   \   000002   0C5F         ADD.W   R15, R12
-   \   000004   0A4C         MOV.W   R12, R10
-   \   000006   22B2         BIT.W   #0x4, SR
-   \   000008   0B7B         SUBC.W  R11, R11
-   \   00000A   3BE3         XOR.W   #0xffff, R11
-    112          
-    113              if(res > (long)max) res = (long)max;
-   \   00000C   0C4D         MOV.W   R13, R12
-   \   00000E   0D5D         RLA.W   R13
-   \   000010   0D7D         SUBC.W  R13, R13
-   \   000012   3DE3         XOR.W   #0xffff, R13
-   \   000014   0D9B         CMP.W   R11, R13
-   \   000016   0338         JL      ??additionSafe_0
-   \   000018   0420         JNE     ??additionSafe_1
-   \   00001A   0C9A         CMP.W   R10, R12
-   \   00001C   022C         JC      ??additionSafe_1
+   \   000000   5B15         PUSHM.W #0x6, R11
+   \   000002   0B4C         MOV.W   R12, R11
+   \   000004   0A4E         MOV.W   R14, R10
+   \   000006   064F         MOV.W   R15, R6
+    194              long res = val + increment;
+   \   000008   0E4B         MOV.W   R11, R14
+   \   00000A   0E56         ADD.W   R6, R14
+   \   00000C   0F4E         MOV.W   R14, R15
+   \   00000E   0F5F         RLA.W   R15
+   \   000010   0F7F         SUBC.W  R15, R15
+   \   000012   3FE3         XOR.W   #0xffff, R15
+    195          
+    196              if(res > (long)max) res = (long)max;
+   \   000014   084D         MOV.W   R13, R8
+   \   000016   0948         MOV.W   R8, R9
+   \   000018   0959         RLA.W   R9
+   \   00001A   0979         SUBC.W  R9, R9
+   \   00001C   39E3         XOR.W   #0xffff, R9
+   \   00001E   099F         CMP.W   R15, R9
+   \   000020   0338         JL      ??additionSafe_0
+   \   000022   0920         JNE     ??additionSafe_1
+   \   000024   089E         CMP.W   R14, R8
+   \   000026   072C         JC      ??additionSafe_1
    \                     ??additionSafe_0:
-   \   00001E   0A4C         MOV.W   R12, R10
-   \   000020   0B4D         MOV.W   R13, R11
-    114          
-    115              if(res < (long)min) res = (long)min;
+   \   000028   084D         MOV.W   R13, R8
+   \   00002A   0948         MOV.W   R8, R9
+   \   00002C   0959         RLA.W   R9
+   \   00002E   0979         SUBC.W  R9, R9
+   \   000030   39E3         XOR.W   #0xffff, R9
+   \   000032   0E48         MOV.W   R8, R14
+   \   000034   0F49         MOV.W   R9, R15
+    197          
+    198              if(res < (long)min) res = (long)min;
    \                     ??additionSafe_1:
-   \   000022   0F4E         MOV.W   R14, R15
-   \   000024   0F5F         RLA.W   R15
-   \   000026   0F7F         SUBC.W  R15, R15
-   \   000028   3FE3         XOR.W   #0xffff, R15
-   \   00002A   0B9F         CMP.W   R15, R11
-   \   00002C   0338         JL      ??additionSafe_2
-   \   00002E   0320         JNE     ??additionSafe_3
-   \   000030   0A9E         CMP.W   R14, R10
-   \   000032   012C         JC      ??additionSafe_3
+   \   000036   084A         MOV.W   R10, R8
+   \   000038   0948         MOV.W   R8, R9
+   \   00003A   0959         RLA.W   R9
+   \   00003C   0979         SUBC.W  R9, R9
+   \   00003E   39E3         XOR.W   #0xffff, R9
+   \   000040   0F99         CMP.W   R9, R15
+   \   000042   0338         JL      ??additionSafe_2
+   \   000044   0920         JNE     ??additionSafe_3
+   \   000046   0E98         CMP.W   R8, R14
+   \   000048   072C         JC      ??additionSafe_3
    \                     ??additionSafe_2:
-   \   000034   0A4E         MOV.W   R14, R10
-    116          
-    117              return (int)res;
+   \   00004A   084A         MOV.W   R10, R8
+   \   00004C   0948         MOV.W   R8, R9
+   \   00004E   0959         RLA.W   R9
+   \   000050   0979         SUBC.W  R9, R9
+   \   000052   39E3         XOR.W   #0xffff, R9
+   \   000054   0E48         MOV.W   R8, R14
+   \   000056   0F49         MOV.W   R9, R15
+    199          
+    200              return (int)res;
    \                     ??additionSafe_3:
-   \   000036   0C4A         MOV.W   R10, R12
-   \   000038   1A17         POPM.W  #0x2, R11
-   \   00003A   1001         RETA
-    118          }
-    119          
-
-   \                                 In  segment CODE, align 2
-    120          int multSafe(int a, int b) {
-   \                     multSafe:
-   \   000000   3B15         PUSHM.W #0x4, R11
-   \   000002   0A4C         MOV.W   R12, R10
-   \   000004   0B4D         MOV.W   R13, R11
-    121              if(a == 0 || b == 0) return 0;
-   \   000006   0C93         CMP.W   #0x0, R12
-   \   000008   0224         JEQ     ??multSafe_2
-   \   00000A   0D93         CMP.W   #0x0, R13
-   \   00000C   0220         JNE     ??multSafe_3
-   \                     ??multSafe_2:
-   \   00000E   0C43         MOV.W   #0x0, R12
-   \   000010   1E3C         JMP     ??multSafe_0
-    122          
-    123              int res = a * b;
-   \                     ??multSafe_3:
-   \   000012   0212         PUSH.W  SR
-   \   000014   32C2         DINT
-   \   000016   0343         NOP
-   \   000018   824C....     MOV.W   R12, &__iar_HWMUL              // MPY
-   \   00001C   824D....     MOV.W   R13, &__iar_HWMUL + 8          // OP2
-   \   000020   1842....     MOV.W   &__iar_HWMUL + 10, R8          // RESLO
-   \   000024   0343         NOP
-   \   000026   3241         POP.W   SR
-    124          
-    125              if(a == res / b)return res;
-   \   000028   0C48         MOV.W   R8, R12
-   \   00002A   0E4D         MOV.W   R13, R14
-   \   00002C   ........     CALLA   #?DivMod16s
-   \   000030   0A9C         CMP.W   R12, R10
-   \   000032   0220         JNE     ??multSafe_4
-   \   000034   0C48         MOV.W   R8, R12
-   \   000036   0B3C         JMP     ??multSafe_0
-    126          
-    127              return (INT_MAX) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
-   \                     ??multSafe_4:
-   \   000038   0A93         CMP.W   #0x0, R10
-   \   00003A   0338         JL      ??multSafe_5
-   \   00003C   3C40FF7F     MOV.W   #0x7fff, R12
-   \   000040   023C         JMP     ??multSafe_1
-   \                     ??multSafe_5:
-   \   000042   3C400180     MOV.W   #0x8001, R12
-   \                     ??multSafe_1:
-   \   000046   0B93         CMP.W   #0x0, R11
-   \   000048   0234         JGE     ??multSafe_0
-   \   00004A   3CE3         XOR.W   #0xffff, R12
-   \   00004C   1C53         ADD.W   #0x1, R12
-   \                     ??multSafe_0:
-   \   00004E   3817         POPM.W  #0x4, R11
-   \   000050   1001         RETA
-    128          }
+   \   000058   0C4E         MOV.W   R14, R12
+   \   00005A   5617         POPM.W  #0x6, R11
+   \   00005C   1001         RETA
+    201          }
 
    \                                 In  segment DATA16_C, align 2, align-sorted
    \                     `?<Constant {1000, 100, 10}>`:
    \   000000   E80364000A00 DC16 1000, 100, 10
+    202          
+    203          // int multSafe(int a, int b) {
+    204          //     if(a == 0 || b == 0) return 0;
+    205          
+    206          //     int res = a * b;
+    207          
+    208          //     if(a == res / b)return res;
+    209          
+    210          //     return (INT_MAX) * (a < 0 ? -1 : 1) * (b < 0 ? -1 : 1);
+    211          // }
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
-     18   HEXtoBCD
+     24   HEXtoBCD
       8   absVal
-      8   additionSafe
-     16   centerStringToDisplay
-       16   -> strcpy
-       16   -> strlen
+     16   additionSafe
+     12   centerStringToDisplay
+       12   -> strcpy
+       12   -> strlen
      12   charInString
        12   -> strlen
-     14   multSafe
-       12 ?DivMod16s
       6   stoi
-     12   subStringPos
-       12   -> strlen
+     16   subStringPos
+       16   -> strlen
 
 
    Segment part sizes:
@@ -449,20 +533,19 @@ C:\Users\saad\Documents\ece306test\Project 10\utils.c
    Bytes  Function/Label
    -----  --------------
        6  ?<Constant {1000, 100, 10}>
-     100  HEXtoBCD
-      38  absVal
-      60  additionSafe
-      60  centerStringToDisplay
-      40  charInString
-      82  multSafe
-      36  stoi
-      70  subStringPos
+     122  HEXtoBCD
+      42  absVal
+      94  additionSafe
+      72  centerStringToDisplay
+      46  charInString
+      38  stoi
+      84  subStringPos
 
  
- 486 bytes in segment CODE
+ 498 bytes in segment CODE
    6 bytes in segment DATA16_C
  
- 486 bytes of CODE  memory
+ 498 bytes of CODE  memory
    6 bytes of CONST memory
 
 Errors: none

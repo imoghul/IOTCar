@@ -63,8 +63,15 @@ unsigned int driveTime;
 //===========================================================================
 
 void Straight(char direction) {
-    int rightTurn = direction ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT;
-    int leftTurn = direction ? -STRAIGHT_LEFT : STRAIGHT_LEFT;
+    int rightTurn;// = direction ? STRAIGHT_RIGHT : -STRAIGHT_RIGHT;
+    int leftTurn;// = direction ? -STRAIGHT_LEFT : STRAIGHT_LEFT;
+    if(direction){
+      rightTurn = STRAIGHT_RIGHT;
+      leftTurn = -STRAIGHT_LEFT;
+    }else {
+      rightTurn = -STRAIGHT_RIGHT;
+      leftTurn = STRAIGHT_LEFT;
+    }
 
     switch(stateCounter) {
         case 0:
@@ -118,7 +125,7 @@ void Straight(char direction) {
 
 
         case 7:
-            if(LockMotors(-1, -1)) stateCounter++;
+            if(LockMotorsTime(-1, -1, LOCK_TIME)) stateCounter++;
 
             break;
 
@@ -190,7 +197,7 @@ void Turn(char direction) {
 }
 
 //===========================================================================
-// Function name: LineFolow
+// Function name: LineFollow
 //
 // Description: This function is used to follow the black line
 //
@@ -221,8 +228,8 @@ void LineFollow(char direction) {
             strcpy(LINE1, "BL TRAVEL ");
             display_changed = true;
 
-            if(rightSwitchable && leftSwitchable)stateCounter++;
-            else return;
+            /*if(rightSwitchable && leftSwitchable)*/stateCounter++;
+            //else return;
 
             stopwatch_seconds = BEGINNING;
             cycle_count = BEGINNING;
@@ -305,7 +312,7 @@ void Exit(int direction) {
             break;
 
         case 1:
-            if ( Drive(direction ? -STRAIGHT_RIGHT : STRAIGHT_RIGHT, direction ? STRAIGHT_LEFT : -STRAIGHT_LEFT, TURN90) )
+            if (Drive(direction ? -STRAIGHT_RIGHT : STRAIGHT_RIGHT, direction ? STRAIGHT_LEFT : -STRAIGHT_LEFT, TURN90) )
                 stateCounter++;
 
             break;
@@ -354,7 +361,7 @@ int Drive(int r, int l, unsigned int time) {
             break;
 
         case 2 :
-            if(LockMotors(-r, -l)) driveStateCounter++;
+            if(LockMotorsTime(-r, -l, LOCK_TIME)) driveStateCounter++;
 
             break;
 

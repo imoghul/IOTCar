@@ -47,7 +47,7 @@ menu commandsOutput = {
     .name = COMMANDS_MENU,
     .headers = {""},
     .values = {""},
-    .transitions = {&mainMenu}
+    .transitions = {&commandsOutput}
 };
 
 menu* currMenu = &start;
@@ -100,11 +100,11 @@ void displayStatus() {
         strcpy(LINE2, " That was ");
         strcpy(LINE3, "easy!! ;-)");
 
-    } else if(commandsReceieved && currCommand.comm == false && currCommand.duration == false) strcpy(LINE4, BLANK_LINE);
+    } else if(commandsReceieved && !currCommand.comm && !currCommand.duration) strcpy(LINE4, BLANK_LINE);
 
     if(commandsReceieved) { //(stopwatchUpdated) {
         //stopwatchUpdated = 0;
-        HEXtoBCD(timeElapsedSeconds, COMMAND_LINE, STOPWATCH_BEGIN5);
+        HEXtoBCD(timeElapsedSeconds, COMMAND_LINE, STOPWATCH_BEGIN);
         LINE4[STOPWATCH_BEGIN] = ' ';
         LINE4[LINE_LEN - 1] = 's';
         //display_line[3][9] = timeElapsedMilliseconds + '0';
@@ -155,7 +155,7 @@ void displayArrival() {
 void displayIp() {
 
     if(commandsReceieved) {
-        if(state != DONE)displayIP(1);
+        if(state != DONE)displayIP(DIPLAY_IP_LINE-1);
     } else {
         strcpy(LINE1, " WAITING  ");
         strcpy(LINE2, " FOR INPUT");
@@ -200,9 +200,9 @@ void displayCommandsMenu() {
             displayIp();
             break;
 
-        case 300:
+        //case 300:
             //displayStopwatch();
-            break;
+        //    break;
 
         case 400:
             commandDisplayCounter = BEGINNING;
@@ -257,12 +257,11 @@ void updateMenuPos(menu* m) {
 //===========================================================================
 
 void interractWithMenu(void) {
-    /*switch(menuState) {
+    switch(menuState) {
         case CALIB_MENU:
             calibrationMode++;
             break;
-    }*/
-    if(menuState == CALIB_MENU) calibrationMode++;
+    }
 }
 
 //===========================================================================
@@ -324,19 +323,19 @@ void transitionMenu(menu* m) {
 //===========================================================================
 
 void MenuProcess(void) {
-    if(transMenu) {
+    /*if(transMenu) {
         transMenu = false;
         currMenu = &commandsOutput;
         menuState = COMMANDS_MENU;
         //transitionMenu(currMenu);
     }
 
-    /*if(interractMenu) {
-        interractMenu = 0;
-        interractWithMenu();
-    }*/
+    //if(interractMenu) {
+    //    interractMenu = 0;
+    //    interractWithMenu();
+    //}
 
-    //switch(menuState) {
+    switch(menuState) {
         //case START_MENU:
         //    //updateMenuPos(&start);
         //    //displayStartMenu();
@@ -358,7 +357,8 @@ void MenuProcess(void) {
 
             //default:
             //    break;
-    }
+    }*/
+  if(transMenu)displayCommandsMenu();
 }
 
 //===========================================================================
@@ -386,14 +386,14 @@ void Init_Menu(void) {
     //     .transitions = {&mainMenu}
     // };
 
-    mainMenu  = (menu) {
+    /*mainMenu  = (menu) {
         .length = 2,
         .current = 0,
         .name = MAIN_MENU,
         .headers = {"CALIBRATE ", " COMMANDS "}, //," NETWORK  "},
         .values = {""},
         .transitions = {&calib, &commandsOutput} //,&networkInfo}
-    };
+    };*/
 
     // start  = (menu) {
     //     .length = 1,

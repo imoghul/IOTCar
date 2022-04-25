@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          21/Apr/2022  14:43:25
+# IAR C/C++ Compiler V7.21.1.1000/W32 for MSP430          25/Apr/2022  16:03:33
 # Copyright 1996-2021 IAR Systems AB.
 # PC-locked license - IAR Embedded Workbench for MSP430, 8K KickStart Edition 7.21
 #
@@ -12,25 +12,26 @@
 #    __core        =  430X
 #    __data_model  =  small
 #    __code_model  =  large
-#    Source file   =  C:\Users\saad\Documents\ece306test\Project 10\init.c
+#    Source file   =  C:\Users\saad\Documents\test\Project 10\init.c
 #    Command line  =  
-#        -f C:\Users\saad\AppData\Local\Temp\EW153D.tmp
-#        ("C:\Users\saad\Documents\ece306test\Project 10\init.c" -lC
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\List" -o
-#        "C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj" --debug
+#        -f C:\Users\saad\AppData\Local\Temp\EWEC43.tmp
+#        ("C:\Users\saad\Documents\test\Project 10\init.c" -lC
+#        "C:\Users\saad\Documents\test\Project 10\Debug\List" -o
+#        "C:\Users\saad\Documents\test\Project 10\Debug\Obj" --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --debug
 #        -D__MSP430FR2355__ -e --double=32 --dlib_config "C:\Program Files\IAR
 #        Systems\Embedded Workbench 8.5\430\lib\dlib\dl430xlsfn.h" -I ./
-#        --core=430X --data_model=small -Ohz --multiplier=32
+#        --core=430X --data_model=small -On --multiplier=32
 #        --hw_workaround=CPU40 --code_model=large)
 #    Locale        =  English_USA.1252
 #    List file     =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\List\init.lst
+#        C:\Users\saad\Documents\test\Project 10\Debug\List\init.lst
 #    Object file   =  
-#        C:\Users\saad\Documents\ece306test\Project 10\Debug\Obj\init.r43
+#        C:\Users\saad\Documents\test\Project 10\Debug\Obj\init.r43
 #
 ###############################################################################
 
-C:\Users\saad\Documents\ece306test\Project 10\init.c
+C:\Users\saad\Documents\test\Project 10\init.c
       1          //==============================================================================
       2          // File Name : init.c
       3          //
@@ -112,59 +113,64 @@ C:\Users\saad\Documents\ece306test\Project 10\init.c
    \                                 In  segment CODE, align 2
      60          void Init_Conditions(void) {
    \                     Init_Conditions:
+   \   000000   0A12         PUSH.W  R10
      61              //------------------------------------------------------------------------------
      62          
      63              int i;
      64          
      65              for(i = 0; i < 11; i++) {
-   \   000000   0F43         MOV.W   #0x0, R15
-     66                  display_line[0][i] = RESET_STATE;
+   \   000002   0A43         MOV.W   #0x0, R10
    \                     ??Init_Conditions_0:
-   \   000002   CF43....     MOV.B   #0x0, display_line(R15)
+   \   000004   3A900B00     CMP.W   #0xb, R10
+   \   000008   0A34         JGE     ??Init_Conditions_1
+     66                  display_line[0][i] = RESET_STATE;
+   \   00000A   CA43....     MOV.B   #0x0, display_line(R10)
      67                  display_line[1][i] = RESET_STATE;
-   \   000006   CF43....     MOV.B   #0x0, display_line + 11(R15)
+   \   00000E   CA43....     MOV.B   #0x0, display_line + 11(R10)
      68                  display_line[2][i] = RESET_STATE;
-   \   00000A   CF43....     MOV.B   #0x0, display_line + 22(R15)
+   \   000012   CA43....     MOV.B   #0x0, display_line + 22(R10)
      69                  display_line[3][i] = RESET_STATE;
-   \   00000E   CF43....     MOV.B   #0x0, display_line + 33(R15)
+   \   000016   CA43....     MOV.B   #0x0, display_line + 33(R10)
      70              }
-   \   000012   1F53         ADD.W   #0x1, R15
-   \   000014   3F900B00     CMP.W   #0xb, R15
-   \   000018   F43B         JL      ??Init_Conditions_0
+   \   00001A   1A53         ADD.W   #0x1, R10
+   \   00001C   F33F         JMP     ??Init_Conditions_0
      71          
      72              display_line[0][10] = 0;
-   \   00001A   C243....     MOV.B   #0x0, &display_line + 10
+   \                     ??Init_Conditions_1:
+   \   00001E   C243....     MOV.B   #0x0, &display_line + 10
      73              display_line[1][10] = 0;
-   \   00001E   C243....     MOV.B   #0x0, &display_line + 21
+   \   000022   C243....     MOV.B   #0x0, &display_line + 21
      74              display_line[2][10] = 0;
-   \   000022   C243....     MOV.B   #0x0, &display_line + 32
+   \   000026   C243....     MOV.B   #0x0, &display_line + 32
      75              display_line[3][10] = 0;
-   \   000026   C243....     MOV.B   #0x0, &display_line + 43
+   \   00002A   C243....     MOV.B   #0x0, &display_line + 43
      76          
      77              display[0] = &display_line[0][0];
-   \   00002A   B240........ MOV.W   #display_line, &display
+   \   00002E   B240........ MOV.W   #display_line, &display
      78              display[1] = &display_line[1][0];
-   \   000030   B240........ MOV.W   #display_line + 11, &display + 2
+   \   000034   B240........ MOV.W   #display_line + 11, &display + 2
      79              display[2] = &display_line[2][0];
-   \   000036   B240........ MOV.W   #display_line + 22, &display + 4
+   \   00003A   B240........ MOV.W   #display_line + 22, &display + 4
      80              display[3] = &display_line[3][0];
-   \   00003C   B240........ MOV.W   #display_line + 33, &display + 6
+   \   000040   B240........ MOV.W   #display_line + 33, &display + 6
      81              update_display = 0;
-   \   000042   C243....     MOV.B   #0x0, &update_display
+   \   000046   C243....     MOV.B   #0x0, &update_display
      82          
      83          
      84              // Interrupts are disabled by default, enable them.
      85              enable_interrupts();
-   \   000046   ........     BRA     #enable_interrupts
+   \   00004A   ........     CALLA   #enable_interrupts
      86              //------------------------------------------------------------------------------
      87          }
+   \   00004E   3A41         POP.W   R10
+   \   000050   1001         RETA
 
    Maximum stack usage in bytes:
 
    CSTACK Function
    ------ --------
-      4   Init_Conditions
-        0   -> enable_interrupts
+      6   Init_Conditions
+        6   -> enable_interrupts
       4   Init_LEDs
 
 
@@ -172,16 +178,16 @@ C:\Users\saad\Documents\ece306test\Project 10\init.c
 
    Bytes  Function/Label
    -----  --------------
-      74  Init_Conditions
+      82  Init_Conditions
       12  Init_LEDs
        2  _A_PAOUT_L
        2  _A_PCOUT_L
 
  
- 86 bytes in segment CODE
+ 94 bytes in segment CODE
   4 bytes in segment DATA16_AN
  
- 86 bytes of CODE memory
+ 94 bytes of CODE memory
   0 bytes of DATA memory (+ 4 bytes shared)
 
 Errors: none
