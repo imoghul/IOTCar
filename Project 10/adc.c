@@ -68,7 +68,7 @@ void Init_REF(void) {
 }
 
 void Init_DAC(void) {
-    DAC_data = 10000;
+    DAC_data = 1000;
     SAC3DAT = DAC_data;
     /*SAC3DAC = DACSREF_1 | DACLSEL_0 | DACEN;
 
